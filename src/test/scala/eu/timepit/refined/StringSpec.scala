@@ -1,9 +1,11 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.generic._
+import eu.timepit.refined.numeric.LessEqual
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.nat._
 
 class StringSpec extends Properties("string") {
   property("NonEmpty") = forAll { (s: String) =>
@@ -16,5 +18,13 @@ class StringSpec extends Properties("string") {
 
   property("LowerCase") = forAll { (s: String) =>
     implicitly[Predicate[LowerCase, String]].isValid(s) == s.forall(_.isLower)
+  }
+
+  property("UpperCase") = forAll { (s: String) =>
+    implicitly[Predicate[UpperCase, String]].isValid(s) == s.forall(_.isUpper)
+  }
+
+  property("Length") = forAll { (s: String) =>
+    implicitly[Predicate[Length[LessEqual[_10]], String]].isValid(s) == (s.length <= 10)
   }
 }

@@ -48,8 +48,6 @@ initialCommands := """
   import shapeless.tag.@@
 """
 
-bintraySettings
-
 publishMavenStyle := true
 
 scalariformSettings

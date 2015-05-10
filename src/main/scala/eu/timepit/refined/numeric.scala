@@ -19,7 +19,7 @@ object numeric {
 
   sealed trait Greater[N]
 
-  implicit def greaterThanPredicate[N <: Nat, X](implicit nt: ToInt[N], nx: Numeric[X]): Predicate[Greater[N], X] =
+  implicit def greaterPredicate[N <: Nat, X](implicit nt: ToInt[N], nx: Numeric[X]): Predicate[Greater[N], X] =
     new Predicate[Greater[N], X] {
       def validate(x: X): Option[String] = {
         val n = nt.apply()

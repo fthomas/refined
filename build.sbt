@@ -4,7 +4,7 @@ name := "refined"
 
 organization := "eu.timepit"
 startYear := Some(2015)
-licenses += "GPL-3.0" -> url("http://www.gnu.org/licenses/gpl-3.0.html")
+licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
 
 scalaVersion := "2.11.6"
 scalacOptions ++= Seq(

@@ -39,10 +39,11 @@ scmInfo := Some(ScmInfo(url("https://github.com/fthomas/refined"),
   "git@github.com:fthomas/refined.git"))
 
 initialCommands := """
-  import refined._
-  import refined.boolean._
-  import refined.numeric._
-  import refined.string._
+  import eu.timepit.refined._
+  import eu.timepit.refined.boolean._
+  import eu.timepit.refined.generic._
+  import eu.timepit.refined.numeric._
+  import eu.timepit.refined.string._
   import shapeless.nat._
   import shapeless.tag.@@
 """

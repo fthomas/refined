@@ -9,22 +9,22 @@ import shapeless.nat._
 
 class StringSpec extends Properties("string") {
   property("NonEmpty") = forAll { (s: String) =>
-    implicitly[Predicate[NonEmpty, String]].isValid(s) == s.nonEmpty
+    Predicate[NonEmpty, String].isValid(s) == s.nonEmpty
   }
 
   property("Empty") = forAll { (s: String) =>
-    implicitly[Predicate[Empty, String]].isValid(s) == s.isEmpty
+    Predicate[Empty, String].isValid(s) == s.isEmpty
   }
 
   property("LowerCase") = forAll { (s: String) =>
-    implicitly[Predicate[LowerCase, String]].isValid(s) == s.forall(_.isLower)
+    Predicate[LowerCase, String].isValid(s) == s.forall(_.isLower)
   }
 
   property("UpperCase") = forAll { (s: String) =>
-    implicitly[Predicate[UpperCase, String]].isValid(s) == s.forall(_.isUpper)
+    Predicate[UpperCase, String].isValid(s) == s.forall(_.isUpper)
   }
 
   property("Length") = forAll { (s: String) =>
-    implicitly[Predicate[Length[LessEqual[_10]], String]].isValid(s) == (s.length <= 10)
+    Predicate[Length[LessEqual[_10]], String].isValid(s) == (s.length <= 10)
   }
 }

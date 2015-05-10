@@ -9,3 +9,7 @@ trait Predicate[P, X] {
   def isInvalid(x: X): Boolean =
     validate(x).isDefined
 }
+
+object Predicate {
+  def apply[P, X](implicit ev: Predicate[P, X]): Predicate[P, X] = ev
+}

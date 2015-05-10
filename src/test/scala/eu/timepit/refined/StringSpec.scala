@@ -13,4 +13,8 @@ class StringSpec extends Properties("string") {
   property("Empty") = forAll { (s: String) =>
     implicitly[Predicate[Empty, String]].isValid(s) == s.isEmpty
   }
+
+  property("LowerCase") = forAll { (s: String) =>
+    implicitly[Predicate[LowerCase, String]].isValid(s) == s.forall(_.isLower)
+  }
 }

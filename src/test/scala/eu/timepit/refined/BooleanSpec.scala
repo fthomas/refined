@@ -1,11 +1,10 @@
-package eu.timepit
+package eu.timepit.refined
 
-import eu.timepit.refined.Predicate
 import eu.timepit.refined.boolean._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
-class BooleanSpec extends Properties("Boolean") {
+class BooleanSpec extends Properties("boolean") {
   property("True") = secure {
     implicitly[Predicate[True, Int]].isValid(0)
   }

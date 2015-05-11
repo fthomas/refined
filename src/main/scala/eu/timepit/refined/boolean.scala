@@ -31,7 +31,7 @@ object boolean {
       override def validated(t: T): Option[String] =
         p.validated(t) match {
           case Some(_) => None
-          case None => Some(s"Sub-predicate ${p.show(t)} did not fail")
+          case None => Some(s"Predicate ${p.show(t)} did not fail")
         }
     }
 
@@ -43,11 +43,11 @@ object boolean {
       override def validated(t: T): Option[String] =
         (pa.validated(t), pb.validated(t)) match {
           case (Some(sl), Some(sr)) =>
-            Some(s"Both sub-predicates of ${show(t)} failed. Left: $sl Right: $sr")
+            Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case (Some(sl), None) =>
-            Some(s"Left sub-predicate of ${show(t)} failed: $sl")
+            Some(s"Left predicate of ${show(t)} failed: $sl")
           case (None, Some(sr)) =>
-            Some(s"Right sub-predicate of ${show(t)} failed: $sr")
+            Some(s"Right predicate of ${show(t)} failed: $sr")
           case _ => None
         }
     }
@@ -60,7 +60,7 @@ object boolean {
       override def validated(t: T): Option[String] =
         (pa.validated(t), pb.validated(t)) match {
           case (Some(sl), Some(sr)) =>
-            Some(s"Both sub-predicates of ${show(t)} failed. Left: $sl Right: $sr")
+            Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case _ => None
         }
     }

@@ -41,4 +41,12 @@ class NumericSpec extends Properties("numeric") {
   property("ZeroToOne.isValid") = forAll { (d: Double) =>
     Predicate[ZeroToOne, Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
   }
+
+  property("EqualTo.isValid") = forAll { (i: Int) =>
+    Predicate[EqualTo[_5], Int].isValid(i) ?= (i == 5)
+  }
+
+  property("EqualTo.show") = secure {
+    Predicate[EqualTo[_5], Int].show(0) ?= "(0 == 5)"
+  }
 }

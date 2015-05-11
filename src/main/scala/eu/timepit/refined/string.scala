@@ -19,7 +19,7 @@ object string {
       def show(t: String): String = s"${p.show(t.length)}"
 
       override def validated(t: String): Option[String] =
-        p.validated(t.length).map(s => s"Length of '$t': $s")
+        p.validated(t.length).map(s => s"Predicate taking the length of '$t' failed: $s")
     }
 
   implicit val lowerCaseStringPredicate: Predicate[LowerCase, String] =

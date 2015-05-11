@@ -45,6 +45,10 @@ class StringSpec extends Properties("string") {
     Predicate[Length[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
   }
 
+  property("Length.validated") = forAll { (s: String) =>
+    Predicate[Length[LessEqual[_10]], String].validated(s).isEmpty ?= (s.length <= 10)
+  }
+
   property("Length.show") = secure {
     type P = Length[Greater[_5] And LessEqual[_10]]
     Predicate[P, String].show("test") ?= "((4 > 5) && !(4 > 10))"

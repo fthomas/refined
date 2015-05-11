@@ -45,6 +45,13 @@ class BooleanSpec extends Properties("boolean") {
       Predicate[TT[And], Unit].isValid(())
   }
 
+  property("And.validated") = secure {
+    Predicate[FF[And], Unit].validated(()).nonEmpty &&
+      Predicate[FT[And], Unit].validated(()).nonEmpty &&
+      Predicate[TF[And], Unit].validated(()).nonEmpty &&
+      Predicate[TT[And], Unit].validated(()).isEmpty
+  }
+
   property("And.show") = secure {
     Predicate[TF[And], Unit].show(()) ?= "(true && false)"
   }
@@ -54,6 +61,13 @@ class BooleanSpec extends Properties("boolean") {
       Predicate[FT[Or], Unit].isValid(()) &&
       Predicate[TF[Or], Unit].isValid(()) &&
       Predicate[TT[Or], Unit].isValid(())
+  }
+
+  property("Or.validated") = secure {
+    Predicate[FF[Or], Unit].validated(()).nonEmpty &&
+      Predicate[FT[Or], Unit].validated(()).isEmpty &&
+      Predicate[TF[Or], Unit].validated(()).isEmpty &&
+      Predicate[TT[Or], Unit].validated(()).isEmpty
   }
 
   property("Or.show") = secure {

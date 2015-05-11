@@ -1,12 +1,9 @@
 package eu.timepit.refined
 
 trait Predicate[P, T] {
-  def validate(x: T): Option[String]
+  def isValid(t: T): Boolean
 
-  def msg(t: T): String = ""
-
-  def isValid(t: T): Boolean =
-    validate(t).isEmpty
+  def show(t: T): String
 
   def notValid(t: T): Boolean =
     !isValid(t)

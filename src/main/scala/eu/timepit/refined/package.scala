@@ -4,15 +4,11 @@ import shapeless.tag
 import shapeless.tag.@@
 
 package object refined {
-  def refine[P, X](x: X)(implicit p: Predicate[P, X]): Either[String, X @@ P] =
-    p.validate(x) match {
-      case Some(s) => Left(s)
-      case None => Right(tag[P](x))
-    }
+  def refine[P, T](t: T)(implicit p: Predicate[P, T]): Either[String, T @@ P] =
+    if (p.isValid(t)) Right(tag[P](t))
+    else Left(p.show(t))
 
-  // TODO: use a macro to refine literals at compile-time
-  def refineLit[P, X](x: X)(implicit p: Predicate[P, X]): X @@ P = ???
-
-  def refineUnsafe[P, X](x: X)(implicit p: Predicate[P, X]): X @@ P =
-    p.validate(x).fold(tag[P](x))(s => throw new IllegalArgumentException(s))
+  def refineUnsafe[P, T](t: T)(implicit p: Predicate[P, T]): T @@ P =
+    if (p.isValid(t)) tag[P](t)
+    else throw new IllegalArgumentException(p.show(t))
 }

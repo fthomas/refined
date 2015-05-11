@@ -8,31 +8,7 @@ import shapeless.ops.nat.ToInt
 object numeric {
   sealed trait Less[N]
 
-  implicit def lessPredicate[N <: Nat, X](implicit nt: ToInt[N], nx: Numeric[X]): Predicate[Less[N], X] =
-    new Predicate[Less[N], X] {
-      def validate(x: X): Option[String] = {
-        val n = nt.apply()
-        if (nx.toDouble(x) < n) None
-        else Some(msg(x))
-      }
-
-      override def msg(x: X): String =
-        s"$x < ${nt.apply()}"
-    }
-
   sealed trait Greater[N]
-
-  implicit def greaterPredicate[N <: Nat, X](implicit nt: ToInt[N], nx: Numeric[X]): Predicate[Greater[N], X] =
-    new Predicate[Greater[N], X] {
-      def validate(x: X): Option[String] = {
-        val n = nt.apply()
-        if (nx.toDouble(x) > n) None
-        else Some(msg(x))
-      }
-
-      override def msg(x: X): String =
-        s"$x > ${nt.apply()}"
-    }
 
   type LessEqual[N] = Not[Greater[N]]
 
@@ -43,4 +19,16 @@ object numeric {
   type Negative = Less[_0]
 
   type ZeroToOne = GreaterEqual[_0] And LessEqual[_1]
+
+  implicit def lessPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
+    new Predicate[Less[N], T] {
+      def isValid(t: T): Boolean = nt.toDouble(t) < tn.apply()
+      def show(t: T): String = s"($t < ${tn.apply()})"
+    }
+
+  implicit def greaterPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
+    new Predicate[Greater[N], T] {
+      def isValid(t: T): Boolean = nt.toDouble(t) > tn.apply()
+      def show(t: T): String = s"($t > ${tn.apply()})"
+    }
 }

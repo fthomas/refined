@@ -8,12 +8,12 @@ import org.scalacheck.Properties
 import shapeless.nat._
 
 class StringSpec extends Properties("string") {
-  property("NonEmpty") = forAll { (s: String) =>
-    Predicate[NonEmpty, String].isValid(s) == s.nonEmpty
-  }
-
   property("Empty") = forAll { (s: String) =>
     Predicate[Empty, String].isValid(s) == s.isEmpty
+  }
+
+  property("NonEmpty") = forAll { (s: String) =>
+    Predicate[NonEmpty, String].isValid(s) == s.nonEmpty
   }
 
   property("LowerCase") = forAll { (s: String) =>

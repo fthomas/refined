@@ -3,16 +3,13 @@ package eu.timepit.refined
 object boolean {
   sealed trait Not[P]
 
-  implicit def notPredicate[P, X](implicit pt: Predicate[P, X]): Predicate[Not[P], X] =
-    new Predicate[Not[P], X] {
-      def validate(x: X): Option[String] =
-        pt.validate(x).fold(Option(msg(x)))(_ => None)
-
-      override def msg(x: X): String =
-        s"~(${pt.msg(x)})"
-    }
-
   sealed trait And[A, B]
+
+  implicit def notPredicate[P, T](implicit pt: Predicate[P, T]): Predicate[Not[P], T] =
+    new Predicate[Not[P], T] {
+      def isValid(t: T): Boolean = !pt.isValid(t)
+      def show(t: T): String = s"~(${pt.show(t)})"
+    }
 
   implicit def andPredicate[A, B, X](implicit pa: Predicate[A, X], pb: Predicate[B, X]): Predicate[And[A, B], X] =
     new Predicate[And[A, B], X] {

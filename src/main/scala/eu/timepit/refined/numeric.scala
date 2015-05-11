@@ -10,7 +10,7 @@ object numeric {
 
   sealed trait Greater[N]
 
-  sealed trait EqualTo[N]
+  sealed trait Equal[N]
 
   type LessEqual[N] = Not[Greater[N]]
 
@@ -34,8 +34,8 @@ object numeric {
       def show(t: T): String = s"($t > ${tn.apply()})"
     }
 
-  implicit def equalToPredicate[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[EqualTo[N], T] =
-    new Predicate[EqualTo[N], T] {
+  implicit def equalPredicate[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
+    new Predicate[Equal[N], T] {
       def isValid(t: T): Boolean = it.equiv(t, it.fromInt(tn.apply()))
       def show(t: T): String = s"($t == ${tn.apply()})"
     }

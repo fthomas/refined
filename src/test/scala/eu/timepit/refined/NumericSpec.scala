@@ -42,11 +42,11 @@ class NumericSpec extends Properties("numeric") {
     Predicate[ZeroToOne, Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
   }
 
-  property("EqualTo.isValid") = forAll { (i: Int) =>
-    Predicate[EqualTo[_5], Int].isValid(i) ?= (i == 5)
+  property("Equal.isValid") = forAll { (i: Int) =>
+    Predicate[Equal[_5], Int].isValid(i) ?= (i == 5)
   }
 
-  property("EqualTo.show") = secure {
-    Predicate[EqualTo[_5], Int].show(0) ?= "(0 == 5)"
+  property("Equal.show") = secure {
+    Predicate[Equal[_5], Int].show(0) ?= "(0 == 5)"
   }
 }

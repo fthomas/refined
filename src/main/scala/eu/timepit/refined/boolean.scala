@@ -31,7 +31,7 @@ object boolean {
       override def validated(t: T): Option[String] =
         p.validated(t) match {
           case Some(_) => None
-          case None => Some(s"Predicate ${p.show(t)} did not fail")
+          case None => Some(s"Predicate ${p.show(t)} did not fail.")
         }
     }
 

@@ -13,8 +13,11 @@ object numeric {
       def validate(x: X): Option[String] = {
         val n = nt.apply()
         if (nx.toDouble(x) < n) None
-        else Some(s"$x is not less than $n")
+        else Some(msg(x))
       }
+
+      override def msg(x: X): String =
+        s"$x < ${nt.apply()}"
     }
 
   sealed trait Greater[N]
@@ -24,8 +27,11 @@ object numeric {
       def validate(x: X): Option[String] = {
         val n = nt.apply()
         if (nx.toDouble(x) > n) None
-        else Some(s"$x is not greater than $n")
+        else Some(msg(x))
       }
+
+      override def msg(x: X): String =
+        s"$x > ${nt.apply()}"
     }
 
   type LessEqual[N] = Not[Greater[N]]

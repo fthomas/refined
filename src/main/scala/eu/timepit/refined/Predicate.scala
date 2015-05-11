@@ -1,15 +1,17 @@
 package eu.timepit.refined
 
-trait Predicate[P, X] {
-  def validate(x: X): Option[String]
+trait Predicate[P, T] {
+  def validate(x: T): Option[String]
 
-  def isValid(x: X): Boolean =
-    validate(x).isEmpty
+  def msg(t: T): String = ""
 
-  def isInvalid(x: X): Boolean =
-    validate(x).isDefined
+  def isValid(t: T): Boolean =
+    validate(t).isEmpty
+
+  def notValid(t: T): Boolean =
+    !isValid(t)
 }
 
 object Predicate {
-  def apply[P, X](implicit ev: Predicate[P, X]): Predicate[P, X] = ev
+  def apply[P, T](implicit p: Predicate[P, T]): Predicate[P, T] = p
 }

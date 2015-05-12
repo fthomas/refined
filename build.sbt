@@ -53,3 +53,5 @@ publishMavenStyle := true
 scalariformSettings
 
 git.useGitDescribe := true
+
+wartremoverErrors ++= Warts.unsafe

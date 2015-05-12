@@ -9,7 +9,4 @@ package object refined {
       case Some(s) => Left(s)
       case None => Right(tag[P](t))
     }
-
-  def refineUnsafe[P, T](t: T)(implicit p: Predicate[P, T]): T @@ P =
-    p.validated(t).fold(tag[P](t))(s => throw new IllegalArgumentException(s))
 }

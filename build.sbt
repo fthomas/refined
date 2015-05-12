@@ -54,4 +54,4 @@ scalariformSettings
 
 git.useGitDescribe := true
 
-wartremoverErrors ++= Warts.unsafe
+wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(Wart.Throw)

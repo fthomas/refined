@@ -31,6 +31,7 @@ scalacOptions in (Compile, doc) ++= Seq(
 autoAPIMappings := true
 
 libraryDependencies ++= Seq(
+  "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "com.chuusai" %% "shapeless" % "2.2.0-RC6",
   "org.scalacheck" %% "scalacheck" % "1.12.2" % "test"
 )
@@ -54,4 +55,4 @@ scalariformSettings
 
 git.useGitDescribe := true
 
-wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(Wart.Throw)
+//wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(Wart.Throw)

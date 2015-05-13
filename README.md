@@ -7,16 +7,16 @@
 
 ## Overview
 
-This library is a port of the [`refined`][refined.hs] Haskell library to Scala.
+This is a port of the [`refined`][refined.hs] Haskell library to Scala.
 The linked websites provides an excellent motivation why this kind of library
 is useful.
 
-It consists of:
+This library consists of:
 
  * Type-level predicates for refining other types, like `UpperCase`, `Positive`,
-   `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_2]]`. There are also higher
-   order predicates for combining proper predicates like `And[_, _]`, `Not[_]`, or
-   `Length[_]`.
+   `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
+   order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
+   `Not[_]`, or `Length[_]`.
 
  * A `Predicate` type class that is able to validate a concrete data type (like `Double`)
    against a type-level predicate (like `Positive`).
@@ -24,6 +24,7 @@ It consists of:
  * Two functions `refine` and `refineLit` that take a predicate `P` and some value
    of type `T`, validates this value with a `Predicate[P, T]` and returns the value
    with type `T @@ P` if validation was successful or an error otherwise.
+   (`@@` is [shapeless'](https://github.com/milessabin/shapeless) type for tagging types :-))
 
 ## Examples
 
@@ -40,8 +41,8 @@ It consists of:
     <console>:27: error: Predicate isEmpty() did not fail.
                   refineLit[NonEmpty, String]("")
 
-Note that `refineLit` is implemented as macro and checks at compile time if the
-given literal conforms to the given predicate.
+Note that `refineLit` (which only supports literals) is implemented as macro
+and checks at compile time if the given literal conforms to the predicate.
 
 ## Installation
 

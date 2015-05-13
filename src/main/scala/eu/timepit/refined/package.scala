@@ -24,7 +24,7 @@ package object refined {
 
         predicate.validated(value.asInstanceOf[T]) match {
           case None => c.Expr(q"shapeless.tag[${weakTypeOf[P]}]($t)")
-          case Some(s) => c.abort(c.enclosingPosition, s"$s")
+          case Some(msg) => c.abort(c.enclosingPosition, msg)
         }
 
       case _ => c.abort(c.enclosingPosition, "refineLit only supports literals")

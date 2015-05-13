@@ -13,45 +13,21 @@ package object refined {
       case None => Right(tag[P](t))
     }
 
-  def refineUnsafe[P, T](t: T)(implicit p: Predicate[P, T]): T @@ P =
-    p.validated(t).fold(tag[P](t))(s => throw new IllegalArgumentException(s))
-
   def refineLit[P, T](t: T)(implicit p: Predicate[P, T]): T @@ P = macro refineLitImpl[P, T]
 
   def refineLitImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
     import c.universe._
 
-    val resetTree = c.untypecheck(p.tree)
-    val p3 = c.eval(c.Expr[Predicate[P, T]](resetTree))
-
-    //val pp = c.eval(c.Expr(p.tree))
-    //val p2 = c.eval(p)
-    //pp
-    //p2
-
-    val pType = weakTypeOf[P]
-    val tType = weakTypeOf[T]
-
-    println(showRaw(p))
-    println(showRaw(t))
-
-    val q"$p1" = p.tree
-    //println(showRaw(p1))
-
-    //val xxx = Predicate[UpperCase, T]
-
-    println("in macro")
     t.tree match {
-      case Literal(Constant(l)) => {
-        val ll = l.asInstanceOf[T]
-        println(l.asInstanceOf[T])
-        println(p3.validated(ll))
-        reify { println(refine(l.asInstanceOf[T])(p.splice)) }
+      case Literal(Constant(value)) =>
+        val predicate: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
 
-        c.Expr(q"refine[$pType, $tType]($t).fold(???, identity)")
-      }
-      case _ => c.abort(c.enclosingPosition, "only supports literals")
+        predicate.validated(value.asInstanceOf[T]) match {
+          case None => c.Expr(q"shapeless.tag[${weakTypeOf[P]}]($t)")
+          case Some(s) => c.abort(c.enclosingPosition, s"$s")
+        }
+
+      case _ => c.abort(c.enclosingPosition, "refineLit only supports literals")
     }
   }
-
 }

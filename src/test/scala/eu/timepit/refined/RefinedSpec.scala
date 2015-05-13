@@ -1,11 +1,11 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.numeric.Greater
-import eu.timepit.refined.string.{ UpperCase, LowerCase }
+import eu.timepit.refined.string.LowerCase
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.tag.@@
+import shapeless.test.illTyped
 
 class RefinedSpec extends Properties("refined") {
   property("refine success") = secure {
@@ -16,13 +16,23 @@ class RefinedSpec extends Properties("refined") {
     refine[LowerCase, String]("Hallo").isLeft
   }
 
-  property("macro") = secure {
+  property("refineLit success with String") = secure {
     def ignore = refineLit[LowerCase, String]("hello")
     true
   }
 
-  property("macro") = secure {
-    def ignore = refineLit[UpperCase, String]("hello")
+  property("refineLit failure with String") = secure {
+    illTyped("""refineLit[UpperCase, String]("hello")""")
+    true
+  }
+
+  property("refineLit success") = secure {
+    def ignore = refineLit[Greater[_10], Int](15)
+    true
+  }
+
+  property("refineLit failure") = secure {
+    illTyped("""refineLit[Greater[_10], Int](5)""")
     true
   }
 }

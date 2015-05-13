@@ -28,18 +28,20 @@ This library consists of:
 
 ## Examples
 
-    scala> refine[Positive, Int](5)
-    res0: Either[String, Int @@ Positive] = Right(5)
+```scala
+scala> refine[Positive, Int](5)
+res0: Either[String, Int @@ Positive] = Right(5)
 
-    scala> refine[Positive, Int](-5)
-    res1: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
+scala> refine[Positive, Int](-5)
+res1: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 
-    scala> refineLit[NonEmpty, String]("Hello")
-    res2: String @@ NonEmpty = Hello
+scala> refineLit[NonEmpty, String]("Hello")
+res2: String @@ NonEmpty = Hello
 
-    scala> refineLit[NonEmpty, String]("")
-    <console>:27: error: Predicate isEmpty() did not fail.
-                  refineLit[NonEmpty, String]("")
+scala> refineLit[NonEmpty, String]("")
+<console>:27: error: Predicate isEmpty() did not fail.
+            refineLit[NonEmpty, String]("")
+```
 
 Note that `refineLit` (which only supports literals) is implemented as macro
 and checks at compile time if the given literal conforms to the predicate.

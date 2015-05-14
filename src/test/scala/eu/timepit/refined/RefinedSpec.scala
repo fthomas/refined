@@ -3,7 +3,6 @@ package eu.timepit.refined
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
@@ -42,13 +41,13 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refineLit success with custom Predicate") = secure {
-    type ShortString = Length[LessEqual[_10]]
+    type ShortString = Size[LessEqual[_10]]
     def ignore = refineLit[ShortString, String]("abc")
     true
   }
 
   property("refineLit failure with custom Predicate") = secure {
-    type ShortString = Length[LessEqual[_10]]
+    type ShortString = Size[LessEqual[_10]]
     illTyped("""refineLit[ShortString, String]("abcdefghijklmnopqrstuvwxyz")""")
     true
   }

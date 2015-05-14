@@ -11,16 +11,28 @@ object collection {
 
   type Exists[P] = Not[Forall[Not[P]]]
 
-  sealed trait Length[P]
+  sealed trait Size[P]
 
-  implicit def empty(): Predicate[Empty, C] =
-    new Predicate[Empty, C] {
-      def isValid()
+  implicit def empty[T](implicit ev: T => TraversableOnce[_]): Predicate[Empty, T] =
+    new Predicate[Empty, T] {
+      def isValid(t: T): Boolean = t.isEmpty
+      def show(t: T): String = s"isEmpty($t)"
     }
 
-  implicit def forallPredicate[P, C, A](implicit p: Predicate[P, A], ev: C => TraversableOnce[A]): Predicate[Forall[P], C] =
-    new Predicate[Forall[P], C] {
-      def isValid(t: C): Boolean = t.forall(p.isValid)
-      def show(t: C): String = t.toSeq.map(p.show).mkString("(", " && ", ")")
+  implicit def forallPredicate[P, T, A](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
+    new Predicate[Forall[P], T] {
+      def isValid(t: T): Boolean = t.forall(p.isValid)
+      def show(t: T): String = t.toSeq.map(p.show).mkString("(", " && ", ")")
+    }
+
+  implicit def sizePredicate[P, T](implicit p: Predicate[P, Int], ev: T => TraversableOnce[_]): Predicate[Size[P], T] =
+    new Predicate[Size[P], T] {
+      override def isValid(t: T): Boolean = p.isValid(t.size)
+      override def show(t: T): String = p.show(t.size)
+
+      override def validated(t: T): Option[String] = {
+        val s = t.size
+        p.validated(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
+      }
     }
 }

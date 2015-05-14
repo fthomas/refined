@@ -4,7 +4,6 @@ import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
@@ -44,16 +43,16 @@ class StringSpec extends Properties("string") {
       "(isUpper('a') && isUpper('b') && isUpper('c'))"
   }
 
-  property("Length.isValid") = forAll { (s: String) =>
-    Predicate[Length[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
+  property("Size.isValid") = forAll { (s: String) =>
+    Predicate[Size[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
   }
 
-  property("Length.validated") = forAll { (s: String) =>
-    Predicate[Length[LessEqual[_10]], String].validated(s).isEmpty ?= (s.length <= 10)
+  property("Size.validated") = forAll { (s: String) =>
+    Predicate[Size[LessEqual[_10]], String].validated(s).isEmpty ?= (s.length <= 10)
   }
 
-  property("Length.show") = secure {
-    type P = Length[Greater[_5] And LessEqual[_10]]
+  property("Size.show") = secure {
+    type P = Size[Greater[_5] And LessEqual[_10]]
     Predicate[P, String].show("test") ?= "((4 > 5) && !(4 > 10))"
   }
 }

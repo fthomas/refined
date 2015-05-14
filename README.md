@@ -66,6 +66,10 @@ To get the latest version of the library, add the following to your SBT build:
 where `<version>` is a combination of a version number and a Git hash. See
 https://bintray.com/fthomas/maven/refined for the latest version.
 
+## Documentation
+
+The latest API documentation is available at: http://fthomas.github.io/refined/latest/api/
+
 ## Related projects
 
 This library is heavily inspired by the [`refined`][refined.hs] library for

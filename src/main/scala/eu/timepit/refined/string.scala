@@ -1,12 +1,8 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.generic.{ Empty, Length }
+import eu.timepit.refined.generic._
 
 object string {
-  sealed trait LowerCase
-
-  sealed trait UpperCase
-
   implicit val emptyStringPredicate: Predicate[Empty, String] =
     new Predicate[Empty, String] {
       def isValid(t: String): Boolean = t.isEmpty

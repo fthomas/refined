@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.generic.Length
+import eu.timepit.refined.char._
+import eu.timepit.refined.generic._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
@@ -49,6 +50,11 @@ class RefinedSpec extends Properties("refined") {
   property("refineLit failure with custom Predicate") = secure {
     type ShortString = Length[LessEqual[_10]]
     illTyped("""refineLit[ShortString, String]("abcdefghijklmnopqrstuvwxyz")""")
+    true
+  }
+
+  property("refineLit success with Char") = secure {
+    def ignore = refineLit[LowerCase, Char]('c')
     true
   }
 }

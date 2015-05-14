@@ -8,4 +8,8 @@ object generic {
   type NonEmpty = Not[Empty]
 
   sealed trait Length[P]
+
+  sealed trait LowerCase
+
+  sealed trait UpperCase
 }

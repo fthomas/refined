@@ -13,7 +13,7 @@ object collection {
 
   sealed trait Size[P]
 
-  implicit def empty[T](implicit ev: T => TraversableOnce[_]): Predicate[Empty, T] =
+  implicit def emptyPredicate[T](implicit ev: T => TraversableOnce[_]): Predicate[Empty, T] =
     new Predicate[Empty, T] {
       def isValid(t: T): Boolean = t.isEmpty
       def show(t: T): String = s"isEmpty($t)"

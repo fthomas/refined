@@ -23,7 +23,7 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refineLit failure with String") = secure {
-    illTyped("""refineLit[UpperCase, String]("hello")""")
+    illTyped("""refineLit[Forall[UpperCase], String]("hello")""")
     true
   }
 

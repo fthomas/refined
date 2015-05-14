@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.char._
-import eu.timepit.refined.generic._
+import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
@@ -15,11 +15,11 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refine failure") = secure {
-    refine[LowerCase, String]("Hallo").isLeft
+    refine[Forall[LowerCase], String]("Hallo").isLeft
   }
 
   property("refineLit success with String") = secure {
-    def ignore = refineLit[LowerCase, String]("hello")
+    def ignore = refineLit[Forall[LowerCase], String]("hello")
     true
   }
 

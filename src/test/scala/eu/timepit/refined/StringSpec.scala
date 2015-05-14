@@ -1,7 +1,8 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
-import eu.timepit.refined.generic._
+import eu.timepit.refined.char._
+import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
@@ -25,20 +26,22 @@ class StringSpec extends Properties("string") {
     Predicate[NonEmpty, String].show("test") ?= "!isEmpty(test)"
   }
 
-  property("LowerCase.isValid") = forAll { (s: String) =>
-    Predicate[LowerCase, String].isValid(s) ?= s.forall(_.isLower)
+  property("Forall[LowerCase].isValid") = forAll { (s: String) =>
+    Predicate[Forall[LowerCase], String].isValid(s) ?= s.forall(_.isLower)
   }
 
-  property("LowerCase.show") = secure {
-    Predicate[LowerCase, String].show("test") ?= "isLowerCase(test)"
+  property("Forall[LowerCase].show") = secure {
+    Predicate[Forall[LowerCase], String].show("abc") ?=
+      "(isLower('a') && isLower('b') && isLower('c'))"
   }
 
-  property("UpperCase.isValid") = forAll { (s: String) =>
-    Predicate[UpperCase, String].isValid(s) ?= s.forall(_.isUpper)
+  property("Forall[UpperCase].isValid") = forAll { (s: String) =>
+    Predicate[Forall[UpperCase], String].isValid(s) ?= s.forall(_.isUpper)
   }
 
-  property("UpperCase.show") = secure {
-    Predicate[UpperCase, String].show("test") ?= "isUpperCase(test)"
+  property("Forall[UpperCase].show") = secure {
+    Predicate[Forall[UpperCase], String].show("abc") ?=
+      "(isUpper('a') && isUpper('b') && isUpper('c'))"
   }
 
   property("Length.isValid") = forAll { (s: String) =>

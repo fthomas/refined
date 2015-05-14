@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.generic._
+import eu.timepit.refined.collection._
 
 object string {
   implicit val emptyStringPredicate: Predicate[Empty, String] =
@@ -18,17 +18,5 @@ object string {
         val l = t.length
         p.validated(l).map(s => s"Predicate taking length($t) = $l failed: $s")
       }
-    }
-
-  implicit val lowerCaseStringPredicate: Predicate[LowerCase, String] =
-    new Predicate[LowerCase, String] {
-      def isValid(t: String): Boolean = t.forall(_.isLower)
-      def show(t: String): String = s"isLowerCase($t)"
-    }
-
-  implicit val upperCaseStringPredicate: Predicate[UpperCase, String] =
-    new Predicate[UpperCase, String] {
-      def isValid(t: String): Boolean = t.forall(_.isUpper)
-      def show(t: String): String = s"isUpperCase($t)"
     }
 }

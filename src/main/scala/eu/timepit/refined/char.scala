@@ -1,8 +1,10 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.generic._
-
 object char {
+  sealed trait LowerCase
+
+  sealed trait UpperCase
+
   implicit val lowerCaseCharPredicate: Predicate[LowerCase, Char] =
     new Predicate[LowerCase, Char] {
       def isValid(t: Char): Boolean = t.isLower

@@ -46,7 +46,6 @@ initialCommands := """
   import eu.timepit.refined.char._
   import eu.timepit.refined.collection._
   import eu.timepit.refined.numeric._
-  import eu.timepit.refined.string._
   import shapeless.nat._
   import shapeless.tag.@@
 """
@@ -75,5 +74,5 @@ pomExtra :=
 
 site.settings
 site.includeScaladoc()
-ghpages.settings
+//ghpages.settings
 git.remoteRepo := "git@github.com:fthomas/refined.git"

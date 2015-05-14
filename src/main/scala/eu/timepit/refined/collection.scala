@@ -19,7 +19,13 @@ object collection {
       def show(t: T): String = s"isEmpty($t)"
     }
 
-  implicit def forallPredicate[P, T, A](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
+  implicit def forallPredicate[P, A, T[A] <: TraversableOnce[A]](implicit p: Predicate[P, A]): Predicate[Forall[P], T[A]] =
+    new Predicate[Forall[P], T[A]] {
+      def isValid(t: T[A]): Boolean = t.forall(p.isValid)
+      def show(t: T[A]): String = t.toSeq.map(p.show).mkString("(", " && ", ")")
+    }
+
+  implicit def forallPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
     new Predicate[Forall[P], T] {
       def isValid(t: T): Boolean = t.forall(p.isValid)
       def show(t: T): String = t.toSeq.map(p.show).mkString("(", " && ", ")")

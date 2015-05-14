@@ -41,6 +41,15 @@ res2: String @@ NonEmpty = Hello
 scala> refineLit[NonEmpty, String]("")
 <console>:27: error: Predicate isEmpty() did not fail.
             refineLit[NonEmpty, String]("")
+                                       ^
+
+scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
+defined type alias ZeroToOne
+
+scala> refineLit[ZeroToOne, Double](1.8)
+<console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
+              refineLit[ZeroToOne, Double](1.8)
+                                          ^
 ```
 
 Note that `refineLit` (which only supports literals) is implemented as macro
@@ -60,11 +69,13 @@ https://bintray.com/fthomas/maven/refined for the latest version.
 ## Related projects
 
 This library is heavily inspired by the [`refined`][refined.hs] library for
-Haskell. It even stole its name!
+Haskell. It even stole its name! [`bond`][bond] is another Scala library that
+provides type-level validations.
 
 ## License
 
 `refined` is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
+[bond]: https://github.com/fwbrasil/bond
 [refined.hs]: http://nikita-volkov.github.io/refined/

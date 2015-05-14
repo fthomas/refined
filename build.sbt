@@ -3,8 +3,12 @@ enablePlugins(GitVersioning)
 name := "refined"
 
 organization := "eu.timepit"
+homepage := Some(url("https://github.com/fthomas/refined"))
 startYear := Some(2015)
 licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
+scmInfo := Some(ScmInfo(homepage.value.get,
+  "scm:git:https://github.com/fthomas/refined.git",
+  Some("scm:git:git@github.com:fthomas/refined.git")))
 
 scalaVersion := "2.11.6"
 scalacOptions ++= Seq(
@@ -36,9 +40,6 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.12.2" % "test"
 )
 
-scmInfo := Some(ScmInfo(url("https://github.com/fthomas/refined"),
-  "git@github.com:fthomas/refined.git"))
-
 initialCommands := """
   import eu.timepit.refined._
   import eu.timepit.refined.boolean._
@@ -49,11 +50,20 @@ initialCommands := """
   import shapeless.tag.@@
 """
 
-publishMavenStyle := true
-
 scalariformSettings
 
 git.useGitDescribe := true
 
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
   Seq(Wart.Any, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Throw)
+
+publishMavenStyle := true
+
+pomExtra :=
+  <developers>
+    <developer>
+      <id>fthomas</id>
+      <name>Frank S. Thomas</name>
+      <url>https://github.com/fthomas</url>
+    </developer>
+  </developers>

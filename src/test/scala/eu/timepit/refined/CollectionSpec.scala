@@ -10,4 +10,8 @@ class CollectionSpec extends Properties("collection") {
   property("Exists[Equal[_]]") = forAll { (l: List[Int]) =>
     Predicate[Exists[Equal[_1]], List[Int]].isValid(l) == l.contains(1)
   }
+
+  property("Size[Greater[_]]") = forAll { (l: List[Int]) =>
+    Predicate[Size[Greater[_5]], List[Int]].isValid(l) == (l.size > 5)
+  }
 }

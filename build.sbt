@@ -6,9 +6,11 @@ organization := "eu.timepit"
 homepage := Some(url("https://github.com/fthomas/refined"))
 startYear := Some(2015)
 licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
+
+val gitRepo = "git@github.com:fthomas/refined.git"
 scmInfo := Some(ScmInfo(homepage.value.get,
   "scm:git:https://github.com/fthomas/refined.git",
-  Some("scm:git:" + git.remoteRepo.value)))
+  Some(s"scm:git:$gitRepo")))
 
 scalaVersion := "2.11.6"
 scalacOptions ++= Seq(
@@ -72,7 +74,7 @@ pomExtra :=
 
 // site settings
 
-site.settings
-site.includeScaladoc()
+//site.settings
+//site.includeScaladoc()
 //ghpages.settings
-git.remoteRepo := "git@github.com:fthomas/refined.git"
+//git.remoteRepo := gitRepo

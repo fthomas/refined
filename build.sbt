@@ -74,7 +74,7 @@ pomExtra :=
 
 // site settings
 
-//site.settings
-//site.includeScaladoc()
-//ghpages.settings
-//git.remoteRepo := gitRepo
+site.settings
+site.includeScaladoc()
+ghpages.settings
+git.remoteRepo := gitRepo

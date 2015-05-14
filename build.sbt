@@ -59,6 +59,8 @@ wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
 
 publishMavenStyle := true
 
+pomIncludeRepository := { _ => false }
+
 pomExtra :=
   <developers>
     <developer>

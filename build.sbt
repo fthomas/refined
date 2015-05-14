@@ -8,7 +8,7 @@ startYear := Some(2015)
 licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
 scmInfo := Some(ScmInfo(homepage.value.get,
   "scm:git:https://github.com/fthomas/refined.git",
-  Some("scm:git:git@github.com:fthomas/refined.git")))
+  Some("scm:git:" + git.remoteRepo.value)))
 
 scalaVersion := "2.11.6"
 scalacOptions ++= Seq(
@@ -57,10 +57,10 @@ git.useGitDescribe := true
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
   Seq(Wart.Any, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Throw)
 
+// publish settings
+
 publishMavenStyle := true
-
 pomIncludeRepository := { _ => false }
-
 pomExtra :=
   <developers>
     <developer>
@@ -69,3 +69,10 @@ pomExtra :=
       <url>https://github.com/fthomas</url>
     </developer>
   </developers>
+
+// site settings
+
+site.settings
+site.includeScaladoc()
+ghpages.settings
+git.remoteRepo := "git@github.com:fthomas/refined.git"

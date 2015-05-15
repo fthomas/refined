@@ -1,27 +1,21 @@
 package eu.timepit.refined
 
 object boolean {
-  sealed trait True
+  trait True
 
-  sealed trait False
+  trait False
 
-  sealed trait Not[P]
+  trait Not[P]
 
-  sealed trait And[A, B]
+  trait And[A, B]
 
-  sealed trait Or[A, B]
+  trait Or[A, B]
 
   implicit def truePredicate[T]: Predicate[True, T] =
-    new Predicate[True, T] {
-      def isValid(t: T): Boolean = true
-      def show(t: T): String = "true"
-    }
+    Predicate.instance(_ => true, _ => "true")
 
   implicit def falsePredicate[T]: Predicate[False, T] =
-    new Predicate[False, T] {
-      def isValid(t: T): Boolean = false
-      def show(t: T): String = "false"
-    }
+    Predicate.instance(_ => false, _ => "false")
 
   implicit def notPredicate[P, T](implicit p: Predicate[P, T]): Predicate[Not[P], T] =
     new Predicate[Not[P], T] {

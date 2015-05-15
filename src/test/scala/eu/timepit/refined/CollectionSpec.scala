@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.char.LowerCase
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
@@ -18,5 +19,14 @@ class CollectionSpec extends Properties("collection") {
 
   property("Size[Greater[_]].isValid") = forAll { (l: List[Int]) =>
     Predicate[Size[Greater[_5]], List[Int]].isValid(l) ?= (l.size > 5)
+  }
+
+  property("Count[LowerCase, Greater[_2]].isValid") = forAll { (l: List[Char]) =>
+    Predicate[Count[LowerCase, Greater[_2]], List[Char]].isValid(l) ?= (l.count(_.isLower) > 2)
+  }
+
+  property("Count[LowerCase, Greater[_2]].validated") = secure {
+    Predicate[Count[LowerCase, Greater[_2]], List[Char]].validated(List('a', 'B')) ?=
+      Some("Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2).")
   }
 }

@@ -6,11 +6,11 @@ import shapeless.nat._
 import shapeless.ops.nat.ToInt
 
 object numeric {
-  sealed trait Less[N]
+  trait Less[N]
 
-  sealed trait Greater[N]
+  trait Greater[N]
 
-  sealed trait Equal[N]
+  trait Equal[N]
 
   type LessEqual[N] = Not[Greater[N]]
 

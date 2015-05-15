@@ -14,4 +14,10 @@ trait Predicate[P, T] {
 
 object Predicate {
   def apply[P, T](implicit p: Predicate[P, T]): Predicate[P, T] = p
+
+  def instance[P, T](isValidF: T => Boolean, showF: T => String): Predicate[P, T] =
+    new Predicate[P, T] {
+      def isValid(t: T): Boolean = isValidF(t)
+      def show(t: T): String = showF(t)
+    }
 }

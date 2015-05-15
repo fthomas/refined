@@ -55,4 +55,8 @@ class StringSpec extends Properties("string") {
     type P = Size[Greater[_5] And LessEqual[_10]]
     Predicate[P, String].show("test") ?= "((4 > 5) && !(4 > 10))"
   }
+
+  property("Count[LowerCase, Greater[_2]].isValid") = forAll { (s: String) =>
+    Predicate[Count[LowerCase, Greater[_2]], String].isValid(s) == (s.count(_.isLower) > 2)
+  }
 }

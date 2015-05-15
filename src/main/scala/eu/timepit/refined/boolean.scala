@@ -1,14 +1,19 @@
 package eu.timepit.refined
 
 object boolean {
+  /** Constant predicate that is always true. */
   trait True
 
+  /** Constant predicate that is always false. */
   trait False
 
+  /** Negation of the predicate `P`. */
   trait Not[P]
 
+  /** Conjunction of the predicates `A` and `B`. */
   trait And[A, B]
 
+  /** Disjunction of the predicates `A` and `B`. */
   trait Or[A, B]
 
   implicit def truePredicate[T]: Predicate[True, T] =

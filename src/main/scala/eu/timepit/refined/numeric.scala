@@ -20,23 +20,14 @@ object numeric {
 
   type Negative = Less[_0]
 
-  type ZeroToOne = GreaterEqual[_0] And LessEqual[_1]
+  type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
 
   implicit def lessPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
-    new Predicate[Less[N], T] {
-      def isValid(t: T): Boolean = nt.toDouble(t) < tn.apply()
-      def show(t: T): String = s"($t < ${tn.apply()})"
-    }
+    Predicate.instance(t => nt.toDouble(t) < tn.apply(), t => s"($t < ${tn.apply()})")
 
   implicit def greaterPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
-    new Predicate[Greater[N], T] {
-      def isValid(t: T): Boolean = nt.toDouble(t) > tn.apply()
-      def show(t: T): String = s"($t > ${tn.apply()})"
-    }
+    Predicate.instance(t => nt.toDouble(t) > tn.apply(), t => s"($t > ${tn.apply()})")
 
   implicit def equalPredicate[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
-    new Predicate[Equal[N], T] {
-      def isValid(t: T): Boolean = it.equiv(t, it.fromInt(tn.apply()))
-      def show(t: T): String = s"($t == ${tn.apply()})"
-    }
+    Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
 }

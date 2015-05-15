@@ -38,8 +38,8 @@ class NumericSpec extends Properties("numeric") {
     Predicate[GreaterEqual[_5], Int].show(0) ?= "!(0 < 5)"
   }
 
-  property("ZeroToOne.isValid") = forAll { (d: Double) =>
-    Predicate[ZeroToOne, Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
+  property("Interval[_0, _1].isValid") = forAll { (d: Double) =>
+    Predicate[Interval[_0, _1], Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
   }
 
   property("Equal.isValid") = forAll { (i: Int) =>

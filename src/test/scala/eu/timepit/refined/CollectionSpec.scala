@@ -25,6 +25,10 @@ class CollectionSpec extends Properties("collection") {
     Predicate[Count[LowerCase, Greater[_2]], List[Char]].isValid(l) ?= (l.count(_.isLower) > 2)
   }
 
+  property("Count[LowerCase, Greater[_2]].show") = secure {
+    Predicate[Count[LowerCase, Greater[_2]], List[Char]].show(List('a', 'B')) ?= "(1 > 2)"
+  }
+
   property("Count[LowerCase, Greater[_2]].validated") = secure {
     Predicate[Count[LowerCase, Greater[_2]], List[Char]].validated(List('a', 'B')) ?=
       Some("Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2).")

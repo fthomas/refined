@@ -57,6 +57,6 @@ class StringSpec extends Properties("string") {
   }
 
   property("Count[LowerCase, Greater[_2]].isValid") = forAll { (s: String) =>
-    Predicate[Count[LowerCase, Greater[_2]], String].isValid(s) == (s.count(_.isLower) > 2)
+    Predicate[Count[LowerCase, Greater[_2]], String].isValid(s) ?= (s.count(_.isLower) > 2)
   }
 }

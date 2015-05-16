@@ -73,12 +73,16 @@ object boolean {
   implicit def allOfHNilPredicate[T]: Predicate[AllOf[HNil], T] = alwaysTrue
 
   implicit def allOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
-    Predicate.instance(t => ph.isValid(t) && pt.isValid(t), t => s"(${ph.show(t)} && ${pt.show(t)})")
+    Predicate.instance(
+      t => ph.isValid(t) && pt.isValid(t),
+      t => s"(${ph.show(t)} && ${pt.show(t)})")
 
   implicit def anyOfHNilPredicate[T]: Predicate[AnyOf[HNil], T] = alwaysFalse
 
   implicit def anyOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
-    Predicate.instance(t => ph.isValid(t) || pt.isValid(t), t => s"(${ph.show(t)} || ${pt.show(t)})")
+    Predicate.instance(
+      t => ph.isValid(t) || pt.isValid(t),
+      t => s"(${ph.show(t)} || ${pt.show(t)})")
 
   private def alwaysTrue[P, T]: Predicate[P, T] =
     Predicate.instance(_ => true, _ => "true")

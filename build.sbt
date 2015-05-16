@@ -35,6 +35,7 @@ scalacOptions in (Compile, doc) ++= Seq(
 )
 
 autoAPIMappings := true
+apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,

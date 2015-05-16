@@ -1,10 +1,13 @@
 package eu.timepit.refined
 
 object char {
+  /** Predicate that checks if a `Char` is a digit. */
   trait Digit
 
+  /** Predicate that checks if a `Char` is a lower case character. */
   trait LowerCase
 
+  /** Predicate that checks if a `Char` is an upper case character. */
   trait UpperCase
 
   implicit val digitPredicate: Predicate[Digit, Char] =

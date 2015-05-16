@@ -1,8 +1,12 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
+import eu.timepit.refined.char.{ Digit, Letter, Whitespace }
+import eu.timepit.refined.numeric.{ Greater, Less }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.nat._
+import shapeless.{ ::, HNil }
 
 class BooleanSpec extends Properties("boolean") {
   type FF[Op[_, _]] = False Op False
@@ -72,5 +76,25 @@ class BooleanSpec extends Properties("boolean") {
 
   property("Or.show") = secure {
     Predicate[TF[Or], Unit].show(()) ?= "(true || false)"
+  }
+
+  property("AllOf[Greater[_0] :: Less[_10] :: HNil].isValid") = forAll { (i: Int) =>
+    Predicate[AllOf[Greater[_0] :: Less[_10] :: HNil], Int].isValid(i) ?=
+      (i > 0 && i < 10)
+  }
+
+  property("AllOf[Greater[_0] :: Less[_10] :: HNil].show") = secure {
+    Predicate[AllOf[Greater[_0] :: Less[_10] :: HNil], Int].show(5) ?=
+      "((5 > 0) && ((5 < 10) && true))"
+  }
+
+  property("AnyOf[Digit :: Letter :: Whitespace :: HNil].isValid") = forAll { (c: Char) =>
+    Predicate[AnyOf[Digit :: Letter :: Whitespace :: HNil], Char].isValid(c) ?=
+      (c.isDigit || c.isLetter || c.isWhitespace)
+  }
+
+  property("AnyOf[Digit :: Letter :: Whitespace :: HNil].show") = secure {
+    Predicate[AnyOf[Digit :: Letter :: Whitespace :: HNil], Char].show('c') ?=
+      "(isDigit('c') || (isLetter('c') || (isWhitespace('c') || false)))"
   }
 }

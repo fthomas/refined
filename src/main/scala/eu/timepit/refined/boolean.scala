@@ -1,5 +1,7 @@
 package eu.timepit.refined
 
+import shapeless.{ ::, HList, HNil }
+
 object boolean {
   /** Constant predicate that is always true. */
   trait True
@@ -15,6 +17,12 @@ object boolean {
 
   /** Disjunction of the predicates `A` and `B`. */
   trait Or[A, B]
+
+  /** Conjunction of all predicates in `PS`. */
+  trait AllOf[PS <: HList]
+
+  /** Disjunction of all predicates in `PS`. */
+  trait AnyOf[PS <: HList]
 
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.instance(_ => true, _ => "true")
@@ -63,4 +71,16 @@ object boolean {
           case _ => None
         }
     }
+
+  implicit def allHNilPredicate[T]: Predicate[AllOf[HNil], T] =
+    Predicate.instance(_ => true, _ => "true")
+
+  implicit def allHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
+    Predicate.instance(t => ph.isValid(t) && pt.isValid(t), t => s"(${ph.show(t)} && ${pt.show(t)})")
+
+  implicit def anyHNilPredicate[T]: Predicate[AnyOf[HNil], T] =
+    Predicate.instance(_ => false, _ => "false")
+
+  implicit def anyHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
+    Predicate.instance(t => ph.isValid(t) || pt.isValid(t), t => s"(${ph.show(t)} || ${pt.show(t)})")
 }

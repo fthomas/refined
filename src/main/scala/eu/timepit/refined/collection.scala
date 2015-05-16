@@ -38,13 +38,13 @@ object collection {
     Predicate.instance(_.isEmpty, t => s"isEmpty($t)")
 
   implicit def forallPredicate[P, A, T[A] <: TraversableOnce[A]](implicit p: Predicate[P, A]): Predicate[Forall[P], T[A]] =
-    Predicate.instance(_.forall(p.isValid), forallShowImpl(_, p.show))
+    Predicate.instance(_.forall(p.isValid), forallShow(p.show))
 
   implicit def forallPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
-    Predicate.instance(_.forall(p.isValid), forallShowImpl(_, p.show))
+    Predicate.instance(_.forall(p.isValid), ev andThen forallShow(p.show))
 
-  private def forallShowImpl[A](t: TraversableOnce[A], f: A => String): String =
-    t.toSeq.map(f).mkString("(", " && ", ")")
+  private def forallShow[A](f: A => String): TraversableOnce[A] => String =
+    _.toSeq.map(f).mkString("(", " && ", ")")
 
   implicit def sizePredicate[P, T](implicit p: Predicate[P, Int], ev: T => TraversableOnce[_]): Predicate[Size[P], T] =
     new Predicate[Size[P], T] {

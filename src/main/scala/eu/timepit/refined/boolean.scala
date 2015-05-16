@@ -19,10 +19,10 @@ object boolean {
   trait Or[A, B]
 
   /** Conjunction of all predicates in `PS`. */
-  trait AllOf[PS <: HList]
+  trait AllOf[PS]
 
   /** Disjunction of all predicates in `PS`. */
-  trait AnyOf[PS <: HList]
+  trait AnyOf[PS]
 
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.instance(_ => true, _ => "true")

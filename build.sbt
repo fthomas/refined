@@ -59,6 +59,8 @@ git.useGitDescribe := true
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
   Seq(Wart.Any, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Throw)
 
+addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc")
+
 // publish settings
 
 publishMavenStyle := true

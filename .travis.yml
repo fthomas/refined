@@ -5,8 +5,10 @@ jdk:
  - openjdk7
  - oraclejdk7
  - oraclejdk8
-script: "sbt clean coverage test"
-after_success: "sbt coveralls"
+script:
+ - sbt ++$TRAVIS_SCALA_VERSION validate
+after_success:
+ - sbt coveralls
 notifications:
   webhooks:
     urls:

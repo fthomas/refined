@@ -6,6 +6,7 @@ import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class RefinedSpec extends Properties("refined") {
@@ -18,7 +19,7 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refineLit success with String") = secure {
-    def ignore = refineLit[Forall[LowerCase], String]("hello")
+    def ignore: String @@ Forall[LowerCase] = refineLit[Forall[LowerCase], String]("hello")
     true
   }
 
@@ -42,7 +43,7 @@ class RefinedSpec extends Properties("refined") {
 
   property("refineLit success with custom Predicate") = secure {
     type ShortString = Size[LessEqual[_10]]
-    def ignore = refineLit[ShortString, String]("abc")
+    def ignore: String @@ ShortString = refineLit[ShortString, String]("abc")
     true
   }
 
@@ -53,7 +54,7 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refineLit success with Char") = secure {
-    def ignore = refineLit[LowerCase, Char]('c')
+    def ignore: Char @@ LowerCase = refineLit[LowerCase, Char]('c')
     true
   }
 }

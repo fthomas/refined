@@ -24,11 +24,9 @@ object boolean {
   /** Disjunction of all predicates in `PS`. */
   trait AnyOf[PS]
 
-  implicit def truePredicate[T]: Predicate[True, T] =
-    Predicate.instance(_ => true, _ => "true")
+  implicit def truePredicate[T]: Predicate[True, T] = alwaysTrue
 
-  implicit def falsePredicate[T]: Predicate[False, T] =
-    Predicate.instance(_ => false, _ => "false")
+  implicit def falsePredicate[T]: Predicate[False, T] = alwaysFalse
 
   implicit def notPredicate[P, T](implicit p: Predicate[P, T]): Predicate[Not[P], T] =
     new Predicate[Not[P], T] {
@@ -72,15 +70,19 @@ object boolean {
         }
     }
 
-  implicit def allHNilPredicate[T]: Predicate[AllOf[HNil], T] =
-    Predicate.instance(_ => true, _ => "true")
+  implicit def allOfHNilPredicate[T]: Predicate[AllOf[HNil], T] = alwaysTrue
 
-  implicit def allHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
+  implicit def allOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
     Predicate.instance(t => ph.isValid(t) && pt.isValid(t), t => s"(${ph.show(t)} && ${pt.show(t)})")
 
-  implicit def anyHNilPredicate[T]: Predicate[AnyOf[HNil], T] =
-    Predicate.instance(_ => false, _ => "false")
+  implicit def anyOfHNilPredicate[T]: Predicate[AnyOf[HNil], T] = alwaysFalse
 
-  implicit def anyHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
+  implicit def anyOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
     Predicate.instance(t => ph.isValid(t) || pt.isValid(t), t => s"(${ph.show(t)} || ${pt.show(t)})")
+
+  private def alwaysTrue[P, T]: Predicate[P, T] =
+    Predicate.instance(_ => true, _ => "true")
+
+  private def alwaysFalse[P, T]: Predicate[P, T] =
+    Predicate.instance(_ => false, _ => "false")
 }

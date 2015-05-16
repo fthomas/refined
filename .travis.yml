@@ -8,7 +8,7 @@ jdk:
 script:
  - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:
- - sbt coveralls
+ - sbt ++$TRAVIS_SCALA_VERSION coveralls
 notifications:
   webhooks:
     urls:

@@ -1,8 +1,15 @@
 package eu.timepit.refined
 
+/**
+ * Type class for validating values of type `T` according to a type-level
+ * predicate `P`. The semantics of `P` are defined by the instance of this
+ * type class for `P`.
+ */
 trait Predicate[P, T] {
+  /** Checks if `t` is valid according to the predicate `P`. */
   def isValid(t: T): Boolean
 
+  /** Returns a string representation of this [[Predicate]] using `t`. */
   def show(t: T): String
 
   def validated(t: T): Option[String] =

@@ -86,5 +86,5 @@ ghpages.settings
 git.remoteRepo := gitRepo
 
 // release settings
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
+//releasePublishArtifactsAction := PgpKeys.publishSigned.value
 //releaseProcess ++= ghpagesPushSite

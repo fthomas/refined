@@ -6,39 +6,38 @@ First public release of refined.
   to a type-level predicate. The return type of those functions is the type
   of their parameters refined by the type-level predicate.
 
-### Type-level predicates
+### Provided predicates
 
-The library comes with these pre-defined predicates that are grouped
-into four modules: 
+The library comes with these predefined predicates:
 
-`boolean`
+[`boolean`](https://github.com/fthomas/refined/blob/0.0.1/src/main/scala/eu/timepit/refined/boolean.scala)
 
-* `True`: predicate that is always `true`
-* `False`: predicate that is always `false`
-* `Not[P]`: negation of the predicate`P`
+* `True`: constant predicate that is always `true`
+* `False`: constant predicate that is always `false`
+* `Not[P]`: negation of the predicate `P`
 * `And[A, B]`: conjunction of the predicates `A` and `B`
 * `Or[A, B]`: disjunction of the predicates `A` and `B` 
 
-`char`
+[`char`](https://github.com/fthomas/refined/blob/0.0.1/src/main/scala/eu/timepit/refined/char.scala)
 
 * `LowerCase`: checks if a `Char` is a lower case character
 * `UpperCase`: checks if a `Char` is an upper case character
 
-`collection`
+[`collection`](https://github.com/fthomas/refined/blob/0.0.1/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Empty`: checks if a `TraversableOnce` is empty
-* `NonEmpty`: checks if a `TraversableOnce` is non-empty
+* `NonEmpty`: checks if a `TraversableOnce` is not empty
 * `Forall[P]`: checks if each element of a `TraversableOnce` satisfies the predicate `P`
 * `Exists[P]`: checks if at least one element of a `TraversableOnce` satisfies the predicate `P`
 * `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`
 
-`numeric`
+[`numeric`](https://github.com/fthomas/refined/blob/0.0.1/src/main/scala/eu/timepit/refined/numeric.scala)
 
 * `Less[N]`: checks if a numeric value is less than `N`
-* `Greater[N]`: checks if a numeric value is greater than `N`
-* `Equal[N]`: checks if an integral value is equal to `N`
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
+* `Greater[N]`: checks if a numeric value is greater than `N`
 * `GreaterEqual[N]`: checks if a numeric value is greater than or equal to `N`
+* `Equal[N]`: checks if an integral value is equal to `N`
 * `Positive`: checks if a numeric value is greater than 0
 * `Negative`: checks if a numeric value is less than 0
-* `ZeroToOne`: checks if numeric value is in the interval [0, 1]
+* `ZeroToOne`: checks if a numeric value is in the interval [0, 1]

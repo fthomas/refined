@@ -4,20 +4,47 @@ import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
 
 object collection {
+  /**
+   * Predicate that counts the number of elements in a `TraversableOnce`
+   * which satisfy the predicate `PA` and passes the result to the numeric
+   * predicate `PC`.
+   */
   trait Count[PA, PC]
 
+  /** Predicate that checks if a `TraversableOnce` is empty. */
   trait Empty
 
+  /**
+   * Predicate that checks if the predicate `P` holds for all elements of a
+   * `TraversableOnce`.
+   */
   trait Forall[P]
 
+  /**
+   * Predicate that checks if the size of a `TraversableOnce` satisfies the
+   * predicate `P`.
+   */
   trait Size[P]
 
+  /** Predicate that checks if a `TraversableOnce` is not empty. */
   type NonEmpty = Not[Empty]
 
+  /**
+   * Predicate that checks if the predicate `P` holds for some of the elements
+   * of a `TraversableOnce`.
+   */
   type Exists[P] = Not[Forall[Not[P]]]
 
+  /**
+   * Predicate that checks if the size of a `TraversableOnce` is greater than
+   * or equal to `N`.
+   */
   type MinSize[N] = Size[GreaterEqual[N]]
 
+  /**
+   * Predicate that checks if the size of a `TraversableOnce` is less than
+   * or equal to `N`.
+   */
   type MaxSize[N] = Size[LessEqual[N]]
 
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =

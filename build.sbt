@@ -28,15 +28,6 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard"
 )
 
-scalacOptions in (Compile, doc) ++= Seq(
-  "-diagrams",
-  "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-  "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
-)
-
-autoAPIMappings := true
-apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
-
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "com.chuusai" %% "shapeless" % "2.2.0-RC6",
@@ -63,6 +54,17 @@ wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
 
 addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc")
 
+// doc settings
+
+scalacOptions in (Compile, doc) ++= Seq(
+  "-diagrams",
+  "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
+  "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
+)
+
+autoAPIMappings := true
+apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
+
 // publish settings
 
 publishMavenStyle := true
@@ -82,3 +84,7 @@ site.settings
 site.includeScaladoc()
 ghpages.settings
 git.remoteRepo := gitRepo
+
+// release settings
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+//releaseProcess ++= ghpagesPushSite

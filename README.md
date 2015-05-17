@@ -70,13 +70,65 @@ Instructions for Maven and other build tools is available at [search.maven.org][
 
 ## Documentation
 
-The latest API documentation is available at: http://fthomas.github.io/refined/latest/api/
+API documentation of the latest release is available at:
+http://fthomas.github.io/refined/latest/api/
+
+## Provided predicates
+
+The library comes with these predefined predicates:
+
+[`boolean`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/boolean.scala)
+
+* `True`: constant predicate that is always `true`
+* `False`: constant predicate that is always `false`
+* `Not[P]`: negation of the predicate `P`
+* `And[A, B]`: conjunction of the predicates `A` and `B`
+* `Or[A, B]`: disjunction of the predicates `A` and `B`
+* `AllOf[PS]`: conjunction of all predicates in `PS`
+* `AnyOf[PS]`: disjunction of all predicates in `PS`
+
+[`char`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/char.scala)
+
+* `Digit`: checks if a `Char` is a digit
+* `Letter`: checks if a `Char` is a letter
+* `LowerCase`: checks if a `Char` is a lower case character
+* `UpperCase`: checks if a `Char` is an upper case character
+* `Whitespace`: checks if a `Char` is white space
+
+[`collection`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/collection.scala)
+
+* `Count[PA, PC]`: counts the number of elements in a `TraversableOnce` which
+  satisfy the predicate `PA` and passes the result to the predicate `PC`
+* `Empty`: checks if a `TraversableOnce` is empty
+* `NonEmpty`: checks if a `TraversableOnce` is not empty
+* `Forall[P]`: checks if the predicate `P` holds for all elements of a
+  `TraversableOnce`
+* `Exists[P]`: checks if the predicate `P` holds for some of the elements
+  of a `TraversableOnce`
+* `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`
+* `MinSize[N]`: checks if the size of a `TraversableOnce` is greater than
+  or equal to `N`
+* `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
+   or equal to `N`
+
+[`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
+
+* `Less[N]`: checks if a numeric value is less than `N`
+* `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
+* `Greater[N]`: checks if a numeric value is greater than `N`
+* `GreaterEqual[N]`: checks if a numeric value is greater than or equal to `N`
+* `Equal[N]`: checks if an integral value is equal to `N`
+* `Positive`: checks if a numeric value is greater than 0
+* `Negative`: checks if a numeric value is less than 0
+* `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+
+## Custom predicates
 
 ## Related projects
 
 This library is heavily inspired by the [`refined`][refined.hs] library for
-Haskell. It even stole its name! [`bond`][bond] is another Scala library that
-provides type-level validations.
+Haskell. It even stole its name! Another Scala library that provides type-level
+validations is [`bond`][bond].
 
 ## License
 
@@ -84,6 +136,6 @@ provides type-level validations.
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [bond]: https://github.com/fwbrasil/bond
-[refined.hs]: http://nikita-volkov.github.io/refined/
+[refined.hs]: http://nikita-volkov.github.io/refined
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [shapeless]: https://github.com/milessabin/shapeless

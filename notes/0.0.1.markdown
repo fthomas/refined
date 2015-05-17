@@ -1,0 +1,44 @@
+First public release of refined.
+
+### Features
+
+* `refine` and `refineLit` functions that validate their inputs according
+  to a type-level predicate. The return type of those functions is the type
+  of their parameters refined by the type-level predicate.
+
+### Type-level predicates
+
+The library comes with these pre-defined predicates that are grouped
+into four modules: 
+
+`boolean`
+
+* `True`: predicate that is always `true`
+* `False`: predicate that is always `false`
+* `Not[P]`: negation of the predicate`P`
+* `And[A, B]`: conjunction of the predicates `A` and `B`
+* `Or[A, B]`: disjunction of the predicates `A` and `B` 
+
+`char`
+
+* `LowerCase`: checks if a `Char` is a lower case character
+* `UpperCase`: checks if a `Char` is an upper case character
+
+`collection`
+
+* `Empty`: checks if a `TraversableOnce` is empty
+* `NonEmpty`: checks if a `TraversableOnce` is non-empty
+* `Forall[P]`: checks if each element of a `TraversableOnce` satisfies the predicate `P`
+* `Exists[P]`: checks if at least one element of a `TraversableOnce` satisfies the predicate `P`
+* `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`
+
+`numeric`
+
+* `Less[N]`: checks if a numeric value is less than `N`
+* `Greater[N]`: checks if a numeric value is greater than `N`
+* `Equal[N]`: checks if an integral value is equal to `N`
+* `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
+* `GreaterEqual[N]`: checks if a numeric value is greater than or equal to `N`
+* `Positive`: checks if a numeric value is greater than 0
+* `Negative`: checks if a numeric value is less than 0
+* `ZeroToOne`: checks if numeric value is in the interval [0, 1]

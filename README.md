@@ -24,7 +24,7 @@ This library consists of:
  * Two functions `refine` and `refineLit` that take a predicate `P` and some value
    of type `T`, validates this value with a `Predicate[P, T]` and returns the value
    with type `T @@ P` if validation was successful or an error otherwise.
-   (`@@` is [shapeless'](https://github.com/milessabin/shapeless) type for tagging types :-))
+   (`@@` is [shapeless'][shapeless] type for tagging types :-))
 
 ## Examples
 
@@ -50,6 +50,9 @@ scala> refineLit[ZeroToOne, Double](1.8)
 <console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
               refineLit[ZeroToOne, Double](1.8)
                                           ^
+
+scala> refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil], Char]('F')
+res3: Char @@ AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 ```
 
 Note that `refineLit` (which only supports literals) is implemented as macro
@@ -83,3 +86,4 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [bond]: https://github.com/fwbrasil/bond
 [refined.hs]: http://nikita-volkov.github.io/refined/
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
+[shapeless]: https://github.com/milessabin/shapeless

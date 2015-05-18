@@ -4,11 +4,14 @@ import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
+import eu.timepit.refined.string.MatchesRegex
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
 
 class StringSpec extends Properties("string") {
+  val W = shapeless.Witness
+
   property("Empty.isValid") = forAll { (s: String) =>
     Predicate[Empty, String].isValid(s) ?= s.isEmpty
   }
@@ -62,5 +65,14 @@ class StringSpec extends Properties("string") {
 
   property("MinSize[_5].isValid") = forAll { (s: String) =>
     Predicate[MinSize[_5], String].isValid(s) ?= (s.length >= 5)
+  }
+
+  property("MatchesRegex[R].isValid") = forAll { (s: String) =>
+    Predicate[MatchesRegex[W.`".{2,10}"`.T], String].isValid(s) ?= s.matches(".{2,10}")
+  }
+
+  property("MatchesRegex[R].show") = secure {
+    Predicate[MatchesRegex[W.`".{2,10}"`.T], String].show("Hello") ?=
+      """"Hello".matches(".{2,10}")"""
   }
 }

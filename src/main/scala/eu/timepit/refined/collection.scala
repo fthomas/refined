@@ -30,8 +30,8 @@ object collection {
   type NonEmpty = Not[Empty]
 
   /**
-   * Predicate that checks if the predicate `P` holds for some of the elements
-   * of a `TraversableOnce`.
+   * Predicate that checks if the predicate `P` holds for some elements of a
+   * `TraversableOnce`.
    */
   type Exists[P] = Not[Forall[Not[P]]]
 

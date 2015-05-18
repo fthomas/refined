@@ -103,13 +103,13 @@ The library comes with these predefined predicates:
 * `NonEmpty`: checks if a `TraversableOnce` is not empty
 * `Forall[P]`: checks if the predicate `P` holds for all elements of a
   `TraversableOnce`
-* `Exists[P]`: checks if the predicate `P` holds for some of the elements
-  of a `TraversableOnce`
+* `Exists[P]`: checks if the predicate `P` holds for some elements of a
+  `TraversableOnce`
 * `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`
 * `MinSize[N]`: checks if the size of a `TraversableOnce` is greater than
   or equal to `N`
 * `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
-   or equal to `N`
+  or equal to `N`
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
 
@@ -121,6 +121,10 @@ The library comes with these predefined predicates:
 * `Positive`: checks if a numeric value is greater than 0
 * `Negative`: checks if a numeric value is less than 0
 * `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+
+[`string`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/string.scala)
+
+* `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
 
 ## Custom predicates
 

@@ -40,6 +40,7 @@ initialCommands := """
   import eu.timepit.refined.char._
   import eu.timepit.refined.collection._
   import eu.timepit.refined.numeric._
+  import eu.timepit.refined.string._
   import shapeless.{ ::, HList, HNil }
   import shapeless.nat._
   import shapeless.tag.@@

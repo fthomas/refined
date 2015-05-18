@@ -58,3 +58,5 @@ The library comes with these predefined predicates:
 * `Positive`: checks if a numeric value is greater than 0
 * `Negative`: checks if a numeric value is less than 0
 * `ZeroToOne`: checks if a numeric value is in the interval [0, 1]
+
+[refined.hs]: http://nikita-volkov.github.io/refined

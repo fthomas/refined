@@ -13,18 +13,18 @@ is useful.
 
 This library consists of:
 
- * Type-level predicates for refining other types, like `UpperCase`, `Positive`,
-   `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
-   order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
-   `Not[_]`, `Forall[_]`, or `Size[_]`.
+* Type-level predicates for refining other types, like `UpperCase`, `Positive`,
+  `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
+  order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
+  `Not[_]`, `Forall[_]`, or `Size[_]`.
 
- * A `Predicate` type class that is able to validate a concrete data type (like `Double`)
-   against a type-level predicate (like `Positive`).
+* A `Predicate` type class that is able to validate a concrete data type (like `Double`)
+  against a type-level predicate (like `Positive`).
 
- * Two functions `refine` and `refineLit` that take a predicate `P` and some value
-   of type `T`, validates this value with a `Predicate[P, T]` and returns the value
-   with type `T @@ P` if validation was successful or an error otherwise.
-   (`@@` is [shapeless'][shapeless] type for tagging types :-))
+* Two functions `refine` and `refineLit` that take a predicate `P` and some value
+  of type `T`, validates this value with a `Predicate[P, T]` and returns the value
+  with type `T @@ P` if validation was successful or an error otherwise.
+  (`@@` is [shapeless'][shapeless] type for tagging types :-))
 
 ## Examples
 

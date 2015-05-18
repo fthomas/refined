@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
+import eu.timepit.refined.generic.Equal
 import shapeless.Nat
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
@@ -11,9 +12,6 @@ object numeric {
 
   /** Predicate that checks if a numeric value is greater than `N`. */
   trait Greater[N]
-
-  /** Predicate that checks if an integral value is equal to `N`. */
-  trait Equal[N]
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
   type LessEqual[N] = Not[Greater[N]]
@@ -36,6 +34,6 @@ object numeric {
   implicit def greaterPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
     Predicate.instance(t => nt.toDouble(t) > tn.apply(), t => s"($t > ${tn.apply()})")
 
-  implicit def equalPredicate[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
+  implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
     Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
 }

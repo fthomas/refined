@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.char.LowerCase
 import eu.timepit.refined.collection._
+import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

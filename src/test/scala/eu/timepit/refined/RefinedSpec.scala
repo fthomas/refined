@@ -21,6 +21,12 @@ class RefinedSpec extends Properties("refined") {
     refine[Forall[LowerCase], String]("Hallo").isLeft
   }
 
+  property("refine success with MatchesRegex") = secure {
+    type DigitsOnly = MatchesRegex[W.`"[0-9]+"`.T]
+    val res = refine[DigitsOnly, String]("123"): Either[String, String @@ DigitsOnly]
+    res.isRight
+  }
+
   property("refineLit success with String") = secure {
     def ignore: String @@ Forall[LowerCase] = refineLit[Forall[LowerCase], String]("hello")
     true

@@ -60,3 +60,4 @@ The library comes with these predefined predicates:
 * `ZeroToOne`: checks if a numeric value is in the interval [0, 1]
 
 [refined.hs]: http://nikita-volkov.github.io/refined
+[shapeless]: https://github.com/milessabin/shapeless

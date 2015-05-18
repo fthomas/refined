@@ -111,13 +111,16 @@ The library comes with these predefined predicates:
 * `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
   or equal to `N`
 
+[`generic`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/generic.scala)
+
+* `Equal[U]`: checks if a value is equal to `U`
+
 [`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
 
 * `Less[N]`: checks if a numeric value is less than `N`
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
 * `Greater[N]`: checks if a numeric value is greater than `N`
 * `GreaterEqual[N]`: checks if a numeric value is greater than or equal to `N`
-* `Equal[N]`: checks if an integral value is equal to `N`
 * `Positive`: checks if a numeric value is greater than 0
 * `Negative`: checks if a numeric value is less than 0
 * `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]

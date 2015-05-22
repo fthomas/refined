@@ -60,6 +60,7 @@ addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-diagrams",
+  "-diagrams-debug",
   "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
   "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
 )

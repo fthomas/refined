@@ -10,7 +10,8 @@ package object internal {
 
     t.tree match {
       case Literal(Constant(value)) =>
-        val predicate: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
+        def evalPredicate: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
+        val predicate = scala.util.Try(evalPredicate).getOrElse(evalPredicate)
 
         predicate.validated(value.asInstanceOf[T]) match {
           case None =>

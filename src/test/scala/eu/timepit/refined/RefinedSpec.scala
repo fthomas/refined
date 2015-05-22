@@ -37,13 +37,10 @@ class RefinedSpec extends Properties("refined") {
     true
   }
 
-  /*
-  fails on fresh builds:
   property("refineLit success with Int") = secure {
     def ignore = refineLit[Greater[_10]](15)
     true
   }
-  */
 
   property("refineLit failure with Int") = secure {
     illTyped("""refineLit[Greater[_10]](5)""")

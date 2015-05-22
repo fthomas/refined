@@ -14,63 +14,63 @@ class RefinedSpec extends Properties("refined") {
   val W = shapeless.Witness
 
   property("refine success") = secure {
-    refine[Greater[_5], Int](6).isRight
+    refine[Greater[_5]](6).isRight
   }
 
   property("refine failure") = secure {
-    refine[Forall[LowerCase], String]("Hallo").isLeft
+    refine[Forall[LowerCase]]("Hallo").isLeft
   }
 
   property("refine success with MatchesRegex") = secure {
     type DigitsOnly = MatchesRegex[W.`"[0-9]+"`.T]
-    val res = refine[DigitsOnly, String]("123"): Either[String, String @@ DigitsOnly]
+    val res = refine[DigitsOnly]("123"): Either[String, String @@ DigitsOnly]
     res.isRight
   }
 
   property("refineLit success with String") = secure {
-    def ignore: String @@ Forall[LowerCase] = refineLit[Forall[LowerCase], String]("hello")
+    def ignore: String @@ Forall[LowerCase] = refineLit[Forall[LowerCase]]("hello")
     true
   }
 
   property("refineLit failure with String") = secure {
-    illTyped("""refineLit[Forall[UpperCase], String]("hello")""")
+    illTyped("""refineLit[Forall[UpperCase]]("hello")""")
     true
   }
 
   /*
   fails on fresh builds:
   property("refineLit success with Int") = secure {
-    def ignore = refineLit[Greater[_10], Int](15)
+    def ignore = refineLit[Greater[_10]](15)
     true
   }
   */
 
   property("refineLit failure with Int") = secure {
-    illTyped("""refineLit[Greater[_10], Int](5)""")
+    illTyped("""refineLit[Greater[_10]](5)""")
     true
   }
 
   property("refineLit success with custom Predicate") = secure {
     type ShortString = Size[LessEqual[_10]]
-    def ignore: String @@ ShortString = refineLit[ShortString, String]("abc")
+    def ignore: String @@ ShortString = refineLit[ShortString]("abc")
     true
   }
 
   property("refineLit failure with custom Predicate") = secure {
     type ShortString = Size[LessEqual[_10]]
-    illTyped("""refineLit[ShortString, String]("abcdefghijklmnopqrstuvwxyz")""")
+    illTyped("""refineLit[ShortString]("abcdefghijklmnopqrstuvwxyz")""")
     true
   }
 
   property("refineLit success with Char") = secure {
-    def ignore: Char @@ LowerCase = refineLit[LowerCase, Char]('c')
+    def ignore: Char @@ LowerCase = refineLit[LowerCase]('c')
     true
   }
 
   /*
   property("refineLit success with MatchesRegex") = secure {
     def ignore: String @@ MatchesRegex[W.`"[0-9]+"`.T] =
-      refineLit[MatchesRegex[W.`"[0-9]+"`.T], String]("123")
+      refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123")
     true
   }
 

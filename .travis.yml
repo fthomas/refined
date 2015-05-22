@@ -5,6 +5,9 @@ jdk:
  - openjdk7
  - oraclejdk7
  - oraclejdk8
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -y dot
 script:
  - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:

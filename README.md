@@ -60,11 +60,11 @@ and checks at compile time if the given literal conforms to the predicate.
 
 ## Installation
 
-The latest version of the library is 0.0.1, which is built against Scala 2.11.
+The latest version of the library is 0.0.2, which is built against Scala 2.11.
 
 If you're using SBT, add the following to your build file:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.0.1"
+    libraryDependencies += "eu.timepit" %% "refined" % "0.0.2"
 
 Instructions for Maven and other build tools is available at [search.maven.org][search.maven].
 

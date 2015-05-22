@@ -8,11 +8,15 @@ package object internal {
   def refineLitImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
     import c.universe._
 
+    def predicate: Predicate[P, T] = {
+      def evalP: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
+      // Try evaluating p twice before failing, see
+      // https://github.com/fthomas/refined/issues/3
+      scala.util.Try(evalP).getOrElse(evalP)
+    }
+
     t.tree match {
       case Literal(Constant(value)) =>
-        def evalPredicate: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
-        val predicate = scala.util.Try(evalPredicate).getOrElse(evalPredicate)
-
         predicate.validated(value.asInstanceOf[T]) match {
           case None =>
             val pTpe = weakTypeOf[P]

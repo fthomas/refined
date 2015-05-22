@@ -7,7 +7,7 @@
 
 ## Overview
 
-This is a port of the [`refined`][refined.hs] Haskell library to Scala.
+This is a port of the [refined][refined.hs] Haskell library to Scala.
 The linked websites provides an excellent motivation why this kind of library
 is useful.
 
@@ -133,13 +133,13 @@ The library comes with these predefined predicates:
 
 ## Related projects
 
-This library is heavily inspired by the [`refined`][refined.hs] library for
+This library is heavily inspired by the [refined][refined.hs] library for
 Haskell. It even stole its name! Another Scala library that provides type-level
-validations is [`bond`][bond].
+validations is [bond][bond].
 
 ## License
 
-`refined` is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+refined is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [bond]: https://github.com/fwbrasil/bond

@@ -38,7 +38,7 @@ class RefinedSpec extends Properties("refined") {
   }
 
   property("refineLit success with Int") = secure {
-    def ignore = refineLit[Greater[_10]](15)
+    def ignore: Int @@ Greater[_10] = refineLit[Greater[_10]](15)
     true
   }
 

@@ -1,0 +1,36 @@
+### Changes
+
+* Nicer syntax for `refine` and `refineLit`. The type that is refined does not
+  need to be specified anymore. E.g. there is no need to specify `Char` in
+  `refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')`.
+
+### New predicates
+
+[`boolean`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/boolean.scala)
+
+* `AllOf[PS]`: conjunction of all predicates in `PS`
+* `AnyOf[PS]`: disjunction of all predicates in `PS`
+
+[`char`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/char.scala)
+
+* `Digit`: checks if a `Char` is a digit
+* `Letter`: checks if a `Char` is a letter
+* `Whitespace`: checks if a `Char` is white space
+
+[`collection`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/collection.scala)
+
+* `Count[PA, PC]`: counts the number of elements in a `TraversableOnce`
+  which satisfy the predicate `PA` and passes the result to the numeric
+  predicate `PC`
+* `MinSize[N]`: checks if the size of a `TraversableOnce` is greater than
+  or equal to `N`
+* `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
+  or equal to `N`
+
+[`generic`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/generic.scala)
+
+* `Equal[U]`: checks if a value is equal to `U`
+
+[`string`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/string.scala)
+
+* `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`

@@ -88,5 +88,19 @@ ghpages.settings
 git.remoteRepo := gitRepo
 
 // release settings
-//releasePublishArtifactsAction := PgpKeys.publishSigned.value
-//releaseProcess ++= ghpagesPushSite
+import ReleaseTransformations._
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  publishArtifacts,
+  releaseStepTask(GhPagesKeys.pushSite),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)

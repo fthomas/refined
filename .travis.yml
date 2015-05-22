@@ -5,13 +5,10 @@ jdk:
  - openjdk7
  - oraclejdk7
  - oraclejdk8
-before_install:
- - pip install codecov
 script:
  - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:
  - sbt ++$TRAVIS_SCALA_VERSION coveralls
- - codecov
 notifications:
   webhooks:
     urls:

@@ -7,7 +7,7 @@ jdk:
  - oraclejdk8
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -y dot
+ - sudo apt-get install -y graphviz
 script:
  - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:

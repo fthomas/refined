@@ -52,7 +52,7 @@ git.useGitDescribe := true
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
   Seq(Wart.Any, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Throw)
 
-addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc")
+addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc;tut")
 
 // doc settings
 
@@ -66,8 +66,16 @@ scalacOptions in (Compile, doc) ++= Seq(
 autoAPIMappings := true
 apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
 
+val tutSource = "docs/src"
+val tutTarget = "docs"
 tutSettings
 tutScalacOptions := scalacOptions.value
+tutSourceDirectory := file(tutSource)
+
+lazy val tutUpdate = taskKey[Unit]("")
+tutUpdate := tut.value.foreach { case (compiled, name) =>
+  IO.copyFile(compiled, file(s"$tutTarget/$name"))
+}
 
 // publish settings
 
@@ -86,12 +94,8 @@ pomExtra :=
 
 site.settings
 site.includeScaladoc()
-site.addMappingsToSiteDir(tut, "_tut")
 ghpages.settings
-GhPagesKeys.ghpagesNoJekyll := false
 git.remoteRepo := gitRepo
-includeFilter in SiteKeys.makeSite :=
-  "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
 
 // release settings
 

@@ -47,8 +47,6 @@ initialCommands := """
   import shapeless.tag.@@
 """
 
-scalariformSettings
-
 git.useGitDescribe := true
 
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
@@ -68,6 +66,8 @@ scalacOptions in (Compile, doc) ++= Seq(
 autoAPIMappings := true
 apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
 
+tutSettings
+
 // publish settings
 
 publishMavenStyle := true
@@ -85,6 +85,7 @@ pomExtra :=
 
 site.settings
 site.includeScaladoc()
+site.addMappingsToSiteDir(tut, "tut")
 ghpages.settings
 git.remoteRepo := gitRepo
 
@@ -106,3 +107,7 @@ releaseProcess := Seq[ReleaseStep](
   commitNextVersion,
   pushChanges
 )
+
+// style settings
+
+scalariformSettings

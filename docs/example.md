@@ -1,14 +1,49 @@
-# Example
+# Safe sliding
 
 ```scala
-scala> 1 + 1
-res0: Int = 2
+scala> val l = List.range(0, 5)
+l: List[Int] = List(0, 1, 2, 3, 4)
+
+scala> l.sliding(0)
+java.lang.IllegalArgumentException: requirement failed: size=0 and step=1, but both must be positive
+  at scala.collection.Iterator$GroupedIterator.<init>(Iterator.scala:889)
+  at scala.collection.Iterator$class.sliding(Iterator.scala:1048)
+  at scala.collection.AbstractIterator.sliding(Iterator.scala:1202)
+  at scala.collection.IterableLike$class.sliding(IterableLike.scala:204)
+  at scala.collection.AbstractIterable.sliding(Iterable.scala:54)
+  at scala.collection.IterableLike$class.sliding(IterableLike.scala:190)
+  at scala.collection.AbstractIterable.sliding(Iterable.scala:54)
+  ... 132 elided
+```
+
+```scala
+scala> import eu.timepit.refined.numeric.Positive
+import eu.timepit.refined.numeric.Positive
+
+scala> import shapeless.tag.@@
+import shapeless.tag.$at$at
+
+scala> def sliding[A](l: List[A], n: Int @@ Positive): List[List[A]] =
+     |   l.sliding(n).toList
+sliding: [A](l: List[A], n: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive])List[List[A]]
 ```
 
 ```scala
 scala> import eu.timepit.refined._
 import eu.timepit.refined._
 
-scala> "Hello"
-res1: String = Hello
+scala> sliding(l, refineLit(2))
+res1: List[List[Int]] = List(List(0, 1), List(1, 2), List(2, 3), List(3, 4))
+```
+
+```scala
+scala> sliding(l, refineLit(0))
+<console>:16: error: could not find implicit value for parameter p: eu.timepit.refined.Predicate[P,Int]
+              sliding(l, refineLit(0))
+                                  ^
+
+scala> sliding(l, refineLit[Positive, Int](0))
+<console>:16: error: Predicate failed: (0 > 0).
+              sliding(l, refineLit[Positive, Int](0))
+                                                 ^
 ```

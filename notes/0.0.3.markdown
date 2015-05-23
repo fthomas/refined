@@ -1,9 +1,11 @@
 ### Changes
 
+* Reverted the syntax change of `refine` and `refineLit` from 0.0.2. The trick for
+  currying type parameters did not work well with type inference and it required
+  to always specify the predicate type.
+
 ### Bug fixes
 
 * Worked around a strange initialization bug in `refineLit`. ([#3])
-
-### New predicates
 
 [#3]: https://github.com/fthomas/refined/issues/3

@@ -85,8 +85,9 @@ pomExtra :=
 
 site.settings
 site.includeScaladoc()
-site.addMappingsToSiteDir(tut, "tut")
+site.addMappingsToSiteDir(tut, "_tut")
 ghpages.settings
+GhPagesKeys.ghpagesNoJekyll := false
 git.remoteRepo := gitRepo
 
 // release settings

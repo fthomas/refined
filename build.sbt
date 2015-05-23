@@ -67,6 +67,7 @@ autoAPIMappings := true
 apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
 
 tutSettings
+tutScalacOptions := scalacOptions.value
 
 // publish settings
 
@@ -89,6 +90,8 @@ site.addMappingsToSiteDir(tut, "_tut")
 ghpages.settings
 GhPagesKeys.ghpagesNoJekyll := false
 git.remoteRepo := gitRepo
+includeFilter in SiteKeys.makeSite :=
+  "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
 
 // release settings
 

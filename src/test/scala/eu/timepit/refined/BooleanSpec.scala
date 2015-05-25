@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtil._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{ Digit, Letter, Whitespace }
 import eu.timepit.refined.numeric.{ Greater, Less }
@@ -30,6 +31,11 @@ class BooleanSpec extends Properties("boolean") {
     Predicate[Not[True], Unit].show(()) ?= "!true"
   }
 
+  property("Not.consistent") = secure {
+    consistent(Predicate[Not[True], Unit])(()) &&
+      consistent(Predicate[Not[False], Unit])(())
+  }
+
   property("False.isValid") = secure {
     Predicate[False, Unit].notValid(())
   }
@@ -49,11 +55,11 @@ class BooleanSpec extends Properties("boolean") {
       Predicate[TT[And], Unit].isValid(())
   }
 
-  property("And.validated") = secure {
-    Predicate[FF[And], Unit].validated(()).nonEmpty &&
-      Predicate[FT[And], Unit].validated(()).nonEmpty &&
-      Predicate[TF[And], Unit].validated(()).nonEmpty &&
-      Predicate[TT[And], Unit].validated(()).isEmpty
+  property("And.consistent") = secure {
+    consistent(Predicate[FF[And], Unit])(()) &&
+      consistent(Predicate[FT[And], Unit])(()) &&
+      consistent(Predicate[TF[And], Unit])(()) &&
+      consistent(Predicate[TT[And], Unit])(())
   }
 
   property("And.show") = secure {
@@ -67,11 +73,11 @@ class BooleanSpec extends Properties("boolean") {
       Predicate[TT[Or], Unit].isValid(())
   }
 
-  property("Or.validated") = secure {
-    Predicate[FF[Or], Unit].validated(()).nonEmpty &&
-      Predicate[FT[Or], Unit].validated(()).isEmpty &&
-      Predicate[TF[Or], Unit].validated(()).isEmpty &&
-      Predicate[TT[Or], Unit].validated(()).isEmpty
+  property("Or.consistent") = secure {
+    consistent(Predicate[FF[Or], Unit])(()) &&
+      consistent(Predicate[FT[Or], Unit])(()) &&
+      consistent(Predicate[TF[Or], Unit])(()) &&
+      consistent(Predicate[TT[Or], Unit])(())
   }
 
   property("Or.show") = secure {
@@ -85,11 +91,11 @@ class BooleanSpec extends Properties("boolean") {
       Predicate[TT[Xor], Unit].notValid(())
   }
 
-  property("Xor.validated") = secure {
-    Predicate[FF[Xor], Unit].validated(()).nonEmpty &&
-      Predicate[FT[Xor], Unit].validated(()).isEmpty &&
-      Predicate[TF[Xor], Unit].validated(()).isEmpty &&
-      Predicate[TT[Xor], Unit].validated(()).nonEmpty
+  property("Xor.consistent") = secure {
+    consistent(Predicate[FF[Xor], Unit])(()) &&
+      consistent(Predicate[FT[Xor], Unit])(()) &&
+      consistent(Predicate[TF[Xor], Unit])(()) &&
+      consistent(Predicate[TT[Xor], Unit])(())
   }
 
   property("Xor.show") = secure {

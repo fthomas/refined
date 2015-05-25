@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtil._
 import eu.timepit.refined.char.LowerCase
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
@@ -22,6 +23,10 @@ class CollectionSpec extends Properties("collection") {
       Some("Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2).")
   }
 
+  property("Count[LowerCase, Greater[_2]].consistent") = forAll {
+    consistent(Predicate[Count[LowerCase, Greater[_2]], List[Char]])
+  }
+
   property("Empty.isValid") = forAll { (l: List[Int]) =>
     Predicate[Empty, List[Int]].isValid(l) ?= l.isEmpty
   }
@@ -37,5 +42,9 @@ class CollectionSpec extends Properties("collection") {
 
   property("Size[Greater[_]].isValid") = forAll { (l: List[Int]) =>
     Predicate[Size[Greater[_5]], List[Int]].isValid(l) ?= (l.size > 5)
+  }
+
+  property("Size[Greater[_]].consistent") = forAll {
+    consistent(Predicate[Size[Greater[_5]], List[Int]])
   }
 }

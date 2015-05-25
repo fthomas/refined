@@ -6,18 +6,18 @@
 
 ### New predicates
 
-[`boolean`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/boolean.scala)
+[`boolean`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/boolean.scala)
 
 * `AllOf[PS]`: conjunction of all predicates in `PS`
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 
-[`char`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/char.scala)
+[`char`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/char.scala)
 
 * `Digit`: checks if a `Char` is a digit
 * `Letter`: checks if a `Char` is a letter
 * `Whitespace`: checks if a `Char` is white space
 
-[`collection`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/collection.scala)
+[`collection`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Count[PA, PC]`: counts the number of elements in a `TraversableOnce`
   which satisfy the predicate `PA` and passes the result to the numeric
@@ -27,10 +27,10 @@
 * `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
   or equal to `N`
 
-[`generic`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/generic.scala)
+[`generic`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
 
-[`string`](https://github.com/fthomas/refined/blob/0.0.2/src/main/scala/eu/timepit/refined/string.scala)
+[`string`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/string.scala)
 
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`

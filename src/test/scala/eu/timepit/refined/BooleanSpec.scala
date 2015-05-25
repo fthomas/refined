@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtil._
 import eu.timepit.refined.boolean._
-import eu.timepit.refined.char.{ Digit, Letter, Whitespace }
+import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
 import eu.timepit.refined.numeric.{ Greater, Less }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -120,5 +120,15 @@ class BooleanSpec extends Properties("boolean") {
   property("AnyOf[Digit :: Letter :: Whitespace :: HNil].show") = secure {
     Predicate[AnyOf[Digit :: Letter :: Whitespace :: HNil], Char].show('c') ?=
       "(isDigit('c') || (isLetter('c') || (isWhitespace('c') || false)))"
+  }
+
+  property("OneOf[Digit :: Letter :: UpperCase :: HNil].isValid") = forAll { (c: Char) =>
+    Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char].isValid(c) ?=
+      List(c.isDigit, c.isLetter, c.isUpper).count(identity) == 1
+  }
+
+  property("OneOf[Digit :: Letter :: UpperCase :: HNil].show") = secure {
+    Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char].show('c') ?=
+      "oneOf(isDigit('c'), isLetter('c'), isUpper('c'), false)"
   }
 }

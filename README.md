@@ -87,6 +87,7 @@ The library comes with these predefined predicates:
 * `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
 * `AllOf[PS]`: conjunction of all predicates in `PS`
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
+* `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
 
 [`char`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/char.scala)
 

@@ -5,7 +5,7 @@ package eu.timepit.refined
  * predicate `P`. The semantics of `P` are defined by the instance of this
  * type class for `P`.
  */
-trait Predicate[P, T] {
+trait Predicate[P, T] { self =>
   /** Checks if `t` satisfies the predicate `P`. */
   def isValid(t: T): Boolean
 
@@ -22,6 +22,13 @@ trait Predicate[P, T] {
   /** Checks if `t` does not satisfy the predicate `P`. */
   def notValid(t: T): Boolean =
     !isValid(t)
+
+  private[refined] def contramap[U](f: U => T): Predicate[P, U] =
+    new Predicate[P, U] {
+      def isValid(u: U): Boolean = self.isValid(f(u))
+      def show(u: U): String = self.show(f(u))
+      override def validated(u: U): Option[String] = self.validated(f(u))
+    }
 }
 
 object Predicate {

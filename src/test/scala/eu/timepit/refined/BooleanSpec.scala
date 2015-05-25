@@ -78,6 +78,24 @@ class BooleanSpec extends Properties("boolean") {
     Predicate[TF[Or], Unit].show(()) ?= "(true || false)"
   }
 
+  property("Xor.isValid") = secure {
+    Predicate[FF[Xor], Unit].notValid(()) &&
+      Predicate[FT[Xor], Unit].isValid(()) &&
+      Predicate[TF[Xor], Unit].isValid(()) &&
+      Predicate[TT[Xor], Unit].notValid(())
+  }
+
+  property("Xor.validated") = secure {
+    Predicate[FF[Xor], Unit].validated(()).nonEmpty &&
+      Predicate[FT[Xor], Unit].validated(()).isEmpty &&
+      Predicate[TF[Xor], Unit].validated(()).isEmpty &&
+      Predicate[TT[Xor], Unit].validated(()).nonEmpty
+  }
+
+  property("Xor.show") = secure {
+    Predicate[TF[Xor], Unit].show(()) ?= "(true ^ false)"
+  }
+
   property("AllOf[Greater[_0] :: Less[_10] :: HNil].isValid") = forAll { (i: Int) =>
     Predicate[AllOf[Greater[_0] :: Less[_10] :: HNil], Int].isValid(i) ?=
       (i > 0 && i < 10)

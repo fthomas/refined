@@ -8,4 +8,10 @@
 
 * Worked around a strange initialization bug in `refineLit`. ([#3])
 
+### New predicates
+
+[`boolean`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/boolean.scala)
+
+* `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
+
 [#3]: https://github.com/fthomas/refined/issues/3

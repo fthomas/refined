@@ -18,6 +18,9 @@ object boolean {
   /** Disjunction of the predicates `A` and `B`. */
   trait Or[A, B]
 
+  /** Exclusive disjunction of the predicates `A` and `B`. */
+  trait Xor[A, B]
+
   /** Conjunction of all predicates in `PS`. */
   trait AllOf[PS]
 
@@ -68,6 +71,21 @@ object boolean {
         (pa.validated(t), pb.validated(t)) match {
           case (Some(sl), Some(sr)) =>
             Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
+          case _ => None
+        }
+    }
+
+  implicit def xorPredicate[A, B, T](implicit pa: Predicate[A, T], pb: Predicate[B, T]): Predicate[A Xor B, T] =
+    new Predicate[A Xor B, T] {
+      def isValid(t: T): Boolean = pa.isValid(t) ^ pb.isValid(t)
+      def show(t: T): String = s"(${pa.show(t)} ^ ${pb.show(t)})"
+
+      override def validated(t: T): Option[String] =
+        (pa.validated(t), pb.validated(t)) match {
+          case (Some(sl), Some(sr)) =>
+            Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
+          case (None, None) =>
+            Some(s"Both predicates of ${show(t)} succeeded.")
           case _ => None
         }
     }

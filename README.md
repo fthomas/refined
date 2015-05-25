@@ -84,6 +84,7 @@ The library comes with these predefined predicates:
 * `Not[P]`: negation of the predicate `P`
 * `And[A, B]`: conjunction of the predicates `A` and `B`
 * `Or[A, B]`: disjunction of the predicates `A` and `B`
+* `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
 * `AllOf[PS]`: conjunction of all predicates in `PS`
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 

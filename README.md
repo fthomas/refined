@@ -29,29 +29,29 @@ This library consists of:
 ## Examples
 
 ```scala
-scala> refine[Positive, Int](5)
+scala> refine[Positive](5)
 res0: Either[String, Int @@ Positive] = Right(5)
 
-scala> refine[Positive, Int](-5)
+scala> refine[Positive](-5)
 res1: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 
-scala> refineLit[NonEmpty, String]("Hello")
+scala> refineLit[NonEmpty]("Hello")
 res2: String @@ NonEmpty = Hello
 
-scala> refineLit[NonEmpty, String]("")
+scala> refineLit[NonEmpty]("")
 <console>:27: error: Predicate isEmpty() did not fail.
-            refineLit[NonEmpty, String]("")
-                                       ^
+            refineLit[NonEmpty]("")
+                               ^
 
 scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
 defined type alias ZeroToOne
 
-scala> refineLit[ZeroToOne, Double](1.8)
+scala> refineLit[ZeroToOne](1.8)
 <console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
-              refineLit[ZeroToOne, Double](1.8)
-                                          ^
+              refineLit[ZeroToOne](1.8)
+                                  ^
 
-scala> refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil], Char]('F')
+scala> refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char @@ AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 ```
 

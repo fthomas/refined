@@ -1,8 +1,7 @@
 ### Changes
 
-* Reverted the syntax change of `refine` and `refineLit` from 0.0.2. The trick for
-  currying type parameters did not work well with type inference and it required
-  to always specify the predicate type.
+* `refine` and `refineLit` are now regular functions and not `object`s
+  with an `apply` method.
 
 ### Bug fixes
 

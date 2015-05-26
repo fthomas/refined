@@ -132,13 +132,13 @@ class BooleanSpec extends Properties("boolean") {
       "oneOf(isDigit('c'), isLetter('c'), isUpper('c'), false)"
   }
 
-  property("OneOf[_].contramap(identity).isValid") = forAll { (c: Char) =>
+  property("OneOf[_].contramap(identity).accumulateIsValid") = forAll { (c: Char) =>
     val p = Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char]
-    p.contramap(identity[Char]).isValid(c) ?= p.isValid(c)
+    p.contramap(identity[Char]).accumulateIsValid(c) ?= p.accumulateIsValid(c)
   }
 
-  property("OneOf[_].contramap(identity).show") = secure {
+  property("OneOf[_].contramap(identity).accumulateShow") = secure {
     val p = Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char]
-    p.contramap(identity[Char]).show('c') ?= p.show('c')
+    p.contramap(identity[Char]).accumulateShow('c') ?= p.accumulateShow('c')
   }
 }

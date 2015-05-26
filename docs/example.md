@@ -17,8 +17,8 @@ java.lang.IllegalArgumentException: requirement failed: size=0 and step=1, but b
 ```
 
 ```scala
-scala> import eu.timepit.refined.numeric.Positive
-import eu.timepit.refined.numeric.Positive
+scala> import eu.timepit.refined.numeric._
+import eu.timepit.refined.numeric._
 
 scala> import shapeless.tag.@@
 import shapeless.tag.$at$at
@@ -38,12 +38,12 @@ res1: List[List[Int]] = List(List(0, 1), List(1, 2), List(2, 3), List(3, 4))
 
 ```scala
 scala> sliding(l, refineLit(0))
-<console>:16: error: could not find implicit value for parameter p: eu.timepit.refined.Predicate[P,Int]
+<console>:18: error: could not find implicit value for parameter p: eu.timepit.refined.Predicate[P,Int]
               sliding(l, refineLit(0))
                                   ^
 
-scala> sliding(l, refineLit[Positive, Int](0))
-<console>:16: error: Predicate failed: (0 > 0).
-              sliding(l, refineLit[Positive, Int](0))
-                                                 ^
+scala> sliding(l, refineLit[Positive](0))
+<console>:18: error: Predicate failed: (0 > 0).
+              sliding(l, refineLit[Positive](0))
+                                            ^
 ```

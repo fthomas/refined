@@ -125,8 +125,8 @@ The library comes with these predefined predicates:
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
 * `Greater[N]`: checks if a numeric value is greater than `N`
 * `GreaterEqual[N]`: checks if a numeric value is greater than or equal to `N`
-* `Positive`: checks if a numeric value is greater than 0
-* `Negative`: checks if a numeric value is less than 0
+* `Positive`: checks if a numeric value is greater than zero
+* `Negative`: checks if a numeric value is less than zero
 * `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
 
 [`string`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/string.scala)

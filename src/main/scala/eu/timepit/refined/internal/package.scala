@@ -9,10 +9,10 @@ package object internal {
     import c.universe._
 
     def predicate: Predicate[P, T] = {
-      def evalP: Predicate[P, T] = c.eval(c.Expr(c.untypecheck(p.tree)))
       // Try evaluating p twice before failing, see
       // https://github.com/fthomas/refined/issues/3
-      scala.util.Try(evalP).getOrElse(evalP)
+      val expr = c.Expr[Predicate[P, T]](c.untypecheck(p.tree))
+      tryTwice(c.eval(expr))
     }
 
     t.tree match {
@@ -29,4 +29,7 @@ package object internal {
       case _ => c.abort(c.enclosingPosition, "refineLit only supports literals")
     }
   }
+
+  private def tryTwice[T](t: => T): T =
+    scala.util.Try(t).getOrElse(t)
 }

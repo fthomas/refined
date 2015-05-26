@@ -6,7 +6,7 @@ l.sliding(0)
 ```
 
 ```tut
-import eu.timepit.refined.numeric.Positive
+import eu.timepit.refined.numeric._
 import shapeless.tag.@@
 
 def sliding[A](l: List[A], n: Int @@ Positive): List[List[A]] =
@@ -22,5 +22,5 @@ sliding(l, refineLit(2))
 ```tut:nofail
 sliding(l, refineLit(0))
 
-sliding(l, refineLit[Positive, Int](0))
+sliding(l, refineLit[Positive](0))
 ```

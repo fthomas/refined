@@ -116,6 +116,8 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
+* `IsNull`:  checks if a value is null
+* `NonNull`: checks if a value is not null
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
 

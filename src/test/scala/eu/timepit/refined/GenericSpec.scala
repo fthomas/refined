@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
@@ -17,5 +17,14 @@ class GenericSpec extends Properties("generic") {
 
   property("Exists[Equal[_]].show") = secure {
     Predicate[Equal[W.`1.4`.T], Double].show(0.4) ?= "(0.4 == 1.4)"
+  }
+
+  property("IsNull.isValid") = secure {
+    val p = Predicate[IsNull, String]
+    p.isValid(null) && p.notValid("")
+  }
+
+  property("NonNull.show") = secure {
+    Predicate[NonNull, String].show("abc") ?= "!(abc == null)"
   }
 }

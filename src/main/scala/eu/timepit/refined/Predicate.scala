@@ -42,6 +42,8 @@ trait Predicate[P, T] { self =>
       def isValid(u: U): Boolean = self.isValid(f(u))
       def show(u: U): String = self.show(f(u))
       override def validated(u: U): Option[String] = self.validated(f(u))
+      override def isValidAccumulated(u: U): List[Boolean] = self.isValidAccumulated(f(u))
+      override def showAccumulated(u: U): List[String] = self.showAccumulated(f(u))
     }
 }
 

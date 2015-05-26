@@ -114,13 +114,13 @@ object boolean {
 
   implicit def oneOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[OneOf[PT], T]): Predicate[OneOf[PH :: PT], T] =
     new Predicate[OneOf[PH :: PT], T] {
-      def isValid(t: T): Boolean = isValidAccumulated(t).count(identity) == 1
-      def show(t: T): String = showAccumulated(t).mkString("oneOf(", ", ", ")")
+      def isValid(t: T): Boolean = accumulateIsValid(t).count(identity) == 1
+      def show(t: T): String = accumulateShow(t).mkString("oneOf(", ", ", ")")
 
-      override def isValidAccumulated(t: T): List[Boolean] =
-        ph.isValid(t) :: pt.isValidAccumulated(t)
+      override def accumulateIsValid(t: T): List[Boolean] =
+        ph.isValid(t) :: pt.accumulateIsValid(t)
 
-      override def showAccumulated(t: T): List[String] =
-        ph.show(t) :: pt.showAccumulated(t)
+      override def accumulateShow(t: T): List[String] =
+        ph.show(t) :: pt.accumulateShow(t)
     }
 }

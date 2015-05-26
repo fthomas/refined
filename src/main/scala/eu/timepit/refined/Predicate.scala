@@ -27,14 +27,14 @@ trait Predicate[P, T] { self =>
    * Returns the result of [[isValid]] in a `List`. Can be overridden to
    * accumulate the results of sub-predicates.
    */
-  def isValidAccumulated(t: T): List[Boolean] =
+  def accumulateIsValid(t: T): List[Boolean] =
     List(isValid(t))
 
   /**
    * Returns the result of [[show]] in a `List`. Can be overridden to
    * accumulate the string representations of sub-predicates.
    */
-  def showAccumulated(t: T): List[String] =
+  def accumulateShow(t: T): List[String] =
     List(show(t))
 
   private[refined] def contramap[U](f: U => T): Predicate[P, U] =
@@ -42,8 +42,8 @@ trait Predicate[P, T] { self =>
       def isValid(u: U): Boolean = self.isValid(f(u))
       def show(u: U): String = self.show(f(u))
       override def validated(u: U): Option[String] = self.validated(f(u))
-      override def isValidAccumulated(u: U): List[Boolean] = self.isValidAccumulated(f(u))
-      override def showAccumulated(u: U): List[String] = self.showAccumulated(f(u))
+      override def accumulateIsValid(u: U): List[Boolean] = self.accumulateIsValid(f(u))
+      override def accumulateShow(u: U): List[String] = self.accumulateShow(f(u))
     }
 }
 

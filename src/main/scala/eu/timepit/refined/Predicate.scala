@@ -20,7 +20,7 @@ trait Predicate[P, T] { self =>
     if (isValid(t)) None else Some(s"Predicate failed: ${show(t)}.")
 
   /** Checks if `t` does not satisfy the predicate `P`. */
-  def notValid(t: T): Boolean =
+  final def notValid(t: T): Boolean =
     !isValid(t)
 
   /**

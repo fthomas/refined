@@ -16,6 +16,6 @@ object generic {
   implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
 
-  implicit def isNullPredicate[T]: Predicate[IsNull, T] =
+  implicit def isNullPredicate[T <: AnyRef]: Predicate[IsNull, T] =
     Predicate.instance(_ == null, t => s"($t == null)")
 }

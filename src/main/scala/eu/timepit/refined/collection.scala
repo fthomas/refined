@@ -79,8 +79,8 @@ object collection {
 
   implicit def sizePredicate[P, T](implicit p: Predicate[P, Int], ev: T => TraversableOnce[_]): Predicate[Size[P], T] =
     new Predicate[Size[P], T] {
-      override def isValid(t: T): Boolean = p.isValid(t.size)
-      override def show(t: T): String = p.show(t.size)
+      def isValid(t: T): Boolean = p.isValid(t.size)
+      def show(t: T): String = p.show(t.size)
 
       override def validated(t: T): Option[String] = {
         val s = t.size

@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Not
-import shapeless.Witness
+import eu.timepit.refined.internal.WeakWitness
 
 object generic {
   /** Predicate that checks if a value is equal to `U`. */
@@ -13,7 +13,7 @@ object generic {
   /** Predicate that checks if a value is not `null`. */
   type NonNull = Not[IsNull]
 
-  implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
+  implicit def equalPredicate[T, U <: T](implicit wu: WeakWitness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
 
   implicit def isNullPredicate[T <: AnyRef]: Predicate[IsNull, T] =

@@ -7,10 +7,10 @@ object generic {
   /** Predicate that checks if a value is equal to `U`. */
   trait Equal[U]
 
-  /** Predicate that checks if a value is null. */
+  /** Predicate that checks if a value is `null`. */
   trait IsNull
 
-  /** Predicate that checks if a value is not null. */
+  /** Predicate that checks if a value is not `null`. */
   type NonNull = Not[IsNull]
 
   implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =

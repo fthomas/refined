@@ -10,6 +10,10 @@ import org.scalacheck.Properties
 import shapeless.nat._
 
 class CollectionSpec extends Properties("collection") {
+  property("Contains[W.`0`.T].isValid") = forAll { (l: List[Int]) =>
+    Predicate[Contains[W.`0`.T], List[Int]].isValid(l) ?= l.contains(0)
+  }
+
   property("Count[LowerCase, Greater[_2]].isValid") = forAll { (l: List[Char]) =>
     Predicate[Count[LowerCase, Greater[_2]], List[Char]].isValid(l) ?= (l.count(_.isLower) > 2)
   }

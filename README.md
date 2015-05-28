@@ -104,6 +104,7 @@ The library comes with these predefined predicates:
 
 [`collection`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/collection.scala)
 
+* `Contains[U]`: checks if a `TraversableOnce` contains a value equal to `U`
 * `Count[PA, PC]`: counts the number of elements in a `TraversableOnce` which
   satisfy the predicate `PA` and passes the result to the predicate `PC`
 * `Empty`: checks if a `TraversableOnce` is empty
@@ -121,8 +122,8 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
-* `IsNull`:  checks if a value is null
-* `NonNull`: checks if a value is not null
+* `IsNull`:  checks if a value is `null`
+* `NonNull`: checks if a value is not `null`
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
 

@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Not
+import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
 
 object collection {
@@ -26,8 +27,11 @@ object collection {
    */
   trait Size[P]
 
-  /** Predicate that checks if a `TraversableOnce` is not empty. */
-  type NonEmpty = Not[Empty]
+  /**
+   * Predicate that checks if a `TraversableOnce` contains a value
+   * equal to `U`.
+   */
+  type Contains[U] = Exists[Equal[U]]
 
   /**
    * Predicate that checks if the predicate `P` holds for some elements of a
@@ -46,6 +50,9 @@ object collection {
    * or equal to `N`.
    */
   type MaxSize[N] = Size[LessEqual[N]]
+
+  /** Predicate that checks if a `TraversableOnce` is not empty. */
+  type NonEmpty = Not[Empty]
 
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =
     new Predicate[Count[PA, PC], T] {

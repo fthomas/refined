@@ -19,10 +19,14 @@
 * `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
 
+[`collection`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/collection.scala)
+
+* `Contains[U]`: checks if a `TraversableOnce` contains a value equal to `U`
+
 [`generic`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/generic.scala)
 
-* `IsNull`:  checks if a value is null
-* `NonNull`: checks if a value is not null
+* `IsNull`:  checks if a value is `null`
+* `NonNull`: checks if a value is not `null`
 
 
 [#2]: https://github.com/fthomas/refined/issues/2

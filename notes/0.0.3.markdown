@@ -1,14 +1,15 @@
 ### Changes
 
-* `refineLit` works now with predicates that contain singleton types.
-  For example ``refineLit[MatchesRegex[W.`"[0-9]+"`.T](<string literal>)``
-  checks at compile-time if `<string literal>` matches the regular
-  expression "[0-9]+".
 * `refine` and `refineLit` are now regular functions and not `object`s
   with an `apply` method.
+* Updated to shapeless 2.2.0.
 
 ### Bug fixes
 
+* `refineLit` works now with predicates that contain singleton types.
+  For example ``refineLit[MatchesRegex[W.`"[0-9]+"`.T](<string literal>)``
+  checks at compile-time if `<string literal>` matches the regular
+  expression "[0-9]+". ([#2])
 * Worked around a strange initialization bug in `refineLit`. ([#3])
 
 ### New predicates
@@ -24,4 +25,5 @@
 * `NonNull`: checks if a value is not null
 
 
+[#2]: https://github.com/fthomas/refined/issues/2
 [#3]: https://github.com/fthomas/refined/issues/3

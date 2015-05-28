@@ -5,8 +5,6 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class GenericSpec extends Properties("generic") {
-  val W = shapeless.Witness
-
   property("Equal[_].isValid") = secure {
     Predicate[Equal[W.`1.4`.T], Double].isValid(1.4)
   }

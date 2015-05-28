@@ -1,5 +1,9 @@
 ### Changes
 
+* `refineLit` works now with predicates that contain singleton types.
+  For example ``refineLit[MatchesRegex[W.`"[0-9]+"`.T](<string literal>)``
+  checks at compile-time if `<string literal>` matches the regular
+  expression "[0-9]+".
 * `refine` and `refineLit` are now regular functions and not `object`s
   with an `apply` method.
 

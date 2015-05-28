@@ -53,6 +53,11 @@ scala> refineLit[ZeroToOne](1.8)
 
 scala> refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char @@ AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
+
+scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+<console>:34: error: Predicate failed: "123.".matches("[0-9]+").
+              refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+                                                     ^
 ```
 
 Note that `refineLit` (which only supports literals) is implemented as macro

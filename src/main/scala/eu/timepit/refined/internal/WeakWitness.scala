@@ -1,6 +1,5 @@
 package eu.timepit.refined.internal
 
-import scala.language.experimental.macros
 import scala.reflect.macros.whitebox
 
 // Weaker version of shapeless.Witness, where `value` has type `Any`.

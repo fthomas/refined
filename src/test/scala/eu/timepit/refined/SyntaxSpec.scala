@@ -6,7 +6,7 @@ import org.scalacheck.Properties
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
-class RefineSyntaxSpec extends Properties("refine syntax") {
+class SyntaxSpec extends Properties("syntax") {
   def testRefine(arg: Either[String, Int @@ Positive]): Boolean = true
   def testRefineLit(arg: Int @@ Positive): Boolean = true
 

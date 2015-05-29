@@ -1,11 +1,16 @@
 package eu.timepit.refined
+package internal
 
-import shapeless.tag.@@
+import shapeless.tag._
 
 import scala.reflect.macros.blackbox.Context
 
-package object internal {
-  def refineLitImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
+final class RefineLit[P] {
+  def apply[T](t: T)(implicit p: Predicate[P, T]): T @@ P = macro RefineLit.macroImpl[P, T]
+}
+
+object RefineLit {
+  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
     import c.universe._
 
     def predicate: Predicate[P, T] = {
@@ -30,6 +35,6 @@ package object internal {
     }
   }
 
-  private def tryTwice[T](t: => T): T =
+  def tryTwice[T](t: => T): T =
     scala.util.Try(t).getOrElse(t)
 }

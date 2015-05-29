@@ -11,6 +11,10 @@ import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class RefineSpec extends Properties("refine") {
+  property("refine success with Less") = secure {
+    refine[Less[W.`100`.T]](-100).isRight
+  }
+
   property("refine success with Greater") = secure {
     refine[Greater[_5]](6).isRight
   }

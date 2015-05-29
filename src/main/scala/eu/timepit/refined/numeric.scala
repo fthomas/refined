@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.internal.WeakWitness
 import shapeless.Nat
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
@@ -28,10 +29,16 @@ object numeric {
   /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
 
-  implicit def lessPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
+  implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
+    Predicate.instance(t => nt.lt(t, wn.value.asInstanceOf[wn.T]), t => s"($t < ${wn.value})")
+
+  implicit def greaterPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Greater[N], T] =
+    Predicate.instance(t => nt.gt(t, wn.value.asInstanceOf[wn.T]), t => s"($t > ${wn.value})")
+
+  implicit def lessPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.toDouble(t) < tn.apply(), t => s"($t < ${tn.apply()})")
 
-  implicit def greaterPredicate[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
+  implicit def greaterPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
     Predicate.instance(t => nt.toDouble(t) > tn.apply(), t => s"($t > ${tn.apply()})")
 
   implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =

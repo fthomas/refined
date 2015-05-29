@@ -1,5 +1,8 @@
 ### Changes
 
+* Added `Predicate` instances for numeric predicates that take singleton
+  types as arguments. For example ``refineLit[Less[W.`-12.3`.T]](-12.5)``
+  proves at compile time that -12.5 is less than -12.3.
 * `refine` and `refineLit` are now regular functions and not `object`s
   with an `apply` method.
 * Updated to shapeless 2.2.0.

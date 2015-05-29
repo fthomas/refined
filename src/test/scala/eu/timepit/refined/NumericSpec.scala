@@ -8,6 +8,10 @@ import shapeless.nat._
 
 class NumericSpec extends Properties("numeric") {
   property("Less.isValid") = forAll { (i: Int) =>
+    Predicate[Less[W.`5`.T], Int].isValid(i) ?= (i < 5)
+  }
+
+  property("Less.isValid.Nat") = forAll { (i: Int) =>
     Predicate[Less[_5], Int].isValid(i) ?= (i < 5)
   }
 
@@ -24,6 +28,10 @@ class NumericSpec extends Properties("numeric") {
   }
 
   property("Greater.isValid") = forAll { (i: Int) =>
+    Predicate[Greater[W.`5`.T], Int].isValid(i) ?= (i > 5)
+  }
+
+  property("Greater.isValid.Nat") = forAll { (i: Int) =>
     Predicate[Greater[_5], Int].isValid(i) ?= (i > 5)
   }
 

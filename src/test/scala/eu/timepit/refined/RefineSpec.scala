@@ -72,4 +72,16 @@ class RefineSpec extends Properties("refine") {
     illTyped("""refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""")
     true
   }
+
+  property("refineLit success with Contains") = secure {
+    type P = Contains[W.`'c'`.T]
+    def ignore: String @@ P = refineLit[P]("abcd")
+    true
+  }
+
+  property("refineLit failure with Contains") = secure {
+    type P = Contains[W.`'c'`.T]
+    illTyped("""refineLit[P]("abde")""")
+    true
+  }
 }

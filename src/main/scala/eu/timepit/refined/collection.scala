@@ -72,7 +72,9 @@ object collection {
     Predicate.instance(_.isEmpty, t => s"isEmpty($t)")
 
   implicit def forallPredicate[P, A, T[A] <: TraversableOnce[A]](implicit p: Predicate[P, A]): Predicate[Forall[P], T[A]] =
-    Predicate.instance(_.forall(p.isValid), _.toSeq.map(p.show).mkString("(", " && ", ")"))
+    Predicate.instance(
+      _.forall(p.isValid),
+      _.toSeq.map(p.show).mkString("(", " && ", ")"))
 
   implicit def forallPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
     forallPredicate.contramap(ev)

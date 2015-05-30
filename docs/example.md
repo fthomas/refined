@@ -13,7 +13,7 @@ java.lang.IllegalArgumentException: requirement failed: size=0 and step=1, but b
   at scala.collection.AbstractIterable.sliding(Iterable.scala:54)
   at scala.collection.IterableLike$class.sliding(IterableLike.scala:190)
   at scala.collection.AbstractIterable.sliding(Iterable.scala:54)
-  ... 132 elided
+  ... 136 elided
 ```
 
 ```scala

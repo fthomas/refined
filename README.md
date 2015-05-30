@@ -63,8 +63,8 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 ```
 
-`W` in these examples is a shortcut for [`shapeless.Witness`][singleton-types]
-which allows expressing singleton types of literals.
+Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types]
+which allows expressing singleton types of literal values.
 
 ## Installation
 
@@ -80,6 +80,12 @@ Instructions for Maven and other build tools is available at [search.maven.org][
 
 API documentation of the latest release is available at:
 http://fthomas.github.io/refined/latest/api/
+
+There are also further (typechecked) examples in the [`docs`][docs]
+directory including one for defining a [custom predicate][custom-pred].
+
+[docs]: https://github.com/fthomas/refined/tree/master/docs
+[custom-pred]: https://github.com/fthomas/refined/tree/master/docs/point.md
 
 ## Provided predicates
 
@@ -147,8 +153,6 @@ The library comes with these predefined predicates:
 [`string`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/string.scala)
 
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
-
-## Custom predicates
 
 ## Related projects
 

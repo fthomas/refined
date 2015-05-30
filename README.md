@@ -64,7 +64,7 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 ```
 
 Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types]
-which allows expressing singleton types of literal values.
+which allows to express singleton types of literal values.
 
 ## Installation
 

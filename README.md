@@ -113,6 +113,12 @@ The library comes with these predefined predicates:
   `TraversableOnce`
 * `Exists[P]`: checks if the predicate `P` holds for some elements of a
   `TraversableOnce`
+* `Head[P]`: checks if the predicate `P` holds for the first element of
+  a `Traversable`
+* `Index[N, P]`: checks if the predicate `P` holds for the element at
+  index `N` of a collection
+* `Last[P]`: checks if the predicate `P` holds for the last element of
+  a `Traversable`
 * `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`
 * `MinSize[N]`: checks if the size of a `TraversableOnce` is greater than
   or equal to `N`

@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
 
 object collection {
@@ -20,6 +21,24 @@ object collection {
    * `TraversableOnce`.
    */
   trait Forall[P]
+
+  /**
+   * Predicate that checks if the predicate `P` holds for the first element
+   * of a `Traversable`.
+   */
+  trait Head[P]
+
+  /**
+   * Predicate that checks if the predicate `P` holds for the element at
+   * index `N` of a collection.
+   */
+  trait Index[N, P]
+
+  /**
+   * Predicate that checks if the predicate `P` holds for the last element
+   * of a `Traversable`.
+   */
+  trait Last[P]
 
   /**
    * Predicate that checks if the size of a `TraversableOnce` satisfies the
@@ -78,6 +97,35 @@ object collection {
 
   implicit def forallPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
     forallPredicate.contramap(ev)
+
+  implicit def headPredicate[P, A, T[A] <: Traversable[A]](implicit p: Predicate[P, A]): Predicate[Head[P], T[A]] =
+    singleElemPredicate(_.headOption, (t: T[A], a: A) => s"head($t) = $a")
+
+  implicit def headPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => Traversable[A]): Predicate[Head[P], T] =
+    headPredicate.contramap(ev)
+
+  implicit def indexPredicate[N <: Int, P, A, T](implicit p: Predicate[P, A], ev: T => PartialFunction[Int, A], wn: WeakWitness.Aux[N]): Predicate[Index[N, P], T] =
+    singleElemPredicate(_.lift(wn.value), (t: T, a: A) => s"index($t, ${wn.value}) = $a")
+
+  implicit def lastPredicate[P, A, T[A] <: Traversable[A]](implicit p: Predicate[P, A]): Predicate[Last[P], T[A]] =
+    singleElemPredicate(_.lastOption, (t: T[A], a: A) => s"last($t) = $a")
+
+  implicit def lastPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => Traversable[A]): Predicate[Last[P], T] =
+    lastPredicate.contramap(ev)
+
+  private def singleElemPredicate[PA, PT, A, T](get: T => Option[A], describe: (T, A) => String)(implicit p: Predicate[PA, A]): Predicate[PT, T] =
+    new Predicate[PT, T] {
+      def isValid(t: T): Boolean = get(t).fold(false)(p.isValid)
+      def show(t: T): String = get(t).fold("no element")(p.show)
+
+      override def validated(t: T): Option[String] =
+        get(t) match {
+          case Some(a) =>
+            p.validated(a).map(msg => s"Predicate taking ${describe(t, a)} failed: $msg")
+          case None =>
+            Some("Predicate failed: empty collection.")
+        }
+    }
 
   implicit def sizePredicate[P, T](implicit p: Predicate[P, Int], ev: T => TraversableOnce[_]): Predicate[Size[P], T] =
     new Predicate[Size[P], T] {

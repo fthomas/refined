@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtil._
-import eu.timepit.refined.char.LowerCase
+import eu.timepit.refined.char.{ Digit, LowerCase }
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric._
@@ -42,6 +42,29 @@ class CollectionSpec extends Properties("collection") {
   property("Exists[Equal[_]].show") = secure {
     Predicate[Exists[Equal[_1]], List[Int]].show(List(1, 2, 3)) ?=
       "!(!(1 == 1) && !(2 == 1) && !(3 == 1))"
+  }
+
+  property("Index[W.`2`.T, Digit].isValid") = forAll { (l: List[Char]) =>
+    Predicate[Index[W.`2`.T, Digit], List[Char]].isValid(l) ?=
+      l.lift(2).fold(false)(_.isDigit)
+  }
+
+  property("Index[W.`2`.T, Digit].validated") = secure {
+    Predicate[Index[W.`2`.T, Digit], List[Char]].validated(List('a', 'b', 'c')) ?=
+      Some("Predicate taking index(List(a, b, c), 2) = c failed: Predicate failed: isDigit('c').")
+  }
+
+  property("Last[Greater[_5]].isValid") = forAll { (l: List[Int]) =>
+    Predicate[Last[Greater[_5]], List[Int]].isValid(l) ?= l.lastOption.fold(false)(_ > 5)
+  }
+
+  property("Last[Greater[_5]].show") = secure {
+    Predicate[Last[Greater[_5]], List[Int]].show(List(1, 2, 3)) ?= "(3 > 5)"
+  }
+
+  property("Last[Greater[_5]].validated") = secure {
+    Predicate[Last[Greater[_5]], List[Int]].validated(List(1, 2, 3)) ?=
+      Some("Predicate taking last(List(1, 2, 3)) = 3 failed: Predicate failed: (3 > 5).")
   }
 
   property("Size[Greater[_]].isValid") = forAll { (l: List[Int]) =>

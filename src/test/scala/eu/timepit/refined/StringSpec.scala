@@ -44,6 +44,10 @@ class StringSpec extends Properties("string") {
       "(isUpper('a') && isUpper('b') && isUpper('c'))"
   }
 
+  property("Head[Letter].isValid") = forAll { (s: String) =>
+    Predicate[Head[Letter], String].isValid(s) ?= s.headOption.fold(false)(_.isLetter)
+  }
+
   property("Size.isValid") = forAll { (s: String) =>
     Predicate[Size[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
   }

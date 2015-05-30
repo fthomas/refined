@@ -3,8 +3,10 @@
 * Added `Predicate` instances for numeric predicates that take singleton
   types as arguments. For example ``refineLit[Less[W.`-12.3`.T]](-12.5)``
   proves at compile time that -12.5 is less than -12.3.
+
 * `refine` and `refineLit` are now regular functions and not `object`s
   with an `apply` method.
+
 * Updated to shapeless 2.2.0.
 
 ### Bug fixes
@@ -13,6 +15,7 @@
   For example ``refineLit[MatchesRegex[W.`"[0-9]+"`.T](<string literal>)``
   checks at compile-time if `<string literal>` matches the regular
   expression "[0-9]+". ([#2])
+
 * Worked around a strange initialization bug in `refineLit`. ([#3])
 
 ### New predicates
@@ -25,6 +28,12 @@
 [`collection`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Contains[U]`: checks if a `TraversableOnce` contains a value equal to `U`
+* `Head[P]`: checks if the predicate `P` holds for the first element of
+  a `Traversable`
+* `Index[N, P]`: checks if the predicate `P` holds for the element at
+  index `N` of a collection
+* `Last[P]`: checks if the predicate `P` holds for the last element of
+  a `Traversable`
 
 [`generic`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/generic.scala)
 

@@ -23,8 +23,11 @@ This library consists of:
 
 * Two functions `refine` and `refineLit` that take a predicate `P` and some value
   of type `T`, validates this value with a `Predicate[P, T]` and returns the value
-  with type `T @@ P` if validation was successful or an error otherwise.
-  (`@@` is [shapeless'][shapeless] type for tagging types :-))
+  with type `T @@ P` if validation was successful or an error otherwise
+  (`@@` is [shapeless'][shapeless] type for tagging types :-)). `refine` validates
+  values at runtime and returns an `Either[String, T @@ P]` while `refineLit` is a
+  macro and validates literals at compile-time. So it either returns a `T @@ P` or
+  compilation fails with an error.
 
 ## Examples
 
@@ -60,8 +63,8 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 ```
 
-Note that `refineLit` (which only supports literals) is implemented as macro
-and checks at compile time if the given literal conforms to the predicate.
+`W` in these examples is a shortcut for [`shapeless.Witness`][singleton-types]
+which allows expressing singleton types of literals.
 
 ## Installation
 
@@ -162,3 +165,4 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [refined.hs]: http://nikita-volkov.github.io/refined
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [shapeless]: https://github.com/milessabin/shapeless
+[singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals

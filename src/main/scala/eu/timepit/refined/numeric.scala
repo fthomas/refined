@@ -30,10 +30,10 @@ object numeric {
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
 
   implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
-    Predicate.instance(t => nt.lt(t, wn.value.asInstanceOf[wn.T]), t => s"($t < ${wn.value})")
+    Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
 
   implicit def greaterPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Greater[N], T] =
-    Predicate.instance(t => nt.gt(t, wn.value.asInstanceOf[wn.T]), t => s"($t > ${wn.value})")
+    Predicate.instance(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})")
 
   implicit def lessPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.toDouble(t) < tn.apply(), t => s"($t < ${tn.apply()})")

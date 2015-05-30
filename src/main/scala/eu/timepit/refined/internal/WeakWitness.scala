@@ -2,11 +2,13 @@ package eu.timepit.refined.internal
 
 import scala.reflect.macros.whitebox
 
-// Weaker version of shapeless.Witness, where `value` has type `Any`.
-// This is a short-term workaround for https://github.com/fthomas/refined/issues/2
+// Weaker version of shapeless.Witness, where the value field of the
+// singleton type has type `Any`. This is a short-term workaround for
+// https://github.com/fthomas/refined/issues/2
 trait WeakWitness {
   type T
-  val value: Any {}
+  val anyValue: Any {}
+  def value: T = anyValue.asInstanceOf[T]
 }
 
 object WeakWitness {
@@ -41,7 +43,7 @@ class OurSingletonTypeMacros(override val c: whitebox.Context) extends shapeless
       {
         final class $name extends _root_.eu.timepit.refined.internal.WeakWitness {
           type T = $sTpe
-          val value = $s
+          val anyValue = $s
         }
         new $name
       }

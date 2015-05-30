@@ -7,7 +7,5 @@ object string {
   trait MatchesRegex[R]
 
   implicit def matchesRegexPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[MatchesRegex[R], String] =
-    Predicate.instance(
-      _.matches(wr.value.asInstanceOf[wr.T]),
-      t => s""""$t".matches("${wr.value}")""")
+    Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 }

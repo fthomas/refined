@@ -54,6 +54,11 @@ class CollectionSpec extends Properties("collection") {
       Some("Predicate taking index(List(a, b, c), 2) = c failed: Predicate failed: isDigit('c').")
   }
 
+  property("Index[W.`2`.T, Digit].validated") = secure {
+    Predicate[Index[W.`2`.T, Digit], List[Char]].validated(List.empty) ?=
+      Some("Predicate failed: empty collection.")
+  }
+
   property("Last[Greater[_5]].isValid") = forAll { (l: List[Int]) =>
     Predicate[Last[Greater[_5]], List[Int]].isValid(l) ?= l.lastOption.fold(false)(_ > 5)
   }

@@ -48,6 +48,10 @@ class StringSpec extends Properties("string") {
     Predicate[Head[Letter], String].isValid(s) ?= s.headOption.fold(false)(_.isLetter)
   }
 
+  property("Last[Letter].show") = secure {
+    Predicate[Last[Letter], String].show("abc0") ?= "isLetter('0')"
+  }
+
   property("Size.isValid") = forAll { (s: String) =>
     Predicate[Size[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
   }

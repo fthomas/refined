@@ -116,7 +116,7 @@ The library comes with these predefined predicates:
 * `Head[P]`: checks if the predicate `P` holds for the first element of
   a `Traversable`
 * `Index[N, P]`: checks if the predicate `P` holds for the element at
-  index `N` of a collection
+  index `N` of a sequence
 * `Last[P]`: checks if the predicate `P` holds for the last element of
   a `Traversable`
 * `Size[P]`: checks if the size of a `TraversableOnce` satisfies the predicate `P`

@@ -30,7 +30,7 @@ object collection {
 
   /**
    * Predicate that checks if the predicate `P` holds for the element at
-   * index `N` of a collection.
+   * index `N` of a sequence.
    */
   trait Index[N, P]
 

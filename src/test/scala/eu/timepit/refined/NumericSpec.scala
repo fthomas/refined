@@ -7,43 +7,59 @@ import org.scalacheck.Properties
 import shapeless.nat._
 
 class NumericSpec extends Properties("numeric") {
-  property("Less.isValid") = forAll { (i: Int) =>
-    Predicate[Less[W.`5`.T], Int].isValid(i) ?= (i < 5)
-  }
-
-  property("Less.isValid.Nat") = forAll { (i: Int) =>
-    Predicate[Less[_5], Int].isValid(i) ?= (i < 5)
+  property("Less.isValid") = forAll { (d: Double) =>
+    Predicate[Less[W.`1.0`.T], Double].isValid(d) ?= (d < 1.0)
   }
 
   property("Less.show") = secure {
-    Predicate[Less[_5], Int].show(0) ?= "(0 < 5)"
+    Predicate[Less[W.`1.0`.T], Double].show(0.0) ?= "(0.0 < 1.0)"
   }
 
-  property("LessEqual.isValid") = forAll { (i: Int) =>
-    Predicate[LessEqual[_5], Int].isValid(i) ?= (i <= 5)
-  }
-
-  property("LessEqual.show") = secure {
-    Predicate[LessEqual[_5], Int].show(0) ?= "!(0 > 5)"
-  }
-
-  property("Greater.isValid") = forAll { (i: Int) =>
-    Predicate[Greater[W.`5`.T], Int].isValid(i) ?= (i > 5)
-  }
-
-  property("Greater.isValid.Nat") = forAll { (i: Int) =>
-    Predicate[Greater[_5], Int].isValid(i) ?= (i > 5)
+  property("Greater.isValid") = forAll { (d: Double) =>
+    Predicate[Greater[W.`1.0`.T], Double].isValid(d) ?= (d > 1.0)
   }
 
   property("Greater.show") = secure {
+    Predicate[Greater[W.`1.0`.T], Double].show(0.0) ?= "(0.0 > 1.0)"
+  }
+
+  property("Less.Nat ~= Less") = forAll { (i: Int) =>
+    Predicate[Less[_5], Int].validated(i) ?= Predicate[Less[W.`5`.T], Int].validated(i)
+  }
+
+  property("Greater.Nat ~= Greater") = forAll { (i: Int) =>
+    Predicate[Greater[_5], Int].validated(i) ?= Predicate[Greater[W.`5`.T], Int].validated(i)
+  }
+
+  property("Less.Nat.isValid") = forAll { (i: Int) =>
+    Predicate[Less[_5], Int].isValid(i) ?= (i < 5)
+  }
+
+  property("Less.Nat.show") = secure {
+    Predicate[Less[_5], Int].show(0) ?= "(0 < 5)"
+  }
+
+  property("LessEqual.Nat.isValid") = forAll { (i: Int) =>
+    Predicate[LessEqual[_5], Int].isValid(i) ?= (i <= 5)
+  }
+
+  property("LessEqual.Nat.show") = secure {
+    Predicate[LessEqual[_5], Int].show(0) ?= "!(0 > 5)"
+  }
+
+  property("Greater.Nat.isValid") = forAll { (i: Int) =>
+    Predicate[Greater[_5], Int].isValid(i) ?= (i > 5)
+  }
+
+  property("Greater.Nat.show") = secure {
     Predicate[Greater[_5], Int].show(0) ?= "(0 > 5)"
   }
 
-  property("GreaterEqual.isValid") = forAll { (i: Int) =>
+  property("GreaterEqual.Nat.isValid") = forAll { (i: Int) =>
     Predicate[GreaterEqual[_5], Int].isValid(i) ?= (i >= 5)
   }
 
-  property("GreaterEqual.show") = secure {
+  property("GreaterEqual.Nat.show") = secure {
     Predicate[GreaterEqual[_5], Int].show(0) ?= "!(0 < 5)"
   }
 
@@ -51,11 +67,15 @@ class NumericSpec extends Properties("numeric") {
     Predicate[Interval[_0, _1], Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
   }
 
-  property("Equal.isValid") = forAll { (i: Int) =>
+  property("Equal.Nat.isValid") = forAll { (i: Int) =>
     Predicate[Equal[_5], Int].isValid(i) ?= (i == 5)
   }
 
-  property("Equal.show") = secure {
+  property("Equal.Nat.show") = secure {
     Predicate[Equal[_5], Int].show(0) ?= "(0 == 5)"
+  }
+
+  property("Equal.Nat ~= Equal") = forAll { (i: Int) =>
+    Predicate[Equal[_1], Int].validated(i) ?= Predicate[Equal[W.`1`.T], Int].validated(i)
   }
 }

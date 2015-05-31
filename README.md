@@ -68,11 +68,11 @@ which allows to express singleton types of literal values.
 
 ## Installation
 
-The latest version of the library is 0.0.2, which is built against Scala 2.11.
+The latest version of the library is 0.0.3, which is built against Scala 2.11.
 
 If you're using SBT, add the following to your build file:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.0.2"
+    libraryDependencies += "eu.timepit" %% "refined" % "0.0.3"
 
 Instructions for Maven and other build tools is available at [search.maven.org][search.maven].
 

@@ -128,6 +128,12 @@ object boolean {
 
   // Inference instances
 
+  implicit def doubleNegationElimination[A]: Inference[Not[Not[A]], A] =
+    Inference.alwaysTrue
+
+  implicit def doubleNegationIntroduction[A]: Inference[A, Not[Not[A]]] =
+    Inference.alwaysTrue
+
   implicit def conjunctionEliminationL[A, B]: Inference[A And B, A] =
     Inference.alwaysTrue
 

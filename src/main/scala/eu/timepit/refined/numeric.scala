@@ -48,6 +48,9 @@ object numeric {
 
   // Inference instances
 
+  implicit def lessInference[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Less[A], Less[B]] =
+    Inference.instance(ta.apply() < tb.apply())
+
   implicit def greaterInference[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Greater[A], Greater[B]] =
     Inference.instance(ta.apply() > tb.apply())
 }

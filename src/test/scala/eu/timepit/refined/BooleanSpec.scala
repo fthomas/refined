@@ -143,9 +143,21 @@ class BooleanSpec extends Properties("boolean") {
     p.contramap(identity[Char]).accumulateShow('c') ?= p.accumulateShow('c')
   }
 
-  property("inference tests") = secure {
-    val x1: Char @@ (Letter Or Digit) = refine[Digit]('5').right.get
-    val x2: Char @@ (Digit Or Letter) = refine[Digit]('5').right.get
+  property("double negation elimination/introduction") = secure {
+    val x: Char @@ UpperCase = refine[Not[Not[UpperCase]]]('A').right.get
+    val y: Char @@ Not[Not[UpperCase]] = refine[UpperCase]('A').right.get
+    true
+  }
+
+  property("conjunction elimination") = secure {
+    val x: Char @@ UpperCase = refine[Letter And UpperCase]('A').right.get
+    val y: Char @@ UpperCase = refine[UpperCase And Letter]('A').right.get
+    true
+  }
+
+  property("disjunction introduction") = secure {
+    val x: Char @@ (Digit Or Letter) = refine[Digit]('5').right.get
+    val y: Char @@ (Letter Or Digit) = refine[Digit]('5').right.get
     true
   }
 }

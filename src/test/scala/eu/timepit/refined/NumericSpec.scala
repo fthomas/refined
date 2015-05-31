@@ -5,6 +5,8 @@ import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
+import shapeless.test.illTyped
 
 class NumericSpec extends Properties("numeric") {
   property("Less.isValid") = forAll { (d: Double) =>
@@ -77,5 +79,17 @@ class NumericSpec extends Properties("numeric") {
 
   property("Equal.Nat ~= Equal") = forAll { (i: Int) =>
     Predicate[Equal[_1], Int].validated(i) ?= Predicate[Equal[W.`1`.T], Int].validated(i)
+  }
+
+  property("Inference.Less") = secure {
+    val x: Int @@ Less[_10] = refine[Less[_5]](1).right.get
+    illTyped("val y: Int @@ Less[_5] = refine[Less[_10]](1).right.get")
+    true
+  }
+
+  property("Inference.Greater") = secure {
+    val x: Int @@ Greater[_5] = refine[Greater[_10]](15).right.get
+    illTyped("val y: Int @@ Greater[_10] = refine[Greater[_5]](15).right.get")
+    true
   }
 }

@@ -59,9 +59,9 @@ object Predicate {
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `true`. */
   def alwaysTrue[P, T]: Predicate[P, T] =
-    Predicate.instance(_ => true, _ => "true")
+    instance(_ => true, _ => "true")
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `false`. */
   def alwaysFalse[P, T]: Predicate[P, T] =
-    Predicate.instance(_ => false, _ => "false")
+    instance(_ => false, _ => "false")
 }

@@ -29,6 +29,8 @@ object numeric {
   /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
 
+  // Predicate instances
+
   implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
 
@@ -43,4 +45,9 @@ object numeric {
 
   implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
     Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
+
+  // Inference instances
+
+  implicit def greaterInference[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Greater[A], Greater[B]] =
+    Inference.instance(ta.apply() > tb.apply())
 }

@@ -30,6 +30,8 @@ object boolean {
   /** Exclusive disjunction of all predicates in `PS`. */
   trait OneOf[PS]
 
+  // Predicate instances
+
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.alwaysTrue
 
@@ -123,4 +125,18 @@ object boolean {
       override def accumulateShow(t: T): List[String] =
         ph.show(t) :: pt.accumulateShow(t)
     }
+
+  // Inference instances
+
+  implicit def conjunctionEliminationL[A, B]: Inference[A And B, A] =
+    Inference.alwaysTrue
+
+  implicit def conjunctionEliminationR[A, B]: Inference[A And B, B] =
+    Inference.alwaysTrue
+
+  implicit def disjunctionIntroductionL[A, B]: Inference[A, A Or B] =
+    Inference.alwaysTrue
+
+  implicit def disjunctionIntroductionR[A, B]: Inference[B, A Or B] =
+    Inference.alwaysTrue
 }

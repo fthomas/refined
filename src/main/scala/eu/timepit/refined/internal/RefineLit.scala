@@ -3,22 +3,17 @@ package internal
 
 import shapeless.tag._
 
-import scala.reflect.macros.blackbox.Context
+import scala.reflect.macros.blackbox
 
 final class RefineLit[P] {
   def apply[T](t: T)(implicit p: Predicate[P, T]): T @@ P = macro RefineLit.macroImpl[P, T]
 }
 
 object RefineLit {
-  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
+  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T])(p: c.Expr[Predicate[P, T]]): c.Expr[T @@ P] = {
     import c.universe._
 
-    def predicate: Predicate[P, T] = {
-      // Try evaluating p twice before failing, see
-      // https://github.com/fthomas/refined/issues/3
-      val expr = c.Expr[Predicate[P, T]](c.untypecheck(p.tree))
-      tryTwice(c.eval(expr))
-    }
+    def predicate: Predicate[P, T] = MacroUtils.eval(c)(p)
 
     t.tree match {
       case Literal(Constant(value)) =>
@@ -34,7 +29,4 @@ object RefineLit {
       case _ => c.abort(c.enclosingPosition, "refineLit only supports literals")
     }
   }
-
-  def tryTwice[T](t: => T): T =
-    scala.util.Try(t).getOrElse(t)
 }

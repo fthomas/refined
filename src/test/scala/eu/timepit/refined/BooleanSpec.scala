@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.TestUtil._
+import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
 import eu.timepit.refined.numeric.{ Greater, Less }

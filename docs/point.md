@@ -2,9 +2,9 @@
 
 The library comes with a lot [predefined predicates][provided-predicates]
 but also allows to define your own. This example shows how to add predicates
-for a simple type representing a point in a two-dimensional Cartesian
-coordinate system. We start by defining a `Point` class that represents a
-point in our coordinate system:
+for a simple type representing a point in a two-dimensional [Cartesian
+coordinate system][cartesian-coordinate-system]. We start by defining a
+`Point` class that represents a point in our coordinate system:
 
 ```scala
 scala> case class Point(x: Int, y: Int)
@@ -44,22 +44,23 @@ import eu.timepit.refined.Predicate
 
 scala> implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =
      |   Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)")
-quadrant1Predicate: eu.timepit.refined.Predicate[Quadrant1,Point] = eu.timepit.refined.Predicate$$anon$2@5136071c
+quadrant1Predicate: eu.timepit.refined.Predicate[Quadrant1,Point] = eu.timepit.refined.Predicate$$anon$2@31757faf
 
 scala> implicit val quadrant2Predicate: Predicate[Quadrant2, Point] =
      |   Predicate.instance(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)")
-quadrant2Predicate: eu.timepit.refined.Predicate[Quadrant2,Point] = eu.timepit.refined.Predicate$$anon$2@71a0e244
+quadrant2Predicate: eu.timepit.refined.Predicate[Quadrant2,Point] = eu.timepit.refined.Predicate$$anon$2@2d92f894
 
 scala> implicit val quadrant3Predicate: Predicate[Quadrant3, Point] =
      |   Predicate.instance(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)")
-quadrant3Predicate: eu.timepit.refined.Predicate[Quadrant3,Point] = eu.timepit.refined.Predicate$$anon$2@3c35f8c9
+quadrant3Predicate: eu.timepit.refined.Predicate[Quadrant3,Point] = eu.timepit.refined.Predicate$$anon$2@fdab625
 
 scala> implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
      |   Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
-quadrant4Predicate: eu.timepit.refined.Predicate[Quadrant4,Point] = eu.timepit.refined.Predicate$$anon$2@660c0c15
+quadrant4Predicate: eu.timepit.refined.Predicate[Quadrant4,Point] = eu.timepit.refined.Predicate$$anon$2@16ce3417
 ```
 
-We have now everything in place to refine our values:
+We have now everything in place to refine `Point` values with the `refine`
+function and our predicates:
 
 ```scala
 scala> import eu.timepit.refined.refine
@@ -75,7 +76,20 @@ scala> refine[Quadrant4](Point(3, -2))
 res2: Either[String,shapeless.tag.@@[Point,Quadrant4]] = Right(Point(3,-2))
 ```
 
+We can also use refined's higher order predicates, which take other predicates
+as arguments, with our quadrant predicates (without defining corresponding
+`Predicate` instances):
+
 ```scala
+scala> import eu.timepit.refined.boolean.Not
+import eu.timepit.refined.boolean.Not
+
+scala> refine[Not[Quadrant1]](Point(-3, -9))
+res3: Either[String,shapeless.tag.@@[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Right(Point(-3,-9))
+
+scala> refine[Not[Quadrant1]](Point(5, 4))
+res4: Either[String,shapeless.tag.@@[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Left(Predicate (Point(5,4) is in quadrant 1) did not fail.)
+
 scala> import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.boolean.Or
 
@@ -83,13 +97,14 @@ scala> type Quadrant1Or3 = Quadrant1 Or Quadrant3
 defined type alias Quadrant1Or3
 
 scala> refine[Quadrant1Or3](Point(1, 3))
-res3: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(1,3))
+res5: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(1,3))
 
 scala> refine[Quadrant1Or3](Point(-3, -2))
-res4: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(-3,-2))
+res6: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(-3,-2))
 
 scala> refine[Quadrant1Or3](Point(3, -2))
-res5: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Left(Both predicates of ((Point(3,-2) is in quadrant 1) || (Point(3,-2) is in quadrant 3)) failed. Left: Predicate failed: (Point(3,-2) is in quadrant 1). Right: Predicate failed: (Point(3,-2) is in quadrant 3).)
+res7: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Left(Both predicates of ((Point(3,-2) is in quadrant 1) || (Point(3,-2) is in quadrant 3)) failed. Left: Predicate failed: (Point(3,-2) is in quadrant 1). Right: Predicate failed: (Point(3,-2) is in quadrant 3).)
 ```
 
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates
+[cartesian-coordinate-system]: http://en.wikipedia.org/wiki/Cartesian_coordinate_system

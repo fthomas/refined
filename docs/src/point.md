@@ -2,9 +2,9 @@
 
 The library comes with a lot [predefined predicates][provided-predicates]
 but also allows to define your own. This example shows how to add predicates
-for a simple type representing a point in a two-dimensional Cartesian
-coordinate system. We start by defining a `Point` class that represents a
-point in our coordinate system:
+for a simple type representing a point in a two-dimensional [Cartesian
+coordinate system][cartesian-coordinate-system]. We start by defining a
+`Point` class that represents a point in our coordinate system:
 
 ```tut
 case class Point(x: Int, y: Int)
@@ -46,7 +46,8 @@ implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
   Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
 ```
 
-We have now everything in place to refine our values:
+We have now everything in place to refine `Point` values with the `refine`
+function and our predicates:
 
 ```tut
 import eu.timepit.refined.refine
@@ -58,7 +59,17 @@ refine[Quadrant1](Point(3, -2))
 refine[Quadrant4](Point(3, -2))
 ```
 
+We can also use refined's higher order predicates, which take other predicates
+as arguments, with our quadrant predicates (without defining corresponding
+`Predicate` instances):
+
 ```tut
+import eu.timepit.refined.boolean.Not
+
+refine[Not[Quadrant1]](Point(-3, -9))
+
+refine[Not[Quadrant1]](Point(5, 4))
+
 import eu.timepit.refined.boolean.Or
 
 type Quadrant1Or3 = Quadrant1 Or Quadrant3
@@ -71,3 +82,4 @@ refine[Quadrant1Or3](Point(3, -2))
 ```
 
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates
+[cartesian-coordinate-system]: http://en.wikipedia.org/wiki/Cartesian_coordinate_system

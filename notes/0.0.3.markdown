@@ -2,7 +2,7 @@
 
 * Added `Predicate` instances for numeric predicates that take singleton
   types as arguments. For example ``refineLit[Less[W.`-12.3`.T]](-12.5)``
-  proves at compile time that -12.5 is less than -12.3.
+  checks at compile time that -12.5 is less than -12.3.
 
 * `refine` and `refineLit` are now regular functions and not `object`s
   with an `apply` method.
@@ -24,6 +24,10 @@
 
 * `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
+
+[`char`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/char.scala)
+
+* `LetterOrDigit`: checks if a `Char` is a letter or digit
 
 [`collection`](https://github.com/fthomas/refined/blob/v0.0.3/src/main/scala/eu/timepit/refined/collection.scala)
 

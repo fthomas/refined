@@ -1,5 +1,7 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.boolean.Or
+
 object char {
   /** Predicate that checks if a `Char` is a digit. */
   trait Digit
@@ -15,6 +17,9 @@ object char {
 
   /** Predicate that checks if a `Char` is white space. */
   trait Whitespace
+
+  /** Predicate that checks if a `Char` is a letter or digit. */
+  type LetterOrDigit = Letter Or Digit
 
   implicit val digitPredicate: Predicate[Digit, Char] =
     Predicate.instance(_.isDigit, t => s"isDigit('$t')")

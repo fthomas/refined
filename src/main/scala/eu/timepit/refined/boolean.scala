@@ -3,10 +3,10 @@ package eu.timepit.refined
 import shapeless.{ ::, HList, HNil }
 
 object boolean {
-  /** Constant predicate that is always true. */
+  /** Constant predicate that is always `true`. */
   trait True
 
-  /** Constant predicate that is always false. */
+  /** Constant predicate that is always `false`. */
   trait False
 
   /** Negation of the predicate `P`. */

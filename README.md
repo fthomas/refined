@@ -82,7 +82,7 @@ API documentation of the latest release is available at:
 http://fthomas.github.io/refined/latest/api/
 
 There are also further (typechecked) examples in the [`docs`][docs]
-directory including one for defining a [custom predicate][custom-pred].
+directory including one for defining [custom predicates][custom-pred].
 
 [docs]: https://github.com/fthomas/refined/tree/master/docs
 [custom-pred]: https://github.com/fthomas/refined/tree/master/docs/point.md
@@ -107,6 +107,7 @@ The library comes with these predefined predicates:
 
 * `Digit`: checks if a `Char` is a digit
 * `Letter`: checks if a `Char` is a letter
+* `LetterOrDigit`: checks if a `Char` is a letter or digit
 * `LowerCase`: checks if a `Char` is a lower case character
 * `UpperCase`: checks if a `Char` is an upper case character
 * `Whitespace`: checks if a `Char` is white space

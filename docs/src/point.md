@@ -1,38 +1,73 @@
-# Custom predicate
+# Custom predicates
 
 The library comes with a lot [predefined predicates][provided-predicates]
-but also allows to define your own. This example shows how to add a
-predicate for a simple type representing a point in a two-dimensional
-Cartesian coordinate system. We start by defining a `Point` class that
-represents a point in our coordinate system:
+but also allows to define your own. This example shows how to add predicates
+for a simple type representing a point in a two-dimensional Cartesian
+coordinate system. We start by defining a `Point` class that represents a
+point in our coordinate system:
 
 ```tut
 case class Point(x: Int, y: Int)
 ```
 
-The axes of a Cartesian coordinate system divide the plane into four infinite
-regions, called quadrants, which are often labelled with Roman numerals from I
-to IV. Suppose we want to refine `Point`s with the quadrant they are lying in.
-So let's create a simple type that represents the first quadrant:
+The axes of a two-dimensional Cartesian coordinate system divide the plane into
+four infinite regions, called quadrants, which are often numbered 1st to 4th.
+Suppose we want to refine `Point`s with the quadrant they are lying in.
+So let's create simple types that represent the four quadrants:
 
 ```tut
-trait QuadrantI
+trait Quadrant1
+trait Quadrant2
+trait Quadrant3
+trait Quadrant4
 ```
 
-We now have type-level predicate and a type that we want to refine with this
-predicate.
+We now have type-level predicates and a type that we want to refine with these
+predicates. The next step is to define instances of the `Predicate` type class
+for `Point` that are indexed by the corresponding quadrant predicate. We use
+the `Predicate.instance` function to create the instances from two functions,
+one that checks if a given `Point` lies in the corresponding quadrant and one
+that provides a string representation for the predicate that is used for error
+messages:
 
 ```tut
-import eu.timepit.refined._
+import eu.timepit.refined.Predicate
 
-implicit val quadrantIPredicate: Predicate[QuadrantI, Point] =
-  Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"(${p.x} >= 0 && ${p.y} >= 0)")
+implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =
+  Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)")
+
+implicit val quadrant2Predicate: Predicate[Quadrant2, Point] =
+  Predicate.instance(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)")
+
+implicit val quadrant3Predicate: Predicate[Quadrant3, Point] =
+  Predicate.instance(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)")
+
+implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
+  Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
 ```
 
-```tut  
-refine[QuadrantI](Point(1, 3))
+We have now everything in place to refine our values:
 
-refine[QuadrantI](Point(3, -2))
+```tut
+import eu.timepit.refined.refine
+
+refine[Quadrant1](Point(1, 3))
+
+refine[Quadrant1](Point(3, -2))
+
+refine[Quadrant4](Point(3, -2))
+```
+
+```tut
+import eu.timepit.refined.boolean.Or
+
+type Quadrant1Or3 = Quadrant1 Or Quadrant3
+
+refine[Quadrant1Or3](Point(1, 3))
+
+refine[Quadrant1Or3](Point(-3, -2))
+
+refine[Quadrant1Or3](Point(3, -2))
 ```
 
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates

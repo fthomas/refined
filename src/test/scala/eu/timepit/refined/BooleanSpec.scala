@@ -7,6 +7,7 @@ import eu.timepit.refined.numeric.{ Greater, Less }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 import shapeless.{ ::, HNil }
 
 class BooleanSpec extends Properties("boolean") {
@@ -140,5 +141,11 @@ class BooleanSpec extends Properties("boolean") {
   property("OneOf[_].contramap(identity).accumulateShow") = secure {
     val p = Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char]
     p.contramap(identity[Char]).accumulateShow('c') ?= p.accumulateShow('c')
+  }
+
+  property("inference tests") = secure {
+    val x1: Char @@ (Letter Or Digit) = refine[Digit]('5').right.get
+    val x2: Char @@ (Digit Or Letter) = refine[Digit]('5').right.get
+    true
   }
 }

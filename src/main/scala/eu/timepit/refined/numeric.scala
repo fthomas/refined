@@ -48,9 +48,15 @@ object numeric {
 
   // Inference instances
 
-  implicit def lessInference[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Less[A], Less[B]] =
+  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Inference[Less[A], Less[B]] =
+    Inference.instance(nc.lt(wa.value, wb.value))
+
+  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Inference[Greater[A], Greater[B]] =
+    Inference.instance(nc.gt(wa.value, wb.value))
+
+  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Less[A], Less[B]] =
     Inference.instance(ta.apply() < tb.apply())
 
-  implicit def greaterInference[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Greater[A], Greater[B]] =
+  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Greater[A], Greater[B]] =
     Inference.instance(ta.apply() > tb.apply())
 }

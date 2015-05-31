@@ -82,12 +82,24 @@ class NumericSpec extends Properties("numeric") {
   }
 
   property("Inference.Less") = secure {
+    val x: Double @@ Less[W.`7.5`.T] = refine[Less[W.`7.2`.T]](1.0).right.get
+    illTyped("val y: Double @@ Less[W.`7.2`.T] = refine[Less[W.`7.5`.T]](1.0).right.get")
+    true
+  }
+
+  property("Inference.Greater") = secure {
+    val x: Double @@ Greater[W.`7.2`.T] = refine[Greater[W.`7.5`.T]](10.0).right.get
+    illTyped("val y: Double @@ Greater[W.`7.5`.T] = refine[Greater[W.`7.2`.T]](10.0).right.get")
+    true
+  }
+
+  property("Inference.Less.Nat") = secure {
     val x: Int @@ Less[_10] = refine[Less[_5]](1).right.get
     illTyped("val y: Int @@ Less[_5] = refine[Less[_10]](1).right.get")
     true
   }
 
-  property("Inference.Greater") = secure {
+  property("Inference.Greater.Nat") = secure {
     val x: Int @@ Greater[_5] = refine[Greater[_10]](15).right.get
     illTyped("val y: Int @@ Greater[_10] = refine[Greater[_5]](15).right.get")
     true

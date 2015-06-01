@@ -145,6 +145,9 @@ object collection {
   implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
     InferenceRule.alwaysValid
 
+  implicit def indexExistsInference[N, P]: InferenceRule[Index[N, P], Exists[P]] =
+    InferenceRule.alwaysValid
+
   implicit def lastExistsInference[P]: InferenceRule[Last[P], Exists[P]] =
     InferenceRule.alwaysValid
 }

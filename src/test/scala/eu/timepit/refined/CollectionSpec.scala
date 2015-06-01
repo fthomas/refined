@@ -86,6 +86,11 @@ class CollectionSpec extends Properties("collection") {
     true
   }
 
+  property("Index ==> Exists") = secure {
+    val x: List[Char] @@ Exists[Digit] = refine[Index[W.`1`.T, Digit]](List('a', '1', 'b')).right.get
+    true
+  }
+
   property("Last ==> Exists") = secure {
     val x: List[Int] @@ Exists[Positive] = refine[Last[Positive]](List(-1, -2, 1)).right.get
     true

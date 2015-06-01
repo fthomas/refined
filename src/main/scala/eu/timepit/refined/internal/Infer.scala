@@ -6,7 +6,7 @@ import shapeless.tag.@@
 import scala.reflect.macros.blackbox
 
 object Infer {
-  def macroImpl[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T @@ A])(i: c.Expr[Inference[A, B]]): c.Expr[T @@ B] = {
+  def macroImpl[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T @@ A])(i: c.Expr[InferenceRule[A, B]]): c.Expr[T @@ B] = {
     import c.universe._
 
     val tTpe = weakTypeOf[T]

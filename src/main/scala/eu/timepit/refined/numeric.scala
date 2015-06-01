@@ -46,17 +46,17 @@ object numeric {
   implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
     Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
 
-  // Inference instances
+  // InferenceRule instances
 
-  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Inference[Less[A], Less[B]] =
-    Inference.instance(nc.lt(wa.value, wb.value))
+  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Less[A], Less[B]] =
+    InferenceRule.instance(nc.lt(wa.value, wb.value))
 
-  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Inference[Greater[A], Greater[B]] =
-    Inference.instance(nc.gt(wa.value, wb.value))
+  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Greater[A], Greater[B]] =
+    InferenceRule.instance(nc.gt(wa.value, wb.value))
 
-  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Less[A], Less[B]] =
-    Inference.instance(ta.apply() < tb.apply())
+  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Less[A], Less[B]] =
+    InferenceRule.instance(ta.apply() < tb.apply())
 
-  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Inference[Greater[A], Greater[B]] =
-    Inference.instance(ta.apply() > tb.apply())
+  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Greater[A], Greater[B]] =
+    InferenceRule.instance(ta.apply() > tb.apply())
 }

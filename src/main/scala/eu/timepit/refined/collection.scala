@@ -139,4 +139,12 @@ object collection {
         p.validated(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
       }
     }
+
+  // InferenceRule instances
+
+  implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
+    InferenceRule.alwaysValid
+
+  implicit def lastExistsInference[P]: InferenceRule[Last[P], Exists[P]] =
+    InferenceRule.alwaysValid
 }

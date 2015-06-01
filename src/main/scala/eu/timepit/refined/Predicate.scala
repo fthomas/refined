@@ -51,17 +51,17 @@ object Predicate {
   def apply[P, T](implicit p: Predicate[P, T]): Predicate[P, T] = p
 
   /** Constructs a [[Predicate]] from its parameters. */
-  def instance[P, T](isValidF: T => Boolean, showF: T => String): Predicate[P, T] =
+  def instance[P, T](validateT: T => Boolean, showT: T => String): Predicate[P, T] =
     new Predicate[P, T] {
-      def isValid(t: T): Boolean = isValidF(t)
-      def show(t: T): String = showF(t)
+      def isValid(t: T): Boolean = validateT(t)
+      def show(t: T): String = showT(t)
     }
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `true`. */
-  def alwaysTrue[P, T]: Predicate[P, T] =
+  def alwaysValid[P, T]: Predicate[P, T] =
     instance(_ => true, _ => "true")
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `false`. */
-  def alwaysFalse[P, T]: Predicate[P, T] =
+  def alwaysInvalid[P, T]: Predicate[P, T] =
     instance(_ => false, _ => "false")
 }

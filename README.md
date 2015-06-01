@@ -7,11 +7,11 @@
 
 ## Overview
 
-This is a port of the [refined][refined.hs] Haskell library to Scala.
-The linked websites provides an excellent motivation why this kind of library
-is useful.
+This library started as a port of the [refined][refined.hs] Haskell library to
+Scala. The linked websites provides an excellent motivation why this kind of
+library is useful.
 
-This library consists of:
+It consists of:
 
 * Type-level predicates for refining other types, like `UpperCase`, `Positive`,
   `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
@@ -63,8 +63,9 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 ```
 
-Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types]
-which allows to express singleton types of literal values.
+Note that `refineLit` validates values at compile-time, so the errors here
+a compile errors and not runtime errors. Also note that `W` is a shortcut for
+[`shapeless.Witness`][singleton-types] which provides syntax for singleton types.
 
 ## Installation
 

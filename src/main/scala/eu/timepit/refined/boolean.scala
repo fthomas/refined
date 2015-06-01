@@ -30,11 +30,13 @@ object boolean {
   /** Exclusive disjunction of all predicates in `PS`. */
   trait OneOf[PS]
 
+  // Predicate instances
+
   implicit def truePredicate[T]: Predicate[True, T] =
-    Predicate.alwaysTrue
+    Predicate.alwaysValid
 
   implicit def falsePredicate[T]: Predicate[False, T] =
-    Predicate.alwaysFalse
+    Predicate.alwaysInvalid
 
   implicit def notPredicate[P, T](implicit p: Predicate[P, T]): Predicate[Not[P], T] =
     new Predicate[Not[P], T] {
@@ -94,7 +96,7 @@ object boolean {
     }
 
   implicit def allOfHNilPredicate[T]: Predicate[AllOf[HNil], T] =
-    Predicate.alwaysTrue
+    Predicate.alwaysValid
 
   implicit def allOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
     Predicate.instance(
@@ -102,7 +104,7 @@ object boolean {
       t => s"(${ph.show(t)} && ${pt.show(t)})")
 
   implicit def anyOfHNilPredicate[T]: Predicate[AnyOf[HNil], T] =
-    Predicate.alwaysFalse
+    Predicate.alwaysInvalid
 
   implicit def anyOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
     Predicate.instance(
@@ -110,7 +112,7 @@ object boolean {
       t => s"(${ph.show(t)} || ${pt.show(t)})")
 
   implicit def oneOfHNilPredicate[T]: Predicate[OneOf[HNil], T] =
-    Predicate.alwaysFalse
+    Predicate.alwaysInvalid
 
   implicit def oneOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[OneOf[PT], T]): Predicate[OneOf[PH :: PT], T] =
     new Predicate[OneOf[PH :: PT], T] {
@@ -123,4 +125,33 @@ object boolean {
       override def accumulateShow(t: T): List[String] =
         ph.show(t) :: pt.accumulateShow(t)
     }
+
+  // InferenceRule instances
+
+  implicit def doubleNegationElimination[A]: InferenceRule[Not[Not[A]], A] =
+    InferenceRule.alwaysValid
+
+  implicit def doubleNegationIntroduction[A]: InferenceRule[A, Not[Not[A]]] =
+    InferenceRule.alwaysValid
+
+  implicit def conjunctionCommutativity[A, B]: InferenceRule[A And B, B And A] =
+    InferenceRule.alwaysValid
+
+  implicit def conjunctionEliminationL[A, B]: InferenceRule[A And B, A] =
+    InferenceRule.alwaysValid
+
+  implicit def conjunctionEliminationR[A, B]: InferenceRule[A And B, B] =
+    InferenceRule.alwaysValid
+
+  implicit def disjunctionIntroductionL[A, B]: InferenceRule[A, A Or B] =
+    InferenceRule.alwaysValid
+
+  implicit def disjunctionIntroductionR[A, B]: InferenceRule[B, A Or B] =
+    InferenceRule.alwaysValid
+
+  implicit def deMorgansLaw1[A, B]: InferenceRule[Not[A And B], Not[A] Or Not[B]] =
+    InferenceRule.alwaysValid
+
+  implicit def deMorgansLaw2[A, B]: InferenceRule[Not[A Or B], Not[A] And Not[B]] =
+    InferenceRule.alwaysValid
 }

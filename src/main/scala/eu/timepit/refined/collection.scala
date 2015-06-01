@@ -73,6 +73,8 @@ object collection {
   /** Predicate that checks if a `TraversableOnce` is not empty. */
   type NonEmpty = Not[Empty]
 
+  // Predicate instances
+
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =
     new Predicate[Count[PA, PC], T] {
       def isValid(t: T): Boolean = pc.isValid(count(t))
@@ -137,4 +139,12 @@ object collection {
         p.validated(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
       }
     }
+
+  // InferenceRule instances
+
+  implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
+    InferenceRule.alwaysValid
+
+  implicit def lastExistsInference[P]: InferenceRule[Last[P], Exists[P]] =
+    InferenceRule.alwaysValid
 }

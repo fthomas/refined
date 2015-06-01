@@ -21,6 +21,8 @@ object char {
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit
 
+  // Predicate instances
+
   implicit val digitPredicate: Predicate[Digit, Char] =
     Predicate.instance(_.isDigit, t => s"isDigit('$t')")
 

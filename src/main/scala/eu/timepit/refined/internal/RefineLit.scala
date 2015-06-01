@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package internal
 
-import shapeless.tag._
+import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox
 

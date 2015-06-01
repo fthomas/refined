@@ -1,10 +1,13 @@
 package eu.timepit
 
-import eu.timepit.refined.internal.{ Refine, RefineLit }
+import eu.timepit.refined.internal.{ Infer, Refine, RefineLit }
+import shapeless.tag.@@
 
 package object refined {
+  val W = shapeless.Witness
+
   def refine[P]: Refine[P] = new Refine[P]
   def refineLit[P]: RefineLit[P] = new RefineLit[P]
 
-  val W = shapeless.Witness
+  implicit def infer[T, A, B](t: T @@ A)(implicit i: InferenceRule[A, B]): T @@ B = macro Infer.macroImpl[T, A, B]
 }

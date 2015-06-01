@@ -13,6 +13,8 @@ object generic {
   /** Predicate that checks if a value is not `null`. */
   type NonNull = Not[IsNull]
 
+  // Predicate instances
+
   implicit def equalPredicate[T, U <: T](implicit wu: WeakWitness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
 

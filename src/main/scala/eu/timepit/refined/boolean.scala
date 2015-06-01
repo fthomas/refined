@@ -134,6 +134,9 @@ object boolean {
   implicit def doubleNegationIntroduction[A]: InferenceRule[A, Not[Not[A]]] =
     InferenceRule.alwaysValid
 
+  implicit def conjunctionCommutativity[A, B]: InferenceRule[A And B, B And A] =
+    InferenceRule.alwaysValid
+
   implicit def conjunctionEliminationL[A, B]: InferenceRule[A And B, A] =
     InferenceRule.alwaysValid
 
@@ -144,5 +147,11 @@ object boolean {
     InferenceRule.alwaysValid
 
   implicit def disjunctionIntroductionR[A, B]: InferenceRule[B, A Or B] =
+    InferenceRule.alwaysValid
+
+  implicit def deMorgansLaw1[A, B]: InferenceRule[Not[A And B], Not[A] Or Not[B]] =
+    InferenceRule.alwaysValid
+
+  implicit def deMorgansLaw2[A, B]: InferenceRule[Not[A Or B], Not[A] And Not[B]] =
     InferenceRule.alwaysValid
 }

@@ -149,6 +149,11 @@ class BooleanSpec extends Properties("boolean") {
     true
   }
 
+  property("conjunction commutativity") = secure {
+    val x: Char @@ (UpperCase And Letter) = refine[Letter And UpperCase]('A').right.get
+    true
+  }
+
   property("conjunction elimination") = secure {
     val x: Char @@ UpperCase = refine[Letter And UpperCase]('A').right.get
     val y: Char @@ UpperCase = refine[UpperCase And Letter]('A').right.get
@@ -158,6 +163,12 @@ class BooleanSpec extends Properties("boolean") {
   property("disjunction introduction") = secure {
     val x: Char @@ (Digit Or Letter) = refine[Digit]('5').right.get
     val y: Char @@ (Letter Or Digit) = refine[Digit]('5').right.get
+    true
+  }
+
+  property("De Morgan's laws") = secure {
+    val x: Char @@ (Not[UpperCase] Or Not[Letter]) = refine[Not[UpperCase And Letter]]('a').right.get
+    val y: Char @@ (Not[UpperCase] And Not[Letter]) = refine[Not[UpperCase Or Letter]]('5').right.get
     true
   }
 }

@@ -160,4 +160,7 @@ object boolean {
 
   implicit def xorCommutativity[A, B]: InferenceRule[A Xor B, B Xor A] =
     InferenceRule.alwaysValid
+
+  implicit def modusTollens[A, B](implicit p1: InferenceRule[A, B]): InferenceRule[Not[B], Not[A]] =
+    p1.adapted
 }

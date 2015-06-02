@@ -87,9 +87,21 @@ class NumericSpec extends Properties("numeric") {
     true
   }
 
+  property("Inference.LessEqual") = secure {
+    val x: Double @@ LessEqual[W.`7.5`.T] = refine[LessEqual[W.`7.2`.T]](1.0).right.get
+    illTyped("val y: Double @@ LessEqual[W.`7.2`.T] = refine[LessEqual[W.`7.5`.T]](1.0).right.get")
+    true
+  }
+
   property("Inference.Greater") = secure {
     val x: Double @@ Greater[W.`7.2`.T] = refine[Greater[W.`7.5`.T]](10.0).right.get
     illTyped("val y: Double @@ Greater[W.`7.5`.T] = refine[Greater[W.`7.2`.T]](10.0).right.get")
+    true
+  }
+
+  property("Inference.GreaterEqual") = secure {
+    val x: Double @@ GreaterEqual[W.`7.2`.T] = refine[GreaterEqual[W.`7.5`.T]](10.0).right.get
+    illTyped("val y: Double @@ GreaterEqual[W.`7.5`.T] = refine[GreaterEqual[W.`7.2`.T]](10.0).right.get")
     true
   }
 

@@ -6,6 +6,9 @@ package eu.timepit.refined
  */
 trait InferenceRule[P, C] {
   def isValid: Boolean
+
+  def adapted[P2, C2]: InferenceRule[P2, C2] =
+    InferenceRule.instance(isValid)
 }
 
 object InferenceRule {

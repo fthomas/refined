@@ -73,4 +73,10 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     val b: Char @@ (Digit Xor Letter) = a
     a == b
   }
+
+  property("modus tollens") = secure {
+    val a: Char @@ Not[Digit Xor Letter] = refineLit(' ')
+    val b: Char @@ Not[Letter Xor Digit] = a
+    a == b
+  }
 }

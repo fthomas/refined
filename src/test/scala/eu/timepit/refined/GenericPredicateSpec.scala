@@ -4,7 +4,8 @@ import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
-class GenericSpec extends Properties("generic") {
+class GenericPredicateSpec extends Properties("GenericPredicate") {
+
   property("Equal[_].isValid") = secure {
     Predicate[Equal[W.`1.4`.T], Double].isValid(1.4)
   }

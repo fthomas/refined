@@ -4,7 +4,8 @@ import eu.timepit.refined.char._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
-class CharSpec extends Properties("char") {
+class CharPredicateSpec extends Properties("CharPredicate") {
+
   property("Digit.isValid") = forAll { (c: Char) =>
     Predicate[Digit, Char].isValid(c) ?= c.isDigit
   }

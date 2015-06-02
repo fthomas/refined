@@ -9,7 +9,8 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
 
-class StringSpec extends Properties("string") {
+class StringPredicateSpec extends Properties("StringPredicate") {
+
   property("Empty.isValid") = forAll { (s: String) =>
     Predicate[Empty, String].isValid(s) ?= s.isEmpty
   }

@@ -2,7 +2,8 @@ package eu.timepit.refined
 
 import shapeless.{ ::, HList, HNil }
 
-object boolean {
+object boolean extends BooleanPredicates with BooleanInferenceRules {
+
   /** Constant predicate that is always `true`. */
   trait True
 
@@ -29,8 +30,10 @@ object boolean {
 
   /** Exclusive disjunction of all predicates in `PS`. */
   trait OneOf[PS]
+}
 
-  // Predicate instances
+trait BooleanPredicates {
+  import boolean._
 
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.alwaysValid
@@ -125,8 +128,10 @@ object boolean {
       override def accumulateShow(t: T): List[String] =
         ph.show(t) :: pt.accumulateShow(t)
     }
+}
 
-  // InferenceRule instances
+trait BooleanInferenceRules {
+  import boolean._
 
   implicit def doubleNegationElimination[A]: InferenceRule[Not[Not[A]], A] =
     InferenceRule.alwaysValid

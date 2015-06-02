@@ -7,7 +7,8 @@ import shapeless.Nat
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
 
-object numeric {
+object numeric extends NumericPredicates with NumericInferenceRules {
+
   /** Predicate that checks if a numeric value is less than `N`. */
   trait Less[N]
 
@@ -28,8 +29,10 @@ object numeric {
 
   /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
+}
 
-  // Predicate instances
+trait NumericPredicates {
+  import numeric._
 
   implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
@@ -45,8 +48,10 @@ object numeric {
 
   implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
     Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
+}
 
-  // InferenceRule instances
+trait NumericInferenceRules {
+  import numeric._
 
   implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Less[A], Less[B]] =
     InferenceRule.instance(nc.lt(wa.value, wb.value))

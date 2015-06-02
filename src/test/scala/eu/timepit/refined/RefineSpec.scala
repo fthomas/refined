@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.boolean.{ False, True }
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
@@ -87,5 +88,9 @@ class RefineSpec extends Properties("refine") {
     type P = Contains[W.`'c'`.T]
     illTyped("""refineLit[P]("abde")""")
     true
+  }
+
+  property("instantiate refineLit") = secure {
+    refineLit[True] != refineLit[False]
   }
 }

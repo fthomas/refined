@@ -2,7 +2,8 @@ package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Or
 
-object char {
+object char extends CharPredicates {
+
   /** Predicate that checks if a `Char` is a digit. */
   trait Digit
 
@@ -21,7 +22,10 @@ object char {
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit
 
-  // Predicate instances
+}
+
+trait CharPredicates {
+  import char._
 
   implicit val digitPredicate: Predicate[Digit, Char] =
     Predicate.instance(_.isDigit, t => s"isDigit('$t')")

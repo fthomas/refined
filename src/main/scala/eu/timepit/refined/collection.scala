@@ -5,7 +5,8 @@ import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
 
-object collection {
+object collection extends CollectionPredicates with CollectionInferenceRules {
+
   /**
    * Predicate that counts the number of elements in a `TraversableOnce`
    * which satisfy the predicate `PA` and passes the result to the numeric
@@ -72,8 +73,10 @@ object collection {
 
   /** Predicate that checks if a `TraversableOnce` is not empty. */
   type NonEmpty = Not[Empty]
+}
 
-  // Predicate instances
+trait CollectionPredicates {
+  import collection._
 
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =
     new Predicate[Count[PA, PC], T] {
@@ -139,8 +142,10 @@ object collection {
         p.validated(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
       }
     }
+}
 
-  // InferenceRule instances
+trait CollectionInferenceRules {
+  import collection._
 
   implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
     InferenceRule.alwaysValid

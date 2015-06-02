@@ -10,6 +10,7 @@ import shapeless.nat._
 import shapeless.{ ::, HNil }
 
 class BooleanPredicateSpec extends Properties("BooleanPredicate") {
+
   type FF[Op[_, _]] = False Op False
   type FT[Op[_, _]] = False Op True
   type TF[Op[_, _]] = True Op False

@@ -68,6 +68,22 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     a == b
   }
 
+  /*
+  // These do not typecheck yet:
+
+  property("De Morgan's law 1 (substitution form)") = secure {
+    val a: Char @@ (UpperCase And Letter) = refineLit('A')
+    val b: Char @@ Not[Not[UpperCase] Or Not[Letter]] = a
+    a == b
+  }
+
+  property("De Morgan's law 2 (substitution form)") = secure {
+    val a: Char @@ (UpperCase Or Letter) = refineLit('f')
+    val b: Char @@ Not[Not[UpperCase] And Not[Letter]] = a
+    a == b
+  }
+  */
+
   property("Xor commutativity") = secure {
     val a: Char @@ (Letter Xor Digit) = refineLit('A')
     val b: Char @@ (Digit Xor Letter) = a

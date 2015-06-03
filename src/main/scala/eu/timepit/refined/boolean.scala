@@ -3,7 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.boolean._
 import shapeless.{ ::, HList, HNil }
 
-object boolean extends BooleanPredicates with BooleanInferenceRules {
+object boolean extends BooleanPredicates with BooleanInferenceRules0 {
 
   /** Constant predicate that is always `true`. */
   trait True
@@ -130,7 +130,7 @@ trait BooleanPredicates {
     }
 }
 
-trait BooleanInferenceRules {
+trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 
   implicit def doubleNegationElimination[A]: InferenceRule[Not[Not[A]], A] =
     InferenceRule.alwaysValid
@@ -167,4 +167,11 @@ trait BooleanInferenceRules {
 
   implicit def modusTollens[A, B](implicit p1: InferenceRule[A, B]): InferenceRule[Not[B], Not[A]] =
     p1.adapted
+
+}
+
+trait BooleanInferenceRules1 {
+
+  implicit def hypotheticalSyllogism[A, B, C](implicit p1: InferenceRule[A, B], p2: InferenceRule[B, C]): InferenceRule[A, C] =
+    p1 && p2
 }

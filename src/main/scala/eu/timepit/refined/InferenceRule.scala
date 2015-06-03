@@ -18,3 +18,7 @@ object InferenceRule {
   def alwaysValid[P, C]: InferenceRule[P, C] =
     InferenceRule(true)
 }
+
+object InferenceRuleAlias {
+  type ==>[P, C] = InferenceRule[P, C]
+}

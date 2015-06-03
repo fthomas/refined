@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean._
 import shapeless.{ ::, HList, HNil }
 
@@ -132,45 +133,45 @@ trait BooleanPredicates {
 
 trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 
-  implicit def doubleNegationElimination[A]: InferenceRule[Not[Not[A]], A] =
+  implicit def doubleNegationElimination[A]: Not[Not[A]] ==> A =
     InferenceRule.alwaysValid
 
-  implicit def doubleNegationIntroduction[A]: InferenceRule[A, Not[Not[A]]] =
+  implicit def doubleNegationIntroduction[A]: A ==> Not[Not[A]] =
     InferenceRule.alwaysValid
 
-  implicit def conjunctionCommutativity[A, B]: InferenceRule[A And B, B And A] =
+  implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     InferenceRule.alwaysValid
 
-  implicit def conjunctionEliminationL[A, B]: InferenceRule[A And B, A] =
+  implicit def conjunctionEliminationL[A, B]: (A And B) ==> A =
     InferenceRule.alwaysValid
 
-  implicit def conjunctionEliminationR[A, B]: InferenceRule[A And B, B] =
+  implicit def conjunctionEliminationR[A, B]: (A And B) ==> B =
     InferenceRule.alwaysValid
 
-  implicit def disjunctionCommutativity[A, B]: InferenceRule[A Or B, B Or A] =
+  implicit def disjunctionCommutativity[A, B]: (A Or B) ==> (B Or A) =
     InferenceRule.alwaysValid
 
-  implicit def disjunctionIntroductionL[A, B]: InferenceRule[A, A Or B] =
+  implicit def disjunctionIntroductionL[A, B]: A ==> (A Or B) =
     InferenceRule.alwaysValid
 
-  implicit def disjunctionIntroductionR[A, B]: InferenceRule[B, A Or B] =
+  implicit def disjunctionIntroductionR[A, B]: B ==> (A Or B) =
     InferenceRule.alwaysValid
 
-  implicit def deMorgansLaw1[A, B]: InferenceRule[Not[A And B], Not[A] Or Not[B]] =
+  implicit def deMorgansLaw1[A, B]: Not[A And B] ==> (Not[A] Or Not[B]) =
     InferenceRule.alwaysValid
 
-  implicit def deMorgansLaw2[A, B]: InferenceRule[Not[A Or B], Not[A] And Not[B]] =
+  implicit def deMorgansLaw2[A, B]: Not[A Or B] ==> (Not[A] And Not[B]) =
     InferenceRule.alwaysValid
 
-  implicit def xorCommutativity[A, B]: InferenceRule[A Xor B, B Xor A] =
+  implicit def xorCommutativity[A, B]: (A Xor B) ==> (B Xor A) =
     InferenceRule.alwaysValid
 
-  implicit def modusTollens[A, B](implicit p1: InferenceRule[A, B]): InferenceRule[Not[B], Not[A]] =
+  implicit def modusTollens[A, B](implicit p1: A ==> B): Not[B] ==> Not[A] =
     p1.adapted
 }
 
 trait BooleanInferenceRules1 {
 
-  implicit def hypotheticalSyllogism[A, B, C](implicit p1: InferenceRule[A, B], p2: InferenceRule[B, C]): InferenceRule[A, C] =
+  implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     p1 && p2
 }

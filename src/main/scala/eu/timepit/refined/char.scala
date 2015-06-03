@@ -22,7 +22,6 @@ object char extends CharPredicates {
 
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit
-
 }
 
 trait CharPredicates {

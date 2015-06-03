@@ -142,6 +142,9 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
   implicit def doubleNegationIntroduction[A, B](implicit p1: B ==> A): A ==> Not[Not[B]] =
     p1.adapted
 
+  implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ==> (A And (B And C)) =
+    InferenceRule.alwaysValid
+
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     InferenceRule.alwaysValid
 
@@ -149,6 +152,9 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
     InferenceRule.alwaysValid
 
   implicit def conjunctionEliminationR[A, B]: (A And B) ==> B =
+    InferenceRule.alwaysValid
+
+  implicit def disjunctionAssociativity[A, B, C]: ((A Or B) Or C) ==> (A Or (B Or C)) =
     InferenceRule.alwaysValid
 
   implicit def disjunctionCommutativity[A, B]: (A Or B) ==> (B Or A) =

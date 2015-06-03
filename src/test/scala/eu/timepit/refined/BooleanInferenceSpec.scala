@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
-import eu.timepit.refined.char.{ Digit, Letter, UpperCase }
+import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.tag.@@
@@ -45,6 +45,12 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     a == b
   }
 
+  property("conjunction associativity") = secure {
+    val a: Char @@ ((UpperCase And Letter) And Not[Whitespace]) = refineLit('A')
+    val b: Char @@ (UpperCase And (Letter And Not[Whitespace])) = a
+    a == b
+  }
+
   property("conjunction commutativity") = secure {
     val a: Char @@ (UpperCase And Letter) = refineLit('A')
     val b: Char @@ (Letter And UpperCase) = a
@@ -69,6 +75,12 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
       val b: Char @@ (UpperCase And Digit) = a
       """)
     true
+  }
+
+  property("disjunction associativity") = secure {
+    val a: Char @@ ((UpperCase Or Letter) Or Digit) = refineLit('A')
+    val b: Char @@ (UpperCase Or (Letter Or Digit)) = a
+    a == b
   }
 
   property("disjunction commutativity") = secure {

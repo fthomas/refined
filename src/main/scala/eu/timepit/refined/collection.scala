@@ -147,6 +147,9 @@ trait CollectionPredicates {
 trait CollectionInferenceRules {
   import collection._
 
+  implicit def existsNonEmpty[P]: InferenceRule[Exists[P], NonEmpty] =
+    InferenceRule.alwaysValid
+
   implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
     InferenceRule.alwaysValid
 

@@ -37,6 +37,14 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     true
   }
 
+  /*
+  property("Less ==> LessEqual success") = secure {
+    val a: Double @@ Less[W.`7.2`.T] = refineLit(1.0)
+    val b: Double @@ LessEqual[W.`7.5`.T] = a
+    a == b
+  }
+  */
+
   property("Greater success") = secure {
     val a: Double @@ Greater[W.`7.5`.T] = refineLit(10.0)
     val b: Double @@ Greater[W.`7.2`.T] = a

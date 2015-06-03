@@ -16,6 +16,6 @@ object Infer {
     if (MacroUtils.eval(c)(i).isValid)
       c.Expr(q"$t.asInstanceOf[$tTpe @@ $bTpe]")
     else
-      c.abort(c.enclosingPosition, s"invalid inference: $aTpe -> $bTpe")
+      c.abort(c.enclosingPosition, s"invalid inference: $aTpe ==> $bTpe")
   }
 }

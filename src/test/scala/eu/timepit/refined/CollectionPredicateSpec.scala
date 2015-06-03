@@ -8,9 +8,9 @@ import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.tag.@@
 
-class CollectionSpec extends Properties("collection") {
+class CollectionPredicateSpec extends Properties("CollectionPredicate") {
+
   property("Contains[W.`0`.T].isValid") = forAll { (l: List[Int]) =>
     Predicate[Contains[W.`0`.T], List[Int]].isValid(l) ?= l.contains(0)
   }
@@ -79,20 +79,5 @@ class CollectionSpec extends Properties("collection") {
 
   property("Size[Greater[_]].consistent") = forAll {
     consistent(Predicate[Size[Greater[_5]], List[Int]])
-  }
-
-  property("Head ==> Exists") = secure {
-    val x: List[Int] @@ Exists[Positive] = refine[Head[Positive]](List(1, -1, -2)).right.get
-    true
-  }
-
-  property("Index ==> Exists") = secure {
-    val x: List[Char] @@ Exists[Digit] = refine[Index[W.`1`.T, Digit]](List('a', '1', 'b')).right.get
-    true
-  }
-
-  property("Last ==> Exists") = secure {
-    val x: List[Int] @@ Exists[Positive] = refine[Last[Positive]](List(-1, -2, 1)).right.get
-    true
   }
 }

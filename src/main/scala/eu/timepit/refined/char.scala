@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Or
+import eu.timepit.refined.char._
 
 object char extends CharPredicates {
 
@@ -25,7 +26,6 @@ object char extends CharPredicates {
 }
 
 trait CharPredicates {
-  import char._
 
   implicit val digitPredicate: Predicate[Digit, Char] =
     Predicate.instance(_.isDigit, t => s"isDigit('$t')")

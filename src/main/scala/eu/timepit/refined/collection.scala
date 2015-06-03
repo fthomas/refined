@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean.Not
+import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
@@ -76,7 +77,6 @@ object collection extends CollectionPredicates with CollectionInferenceRules {
 }
 
 trait CollectionPredicates {
-  import collection._
 
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =
     new Predicate[Count[PA, PC], T] {
@@ -145,7 +145,6 @@ trait CollectionPredicates {
 }
 
 trait CollectionInferenceRules {
-  import collection._
 
   implicit def existsNonEmpty[P]: InferenceRule[Exists[P], NonEmpty] =
     InferenceRule.alwaysValid

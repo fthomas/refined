@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.internal.WeakWitness
+import eu.timepit.refined.string._
 
 object string extends StringPredicates {
 
@@ -9,7 +10,6 @@ object string extends StringPredicates {
 }
 
 trait StringPredicates {
-  import string._
 
   implicit def matchesRegexPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[MatchesRegex[R], String] =
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")

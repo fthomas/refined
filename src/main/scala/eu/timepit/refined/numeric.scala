@@ -3,6 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.WeakWitness
+import eu.timepit.refined.numeric._
 import shapeless.Nat
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
@@ -32,7 +33,6 @@ object numeric extends NumericPredicates with NumericInferenceRules {
 }
 
 trait NumericPredicates {
-  import numeric._
 
   implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
@@ -51,7 +51,6 @@ trait NumericPredicates {
 }
 
 trait NumericInferenceRules {
-  import numeric._
 
   implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Less[A], Less[B]] =
     InferenceRule.instance(nc.lt(wa.value, wb.value))

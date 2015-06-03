@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.boolean._
 import shapeless.{ ::, HList, HNil }
 
 object boolean extends BooleanPredicates with BooleanInferenceRules {
@@ -33,7 +34,6 @@ object boolean extends BooleanPredicates with BooleanInferenceRules {
 }
 
 trait BooleanPredicates {
-  import boolean._
 
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.alwaysValid
@@ -131,7 +131,6 @@ trait BooleanPredicates {
 }
 
 trait BooleanInferenceRules {
-  import boolean._
 
   implicit def doubleNegationElimination[A]: InferenceRule[Not[Not[A]], A] =
     InferenceRule.alwaysValid

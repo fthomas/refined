@@ -14,9 +14,33 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     a == b
   }
 
+  property("double negation elimination 2x") = secure {
+    val a: Char @@ Not[Not[Not[Not[UpperCase]]]] = refineLit('A')
+    val b: Char @@ UpperCase = a
+    a == b
+  }
+
+  property("double negation elimination 3x") = secure {
+    val a: Char @@ Not[Not[Not[Not[Not[Not[UpperCase]]]]]] = refineLit('A')
+    val b: Char @@ UpperCase = a
+    a == b
+  }
+
+  property("double negation elimination 4x") = secure {
+    val a: Char @@ Not[Not[Not[Not[Not[Not[Not[Not[UpperCase]]]]]]]] = refineLit('A')
+    val b: Char @@ UpperCase = a
+    a == b
+  }
+
   property("double negation introduction") = secure {
     val a: Char @@ UpperCase = refineLit('A')
     val b: Char @@ Not[Not[UpperCase]] = a
+    a == b
+  }
+
+  property("double negation introduction 2x") = secure {
+    val a: Char @@ UpperCase = refineLit('A')
+    val b: Char @@ Not[Not[Not[Not[UpperCase]]]] = a
     a == b
   }
 

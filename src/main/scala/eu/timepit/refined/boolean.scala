@@ -133,11 +133,14 @@ trait BooleanPredicates {
 
 trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 
-  implicit def doubleNegationElimination[A]: Not[Not[A]] ==> A =
+  implicit def minimalTautology[A]: A ==> A =
     InferenceRule.alwaysValid
 
-  implicit def doubleNegationIntroduction[A]: A ==> Not[Not[A]] =
-    InferenceRule.alwaysValid
+  implicit def doubleNegationElimination[A, B](implicit p1: B ==> A): Not[Not[A]] ==> B =
+    p1.adapted
+
+  implicit def doubleNegationIntroduction[A, B](implicit p1: B ==> A): A ==> Not[Not[B]] =
+    p1.adapted
 
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     InferenceRule.alwaysValid

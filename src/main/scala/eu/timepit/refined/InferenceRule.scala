@@ -1,25 +1,20 @@
 package eu.timepit.refined
 
 /**
- * Type class for validating if the conclusion `C` can be inferred from the
- * premise `P`.
+ * Evidence that states if the conclusion `C` can be inferred from the
+ * premise `P` or not.
  */
-trait InferenceRule[P, C] {
-  def isValid: Boolean
-
-  def &&[P2, P3, C2, C3](other: InferenceRule[P2, C2]): InferenceRule[P3, C3] =
-    InferenceRule.instance(isValid && other.isValid)
+case class InferenceRule[P, C](isValid: Boolean) {
 
   def adapted[P2, C2]: InferenceRule[P2, C2] =
-    InferenceRule.instance(isValid)
+    copy()
+
+  def &&[P2, P3, C2, C3](other: InferenceRule[P2, C2]): InferenceRule[P3, C3] =
+    copy(isValid && other.isValid)
 }
 
 object InferenceRule {
-  def instance[P, C](valid: Boolean): InferenceRule[P, C] =
-    new InferenceRule[P, C] {
-      def isValid: Boolean = valid
-    }
 
   def alwaysValid[P, C]: InferenceRule[P, C] =
-    instance(true)
+    InferenceRule(true)
 }

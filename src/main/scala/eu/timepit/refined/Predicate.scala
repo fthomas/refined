@@ -6,6 +6,7 @@ package eu.timepit.refined
  * type class for `P`.
  */
 trait Predicate[P, T] { self =>
+
   /** Checks if `t` satisfies the predicate `P`. */
   def isValid(t: T): Boolean
 
@@ -48,6 +49,7 @@ trait Predicate[P, T] { self =>
 }
 
 object Predicate {
+
   def apply[P, T](implicit p: Predicate[P, T]): Predicate[P, T] = p
 
   /** Constructs a [[Predicate]] from its parameters. */

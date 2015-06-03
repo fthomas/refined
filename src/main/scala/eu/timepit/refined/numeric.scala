@@ -53,14 +53,14 @@ trait NumericPredicates {
 trait NumericInferenceRules {
 
   implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Less[A], Less[B]] =
-    InferenceRule.instance(nc.lt(wa.value, wb.value))
+    InferenceRule(nc.lt(wa.value, wb.value))
 
   implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Greater[A], Greater[B]] =
-    InferenceRule.instance(nc.gt(wa.value, wb.value))
+    InferenceRule(nc.gt(wa.value, wb.value))
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Less[A], Less[B]] =
-    InferenceRule.instance(ta.apply() < tb.apply())
+    InferenceRule(ta.apply() < tb.apply())
 
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Greater[A], Greater[B]] =
-    InferenceRule.instance(ta.apply() > tb.apply())
+    InferenceRule(ta.apply() > tb.apply())
 }

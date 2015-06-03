@@ -54,4 +54,12 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     val b: String @@ NonEmpty = a
     a == b
   }
+
+  property("NonEmpty =!> Last") = secure {
+    illTyped("""
+      val a: String @@ NonEmpty = refineLit("1a ")
+      val b: String @@ Last[Whitespace] = a
+      """)
+    true
+  }
 }

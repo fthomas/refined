@@ -167,7 +167,6 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 
   implicit def modusTollens[A, B](implicit p1: InferenceRule[A, B]): InferenceRule[Not[B], Not[A]] =
     p1.adapted
-
 }
 
 trait BooleanInferenceRules1 {

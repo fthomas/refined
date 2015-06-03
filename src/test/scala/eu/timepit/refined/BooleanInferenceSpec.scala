@@ -5,6 +5,7 @@ import eu.timepit.refined.char.{ Digit, Letter, UpperCase }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.tag.@@
+import shapeless.test.illTyped
 
 class BooleanInferenceSpec extends Properties("BooleanInference") {
 
@@ -62,6 +63,14 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     a == b
   }
 
+  property("conjunction introduction") = secure {
+    illTyped("""
+      val a: Char @@ UpperCase = refineLit('A')
+      val b: Char @@ (UpperCase And Digit) = a
+      """)
+    true
+  }
+
   property("disjunction commutativity") = secure {
     val a: Char @@ (UpperCase Or Letter) = refineLit('A')
     val b: Char @@ (Letter Or UpperCase) = a
@@ -78,6 +87,14 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     val a: Char @@ Digit = refineLit('5')
     val b: Char @@ (Letter Or Digit) = a
     a == b
+  }
+
+  property("disjunction elimination") = secure {
+    illTyped("""
+      val a: Char @@ UpperCase Or Digit = refineLit('A')
+      val b: Char @@ Digit = a
+      """)
+    true
   }
 
   property("De Morgan's law 1") = secure {

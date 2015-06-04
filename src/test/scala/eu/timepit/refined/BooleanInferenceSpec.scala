@@ -133,16 +133,16 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("De Morgan's law 1 (substitution form, derivation)") = secure {
-    def p1: Not[UpperCase And Letter] ==> (Not[UpperCase] Or Not[Letter]) =
+    def p1[A, B]: Not[A And B] ==> (Not[A] Or Not[B]) =
       deMorgansLaw1
 
-    def p2: Not[Not[UpperCase] Or Not[Letter]] ==> Not[Not[UpperCase And Letter]] =
+    def p2[A, B]: Not[Not[A] Or Not[B]] ==> Not[Not[A And B]] =
       modusTollens(p1)
 
-    def p3: Not[Not[UpperCase And Letter]] ==> (UpperCase And Letter) =
+    def p3[A, B]: Not[Not[A And B]] ==> (A And B) =
       doubleNegationElimination
 
-    def p4: Not[Not[UpperCase] Or Not[Letter]] ==> (UpperCase And Letter) =
+    def p4[A, B]: Not[Not[A] Or Not[B]] ==> (A And B) =
       hypotheticalSyllogism(p2, p3)
 
     p4.isValid

@@ -14,8 +14,13 @@ class GenericPredicateSpec extends Properties("GenericPredicate") {
     Predicate[Equal[W.`1.4`.T], Double].notValid(2.4)
   }
 
-  property("Exists[Equal[_]].show") = secure {
+  property("Equal[_].show") = secure {
     Predicate[Equal[W.`1.4`.T], Double].show(0.4) ?= "(0.4 == 1.4)"
+  }
+
+  property("Equal[Symbol].isValid") = secure {
+    refine[Equal[W.`'foo`.T]]('foo).isRight &&
+      refine[Equal[W.`'foo`.T]]('bar).isLeft
   }
 
   property("IsNull.isValid") = secure {

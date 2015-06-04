@@ -20,5 +20,6 @@ object InferenceRule {
 }
 
 object InferenceRuleAlias {
+
   type ==>[P, C] = InferenceRule[P, C]
 }

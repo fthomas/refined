@@ -2,12 +2,18 @@ package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
+import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class BooleanInferenceSpec extends Properties("BooleanInference") {
+
+  property("double negation elimination with Greater") = secure {
+    InferenceRule[Not[Not[Greater[_5]]], Greater[_4]].isValid
+  }
 
   property("double negation elimination") = secure {
     val a: Char @@ Not[Not[UpperCase]] = refineLit('A')
@@ -31,6 +37,10 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     val a: Char @@ Not[Not[Not[Not[Not[Not[Not[Not[UpperCase]]]]]]]] = refineLit('A')
     val b: Char @@ UpperCase = a
     a == b
+  }
+
+  property("double negation introduction with Greater") = secure {
+    InferenceRule[Greater[_5], Not[Not[Greater[_4]]]].isValid
   }
 
   property("double negation introduction") = secure {

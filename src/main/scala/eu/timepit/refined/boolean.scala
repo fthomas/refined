@@ -136,10 +136,10 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
   implicit def minimalTautology[A]: A ==> A =
     InferenceRule.alwaysValid
 
-  implicit def doubleNegationElimination[A, B](implicit p1: B ==> A): Not[Not[A]] ==> B =
+  implicit def doubleNegationElimination[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
     p1.adapted
 
-  implicit def doubleNegationIntroduction[A, B](implicit p1: B ==> A): A ==> Not[Not[B]] =
+  implicit def doubleNegationIntroduction[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
     p1.adapted
 
   implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ==> (A And (B And C)) =

@@ -15,6 +15,8 @@ case class InferenceRule[P, C](isValid: Boolean) {
 
 object InferenceRule {
 
+  def apply[P, C](implicit i: InferenceRule[P, C]): InferenceRule[P, C] = i
+
   def alwaysValid[P, C]: InferenceRule[P, C] =
     InferenceRule(true)
 }

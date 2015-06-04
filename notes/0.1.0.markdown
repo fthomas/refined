@@ -8,3 +8,8 @@
 
 * `NonPositive`: checks if a numeric value is zero or negative
 * `NonNegative`: checks if a numeric value is zero or positive
+
+[`string`](https://github.com/fthomas/refined/blob/v0.1.0/src/main/scala/eu/timepit/refined/string.scala)
+
+* `EndsWith[S]`: checks if a `String` ends with the suffix `S`
+* `StartsWith[S]`: checks if a `String` starts with the prefix `S`

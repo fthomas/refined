@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.WeakWitness
@@ -58,15 +59,15 @@ trait NumericPredicates {
 
 trait NumericInferenceRules {
 
-  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Less[A], Less[B]] =
+  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
     InferenceRule(nc.lt(wa.value, wb.value))
 
-  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): InferenceRule[Greater[A], Greater[B]] =
+  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
     InferenceRule(nc.gt(wa.value, wb.value))
 
-  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Less[A], Less[B]] =
+  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Less[A] ==> Less[B] =
     InferenceRule(ta.apply() < tb.apply())
 
-  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): InferenceRule[Greater[A], Greater[B]] =
+  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Greater[A] ==> Greater[B] =
     InferenceRule(ta.apply() > tb.apply())
 }

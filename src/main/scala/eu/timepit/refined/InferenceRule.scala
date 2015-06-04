@@ -11,6 +11,9 @@ case class InferenceRule[P, C](isValid: Boolean) {
 
   def &&[P2, P3, C2, C3](other: InferenceRule[P2, C2]): InferenceRule[P3, C3] =
     copy(isValid && other.isValid)
+
+  final def notValid: Boolean =
+    !isValid
 }
 
 object InferenceRule {

@@ -4,7 +4,7 @@ import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.string.MatchesRegex
+import eu.timepit.refined.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
@@ -81,5 +81,25 @@ class StringPredicateSpec extends Properties("StringPredicate") {
   property("MatchesRegex[R].show") = secure {
     Predicate[MatchesRegex[W.`".{2,10}"`.T], String].show("Hello") ?=
       """"Hello".matches(".{2,10}")"""
+  }
+
+  property("EndsWith[S].isValid") = secure {
+    val s = "abcd"
+    Predicate[EndsWith[W.`"cd"`.T], String].isValid(s) ?= s.endsWith("cd")
+  }
+
+  property("EndsWith[S].show") = secure {
+    val s = "abcd"
+    Predicate[EndsWith[W.`"cd"`.T], String].show(s) ?= """"abcd".endsWith("cd")"""
+  }
+
+  property("StartsWith[S].isValid") = secure {
+    val s = "abcd"
+    Predicate[StartsWith[W.`"ab"`.T], String].isValid(s) ?= s.startsWith("ab")
+  }
+
+  property("StartsWith[S].show") = secure {
+    val s = "abcd"
+    Predicate[StartsWith[W.`"ab"`.T], String].show(s) ?= """"abcd".startsWith("ab")"""
   }
 }

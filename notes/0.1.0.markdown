@@ -1,3 +1,10 @@
 ### Changes
 
 * TODO: inference rules!
+
+### New predicates
+
+[`numeric`](https://github.com/fthomas/refined/blob/v0.1.0/src/main/scala/eu/timepit/refined/numeric.scala)
+
+* `NonPositive`: checks if a numeric value is zero or negative
+* `NonNegative`: checks if a numeric value is zero or positive

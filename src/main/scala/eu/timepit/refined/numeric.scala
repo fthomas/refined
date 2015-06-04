@@ -25,8 +25,14 @@ object numeric extends NumericPredicates with NumericInferenceRules {
   /** Predicate that checks if a numeric value is positive (> 0). */
   type Positive = Greater[_0]
 
+  /** Predicate that checks if a numeric value is zero or negative (<= 0). */
+  type NonPositive = Not[Positive]
+
   /** Predicate that checks if a numeric value is negative (< 0). */
   type Negative = Less[_0]
+
+  /** Predicate that checks if a numeric value is zero or positive (>= 0). */
+  type NonNegative = Not[Negative]
 
   /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]

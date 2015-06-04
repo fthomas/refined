@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
 import eu.timepit.refined.numeric.Greater
@@ -129,6 +130,22 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     val a: Char @@ Not[UpperCase Or Letter] = refineLit('5')
     val b: Char @@ (Not[UpperCase] And Not[Letter]) = a
     a == b
+  }
+
+  property("De Morgan's law 1 (substitution form, derivation)") = secure {
+    def p1: Not[UpperCase And Letter] ==> (Not[UpperCase] Or Not[Letter]) =
+      deMorgansLaw1
+
+    def p2: Not[Not[UpperCase] Or Not[Letter]] ==> Not[Not[UpperCase And Letter]] =
+      modusTollens(p1)
+
+    def p3: Not[Not[UpperCase And Letter]] ==> (UpperCase And Letter) =
+      doubleNegationElimination
+
+    def p4: Not[Not[UpperCase] Or Not[Letter]] ==> (UpperCase And Letter) =
+      hypotheticalSyllogism(p2, p3)
+
+    p4.isValid
   }
 
   /*

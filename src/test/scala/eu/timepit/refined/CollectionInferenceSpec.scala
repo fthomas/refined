@@ -1,9 +1,11 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.char.{ Digit, LowerCase, Whitespace }
+import eu.timepit.refined.char.{ Digit, LetterOrDigit, LowerCase, Whitespace }
 import eu.timepit.refined.collection._
+import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
@@ -21,6 +23,12 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
       val b: String @@ Exists[Digit] = a
       """)
     true
+  }
+
+  property("Head[A] ==> Head[B]") = secure {
+    val a: String @@ Head[Digit] = refineLit("1a ")
+    val b: String @@ Head[LetterOrDigit] = a
+    a == b
   }
 
   property("Head ==> Exists") = secure {
@@ -61,5 +69,11 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
       val b: String @@ Last[Whitespace] = a
       """)
     true
+  }
+
+  property("Length[A] ==> Length[B]") = secure {
+    val a: String @@ Size[Greater[_5]] = refineLit("123456")
+    val b: String @@ Size[Greater[_4]] = a
+    a == b
   }
 }

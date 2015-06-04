@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
@@ -146,15 +147,21 @@ trait CollectionPredicates {
 
 trait CollectionInferenceRules {
 
-  implicit def existsNonEmpty[P]: InferenceRule[Exists[P], NonEmpty] =
+  implicit def existsNonEmptyInference[P]: Exists[P] ==> NonEmpty =
     InferenceRule.alwaysValid
 
-  implicit def headExistsInference[P]: InferenceRule[Head[P], Exists[P]] =
+  implicit def headInference[A, B](implicit p1: A ==> B): Head[A] ==> Head[B] =
+    p1.adapted
+
+  implicit def headExistsInference[P]: Head[P] ==> Exists[P] =
     InferenceRule.alwaysValid
 
-  implicit def indexExistsInference[N, P]: InferenceRule[Index[N, P], Exists[P]] =
+  implicit def indexExistsInference[N, P]: Index[N, P] ==> Exists[P] =
     InferenceRule.alwaysValid
 
-  implicit def lastExistsInference[P]: InferenceRule[Last[P], Exists[P]] =
+  implicit def lastExistsInference[P]: Last[P] ==> Exists[P] =
     InferenceRule.alwaysValid
+
+  implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =
+    p1.adapted
 }

@@ -61,6 +61,17 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:34: error: Predicate failed: "123.".matches("[0-9]+").
               refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
+
+scala> val a: Int @@ Greater[_5] = refineLit(10)
+a: Int @@ Greater[_5] = 10
+
+scala> val b: Int @@ Greater[_4] = a
+b: Int @@ Greater[_4] = 10
+
+scala> val c: Int @@ Greater[_6] = a
+<console>:34: error: invalid inference: Greater[_5] ==> Greater[_6]
+       val b: Int @@ Greater[_6] = a
+                                   ^
 ```
 
 Note that `refineLit` validates values at compile-time, so the errors here

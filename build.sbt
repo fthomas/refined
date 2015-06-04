@@ -23,6 +23,7 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-unchecked",
   "-Xfatal-warnings",
+  "-Xfuture",
   "-Xlint",
   "-Yno-adapted-args",
   "-Ywarn-numeric-widen",

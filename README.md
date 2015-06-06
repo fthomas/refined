@@ -42,8 +42,8 @@ Note that `@@` is [shapeless'][shapeless] type for tagging types.
 **refined** also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted
 to `Int @@ Positive` because all integers greater than ten are also positive.
-The type conversion of refined types is a compile-time operation that provided
-by the library:
+The type conversion of refined types is a compile-time operation that is
+provided by the library:
 
 ```scala
 scala> val a: Int @@ Greater[_5] = refineLit(10)
@@ -91,6 +91,17 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:34: error: Predicate failed: "123.".matches("[0-9]+").
               refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
+
+scala> val d1: Char @@ Equal[W.`'3'`.T] = refineLit('3')
+d1: Char @@ Equal[Char('3')] = 3
+
+scala> val d2: Char @@ Digit = d1
+d2: Char @@ Digit = 3
+
+scala> val d3: Char @@ Letter = d1
+<console>:34: error: invalid inference: Equal[Char('3')] ==> Letter
+       val d3: Char @@ Letter = d1
+                                ^
 ```
 
 Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which

@@ -1,10 +1,11 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.generic._
 import eu.timepit.refined.internal.WeakWitness
 
-object generic extends GenericPredicates {
+object generic extends GenericPredicates with GenericInferenceRules {
 
   /** Predicate that checks if a value is equal to `U`. */
   trait Equal[U]
@@ -23,4 +24,10 @@ trait GenericPredicates {
 
   implicit def isNullPredicate[T <: AnyRef]: Predicate[IsNull, T] =
     Predicate.instance(_ == null, t => s"($t == null)")
+}
+
+trait GenericInferenceRules {
+
+  implicit def equalPredicateInference[T, U <: T, P](implicit p: Predicate[P, T], wu: WeakWitness.Aux[U]): Equal[U] ==> P =
+    InferenceRule(p.isValid(wu.value))
 }

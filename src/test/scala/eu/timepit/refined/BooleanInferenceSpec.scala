@@ -154,7 +154,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     val b: Char @@ Not[Not[UpperCase And Letter]] = a
     // doubleNegationElimination
     val c: Char @@ (UpperCase And Letter) = b
-    val d: Char @@ (UpperCase And Letter) = a
+    //val d: Char @@ (UpperCase And Letter) = a
     (a == b) && (b == c)
   }
 

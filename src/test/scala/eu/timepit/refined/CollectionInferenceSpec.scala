@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.char.{ Digit, LetterOrDigit, LowerCase, Whitespace }
+import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
@@ -49,6 +49,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     val a: String @@ Index[W.`1`.T, LowerCase] = refineLit("1a ")
     val b: String @@ Exists[LowerCase] = a
     a == b
+  }
+
+  property("Last[A] ==> Last[B]") = secure {
+    InferenceRule[Last[Letter], Last[LetterOrDigit]].isValid
   }
 
   property("Last ==> Exists") = secure {

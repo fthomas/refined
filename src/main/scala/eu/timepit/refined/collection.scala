@@ -159,6 +159,9 @@ trait CollectionInferenceRules {
   implicit def indexExistsInference[N, P]: Index[N, P] ==> Exists[P] =
     InferenceRule.alwaysValid
 
+  implicit def lastInference[A, B](implicit p1: A ==> B): Last[A] ==> Last[B] =
+    p1.adapted
+
   implicit def lastExistsInference[P]: Last[P] ==> Exists[P] =
     InferenceRule.alwaysValid
 

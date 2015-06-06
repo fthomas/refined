@@ -13,6 +13,9 @@ an excellent motivation why this kind of library is useful).
 A quick example:
 
 ```scala
+import eu.timepit.refined._
+import eu.timepit.refined.numeric._
+
 // refineLit decorates the type of its parameter if it satisfies the
 // given type-level predicate:
 scala> refineLit[Positive](5)
@@ -46,6 +49,9 @@ The type conversion of refined types is a compile-time operation that is
 provided by the library:
 
 ```scala
+import shapeless.nat._
+import shapeless.tag.@@
+
 scala> val a: Int @@ Greater[_5] = refineLit(10)
 a: Int @@ Greater[_5] = 10
 
@@ -68,6 +74,13 @@ intervention.
 ## More examples
 
 ```scala
+import shapeless.{ ::, HNil }
+import eu.timepit.refined.boolean._
+import eu.timepit.refined.char._
+import eu.timepit.refined.collection._
+import eu.timepit.refined.generic._
+import eu.timepit.refined.string._
+
 scala> refineLit[NonEmpty]("Hello")
 res2: String @@ NonEmpty = Hello
 

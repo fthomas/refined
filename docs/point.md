@@ -39,24 +39,19 @@ that provides a string representation for the predicate that is used for error
 messages:
 
 ```scala
-scala> import eu.timepit.refined.Predicate
 import eu.timepit.refined.Predicate
 
-scala> implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =
-     |   Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)")
-quadrant1Predicate: eu.timepit.refined.Predicate[Quadrant1,Point] = eu.timepit.refined.Predicate$$anon$2@31757faf
+implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =
+  Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)")
 
-scala> implicit val quadrant2Predicate: Predicate[Quadrant2, Point] =
-     |   Predicate.instance(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)")
-quadrant2Predicate: eu.timepit.refined.Predicate[Quadrant2,Point] = eu.timepit.refined.Predicate$$anon$2@2d92f894
+implicit val quadrant2Predicate: Predicate[Quadrant2, Point] =
+  Predicate.instance(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)")
 
-scala> implicit val quadrant3Predicate: Predicate[Quadrant3, Point] =
-     |   Predicate.instance(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)")
-quadrant3Predicate: eu.timepit.refined.Predicate[Quadrant3,Point] = eu.timepit.refined.Predicate$$anon$2@fdab625
+implicit val quadrant3Predicate: Predicate[Quadrant3, Point] =
+  Predicate.instance(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)")
 
-scala> implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
-     |   Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
-quadrant4Predicate: eu.timepit.refined.Predicate[Quadrant4,Point] = eu.timepit.refined.Predicate$$anon$2@16ce3417
+implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
+  Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
 ```
 
 We have now everything in place to refine `Point` values with the `refine`

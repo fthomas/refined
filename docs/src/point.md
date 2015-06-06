@@ -30,7 +30,7 @@ one that checks if a given `Point` lies in the corresponding quadrant and one
 that provides a string representation for the predicate that is used for error
 messages:
 
-```tut
+```tut:silent
 import eu.timepit.refined.Predicate
 
 implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =

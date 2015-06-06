@@ -5,9 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/fthomas/refined/master.svg)](https://coveralls.io/r/fthomas/refined)
 [![Codacy Badge](https://img.shields.io/codacy/e4f25ef2656e463e8fed3f4f9314abdb.svg)](https://www.codacy.com/app/fthomas/refined)
 
-## Overview
-
-_refined_ is a Scala library for refining types with type-level predicates
+**refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
 as a port of the [refined][refined.hs] Haskell library (which also provides
 an excellent motivation why this kind of library is useful).
@@ -16,7 +14,7 @@ A quick example:
 
 ```scala
 // refineLit decorates the type of its parameter if it satisfies the
-// given predicate:
+// given type-level predicate:
 scala> refineLit[Positive](5)
 res0: Int @@ Positive = 5
 
@@ -41,10 +39,11 @@ res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 
 Note that `@@` is [shapeless'][shapeless] type for tagging types.
 
-_refined_ also contains basic inference rules for converting between different
-refinements. For example, if we have values of type `Int @@ Greater[_10]` it
-is sound to convert them to `Int @@ Positive`. Ascribing another refinement
-type is a compile-time operation provided by the library:
+**refined** also contains inference rules for converting between different
+refined types. For example, `Int @@ Greater[_10]` can be safely converted
+to `Int @@ Positive` because all integers greater than ten are also positive.
+The type conversion of refined types is a compile-time operation that provided
+by the library:
 
 ```scala
 scala> val a: Int @@ Greater[_5] = refineLit(10)
@@ -94,9 +93,8 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 ```
 
-Note that `refineLit` validates values at compile-time, so the errors here
-a compile errors and not runtime errors. Also note that `W` is a shortcut for
-[`shapeless.Witness`][singleton-types] which provides syntax for singleton types.
+Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which
+provides syntax for singleton types.
 
 ## Installation
 
@@ -113,7 +111,7 @@ Instructions for Maven and other build tools is available at [search.maven.org][
 API documentation of the latest release is available at:
 http://fthomas.github.io/refined/latest/api/
 
-There are also further (typechecked) examples in the [`docs`][docs]
+There are also further (type-checked) examples in the [`docs`][docs]
 directory including one for defining [custom predicates][custom-pred].
 
 [docs]: https://github.com/fthomas/refined/tree/master/docs
@@ -121,7 +119,7 @@ directory including one for defining [custom predicates][custom-pred].
 
 ## Internals
 
-_refined_ basically consists of two parts, one for [refining values with
+**refined** basically consists of two parts, one for [refining types with
 type-level predicates](#predicates) and the other for [converting between
 different refined types](#inference-rules).
 
@@ -228,7 +226,7 @@ validations is [bond][bond].
 
 ## License
 
-_refined_ is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+**refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [bond]: https://github.com/fwbrasil/bond

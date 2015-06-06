@@ -11,6 +11,10 @@ import shapeless.test.illTyped
 
 class CollectionInferenceSpec extends Properties("CollectionInference") {
 
+  property("Exists[A] ==> Exists[B]") = secure {
+    InferenceRule[Contains[W.`'5'`.T], Exists[Digit]].isValid
+  }
+
   property("Exists ==> NonEmpty") = secure {
     val a: String @@ Exists[Digit] = refineLit("1a ")
     val b: String @@ NonEmpty = a

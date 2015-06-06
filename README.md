@@ -7,37 +7,68 @@
 
 ## Overview
 
-This library started as a port of the [refined][refined.hs] Haskell library to
-Scala. The linked websites provides an excellent motivation why this kind of
-library is useful.
+_refined_ is a Scala library for refining types with type-level predicates
+which constrain the set of values described by the refined type. It started
+as a port of the [refined][refined.hs] Haskell library (which also provides
+an excellent motivation why this kind of library is useful).
 
-It consists of:
-
-* Type-level predicates for refining other types, like `UpperCase`, `Positive`,
-  `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
-  order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
-  `Not[_]`, `Forall[_]`, or `Size[_]`.
-
-* A `Predicate` type class that is able to validate a concrete data type (like `Double`)
-  against a type-level predicate (like `Positive`).
-
-* Two functions `refine` and `refineLit` that take a predicate `P` and some value
-  of type `T`, validates this value with a `Predicate[P, T]` and returns the value
-  with type `T @@ P` if validation was successful or an error otherwise
-  (`@@` is [shapeless'][shapeless] type for tagging types :-)). `refine` validates
-  values at runtime and returns an `Either[String, T @@ P]` while `refineLit` is a
-  macro and validates literals at compile-time. So it either returns a `T @@ P` or
-  compilation fails with an error.
-
-## Examples
+A quick example:
 
 ```scala
+// refineLit decorates the type of its parameter if it satisfies the
+// given predicate:
+scala> refineLit[Positive](5)
+res0: Int @@ Positive = 5
+
+// The type Int @@ Positive is the type of all Int values that are
+// greater than zero.
+
+// If the parameter does not satisfy the predicate, we get a meaningful
+// compile error:
+scala> refineLit[Positive](-5)
+<console>:34: error: Predicate failed: (-5 > 0).
+              refineLit[Positive](-5)
+                                 ^
+
+// refineLit is a macro and only works with literals. To refine
+// arbitrary (runtime) values we can use the refine function:
 scala> refine[Positive](5)
-res0: Either[String, Int @@ Positive] = Right(5)
+res1: Either[String, Int @@ Positive] = Right(5)
 
 scala> refine[Positive](-5)
-res1: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
+res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
+```
 
+Note that `@@` is [shapeless'][shapeless] type for tagging types.
+
+_refined_ also contains basic inference rules for converting between different
+refinements. For example, if we have values of type `Int @@ Greater[_10]` it
+is sound to convert them to `Int @@ Positive`. Ascribing another refinement
+type is a compile-time operation provided by the library:
+
+```scala
+scala> val a: Int @@ Greater[_5] = refineLit(10)
+a: Int @@ Greater[_5] = 10
+
+// Since every value greater than 5 is also greater than 4, a can be ascribed
+// the type Int @@ Greater[_4]:
+scala> val b: Int @@ Greater[_4] = a
+b: Int @@ Greater[_4] = 10
+
+// An unsound ascription leads to a compile error:
+scala> val c: Int @@ Greater[_6] = a
+<console>:34: error: invalid inference: Greater[_5] ==> Greater[_6]
+       val b: Int @@ Greater[_6] = a
+                                   ^
+```
+
+This mechanism allows to pass values of more specific types (e.g. `Int @@ Greater[_10]`)
+to functions that take a more general type (e.g. `Int @@ Positive`) without manual
+intervention.
+
+## More examples
+
+```scala
 scala> refineLit[NonEmpty]("Hello")
 res2: String @@ NonEmpty = Hello
 
@@ -61,17 +92,6 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:34: error: Predicate failed: "123.".matches("[0-9]+").
               refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
-
-scala> val a: Int @@ Greater[_5] = refineLit(10)
-a: Int @@ Greater[_5] = 10
-
-scala> val b: Int @@ Greater[_4] = a
-b: Int @@ Greater[_4] = 10
-
-scala> val c: Int @@ Greater[_6] = a
-<console>:34: error: invalid inference: Greater[_5] ==> Greater[_6]
-       val b: Int @@ Greater[_6] = a
-                                   ^
 ```
 
 Note that `refineLit` validates values at compile-time, so the errors here
@@ -98,6 +118,35 @@ directory including one for defining [custom predicates][custom-pred].
 
 [docs]: https://github.com/fthomas/refined/tree/master/docs
 [custom-pred]: https://github.com/fthomas/refined/tree/master/docs/point.md
+
+## Internals
+
+_refined_ basically consists of two parts, one for [refining values with
+type-level predicates](#predicates) and the other for [converting between
+different refined types](#inference-rules).
+
+### Predicates
+
+The refinement machinery is built of:
+
+* Type-level predicates for refining other types, like `UpperCase`, `Positive`,
+  `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
+  order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
+  `Not[_]`, `Forall[_]`, or `Size[_]`.
+
+* A `Predicate` type class that is able to validate a concrete data type (like `Double`)
+  against a type-level predicate (like `Positive`).
+
+* Two functions `refine` and `refineLit` that take a predicate `P` and some value
+  of type `T`, validates this value with a `Predicate[P, T]` and returns the value
+  with type `T @@ P` if validation was successful or an error otherwise.
+  `refine` validates values at runtime and returns an `Either[String, T @@ P]`
+  while `refineLit` is a macro and validates literals at compile-time. So it either
+  returns a `T @@ P` or compilation fails with an error.
+
+### Inference rules
+
+TODO
 
 ## Provided predicates
 
@@ -173,13 +222,13 @@ The library comes with these predefined predicates:
 
 ## Related projects
 
-This library is heavily inspired by the [refined][refined.hs] library for
-Haskell. It even stole its name! Another Scala library that provides type-level
+This library is inspired by the [refined][refined.hs] library for Haskell.
+It even stole its name! Another Scala library that provides type-level
 validations is [bond][bond].
 
 ## License
 
-refined is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+_refined_ is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [bond]: https://github.com/fwbrasil/bond

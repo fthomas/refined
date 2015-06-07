@@ -22,18 +22,7 @@ class OurSingletonTypeMacros(override val c: whitebox.Context) extends shapeless
 
   def materializeWeakWitnessImpl[T: WeakTypeTag]: Tree = {
     val tpe = weakTypeOf[T].dealias
-    val value =
-      tpe match {
-        case ConstantType(c: Constant) => Literal(c)
-
-        case SingleType(p, v) if !v.isParameter => mkAttributedRef(p, v)
-
-        case SingletonSymbolType(c) => mkSingletonSymbol(c)
-
-        case _ =>
-          c.abort(c.enclosingPosition, s"Type argument $tpe is not a singleton type")
-      }
-    mkWeakWitness(tpe, value)
+    mkWeakWitness(tpe, extractSingletonValue(tpe))
   }
 
   def mkWeakWitness(sTpe: Type, s: Tree): Tree = {

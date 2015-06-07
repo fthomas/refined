@@ -24,13 +24,17 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     true
   }
 
-  property("LessEqual success") = secure {
+  property("LessEqual[A] ==> LessEqual[B]") = secure {
     val a: Double @@ LessEqual[W.`7.2`.T] = refineLit(1.0)
     val b: Double @@ LessEqual[W.`7.5`.T] = a
     a == b
   }
 
-  property("LessEqual failure") = secure {
+  property("LessEqual[A] ==> LessEqual[A]") = secure {
+    InferenceRule[LessEqual[W.`1`.T], LessEqual[W.`1`.T]].isValid
+  }
+
+  property("LessEqual[A] =!> LessEqual[B]") = secure {
     illTyped("""
       val a: Double @@ LessEqual[W.`7.5`.T] = refineLit(1.0)
       val b: Double @@ LessEqual[W.`7.2`.T] = a
@@ -60,13 +64,17 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     true
   }
 
-  property("GreaterEqual success") = secure {
+  property("GreaterEqual[A] ==> GreaterEqual[B]") = secure {
     val a: Double @@ GreaterEqual[W.`7.5`.T] = refineLit(10.0)
     val b: Double @@ GreaterEqual[W.`7.2`.T] = a
     a == b
   }
 
-  property("GreaterEqual failure") = secure {
+  property("GreaterEqual[A] ==> GreaterEqual[A]") = secure {
+    InferenceRule[GreaterEqual[W.`1`.T], GreaterEqual[W.`1`.T]].isValid
+  }
+
+  property("GreaterEqual[A] =!> GreaterEqual[B]") = secure {
     illTyped("""
       val a: Double @@ GreaterEqual[W.`7.2`.T] = refineLit(10.0)
       val b: Double @@ GreaterEqual[W.`7.5`.T] = a

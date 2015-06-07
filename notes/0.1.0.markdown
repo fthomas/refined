@@ -1,6 +1,7 @@
 ### Changes
 
 * TODO: inference rules!
+* Updated to shapeless 2.2.1. ([#8])
 
 ### New predicates
 
@@ -13,3 +14,5 @@
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
+
+[#8]: https://github.com/fthomas/refined/issues/8

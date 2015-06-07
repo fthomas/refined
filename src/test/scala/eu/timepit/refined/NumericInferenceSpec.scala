@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -101,13 +102,11 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     true
   }
 
-  /*
-  // These should typecheck:
-
   property("Interval ==> LessEqual") = secure {
     InferenceRule[Interval[_5, _10], LessEqual[_11]].isValid
   }
 
+  /*
   property("Interval ==> GreaterEqual") = secure {
     InferenceRule[Interval[_5, _10], GreaterEqual[_4]].isValid
   }

@@ -31,7 +31,7 @@ scala> refineLit[Positive](-5)
               refineLit[Positive](-5)
                                  ^
 
-// refineLit is a macro and only works with literals. To refine
+// refineLit is a macro and only works with literals. To validate
 // arbitrary (runtime) values we can use the refine function:
 scala> refine[Positive](5)
 res1: Either[String, Int @@ Positive] = Right(5)

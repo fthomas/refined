@@ -49,6 +49,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     true
   }
 
+  property("Index[N, B] ==> Index[N, B]") = secure {
+    InferenceRule[Index[_1, Letter], Index[_1, LetterOrDigit]].isValid
+  }
+
   property("Index ==> Exists") = secure {
     val a: String @@ Index[W.`1`.T, LowerCase] = refineLit("1a ")
     val b: String @@ Exists[LowerCase] = a

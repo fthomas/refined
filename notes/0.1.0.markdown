@@ -3,6 +3,10 @@
 * TODO: inference rules!
 * Updated to shapeless 2.2.1. ([#8])
 
+### Bug fixes
+
+* `refineLit` always required a prior import of `shapeless.tag.@@`. ([9f6d7d9])
+
 ### New predicates
 
 [`numeric`](https://github.com/fthomas/refined/blob/v0.1.0/src/main/scala/eu/timepit/refined/numeric.scala)
@@ -16,3 +20,4 @@
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
 
 [#8]: https://github.com/fthomas/refined/issues/8
+[9f6d7d9]: https://github.com/fthomas/refined/commit/9f6d7d9ba22d20eee0a2fe2f721cde30fb4f94f9

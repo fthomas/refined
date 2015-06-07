@@ -1,6 +1,7 @@
 enablePlugins(GitVersioning)
 
 name := "refined"
+description := "Refinement types for Scala"
 
 organization := "eu.timepit"
 homepage := Some(url("https://github.com/fthomas/refined"))

@@ -151,24 +151,32 @@ different refined types](#inference-rules).
 
 The refinement machinery is built of:
 
-* Type-level predicates for refining other types, like `UpperCase`, `Positive`,
-  `Greater[_0] And LessEqual[_2]`, or `Length[Greater[_5]]`. There are also higher
-  order predicates for combining proper predicates like `And[_, _]`, `Or[_, _]`,
-  `Not[_]`, `Forall[_]`, or `Size[_]`.
+* Type-level predicates for refining other types, like `UpperCase`, `Positive`, or
+  `LessEqual[_2]`. There are also higher order predicates for combining proper
+  predicates like `And[_, _]`, `Or[_, _]`, `Not[_]`, `Forall[_]`, or `Size[_]`.
 
-* A `Predicate` type class that is able to validate a concrete data type (like `Double`)
-  against a type-level predicate (like `Positive`).
+* A `Predicate` type class for validating a value of an unrefined type
+  (like `Double`) against a type-level predicate (like `Positive`).
 
-* Two functions `refine` and `refineLit` that take a predicate `P` and some value
-  of type `T`, validates this value with a `Predicate[P, T]` and returns the value
-  with type `T @@ P` if validation was successful or an error otherwise.
-  `refine` validates values at runtime and returns an `Either[String, T @@ P]`
-  while `refineLit` is a macro and validates literals at compile-time. So it either
-  returns a `T @@ P` or compilation fails with an error.
+* A function `refine` and a macro `refineLit` that take a predicate `P`
+  and some value of type `T`, validate this value with a `Predicate[P, T]`
+  and returns the value with type `T @@ P` if validation was successful or
+  an error otherwise. The return type of `refine` is `Either[String, T @@ P]`
+  while the `refineLit` returns a `T @@ P` or compilation fails. Since
+  `refineLit` is a macro it only works with literal values.
 
 ### Inference rules
 
-TODO
+The type-conversions are built of:
+
+* An `InferenceRule` type class that is indexed by two type-level predicates
+  which states whether the second predicate can be logically derived from the
+  first. `InferenceRule[Greater[_5], Positive]` would be an instance of a
+  valid inference rule while `Inference[Greater[_5], Negative]` would be an
+  instance of an invalid inference rule.
+
+* An implicit conversion defined as macro that casts a value of type `T @@ A`
+  to type `T @@ B` if there is a valid `InferenceRule[A, B]` in scope.
 
 ## Provided predicates
 

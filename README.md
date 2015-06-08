@@ -172,11 +172,11 @@ The type-conversions are built of:
 * An `InferenceRule` type class that is indexed by two type-level predicates
   which states whether the second predicate can be logically derived from the
   first. `InferenceRule[Greater[_5], Positive]` would be an instance of a
-  valid inference rule while `Inference[Greater[_5], Negative]` would be an
-  instance of an invalid inference rule.
+  valid inference rule while `InferenceRule[Greater[_5], Negative]` would be
+  an invalid inference rule.
 
 * An implicit conversion defined as macro that casts a value of type `T @@ A`
-  to type `T @@ B` if there is a valid `InferenceRule[A, B]` in scope.
+  to type `T @@ B` if a valid `InferenceRule[A, B]` is in scope.
 
 ## Provided predicates
 

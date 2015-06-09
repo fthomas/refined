@@ -160,7 +160,7 @@ The refinement machinery is built of:
 
 * A function `refine` and a macro `refineLit` that take a predicate `P`
   and some value of type `T`, validate this value with a `Predicate[P, T]`
-  and returns the value with type `T @@ P` if validation was successful or
+  and return the value with type `T @@ P` if validation was successful or
   an error otherwise. The return type of `refine` is `Either[String, T @@ P]`
   while the `refineLit` returns a `T @@ P` or compilation fails. Since
   `refineLit` is a macro it only works with literal values.

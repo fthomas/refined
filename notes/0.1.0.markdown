@@ -1,6 +1,7 @@
 ### Changes
 
 * TODO: inference rules!
+* Made `Predicate` serializable.
 * Updated to shapeless 2.2.1. ([#8])
 
 ### Bug fixes

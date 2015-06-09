@@ -5,7 +5,7 @@ package eu.timepit.refined
  * predicate `P`. The semantics of `P` are defined by the instance of this
  * type class for `P`.
  */
-trait Predicate[P, T] { self =>
+trait Predicate[P, T] extends Serializable { self =>
 
   /** Checks if `t` satisfies the predicate `P`. */
   def isValid(t: T): Boolean

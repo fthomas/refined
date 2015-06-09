@@ -10,13 +10,13 @@ import shapeless.test.illTyped
 
 class NumericInferenceSpec extends Properties("NumericInference") {
 
-  property("Less success") = secure {
+  property("Less[A] ==> Less[B]") = secure {
     val a: Double @@ Less[W.`7.2`.T] = refineLit(1.0)
     val b: Double @@ Less[W.`7.5`.T] = a
     a == b
   }
 
-  property("Less failure") = secure {
+  property("Less[A] =!> Less[B]") = secure {
     illTyped("""
       val a: Double @@ Less[W.`7.5`.T] = refineLit(1.0)
       val b: Double @@ Less[W.`7.2`.T] = a
@@ -114,9 +114,7 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     InferenceRule[Interval[_5, _10], LessEqual[_11]].isValid
   }
 
-  /*
   property("Interval ==> GreaterEqual") = secure {
     InferenceRule[Interval[_5, _10], GreaterEqual[_4]].isValid
   }
-  */
 }

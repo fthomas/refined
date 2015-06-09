@@ -148,9 +148,6 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     InferenceRule.alwaysValid
 
-  implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
-    p1.adapted
-
   implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapted
 
@@ -180,6 +177,9 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 }
 
 trait BooleanInferenceRules1 {
+
+  implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
+    p1.adapted
 
   implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     p1 && p2

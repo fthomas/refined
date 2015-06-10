@@ -140,7 +140,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
       modusTollens(p1)
 
     def p3[A, B]: Not[Not[A And B]] ==> (A And B) =
-      doubleNegationElimination
+      doubleNegationElimination(minimalTautology)
 
     def p4[A, B]: Not[Not[A] Or Not[B]] ==> (A And B) =
       hypotheticalSyllogism(p2, p3)
@@ -158,13 +158,12 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     (a == b) && (b == c)
   }
 
-  /*
   property("De Morgan's law 2 (substitution form)") = secure {
-    val a: Char @@ (UpperCase Or Letter) = refineLit('f')
-    val b: Char @@ Not[Not[UpperCase] And Not[Letter]] = a
-    a == b
+    val a: Char @@ Not[Not[UpperCase] And Not[Letter]] = refineLit('f')
+    val b: Char @@ Not[Not[UpperCase Or Letter]] = a
+    val c: Char @@ (UpperCase Or Letter) = b
+    (a == b) && (b == c)
   }
-  */
 
   property("Xor commutativity") = secure {
     val a: Char @@ (Letter Xor Digit) = refineLit('A')

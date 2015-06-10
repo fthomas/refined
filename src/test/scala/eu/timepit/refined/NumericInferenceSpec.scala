@@ -5,29 +5,19 @@ import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.tag.@@
-import shapeless.test.illTyped
 
 class NumericInferenceSpec extends Properties("NumericInference") {
 
   property("Less[A] ==> Less[B]") = secure {
-    val a: Double @@ Less[W.`7.2`.T] = refineLit(1.0)
-    val b: Double @@ Less[W.`7.5`.T] = a
-    a == b
+    InferenceRule[Less[W.`7.2`.T], Less[W.`7.5`.T]].isValid
   }
 
   property("Less[A] =!> Less[B]") = secure {
-    illTyped("""
-      val a: Double @@ Less[W.`7.5`.T] = refineLit(1.0)
-      val b: Double @@ Less[W.`7.2`.T] = a
-      """)
-    true
+    InferenceRule[Less[W.`7.5`.T], Less[W.`7.2`.T]].notValid
   }
 
   property("LessEqual[A] ==> LessEqual[B]") = secure {
-    val a: Double @@ LessEqual[W.`7.2`.T] = refineLit(1.0)
-    val b: Double @@ LessEqual[W.`7.5`.T] = a
-    a == b
+    InferenceRule[LessEqual[W.`7.2`.T], LessEqual[W.`7.5`.T]].isValid
   }
 
   property("LessEqual[A] ==> LessEqual[A]") = secure {
@@ -35,39 +25,19 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("LessEqual[A] =!> LessEqual[B]") = secure {
-    illTyped("""
-      val a: Double @@ LessEqual[W.`7.5`.T] = refineLit(1.0)
-      val b: Double @@ LessEqual[W.`7.2`.T] = a
-      """)
-    true
+    InferenceRule[LessEqual[W.`7.5`.T], LessEqual[W.`7.2`.T]].notValid
   }
 
-  /*
-  property("Less ==> LessEqual success") = secure {
-    val a: Double @@ Less[W.`7.2`.T] = refineLit(1.0)
-    val b: Double @@ LessEqual[W.`7.5`.T] = a
-    a == b
-  }
-  */
-
-  property("Greater success") = secure {
-    val a: Double @@ Greater[W.`7.5`.T] = refineLit(10.0)
-    val b: Double @@ Greater[W.`7.2`.T] = a
-    a == b
+  property("Greater[A] ==> Greater[B]") = secure {
+    InferenceRule[Greater[W.`7.5`.T], Greater[W.`7.2`.T]].isValid
   }
 
-  property("Greater failure") = secure {
-    illTyped("""
-      val a: Double @@ Greater[W.`7.2`.T] = refineLit(10.0)
-      val b: Double @@ Greater[W.`7.5`.T] = a
-      """)
-    true
+  property("Greater[A] =!> Greater[B]") = secure {
+    InferenceRule[Greater[W.`7.2`.T], Greater[W.`7.5`.T]].notValid
   }
 
   property("GreaterEqual[A] ==> GreaterEqual[B]") = secure {
-    val a: Double @@ GreaterEqual[W.`7.5`.T] = refineLit(10.0)
-    val b: Double @@ GreaterEqual[W.`7.2`.T] = a
-    a == b
+    InferenceRule[GreaterEqual[W.`7.5`.T], GreaterEqual[W.`7.2`.T]].isValid
   }
 
   property("GreaterEqual[A] ==> GreaterEqual[A]") = secure {
@@ -75,46 +45,30 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("GreaterEqual[A] =!> GreaterEqual[B]") = secure {
-    illTyped("""
-      val a: Double @@ GreaterEqual[W.`7.2`.T] = refineLit(10.0)
-      val b: Double @@ GreaterEqual[W.`7.5`.T] = a
-      """)
-    true
+    InferenceRule[GreaterEqual[W.`7.2`.T], GreaterEqual[W.`7.5`.T]].notValid
   }
 
-  property("Less.Nat success") = secure {
-    val a: Int @@ Less[_5] = refineLit(1)
-    val b: Int @@ Less[_10] = a
-    a == b
+  property("Less[Nat] ==> Less[Nat]") = secure {
+    InferenceRule[Less[_5], Less[_10]].isValid
   }
 
-  property("Less.Nat failure") = secure {
-    illTyped("""
-      val a: Int @@ Less[_10] = refineLit(1)
-      val b: Int @@ Less[_5] = a
-      """)
-    true
+  property("Less[Nat] =!> Less[Nat]") = secure {
+    InferenceRule[Less[_10], Less[_5]].notValid
   }
 
-  property("Greater.Nat success") = secure {
-    val a: Int @@ Greater[_10] = refineLit(15)
-    val b: Int @@ Greater[_5] = a
-    a == b
+  property("Greater[Nat] ==> Greater[Nat]") = secure {
+    InferenceRule[Greater[_10], Greater[_5]].isValid
   }
 
-  property("Greater.Nat failure") = secure {
-    illTyped("""
-      val a: Int @@ Greater[_5] = refineLit(15)
-      val b: Int @@ Greater[_10] = a
-      """)
-    true
+  property("Greater[Nat] =!> Greater[Nat]") = secure {
+    InferenceRule[Greater[_5], Greater[_10]].notValid
   }
 
-  property("Interval ==> LessEqual") = secure {
+  property("Interval[Nat] ==> LessEqual[Nat]") = secure {
     InferenceRule[Interval[_5, _10], LessEqual[_11]].isValid
   }
 
-  property("Interval ==> GreaterEqual") = secure {
+  property("Interval[Nat] ==> GreaterEqual[Nat]") = secure {
     InferenceRule[Interval[_5, _10], GreaterEqual[_4]].isValid
   }
 }

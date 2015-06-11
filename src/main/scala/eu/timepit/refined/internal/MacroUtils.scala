@@ -2,6 +2,7 @@ package eu.timepit.refined
 package internal
 
 import scala.reflect.macros.blackbox
+import scala.util.{ Success, Try }
 
 object MacroUtils {
   def eval[T](c: blackbox.Context)(t: c.Expr[T]): T = {
@@ -9,9 +10,9 @@ object MacroUtils {
 
     // Try evaluating expr twice before failing, see
     // https://github.com/fthomas/refined/issues/3
-    tryTwice(c.eval(expr))
+    tryN(2, c.eval(expr))
   }
 
-  def tryTwice[T](t: => T): T =
-    scala.util.Try(t).getOrElse(t)
+  def tryN[T](n: Int, t: => T): T =
+    Stream.fill(n)(Try(t)).collect { case Success(r) => r }.headOption.getOrElse(t)
 }

@@ -4,6 +4,8 @@ import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.string._
 
+import scala.util.{ Failure, Success, Try }
+
 object string extends StringPredicates with StringInferenceRules {
 
   /** Predicate that checks if a `String` ends with the suffix `S`. */
@@ -11,6 +13,9 @@ object string extends StringPredicates with StringInferenceRules {
 
   /** Predicate that checks if a `String` matches the regular expression `R`. */
   trait MatchesRegex[R]
+
+  /** Predicate that checks if a `String` is a valid regular expression. */
+  trait Regex
 
   /** Predicate that checks if a `String` starts with the prefix `S`. */
   trait StartsWith[S]
@@ -23,6 +28,15 @@ trait StringPredicates {
 
   implicit def matchesRegexPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[MatchesRegex[R], String] =
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
+
+  implicit val regexPredicate: Predicate[Regex, String] =
+    Predicate.instance(t => Try(t.r).isSuccess, t => {
+      val msg = s"""isRegex("$t")"""
+      Try(t.r) match {
+        case Success(_) => msg
+        case Failure(ex) => s"$msg: ${ex.getMessage}"
+      }
+    })
 
   implicit def startsWithPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")

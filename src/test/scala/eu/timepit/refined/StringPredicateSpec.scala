@@ -102,4 +102,16 @@ class StringPredicateSpec extends Properties("StringPredicate") {
     val s = "abcd"
     Predicate[StartsWith[W.`"ab"`.T], String].show(s) ?= """"abcd".startsWith("ab")"""
   }
+
+  property("Regex.isValid") = secure {
+    Predicate[Regex, String].isValid(".*")
+  }
+
+  property("Regex.notValid") = secure {
+    Predicate[Regex, String].notValid("(a|b")
+  }
+
+  property("Regex.show") = secure {
+    Predicate[Regex, String].show("(a|b)") ?= """isRegex("(a|b)")"""
+  }
 }

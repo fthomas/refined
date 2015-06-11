@@ -229,8 +229,6 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
-* `IsNull`:  checks if a value is `null`
-* `NonNull`: checks if a value is not `null`
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
 
@@ -248,6 +246,7 @@ The library comes with these predefined predicates:
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
+* `Regex`: checks if a `String` is a valid regular expression
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
 
 ## Related projects

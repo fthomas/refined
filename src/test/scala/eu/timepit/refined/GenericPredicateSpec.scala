@@ -20,20 +20,14 @@ class GenericPredicateSpec extends Properties("GenericPredicate") {
 
   property("Equal[object.type].isValid") = secure {
     object Foo
-    refine[Equal[Foo.type]](Foo).isRight
+    Predicate[Equal[Foo.type], Any].isValid(Foo)
   }
 
   property("Equal[Symbol].isValid") = secure {
-    refine[Equal[W.`'foo`.T]]('foo).isRight &&
-      refine[Equal[W.`'foo`.T]]('bar).isLeft
+    Predicate[Equal[W.`'foo`.T], Symbol].isValid('foo)
   }
 
-  property("IsNull.isValid") = secure {
-    val p = Predicate[IsNull, String]
-    p.isValid(null) && p.notValid("")
-  }
-
-  property("NonNull.show") = secure {
-    Predicate[NonNull, String].show("abc") ?= "!(abc == null)"
+  property("Equal[Symbol].notValid") = secure {
+    Predicate[Equal[W.`'foo`.T], Symbol].notValid('bar)
   }
 }

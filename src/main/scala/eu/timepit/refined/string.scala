@@ -30,13 +30,16 @@ trait StringPredicates {
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
   implicit val regexPredicate: Predicate[Regex, String] =
-    Predicate.instance(t => Try(t.r).isSuccess, t => {
-      val msg = s"""isRegex("$t")"""
-      Try(t.r) match {
-        case Success(_) => msg
-        case Failure(ex) => s"$msg: ${ex.getMessage}"
-      }
-    })
+    new Predicate[Regex, String] {
+      def isValid(t: String): Boolean = Try(t.r).isSuccess
+      def show(t: String): String = s"""isRegex("$t")"""
+
+      override def validated(t: String): Option[String] =
+        Try(t.r) match {
+          case Success(_) => None
+          case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")
+        }
+    }
 
   implicit def startsWithPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")

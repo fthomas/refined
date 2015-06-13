@@ -1,4 +1,4 @@
-The examples from the [README.md](https://github.com/fthomas/refined/blob/master/README.md):
+The examples from the [README](https://github.com/fthomas/refined/blob/master/README.md):
 
 ```tut:nofail
 import eu.timepit.refined._
@@ -14,6 +14,7 @@ refine[Positive](-5)
 ```
 
 ```tut:nofail
+import eu.timepit.refined.implicits._
 import shapeless.nat._
 import shapeless.tag.@@
 
@@ -44,9 +45,13 @@ refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 
 refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 
-val d1: Char @@ Equal[W.`'3'`.T] = refineLit('3')
+val d1: Char @@ Equal[W.`'3'`.T] = '3'
 
 val d2: Char @@ Digit = d1
 
 val d3: Char @@ Letter = d1
+
+val r1: String @@ Regex = "(a|b)"
+
+val r2: String @@ Regex = "(a|b"
 ```

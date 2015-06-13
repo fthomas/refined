@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
+import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

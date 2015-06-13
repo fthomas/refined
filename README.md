@@ -49,6 +49,7 @@ The type conversion of refined types is a compile-time operation that is
 provided by the library:
 
 ```scala
+import eu.timepit.refined.implicits._
 import shapeless.nat._
 import shapeless.tag.@@
 
@@ -105,7 +106,9 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
               refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 
-scala> val d1: Char @@ Equal[W.`'3'`.T] = refineLit('3')
+// The implicits object contains an implicit version of refineLit which is
+// used here to validate that '3' is '3':
+scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
 d1: Char @@ Equal[Char('3')] = 3
 
 scala> val d2: Char @@ Digit = d1
@@ -115,6 +118,16 @@ scala> val d3: Char @@ Letter = d1
 <console>:34: error: invalid inference: Equal[Char('3')] ==> Letter
        val d3: Char @@ Letter = d1
                                 ^
+
+scala> val r1: String @@ Regex = "(a|b)"
+r1: String @@ Regex = (a|b)
+
+scala> val r2: String @@ Regex = "(a|b"
+<console>:37: error: Predicate isRegex("(a|b") failed: Unclosed group near index 4
+(a|b
+    ^
+       val r2: String @@ Regex = "(a|b"
+                                 ^
 ```
 
 Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which

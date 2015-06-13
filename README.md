@@ -130,6 +130,11 @@ If you're using SBT, add the following to your build file:
 
 Instructions for Maven and other build tools is available at [search.maven.org][search.maven].
 
+**Note:** You currently need to add this resolver to your build due to a known
+problem in the [tut](https://github.com/tpolecat/tut) plugin:
+
+    resolvers += "tpolecat" at "http://dl.bintray.com/tpolecat/maven"
+
 ## Documentation
 
 API documentation of the latest release is available at:

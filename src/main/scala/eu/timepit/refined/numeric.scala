@@ -3,11 +3,10 @@ package eu.timepit.refined
 import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.generic.Equal
-import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.numeric._
-import shapeless.Nat
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
+import shapeless.{ Nat, Witness }
 
 object numeric extends NumericPredicates with NumericInferenceRules {
 
@@ -41,10 +40,10 @@ object numeric extends NumericPredicates with NumericInferenceRules {
 
 trait NumericPredicates {
 
-  implicit def lessPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
+  implicit def lessPredicate[T, N <: T](implicit wn: Witness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
 
-  implicit def greaterPredicate[T, N <: T](implicit wn: WeakWitness.Aux[N], nt: Numeric[T]): Predicate[Greater[N], T] =
+  implicit def greaterPredicate[T, N <: T](implicit wn: Witness.Aux[N], nt: Numeric[T]): Predicate[Greater[N], T] =
     Predicate.instance(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})")
 
   implicit def lessPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Less[N], T] =
@@ -59,10 +58,10 @@ trait NumericPredicates {
 
 trait NumericInferenceRules {
 
-  implicit def lessInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
+  implicit def lessInference[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
     InferenceRule(nc.lt(wa.value, wb.value))
 
-  implicit def greaterInference[C, A <: C, B <: C](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
+  implicit def greaterInference[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
     InferenceRule(nc.gt(wa.value, wb.value))
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Less[A] ==> Less[B] =

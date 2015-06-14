@@ -112,7 +112,7 @@ class StringPredicateSpec extends Properties("StringPredicate") {
   }
 
   property("Regex.show") = secure {
-    Predicate[Regex, String].show("(a|b)") ?= """isRegex("(a|b)")"""
+    Predicate[Regex, String].show("(a|b)") ?= """isValidRegex("(a|b)")"""
   }
 
   property("Regex.validated success") = secure {
@@ -122,7 +122,7 @@ class StringPredicateSpec extends Properties("StringPredicate") {
   property("Regex.validated failure") = secure {
     Predicate[Regex, String].validated("(a|b") ?=
       Some(
-        """Predicate isRegex("(a|b") failed: Unclosed group near index 4
+        """Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
           |(a|b
           |    ^""".stripMargin)
   }

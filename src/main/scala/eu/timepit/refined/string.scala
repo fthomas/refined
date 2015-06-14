@@ -1,8 +1,8 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.InferenceRuleAlias.==>
-import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.string._
+import shapeless.Witness
 
 import scala.util.{ Failure, Success, Try }
 
@@ -23,16 +23,16 @@ object string extends StringPredicates with StringInferenceRules {
 
 trait StringPredicates {
 
-  implicit def endsWithPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[EndsWith[R], String] =
+  implicit def endsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[EndsWith[R], String] =
     Predicate.instance(_.endsWith(wr.value), t => s""""$t".endsWith("${wr.value}")""")
 
-  implicit def matchesRegexPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[MatchesRegex[R], String] =
+  implicit def matchesRegexPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[MatchesRegex[R], String] =
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
   implicit val regexPredicate: Predicate[Regex, String] =
     new Predicate[Regex, String] {
       def isValid(t: String): Boolean = Try(t.r).isSuccess
-      def show(t: String): String = s"""isRegex("$t")"""
+      def show(t: String): String = s"""isValidRegex("$t")"""
 
       override def validated(t: String): Option[String] =
         Try(t.r) match {
@@ -41,15 +41,15 @@ trait StringPredicates {
         }
     }
 
-  implicit def startsWithPredicate[R <: String](implicit wr: WeakWitness.Aux[R]): Predicate[StartsWith[R], String] =
+  implicit def startsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")
 }
 
 trait StringInferenceRules {
 
-  implicit def endsWithInference[A <: String, B <: String](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B]): EndsWith[A] ==> EndsWith[B] =
+  implicit def endsWithInference[A <: String, B <: String](implicit wa: Witness.Aux[A], wb: Witness.Aux[B]): EndsWith[A] ==> EndsWith[B] =
     InferenceRule(wa.value.endsWith(wb.value))
 
-  implicit def startsWithInference[A <: String, B <: String](implicit wa: WeakWitness.Aux[A], wb: WeakWitness.Aux[B]): StartsWith[A] ==> StartsWith[B] =
+  implicit def startsWithInference[A <: String, B <: String](implicit wa: Witness.Aux[A], wb: Witness.Aux[B]): StartsWith[A] ==> StartsWith[B] =
     InferenceRule(wa.value.startsWith(wb.value))
 }

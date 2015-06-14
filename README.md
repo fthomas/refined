@@ -123,7 +123,7 @@ scala> val r1: String @@ Regex = "(a|b)"
 r1: String @@ Regex = (a|b)
 
 scala> val r2: String @@ Regex = "(a|b"
-<console>:37: error: Predicate isRegex("(a|b") failed: Unclosed group near index 4
+<console>:37: error: Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
 (a|b
     ^
        val r2: String @@ Regex = "(a|b"

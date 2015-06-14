@@ -34,7 +34,7 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-  "com.chuusai" %% "shapeless" % "2.2.1",
+  "com.chuusai" %% "shapeless" % "2.2.2",
   "org.scalacheck" %% "scalacheck" % "1.12.3" % "test"
 )
 

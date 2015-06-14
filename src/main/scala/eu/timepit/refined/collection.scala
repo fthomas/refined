@@ -4,8 +4,8 @@ import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
-import eu.timepit.refined.internal.WeakWitness
 import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
+import shapeless.Witness
 
 object collection extends CollectionPredicates with CollectionInferenceRules {
 
@@ -110,7 +110,7 @@ trait CollectionPredicates {
   implicit def headPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => Traversable[A]): Predicate[Head[P], T] =
     headPredicate.contramap(ev)
 
-  implicit def indexPredicate[N <: Int, P, A, T](implicit p: Predicate[P, A], ev: T => PartialFunction[Int, A], wn: WeakWitness.Aux[N]): Predicate[Index[N, P], T] =
+  implicit def indexPredicate[N <: Int, P, A, T](implicit p: Predicate[P, A], ev: T => PartialFunction[Int, A], wn: Witness.Aux[N]): Predicate[Index[N, P], T] =
     singleElemPredicate(_.lift(wn.value), (t: T, a: A) => s"index($t, ${wn.value}) = $a")
 
   implicit def lastPredicate[P, A, T[A] <: Traversable[A]](implicit p: Predicate[P, A]): Predicate[Last[P], T[A]] =

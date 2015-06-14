@@ -1,10 +1,11 @@
 ### Changes
 
 * TODO: inference rules!
+* TODO: implicit refineLit
 * Made `Predicate` serializable.
 * Removed `IsNull` and `NonNull` predicates since they often caused ambiguous
   implicit errors and Scala has better means to handle `null` values.
-* Updated to shapeless 2.2.1. ([#8])
+* Updated to shapeless 2.2.2. ([#8], [#13])
 
 ### Bug fixes
 
@@ -24,4 +25,5 @@
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
 
 [#8]: https://github.com/fthomas/refined/issues/8
+[#13]: https://github.com/fthomas/refined/issues/13
 [9f6d7d9]: https://github.com/fthomas/refined/commit/9f6d7d9ba22d20eee0a2fe2f721cde30fb4f94f9

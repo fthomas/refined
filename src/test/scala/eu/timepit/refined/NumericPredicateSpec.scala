@@ -13,7 +13,7 @@ class NumericPredicateSpec extends Properties("NumericPredicate") {
   }
 
   property("Less.show") = secure {
-    Predicate[Less[W.`1.0`.T], Double].show(0.0) ?= "(0.0 < 1.0)"
+    Predicate[Less[W.`1.1`.T], Double].show(0.1) ?= "(0.1 < 1.1)"
   }
 
   property("Greater.isValid") = forAll { (d: Double) =>
@@ -21,7 +21,7 @@ class NumericPredicateSpec extends Properties("NumericPredicate") {
   }
 
   property("Greater.show") = secure {
-    Predicate[Greater[W.`1.0`.T], Double].show(0.0) ?= "(0.0 > 1.0)"
+    Predicate[Greater[W.`1.1`.T], Double].show(0.1) ?= "(0.1 > 1.1)"
   }
 
   property("Less.Nat ~= Less") = forAll { (i: Int) =>

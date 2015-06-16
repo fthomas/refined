@@ -2,12 +2,10 @@ package eu.timepit.refined
 
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
-import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class CollectionInferenceSpec extends Properties("CollectionInference") {
@@ -17,47 +15,33 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Exists ==> NonEmpty") = secure {
-    val a: String @@ Exists[Digit] = refineLit("1a ")
-    val b: String @@ NonEmpty = a
-    a == b
+    InferenceRule[Exists[Digit], NonEmpty].isValid
   }
 
   property("NonEmpty =!> Exists") = secure {
-    illTyped("""
-      val a: String @@ NonEmpty = refineLit("abc")
-      val b: String @@ Exists[Digit] = a
-      """)
+    illTyped("InferenceRule[NonEmpty, Exists[Digit]]")
     true
   }
 
   property("Head[A] ==> Head[B]") = secure {
-    val a: String @@ Head[Digit] = refineLit("1a ")
-    val b: String @@ Head[LetterOrDigit] = a
-    a == b
+    InferenceRule[Head[Digit], Head[LetterOrDigit]].isValid
   }
 
-  property("Head ==> Exists") = secure {
-    val a: String @@ Head[Digit] = refineLit("1a ")
-    val b: String @@ Exists[Digit] = a
-    a == b
+  property("Head[A] ==> Exists[A]") = secure {
+    InferenceRule[Head[Digit], Exists[Digit]].isValid
   }
 
-  property("Exists =!> Head") = secure {
-    illTyped("""
-      val a: String @@ Exists[Digit] = refineLit("1a ")
-      val b: String @@ Head[Digit] = a
-      """)
+  property("Exists[A] =!> Head[A]") = secure {
+    illTyped("InferenceRule[Exists[Digit], Head[Digit]]")
     true
   }
 
-  property("Index[N, B] ==> Index[N, B]") = secure {
+  property("Index[N, A] ==> Index[N, B]") = secure {
     InferenceRule[Index[_1, Letter], Index[_1, LetterOrDigit]].isValid
   }
 
   property("Index ==> Exists") = secure {
-    val a: String @@ Index[W.`1`.T, LowerCase] = refineLit("1a ")
-    val b: String @@ Exists[LowerCase] = a
-    a == b
+    InferenceRule[Index[W.`1`.T, LowerCase], Exists[LowerCase]].isValid
   }
 
   property("Last[A] ==> Last[B]") = secure {
@@ -65,28 +49,19 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Last ==> Exists") = secure {
-    val a: String @@ Last[Whitespace] = refineLit("1a ")
-    val b: String @@ Exists[Whitespace] = a
-    a == b
+    InferenceRule[Last[Whitespace], Exists[Whitespace]].isValid
   }
 
   property("Last ==> NonEmpty") = secure {
-    val a: String @@ Last[Whitespace] = refineLit("1a ")
-    val b: String @@ NonEmpty = a
-    a == b
+    InferenceRule[Last[Whitespace], NonEmpty].isValid
   }
 
   property("NonEmpty =!> Last") = secure {
-    illTyped("""
-      val a: String @@ NonEmpty = refineLit("1a ")
-      val b: String @@ Last[Whitespace] = a
-      """)
+    illTyped("InferenceRule[NonEmpty, Last[Whitespace]]")
     true
   }
 
-  property("Length[A] ==> Length[B]") = secure {
-    val a: String @@ Size[Greater[_5]] = refineLit("123456")
-    val b: String @@ Size[Greater[_4]] = a
-    a == b
+  property("Size[A] ==> Size[B]") = secure {
+    InferenceRule[Size[Greater[_5]], Size[Greater[_4]]].isValid
   }
 }

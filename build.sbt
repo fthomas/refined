@@ -57,7 +57,7 @@ git.useGitDescribe := true
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
   Seq(Wart.Any, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Null, Wart.Throw)
 
-addCommandAlias("validate", ";clean;coverage;test;scalastyle;test:scalastyle;doc;tutUpdate")
+addCommandAlias("validate", ";clean;coverage;test;coverageReport;scalastyle;test:scalastyle;doc;tutUpdate")
 
 // doc settings
 

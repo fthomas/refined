@@ -11,7 +11,6 @@ before_install:
 script:
  - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:
- - sbt ++$TRAVIS_SCALA_VERSION coveralls
  - bash <(curl -s https://codecov.io/bash)
 notifications:
   webhooks:

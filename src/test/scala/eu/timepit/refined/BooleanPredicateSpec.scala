@@ -133,6 +133,10 @@ class BooleanPredicateSpec extends Properties("BooleanPredicate") {
       "oneOf(isDigit('c'), isLetter('c'), isUpper('c'), false)"
   }
 
+  property("OneOf[_].consistent") = forAll {
+    consistent(Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char])
+  }
+
   property("OneOf[_].contramap(identity).accumulateIsValid") = forAll { (c: Char) =>
     val p = Predicate[OneOf[Digit :: Letter :: UpperCase :: HNil], Char]
     p.contramap(identity[Char]).accumulateIsValid(c) ?= p.accumulateIsValid(c)

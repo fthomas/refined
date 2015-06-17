@@ -3,12 +3,10 @@ package eu.timepit.refined
 import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
-import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class BooleanInferenceSpec extends Properties("BooleanInference") {
@@ -18,27 +16,19 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("double negation elimination") = secure {
-    val a: Char @@ Not[Not[UpperCase]] = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[Not[Not[UpperCase]], UpperCase].isValid
   }
 
   property("double negation elimination 2x") = secure {
-    val a: Char @@ Not[Not[Not[Not[UpperCase]]]] = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[Not[Not[Not[Not[UpperCase]]]], UpperCase].isValid
   }
 
   property("double negation elimination 3x") = secure {
-    val a: Char @@ Not[Not[Not[Not[Not[Not[UpperCase]]]]]] = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[Not[Not[Not[Not[Not[Not[UpperCase]]]]]], UpperCase].isValid
   }
 
   property("double negation elimination 4x") = secure {
-    val a: Char @@ Not[Not[Not[Not[Not[Not[Not[Not[UpperCase]]]]]]]] = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[Not[Not[Not[Not[Not[Not[Not[Not[UpperCase]]]]]]]], UpperCase].isValid
   }
 
   property("double negation introduction with Greater") = secure {
@@ -46,92 +36,74 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("double negation introduction") = secure {
-    val a: Char @@ UpperCase = refineLit('A')
-    val b: Char @@ Not[Not[UpperCase]] = a
-    a == b
+    InferenceRule[UpperCase, Not[Not[UpperCase]]].isValid
   }
 
   property("double negation introduction 2x") = secure {
-    val a: Char @@ UpperCase = refineLit('A')
-    val b: Char @@ Not[Not[Not[Not[UpperCase]]]] = a
-    a == b
+    InferenceRule[UpperCase, Not[Not[Not[Not[UpperCase]]]]].isValid
   }
 
   property("conjunction associativity") = secure {
-    val a: Char @@ ((UpperCase And Letter) And Not[Whitespace]) = refineLit('A')
-    val b: Char @@ (UpperCase And (Letter And Not[Whitespace])) = a
-    a == b
+    InferenceRule[(UpperCase And Letter) And Not[Whitespace], UpperCase And (Letter And Not[Whitespace])].isValid
   }
 
   property("conjunction commutativity") = secure {
-    val a: Char @@ (UpperCase And Letter) = refineLit('A')
-    val b: Char @@ (Letter And UpperCase) = a
-    a == b
+    InferenceRule[UpperCase And Letter, Letter And UpperCase].isValid
   }
 
   property("conjunction elimination left") = secure {
-    val a: Char @@ (UpperCase And Letter) = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[UpperCase And Letter, UpperCase].isValid
   }
 
   property("conjunction elimination right") = secure {
-    val a: Char @@ (Letter And UpperCase) = refineLit('A')
-    val b: Char @@ UpperCase = a
-    a == b
+    InferenceRule[Letter And UpperCase, UpperCase].isValid
   }
 
   property("conjunction introduction") = secure {
-    illTyped("""
-      val a: Char @@ UpperCase = refineLit('A')
-      val b: Char @@ (UpperCase And Digit) = a
-      """)
+    illTyped("InferenceRule[UpperCase, UpperCase And Digit]")
     true
   }
 
   property("disjunction associativity") = secure {
-    val a: Char @@ ((UpperCase Or Letter) Or Digit) = refineLit('A')
-    val b: Char @@ (UpperCase Or (Letter Or Digit)) = a
-    a == b
+    InferenceRule[(UpperCase Or Letter) Or Digit, UpperCase Or (Letter Or Digit)].isValid
   }
 
   property("disjunction commutativity") = secure {
-    val a: Char @@ (UpperCase Or Letter) = refineLit('A')
-    val b: Char @@ (Letter Or UpperCase) = a
-    a == b
+    InferenceRule[UpperCase Or Letter, Letter Or UpperCase].isValid
   }
 
   property("disjunction introduction left") = secure {
-    val a: Char @@ Digit = refineLit('5')
-    val b: Char @@ (Digit Or Letter) = a
-    a == b
+    InferenceRule[Digit, Digit Or Letter].isValid
   }
 
   property("disjunction introduction right") = secure {
-    val a: Char @@ Digit = refineLit('5')
-    val b: Char @@ (Letter Or Digit) = a
-    a == b
+    InferenceRule[Digit, Letter Or Digit].isValid
   }
 
   property("disjunction elimination") = secure {
-    illTyped("""
-      val a: Char @@ UpperCase Or Digit = refineLit('A')
-      val b: Char @@ Digit = a
-      """)
+    illTyped("InferenceRule[UpperCase Or Digit, Digit]")
     true
   }
 
   property("De Morgan's law 1") = secure {
-    val a: Char @@ Not[UpperCase And Letter] = refineLit('a')
-    val b: Char @@ (Not[UpperCase] Or Not[Letter]) = a
-    a == b
+    InferenceRule[Not[UpperCase And Letter], Not[UpperCase] Or Not[Letter]].isValid
   }
 
-  property("De Morgan's law 2") = secure {
-    val a: Char @@ Not[UpperCase Or Letter] = refineLit('5')
-    val b: Char @@ (Not[UpperCase] And Not[Letter]) = a
-    a == b
+  /*
+  property("De Morgan's law 1 (reversed)") = secure {
+    InferenceRule[Not[UpperCase] Or Not[Letter], Not[UpperCase And Letter]].isValid
   }
+  */
+
+  property("De Morgan's law 2") = secure {
+    InferenceRule[Not[UpperCase Or Letter], Not[UpperCase] And Not[Letter]].isValid
+  }
+
+  /*
+  property("De Morgan's law 2 (reversed)") = secure {
+    InferenceRule[Not[UpperCase] And Not[Letter], Not[UpperCase Or Letter]].isValid
+  }
+  */
 
   property("De Morgan's law 1 (substitution form, derivation)") = secure {
     def p1[A, B]: Not[A And B] ==> (Not[A] Or Not[B]) =
@@ -150,31 +122,34 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("De Morgan's law 1 (substitution form)") = secure {
-    val a: Char @@ Not[Not[UpperCase] Or Not[Letter]] = refineLit('A')
     // modusTollens(deMorgansLaw1)
-    val b: Char @@ Not[Not[UpperCase And Letter]] = a
-    // doubleNegationElimination
-    val c: Char @@ (UpperCase And Letter) = b
-    //val d: Char @@ (UpperCase And Letter) = a
-    (a == b) && (b == c)
+    InferenceRule[Not[Not[UpperCase] Or Not[Letter]], Not[Not[UpperCase And Letter]]].isValid &&
+      // doubleNegationElimination
+      InferenceRule[Not[Not[UpperCase And Letter]], UpperCase And Letter].isValid
   }
+
+  /*
+  property("De Morgan's law 1 (substitution form, reversed)") = secure {
+    InferenceRule[UpperCase And Letter, Not[Not[UpperCase] Or Not[Letter]]].isValid
+  }
+  */
 
   property("De Morgan's law 2 (substitution form)") = secure {
-    val a: Char @@ Not[Not[UpperCase] And Not[Letter]] = refineLit('f')
-    val b: Char @@ Not[Not[UpperCase Or Letter]] = a
-    val c: Char @@ (UpperCase Or Letter) = b
-    (a == b) && (b == c)
+    InferenceRule[Not[Not[UpperCase] And Not[Letter]], Not[Not[UpperCase Or Letter]]].isValid &&
+      InferenceRule[Not[Not[UpperCase Or Letter]], UpperCase Or Letter].isValid
   }
 
+  /*
+  property("De Morgan's law 2 (substitution form, reversed)") = secure {
+    InferenceRule[UpperCase Or Letter, Not[Not[UpperCase] And Not[Letter]]].isValid
+  }
+  */
+
   property("Xor commutativity") = secure {
-    val a: Char @@ (Letter Xor Digit) = refineLit('A')
-    val b: Char @@ (Digit Xor Letter) = a
-    a == b
+    InferenceRule[Letter Xor Digit, Digit Xor Letter].isValid
   }
 
   property("modus tollens") = secure {
-    val a: Char @@ Not[Digit Xor Letter] = refineLit(' ')
-    val b: Char @@ Not[Letter Xor Digit] = a
-    a == b
+    InferenceRule[Not[Digit Xor Letter], Not[Letter Xor Digit]].isValid
   }
 }

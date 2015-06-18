@@ -60,7 +60,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("conjunction introduction") = secure {
-    illTyped("InferenceRule[UpperCase, UpperCase And Digit]")
+    illTyped("InferenceRule[UpperCase, UpperCase And Digit]", "could not find.*InferenceRule.*")
     true
   }
 
@@ -81,7 +81,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("disjunction elimination") = secure {
-    illTyped("InferenceRule[UpperCase Or Digit, Digit]")
+    illTyped("InferenceRule[UpperCase Or Digit, Digit]", "could not find.*InferenceRule.*")
     true
   }
 

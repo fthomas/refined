@@ -29,9 +29,9 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
   }
 
   property("refineLit failure") = secure {
-    illTyped("testRefineLit(refineLit(-1))")
-    illTyped("testRefineLit(refineLit[Positive](-1))")
-    illTyped("testRefineLit(refineLit[Positive][Int](-1))")
+    illTyped("testRefineLit(refineLit(-1))", "could not find implicit value.*")
+    illTyped("testRefineLit(refineLit[Positive](-1))", "Predicate.*fail.*")
+    illTyped("testRefineLit(refineLit[Positive][Int](-1))", "Predicate.*fail.*")
     true
   }
 }

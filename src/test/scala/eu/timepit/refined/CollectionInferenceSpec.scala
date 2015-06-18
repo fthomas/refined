@@ -19,7 +19,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Exists") = secure {
-    illTyped("InferenceRule[NonEmpty, Exists[Digit]]")
+    illTyped("InferenceRule[NonEmpty, Exists[Digit]]", "could not find.*InferenceRule.*")
     true
   }
 

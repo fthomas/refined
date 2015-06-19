@@ -148,29 +148,29 @@ trait CollectionPredicates {
 trait CollectionInferenceRules {
 
   implicit def existsInference[A, B](implicit p1: A ==> B): Exists[A] ==> Exists[B] =
-    p1.adapted
+    p1.adapt("existsInference(%s)")
 
   implicit def existsNonEmptyInference[P]: Exists[P] ==> NonEmpty =
-    InferenceRule.alwaysValid
+    InferenceRule.alwaysValid("existsNonEmptyInference")
 
   implicit def headInference[A, B](implicit p1: A ==> B): Head[A] ==> Head[B] =
-    p1.adapted
+    p1.adapt("headInference(%s)")
 
   implicit def headExistsInference[P]: Head[P] ==> Exists[P] =
-    InferenceRule.alwaysValid
+    InferenceRule.alwaysValid("headExistsInference")
 
   implicit def indexInference[N, A, B](implicit p1: A ==> B): Index[N, A] ==> Index[N, B] =
-    p1.adapted
+    p1.adapt("indexInference(%s)")
 
   implicit def indexExistsInference[N, P]: Index[N, P] ==> Exists[P] =
-    InferenceRule.alwaysValid
+    InferenceRule.alwaysValid("indexExistsInference")
 
   implicit def lastInference[A, B](implicit p1: A ==> B): Last[A] ==> Last[B] =
-    p1.adapted
+    p1.adapt("lastInference(%s)")
 
   implicit def lastExistsInference[P]: Last[P] ==> Exists[P] =
-    InferenceRule.alwaysValid
+    InferenceRule.alwaysValid("lastExistsInference")
 
   implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =
-    p1.adapted
+    p1.adapt("sizeInference(%s)")
 }

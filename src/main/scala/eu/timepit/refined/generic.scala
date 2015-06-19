@@ -19,5 +19,5 @@ trait GenericPredicates {
 trait GenericInferenceRules {
 
   implicit def equalPredicateInference[T, U <: T, P](implicit p: Predicate[P, T], wu: Witness.Aux[U]): Equal[U] ==> P =
-    InferenceRule(p.isValid(wu.value))
+    InferenceRule(p.isValid(wu.value), s"equalPredicateInference(${p.show(wu.value)})")
 }

@@ -137,7 +137,7 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
     InferenceRule.alwaysValid("minimalTautology")
 
   implicit def doubleNegationElimination[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
-    p1.adapt("doubleNegationElimination(%s")
+    p1.adapt("doubleNegationElimination(%s)")
 
   implicit def doubleNegationIntroduction[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
     p1.adapt("doubleNegationIntroduction(%s)")

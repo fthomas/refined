@@ -1,6 +1,22 @@
 ### Changes
 
-* TODO: inference rules!
+* Added inference rules to enable automatic conversions between different
+  refined types (in the absent of any subtype relation). For example, a value
+  of type `Int @@ Greater[_5]` can be safely converted to an `Int @@ Positive`,
+  but the reverse is not true:
+
+  ```scala
+  scala> refineLit[Greater[_5]](10)
+  res1: Int @@ Greater[_5] = 10
+
+  scala> res1: Int @@ Positive
+  res2: Int @@ Positive = 10
+
+  scala> res2: Int @@ Greater[_5]
+  <console>:42: error: invalid inference: Positive ==> Greater[_5]
+                res2: Int @@ Greater[_5]
+                ^
+  ```
 * Added an implicit version of `refineLit` to the `implicits` object.
   This allows to write
 

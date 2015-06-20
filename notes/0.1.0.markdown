@@ -1,7 +1,15 @@
 ### Changes
 
 * TODO: inference rules!
-* TODO: implicit refineLit
+* Added an implicit version of `refineLit` to the `implicits` object.
+  This allows to write
+  ```scala
+  val a: Char @@ Digit = '4'
+  ```
+  instead of
+  ```scala
+  val a: Char @@ Digit = refineLit('4')
+  ```
 * Made `Predicate` serializable.
 * Removed `IsNull` and `NonNull` predicates since they often caused ambiguous
   implicit errors and Scala has better means to handle `null` values.
@@ -10,6 +18,8 @@
 ### Bug fixes
 
 * `refineLit` always required a prior import of `shapeless.tag.@@`. ([9f6d7d9])
+* Changed build to multi-project build so that tut-core is not added as
+  dependency to refined. ([#17])
 
 ### New predicates
 
@@ -26,4 +36,5 @@
 
 [#8]: https://github.com/fthomas/refined/issues/8
 [#13]: https://github.com/fthomas/refined/issues/13
+[#17]: https://github.com/fthomas/refined/issues/17
 [9f6d7d9]: https://github.com/fthomas/refined/commit/9f6d7d9ba22d20eee0a2fe2f721cde30fb4f94f9

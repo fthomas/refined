@@ -17,7 +17,7 @@
                 res2: Int @@ Greater[_5]
                 ^
   ```
-  Note that these conversions can be enabled with this import:
+  Note that these conversions need to be enabled with an import:
   `import eu.timepit.refined.implicits._`
 * Added an implicit version of `refineLit` to the `implicits` object.
   This allows to write

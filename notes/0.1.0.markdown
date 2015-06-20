@@ -3,6 +3,7 @@
 * TODO: inference rules!
 * Added an implicit version of `refineLit` to the `implicits` object.
   This allows to write
+
   ```scala
   val a: Char @@ Digit = '4'
   ```

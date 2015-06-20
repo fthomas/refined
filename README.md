@@ -135,18 +135,13 @@ provides syntax for singleton types.
 
 ## Installation
 
-The latest version of the library is 0.0.3, which is built against Scala 2.11.
+The latest version of the library is 0.1.0, which is built against Scala 2.11.
 
 If you're using SBT, add the following to your build file:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.0.3"
+    libraryDependencies += "eu.timepit" %% "refined" % "0.1.0"
 
 Instructions for Maven and other build tools is available at [search.maven.org][search.maven].
-
-**Note:** You currently need to add this resolver to your build due to a known
-problem in the [tut](https://github.com/tpolecat/tut) plugin:
-
-    resolvers += "tpolecat" at "http://dl.bintray.com/tpolecat/maven"
 
 ## Documentation
 

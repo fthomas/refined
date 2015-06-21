@@ -66,7 +66,7 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    "com.chuusai" %% "shapeless" % "2.2.2",
+    "com.chuusai" %% "shapeless" % "2.2.3",
     "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
   ),
 

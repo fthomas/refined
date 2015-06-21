@@ -1,0 +1,3 @@
+### Changes
+
+* Updated to shapeless 2.2.3.

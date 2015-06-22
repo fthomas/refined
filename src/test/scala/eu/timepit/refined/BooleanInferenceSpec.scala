@@ -105,28 +105,11 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
   */
 
-  property("De Morgan's law 1 (substitution form, derivation)") = secure {
-    def p1[A, B]: Not[A And B] ==> (Not[A] Or Not[B]) =
-      deMorgansLaw1
-
-    def p2[A, B]: Not[Not[A] Or Not[B]] ==> Not[Not[A And B]] =
-      modusTollens(p1)
-
-    def p3[A, B]: Not[Not[A And B]] ==> (A And B) =
-      doubleNegationElimination(minimalTautology)
-
-    def p4[A, B]: Not[Not[A] Or Not[B]] ==> (A And B) =
-      hypotheticalSyllogism(p2, p3)
-
-    p4.isValid
-  }
-
+  /*
   property("De Morgan's law 1 (substitution form)") = secure {
-    // modusTollens(deMorgansLaw1)
-    InferenceRule[Not[Not[UpperCase] Or Not[Letter]], Not[Not[UpperCase And Letter]]].isValid &&
-      // doubleNegationElimination
-      InferenceRule[Not[Not[UpperCase And Letter]], UpperCase And Letter].isValid
+    InferenceRule[Not[Not[UpperCase] Or Not[Letter]], UpperCase And Letter].isValid
   }
+  */
 
   /*
   property("De Morgan's law 1 (substitution form, reversed)") = secure {
@@ -134,10 +117,11 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
   */
 
+  /*
   property("De Morgan's law 2 (substitution form)") = secure {
-    InferenceRule[Not[Not[UpperCase] And Not[Letter]], Not[Not[UpperCase Or Letter]]].isValid &&
-      InferenceRule[Not[Not[UpperCase Or Letter]], UpperCase Or Letter].isValid
+    InferenceRule[Not[Not[UpperCase] And Not[Letter]], UpperCase Or Letter].isValid
   }
+  */
 
   /*
   property("De Morgan's law 2 (substitution form, reversed)") = secure {

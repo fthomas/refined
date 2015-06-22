@@ -12,7 +12,8 @@ import shapeless.test.illTyped
 class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("double negation elimination with Greater") = secure {
-    InferenceRule[Not[Not[Greater[_5]]], Greater[_4]].isValid
+    InferenceRule[Not[Not[Greater[_5]]], Greater[_4]] ?=
+      InferenceRule(5 > 4, "doubleNegationElimination(greaterInferenceNat(5, 4))")
   }
 
   property("double negation elimination") = secure {
@@ -134,6 +135,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("modus tollens") = secure {
-    InferenceRule[Not[Digit Xor Letter], Not[Letter Xor Digit]].isValid
+    InferenceRule[Not[Digit Xor Letter], Not[Letter Xor Digit]] ?=
+      InferenceRule.alwaysValid("modusTollens(xorCommutativity)")
   }
 }

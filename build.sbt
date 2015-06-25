@@ -8,9 +8,6 @@ lazy val refined = project.in(file("."))
   .settings(miscSettings)
   .settings(styleSettings)
 
-val tutSource = "docs/src"
-val tutTarget = "docs"
-
 lazy val docs = project
   .settings(moduleName := "refined-docs")
   .settings(projectSettings)
@@ -19,14 +16,10 @@ lazy val docs = project
   .settings(tutSettings)
   .settings(
     tutScalacOptions := scalacOptions.value,
-    tutSourceDirectory := file(tutSource)
+    tutSourceDirectory := baseDirectory.value / "src",
+    tutTargetDirectory := baseDirectory.value
   )
   .dependsOn(refined)
-
-lazy val tutCopy = taskKey[Unit]("")
-tutCopy := (tut in docs).value.foreach { case (compiled, name) =>
-  IO.copyFile(compiled, file(s"$tutTarget/$name"))
-}
 
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
@@ -153,4 +146,4 @@ lazy val miscSettings = Seq(
 lazy val styleSettings =
   scalariformSettings
 
-addCommandAlias("validate", ";clean;coverage;test;coverageReport;scalastyle;test:scalastyle;doc;tutCopy")
+addCommandAlias("validate", ";clean;coverage;test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")

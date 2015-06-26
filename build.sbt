@@ -155,6 +155,6 @@ lazy val miscSettings = Seq(
 lazy val styleSettings =
   scalariformSettings
 
-// Add coverageReport once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
-//addCommandAlias("validate", ";clean;coverage;compile;refinedJVM/test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")
-addCommandAlias("validate", ";clean;coverage;compile;refinedJVM/test;scalastyle;test:scalastyle;doc;docs/tut")
+// Add coverage back once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
+//addCommandAlias("validate", ";clean;coverage;compile;refinedJVM/test;scalastyle;test:scalastyle;doc;docs/tut")
+addCommandAlias("validate", ";clean;compile;refinedJVM/test;scalastyle;test:scalastyle;doc;docs/tut")

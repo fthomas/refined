@@ -1,12 +1,21 @@
-lazy val refined = project.in(file("."))
-  .settings(projectSettings)
-  .settings(compileSettings)
-  .settings(scaladocSettings)
-  .settings(publishSettings)
-  .settings(releaseSettings)
-  .settings(siteSettings)
-  .settings(miscSettings)
-  .settings(styleSettings)
+lazy val root = project.in(file("."))
+  .aggregate(refinedJVM, refinedJS, docs)
+  .settings(noPublishSettings)
+
+lazy val refined = crossProject.in(file("."))
+  .settings(projectSettings: _*)
+  .settings(compileSettings: _*)
+  .settings(scaladocSettings: _*)
+  .settings(publishSettings: _*)
+  .settings(releaseSettings: _*)
+  .settings(siteSettings: _*)
+  .settings(miscSettings: _*)
+  .settings(styleSettings: _*)
+  .jvmSettings()
+  .jsSettings()
+
+lazy val refinedJVM = refined.jvm
+lazy val refinedJS = refined.js
 
 lazy val docs = project
   .settings(moduleName := "refined-docs")
@@ -19,7 +28,7 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
-  .dependsOn(refined)
+  .dependsOn(refinedJVM)
 
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
@@ -38,7 +47,7 @@ lazy val projectSettings = Seq(
 )
 
 lazy val compileSettings = Seq(
-  scalaVersion := "2.11.7",
+  scalaVersion := "2.11.6",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -59,8 +68,8 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    "com.chuusai" %% "shapeless" % "2.2.3",
-    "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
+    "com.chuusai" %%% "shapeless" % "2.2.3",
+    "org.scalacheck" %%% "scalacheck" % "1.12.4" % "test"
   ),
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
@@ -146,4 +155,4 @@ lazy val miscSettings = Seq(
 lazy val styleSettings =
   scalariformSettings
 
-addCommandAlias("validate", ";clean;coverage;test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")
+addCommandAlias("validate", ";clean;coverage;refinedJVM/test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")

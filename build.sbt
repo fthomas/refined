@@ -155,4 +155,4 @@ lazy val miscSettings = Seq(
 lazy val styleSettings =
   scalariformSettings
 
-addCommandAlias("validate", ";clean;coverage;refinedJVM/test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")
+addCommandAlias("validate", ";clean;coverage;compile;refinedJVM/test;coverageReport;scalastyle;test:scalastyle;doc;docs/tut")

@@ -137,12 +137,12 @@ provides syntax for singleton types.
 
 The latest version of the library is 0.1.1, which is built against Scala 2.11.
 
-If you're using SBT, add the following to your build file:
+If you're using SBT, add the following to your build:
 
     libraryDependencies += "eu.timepit" %% "refined" % "0.1.1"
 
-**refined** is also available for [Scala.js][scala.js]. To use it with your Scala.js project,
-add the following to your SBT build file:
+**refined** is also available for [Scala.js][scala.js]. To use it with your Scala.js
+project, add the following to your build:
 
     libraryDependencies += "eu.timepit" %%% "refined" % "0.1.1"
 

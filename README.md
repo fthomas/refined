@@ -135,11 +135,16 @@ provides syntax for singleton types.
 
 ## Installation
 
-The latest version of the library is 0.1.0, which is built against Scala 2.11.
+The latest version of the library is 0.1.1, which is built against Scala 2.11.
 
 If you're using SBT, add the following to your build file:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.1.0"
+    libraryDependencies += "eu.timepit" %% "refined" % "0.1.1"
+
+**refined** is also available for [Scala.js][scala.js]. To use it with your Scala.js project,
+add the following to your SBT build file:
+
+    libraryDependencies += "eu.timepit" %%% "refined" % "0.1.1"
 
 Instructions for Maven and other build tools is available at [search.maven.org][search.maven].
 
@@ -275,6 +280,7 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 
 [bond]: https://github.com/fwbrasil/bond
 [refined.hs]: http://nikita-volkov.github.io/refined
+[scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [shapeless]: https://github.com/milessabin/shapeless
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals

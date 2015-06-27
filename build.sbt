@@ -12,7 +12,9 @@ lazy val refined = crossProject.in(file("."))
   .settings(miscSettings: _*)
   .settings(styleSettings: _*)
   .jvmSettings()
-  .jsSettings()
+  .jsSettings(
+    test := {}
+  )
 
 lazy val refinedJVM = refined.jvm
 lazy val refinedJS = refined.js

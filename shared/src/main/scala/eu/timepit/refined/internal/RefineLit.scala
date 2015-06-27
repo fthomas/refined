@@ -19,14 +19,14 @@ object RefineLit {
 
     def predicate: Predicate[P, T] = MacroUtils.eval(c)(p)
 
-    t.tree match {
-      case Literal(Constant(value)) =>
-        predicate.validate(value.asInstanceOf[T]) match {
-          case None => c.Expr(q"$t.asInstanceOf[${weakTypeOf[T @@ P]}]")
-          case Some(msg) => c.abort(c.enclosingPosition, msg)
-        }
-
+    val tValue: T = t.tree match {
+      case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ => c.abort(c.enclosingPosition, "refineLit only supports literals")
+    }
+
+    predicate.validate(tValue) match {
+      case None => c.Expr(q"$t.asInstanceOf[${weakTypeOf[T @@ P]}]")
+      case Some(msg) => c.abort(c.enclosingPosition, msg)
     }
   }
 }

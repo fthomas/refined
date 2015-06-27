@@ -14,7 +14,7 @@ lazy val refined = crossProject.in(file("."))
   .jvmSettings()
   .jsSettings()
 
-lazy val refinedJVM: Project = refined.jvm
+lazy val refinedJVM = refined.jvm
 lazy val refinedJS = refined.js
 
 lazy val docs = project
@@ -69,7 +69,7 @@ lazy val compileSettings = Seq(
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "com.chuusai" %%% "shapeless" % "2.2.3",
-    "org.scalacheck" %%% "scalacheck" % "1.12.4" % "test"
+    "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
   ),
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
@@ -116,8 +116,7 @@ lazy val releaseSettings = {
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
-      //runTest,
-      releaseStepTask(test in refinedJVM),
+      runTest,
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
@@ -161,7 +160,7 @@ addCommandAlias("validate", Seq(
   // Add back once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
   // "coverage",
   "compile",
-  "refinedJVM/test",
+  "test",
   "scalastyle",
   "test:scalastyle",
   "doc",

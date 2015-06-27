@@ -12,11 +12,9 @@ lazy val refined = crossProject.in(file("."))
   .settings(miscSettings: _*)
   .settings(styleSettings: _*)
   .jvmSettings()
-  .jsSettings(
-    test := {} // js tests currently fail
-  )
+  .jsSettings()
 
-lazy val refinedJVM = refined.jvm
+lazy val refinedJVM: Project = refined.jvm
 lazy val refinedJS = refined.js
 
 lazy val docs = project
@@ -119,7 +117,7 @@ lazy val releaseSettings = {
       inquireVersions,
       runClean,
       //runTest,
-      releaseStepTask(test),
+      releaseStepTask(test in refinedJVM),
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
@@ -158,6 +156,14 @@ lazy val miscSettings = Seq(
 lazy val styleSettings =
   scalariformSettings
 
-// Add coverage back once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
-//addCommandAlias("validate", ";clean;coverage;compile;test;scalastyle;test:scalastyle;doc;docs/tut")
-addCommandAlias("validate", ";clean;compile;test;scalastyle;test:scalastyle;doc;docs/tut")
+addCommandAlias("validate", Seq(
+  "clean",
+  // Add back once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
+  // "coverage",
+  "compile",
+  "refinedJVM/test",
+  "scalastyle",
+  "test:scalastyle",
+  "doc",
+  "docs/tut"
+).mkString(";", ";", ""))

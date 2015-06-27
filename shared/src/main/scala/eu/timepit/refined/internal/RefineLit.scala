@@ -17,7 +17,7 @@ object RefineLit {
 
     t.tree match {
       case Literal(Constant(value)) =>
-        predicate.validated(value.asInstanceOf[T]) match {
+        predicate.validate(value.asInstanceOf[T]) match {
           case None => c.Expr(q"$t.asInstanceOf[${weakTypeOf[T @@ P]}]")
           case Some(msg) => c.abort(c.enclosingPosition, msg)
         }

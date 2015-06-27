@@ -34,7 +34,7 @@ trait StringPredicates {
       def isValid(t: String): Boolean = Try(t.r).isSuccess
       def show(t: String): String = s"""isValidRegex("$t")"""
 
-      override def validated(t: String): Option[String] =
+      override def validate(t: String): Option[String] =
         Try(t.r) match {
           case Success(_) => None
           case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")

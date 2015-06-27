@@ -47,8 +47,8 @@ trait BooleanPredicates {
       def isValid(t: T): Boolean = !p.isValid(t)
       def show(t: T): String = s"!${p.show(t)}"
 
-      override def validated(t: T): Option[String] =
-        p.validated(t) match {
+      override def validate(t: T): Option[String] =
+        p.validate(t) match {
           case Some(_) => None
           case None => Some(s"Predicate ${p.show(t)} did not fail.")
         }
@@ -59,8 +59,8 @@ trait BooleanPredicates {
       def isValid(t: T): Boolean = pa.isValid(t) && pb.isValid(t)
       def show(t: T): String = s"(${pa.show(t)} && ${pb.show(t)})"
 
-      override def validated(t: T): Option[String] =
-        (pa.validated(t), pb.validated(t)) match {
+      override def validate(t: T): Option[String] =
+        (pa.validate(t), pb.validate(t)) match {
           case (Some(sl), Some(sr)) =>
             Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case (Some(sl), None) =>
@@ -76,8 +76,8 @@ trait BooleanPredicates {
       def isValid(t: T): Boolean = pa.isValid(t) || pb.isValid(t)
       def show(t: T): String = s"(${pa.show(t)} || ${pb.show(t)})"
 
-      override def validated(t: T): Option[String] =
-        (pa.validated(t), pb.validated(t)) match {
+      override def validate(t: T): Option[String] =
+        (pa.validate(t), pb.validate(t)) match {
           case (Some(sl), Some(sr)) =>
             Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case _ => None
@@ -89,8 +89,8 @@ trait BooleanPredicates {
       def isValid(t: T): Boolean = pa.isValid(t) ^ pb.isValid(t)
       def show(t: T): String = s"(${pa.show(t)} ^ ${pb.show(t)})"
 
-      override def validated(t: T): Option[String] =
-        (pa.validated(t), pb.validated(t)) match {
+      override def validate(t: T): Option[String] =
+        (pa.validate(t), pb.validate(t)) match {
           case (Some(sl), Some(sr)) =>
             Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case (None, None) =>

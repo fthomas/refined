@@ -84,10 +84,10 @@ trait CollectionPredicates {
       def isValid(t: T): Boolean = pc.isValid(count(t))
       def show(t: T): String = pc.show(count(t))
 
-      override def validated(t: T): Option[String] = {
+      override def validate(t: T): Option[String] = {
         val c = count(t)
         val expr = t.toSeq.map(pa.show).mkString("count(", ", ", ")")
-        pc.validated(c).map(msg => s"Predicate taking $expr = $c failed: $msg")
+        pc.validate(c).map(msg => s"Predicate taking $expr = $c failed: $msg")
       }
 
       private def count(t: T): Int = t.count(pa.isValid)
@@ -124,10 +124,10 @@ trait CollectionPredicates {
       def isValid(t: T): Boolean = get(t).fold(false)(p.isValid)
       def show(t: T): String = get(t).fold("no element")(p.show)
 
-      override def validated(t: T): Option[String] =
+      override def validate(t: T): Option[String] =
         get(t) match {
           case Some(a) =>
-            p.validated(a).map(msg => s"Predicate taking ${describe(t, a)} failed: $msg")
+            p.validate(a).map(msg => s"Predicate taking ${describe(t, a)} failed: $msg")
           case None =>
             Some("Predicate failed: empty collection.")
         }
@@ -138,9 +138,9 @@ trait CollectionPredicates {
       def isValid(t: T): Boolean = p.isValid(t.size)
       def show(t: T): String = p.show(t.size)
 
-      override def validated(t: T): Option[String] = {
+      override def validate(t: T): Option[String] = {
         val s = t.size
-        p.validated(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
+        p.validate(s).map(msg => s"Predicate taking size($t) = $s failed: $msg")
       }
     }
 }

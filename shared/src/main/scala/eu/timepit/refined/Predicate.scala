@@ -17,7 +17,7 @@ trait Predicate[P, T] extends Serializable { self =>
    * Returns `None` if `t` satisfies the predicate `P`, or an error message
    * contained in `Some` otherwise.
    */
-  def validated(t: T): Option[String] =
+  def validate(t: T): Option[String] =
     if (isValid(t)) None else Some(s"Predicate failed: ${show(t)}.")
 
   /** Checks if `t` does not satisfy the predicate `P`. */
@@ -42,7 +42,7 @@ trait Predicate[P, T] extends Serializable { self =>
     new Predicate[P, U] {
       def isValid(u: U): Boolean = self.isValid(f(u))
       def show(u: U): String = self.show(f(u))
-      override def validated(u: U): Option[String] = self.validated(f(u))
+      override def validate(u: U): Option[String] = self.validate(f(u))
       override def accumulateIsValid(u: U): List[Boolean] = self.accumulateIsValid(f(u))
       override def accumulateShow(u: U): List[String] = self.accumulateShow(f(u))
     }

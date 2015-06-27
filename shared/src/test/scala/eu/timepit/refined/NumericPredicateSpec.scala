@@ -25,11 +25,11 @@ class NumericPredicateSpec extends Properties("NumericPredicate") {
   }
 
   property("Less.Nat ~= Less") = forAll { (i: Int) =>
-    Predicate[Less[_5], Int].validated(i) ?= Predicate[Less[W.`5`.T], Int].validated(i)
+    Predicate[Less[_5], Int].validate(i) ?= Predicate[Less[W.`5`.T], Int].validate(i)
   }
 
   property("Greater.Nat ~= Greater") = forAll { (i: Int) =>
-    Predicate[Greater[_5], Int].validated(i) ?= Predicate[Greater[W.`5`.T], Int].validated(i)
+    Predicate[Greater[_5], Int].validate(i) ?= Predicate[Greater[W.`5`.T], Int].validate(i)
   }
 
   property("Less.Nat.isValid") = forAll { (i: Int) =>
@@ -77,6 +77,6 @@ class NumericPredicateSpec extends Properties("NumericPredicate") {
   }
 
   property("Equal.Nat ~= Equal") = forAll { (i: Int) =>
-    Predicate[Equal[_1], Int].validated(i) ?= Predicate[Equal[W.`1`.T], Int].validated(i)
+    Predicate[Equal[_1], Int].validate(i) ?= Predicate[Equal[W.`1`.T], Int].validate(i)
   }
 }

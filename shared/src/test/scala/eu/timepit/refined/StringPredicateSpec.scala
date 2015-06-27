@@ -57,8 +57,8 @@ class StringPredicateSpec extends Properties("StringPredicate") {
     Predicate[Size[LessEqual[_10]], String].isValid(s) ?= (s.length <= 10)
   }
 
-  property("Size.validated") = forAll { (s: String) =>
-    Predicate[Size[LessEqual[_10]], String].validated(s).isEmpty ?= (s.length <= 10)
+  property("Size.validate") = forAll { (s: String) =>
+    Predicate[Size[LessEqual[_10]], String].validate(s).isEmpty ?= (s.length <= 10)
   }
 
   property("Size.show") = secure {
@@ -115,12 +115,12 @@ class StringPredicateSpec extends Properties("StringPredicate") {
     Predicate[Regex, String].show("(a|b)") ?= """isValidRegex("(a|b)")"""
   }
 
-  property("Regex.validated success") = secure {
-    Predicate[Regex, String].validated("(a|b)") ?= None
+  property("Regex.validate success") = secure {
+    Predicate[Regex, String].validate("(a|b)") ?= None
   }
 
-  property("Regex.validated failure") = secure {
-    Predicate[Regex, String].validated("(a|b") ?=
+  property("Regex.validate failure") = secure {
+    Predicate[Regex, String].validate("(a|b") ?=
       Some(
         """Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
           |(a|b

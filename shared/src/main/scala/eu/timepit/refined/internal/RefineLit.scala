@@ -5,6 +5,10 @@ import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox
 
+/**
+ * Helper class that allows the type `T` to be inferred from calls like
+ * `[[refineLit]][P](t)`.
+ */
 final class RefineLit[P] {
   def apply[T](t: T)(implicit p: Predicate[P, T]): T @@ P = macro RefineLit.macroImpl[P, T]
 }

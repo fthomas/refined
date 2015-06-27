@@ -1,9 +1,11 @@
 package eu.timepit.refined
 
+import shapeless.tag.@@
+
 /**
  * Type class for validating values of type `T` according to a type-level
- * predicate `P`. The semantics of `P` are defined by the instance of this
- * type class for `P`.
+ * predicate `P`. The semantics of `P` are defined by the instance(s) of
+ * this type class for `P`.
  */
 trait Predicate[P, T] extends Serializable { self =>
 
@@ -19,6 +21,12 @@ trait Predicate[P, T] extends Serializable { self =>
    */
   def validate(t: T): Option[String] =
     if (isValid(t)) None else Some(s"Predicate failed: ${show(t)}.")
+
+  def refine(t: T): Either[String, T @@ P] =
+    validate(t) match {
+      case None => Right(t.asInstanceOf[T @@ P])
+      case Some(s) => Left(s)
+    }
 
   /** Checks if `t` does not satisfy the predicate `P`. */
   final def notValid(t: T): Boolean =

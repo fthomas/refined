@@ -1,0 +1,3 @@
+### Changes
+
+* Add `refine` function to the `Predicate` type class.

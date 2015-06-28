@@ -2,6 +2,7 @@ lazy val root = project.in(file("."))
   .aggregate(refinedJVM, refinedJS, docs)
   .settings(noPublishSettings)
   .settings(releaseSettings)
+  .settings(styleSettings)
   .settings(
     console <<= console in (refinedJVM, Compile)
   )
@@ -15,7 +16,9 @@ lazy val refined = crossProject.in(file("."))
   .settings(miscSettings: _*)
   .settings(styleSettings: _*)
   .jvmSettings()
-  .jsSettings()
+  .jsSettings(
+    test := {}
+  )
 
 lazy val refinedJVM = refined.jvm
 lazy val refinedJS = refined.js
@@ -157,7 +160,13 @@ lazy val miscSettings = Seq(
 )
 
 lazy val styleSettings =
-  scalariformSettings
+  scalariformSettings ++
+  Seq(
+    sourceDirectories in (Compile, ScalariformKeys.format) +=
+      baseDirectory.value / "shared/src/main/scala",
+    sourceDirectories in (Test, ScalariformKeys.format) +=
+      baseDirectory.value / "shared/src/test/scala"
+  )
 
 addCommandAlias("validate", Seq(
   "clean",

@@ -125,7 +125,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(GhPagesKeys.pushSite),
+      releaseStepTask(GhPagesKeys.pushSite in refinedJVM),
       setNextVersion,
       commitNextVersion,
       pushChanges

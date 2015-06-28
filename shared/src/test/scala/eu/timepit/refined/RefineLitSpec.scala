@@ -60,4 +60,9 @@ class RefineLitSpec extends Properties("refineLit") {
     illTyped("refineLit[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
     true
   }
+
+  property("refineLit fails on non-literals") = secure {
+    illTyped("refineLit[NonEmpty](List(1, 2, 3))", "refineLit only supports literals.*")
+    true
+  }
 }

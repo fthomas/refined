@@ -1,6 +1,9 @@
 lazy val root = project.in(file("."))
   .aggregate(refinedJVM, refinedJS, docs)
   .settings(noPublishSettings)
+  .settings(
+    console <<= console in (refinedJVM, Compile)
+  )
 
 lazy val refined = crossProject.in(file("."))
   .settings(projectSettings: _*)

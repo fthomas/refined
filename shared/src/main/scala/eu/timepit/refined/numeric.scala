@@ -8,6 +8,12 @@ import shapeless.nat._
 import shapeless.ops.nat.ToInt
 import shapeless.{ Nat, Witness }
 
+/**
+ * Module for numeric predicates. Predicates that take type parameters
+ * support both Shapeless' natural numbers (`Nat`) and numeric singleton
+ * types (which are made available by Shapeless' `Witness`) which include
+ * subtypes of `Int`, `Long`, `Double`, `Char` etc.
+ */
 object numeric extends NumericPredicates with NumericInferenceRules {
 
   /** Predicate that checks if a numeric value is less than `N`. */

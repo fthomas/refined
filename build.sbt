@@ -156,8 +156,10 @@ lazy val miscSettings = Seq(
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
     import shapeless.tag.@@
-  """
-)
+  """,
+
+  doctestWithDependencies := false
+) ++ doctestSettings
 
 lazy val styleSettings =
   scalariformSettings ++

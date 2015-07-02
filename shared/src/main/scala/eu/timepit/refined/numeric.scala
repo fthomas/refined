@@ -13,6 +13,18 @@ import shapeless.{ Nat, Witness }
  * support both Shapeless' natural numbers (`Nat`) and numeric singleton
  * types (which are made available by Shapeless' `Witness`) which include
  * subtypes of `Int`, `Long`, `Double`, `Char` etc.
+ *
+ * @example {{{
+ * scala> import shapeless.nat._
+ *      | import shapeless.tag.@@
+ *      | import eu.timepit.refined.numeric._
+ *
+ * scala> refineLit[Greater[_5]](10)
+ * res1: Int @@ Greater[_5] = 10
+ *
+ * scala> refineLit[Greater[W.`1.5`.T]](1.6)
+ * res2: Double @@ Greater[W.`1.5`.T] = 1.6
+ * }}}
  */
 object numeric extends NumericPredicates with NumericInferenceRules {
 

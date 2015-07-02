@@ -200,7 +200,7 @@ The type-conversions are built of:
 
 The library comes with these predefined predicates:
 
-[`boolean`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/boolean.scala)
+[`boolean`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/boolean.scala)
 
 * `True`: constant predicate that is always `true`
 * `False`: constant predicate that is always `false`
@@ -212,7 +212,7 @@ The library comes with these predefined predicates:
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
 
-[`char`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/char.scala)
+[`char`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/char.scala)
 
 * `Digit`: checks if a `Char` is a digit
 * `Letter`: checks if a `Char` is a letter
@@ -221,7 +221,7 @@ The library comes with these predefined predicates:
 * `UpperCase`: checks if a `Char` is an upper case character
 * `Whitespace`: checks if a `Char` is white space
 
-[`collection`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/collection.scala)
+[`collection`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Contains[U]`: checks if a `TraversableOnce` contains a value equal to `U`
 * `Count[PA, PC]`: counts the number of elements in a `TraversableOnce` which
@@ -244,11 +244,11 @@ The library comes with these predefined predicates:
 * `MaxSize[N]`: checks if the size of a `TraversableOnce` is less than
   or equal to `N`
 
-[`generic`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/generic.scala)
+[`generic`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
 
-[`numeric`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/numeric.scala)
+[`numeric`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/numeric.scala)
 
 * `Less[N]`: checks if a numeric value is less than `N`
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
@@ -260,7 +260,7 @@ The library comes with these predefined predicates:
 * `NonNegative`: checks if a numeric value is zero or positive
 * `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
 
-[`string`](https://github.com/fthomas/refined/blob/master/src/main/scala/eu/timepit/refined/string.scala)
+[`string`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/string.scala)
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`

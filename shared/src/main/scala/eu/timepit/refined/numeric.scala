@@ -11,8 +11,9 @@ import shapeless.{ Nat, Witness }
 /**
  * Module for numeric predicates. Predicates that take type parameters
  * support both Shapeless' natural numbers (`Nat`) and numeric singleton
- * types (which are made available by Shapeless' `Witness`) which include
- * subtypes of `Int`, `Long`, `Double`, `Char` etc.
+ * types (which are made available by Shapeless' `Witness` - abbreviated
+ * as [[W]] in refined) which include subtypes of `Int`, `Long`, `Double`,
+ * `Char` etc.
  *
  * @example {{{
  * scala> import shapeless.nat._

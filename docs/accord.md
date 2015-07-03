@@ -11,7 +11,7 @@ scala> implicit val personPredicate = new Predicate[Nothing, Person] {
      |   def isValid(p: Person) = p.firstName.nonEmpty && p.lastName.nonEmpty
      |   def show(p: Person) = s"first and last name of $p must not be empty"
      | }
-personPredicate: eu.timepit.refined.Predicate[Nothing,Person] = $anon$1@54ad8fc2
+personPredicate: eu.timepit.refined.Predicate[Nothing,Person] = $anon$1@1d539b46
 
 scala> val invalidPerson = Person("", "No First Name")
 invalidPerson: Person = Person(,No First Name)

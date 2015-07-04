@@ -73,13 +73,13 @@ object Predicate {
       def show(t: T): String = showT(t)
     }
 
-  def fromTry[P, T, U](tryT: T => Try[U], showT: T => String): Predicate[P, T] =
+  def fromPartial[P, T, U](pf: T => U, showT: T => String): Predicate[P, T] =
     new Predicate[P, T] {
-      def isValid(t: T): Boolean = tryT(t).isSuccess
+      def isValid(t: T): Boolean = Try(pf(t)).isSuccess
       def show(t: T): String = showT(t)
 
       override def validate(t: T): Option[String] =
-        tryT(t) match {
+        Try(pf(t)) match {
           case Success(_) => None
           case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")
         }

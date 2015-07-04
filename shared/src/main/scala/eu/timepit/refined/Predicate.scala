@@ -73,6 +73,10 @@ object Predicate {
       def show(t: T): String = showT(t)
     }
 
+  /**
+   * Constructs a [[Predicate]] from the partial function `pf`. All `T`s for
+   * which `pf` throws an exception are considered invalid according to `P`.
+   */
   def fromPartial[P, T, U](pf: T => U, showT: T => String): Predicate[P, T] =
     new Predicate[P, T] {
       def isValid(t: T): Boolean = Try(pf(t)).isSuccess

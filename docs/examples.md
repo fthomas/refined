@@ -107,4 +107,9 @@ scala> val r2: String @@ Regex = "(a|b"
     ^
        val r2: String @@ Regex = "(a|b"
                                  ^
+
+scala> val u1: String @@ Url = "htp://example.com"
+<console>:40: error: Predicate isValidUrl("htp://example.com") failed: unknown protocol: htp
+       val u1: String @@ Url = "htp://example.com"
+                               ^
 ```

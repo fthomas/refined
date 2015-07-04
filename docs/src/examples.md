@@ -54,4 +54,6 @@ val d3: Char @@ Letter = d1
 val r1: String @@ Regex = "(a|b)"
 
 val r2: String @@ Regex = "(a|b"
+
+val u1: String @@ Url = "htp://example.com"
 ```

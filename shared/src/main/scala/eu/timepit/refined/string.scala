@@ -4,8 +4,6 @@ import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.string._
 import shapeless.Witness
 
-import scala.util.Try
-
 object string extends StringPredicates with StringInferenceRules {
 
   /** Predicate that checks if a `String` ends with the suffix `S`. */

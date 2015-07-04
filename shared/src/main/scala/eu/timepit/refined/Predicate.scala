@@ -2,6 +2,8 @@ package eu.timepit.refined
 
 import shapeless.tag.@@
 
+import scala.util.{ Failure, Success, Try }
+
 /**
  * Type class for validating values of type `T` according to a type-level
  * predicate `P`. The semantics of `P` are defined by the instance(s) of
@@ -69,6 +71,18 @@ object Predicate {
     new Predicate[P, T] {
       def isValid(t: T): Boolean = validateT(t)
       def show(t: T): String = showT(t)
+    }
+
+  def fromTry[P, T, U](tryT: T => Try[U], showT: T => String): Predicate[P, T] =
+    new Predicate[P, T] {
+      def isValid(t: T): Boolean = tryT(t).isSuccess
+      def show(t: T): String = showT(t)
+
+      override def validate(t: T): Option[String] =
+        tryT(t) match {
+          case Success(_) => None
+          case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")
+        }
     }
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `true`. */

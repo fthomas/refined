@@ -4,7 +4,7 @@ import eu.timepit.refined.InferenceRuleAlias.==>
 import eu.timepit.refined.string._
 import shapeless.Witness
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.Try
 
 object string extends StringPredicates with StringInferenceRules {
 
@@ -19,6 +19,12 @@ object string extends StringPredicates with StringInferenceRules {
 
   /** Predicate that checks if a `String` starts with the prefix `S`. */
   trait StartsWith[S]
+
+  /** Predicate that checks if a `String` is a valid URI. */
+  trait Uri
+
+  /** Predicate that checks if a `String` is a valid URL. */
+  trait Url
 }
 
 trait StringPredicates {
@@ -30,19 +36,16 @@ trait StringPredicates {
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
   implicit val regexPredicate: Predicate[Regex, String] =
-    new Predicate[Regex, String] {
-      def isValid(t: String): Boolean = Try(t.r).isSuccess
-      def show(t: String): String = s"""isValidRegex("$t")"""
-
-      override def validate(t: String): Option[String] =
-        Try(t.r) match {
-          case Success(_) => None
-          case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")
-        }
-    }
+    Predicate.fromTry(t => Try(t.r), t => s"""isValidRegex("$t")""")
 
   implicit def startsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")
+
+  implicit val uriPredicate: Predicate[Uri, String] =
+    Predicate.fromTry(t => Try(new java.net.URI(t)), t => s"""isValidUri("$t")""")
+
+  implicit val urlPredicate: Predicate[Url, String] =
+    Predicate.fromTry(t => Try(new java.net.URL(t)), t => s"""isValidUrl("$t")""")
 }
 
 trait StringInferenceRules {

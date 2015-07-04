@@ -266,6 +266,8 @@ The library comes with these predefined predicates:
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
 * `Regex`: checks if a `String` is a valid regular expression
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
+* `Uri`: checks if a `String` is a valid URI
+* `Url`: checks if a `String` is a valid URL
 
 ## Related projects
 

@@ -116,6 +116,20 @@ lazy val noPublishSettings = Seq(
 lazy val releaseSettings = {
   import ReleaseTransformations._
 
+  lazy val updateVersionInReadme: ReleaseStep = { st: State =>
+    val extracted = Project.extract(st)
+    val newVersion = extracted.get(version)
+    val oldVersion = "git describe --abbrev=0".!!.trim.replaceAll("^v", "")
+
+    val readme = "README.md"
+    val oldContent = IO.read(file(readme))
+    val newContent = oldContent.replaceAll(oldVersion, newVersion)
+    IO.write(file(readme), newContent)
+    "git add README.md".!!(st.log)
+
+    st
+  }
+
   Seq(
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](
@@ -125,6 +139,7 @@ lazy val releaseSettings = {
       //runTest,
       releaseStepTask(test in (refinedJVM, Test)),
       setReleaseVersion,
+      updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,

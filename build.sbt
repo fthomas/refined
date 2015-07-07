@@ -12,7 +12,6 @@ lazy val refined = crossProject.in(file("."))
   .settings(compileSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
-  .settings(siteSettings: _*)
   .settings(miscSettings: _*)
   .settings(styleSettings: _*)
   .jvmSettings()
@@ -21,6 +20,8 @@ lazy val refined = crossProject.in(file("."))
   )
 
 lazy val refinedJVM = refined.jvm
+  .settings(siteSettings)
+
 lazy val refinedJS = refined.js
 
 lazy val docs = project
@@ -143,7 +144,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(GhPagesKeys.pushSite in refinedJVM),
+      releaseStepTask(GhPagesKeys.pushSite),
       setNextVersion,
       commitNextVersion,
       pushChanges

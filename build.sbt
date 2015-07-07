@@ -187,6 +187,7 @@ addCommandAlias("validate", Seq(
   "coverage",
   "compile",
   "refinedJVM/test",
+  "refinedJS/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

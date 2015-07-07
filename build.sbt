@@ -187,8 +187,7 @@ lazy val styleSettings =
 
 addCommandAlias("validate", Seq(
   "clean",
-  // Add back once https://github.com/scoverage/sbt-scoverage/issues/111 is fixed
-  //"coverage",
+  "coverage",
   "compile",
   "refinedJVM/test",
   "scalastyle",

@@ -1,5 +1,6 @@
 lazy val root = project.in(file("."))
   .aggregate(refinedJVM, refinedJS, docs)
+  .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
   .settings(styleSettings)
@@ -8,8 +9,7 @@ lazy val root = project.in(file("."))
   )
 
 lazy val refined = crossProject.in(file("."))
-  .settings(projectSettings: _*)
-  .settings(compileSettings: _*)
+  .settings(commonSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
   .settings(miscSettings: _*)
@@ -23,8 +23,7 @@ lazy val refinedJS = refined.js
 
 lazy val docs = project
   .settings(moduleName := "refined-docs")
-  .settings(projectSettings)
-  .settings(compileSettings)
+  .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(tutSettings)
   .settings(
@@ -36,6 +35,10 @@ lazy val docs = project
 
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
+
+lazy val commonSettings =
+  projectSettings ++
+  compileSettings
 
 lazy val projectSettings = Seq(
   name := "refined",
@@ -123,7 +126,7 @@ lazy val releaseSettings = {
     val oldContent = IO.read(file(readme))
     val newContent = oldContent.replaceAll(oldVersion, newVersion)
     IO.write(file(readme), newContent)
-    "git add README.md".!!(st.log)
+    s"git add $readme" !! st.log
 
     st
   }

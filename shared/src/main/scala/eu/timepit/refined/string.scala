@@ -25,7 +25,7 @@ object string extends StringPredicates with StringInferenceRules {
   trait Url
 }
 
-trait StringPredicates {
+private[refined] trait StringPredicates {
 
   implicit def endsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[EndsWith[R], String] =
     Predicate.instance(_.endsWith(wr.value), t => s""""$t".endsWith("${wr.value}")""")
@@ -46,7 +46,7 @@ trait StringPredicates {
     Predicate.fromPartial(new java.net.URL(_), t => s"""isValidUrl("$t")""")
 }
 
-trait StringInferenceRules {
+private[refined] trait StringInferenceRules {
 
   implicit def endsWithInference[A <: String, B <: String](implicit wa: Witness.Aux[A], wb: Witness.Aux[B]): EndsWith[A] ==> EndsWith[B] =
     InferenceRule(wa.value.endsWith(wb.value), s"endsWithInference(${wa.value}, ${wb.value})")

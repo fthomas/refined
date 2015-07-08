@@ -24,7 +24,7 @@ object InferenceRule {
     InferenceRule(r1.isValid && r2.isValid, show.format(r1.show, r2.show))
 }
 
-object InferenceRuleAlias {
+private[refined] object InferenceRuleAlias {
 
   type ==>[P, C] = InferenceRule[P, C]
 }

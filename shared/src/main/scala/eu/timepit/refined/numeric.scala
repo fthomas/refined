@@ -57,7 +57,7 @@ object numeric extends NumericPredicates with NumericInferenceRules {
   type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
 }
 
-trait NumericPredicates {
+private[refined] trait NumericPredicates {
 
   implicit def lessPredicate[T, N <: T](implicit wn: Witness.Aux[N], nt: Numeric[T]): Predicate[Less[N], T] =
     Predicate.instance(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})")
@@ -75,7 +75,7 @@ trait NumericPredicates {
     Predicate.instance(t => it.equiv(t, it.fromInt(tn.apply())), t => s"($t == ${tn.apply()})")
 }
 
-trait NumericInferenceRules {
+private[refined] trait NumericInferenceRules {
 
   implicit def lessInference[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
     InferenceRule(nc.lt(wa.value, wb.value), s"lessInference(${wa.value}, ${wb.value})")

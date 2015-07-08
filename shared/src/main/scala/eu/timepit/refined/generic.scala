@@ -10,13 +10,13 @@ object generic extends GenericPredicates with GenericInferenceRules {
   trait Equal[U]
 }
 
-trait GenericPredicates {
+private[refined] trait GenericPredicates {
 
   implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
 }
 
-trait GenericInferenceRules {
+private[refined] trait GenericInferenceRules {
 
   implicit def equalPredicateInference[T, U <: T, P](implicit p: Predicate[P, T], wu: Witness.Aux[U]): Equal[U] ==> P =
     InferenceRule(p.isValid(wu.value), s"equalPredicateInference(${p.show(wu.value)})")

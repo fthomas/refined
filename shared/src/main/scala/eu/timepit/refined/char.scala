@@ -24,7 +24,7 @@ object char extends CharPredicates {
   type LetterOrDigit = Letter Or Digit
 }
 
-trait CharPredicates {
+private[refined] trait CharPredicates {
 
   implicit val digitPredicate: Predicate[Digit, Char] =
     Predicate.instance(_.isDigit, t => s"isDigit('$t')")

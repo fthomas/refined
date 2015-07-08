@@ -34,7 +34,7 @@ object boolean extends BooleanPredicates with BooleanInferenceRules0 {
   trait OneOf[PS]
 }
 
-trait BooleanPredicates {
+private[refined] trait BooleanPredicates {
 
   implicit def truePredicate[T]: Predicate[True, T] =
     Predicate.alwaysValid
@@ -131,7 +131,7 @@ trait BooleanPredicates {
     }
 }
 
-trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
+private[refined] trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
 
   implicit def minimalTautology[A]: A ==> A =
     InferenceRule.alwaysValid("minimalTautology")
@@ -176,7 +176,7 @@ trait BooleanInferenceRules0 extends BooleanInferenceRules1 {
     p1.adapt("modusTollens(%s)")
 }
 
-trait BooleanInferenceRules1 {
+private[refined] trait BooleanInferenceRules1 {
 
   implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")

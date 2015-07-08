@@ -77,7 +77,7 @@ object collection extends CollectionPredicates with CollectionInferenceRules {
   type NonEmpty = Not[Empty]
 }
 
-trait CollectionPredicates {
+private[refined] trait CollectionPredicates {
 
   implicit def countPredicate[PA, PC, A, T](implicit pa: Predicate[PA, A], pc: Predicate[PC, Int], ev: T => TraversableOnce[A]): Predicate[Count[PA, PC], T] =
     new Predicate[Count[PA, PC], T] {
@@ -145,7 +145,7 @@ trait CollectionPredicates {
     }
 }
 
-trait CollectionInferenceRules {
+private[refined] trait CollectionInferenceRules {
 
   implicit def existsInference[A, B](implicit p1: A ==> B): Exists[A] ==> Exists[B] =
     p1.adapt("existsInference(%s)")

@@ -15,6 +15,8 @@ case class InferenceRule[P, C](isValid: Boolean, show: String) {
 
 object InferenceRule {
 
+  type ==>[P, C] = InferenceRule[P, C]
+
   def apply[P, C](implicit ir: InferenceRule[P, C]): InferenceRule[P, C] = ir
 
   def alwaysValid[P, C](show: String): InferenceRule[P, C] =
@@ -22,9 +24,4 @@ object InferenceRule {
 
   def combine[P1, P2, P, C1, C2, C](r1: InferenceRule[P1, C1], r2: InferenceRule[P2, C2], show: String): InferenceRule[P, C] =
     InferenceRule(r1.isValid && r2.isValid, show.format(r1.show, r2.show))
-}
-
-private[refined] object InferenceRuleAlias {
-
-  type ==>[P, C] = InferenceRule[P, C]
 }

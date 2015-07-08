@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.InferenceRuleAlias.==>
+import eu.timepit.refined.InferenceRule.==>
 import eu.timepit.refined.generic._
 import shapeless.Witness
 

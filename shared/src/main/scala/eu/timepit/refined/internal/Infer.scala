@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package internal
 
-import eu.timepit.refined.InferenceRuleAlias.==>
+import eu.timepit.refined.InferenceRule.==>
 import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox

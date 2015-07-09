@@ -1,5 +1,6 @@
 http://www.w3.org/TR/xml11/#NT-NameStartChar
 
+```
 NameStartChar ::=
     ":"
   | [A-Z]
@@ -17,6 +18,7 @@ NameStartChar ::=
   | [#xF900-#xFDCF]
   | [#xFDF0-#xFFFD]
   | [#x10000-#xEFFFF]
+```
 
 ```tut:silent
 import eu.timepit.refined._
@@ -47,4 +49,8 @@ type NameStartChar = AnyOf[
   :: HNil]
 
 val a: Char @@ NameStartChar = 'Ä'
+```
+
+```tut:fail
+val b: Char @@ NameStartChar = ';'
 ```

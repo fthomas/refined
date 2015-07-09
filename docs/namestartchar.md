@@ -1,5 +1,6 @@
 http://www.w3.org/TR/xml11/#NT-NameStartChar
 
+```
 NameStartChar ::=
     ":"
   | [A-Z]
@@ -17,6 +18,7 @@ NameStartChar ::=
   | [#xF900-#xFDCF]
   | [#xFDF0-#xFFFD]
   | [#x10000-#xEFFFF]
+```
 
 ```scala
 import eu.timepit.refined._
@@ -49,4 +51,11 @@ defined type alias NameStartChar
 
 scala> val a: Char @@ NameStartChar = 'Ä'
 a: shapeless.tag.@@[Char,NameStartChar] = Ä
+```
+
+```scala
+scala> val b: Char @@ NameStartChar = ';'
+<console>:29: error: Predicate failed: ((; == :) || ((!(; < A) && !(; > Z)) || ((; == _) || ((!(; < a) && !(; > z)) || ((!(; < À) && !(; > Ö)) || ((!(; < Ø) && !(; > ö)) || ((!(; < ø) && !(; > ˿)) || ((!(; < Ͱ) && !(; > ͽ)) || ((!(; < ‌) && !(; > ‍)) || ((!(; < ⁰) && !(; > ↏)) || ((!(; < Ⰰ) && !(; > ⿯)) || ((!(; < 、) && !(; > ퟿)) || ((!(; < 豈) && !(; > ﷏)) || ((!(; < ﷰ) && !(; > �)) || false)))))))))))))).
+       val b: Char @@ NameStartChar = ';'
+                                      ^
 ```

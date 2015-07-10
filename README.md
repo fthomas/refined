@@ -252,6 +252,8 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
+* `SubtypeOf[U]`: witness that the type of a value is a subtype of `U`
+* `SupertypeOf[U]`: witness that the type of a value is a supertype of `U`
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/numeric.scala)
 

@@ -9,11 +9,11 @@ object generic extends GenericPredicates with GenericInferenceRules {
   /** Predicate that checks if a value is equal to `U`. */
   trait Equal[U]
 
-  /** Predicate that witness that the type of a value is a subtype of `U`. */
-  trait SubtypeOf[U]
+  /** Predicate that witnesses that the type of a value is a subtype of `U`. */
+  trait Subtype[U]
 
-  /** Predicate that witness that the type of a value is a supertype of `U`. */
-  trait SupertypeOf[U]
+  /** Predicate that witnesses that the type of a value is a supertype of `U`. */
+  trait Supertype[U]
 }
 
 private[refined] trait GenericPredicates {
@@ -21,10 +21,10 @@ private[refined] trait GenericPredicates {
   implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
 
-  implicit def subtypeOfPredicate[T, U >: T]: Predicate[SubtypeOf[U], T] =
+  implicit def subtypePredicate[T, U >: T]: Predicate[Subtype[U], T] =
     Predicate.alwaysValid
 
-  implicit def supertypeOfPredicate[T, U <: T]: Predicate[SupertypeOf[U], T] =
+  implicit def supertypePredicate[T, U <: T]: Predicate[Supertype[U], T] =
     Predicate.alwaysValid
 }
 

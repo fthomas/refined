@@ -6,5 +6,5 @@
 
 [`generic`](https://github.com/fthomas/refined/blob/v0.1.3/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
-* `SubtypeOf[U]`: witness that the type of a value is a subtype of `U`
-* `SupertypeOf[U]`: witness that the type of a value is a supertype of `U`
+* `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
+* `Supertype[U]`: witnesses that the type of a value is a supertype of `U`

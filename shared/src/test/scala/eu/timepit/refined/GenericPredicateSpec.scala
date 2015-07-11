@@ -32,21 +32,21 @@ class GenericPredicateSpec extends Properties("GenericPredicate") {
     Predicate[Equal[W.`'foo`.T], Symbol].notValid('bar)
   }
 
-  property("SubtypeOf.isValid") = secure {
-    Predicate[SubtypeOf[AnyVal], Int].isValid(0)
+  property("Subtype.isValid") = secure {
+    Predicate[Subtype[AnyVal], Int].isValid(0)
   }
 
-  property("SubtypeOf.notValid") = secure {
-    illTyped("Predicate[SubtypeOf[Int], AnyVal]", ".*could not find implicit value.*")
+  property("Subtype.notValid") = secure {
+    illTyped("Predicate[Subtype[Int], AnyVal]", ".*could not find implicit value.*")
     true
   }
 
-  property("SupertypeOf.isValid") = secure {
-    Predicate[SupertypeOf[List[Int]], Seq[Int]].isValid(Seq(0))
+  property("Supertype.isValid") = secure {
+    Predicate[Supertype[List[Int]], Seq[Int]].isValid(Seq(0))
   }
 
-  property("SupertypeOf.notValid") = secure {
-    illTyped("Predicate[SupertypeOf[Seq[Int]], List[Int]]", ".*could not find implicit value.*")
+  property("Supertype.notValid") = secure {
+    illTyped("Predicate[Supertype[Seq[Int]], List[Int]]", ".*could not find implicit value.*")
     true
   }
 }

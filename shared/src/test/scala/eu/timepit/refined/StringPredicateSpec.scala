@@ -124,7 +124,8 @@ class StringPredicateSpec extends Properties("StringPredicate") {
       Some(
         """Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
           |(a|b
-          |    ^""".stripMargin)
+          |    ^""".stripMargin
+      )
   }
 
   property("Uri.validate success") = secure {

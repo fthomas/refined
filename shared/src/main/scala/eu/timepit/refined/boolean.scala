@@ -52,6 +52,8 @@ private[refined] trait BooleanPredicates {
           case Some(_) => None
           case None => Some(s"Predicate ${p.show(t)} did not fail.")
         }
+
+      override val isConstant: Boolean = p.isConstant
     }
 
   implicit def andPredicate[A, B, T](implicit pa: Predicate[A, T], pb: Predicate[B, T]): Predicate[A And B, T] =
@@ -69,6 +71,8 @@ private[refined] trait BooleanPredicates {
             Some(s"Right predicate of ${show(t)} failed: $sr")
           case _ => None
         }
+
+      override val isConstant: Boolean = pa.isConstant && pb.isConstant
     }
 
   implicit def orPredicate[A, B, T](implicit pa: Predicate[A, T], pb: Predicate[B, T]): Predicate[A Or B, T] =
@@ -82,6 +86,8 @@ private[refined] trait BooleanPredicates {
             Some(s"Both predicates of ${show(t)} failed. Left: $sl Right: $sr")
           case _ => None
         }
+
+      override val isConstant: Boolean = pa.isConstant && pb.isConstant
     }
 
   implicit def xorPredicate[A, B, T](implicit pa: Predicate[A, T], pb: Predicate[B, T]): Predicate[A Xor B, T] =
@@ -97,6 +103,8 @@ private[refined] trait BooleanPredicates {
             Some(s"Both predicates of ${show(t)} succeeded.")
           case _ => None
         }
+
+      override val isConstant: Boolean = pa.isConstant && pb.isConstant
     }
 
   implicit def allOfHNilPredicate[T]: Predicate[AllOf[HNil], T] =
@@ -105,7 +113,8 @@ private[refined] trait BooleanPredicates {
   implicit def allOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
     Predicate.instance(
       t => ph.isValid(t) && pt.isValid(t),
-      t => s"(${ph.show(t)} && ${pt.show(t)})"
+      t => s"(${ph.show(t)} && ${pt.show(t)})",
+      ph.isConstant && pt.isConstant
     )
 
   implicit def anyOfHNilPredicate[T]: Predicate[AnyOf[HNil], T] =
@@ -114,7 +123,8 @@ private[refined] trait BooleanPredicates {
   implicit def anyOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
     Predicate.instance(
       t => ph.isValid(t) || pt.isValid(t),
-      t => s"(${ph.show(t)} || ${pt.show(t)})"
+      t => s"(${ph.show(t)} || ${pt.show(t)})",
+      ph.isConstant && pt.isConstant
     )
 
   implicit def oneOfHNilPredicate[T]: Predicate[OneOf[HNil], T] =
@@ -124,6 +134,8 @@ private[refined] trait BooleanPredicates {
     new Predicate[OneOf[PH :: PT], T] {
       def isValid(t: T): Boolean = accumulateIsValid(t).count(identity) == 1
       def show(t: T): String = accumulateShow(t).mkString("oneOf(", ", ", ")")
+
+      override val isConstant: Boolean = ph.isConstant && pt.isConstant
 
       override def accumulateIsValid(t: T): List[Boolean] =
         ph.isValid(t) :: pt.accumulateIsValid(t)

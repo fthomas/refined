@@ -22,6 +22,8 @@ trait Predicate[P, T] extends Serializable { self =>
   def validate(t: T): Option[String] =
     if (isValid(t)) None else Some(s"Predicate failed: ${show(t)}.")
 
+  val isConstant: Boolean = false
+
   /** Checks if `t` does not satisfy the predicate `P`. */
   final def notValid(t: T): Boolean =
     !isValid(t)
@@ -45,6 +47,7 @@ trait Predicate[P, T] extends Serializable { self =>
       def isValid(u: U): Boolean = self.isValid(f(u))
       def show(u: U): String = self.show(f(u))
       override def validate(u: U): Option[String] = self.validate(f(u))
+      override val isConstant: Boolean = self.isConstant
       override def accumulateIsValid(u: U): List[Boolean] = self.accumulateIsValid(f(u))
       override def accumulateShow(u: U): List[String] = self.accumulateShow(f(u))
     }
@@ -55,10 +58,18 @@ object Predicate {
   def apply[P, T](implicit p: Predicate[P, T]): Predicate[P, T] = p
 
   /** Constructs a [[Predicate]] from its parameters. */
-  def instance[P, T](validateT: T => Boolean, showT: T => String): Predicate[P, T] =
+  def instance[P, T](isValidF: T => Boolean, showF: T => String, constant: Boolean = false): Predicate[P, T] =
     new Predicate[P, T] {
-      def isValid(t: T): Boolean = validateT(t)
-      def show(t: T): String = showT(t)
+      def isValid(t: T): Boolean = isValidF(t)
+      def show(t: T): String = showF(t)
+      override val isConstant: Boolean = constant
+    }
+
+  def constant[P, T](isValidV: Boolean, showV: String): Predicate[P, T] =
+    new Predicate[P, T] {
+      def isValid(t: T): Boolean = isValidV
+      def show(t: T): String = showV
+      override val isConstant: Boolean = true
     }
 
   /**
@@ -79,9 +90,9 @@ object Predicate {
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `true`. */
   def alwaysValid[P, T]: Predicate[P, T] =
-    instance(_ => true, _ => "true")
+    constant(isValidV = true, "true")
 
   /** Returns a [[Predicate]] that ignores its inputs and always yields `false`. */
   def alwaysInvalid[P, T]: Predicate[P, T] =
-    instance(_ => false, _ => "false")
+    constant(isValidV = false, "false")
 }

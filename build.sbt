@@ -15,10 +15,10 @@ lazy val refined = crossProject.in(file("."))
   .settings(miscSettings: _*)
   .settings(releaseSettings: _*)
   .settings(styleSettings: _*)
+  .jvmSettings(siteSettings: _*)
+  .jsSettings()
 
 lazy val refinedJVM = refined.jvm
-  .settings(siteSettings)
-
 lazy val refinedJS = refined.js
 
 lazy val docs = project

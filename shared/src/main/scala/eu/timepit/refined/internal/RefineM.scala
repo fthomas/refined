@@ -8,7 +8,7 @@ import scala.reflect.macros.blackbox
  * `[[refineM]][P](t)`.
  */
 final class RefineM[P] {
-  def apply[T](t: T)(implicit p: Predicate[P, T]): Refined[T, P] = macro RefineLit.macroImpl[P, T]
+  def apply[T](t: T)(implicit p: Predicate[P, T]): Refined[T, P] = macro RefineM.macroImpl[P, T]
 }
 
 object RefineM {

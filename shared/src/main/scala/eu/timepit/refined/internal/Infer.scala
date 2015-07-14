@@ -14,7 +14,9 @@ object Infer {
     if (inferenceRule.isValid)
       c.Expr(q"$t.asInstanceOf[${weakTypeOf[T @@ B]}]")
     else
-      c.abort(c.enclosingPosition,
-        s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}")
+      c.abort(
+        c.enclosingPosition,
+        s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}"
+      )
   }
 }

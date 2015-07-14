@@ -105,7 +105,8 @@ private[refined] trait BooleanPredicates {
   implicit def allOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AllOf[PT], T]): Predicate[AllOf[PH :: PT], T] =
     Predicate.instance(
       t => ph.isValid(t) && pt.isValid(t),
-      t => s"(${ph.show(t)} && ${pt.show(t)})")
+      t => s"(${ph.show(t)} && ${pt.show(t)})"
+    )
 
   implicit def anyOfHNilPredicate[T]: Predicate[AnyOf[HNil], T] =
     Predicate.alwaysInvalid
@@ -113,7 +114,8 @@ private[refined] trait BooleanPredicates {
   implicit def anyOfHConsPredicate[PH, PT <: HList, T](implicit ph: Predicate[PH, T], pt: Predicate[AnyOf[PT], T]): Predicate[AnyOf[PH :: PT], T] =
     Predicate.instance(
       t => ph.isValid(t) || pt.isValid(t),
-      t => s"(${ph.show(t)} || ${pt.show(t)})")
+      t => s"(${ph.show(t)} || ${pt.show(t)})"
+    )
 
   implicit def oneOfHNilPredicate[T]: Predicate[OneOf[HNil], T] =
     Predicate.alwaysInvalid

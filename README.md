@@ -276,6 +276,10 @@ The library comes with these predefined predicates:
 * `Uri`: checks if a `String` is a valid URI
 * `Url`: checks if a `String` is a valid URL
 
+## Contributors
+
+* Your name here :-)
+
 ## Related projects
 
 This library is inspired by the [refined][refined.hs] library for Haskell.

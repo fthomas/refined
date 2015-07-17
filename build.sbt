@@ -17,7 +17,7 @@ lazy val refined = crossProject.in(file("."))
   .settings(styleSettings: _*)
   .settings(siteSettings: _*)
   .jvmSettings()
-  .jsSettings()
+  .jsSettings(scalaJSStage in Test := FastOptStage)
 
 lazy val refinedJVM = refined.jvm
 lazy val refinedJS = refined.js

@@ -1,7 +1,5 @@
 package eu.timepit.refined
 
-import shapeless.tag.@@
-
 import scala.util.{ Failure, Success, Try }
 
 /**
@@ -23,16 +21,6 @@ trait Predicate[P, T] extends Serializable { self =>
    */
   def validate(t: T): Option[String] =
     if (isValid(t)) None else Some(s"Predicate failed: ${show(t)}.")
-
-  /**
-   * Returns `t` tagged with the predicate `P` on the right if it satisfies
-   * it, or an error message on the left otherwise.
-   */
-  final def refine(t: T): Either[String, T @@ P] =
-    validate(t) match {
-      case None => Right(t.asInstanceOf[T @@ P])
-      case Some(s) => Left(s)
-    }
 
   /** Checks if `t` does not satisfy the predicate `P`. */
   final def notValid(t: T): Boolean =

@@ -1,0 +1,7 @@
+### Changes
+
+* Remove `refine` from `Predicate` since the purpose of `Predicate` is
+  to check whether a value conforms to a type-level predicate. Refining
+  the type of such value is a different concern. ([#31])
+  
+[#31]: https://github.com/fthomas/refined/issues/31

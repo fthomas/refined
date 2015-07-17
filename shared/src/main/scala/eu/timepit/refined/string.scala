@@ -33,16 +33,16 @@ private[refined] trait StringPredicates {
   implicit def matchesRegexPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[MatchesRegex[R], String] =
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
-  implicit val regexPredicate: Predicate[Regex, String] =
+  implicit def regexPredicate: Predicate[Regex, String] =
     Predicate.fromPartial(_.r, t => s"""isValidRegex("$t")""")
 
   implicit def startsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")
 
-  implicit val uriPredicate: Predicate[Uri, String] =
+  implicit def uriPredicate: Predicate[Uri, String] =
     Predicate.fromPartial(new java.net.URI(_), t => s"""isValidUri("$t")""")
 
-  implicit val urlPredicate: Predicate[Url, String] =
+  implicit def urlPredicate: Predicate[Url, String] =
     Predicate.fromPartial(new java.net.URL(_), t => s"""isValidUrl("$t")""")
 }
 

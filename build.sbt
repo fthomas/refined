@@ -77,7 +77,7 @@ lazy val compileSettings = Seq(
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "com.chuusai" %%% "shapeless" % "2.2.4",
-    "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
+    "org.scalacheck" %%% "scalacheck" % "1.12.4" % "test"
   ),
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
@@ -175,7 +175,13 @@ lazy val miscSettings = Seq(
   """,
 
   doctestWithDependencies := false
-) ++ doctestSettings
+) // ++ doctestSettings
+/*
+[error] refined/js/target/scala-2.11/src_managed/test/eu/timepit/refined/numericDoctest.scala:16: You may not export a local class
+[error]   include(new org.scalacheck.Properties("numeric") {
+[error]               ^
+[error] one error found
+*/
 
 lazy val styleSettings =
   scalariformSettings ++
@@ -188,10 +194,10 @@ lazy val styleSettings =
 
 addCommandAlias("validate", Seq(
   "clean",
+  "refinedJS/test",
   "coverage",
   "compile",
   "refinedJVM/test",
-  "refinedJS/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

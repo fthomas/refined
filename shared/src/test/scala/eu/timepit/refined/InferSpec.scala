@@ -16,7 +16,7 @@ class InferSpec extends Properties("infer") {
   property("Equal[_] ==> Digit") = secure {
     val a: Char @@ Equal[W.`'0'`.T] = '0'
     val b: Char @@ Digit = a
-    illTyped("val c: Char @@ Letter = a", "invalid inference.*")
+    illTyped("val c: Char @@ UpperCase = a", "invalid inference.*")
     a == b
   }
 

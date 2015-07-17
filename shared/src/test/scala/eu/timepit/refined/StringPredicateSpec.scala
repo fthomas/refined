@@ -45,12 +45,12 @@ class StringPredicateSpec extends Properties("StringPredicate") {
       "(isUpper('a') && isUpper('b') && isUpper('c'))"
   }
 
-  property("Head[Letter].isValid") = forAll { (s: String) =>
-    Predicate[Head[Letter], String].isValid(s) ?= s.headOption.fold(false)(_.isLetter)
+  property("Head[Digit].isValid") = forAll { (s: String) =>
+    Predicate[Head[Digit], String].isValid(s) ?= s.headOption.fold(false)(_.isDigit)
   }
 
-  property("Last[Letter].show") = secure {
-    Predicate[Last[Letter], String].show("abc0") ?= "isLetter('0')"
+  property("Last[Digit].show") = secure {
+    Predicate[Last[Digit], String].show("abc0") ?= "isDigit('0')"
   }
 
   property("Size.isValid") = forAll { (s: String) =>
@@ -117,32 +117,5 @@ class StringPredicateSpec extends Properties("StringPredicate") {
 
   property("Regex.validate success") = secure {
     Predicate[Regex, String].validate("(a|b)") ?= None
-  }
-
-  property("Regex.validate failure") = secure {
-    Predicate[Regex, String].validate("(a|b") ?=
-      Some(
-        """Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
-          |(a|b
-          |    ^""".stripMargin
-      )
-  }
-
-  property("Uri.validate success") = secure {
-    Predicate[Uri, String].validate("/a/b/c") ?= None
-  }
-
-  property("Uri.validate failure") = secure {
-    Predicate[Uri, String].validate(" /a/b/c") ?=
-      Some("Predicate isValidUri(\" /a/b/c\") failed: Illegal character in path at index 0:  /a/b/c")
-  }
-
-  property("Url.validate success") = secure {
-    Predicate[Url, String].validate("http://example.com") ?= None
-  }
-
-  property("Url.validate failure") = secure {
-    Predicate[Url, String].validate("htp://example.com") ?=
-      Some("Predicate isValidUrl(\"htp://example.com\") failed: unknown protocol: htp")
   }
 }

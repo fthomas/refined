@@ -1,7 +1,5 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.char._
-import eu.timepit.refined.collection._
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

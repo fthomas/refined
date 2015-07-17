@@ -176,12 +176,7 @@ lazy val miscSettings = Seq(
 
   doctestWithDependencies := false
 ) // ++ doctestSettings
-/*
-[error] refined/js/target/scala-2.11/src_managed/test/eu/timepit/refined/numericDoctest.scala:16: You may not export a local class
-[error]   include(new org.scalacheck.Properties("numeric") {
-[error]               ^
-[error] one error found
-*/
+// Enable again when https://github.com/tkawachi/sbt-doctest/issues/52 is fixed.
 
 lazy val styleSettings =
   scalariformSettings ++

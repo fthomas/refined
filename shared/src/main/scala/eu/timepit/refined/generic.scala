@@ -31,7 +31,7 @@ private[refined] trait GenericPredicates {
   implicit def ctorNamesPredicate[T, P, R0 <: Coproduct, R1 <: HList, K <: HList](
     implicit
     lg: LabelledGeneric.Aux[T, R0],
-    k: ToHList.Aux[R0, R1],
+    cthl: ToHList.Aux[R0, R1],
     keys: Keys.Aux[R1, K],
     ktl: ToList[K, Any],
     p: Predicate[P, List[String]]

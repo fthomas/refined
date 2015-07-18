@@ -1,5 +1,6 @@
 ### Changes
 
+* TODO: constant predicates
 * Enable tests in the Scala.js build.
 * Remove `refine` from `Predicate` since the purpose of `Predicate` is
   to check whether a value conforms to a type-level predicate. Refining

@@ -33,11 +33,11 @@ private[refined] trait GenericPredicates {
     lg: LabelledGeneric.Aux[T, R0],
     cthl: ToHList.Aux[R0, R1],
     keys: Keys.Aux[R1, K],
-    ktl: ToList[K, Any],
+    ktl: ToList[K, Symbol],
     p: Predicate[P, List[String]]
   ): Predicate[ConstructorNames[P], T] = {
 
-    val ctorNames = keys().toList.map(_.toString.drop(1))
+    val ctorNames = keys().toList.map(_.name)
     Predicate.constant(p.isValid(ctorNames), p.show(ctorNames))
   }
 
@@ -45,11 +45,11 @@ private[refined] trait GenericPredicates {
     implicit
     lg: LabelledGeneric.Aux[T, R],
     keys: Keys.Aux[R, K],
-    ktl: ToList[K, Any],
+    ktl: ToList[K, Symbol],
     p: Predicate[P, List[String]]
   ): Predicate[FieldNames[P], T] = {
 
-    val fieldNames = keys().toList.map(_.toString.drop(1))
+    val fieldNames = keys().toList.map(_.name)
     Predicate.constant(p.isValid(fieldNames), p.show(fieldNames))
   }
 

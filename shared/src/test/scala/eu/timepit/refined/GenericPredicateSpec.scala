@@ -46,6 +46,22 @@ class GenericPredicateSpec extends Properties("GenericPredicate") {
       "!(!(None == Just) && !(Some == Just))"
   }
 
+  property("FieldNames.isValid") = secure {
+    case class A(fst: Any, snd: Any)
+    Predicate[FieldNames[Contains[W.`"snd"`.T]], A].isValid(A((), ()))
+  }
+
+  property("FieldNames.notValid") = secure {
+    case class A(fst: Any, snd: Any)
+    Predicate[FieldNames[Contains[W.`"first"`.T]], A].notValid(A((), ()))
+  }
+
+  property("FieldNames.show") = secure {
+    case class A(fst: Any, snd: Any)
+    Predicate[FieldNames[Contains[W.`"third"`.T]], A].show(A((), ())) ?=
+      "!(!(fst == third) && !(snd == third))"
+  }
+
   property("Subtype.isValid") = secure {
     Predicate[Subtype[AnyVal], Int].isValid(0)
   }

@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.collection.Contains
 import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -30,6 +31,19 @@ class GenericPredicateSpec extends Properties("GenericPredicate") {
 
   property("Equal[Symbol].notValid") = secure {
     Predicate[Equal[W.`'foo`.T], Symbol].notValid('bar)
+  }
+
+  property("ConstructorNames.isValid") = secure {
+    Predicate[ConstructorNames[Contains[W.`"Some"`.T]], Option[Int]].isValid(Option(0))
+  }
+
+  property("ConstructorNames.notValid") = secure {
+    Predicate[ConstructorNames[Contains[W.`"Just"`.T]], Option[Int]].notValid(Option(0))
+  }
+
+  property("ConstructorNames.show") = secure {
+    Predicate[ConstructorNames[Contains[W.`"Just"`.T]], Option[Int]].show(Option(0)) ?=
+      "!(!(None == Just) && !(Some == Just))"
   }
 
   property("Subtype.isValid") = secure {

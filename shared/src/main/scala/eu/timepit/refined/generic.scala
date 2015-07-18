@@ -2,14 +2,17 @@ package eu.timepit.refined
 
 import eu.timepit.refined.InferenceRule.==>
 import eu.timepit.refined.generic._
+import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
 import shapeless.ops.record.Keys
-import shapeless.{ HList, LabelledGeneric, Witness }
+import shapeless.{ Coproduct, HList, LabelledGeneric, Witness }
 
 object generic extends GenericPredicates with GenericInferenceRules {
 
   /** Predicate that checks if a value is equal to `U`. */
   trait Equal[U]
+
+  trait ConstructorNames[P]
 
   trait FieldNames[P]
 
@@ -24,6 +27,19 @@ private[refined] trait GenericPredicates {
 
   implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
     Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
+
+  implicit def ctorNamesPredicate[T, P, R0 <: Coproduct, R1 <: HList, K <: HList](
+    implicit
+    lg: LabelledGeneric.Aux[T, R0],
+    k: ToHList.Aux[R0, R1],
+    keys: Keys.Aux[R1, K],
+    ktl: ToList[K, Any],
+    p: Predicate[P, List[String]]
+  ): Predicate[ConstructorNames[P], T] = {
+
+    val ctorNames = keys().toList.map(_.toString.drop(1))
+    Predicate.constant(p.isValid(ctorNames), p.show(ctorNames))
+  }
 
   implicit def fieldNamesPredicate[T, P, R <: HList, K <: HList](
     implicit

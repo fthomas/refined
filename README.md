@@ -107,7 +107,8 @@ scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                      ^
 
 // The implicits object contains an implicit version of refineLit which is
-// used here to validate that '3' is '3':
+// used here to validate that the right-hand side is equal to '3' (obviously
+// there is only one value satisfying this predicate):
 scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
 d1: Char @@ Equal[Char('3')] = 3
 

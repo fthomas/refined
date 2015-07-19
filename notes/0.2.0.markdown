@@ -1,9 +1,16 @@
 ### Changes
 
+* TODO: deprecated refine and refineLit
+* TODO: new refine variants + Refined type (Refined works with type aliases)
 * TODO: constant predicates
 * Enable tests in the Scala.js build.
 * Remove `refine` from `Predicate` since the purpose of `Predicate` is
   to check whether a value conforms to a type-level predicate. Refining
   the type of such value is a different concern. ([#31])
-  
+
+[`generic`](https://github.com/fthomas/refined/blob/v0.2.0/shared/src/main/scala/eu/timepit/refined/generic.scala)
+
+* `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
+* `FieldNames[P]`: checks if the field names of a product type satisfy `P`
+
 [#31]: https://github.com/fthomas/refined/issues/31

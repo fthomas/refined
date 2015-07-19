@@ -253,6 +253,8 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
+* `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
+* `FieldNames[P]`: checks if the field names of a product type satisfy `P`
 * `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
 * `Supertype[U]`: witnesses that the type of a value is a supertype of `U`
 

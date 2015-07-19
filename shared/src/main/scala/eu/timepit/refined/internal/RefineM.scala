@@ -19,8 +19,8 @@ object RefineM {
   ): c.Expr[F[T, P]] = {
     import c.universe._
 
-    val predicate: Predicate[P, T] = MacroUtils.eval(c)(p)
-    val wrapper: Wrapper[F] = MacroUtils.eval(c)(w)
+    val predicate = MacroUtils.eval(c)(p)
+    val wrapper = MacroUtils.eval(c)(w)
 
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]

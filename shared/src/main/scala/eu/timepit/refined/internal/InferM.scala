@@ -12,7 +12,7 @@ object InferM {
   ): c.Expr[F[T, B]] = {
     import c.universe._
 
-    val inferenceRule: A ==> B = MacroUtils.eval(c)(ir)
+    val inferenceRule = MacroUtils.eval(c)(ir)
     val wrapper = MacroUtils.eval(c)(w)
 
     if (inferenceRule.isValid)

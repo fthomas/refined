@@ -18,7 +18,7 @@ object Wrapper {
 
   def apply[F[_, _]](implicit w: Wrapper[F]): Wrapper[F] = w
 
-  implicit def valueClassRefinery: Wrapper[Refined] =
+  implicit def refinedWrapper: Wrapper[Refined] =
     new Wrapper[Refined] {
       override def wrap[T, P](t: T): Refined[T, P] =
         Refined(t)
@@ -34,7 +34,7 @@ object Wrapper {
       }
     }
 
-  implicit def tagRefinery: Wrapper[@@] =
+  implicit def tagWrapper: Wrapper[@@] =
     new Wrapper[@@] {
       override def wrap[T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]

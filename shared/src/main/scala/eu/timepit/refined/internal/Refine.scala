@@ -1,16 +1,15 @@
 package eu.timepit.refined
 package internal
 
-import shapeless.tag.@@
-
 /**
  * Helper class that allows the type `T` to be inferred from calls like
- * `[[refine]][P](t)`.
+ * `[[refineV]][P](t)`.
  */
-final class Refine[P] {
-  def apply[T](t: T)(implicit p: Predicate[P, T]): Either[String, T @@ P] =
+final class Refine[P, F[_, _]](implicit r: Wrapper[F]) {
+
+  def apply[T](t: T)(implicit p: Predicate[P, T]): Either[String, F[T, P]] =
     p.validate(t) match {
-      case None => Right(t.asInstanceOf[T @@ P])
+      case None => Right(r.wrap(t))
       case Some(s) => Left(s)
     }
 }

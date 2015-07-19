@@ -4,13 +4,13 @@ The examples from the [README](https://github.com/fthomas/refined/blob/master/RE
 import eu.timepit.refined._
 import eu.timepit.refined.numeric._
 
-refineLit[Positive](5)
+refineMT[Positive](5)
 
-refineLit[Positive](-5)
+refineMT[Positive](-5)
 
-refine[Positive](5)
+refineT[Positive](5)
 
-refine[Positive](-5)
+refineT[Positive](-5)
 ```
 
 ```tut:nofail
@@ -18,7 +18,7 @@ import eu.timepit.refined.implicits._
 import shapeless.nat._
 import shapeless.tag.@@
 
-val a: Int @@ Greater[_5] = refineLit(10)
+val a: Int @@ Greater[_5] = refineMT(10)
 
 val b: Int @@ Greater[_4] = a
 
@@ -33,17 +33,17 @@ import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
 import eu.timepit.refined.string._
 
-refineLit[NonEmpty]("Hello")
+refineMT[NonEmpty]("Hello")
 
-refineLit[NonEmpty]("")
+refineMT[NonEmpty]("")
 
 type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
 
-refineLit[ZeroToOne](1.8)
+refineMT[ZeroToOne](1.8)
 
-refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
+refineMT[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 
-refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 
 val d1: Char @@ Equal[W.`'3'`.T] = '3'
 

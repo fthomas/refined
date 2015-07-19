@@ -7,31 +7,32 @@ import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class RefineSyntaxSpec extends Properties("refine syntax") {
+
   def testRefine(arg: Either[String, Int @@ Positive]): Boolean = true
-  def testRefineLit(arg: Int @@ Positive): Boolean = true
+  def testRefineMT(arg: Int @@ Positive): Boolean = true
 
   property("refine success") = secure {
-    testRefine(refine(1))
-    testRefine(refine[Positive](1))
-    testRefine(refine[Positive][Int](1))
+    testRefine(refineT(1))
+    testRefine(refineT[Positive](1))
+    testRefine(refineT[Positive][Int](1))
   }
 
   property("refine failure") = secure {
-    testRefine(refine(-1))
-    testRefine(refine[Positive](-1))
-    testRefine(refine[Positive][Int](-1))
+    testRefine(refineT(-1))
+    testRefine(refineT[Positive](-1))
+    testRefine(refineT[Positive][Int](-1))
   }
 
   property("refineLit success") = secure {
-    testRefineLit(refineLit(1))
-    testRefineLit(refineLit[Positive](1))
-    testRefineLit(refineLit[Positive][Int](1))
+    testRefineMT(refineMT(1))
+    testRefineMT(refineMT[Positive](1))
+    testRefineMT(refineMT[Positive][Int](1))
   }
 
   property("refineLit failure") = secure {
-    illTyped("testRefineLit(refineLit(-1))", "could not find implicit value.*")
-    illTyped("testRefineLit(refineLit[Positive](-1))", "Predicate.*fail.*")
-    illTyped("testRefineLit(refineLit[Positive][Int](-1))", "Predicate.*fail.*")
+    illTyped("testRefineMT(refineMT(-1))", "could not find implicit value.*")
+    illTyped("testRefineMT(refineMT[Positive](-1))", "Predicate.*fail.*")
+    illTyped("testRefineMT(refineMT[Positive][Int](-1))", "Predicate.*fail.*")
     true
   }
 }

@@ -11,7 +11,7 @@ implicit val personPredicate = new Predicate[Nothing, Person] {
 }
 
 val invalidPerson = Person("", "No First Name")
-refine[Nothing](invalidPerson)
+refineT[Nothing](invalidPerson)
 ```
 
 [accord]: https://github.com/wix/accord

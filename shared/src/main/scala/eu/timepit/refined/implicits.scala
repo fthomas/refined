@@ -4,7 +4,24 @@ import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
 object implicits {
-  implicit def autoInfer[T, A, B](t: T @@ A)(implicit ir: InferenceRule[A, B]): T @@ B = macro Infer.macroImpl[T, A, B]
-  implicit def autoRefineLit[T, P](t: T)(implicit p: Predicate[P, T]): T @@ P = macro RefineLit.macroImpl[P, T]
-  implicit def autoRefineM[T, P](t: T)(implicit p: Predicate[P, T]): Refined[T, P] = macro RefineM.macroImpl[P, T]
+
+  implicit def autoInferV[T, A, B](t: Refined[T, A])(
+    implicit
+    ir: InferenceRule[A, B], w: Wrapper[Refined]
+  ): Refined[T, B] = macro InferM.macroImpl[T, A, B, Refined]
+
+  implicit def autoInferT[T, A, B](t: T @@ A)(
+    implicit
+    ir: InferenceRule[A, B], w: Wrapper[@@]
+  ): T @@ B = macro InferM.macroImpl[T, A, B, @@]
+
+  implicit def autoRefineV[T, P](t: T)(
+    implicit
+    p: Predicate[P, T], w: Wrapper[Refined]
+  ): Refined[T, P] = macro RefineM.macroImpl[P, T, Refined]
+
+  implicit def autoRefineT[T, P](t: T)(
+    implicit
+    p: Predicate[P, T], w: Wrapper[@@]
+  ): T @@ P = macro RefineM.macroImpl[P, T, @@]
 }

@@ -5,6 +5,7 @@ import scala.reflect.macros.blackbox
 import scala.util.{ Success, Try }
 
 object MacroUtils {
+
   def eval[T](c: blackbox.Context)(t: c.Expr[T]): T = {
     val expr = c.Expr[T](c.untypecheck(t.tree))
 

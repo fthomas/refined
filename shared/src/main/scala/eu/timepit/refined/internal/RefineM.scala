@@ -7,7 +7,7 @@ import scala.reflect.macros.blackbox
  * Helper class that allows the type `T` to be inferred from calls like
  * `[[refineMV]][P](t)`.
  */
-final class RefineM[P, F[_, _]: Wrapper] {
+final class RefineM[P, F[_, _]] {
 
   def apply[T](t: T)(implicit p: Predicate[P, T], w: Wrapper[F]): F[T, P] = macro RefineM.macroImpl[P, T, F]
 }

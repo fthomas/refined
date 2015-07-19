@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.boolean.{ False, True }
+import eu.timepit.refined.boolean.{ False, Not }
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
@@ -76,7 +76,13 @@ class RefineMSpec extends Properties("refineM") {
     true
   }
 
-  property("refineM fails on non-literals") = secure {
+  property("refineM success with constant predicate") = secure {
+    def ignore1: List[Int] Refined Not[False] = refineMV(List(1, 2, 3))
+    def ignore2: List[Int] @@ Not[False] = refineMT(List(1, 2, 3))
+    true
+  }
+
+  property("refineM failure with non-literals") = secure {
     illTyped("refineMV[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
     illTyped("refineMT[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
     true

@@ -65,12 +65,9 @@ object Predicate {
       override val isConstant: Boolean = constant
     }
 
+  /** Constructs a constant [[Predicate]] from its parameters. */
   def constant[P, T](isValidV: Boolean, showV: String): Predicate[P, T] =
-    new Predicate[P, T] {
-      def isValid(t: T): Boolean = isValidV
-      def show(t: T): String = showV
-      override val isConstant: Boolean = true
-    }
+    instance(_ => isValidV, _ => showV, constant = true)
 
   /**
    * Constructs a [[Predicate]] from the partial function `pf`. All `T`s for

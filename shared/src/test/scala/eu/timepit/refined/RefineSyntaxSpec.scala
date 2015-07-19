@@ -23,13 +23,13 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
     testRefine(refineT[Positive][Int](-1))
   }
 
-  property("refineLit success") = secure {
+  property("refineMT success") = secure {
     testRefineMT(refineMT(1))
     testRefineMT(refineMT[Positive](1))
     testRefineMT(refineMT[Positive][Int](1))
   }
 
-  property("refineLit failure") = secure {
+  property("refineMT failure") = secure {
     illTyped("testRefineMT(refineMT(-1))", "could not find implicit value.*")
     illTyped("testRefineMT(refineMT[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMT(refineMT[Positive][Int](-1))", "Predicate.*fail.*")

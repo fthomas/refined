@@ -11,29 +11,36 @@ import shapeless.nat._
 class RefineSpec extends Properties("refine") {
 
   property("Refine instance") = secure {
-    val r = refineT[Digit]
-    r('0').isRight
+    val rv = refineV[Digit]
+    val rt = refineT[Digit]
+
+    val t = '0'
+    rv(t).isRight && rt(t).isRight
   }
 
-  property("refineT success with Less") = secure {
-    refineT[Less[W.`100`.T]](-100).isRight
+  property("refine success with Less") = secure {
+    refineV[Less[W.`100`.T]](-100).isRight &&
+      refineT[Less[W.`100`.T]](-100).isRight
   }
 
-  property("refineT success with Greater") = secure {
-    refineT[Greater[_5]](6).isRight
+  property("refine success with Greater") = secure {
+    refineV[Greater[_5]](6).isRight &&
+      refineT[Greater[_5]](6).isRight
   }
 
-  property("refineT failure with Interval") = secure {
-    refineT[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
+  property("refine failure with Interval") = secure {
+    refineV[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft &&
+      refineT[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
   }
 
-  property("refineT failure with Forall") = secure {
-    refineT[Forall[LowerCase]]("Hallo").isLeft
+  property("refine failure with Forall") = secure {
+    refineV[Forall[LowerCase]]("Hallo").isLeft &&
+      refineT[Forall[LowerCase]]("Hallo").isLeft
   }
 
   property("refineT success with MatchesRegex") = secure {
     type DigitsOnly = MatchesRegex[W.`"[0-9]+"`.T]
-    val res = refineT[DigitsOnly][String]("123")
-    res.isRight
+    refineV[DigitsOnly][String]("123").isRight &&
+      refineT[DigitsOnly][String]("123").isRight
   }
 }

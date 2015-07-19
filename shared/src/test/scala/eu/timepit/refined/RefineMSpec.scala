@@ -14,54 +14,70 @@ import shapeless.test.illTyped
 class RefineMSpec extends Properties("refineM") {
 
   property("RefineM instance") = secure {
-    val r = refineMT[Digit]
-    r('0') == '0'
+    val rv = refineMV[Digit]
+    val rt = refineMT[Digit]
+    rv('0') == Refined('0') && rt('0') == '0'
   }
 
-  property("refineMT with Forall") = secure {
-    def ignore: String @@ Forall[LowerCase] = refineMT[Forall[LowerCase]]("hello")
+  property("refineM with Forall") = secure {
+    def ignore1: String Refined Forall[LowerCase] = refineMV[Forall[LowerCase]]("hello")
+    def ignore2: String @@ Forall[LowerCase] = refineMT[Forall[LowerCase]]("hello")
+    illTyped("""refineMV[Forall[UpperCase]]("hello")""", "Predicate.*fail.*")
     illTyped("""refineMT[Forall[UpperCase]]("hello")""", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT with Greater") = secure {
-    def ignore: Int @@ Greater[_10] = refineMT[Greater[_10]](15)
+  property("refineM with Greater") = secure {
+    def ignore1: Int Refined Greater[_10] = refineMV[Greater[_10]](15)
+    def ignore2: Int @@ Greater[_10] = refineMT[Greater[_10]](15)
+    illTyped("""refineMV[Greater[_10]](5)""", "Predicate.*fail.*")
     illTyped("""refineMT[Greater[_10]](5)""", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT with Size") = secure {
+  property("refineM with Size") = secure {
     type ShortString = Size[LessEqual[_10]]
-    def ignore: String @@ ShortString = refineMT[ShortString]("abc")
+    def ignore1: String Refined ShortString = refineMV[ShortString]("abc")
+    def ignore2: String @@ ShortString = refineMT[ShortString]("abc")
+    illTyped("""refineMV[ShortString]("abcdefghijklmnopqrstuvwxyz")""", "Predicate.*fail.*")
     illTyped("""refineMT[ShortString]("abcdefghijklmnopqrstuvwxyz")""", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT with LowerCase") = secure {
-    def ignore: Char @@ LowerCase = refineMT[LowerCase]('c')
+  property("refineM with LowerCase") = secure {
+    def ignore1: Char Refined LowerCase = refineMV[LowerCase]('c')
+    def ignore2: Char @@ LowerCase = refineMT[LowerCase]('c')
+    illTyped("refineMV[LowerCase]('C')", "Predicate.*failed.*")
     illTyped("refineMT[LowerCase]('C')", "Predicate.*failed.*")
     true
   }
 
-  property("refineMT with MatchesRegex") = secure {
-    def ignore: String @@ MatchesRegex[W.`"[0-9]+"`.T] = refineMT("123")
+  property("refineM with MatchesRegex") = secure {
+    def ignore1: String Refined MatchesRegex[W.`"[0-9]+"`.T] = refineMV("123")
+    def ignore2: String @@ MatchesRegex[W.`"[0-9]+"`.T] = refineMT("123")
+    illTyped("""refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
     illTyped("""refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT with Contains") = secure {
-    def ignore: String @@ Contains[W.`'c'`.T] = refineMT("abcd")
+  property("refineM with Contains") = secure {
+    def ignore1: String Refined Contains[W.`'c'`.T] = refineMV("abcd")
+    def ignore2: String @@ Contains[W.`'c'`.T] = refineMT("abcd")
+    illTyped("""refineMV[Contains[W.`'c'`.T]]("abde")""", "Predicate.*fail.*")
     illTyped("""refineMT[Contains[W.`'c'`.T]]("abde")""", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT with Double Witness") = secure {
-    def ignore: Double @@ Greater[W.`2.3`.T] = refineMT(2.4)
+  property("refineM with Double Witness") = secure {
+    def ignore1: Double Refined Greater[W.`2.3`.T] = refineMV(2.4)
+    def ignore2: Double @@ Greater[W.`2.3`.T] = refineMT(2.4)
     illTyped("refineMT[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
+    illTyped("refineMV[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
     true
   }
 
-  property("refineMT fails on non-literals") = secure {
+  property("refineM fails on non-literals") = secure {
+    illTyped("refineMV[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
     illTyped("refineMT[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
     true
   }

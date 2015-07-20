@@ -3,6 +3,8 @@
 * TODO: deprecated refine and refineLit
 * TODO: new refine variants + Refined type (Refined works with type aliases)
 
+* Add string utility functions to create statically checked regular expressions,
+  URIs, and URLs. ([#35])
 * Lift the restriction to refine only literal values at compile-time if a
   `Predicate` is constant (i.e. it ignores its argument when calling `isValid`).
   Some examples of constant predicates are `True` or `False` or the newly added
@@ -20,3 +22,4 @@
 [#26]: https://github.com/fthomas/refined/issues/26
 [#29]: https://github.com/fthomas/refined/issues/29
 [#31]: https://github.com/fthomas/refined/issues/31
+[#35]: https://github.com/fthomas/refined/issues/35

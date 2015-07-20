@@ -283,6 +283,14 @@ The library comes with these predefined predicates:
 
 * Your name here :-)
 
+## Projects using refined
+
+If you have a project that uses the library to enforce more static guarantees
+and you'd like to include in this list, please open a pull request or mention
+it in the Gitter channel and we'll add a link to it here.
+
+* Your project here :-)
+
 ## Related projects
 
 This library is inspired by the [refined][refined.hs] library for Haskell.

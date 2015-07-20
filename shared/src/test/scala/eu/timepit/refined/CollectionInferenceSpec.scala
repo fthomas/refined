@@ -32,7 +32,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Exists[A] =!> Head[A]") = secure {
-    illTyped("InferenceRule[Exists[Digit], Head[Digit]]")
+    illTyped("InferenceRule[Exists[Digit], Head[Digit]]", "(?s)diverging implicit expansion for.*InferenceRule.*")
     true
   }
 
@@ -57,7 +57,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Last") = secure {
-    illTyped("InferenceRule[NonEmpty, Last[Whitespace]]")
+    illTyped("InferenceRule[NonEmpty, Last[Whitespace]]", "could not find.*InferenceRule.*")
     true
   }
 

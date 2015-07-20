@@ -5,6 +5,10 @@ import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox
 
+/**
+ * Type class for wrapping a value of type `T` into `F` together with a
+ * phantom type `P`.
+ */
 trait Wrapper[F[_, _]] {
 
   def wrap[T, P](t: T): F[T, P]

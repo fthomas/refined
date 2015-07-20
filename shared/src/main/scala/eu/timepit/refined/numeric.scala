@@ -10,8 +10,8 @@ import shapeless.{ Nat, Witness }
 
 /**
  * Module for numeric predicates. Predicates that take type parameters
- * support both Shapeless' natural numbers (`Nat`) and numeric singleton
- * types (which are made available by Shapeless' `Witness` - abbreviated
+ * support both shapeless' natural numbers (`Nat`) and numeric singleton
+ * types (which are made available by shapeless' `Witness` - abbreviated
  * as [[W]] in refined) which include subtypes of `Int`, `Long`, `Double`,
  * `Char` etc.
  *
@@ -20,10 +20,10 @@ import shapeless.{ Nat, Witness }
  *      | import shapeless.tag.@@
  *      | import eu.timepit.refined.numeric._
  *
- * scala> refineLit[Greater[_5]](10)
+ * scala> refineMT[Greater[_5]](10)
  * res1: Int @@ Greater[_5] = 10
  *
- * scala> refineLit[Greater[W.`1.5`.T]](1.6)
+ * scala> refineMT[Greater[W.`1.5`.T]](1.6)
  * res2: Double @@ Greater[W.`1.5`.T] = 1.6
  * }}}
  */

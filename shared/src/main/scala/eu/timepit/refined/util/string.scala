@@ -8,7 +8,23 @@ import shapeless.tag._
 
 object string {
 
-  /** Creates a `scala.util.matching.Regex` from a validated string. */
+  /**
+   * Creates a `scala.util.matching.Regex` from a validated string.
+   *
+   * @example {{{
+   * scala> import eu.timepit.refined.implicits._
+   *      | import eu.timepit.refined.util.string.regex
+   *
+   * scala> regex(".*")
+   * res1: scala.util.matching.Regex = .*
+   *
+   * scala> regex("{")
+   * <console>:41: error: Predicate isValidRegex("{") failed: Illegal repetition
+   * {
+   *        regex("{")
+   *              ^
+   * }}}
+   */
   def regex(s: String @@ Regex): scala.util.matching.Regex = s.r
 
   /** Creates a `java.net.URI` from a validated string. */

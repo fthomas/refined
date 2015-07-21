@@ -1,11 +1,7 @@
 ### Changes
 
-* TODO: deprecated refine and refineLit
-* TODO: new refine variants + Refined type (Refined works with type aliases)
-* TODO: link to FieldNames examples
-* TODO: link to examples that uses type aliases
 * Deprecate `refine` and `refineLit` in favor of the new `refineT` and
-  `refineMT` (where `T` stands for tag/`@@` and `M` for macro). In addition
+  `refineMT` (where `T` stands for tag/`@@` and `M` for macro). In addition,
   there are two other variants of these functions, `refineV` and `refineMV`,
   that use the newly added `Refined` value class instead of `@@`. The advantages
   of `Refined` is that it can be used in combination with type aliases.

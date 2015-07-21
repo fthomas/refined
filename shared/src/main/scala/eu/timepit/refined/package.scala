@@ -13,6 +13,9 @@ package object refined {
    * the predicate `P`, or an error message on the left otherwise.
    *
    * @example {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
    * scala> refineV[Positive](10)
    * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
    * }}}
@@ -24,6 +27,10 @@ package object refined {
    * `P`, or an error message on the left otherwise.
    *
    * @example {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *      | import shapeless.tag.@@
+   *
    * scala> refineT[Positive](10)
    * res1: Either[String, Int @@ Positive] = Right(10)
    * }}}
@@ -35,6 +42,9 @@ package object refined {
    * the predicate `P`, or fails to compile.
    *
    * @example {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
    * scala> refineMV[Positive](10)
    * res1: Refined[Int, Positive] = Refined(10)
    * }}}
@@ -46,6 +56,10 @@ package object refined {
    * or fails to compile.
    *
    * @example {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *      | import shapeless.tag.@@
+   *
    * scala> refineMT[Positive](10)
    * res1: Int @@ Positive = 10
    * }}}

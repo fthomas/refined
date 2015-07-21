@@ -25,7 +25,10 @@ object RefineM {
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ if predicate.isConstant => null.asInstanceOf[T]
-      case _ => c.abort(c.enclosingPosition, "refineM only supports literals")
+      case _ => c.abort(
+        c.enclosingPosition,
+        "compile-time refinement only works with literals or constant predicates"
+      )
     }
 
     predicate.validate(tValue) match {

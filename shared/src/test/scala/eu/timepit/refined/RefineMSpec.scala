@@ -83,8 +83,8 @@ class RefineMSpec extends Properties("refineM") {
   }
 
   property("refineM failure with non-literals") = secure {
-    illTyped("refineMV[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
-    illTyped("refineMT[NonEmpty](List(1, 2, 3))", "refineM only supports literals.*")
+    illTyped("refineMV[NonEmpty](List(1, 2, 3))", "compile-time refinement.*")
+    illTyped("refineMT[NonEmpty](List(1, 2, 3))", "compile-time refinement.*")
     true
   }
 }

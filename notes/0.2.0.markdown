@@ -4,10 +4,9 @@
 * TODO: new refine variants + Refined type (Refined works with type aliases)
 * TODO: link to FieldNames examples
 * TODO: link to examples that uses type aliases
-
-* Deprecated `refine` and `refineLit` in favor of the new `refineT` and
-  `refineMT` (where `T` stands for tag/`@@` and `M` stands for macro).
-  There are two other variants of these functions, `refineV` and `refineMV`,
+* Deprecate `refine` and `refineLit` in favor of the new `refineT` and
+  `refineMT` (where `T` stands for tag/`@@` and `M` for macro). In addition
+  there are two other variants of these functions, `refineV` and `refineMV`,
   that use the newly added `Refined` value class instead of `@@`. The advantages
   of `Refined` is that it can be used in combination with type aliases.
 * Add string utility functions to create statically checked regular expressions,
@@ -20,6 +19,8 @@
 * Remove `refine` from `Predicate` since the purpose of `Predicate` is
   to check whether a value conforms to a type-level predicate. Refining
   the type of such value is a different concern. ([#31])
+
+### New predicates
 
 [`generic`](https://github.com/fthomas/refined/blob/v0.2.0/shared/src/main/scala/eu/timepit/refined/generic.scala)
 

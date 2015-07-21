@@ -9,20 +9,27 @@ package object refined {
   val W = shapeless.Witness
 
   /**
-   * Returns a value of type `T` wrapped in `[[Refined]][T, P]` on the right
-   * if it satisfies the predicate `P`, or an error message on the left
-   * otherwise.
+   * Returns `t` wrapped in `[[Refined]][T, P]` on the right if it satisfies
+   * the predicate `P`, or an error message on the left otherwise.
    */
   def refineV[P]: Refine[P, Refined] = new Refine[P, Refined]
 
   /**
-   * Returns a value of type `T` as `T @@ P` on the right if it satisfies the
-   * predicate `P`, or an error message on the left otherwise.
+   * Returns `t` with type `T @@ P` on the right if it satisfies the predicate
+   * `P`, or an error message on the left otherwise.
    */
   def refineT[P]: Refine[P, @@] = new Refine[P, @@]
 
+  /**
+   * Macro that returns `t` wrapped in `[[Refined]][T, P]` if it satisfies
+   * the predicate `P`, or fails to compile.
+   */
   def refineMV[P]: RefineM[P, Refined] = new RefineM[P, Refined]
 
+  /**
+   * Macro that returns `t` with type `T @@ P` if it satisfies the predicate `P`,
+   * or fails to compile.
+   */
   def refineMT[P]: RefineM[P, @@] = new RefineM[P, @@]
 
 

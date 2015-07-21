@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.InferenceRule.==>
 import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
@@ -7,12 +8,12 @@ object implicits {
 
   implicit def autoInferV[T, A, B](t: Refined[T, A])(
     implicit
-    ir: InferenceRule[A, B], w: Wrapper[Refined]
+    ir: A ==> B, w: Wrapper[Refined]
   ): Refined[T, B] = macro InferM.macroImpl[T, A, B, Refined]
 
   implicit def autoInferT[T, A, B](t: T @@ A)(
     implicit
-    ir: InferenceRule[A, B], w: Wrapper[@@]
+    ir: A ==> B, w: Wrapper[@@]
   ): T @@ B = macro InferM.macroImpl[T, A, B, @@]
 
   implicit def autoRefineV[T, P](t: T)(

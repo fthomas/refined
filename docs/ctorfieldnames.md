@@ -54,7 +54,7 @@ scala> val f: Option[Unit] @@ ConstructorNames[Contains[W.`"None"`.T]] = opt
 f: shapeless.tag.@@[Option[Unit],eu.timepit.refined.generic.ConstructorNames[eu.timepit.refined.collection.Contains[String("None")]]] = Some(())
 ```
 
-Let's see what happens if use predicates that should fail:
+Let's see what happens if we use predicates that should fail:
 ```scala
 scala> val g: Option[Unit] @@ ConstructorNames[Size[Equal[_3]]] = opt
 <console>:34: error: Predicate failed: (2 == 3).

@@ -43,7 +43,7 @@ val e: Option[Unit] @@ ConstructorNames[Size[Equal[_2]]] = opt
 val f: Option[Unit] @@ ConstructorNames[Contains[W.`"None"`.T]] = opt
 ```
 
-Let's see what happens if use predicates that should fail:
+Let's see what happens if we use predicates that should fail:
 ```tut:nofail
 val g: Option[Unit] @@ ConstructorNames[Size[Equal[_3]]] = opt
 

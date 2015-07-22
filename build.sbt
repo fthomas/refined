@@ -6,7 +6,7 @@ lazy val root = project.in(file("."))
   .settings(styleSettings)
   .settings(
     console <<= console in (refinedJVM, Compile),
-    parallelExecution in ThisBuild := false
+    parallelExecution in Test in ThisBuild := false
   )
 
 lazy val refined = crossProject.in(file("."))

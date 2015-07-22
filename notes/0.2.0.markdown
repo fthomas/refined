@@ -10,7 +10,8 @@
 * Lift the restriction to refine only literal values at compile-time if a
   `Predicate` is constant (i.e. it ignores its argument when calling `isValid`).
   Some examples of constant predicates are `True` or `False` or the newly added
-  `ConstructorNames` and `FieldNames` predicates. ([#26])
+  `ConstructorNames` and `FieldNames` predicates. Some examples of the last two
+  predicates can be found [here][ctorfieldnames]. ([#26])
 * Enable tests in the Scala.js build. ([#29])
 * Remove `refine` from `Predicate` since the purpose of `Predicate` is
   to check whether a value conforms to a type-level predicate. Refining
@@ -27,3 +28,4 @@
 [#29]: https://github.com/fthomas/refined/issues/29
 [#31]: https://github.com/fthomas/refined/issues/31
 [#35]: https://github.com/fthomas/refined/issues/35
+[ctorfieldnames]: https://github.com/fthomas/refined/v0.2.0/master/docs/ctorfieldnames.md

@@ -187,7 +187,8 @@ The refinement machinery is built of:
   and return the value with type `T @@ P` if validation was successful or
   an error otherwise. The return type of `refine` is `Either[String, T @@ P]`
   while the `refineLit` returns a `T @@ P` or compilation fails. Since
-  `refineLit` is a macro it only works with literal values.
+  `refineLit` is a macro it only works with literal values or constant
+  predicates.
 
 ### Inference rules
 

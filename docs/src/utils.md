@@ -1,8 +1,8 @@
 ## Statically checked regexes, URIs, and URLs
 
 The combination of compile-time validation and implicit conversions to
-refined types allows to build statically checked constructors of types
-that can be instantiated with literals. One common examples are regular
+refined types allows to build statically checking constructors of types
+that can be instantiated with literals. One common example are regular
 expressions that are often built of constant string literals. But not
 all strings are valid regexes, therefore the `scala.util.matching.Regex`
 constructor checks at runtime if a given string is a valid regex:
@@ -14,9 +14,9 @@ constructor checks at runtime if a given string is a valid regex:
 ```
 
 The library provides its own constructor for regexes in the `util.string`
-object. Together with an implicit conversion in the `implicits` object,
-these constructors check at compile-time if a given string literal is
-a valid regex. That means that those constructors will never throw an
+object. Together with an implicit conversion macro in the `implicits`
+object, these constructors check at compile-time if a given string literal
+is a valid regex. That means that those constructors will never throw an
 exception at runtime.
 
 ```tut:silent

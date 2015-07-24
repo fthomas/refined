@@ -279,6 +279,7 @@ The library comes with these predefined predicates:
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
 * `Uri`: checks if a `String` is a valid URI
 * `Url`: checks if a `String` is a valid URL
+* `Uuid`: checks if a `String` is a valid UUID
 
 ## Contributors
 

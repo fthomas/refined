@@ -1,4 +1,4 @@
-## Statically checked regexes, URIs, and URLs
+## Statically checked regexes, URIs, URLs and more
 
 The combination of compile-time validation and implicit conversions to
 refined types allows to build statically checking constructors of types
@@ -53,7 +53,8 @@ scala> regex("(a|b") // fails at compile-time
              ^
 ```
 
-There are also similar constructors for `java.net.URI` and `java.net.URL`:
+There are also similar constructors for `java.net.URI`, `java.net.URL` and
+`java.util.UUID`:
 ```scala
 scala> uri("/valid/path")
 res4: java.net.URI = /valid/path
@@ -70,4 +71,12 @@ scala> url("htp://example.com")
 <console>:18: error: Predicate isValidUrl("htp://example.com") failed: unknown protocol: htp
        url("htp://example.com")
            ^
+
+scala> uuid("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
+res8: java.util.UUID = 9ecce884-47fe-4ba4-a1bb-1a3d71ed6530
+
+scala> uuid("whops")
+<console>:18: error: Predicate isValidUuid("whops") failed: Invalid UUID string: whops
+       uuid("whops")
+            ^
 ```

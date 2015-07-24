@@ -118,4 +118,18 @@ class StringPredicateSpec extends Properties("StringPredicate") {
   property("Regex.validate success") = secure {
     Predicate[Regex, String].validate("(a|b)") ?= None
   }
+
+  property("Uuid.validate success") = secure {
+    Predicate[Uuid, String].validate("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530") ?= None
+  }
+
+  property("Uuid.validate failure") = secure {
+    val jvmErr = Predicate[Uuid, String].validate("whops") ?=
+      Some("Predicate isValidUuid(\"whops\") failed: Invalid UUID string: whops")
+
+    val jsErr = Predicate[Uuid, String].validate("whops") ?=
+      Some("Predicate isValidUuid(\"whops\") failed: Illegal UUID string: whops")
+
+    jvmErr || jsErr
+  }
 }

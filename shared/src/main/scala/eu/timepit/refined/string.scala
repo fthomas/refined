@@ -23,6 +23,9 @@ object string extends StringPredicates with StringInferenceRules {
 
   /** Predicate that checks if a `String` is a valid URL. */
   trait Url
+
+  /** Predicate that checks if a `String` is a valid UUID. */
+  trait Uuid
 }
 
 private[refined] trait StringPredicates {
@@ -44,6 +47,9 @@ private[refined] trait StringPredicates {
 
   implicit def urlPredicate: Predicate[Url, String] =
     Predicate.fromPartial(new java.net.URL(_), t => s"""isValidUrl("$t")""")
+
+  implicit def uuidPredicate: Predicate[Uuid, String] =
+    Predicate.fromPartial(java.util.UUID.fromString, t => s"""isValidUuid("$t")""")
 }
 
 private[refined] trait StringInferenceRules {

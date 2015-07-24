@@ -2,6 +2,7 @@ package eu.timepit.refined
 package util
 
 import java.net.{ URI, URL }
+import java.util.UUID
 
 import eu.timepit.refined.string._
 import shapeless.tag._
@@ -32,4 +33,7 @@ object string {
 
   /** Creates a `java.net.URL` from a validated string. */
   def url(s: String @@ Url): URL = new URL(s)
+
+  /** Creates a `java.net.UUID` from a validated string. */
+  def uuid(s: String @@ Uuid): UUID = UUID.fromString(s)
 }

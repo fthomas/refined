@@ -6,8 +6,8 @@
   that use the newly added `Refined` value class instead of `@@`. The advantages
   of `Refined` is that it can be used in combination with type aliases.
 * Add string utility functions to create statically checked regular expressions,
-  URIs, and URLs. A detailed description of these functions can be found
-  [here][utils]. ([#35])
+  URIs, URLs, and UUIDs. A detailed description of these functions can be found
+  [here][utils]. ([#35], [#38])
 * Lift the restriction to refine only literal values at compile-time if a
   `Predicate` is constant (i.e. it ignores its argument when calling `isValid`).
   Some examples of constant predicates are `True` or `False` or the newly added
@@ -25,9 +25,14 @@
 * `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
 * `FieldNames[P]`: checks if the field names of a product type satisfy `P`
 
+[`string`](https://github.com/fthomas/refined/blob/v0.2.0/shared/src/main/scala/eu/timepit/refined/string.scala)
+
+* `Uuid`: checks if a `String` is a valid UUID
+
 [#26]: https://github.com/fthomas/refined/issues/26
 [#29]: https://github.com/fthomas/refined/issues/29
 [#31]: https://github.com/fthomas/refined/issues/31
 [#35]: https://github.com/fthomas/refined/issues/35
+[#38]: https://github.com/fthomas/refined/issues/38
 [ctorfieldnames]: https://github.com/fthomas/refined/blob/v0.2.0/docs/ctorfieldnames.md
 [utils]: https://github.com/fthomas/refined/blob/v0.2.0/docs/utils.md

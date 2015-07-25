@@ -29,12 +29,12 @@ object Wrapper {
 
       override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] = {
         import c.universe._
-        c.Expr(q"_root_.eu.timepit.refined.Refined[${weakTypeOf[T]}, ${weakTypeOf[P]}]($t)")
+        reify(Refined[T, P](t.splice))
       }
 
       override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] = {
         import c.universe._
-        c.Expr(q"$ta.asInstanceOf[${weakTypeOf[Refined[T, B]]}]")
+        reify(ta.splice.asInstanceOf[Refined[T, B]])
       }
     }
 
@@ -45,12 +45,12 @@ object Wrapper {
 
       override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] = {
         import c.universe._
-        c.Expr(q"$t.asInstanceOf[${weakTypeOf[T @@ P]}]")
+        reify(t.splice.asInstanceOf[T @@ P])
       }
 
       override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] = {
         import c.universe._
-        c.Expr(q"$ta.asInstanceOf[${weakTypeOf[T @@ B]}]")
+        reify(ta.splice.asInstanceOf[T @@ B])
       }
     }
 }

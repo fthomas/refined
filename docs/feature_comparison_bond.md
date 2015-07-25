@@ -3,6 +3,7 @@
 ## What bond and refined have in common
 
 * Additional constraints on ordinary types:
+
     ```scala
     // bond
     def x: Int with GreaterThan[T.`14`.T] = ???
@@ -12,6 +13,7 @@
     ```
 
 * Functions to validate runtime values:
+
     ```scala
     // bond
     scala> GreaterThan(14).validate(16)
@@ -23,6 +25,7 @@
     ```
     
 * Weaken constraints at compile time:
+
     ```scala
     // bond
     scala> val x = GreaterThan(14).validate(16).get
@@ -49,6 +52,7 @@
 ## What bond has but refined not
 
 * The Result type can accumulate validation errors in a for comprehension:
+
     ```scala
     scala> for {
          |   x <- GreaterThan(12).validate(10)
@@ -60,6 +64,7 @@
 ## What refined has but bond not
 
 * Check if literals confirm to constraints at compile-time:
+
     ```scala
     scala> val y: Int @@ Greater[W.`12`.T] = 13
     y: Int @@ Greater[Int(12)] = 13
@@ -71,6 +76,7 @@
     ```
 
 * Constraints that take other contraints as parameters:
+
     ```scala
     scala> val y: Char @@ And[Letter, UpperCase] = 'R'
     y: Char @@ And[Letter, UpperCase] = R

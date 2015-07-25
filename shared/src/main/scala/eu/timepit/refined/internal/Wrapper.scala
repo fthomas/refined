@@ -27,15 +27,11 @@ object Wrapper {
       override def wrap[T, P](t: T): Refined[T, P] =
         Refined(t)
 
-      override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] = {
-        import c.universe._
-        reify(Refined[T, P](t.splice))
-      }
+      override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
+        c.universe.reify(Refined[T, P](t.splice))
 
-      override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] = {
-        import c.universe._
-        reify(ta.splice.asInstanceOf[Refined[T, B]])
-      }
+      override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
+        c.universe.reify(ta.splice.asInstanceOf[Refined[T, B]])
     }
 
   implicit def tagWrapper: Wrapper[@@] =
@@ -43,14 +39,10 @@ object Wrapper {
       override def wrap[T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]
 
-      override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] = {
-        import c.universe._
-        reify(t.splice.asInstanceOf[T @@ P])
-      }
+      override def wrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] =
+        c.universe.reify(t.splice.asInstanceOf[T @@ P])
 
-      override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] = {
-        import c.universe._
-        reify(ta.splice.asInstanceOf[T @@ B])
-      }
+      override def rewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
+        c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 }

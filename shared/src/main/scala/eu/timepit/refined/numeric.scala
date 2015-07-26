@@ -77,15 +77,21 @@ private[refined] trait NumericPredicates {
 
 private[refined] trait NumericInferenceRules {
 
-  implicit def lessInference[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
-    InferenceRule(nc.lt(wa.value, wb.value), s"lessInference(${wa.value}, ${wb.value})")
+  implicit def lessInferenceWit[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Less[A] ==> Less[B] =
+    InferenceRule(nc.lt(wa.value, wb.value), s"lessInferenceWit(${wa.value}, ${wb.value})")
 
-  implicit def greaterInference[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
-    InferenceRule(nc.gt(wa.value, wb.value), s"greaterInference(${wa.value}, ${wb.value})")
+  implicit def greaterInferenceWit[C, A <: C, B <: C](implicit wa: Witness.Aux[A], wb: Witness.Aux[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
+    InferenceRule(nc.gt(wa.value, wb.value), s"greaterInferenceWit(${wa.value}, ${wb.value})")
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Less[A] ==> Less[B] =
     InferenceRule(ta.apply() < tb.apply(), s"lessInferenceNat(${ta.apply()}, ${tb.apply()})")
 
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit ta: ToInt[A], tb: ToInt[B]): Greater[A] ==> Greater[B] =
     InferenceRule(ta.apply() > tb.apply(), s"greaterInferenceNat(${ta.apply()}, ${tb.apply()})")
+
+  implicit def lessInferenceWitNat[C, A <: C, B <: Nat](implicit wa: Witness.Aux[A], tb: ToInt[B], nc: Numeric[C]): Less[A] ==> Less[B] =
+    InferenceRule(nc.lt(wa.value, nc.fromInt(tb.apply())), s"lessInferenceWitNat(${wa.value}, ${tb.apply()})")
+
+  implicit def greaterInferenceWitNat[C, A <: C, B <: Nat](implicit wa: Witness.Aux[A], tb: ToInt[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
+    InferenceRule(nc.gt(wa.value, nc.fromInt(tb.apply())), s"greaterInferenceWitNat(${wa.value}, ${tb.apply()})")
 }

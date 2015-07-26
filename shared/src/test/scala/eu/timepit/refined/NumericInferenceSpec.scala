@@ -56,12 +56,28 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     InferenceRule[Less[_10], Less[_5]].notValid
   }
 
+  property("Less[A] ==> Less[Nat]") = secure {
+    InferenceRule[Less[W.`5`.T], Less[_10]].isValid
+  }
+
+  property("Less[A] =!> Less[Nat]") = secure {
+    InferenceRule[Less[W.`10`.T], Less[_5]].notValid
+  }
+
   property("Greater[Nat] ==> Greater[Nat]") = secure {
     InferenceRule[Greater[_10], Greater[_5]].isValid
   }
 
   property("Greater[Nat] =!> Greater[Nat]") = secure {
     InferenceRule[Greater[_5], Greater[_10]].notValid
+  }
+
+  property("Greater[A] ==> Greater[Nat]") = secure {
+    InferenceRule[Greater[W.`10`.T], Greater[_5]].isValid
+  }
+
+  property("Greater[A] =!> Greater[Nat]") = secure {
+    InferenceRule[Greater[W.`5`.T], Greater[_10]].notValid
   }
 
   property("Interval[Nat] ==> LessEqual[Nat]") = secure {

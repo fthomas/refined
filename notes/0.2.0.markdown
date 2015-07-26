@@ -4,7 +4,8 @@
   `refineMT` (where `T` stands for tag/`@@` and `M` for macro). In addition,
   there are two other variants of these functions, `refineV` and `refineMV`,
   that use the newly added `Refined` value class instead of `@@`. The advantages
-  of `Refined` is that it can be used in combination with type aliases.
+  of `Refined` is that it can be used in combination with
+  [type aliases][type_aliases].
 * Add string utility functions to create statically checked regular expressions,
   URIs, URLs, and UUIDs. A detailed description of these functions can be found
   [here][utils]. ([#35], [#38])
@@ -36,4 +37,5 @@
 [#35]: https://github.com/fthomas/refined/issues/35
 [#38]: https://github.com/fthomas/refined/issues/38
 [ctorfieldnames]: https://github.com/fthomas/refined/blob/v0.2.0/docs/ctorfieldnames.md
-[utils]: https://github.com/fthomas/refined/blob/v0.2.0/docs/utils.md
+[type_aliases]:   https://github.com/fthomas/refined/blob/v0.2.0/docs/type_aliases.md
+[utils]:          https://github.com/fthomas/refined/blob/v0.2.0/docs/utils.md

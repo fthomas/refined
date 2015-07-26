@@ -13,10 +13,11 @@ object InferM {
     import c.universe._
 
     val inferenceRule = MacroUtils.eval(c)(ir)
-    val wrapper = MacroUtils.eval(c)(w)
 
-    if (inferenceRule.isValid)
+    if (inferenceRule.isValid) {
+      val wrapper = MacroUtils.eval(c)(w)
       wrapper.rewrapM(c)(t)
+    }
     else
       c.abort(c.enclosingPosition, s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}")
   }

@@ -20,7 +20,6 @@ object RefineM {
     import c.universe._
 
     val predicate = MacroUtils.eval(c)(p)
-    val wrapper = MacroUtils.eval(c)(w)
 
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
@@ -32,7 +31,9 @@ object RefineM {
     }
 
     predicate.validate(tValue) match {
-      case None => wrapper.wrapM(c)(t)
+      case None =>
+        val wrapper = MacroUtils.eval(c)(w)
+        wrapper.wrapM(c)(t)
       case Some(msg) => c.abort(c.enclosingPosition, msg)
     }
   }

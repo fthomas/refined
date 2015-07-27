@@ -16,9 +16,9 @@ A quick example:
 import eu.timepit.refined._
 import eu.timepit.refined.numeric._
 
-// refineLit decorates the type of its parameter if it satisfies the
+// refineMT decorates the type of its parameter if it satisfies the
 // given type-level predicate:
-scala> refineLit[Positive](5)
+scala> refineMT[Positive](5)
 res0: Int @@ Positive = 5
 
 // The type Int @@ Positive is the type of all Int values that are
@@ -26,17 +26,17 @@ res0: Int @@ Positive = 5
 
 // If the parameter does not satisfy the predicate, we get a meaningful
 // compile error:
-scala> refineLit[Positive](-5)
+scala> refineMT[Positive](-5)
 <console>:34: error: Predicate failed: (-5 > 0).
-              refineLit[Positive](-5)
-                                 ^
+              refineMT[Positive](-5)
+                                ^
 
-// refineLit is a macro and only works with literals. To validate
-// arbitrary (runtime) values we can use the refine function:
-scala> refine[Positive](5)
+// refineMT is a macro and only works with literals. To validate
+// arbitrary (runtime) values we can use the refineT function:
+scala> refineT[Positive](5)
 res1: Either[String, Int @@ Positive] = Right(5)
 
-scala> refine[Positive](-5)
+scala> refineT[Positive](-5)
 res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
@@ -53,7 +53,7 @@ import eu.timepit.refined.implicits._
 import shapeless.nat._
 import shapeless.tag.@@
 
-scala> val a: Int @@ Greater[_5] = refineLit(10)
+scala> val a: Int @@ Greater[_5] = refineMT(10)
 a: Int @@ Greater[_5] = 10
 
 // Since every value greater than 5 is also greater than 4, a can be ascribed
@@ -82,31 +82,31 @@ import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
 import eu.timepit.refined.string._
 
-scala> refineLit[NonEmpty]("Hello")
+scala> refineMT[NonEmpty]("Hello")
 res2: String @@ NonEmpty = Hello
 
-scala> refineLit[NonEmpty]("")
+scala> refineMT[NonEmpty]("")
 <console>:27: error: Predicate isEmpty() did not fail.
-            refineLit[NonEmpty]("")
-                               ^
+            refineMT[NonEmpty]("")
+                              ^
 
 scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
 defined type alias ZeroToOne
 
-scala> refineLit[ZeroToOne](1.8)
+scala> refineMT[ZeroToOne](1.8)
 <console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
-              refineLit[ZeroToOne](1.8)
-                                  ^
+              refineMT[ZeroToOne](1.8)
+                                 ^
 
-scala> refineLit[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
+scala> refineMT[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char @@ AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 
-scala> refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:34: error: Predicate failed: "123.".matches("[0-9]+").
-              refineLit[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
-                                                     ^
+              refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+                                                    ^
 
-// The implicits object contains an implicit version of refineLit which is
+// The implicits object contains an implicit version of refineMT which is
 // used here to validate that the right-hand side is equal to '3' (obviously
 // there is only one value satisfying this predicate):
 scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
@@ -182,12 +182,12 @@ The refinement machinery is built of:
 * A `Predicate` type class for validating a value of an unrefined type
   (like `Double`) against a type-level predicate (like `Positive`).
 
-* A function `refine` and a macro `refineLit` that take a predicate `P`
+* A function `refineT` and a macro `refineMT` that take a predicate `P`
   and some value of type `T`, validate this value with a `Predicate[P, T]`
   and return the value with type `T @@ P` if validation was successful or
-  an error otherwise. The return type of `refine` is `Either[String, T @@ P]`
-  while the `refineLit` returns a `T @@ P` or compilation fails. Since
-  `refineLit` is a macro it only works with literal values or constant
+  an error otherwise. The return type of `refineT` is `Either[String, T @@ P]`
+  while the `refineMT` returns a `T @@ P` or compilation fails. Since
+  `refineMT` is a macro it only works with literal values or constant
   predicates.
 
 ### Inference rules

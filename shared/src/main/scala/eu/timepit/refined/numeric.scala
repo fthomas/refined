@@ -15,7 +15,7 @@ import shapeless.{ Nat, Witness }
  * as [[W]] in refined) which include subtypes of `Int`, `Long`, `Double`,
  * `Char` etc.
  *
- * @example {{{
+ * Example: {{{
  * scala> import shapeless.nat._
  *      | import shapeless.tag.@@
  *      | import eu.timepit.refined.numeric._

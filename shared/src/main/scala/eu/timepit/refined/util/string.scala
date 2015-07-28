@@ -12,7 +12,7 @@ object string {
   /**
    * Creates a `scala.util.matching.Regex` from a validated string.
    *
-   * @example {{{
+   * Example: {{{
    * scala> import eu.timepit.refined.implicits._
    *      | import eu.timepit.refined.util.string.regex
    *

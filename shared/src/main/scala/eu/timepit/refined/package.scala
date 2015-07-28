@@ -16,7 +16,7 @@ package object refined {
    * `apply` method on it, allowing `refineV` to be called like in the given
    * example.
    *
-   * @example {{{
+   * Example: {{{
    * scala> import eu.timepit.refined._
    *      | import eu.timepit.refined.numeric._
    *
@@ -34,7 +34,7 @@ package object refined {
    * `apply` method on it, allowing `refineT` to be called like in the given
    * example.
    *
-   * @example {{{
+   * Example: {{{
    * scala> import eu.timepit.refined._
    *      | import eu.timepit.refined.numeric._
    *      | import shapeless.tag.@@
@@ -53,7 +53,7 @@ package object refined {
    * an `apply` method on it, allowing `refineMV` to be called like in the
    * given example.
    *
-   * @example {{{
+   * Example: {{{
    * scala> import eu.timepit.refined._
    *      | import eu.timepit.refined.numeric._
    *
@@ -71,7 +71,7 @@ package object refined {
    * `apply` method on it, allowing `refineMT` to be called like in the given
    * example.
    *
-   * @example {{{
+   * Example: {{{
    * scala> import eu.timepit.refined._
    *      | import eu.timepit.refined.numeric._
    *      | import shapeless.tag.@@

@@ -157,7 +157,7 @@ Instructions for Maven and other build tools is available at [search.maven.org][
 ## Documentation
 
 API documentation of the latest release is available at:
-http://fthomas.github.io/refined/latest/api/
+[http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/#eu.timepit.refined.package)
 
 There are also further (type-checked) examples in the [`docs`][docs]
 directory including one for defining [custom predicates][custom-pred].

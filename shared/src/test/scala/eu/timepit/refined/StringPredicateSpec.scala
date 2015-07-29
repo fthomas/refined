@@ -119,6 +119,20 @@ class StringPredicateSpec extends Properties("StringPredicate") {
     Predicate[Regex, String].validate("(a|b)") ?= None
   }
 
+  property("Uri.validate success") = secure {
+    Predicate[Uri, String].validate("/a/b/c") ?= None
+  }
+
+  property("Uri.validate failure") = secure {
+    val jvmErr = Predicate[Uri, String].validate(" /a/b/c") ?=
+      Some("Predicate isValidUri(\" /a/b/c\") failed: Illegal character in path at index 0:  /a/b/c")
+
+    val jsErr = Predicate[Uri, String].validate(" /a/b/c") ?=
+      Some("Predicate isValidUri(\" /a/b/c\") failed: Malformed URI in  /a/b/c at -1")
+
+    jvmErr || jsErr
+  }
+
   property("Uuid.validate success") = secure {
     Predicate[Uuid, String].validate("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530") ?= None
   }

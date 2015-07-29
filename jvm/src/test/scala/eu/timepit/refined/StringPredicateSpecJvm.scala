@@ -15,15 +15,6 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
       )
   }
 
-  property("Uri.validate success") = secure {
-    Predicate[Uri, String].validate("/a/b/c") ?= None
-  }
-
-  property("Uri.validate failure") = secure {
-    Predicate[Uri, String].validate(" /a/b/c") ?=
-      Some("Predicate isValidUri(\" /a/b/c\") failed: Illegal character in path at index 0:  /a/b/c")
-  }
-
   property("Url.validate success") = secure {
     Predicate[Url, String].validate("http://example.com") ?= None
   }

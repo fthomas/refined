@@ -17,15 +17,6 @@ class StringUtilSpecJvm extends Properties("util.string") {
     true
   }
 
-  property("uri success") = secure {
-    uri("file:///dev/null") ?= new java.net.URI("file:///dev/null")
-  }
-
-  property("uri failure") = secure {
-    illTyped("""uri("file:// /dev/null")""", "(?s)Predicate isValidUri.*failed.*")
-    true
-  }
-
   property("url success") = secure {
     url("http://example.com").toString ?= new java.net.URL("http://example.com").toString
   }

@@ -81,13 +81,4 @@ package object refined {
    * }}}
    */
   def refineMT[P]: RefineM[P, @@] = new RefineM[P, @@]
-
-  @deprecated("refine is deprecated in favor of refineT", "0.2.0")
-  def refine[P]: Refine[P, @@] = new Refine[P, @@]
-
-  @deprecated("refineLit is deprecated in favor of refineMT", "0.2.0")
-  def refineLit[P]: RefineM[P, @@] = new RefineM[P, @@]
-
-  @deprecated("refineM is deprecated in favor of refineMV", "0.2.0")
-  def refineM[P]: RefineM[P, Refined] = new RefineM[P, Refined]
 }

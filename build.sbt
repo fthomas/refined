@@ -10,6 +10,7 @@ lazy val root = project.in(file("."))
   )
 
 lazy val refined = crossProject.in(file("."))
+  .enablePlugins(BuildInfoPlugin)
   .settings(commonSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
@@ -35,6 +36,7 @@ lazy val docs = project
   )
   .dependsOn(refinedJVM)
 
+val rootPkg = "eu.timepit.refined"
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
 
@@ -160,20 +162,23 @@ lazy val siteSettings =
   Seq(git.remoteRepo := gitDevUrl)
 
 lazy val miscSettings = Seq(
-  initialCommands := """
-    import eu.timepit.refined._
-    import eu.timepit.refined.boolean._
-    import eu.timepit.refined.char._
-    import eu.timepit.refined.collection._
-    import eu.timepit.refined.generic._
-    import eu.timepit.refined.InferenceRule.==>
-    import eu.timepit.refined.implicits._
-    import eu.timepit.refined.numeric._
-    import eu.timepit.refined.string._
+  initialCommands := s"""
+    import $rootPkg._
+    import $rootPkg.boolean._
+    import $rootPkg.char._
+    import $rootPkg.collection._
+    import $rootPkg.generic._
+    import $rootPkg.InferenceRule.==>
+    import $rootPkg.implicits._
+    import $rootPkg.numeric._
+    import $rootPkg.string._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
     import shapeless.tag.@@
-  """
+  """,
+
+  buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+  buildInfoPackage := s"$rootPkg"
 )
 
 lazy val myDoctestSettings =

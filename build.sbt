@@ -17,7 +17,7 @@ lazy val refined = crossProject.in(file("."))
   .settings(releaseSettings: _*)
   .settings(styleSettings: _*)
   .settings(siteSettings: _*)
-  .jvmSettings()
+  .jvmSettings(myDoctestSettings: _*)
   .jsSettings(scalaJSStage in Test := FastOptStage)
 
 lazy val refinedJVM = refined.jvm
@@ -173,11 +173,11 @@ lazy val miscSettings = Seq(
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
     import shapeless.tag.@@
-  """,
+  """
+)
 
-  doctestWithDependencies := false
-) // ++ doctestSettings
-// Enable again when https://github.com/tkawachi/sbt-doctest/issues/52 is fixed.
+lazy val myDoctestSettings =
+  doctestSettings ++ Seq(doctestWithDependencies := false)
 
 lazy val styleSettings =
   scalariformSettings ++

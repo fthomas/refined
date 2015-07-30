@@ -18,27 +18,27 @@ class RefineSpec extends Properties("refine") {
     rv(t).isRight && rt(t).isRight
   }
 
-  property("refine success with Less") = secure {
+  property("refine[VT] success with Less") = secure {
     refineV[Less[W.`100`.T]](-100).isRight &&
       refineT[Less[W.`100`.T]](-100).isRight
   }
 
-  property("refine success with Greater") = secure {
+  property("refine[VT] success with Greater") = secure {
     refineV[Greater[_5]](6).isRight &&
       refineT[Greater[_5]](6).isRight
   }
 
-  property("refine failure with Interval") = secure {
+  property("refine[VT] failure with Interval") = secure {
     refineV[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft &&
       refineT[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
   }
 
-  property("refine failure with Forall") = secure {
+  property("refine[VT] failure with Forall") = secure {
     refineV[Forall[LowerCase]]("Hallo").isLeft &&
       refineT[Forall[LowerCase]]("Hallo").isLeft
   }
 
-  property("refineT success with MatchesRegex") = secure {
+  property("refine[VT] success with MatchesRegex") = secure {
     type DigitsOnly = MatchesRegex[W.`"[0-9]+"`.T]
     refineV[DigitsOnly][String]("123").isRight &&
       refineT[DigitsOnly][String]("123").isRight

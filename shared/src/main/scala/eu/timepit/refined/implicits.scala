@@ -6,15 +6,15 @@ import shapeless.tag.@@
 
 object implicits {
 
-  implicit def autoInferV[T, A, B](t: Refined[T, A])(
+  /**
+   * Implicitly converts (at compile-time) a value of type `F[T, A]` to
+   * `F[T, B]` if there is a valid inference rule `A ==> B`. If the
+   * inference rule is invalid, compilation fails.
+   */
+  implicit def autoInfer[T, A, B, F[_, _]](ta: F[T, A])(
     implicit
-    ir: A ==> B, w: Wrapper[Refined]
-  ): Refined[T, B] = macro InferM.macroImpl[T, A, B, Refined]
-
-  implicit def autoInferT[T, A, B](t: T @@ A)(
-    implicit
-    ir: A ==> B, w: Wrapper[@@]
-  ): T @@ B = macro InferM.macroImpl[T, A, B, @@]
+    ir: A ==> B, w: Wrapper[F]
+  ): F[T, B] = macro InferM.macroImpl[T, A, B, F]
 
   implicit def autoRefineV[T, P](t: T)(
     implicit

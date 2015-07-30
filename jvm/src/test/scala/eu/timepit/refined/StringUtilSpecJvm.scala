@@ -25,4 +25,14 @@ class StringUtilSpecJvm extends Properties("util.string") {
     illTyped("""url("http//example.com")""", "(?s)Predicate isValidUrl.*failed.*")
     true
   }
+
+  property("xpath success") = secure {
+    xpath("A//B/*[1]")
+    true
+  }
+
+  property("xpath failure") = secure {
+    illTyped("""xpath("A//B/*[1")""", "(?s)Predicate isValidXPath.*failed.*")
+    true
+  }
 }

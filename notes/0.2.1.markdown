@@ -1,0 +1,5 @@
+### New predicates
+
+[`string`](https://github.com/fthomas/refined/blob/v0.2.1/shared/src/main/scala/eu/timepit/refined/string.scala)
+
+* `XPath`: checks if a `String` is a valid XPath expression

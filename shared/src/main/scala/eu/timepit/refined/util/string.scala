@@ -36,4 +36,8 @@ object string {
 
   /** Creates a `java.net.UUID` from a validated string. */
   def uuid(s: String @@ Uuid): UUID = UUID.fromString(s)
+
+  /** Creates a `javax.xml.xpath.XPathExpression` from a validated string. */
+  def xpath(s: String @@ XPath): javax.xml.xpath.XPathExpression =
+    javax.xml.xpath.XPathFactory.newInstance().newXPath().compile(s)
 }

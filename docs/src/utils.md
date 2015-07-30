@@ -29,8 +29,8 @@ regex("(a|b)") // succeeds at compile- and runtime
 regex("(a|b") // fails at compile-time
 ```
 
-There are also similar constructors for `java.net.URI`, `java.net.URL` and
-`java.util.UUID`:
+There are also similar constructors for `java.net.URI`, `java.net.URL`,
+`java.util.UUID`, and `javax.xml.xpath.XPathExpression`:
 ```tut:nofail
 uri("/valid/path")
 uri("/path/ with/space")
@@ -40,4 +40,7 @@ url("htp://example.com")
 
 uuid("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
 uuid("whops")
+
+xpath("A//B/*[1]")
+xpath("A//B/*[1")
 ```

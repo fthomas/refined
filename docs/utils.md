@@ -53,8 +53,8 @@ scala> regex("(a|b") // fails at compile-time
              ^
 ```
 
-There are also similar constructors for `java.net.URI`, `java.net.URL` and
-`java.util.UUID`:
+There are also similar constructors for `java.net.URI`, `java.net.URL`,
+`java.util.UUID`, and `javax.xml.xpath.XPathExpression`:
 ```scala
 scala> uri("/valid/path")
 res4: java.net.URI = /valid/path
@@ -79,4 +79,12 @@ scala> uuid("whops")
 <console>:18: error: Predicate isValidUuid("whops") failed: Invalid UUID string: whops
        uuid("whops")
             ^
+
+scala> xpath("A//B/*[1]")
+res10: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@1e62a1ec
+
+scala> xpath("A//B/*[1")
+<console>:18: error: Predicate isValidXPath("A//B/*[1") failed: javax.xml.transform.TransformerException: Expected ], but found:
+       xpath("A//B/*[1")
+             ^
 ```

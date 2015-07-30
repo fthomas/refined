@@ -23,4 +23,14 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
     Predicate[Url, String].validate("htp://example.com") ?=
       Some("Predicate isValidUrl(\"htp://example.com\") failed: unknown protocol: htp")
   }
+
+  property("XPath.validate success") = secure {
+    Predicate[XPath, String].validate("A//B/*[1]") ?= None
+  }
+
+  property("XPath.validate failure") = secure {
+    Predicate[XPath, String].validate("A//B/*[1") ?=
+      Some("Predicate isValidXPath(\"A//B/*[1\") failed: " +
+        "javax.xml.transform.TransformerException: Expected ], but found: ")
+  }
 }

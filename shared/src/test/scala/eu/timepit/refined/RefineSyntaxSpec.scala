@@ -13,19 +13,19 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
   def testRefineMV(arg: Int Refined Positive): Boolean = true
   def testRefineMT(arg: Int @@ Positive): Boolean = true
 
-  property("refine success") = secure {
+  property("refineT success") = secure {
     testRefineT(refineT(1))
     testRefineT(refineT[Positive](1))
     testRefineT(refineT[Positive][Int](1))
   }
 
-  property("refine failure") = secure {
+  property("refineT failure") = secure {
     testRefineT(refineT(-1))
     testRefineT(refineT[Positive](-1))
     testRefineT(refineT[Positive][Int](-1))
   }
 
-  property("refineMT success") = secure {
+  property("refineMV success") = secure {
     testRefineMV(1)
     testRefineMV(refineMV(1))
     testRefineMV(refineMV[Positive](1))

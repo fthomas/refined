@@ -5,7 +5,7 @@ import java.net.{ URI, URL }
 import java.util.UUID
 
 import eu.timepit.refined.string._
-import shapeless.tag._
+import shapeless.tag.@@
 
 object string {
 

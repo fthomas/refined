@@ -9,9 +9,22 @@ import shapeless.test.illTyped
 
 class RefineSyntaxSpec extends Properties("refine syntax") {
 
+  def testRefineV(arg: Either[String, Int Refined Positive]): Boolean = true
   def testRefineT(arg: Either[String, Int @@ Positive]): Boolean = true
   def testRefineMV(arg: Int Refined Positive): Boolean = true
   def testRefineMT(arg: Int @@ Positive): Boolean = true
+
+  property("refineV success") = secure {
+    testRefineV(refineV(1))
+    testRefineV(refineV[Positive](1))
+    testRefineV(refineV[Positive][Int](1))
+  }
+
+  property("refineV failure") = secure {
+    testRefineV(refineV(-1))
+    testRefineV(refineV[Positive](-1))
+    testRefineV(refineV[Positive][Int](-1))
+  }
 
   property("refineT success") = secure {
     testRefineT(refineT(1))

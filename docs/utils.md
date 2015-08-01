@@ -1,4 +1,4 @@
-## Statically checked regexes, URIs, URLs and more
+## Statically checked regexes, URLs, XML and more
 
 The combination of compile-time validation and implicit conversions to
 refined types allows to build statically checking constructors of types
@@ -53,8 +53,13 @@ scala> regex("(a|b") // fails at compile-time
              ^
 ```
 
-There are also similar constructors for `java.net.URI`, `java.net.URL`,
-`java.util.UUID`, and `javax.xml.xpath.XPathExpression`:
+There are also similar constructors for
+ * `java.net.URI`
+ * `java.net.URL`
+ * `java.util.UUID`
+ * `javax.xml.xpath.XPathExpression`
+ * `scala.xml.Elem`
+
 ```scala
 scala> uri("/valid/path")
 res4: java.net.URI = /valid/path
@@ -80,8 +85,16 @@ scala> uuid("whops")
        uuid("whops")
             ^
 
+scala> xml("<a>link</a>")
+res10: scala.xml.Elem = <a>link</a>
+
+scala> xml("<a>link</a")
+<console>:18: error: Predicate isValidXml("<a>link</a") failed: XML document structures must start and end within the same entity.
+xml("<a>link</a")
+    ^
+
 scala> xpath("A//B/*[1]")
-res10: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@1e62a1ec
+res12: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@27f3dfe9
 
 scala> xpath("A//B/*[1")
 <console>:18: error: Predicate isValidXPath("A//B/*[1") failed: javax.xml.transform.TransformerException: Expected ], but found:

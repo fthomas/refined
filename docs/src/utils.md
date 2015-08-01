@@ -1,4 +1,4 @@
-## Statically checked regexes, URIs, URLs and more
+## Statically checked regexes, URLs, XML and more
 
 The combination of compile-time validation and implicit conversions to
 refined types allows to build statically checking constructors of types
@@ -29,8 +29,13 @@ regex("(a|b)") // succeeds at compile- and runtime
 regex("(a|b") // fails at compile-time
 ```
 
-There are also similar constructors for `java.net.URI`, `java.net.URL`,
-`java.util.UUID`, and `javax.xml.xpath.XPathExpression`:
+There are also similar constructors for
+* `java.net.URI`
+* `java.net.URL`
+* `java.util.UUID`
+* `javax.xml.xpath.XPathExpression`
+* `scala.xml.Elem`
+
 ```tut:nofail
 uri("/valid/path")
 uri("/path/ with/space")
@@ -40,6 +45,9 @@ url("htp://example.com")
 
 uuid("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
 uuid("whops")
+
+xml("<a>link</a>")
+xml("<a>link</a")
 
 xpath("A//B/*[1]")
 xpath("A//B/*[1")

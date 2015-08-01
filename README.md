@@ -163,7 +163,7 @@ There are also further (type-checked) examples in the [`docs`][docs]
 directory including one for defining [custom predicates][custom-pred].
 
 [docs]: https://github.com/fthomas/refined/tree/master/docs
-[custom-pred]: https://github.com/fthomas/refined/tree/master/docs/point.md
+[custom-pred]: https://github.com/fthomas/refined/tree/master/docs/custom_predicates.md
 
 ## Internals
 

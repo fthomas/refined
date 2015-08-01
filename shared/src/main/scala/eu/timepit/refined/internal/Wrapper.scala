@@ -7,9 +7,10 @@ import scala.reflect.macros.blackbox
 
 /**
  * Type class for wrapping a value of type `T` into `F` together with a
- * phantom type `P`.
+ * phantom type `P`. Instances must satisfy the following law:
+ * `forall t, unwrap(wrap(t)) == t`.
  */
-trait Wrapper[F[_, _]] {
+trait Wrapper[F[_, _]] extends Serializable {
 
   def wrap[T, P](t: T): F[T, P]
 

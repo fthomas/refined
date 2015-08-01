@@ -7,9 +7,9 @@ package internal
  */
 final class Refine[P, F[_, _]] {
 
-  def apply[T](t: T)(implicit p: Predicate[P, T], r: Wrapper[F]): Either[String, F[T, P]] =
+  def apply[T](t: T)(implicit p: Predicate[P, T], w: Wrapper[F]): Either[String, F[T, P]] =
     p.validate(t) match {
-      case None => Right(r.wrap(t))
+      case None => Right(w.wrap(t))
       case Some(s) => Left(s)
     }
 }

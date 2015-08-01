@@ -1,9 +1,6 @@
 package eu.timepit.refined
 package util
 
-import java.net.{ URI, URL }
-import java.util.UUID
-
 import eu.timepit.refined.string._
 import shapeless.tag.@@
 
@@ -29,13 +26,20 @@ object string {
   def regex(s: String @@ Regex): scala.util.matching.Regex = s.r
 
   /** Creates a `java.net.URI` from a validated string. */
-  def uri(s: String @@ Uri): URI = new URI(s)
+  def uri(s: String @@ Uri): java.net.URI =
+    new java.net.URI(s)
 
   /** Creates a `java.net.URL` from a validated string. */
-  def url(s: String @@ Url): URL = new URL(s)
+  def url(s: String @@ Url): java.net.URL =
+    new java.net.URL(s)
 
   /** Creates a `java.net.UUID` from a validated string. */
-  def uuid(s: String @@ Uuid): UUID = UUID.fromString(s)
+  def uuid(s: String @@ Uuid): java.util.UUID =
+    java.util.UUID.fromString(s)
+
+  /** Creates a `scala.xml.Elem` from a validated string. */
+  def xml(s: String @@ Xml): scala.xml.Elem =
+    scala.xml.XML.loadString(s)
 
   /** Creates a `javax.xml.xpath.XPathExpression` from a validated string. */
   def xpath(s: String @@ XPath): javax.xml.xpath.XPathExpression =

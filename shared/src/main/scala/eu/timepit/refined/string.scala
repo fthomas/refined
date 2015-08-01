@@ -27,6 +27,9 @@ object string extends StringPredicates with StringInferenceRules {
   /** Predicate that checks if a `String` is a valid UUID. */
   trait Uuid
 
+  /** Predicate that checks if a `String` is valid XML. */
+  trait Xml
+
   /** Predicate that checks if a `String` is a valid XPath expression. */
   trait XPath
 }
@@ -53,6 +56,9 @@ private[refined] trait StringPredicates {
 
   implicit def uuidPredicate: Predicate[Uuid, String] =
     Predicate.fromPartial(java.util.UUID.fromString, t => s"""isValidUuid("$t")""")
+
+  implicit def xmlPredicate: Predicate[Xml, String] =
+    Predicate.fromPartial(scala.xml.XML.loadString, t => s"""isValidXml("$t")""")
 
   implicit def xpathPredicate: Predicate[XPath, String] =
     Predicate.fromPartial(

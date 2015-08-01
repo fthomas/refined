@@ -2,4 +2,5 @@
 
 [`string`](https://github.com/fthomas/refined/blob/v0.2.1/shared/src/main/scala/eu/timepit/refined/string.scala)
 
+* `Xml`: checks if a `String` is valid XML
 * `XPath`: checks if a `String` is a valid XPath expression

@@ -24,6 +24,15 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
       Some("Predicate isValidUrl(\"htp://example.com\") failed: unknown protocol: htp")
   }
 
+  property("Xml.validate success") = secure {
+    Predicate[Xml, String].validate("<root></root>") ?= None
+  }
+
+  property("Xml.validate failure") = secure {
+    Predicate[Xml, String].validate("<root>") ?=
+      Some("Predicate isValidXml(\"<root>\") failed: XML document structures must start and end within the same entity.")
+  }
+
   property("XPath.validate success") = secure {
     Predicate[XPath, String].validate("A//B/*[1]") ?= None
   }

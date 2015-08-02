@@ -23,7 +23,8 @@ object string {
    *              ^
    * }}}
    */
-  def regex(s: String @@ Regex): scala.util.matching.Regex = s.r
+  def regex(s: String @@ Regex): scala.util.matching.Regex =
+    new scala.util.matching.Regex(s)
 
   /** Creates a `java.net.URI` from a validated string. */
   def uri(s: String @@ Uri): java.net.URI =

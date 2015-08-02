@@ -43,7 +43,7 @@ private[refined] trait StringPredicates {
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
   implicit def regexPredicate: Predicate[Regex, String] =
-    Predicate.fromPartial(_.r, "Regex")
+    Predicate.fromPartial(new scala.util.matching.Regex(_), "Regex")
 
   implicit def startsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")

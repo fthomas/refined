@@ -54,7 +54,7 @@ implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
   Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
 ```
 
-We have now everything in place to refine `Point` values with the `refine`
+We have now everything in place to refine `Point` values with the `refineT`
 function and our predicates:
 
 ```scala

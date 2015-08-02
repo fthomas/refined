@@ -3,7 +3,8 @@ package internal
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
- * `[[refineV]][P](t)`.
+ * `[[refineV]][P](t)`. See [[http://tpolecat.github.io/2015/07/30/infer.html]]
+ * for a detailed explanation of this trick.
  */
 final class Refine[P, F[_, _]] {
 

@@ -5,7 +5,8 @@ import scala.reflect.macros.blackbox
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
- * `[[refineMV]][P](t)`.
+ * `[[refineMV]][P](t)`. See [[http://tpolecat.github.io/2015/07/30/infer.html]]
+ * for a detailed explanation of this trick.
  */
 final class RefineM[P, F[_, _]] {
 

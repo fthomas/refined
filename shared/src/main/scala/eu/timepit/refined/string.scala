@@ -43,28 +43,25 @@ private[refined] trait StringPredicates {
     Predicate.instance(_.matches(wr.value), t => s""""$t".matches("${wr.value}")""")
 
   implicit def regexPredicate: Predicate[Regex, String] =
-    Predicate.fromPartial(_.r, t => s"""isValidRegex("$t")""")
+    Predicate.fromPartial(_.r, "Regex")
 
   implicit def startsWithPredicate[R <: String](implicit wr: Witness.Aux[R]): Predicate[StartsWith[R], String] =
     Predicate.instance(_.startsWith(wr.value), t => s""""$t".startsWith("${wr.value}")""")
 
   implicit def uriPredicate: Predicate[Uri, String] =
-    Predicate.fromPartial(new java.net.URI(_), t => s"""isValidUri("$t")""")
+    Predicate.fromPartial(new java.net.URI(_), "Uri")
 
   implicit def urlPredicate: Predicate[Url, String] =
-    Predicate.fromPartial(new java.net.URL(_), t => s"""isValidUrl("$t")""")
+    Predicate.fromPartial(new java.net.URL(_), "Url")
 
   implicit def uuidPredicate: Predicate[Uuid, String] =
-    Predicate.fromPartial(java.util.UUID.fromString, t => s"""isValidUuid("$t")""")
+    Predicate.fromPartial(java.util.UUID.fromString, "Uuid")
 
   implicit def xmlPredicate: Predicate[Xml, String] =
-    Predicate.fromPartial(scala.xml.XML.loadString, t => s"""isValidXml("$t")""")
+    Predicate.fromPartial(scala.xml.XML.loadString, "Xml")
 
   implicit def xpathPredicate: Predicate[XPath, String] =
-    Predicate.fromPartial(
-      javax.xml.xpath.XPathFactory.newInstance().newXPath().compile,
-      t => s"""isValidXPath("$t")"""
-    )
+    Predicate.fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath")
 }
 
 private[refined] trait StringInferenceRules {

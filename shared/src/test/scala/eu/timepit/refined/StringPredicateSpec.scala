@@ -125,10 +125,10 @@ class StringPredicateSpec extends Properties("StringPredicate") {
 
   property("Uri.validate failure") = secure {
     val jvmErr = Predicate[Uri, String].validate(" /a/b/c") ?=
-      Some("Predicate isValidUri(\" /a/b/c\") failed: Illegal character in path at index 0:  /a/b/c")
+      Some("Uri predicate failed: Illegal character in path at index 0:  /a/b/c")
 
     val jsErr = Predicate[Uri, String].validate(" /a/b/c") ?=
-      Some("Predicate isValidUri(\" /a/b/c\") failed: Malformed URI in  /a/b/c at -1")
+      Some("Uri predicate failed: Malformed URI in  /a/b/c at -1")
 
     jvmErr || jsErr
   }
@@ -139,10 +139,10 @@ class StringPredicateSpec extends Properties("StringPredicate") {
 
   property("Uuid.validate failure") = secure {
     val jvmErr = Predicate[Uuid, String].validate("whops") ?=
-      Some("Predicate isValidUuid(\"whops\") failed: Invalid UUID string: whops")
+      Some("Uuid predicate failed: Invalid UUID string: whops")
 
     val jsErr = Predicate[Uuid, String].validate("whops") ?=
-      Some("Predicate isValidUuid(\"whops\") failed: Illegal UUID string: whops")
+      Some("Uuid predicate failed: Illegal UUID string: whops")
 
     jvmErr || jsErr
   }

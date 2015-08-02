@@ -1,3 +1,8 @@
+### Changes
+
+* Improve error messages of predicates created from partial functions.
+  (This includes `Regex`, `Url`, `Xml`, and more.)
+
 ### New predicates
 
 [`string`](https://github.com/fthomas/refined/blob/v0.2.1/shared/src/main/scala/eu/timepit/refined/string.scala)

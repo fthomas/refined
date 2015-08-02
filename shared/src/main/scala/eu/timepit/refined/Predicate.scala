@@ -78,15 +78,15 @@ object Predicate {
    * Constructs a [[Predicate]] from the partial function `pf`. All `T`s for
    * which `pf` throws an exception are considered invalid according to `P`.
    */
-  def fromPartial[P, T, U](pf: T => U, showT: T => String): Predicate[P, T] =
+  def fromPartial[P, T, U](pf: T => U, name: String): Predicate[P, T] =
     new Predicate[P, T] {
       def isValid(t: T): Boolean = Try(pf(t)).isSuccess
-      def show(t: T): String = showT(t)
+      def show(t: T): String = s"""isValid$name("$t")"""
 
       override def validate(t: T): Option[String] =
         Try(pf(t)) match {
           case Success(_) => None
-          case Failure(ex) => Some(s"Predicate ${show(t)} failed: ${ex.getMessage}")
+          case Failure(ex) => Some(s"$name predicate failed: ${ex.getMessage}")
         }
     }
 

@@ -13,7 +13,7 @@ class StringUtilSpec extends Properties("util.string") {
   }
 
   property("uri failure") = secure {
-    illTyped("""uri("file:// /dev/null")""", "(?s)Predicate isValidUri.*failed.*")
+    illTyped("""uri("file:// /dev/null")""", "(?s)Uri predicate failed.*")
     true
   }
 
@@ -23,7 +23,7 @@ class StringUtilSpec extends Properties("util.string") {
   }
 
   property("uuid failure") = secure {
-    illTyped("""uuid("whops")""", "(?s)Predicate isValidUuid.*failed.*")
+    illTyped("""uuid("whops")""", "(?s)Uuid predicate failed.*")
     true
   }
 }

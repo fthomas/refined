@@ -9,7 +9,7 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
   property("Regex.validate failure") = secure {
     Predicate[Regex, String].validate("(a|b") ?=
       Some(
-        """Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
+        """Regex predicate failed: Unclosed group near index 4
           |(a|b
           |    ^""".stripMargin
       )
@@ -21,7 +21,7 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
 
   property("Url.validate failure") = secure {
     Predicate[Url, String].validate("htp://example.com") ?=
-      Some("Predicate isValidUrl(\"htp://example.com\") failed: unknown protocol: htp")
+      Some("Url predicate failed: unknown protocol: htp")
   }
 
   property("Xml.validate success") = secure {
@@ -30,7 +30,7 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
 
   property("Xml.validate failure") = secure {
     Predicate[Xml, String].validate("<root>") ?=
-      Some("Predicate isValidXml(\"<root>\") failed: XML document structures must start and end within the same entity.")
+      Some("Xml predicate failed: XML document structures must start and end within the same entity.")
   }
 
   property("XPath.validate success") = secure {
@@ -39,7 +39,6 @@ class StringPredicateSpecJvm extends Properties("StringPredicate") {
 
   property("XPath.validate failure") = secure {
     Predicate[XPath, String].validate("A//B/*[1") ?=
-      Some("Predicate isValidXPath(\"A//B/*[1\") failed: " +
-        "javax.xml.transform.TransformerException: Expected ], but found: ")
+      Some("XPath predicate failed: javax.xml.transform.TransformerException: Expected ], but found: ")
   }
 }

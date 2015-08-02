@@ -102,14 +102,14 @@ scala> val r1: String @@ Regex = "(a|b)"
 r1: shapeless.tag.@@[String,eu.timepit.refined.string.Regex] = (a|b)
 
 scala> val r2: String @@ Regex = "(a|b"
-<console>:40: error: Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
+<console>:40: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
        val r2: String @@ Regex = "(a|b"
                                  ^
 
 scala> val u1: String @@ Url = "htp://example.com"
-<console>:40: error: Predicate isValidUrl("htp://example.com") failed: unknown protocol: htp
+<console>:40: error: Url predicate failed: unknown protocol: htp
        val u1: String @@ Url = "htp://example.com"
                                ^
 ```

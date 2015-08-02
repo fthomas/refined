@@ -46,7 +46,7 @@ scala> regex("(a|b)") // succeeds at compile- and runtime
 res2: scala.util.matching.Regex = (a|b)
 
 scala> regex("(a|b") // fails at compile-time
-<console>:18: error: Predicate isValidRegex("(a|b") failed: Unclosed group near index 4
+<console>:18: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
        regex("(a|b") // fails at compile-time
@@ -54,18 +54,18 @@ scala> regex("(a|b") // fails at compile-time
 ```
 
 There are also similar constructors for
- * `java.net.URI`
- * `java.net.URL`
- * `java.util.UUID`
- * `javax.xml.xpath.XPathExpression`
- * `scala.xml.Elem`
+* `java.net.URI`
+* `java.net.URL`
+* `java.util.UUID`
+* `javax.xml.xpath.XPathExpression`
+* `scala.xml.Elem`
 
 ```scala
 scala> uri("/valid/path")
 res4: java.net.URI = /valid/path
 
 scala> uri("/path/ with/space")
-<console>:18: error: Predicate isValidUri("/path/ with/space") failed: Illegal character in path at index 6: /path/ with/space
+<console>:18: error: Uri predicate failed: Illegal character in path at index 6: /path/ with/space
        uri("/path/ with/space")
            ^
 
@@ -73,7 +73,7 @@ scala> url("http://scala-lang.org/")
 res6: java.net.URL = http://scala-lang.org/
 
 scala> url("htp://example.com")
-<console>:18: error: Predicate isValidUrl("htp://example.com") failed: unknown protocol: htp
+<console>:18: error: Url predicate failed: unknown protocol: htp
        url("htp://example.com")
            ^
 
@@ -81,7 +81,7 @@ scala> uuid("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
 res8: java.util.UUID = 9ecce884-47fe-4ba4-a1bb-1a3d71ed6530
 
 scala> uuid("whops")
-<console>:18: error: Predicate isValidUuid("whops") failed: Invalid UUID string: whops
+<console>:18: error: Uuid predicate failed: Invalid UUID string: whops
        uuid("whops")
             ^
 
@@ -89,15 +89,15 @@ scala> xml("<a>link</a>")
 res10: scala.xml.Elem = <a>link</a>
 
 scala> xml("<a>link</a")
-<console>:18: error: Predicate isValidXml("<a>link</a") failed: XML document structures must start and end within the same entity.
+<console>:18: error: Xml predicate failed: XML document structures must start and end within the same entity.
 xml("<a>link</a")
     ^
 
 scala> xpath("A//B/*[1]")
-res12: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@27f3dfe9
+res12: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@28c16218
 
 scala> xpath("A//B/*[1")
-<console>:18: error: Predicate isValidXPath("A//B/*[1") failed: javax.xml.transform.TransformerException: Expected ], but found:
+<console>:18: error: XPath predicate failed: javax.xml.transform.TransformerException: Expected ], but found:
        xpath("A//B/*[1")
              ^
 ```

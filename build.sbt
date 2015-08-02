@@ -72,6 +72,7 @@ lazy val compileSettings = Seq(
     "-Xfuture",
     "-Xlint",
     //"-Xlog-implicits",
+    //"-Xprint:posterasure",
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"

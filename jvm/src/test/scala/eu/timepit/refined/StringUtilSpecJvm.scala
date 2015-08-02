@@ -13,7 +13,7 @@ class StringUtilSpecJvm extends Properties("util.string") {
   }
 
   property("regex failure") = secure {
-    illTyped("""regex("(a|b")""", "(?s)Predicate isValidRegex.*failed.*")
+    illTyped("""regex("(a|b")""", "(?s)Regex predicate failed.*")
     true
   }
 
@@ -22,7 +22,7 @@ class StringUtilSpecJvm extends Properties("util.string") {
   }
 
   property("url failure") = secure {
-    illTyped("""url("http//example.com")""", "(?s)Predicate isValidUrl.*failed.*")
+    illTyped("""url("http//example.com")""", "(?s)Url predicate failed.*")
     true
   }
 
@@ -31,7 +31,7 @@ class StringUtilSpecJvm extends Properties("util.string") {
   }
 
   property("xml failure") = secure {
-    illTyped("""xml("<root>")""", "(?s)Predicate isValidXml.*failed.*")
+    illTyped("""xml("<root>")""", "(?s)Xml predicate failed.*")
     true
   }
 
@@ -41,7 +41,7 @@ class StringUtilSpecJvm extends Properties("util.string") {
   }
 
   property("xpath failure") = secure {
-    illTyped("""xpath("A//B/*[1")""", "(?s)Predicate isValidXPath.*failed.*")
+    illTyped("""xpath("A//B/*[1")""", "(?s)XPath predicate failed.*")
     true
   }
 }

@@ -10,7 +10,7 @@ import shapeless.nat._
 
 class RefineSpec extends Properties("refine") {
 
-  property("Refine instance") = secure {
+  property("RefineAux instance") = secure {
     val rv = refineV[Digit]
     val rt = refineT[Digit]
 

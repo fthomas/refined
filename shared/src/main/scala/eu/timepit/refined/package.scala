@@ -22,11 +22,11 @@ package object refined {
    *
    * Note: `V` stands for '''v'''alue class.
    *
-   * Note: The return type is `[[internal.Refine]][P, Refined]`, which has an
-   * `apply` method on it, allowing `refineV` to be called like in the given
-   * example.
+   * Note: The return type is `[[internal.RefineAux]][P, Refined]`, which has
+   * an `apply` method on it, allowing `refineV` to be called like in the
+   * given example.
    */
-  def refineV[P]: Refine[P, Refined] = new Refine[P, Refined]
+  def refineV[P]: RefineAux[P, Refined] = new RefineAux[P, Refined]
 
   /**
    * Returns `t` with type `T @@ P` on the right if it satisfies the
@@ -43,11 +43,11 @@ package object refined {
    *
    * Note: `T` stands for '''t'''ag.
    *
-   * Note: The return type is `[[internal.Refine]][P, @@]`, which has an
+   * Note: The return type is `[[internal.RefineAux]][P, @@]`, which has an
    * `apply` method on it, allowing `refineT` to be called like in the given
    * example.
    */
-  def refineT[P]: Refine[P, @@] = new Refine[P, @@]
+  def refineT[P]: RefineAux[P, @@] = new RefineAux[P, @@]
 
   /**
    * Macro that returns `t` wrapped in `[[Refined]][T, P]` if it satisfies
@@ -63,11 +63,11 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `V` stands for '''v'''alue class.
    *
-   * Note: The return type is `[[internal.RefineM]][P, Refined]`, which has
-   * an `apply` method on it, allowing `refineMV` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.RefineMAux]][P, Refined]`, which
+   * has an `apply` method on it, allowing `refineMV` to be called like in
+   * the given example.
    */
-  def refineMV[P]: RefineM[P, Refined] = new RefineM[P, Refined]
+  def refineMV[P]: RefineMAux[P, Refined] = new RefineMAux[P, Refined]
 
   /**
    * Macro that returns `t` with type `T @@ P` if it satisfies the predicate
@@ -84,9 +84,9 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `T` stands for '''t'''ag.
    *
-   * Note: The return type is `[[internal.RefineM]][P, @@]`, which has an
+   * Note: The return type is `[[internal.RefineMAux]][P, @@]`, which has an
    * `apply` method on it, allowing `refineMT` to be called like in the given
    * example.
    */
-  def refineMT[P]: RefineM[P, @@] = new RefineM[P, @@]
+  def refineMT[P]: RefineMAux[P, @@] = new RefineMAux[P, @@]
 }

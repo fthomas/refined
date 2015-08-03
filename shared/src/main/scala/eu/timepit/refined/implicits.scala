@@ -19,10 +19,10 @@ object implicits {
   implicit def autoRefineV[T, P](t: T)(
     implicit
     p: Predicate[P, T], w: Wrapper[Refined]
-  ): Refined[T, P] = macro RefineM.macroImpl[P, T, Refined]
+  ): Refined[T, P] = macro RefineMAux.macroImpl[P, T, Refined]
 
   implicit def autoRefineT[T, P](t: T)(
     implicit
     p: Predicate[P, T], w: Wrapper[@@]
-  ): T @@ P = macro RefineM.macroImpl[P, T, @@]
+  ): T @@ P = macro RefineMAux.macroImpl[P, T, @@]
 }

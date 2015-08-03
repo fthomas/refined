@@ -6,7 +6,7 @@ package internal
  * `[[refineV]][P](t)`. See [[http://tpolecat.github.io/2015/07/30/infer.html]]
  * for a detailed explanation of this trick.
  */
-final class Refine[P, F[_, _]] {
+final class RefineAux[P, F[_, _]] {
 
   def apply[T](t: T)(implicit p: Predicate[P, T], w: Wrapper[F]): Either[String, F[T, P]] =
     p.validate(t) match {

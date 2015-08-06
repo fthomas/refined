@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package internal
 
-import scala.reflect.macros.blackbox
+import scala.reflect.macros.Context
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
@@ -15,7 +15,7 @@ final class RefineMAux[P, F[_, _]] {
 
 object RefineMAux {
 
-  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag, F[_, _]](c: blackbox.Context)(t: c.Expr[T])(
+  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag, F[_, _]](c: Context)(t: c.Expr[T])(
     p: c.Expr[Predicate[P, T]], w: c.Expr[Wrapper[F]]
   ): c.Expr[F[T, P]] = {
     import c.universe._

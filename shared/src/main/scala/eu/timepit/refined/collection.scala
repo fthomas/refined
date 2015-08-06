@@ -103,22 +103,22 @@ private[refined] trait CollectionPredicates {
     )
 
   implicit def forallPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => TraversableOnce[A]): Predicate[Forall[P], T] =
-    forallPredicate.contramap(ev)
+    forallPredicate[P, A, TraversableOnce].contramap(ev)
 
   implicit def headPredicate[P, A, T[A] <: Traversable[A]](implicit p: Predicate[P, A]): Predicate[Head[P], T[A]] =
-    singleElemPredicate(_.headOption, (t: T[A], a: A) => s"head($t) = $a")
+    singleElemPredicate[P, Head[P], A, T[A]](_.headOption, (t: T[A], a: A) => s"head($t) = $a")
 
   implicit def headPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => Traversable[A]): Predicate[Head[P], T] =
-    headPredicate.contramap(ev)
+    headPredicate[P, A, Traversable].contramap(ev)
 
   implicit def indexPredicate[N <: Int, P, A, T](implicit p: Predicate[P, A], ev: T => PartialFunction[Int, A], wn: Witness.Aux[N]): Predicate[Index[N, P], T] =
-    singleElemPredicate(_.lift(wn.value), (t: T, a: A) => s"index($t, ${wn.value}) = $a")
+    singleElemPredicate[P, Index[N, P], A, T](_.lift(wn.value), (t: T, a: A) => s"index($t, ${wn.value}) = $a")
 
   implicit def lastPredicate[P, A, T[A] <: Traversable[A]](implicit p: Predicate[P, A]): Predicate[Last[P], T[A]] =
-    singleElemPredicate(_.lastOption, (t: T[A], a: A) => s"last($t) = $a")
+    singleElemPredicate[P, Last[P], A, T[A]](_.lastOption, (t: T[A], a: A) => s"last($t) = $a")
 
   implicit def lastPredicateView[P, A, T](implicit p: Predicate[P, A], ev: T => Traversable[A]): Predicate[Last[P], T] =
-    lastPredicate.contramap(ev)
+    lastPredicate[P, A, Traversable].contramap(ev)
 
   private def singleElemPredicate[PA, PT, A, T](get: T => Option[A], describe: (T, A) => String)(implicit p: Predicate[PA, A]): Predicate[PT, T] =
     new Predicate[PT, T] {

@@ -141,21 +141,21 @@ provides syntax for singleton types.
 
 ## Installation
 
-The latest version of the library is 0.2.0, which is available for Scala and
+The latest version of the library is 0.2.1, which is available for Scala and
 [Scala.js][scala.js] version 2.11.
 
 If you're using SBT, add the following to your build:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.2.0"
+    libraryDependencies += "eu.timepit" %% "refined" % "0.2.1"
 
 Or for Scala.js:
 
-    libraryDependencies += "eu.timepit" %%% "refined" % "0.2.0"
+    libraryDependencies += "eu.timepit" %%% "refined" % "0.2.1"
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.2.0.markdown](https://github.com/fthomas/refined/blob/master/notes/0.2.0.markdown).
+[0.2.1.markdown](https://github.com/fthomas/refined/blob/master/notes/0.2.1.markdown).
 
 ## Documentation
 

@@ -1,27 +1,33 @@
 language: scala
 scala:
- - 2.11.7
+- 2.11.7
 jdk:
- - openjdk7
- - oraclejdk7
- - oraclejdk8
+- openjdk7
+- oraclejdk7
+- oraclejdk8
 sudo: false
 addons:
   apt:
     packages:
-     - graphviz
+    - graphviz
 cache:
   directories:
-   - $HOME/.ivy2/cache
-   - $HOME/.sbt/boot/
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt/boot/"
 script:
- - sbt ++$TRAVIS_SCALA_VERSION validate
+- sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:
- - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
 notifications:
   webhooks:
     urls:
-     - https://webhooks.gitter.im/e/a22ea519223977cc7fc9
-    on_success: change  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
+    - https://webhooks.gitter.im/e/a22ea519223977cc7fc9
+    on_success: change
+    on_failure: always
+    on_start: false
+env:
+  global:
+  - secure: mFOlq8vg24wcriqo0nrz01Oxmph+MyNG9Kv0pqIl7bmDLx7yD/7BU+HFelBtkxaTryQGZ859RniWpjU20G86jt4HMcaj8b9z15v9Seg0tobcvn+euGhg09zGy67CPA6QzicEs0BhEO1Hg33ShGOdP3HHWbEYVOwYUzVz6/KNXLIP8MwldJfUcJM9gK96QPq28CEN7adAnWnxUq5o654V3qlKStaKYvFrg/ipLtWjKoJdMMqXhzZyYE5r62DHJj9VhN2arhQ5IrT/RWwZqfoPM90lA/U6vQa6c5em+JaQhCx/nqN6jk/ZCn8H0Ta34dvrdMbP5Z6/dAMr7iB9aKSo8kdc5+jVJcjyCF1Cqm9CiCdlMdgeZDHU0bdwSWbLq+OhjqxRFD6zfjsks0pJTGutqKIIXIeK/nNfy2Ru1R7o+ZkhSbzcCaa24lmLvshazbWGZgJ0kigE/1kq9+W3qGczrW+yGdCd6VrFB3keAm+mi/WXMO68Xn/zT6qeFs1Wb6v2nLhL21LKyzMpmB8w+M6moHRBmn1wVU6DJ08Dpkz45ImhvZVykJm+SRKBhHAp64NTuNp+Yt4guK1YEQD8cfqa3/sMqYn+bWj16xqkMDrzsuOXlUkmT5/57lQyqF/1ef6RQIXiziuQsiP61z+wcDCxRiofNtzAJU9TDiIdk2MqkFw=
+  - secure: R13Z/YLEnmvTXrbM+02bHRzp50ntC814O22XW8saKeKMIo8dsDseSdTPiryS702erGJGazLMtlsNajSG5lqtCBflUW6uRONS5a0XnJFIuNgf1tc5nZm47gUpfbG6yXUCFBu6zVbS2VjafYWPzdScr6I1pIW/GB1psEZQdeT6oBFN2XOuhdZh/j5MyBzs6oFq6oCbkuTRB5b2SBUSg6Ogf3xzgRlaw/8E3La81g9jnHdwmGZWsTpIFvXsIknJBBO4sLCJy2cZS6WyUSWkua56SZlw73/cW6CQ9CJb+2r+2Xmbjc/N/Q8p3+Mm/CEHarsiHWyEEQoN7yQB2WMI8OdTMH6kCAjUuz5A2cePqGhRSbt0CF+XDUHNMrfwD1LjaJTRTkkCyh2Lz0VpI/0L9WEpWx39UvLcPQS8VTwpvSk9RiEhhLHirIeRl35poV0FRfYQ/NhxAWnwkNajGXqikGtg1uLszV3EkQ3ligEUJsmENHqwnImWnVF52iu55KL4dCboMHYcDXO7HMkkr5juGa+ORYzG5wOZSLD/SR6tCeoQAq9rr+qAThi/EtdYomTYEEjJVdqOlsJcROZkJecDbCzMPtB6Judpe426/JuhdljdLL97VlEspsMNGhPZQh0hPXL5CcCxWC0RLwEmmze+E80UB6dn9FLiG15FZfM8m8O4H7Y=
+  - secure: POUZVT4yOUx2UhjovKSfFaY00sS6OC5jnF/YXSIzJaY3dl6uuIr2kF6F9LUsOMCsn1lwPZOZ1f/yrNkyDJDo7I4NF+YwlsSd2PGpP2VcEwot+tzodhGcOHgyRq+Dss4xBauiUeQscn5GgBYUYVA455ZNF9nblMKtijsNDwmsVQ/ZknbVCw+dzdHtUEOd6DpJS8d5IrZqfo6eIsbZ+krKeYTgTHGSis6QEKvfQmlhkF8uPJDGpWmOwQDUtSpNJy6tFs01YBLmPxwyVcEvjZ4c32g6081AD7O4A9KJ7pcxlo7wRIYMC5vLID6+Jnzr4iZrR35DYUmm0Pmz6GblZ/N1yU09lzXHvER4ylbMRdIYKbBUteRZW9evEaeNWMr/cqaEhlL1UJ2fq/M50PDPUIp31dH29qXmJYOX+5RA4tN7mcjjgjmk1IaHHQ1jSU9FfI5WLjL4KP2TcybdA9kbwHqq/9Aregn/HQJACRRzdaTsetGPhPEIXaimNE/XJiLwwCHOTJpJoXYpW7rNKCzVOFjHfMmk7BuFRIi6OQFhr6fqZ7LZcLsT4ffojiPeLHhrWCSL20/ONxYq7ru11MJj5Ln2Sfr1cMS8IqHnh8kD/AN5or+MhRHn4WWGOyIQ5TzozATto/sCh3uy6X8sJOPrDg4lJdVNFt7YwQGu9CS7k29berI=
+  - secure: GfdFcMqOW57YVXy15BqX0FLRtGUKhN/j6eE+SV8bp6h/dp1JLxD0uYJ7Hv2WoSiHl+khRxFEv89jHoPgeM7u0oz+RpDspFseoTDLdAccEQeUbzu9L47ea0hoWjHdBbE1v52sMy6qzB+1CWLX8QaELBERu7Bz0seWh79JXiO2nshh8h3CnA/bJ/BKClp6Kt9zEmnNpPrvkAf7z4jbqvyDW9aXiGFQC3JLxg98ednRK2H6PnyAjB+BAqS3azDDjEkJ/vF8Y2b9yXKgPAO1xx9LwMgRwiqol3f/hKPOz2VNcmthsHPY0hKDrOey7YbSJ74eoc/eVNjXF+yEJN91eXPzLnQHe41s50/TlKF1boiz/3bzukkzPfbZQ7eLYoQ/Zm2U7jJXREIEm85dB3pFBRr+zA6646IU2niAs1WUs9Jf3hZgJW6yk+H9nGwyEx/0Puga5MDTttx0Nk0ejd5uF8hxr+G8XukekH1nKDF0dclgZGJG8/6CuZ1AES6gGesC5qPm5BMtUiOM9nX5WTAvY2bXlmxeu2wB7899jQxU6SZx3tNbcCTfqJbogijrTeW4c72kO4R+ITbudYJd8MEO4/FgGQxPMBZNI4BAqnevtafG6WotqFQEcI8ncIyNaq7VAjuuxuqPZHdUwSEp4z2sYf6dTCQw03wr7SMdRZTRMDNxaqc=

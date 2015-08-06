@@ -2,6 +2,7 @@
 
 * Improve error messages of predicates created from partial functions.
   (This includes `Regex`, `Url`, `Xml`, and more.)
+* Add `unwrap` function to the `internal.Wrapper` type class.
 
 ### New predicates
 

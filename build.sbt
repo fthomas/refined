@@ -148,6 +148,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepTask(bintraySyncMavenCentral),
       releaseStepTask(GhPagesKeys.pushSite in "refinedJVM"),
       setNextVersion,
       commitNextVersion,

@@ -288,6 +288,7 @@ The library comes with these predefined predicates:
 
 ## Contributors
 
+* [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * Your name here :-)
 
 ## Projects using refined
@@ -297,9 +298,8 @@ and you'd like to include in this list, please open a pull request or mention
 it in the Gitter channel and we'll add a link to it here.
 
 * [argonaut-shapeless](https://github.com/alexarchambault/argonaut-shapeless) -
-  provides a argonaut-refined module supporting (de)serialization of refined
-  types from and to JSON
-
+  provides the argonaut-refined module for (de)serialization of refined types
+  from and to JSON
 * Your project here :-)
 
 ## Related projects

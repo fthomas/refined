@@ -5,7 +5,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Codacy Badge](https://img.shields.io/codacy/e4f25ef2656e463e8fed3f4f9314abdb.svg)](https://www.codacy.com/app/fthomas/refined)
 
-**refined** is a Scala library for refining types with type-level predicates
+*refined* is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
 as a port of the [refined][refined.hs] Haskell library (which also provides
 an excellent motivation why this kind of library is useful).
@@ -42,7 +42,7 @@ res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 
 Note that `@@` is [shapeless'][shapeless] type for tagging types.
 
-**refined** also contains inference rules for converting between different
+*refined* also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted
 to `Int @@ Positive` because all integers greater than ten are also positive.
 The type conversion of refined types is a compile-time operation that is
@@ -170,7 +170,7 @@ directory including one for defining [custom predicates][custom-pred].
 
 ## Internals
 
-**refined** basically consists of two parts, one for [refining types with
+*refined* basically consists of two parts, one for [refining types with
 type-level predicates](#predicates) and the other for [converting between
 different refined types](#inference-rules).
 
@@ -286,10 +286,13 @@ The library comes with these predefined predicates:
 * `Xml`: checks if a `String` is valid XML
 * `XPath`: checks if a `String` is a valid XPath expression
 
-## Contributors
+## Contributors and participation
 
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * Your name here :-)
+
+The *refined* project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]
+and wants all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
 
 ## Projects using refined
 
@@ -310,12 +313,14 @@ validations is [bond][bond].
 
 ## License
 
-**refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+*refined* is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [bond]: https://github.com/fwbrasil/bond
+[code-of-conduct]: http://typelevel.org/conduct.html
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [shapeless]: https://github.com/milessabin/shapeless
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals
+[typelevel]: http://typelevel.org

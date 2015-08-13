@@ -1,0 +1,5 @@
+### Changes
+
+* Make the `Refined` constructor private ([#52])
+
+[#52]: https://github.com/fthomas/refined/issues/52

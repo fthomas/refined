@@ -11,10 +11,10 @@ object implicits {
    * `F[T, B]` if there is a valid inference rule `A ==> B`. If the
    * inference rule is invalid, compilation fails.
    */
-  implicit def autoInfer[T, A, B, F[_, _]](ta: F[T, A])(
+  implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
     implicit
-    ir: A ==> B, w: Wrapper[F]
-  ): F[T, B] = macro InferM.macroImpl[T, A, B, F]
+    ir: A ==> B, rt: RefType[F]
+  ): F[T, B] = macro InferM.macroImpl[F, T, A, B]
 
   /**
    * Implicitly wraps (at compile-time) a value of type `T` in
@@ -25,8 +25,8 @@ object implicits {
    */
   implicit def autoRefineV[T, P](t: T)(
     implicit
-    p: Predicate[P, T], w: Wrapper[Refined]
-  ): Refined[T, P] = macro RefineMAux.macroImpl[P, T, Refined]
+    p: Predicate[P, T], rt: RefType[Refined]
+  ): Refined[T, P] = macro RefineMAux.macroImpl[Refined, T, P]
 
   /**
    * Implicitly tags (at compile-time) a value of type `T` with `P` if `t`
@@ -37,6 +37,6 @@ object implicits {
    */
   implicit def autoRefineT[T, P](t: T)(
     implicit
-    p: Predicate[P, T], w: Wrapper[@@]
-  ): T @@ P = macro RefineMAux.macroImpl[P, T, @@]
+    p: Predicate[P, T], rt: RefType[@@]
+  ): T @@ P = macro RefineMAux.macroImpl[@@, T, P]
 }

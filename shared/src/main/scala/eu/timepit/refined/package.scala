@@ -26,7 +26,7 @@ package object refined {
    * an `apply` method on it, allowing `refineV` to be called like in the
    * given example.
    */
-  def refineV[P]: RefineAux[P, Refined] = new RefineAux[P, Refined]
+  def refineV[P]: RefineAux[Refined, P] = RefType[Refined].refine[P]
 
   /**
    * Returns `t` with type `T @@ P` on the right if it satisfies the
@@ -47,7 +47,7 @@ package object refined {
    * `apply` method on it, allowing `refineT` to be called like in the given
    * example.
    */
-  def refineT[P]: RefineAux[P, @@] = new RefineAux[P, @@]
+  def refineT[P]: RefineAux[@@, P] = RefType[@@].refine[P]
 
   /**
    * Macro that returns `t` wrapped in `[[Refined]][T, P]` if it satisfies
@@ -67,7 +67,7 @@ package object refined {
    * has an `apply` method on it, allowing `refineMV` to be called like in
    * the given example.
    */
-  def refineMV[P]: RefineMAux[P, Refined] = new RefineMAux[P, Refined]
+  def refineMV[P]: RefineMAux[Refined, P] = RefType[Refined].refineM[P]
 
   /**
    * Macro that returns `t` with type `T @@ P` if it satisfies the predicate
@@ -88,14 +88,14 @@ package object refined {
    * `apply` method on it, allowing `refineMT` to be called like in the given
    * example.
    */
-  def refineMT[P]: RefineMAux[P, @@] = new RefineMAux[P, @@]
+  def refineMT[P]: RefineMAux[@@, P] = RefType[@@].refineM[P]
 
   @deprecated("refine is deprecated in favor of refineT", "0.2.0")
-  def refine[P]: RefineAux[P, @@] = new RefineAux[P, @@]
+  def refine[P]: RefineAux[@@, P] = refineT[P]
 
   @deprecated("refineLit is deprecated in favor of refineMT", "0.2.0")
-  def refineLit[P]: RefineMAux[P, @@] = new RefineMAux[P, @@]
+  def refineLit[P]: RefineMAux[@@, P] = refineMT[P]
 
   @deprecated("refineM is deprecated in favor of refineMV", "0.2.0")
-  def refineM[P]: RefineMAux[P, Refined] = new RefineMAux[P, Refined]
+  def refineM[P]: RefineMAux[Refined, P] = refineMV[P]
 }

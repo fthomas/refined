@@ -5,18 +5,20 @@ import scala.reflect.macros.blackbox
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
- * `[[refineMV]][P](t)`. See [[http://tpolecat.github.io/2015/07/30/infer.html]]
- * for a detailed explanation of this trick.
+ * `[[RefType.refineM]][P](t)`.
+ *
+ * See [[http://tpolecat.github.io/2015/07/30/infer.html]] for a detailed
+ * explanation of this trick.
  */
-final class RefineMAux[P, F[_, _]] {
+final class RefineMAux[F[_, _], P] {
 
-  def apply[T](t: T)(implicit p: Predicate[P, T], w: Wrapper[F]): F[T, P] = macro RefineMAux.macroImpl[P, T, F]
+  def apply[T](t: T)(implicit p: Predicate[P, T], rt: RefType[F]): F[T, P] = macro RefineMAux.macroImpl[F, T, P]
 }
 
 object RefineMAux {
 
-  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag, F[_, _]](c: blackbox.Context)(t: c.Expr[T])(
-    p: c.Expr[Predicate[P, T]], w: c.Expr[Wrapper[F]]
+  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T])(
+    p: c.Expr[Predicate[P, T]], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, P]] = {
     import c.universe._
 
@@ -33,8 +35,8 @@ object RefineMAux {
 
     predicate.validate(tValue) match {
       case None =>
-        val wrapper = MacroUtils.eval(c)(w)
-        wrapper.wrapM(c)(t)
+        val refType = MacroUtils.eval(c)(rt)
+        refType.unsafeWrapM(c)(t)
       case Some(msg) => c.abort(c.enclosingPosition, msg)
     }
   }

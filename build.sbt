@@ -170,9 +170,10 @@ lazy val miscSettings = Seq(
     import $rootPkg.char._
     import $rootPkg.collection._
     import $rootPkg.generic._
-    import $rootPkg.InferenceRule.==>
     import $rootPkg.implicits._
+    import $rootPkg.InferenceRule.==>
     import $rootPkg.numeric._
+    import $rootPkg.RefType.ops._
     import $rootPkg.string._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._

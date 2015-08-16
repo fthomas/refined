@@ -16,10 +16,10 @@ trait RefType[F[_, _]] extends Serializable {
   def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
 
   def refine[P]: RefineAux[F, P] =
-    new RefineAux[F, P](this)
+    new RefineAux(this)
 
   def refineM[P]: RefineMAux[F, P] =
-    new RefineMAux[F, P]
+    new RefineMAux
 
   def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit p: Predicate[P, U]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
@@ -38,7 +38,7 @@ object RefType {
         tp.get
 
       override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
-        c.universe.reify(Refined.unsafeApply[T, P](t.splice))
+        c.universe.reify(Refined.unsafeApply(t.splice))
 
       override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
         c.universe.reify(ta.splice.asInstanceOf[Refined[T, B]])

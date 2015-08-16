@@ -14,5 +14,5 @@ object Refined {
    * predicate `P`. This method is for internal use only.
    */
   def unsafeApply[T, P](t: T): Refined[T, P] =
-    new Refined[T, P](t)
+    new Refined(t)
 }

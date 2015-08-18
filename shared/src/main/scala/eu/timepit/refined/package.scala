@@ -89,13 +89,4 @@ package object refined {
    * example.
    */
   def refineMT[P]: RefineMAux[@@, P] = RefType[@@].refineM[P]
-
-  @deprecated("refine is deprecated in favor of refineT", "0.2.0")
-  def refine[P]: RefineAux[@@, P] = refineT[P]
-
-  @deprecated("refineLit is deprecated in favor of refineMT", "0.2.0")
-  def refineLit[P]: RefineMAux[@@, P] = refineMT[P]
-
-  @deprecated("refineM is deprecated in favor of refineMV", "0.2.0")
-  def refineM[P]: RefineMAux[Refined, P] = refineMV[P]
 }

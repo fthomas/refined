@@ -71,8 +71,8 @@ private[refined] trait NumericPredicates {
   implicit def greaterPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Greater[N], T] =
     Predicate.instance(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})")
 
-  implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], it: Integral[T]): Predicate[Equal[N], T] =
-    Predicate.instance(t => it.equiv(t, it.fromInt(tn())), t => s"($t == ${tn()})")
+  implicit def equalPredicateNat[N <: Nat, T](implicit tn: ToInt[N], nt: Numeric[T]): Predicate[Equal[N], T] =
+    Predicate.instance(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})")
 }
 
 private[refined] trait NumericInferenceRules {

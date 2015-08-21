@@ -68,8 +68,12 @@ class NumericPredicateSpec extends Properties("NumericPredicate") {
     Predicate[Interval[_0, _1], Double].isValid(d) ?= (d >= 0.0 && d <= 1.0)
   }
 
-  property("Equal.Nat.isValid") = forAll { (i: Int) =>
-    Predicate[Equal[_5], Int].isValid(i) ?= (i == 5)
+  property("Equal.Nat.Int.isValid") = forAll { (i: Int) =>
+    Predicate[Equal[_0], Int].isValid(i) ?= (i == 0)
+  }
+
+  property("Equal.Nat.Double.isValid") = forAll { (d: Double) =>
+    Predicate[Equal[_0], Double].isValid(d) ?= (d == 0.0)
   }
 
   property("Equal.Nat.show") = secure {

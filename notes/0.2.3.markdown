@@ -1,3 +1,5 @@
 ### Changes
 
+* `Equal[N]` where `N <: Nat` can be used with all types that have a
+  `Numeric` instance. This allows types like `Double @@ Not[Equal[_0]]`.
 * Remove deprecated `refine`, `refineLit`, and `refineM`.

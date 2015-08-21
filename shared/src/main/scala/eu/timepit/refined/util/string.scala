@@ -17,7 +17,7 @@ object string {
    * res1: scala.util.matching.Regex = .*
    *
    * scala> regex("{")
-   * <console>:41: error: Predicate isValidRegex("{") failed: Illegal repetition
+   * <console>:47: error: Regex predicate failed: Illegal repetition
    * {
    *        regex("{")
    *              ^

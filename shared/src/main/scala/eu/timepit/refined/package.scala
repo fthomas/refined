@@ -5,7 +5,21 @@ import shapeless.tag.@@
 
 package object refined {
 
-  /** An abbreviation for `shapeless.Witness`. */
+  /**
+   * Alias for `shapeless.Witness` that provides concise syntax for
+   * literal singleton types.
+   *
+   * Example: {{{
+   * scala> val d: W.`3.14`.T = 3.14
+   * d: Double(3.14) = 3.14
+   *
+   * scala> val s: W.`"abc"`.T = "abc"
+   * s: String("abc") = abc
+   * }}}
+   *
+   * See [[https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals]]
+   * for more information about shapeless' support for singleton types.
+   */
   val W = shapeless.Witness
 
   /**

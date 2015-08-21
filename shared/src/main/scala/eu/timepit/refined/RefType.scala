@@ -15,9 +15,44 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
 
+  /**
+   * Returns a value of type `T` wrapped in `F[T, P]` on the right if
+   * it satisfies the predicate `P`, or an error message on the left
+   * otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> RefType[Refined].refine[Positive](10)
+   * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
+   * }}}
+   *
+   * Note: The return type is `[[internal.RefineAux]][F, P]`, which has
+   * an `apply` method on it, allowing `refine` to be called like in the
+   * given example.
+   */
   def refine[P]: RefineAux[F, P] =
     new RefineAux(this)
 
+  /**
+   * Macro that returns a value of type `T` wrapped in `F[T, P]` if it
+   * satisfies the predicate `P`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> RefType[Refined].refineM[Positive](10)
+   * res1: Refined[Int, Positive] = Refined(10)
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro.
+   *
+   * Note: The return type is `[[internal.RefineMAux]][F, P]`, which has
+   * an `apply` method on it, allowing `refineM` to be called like in the
+   * given example.
+   */
   def refineM[P]: RefineMAux[F, P] =
     new RefineMAux
 

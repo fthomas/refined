@@ -3,6 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.RefType.ops._
 import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection.Forall
+import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex
 import org.scalacheck.Prop._
@@ -48,6 +49,10 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
 
   property("mapRefine failure with Positive") = secure {
     rt.refine[Positive](5).right.flatMap(_.mapRefine(_ - 10)).isLeft
+  }
+
+  property("implicit unwrap") = secure {
+    rt.refine[Positive](5).right.map(_ + 1) == Right(6)
   }
 }
 

@@ -1,5 +1,8 @@
 ### Changes
 
+* Add an implicit conversion from refined types to their base types. ([#55])
 * `Equal[N]` where `N <: Nat` can be used with all types that have a
   `Numeric` instance. This allows types like `Double @@ Not[Equal[_0]]`.
 * Remove deprecated `refine`, `refineLit`, and `refineM`.
+
+[#55]: https://github.com/fthomas/refined/issues/55

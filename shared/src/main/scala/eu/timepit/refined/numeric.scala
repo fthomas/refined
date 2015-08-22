@@ -94,4 +94,7 @@ private[refined] trait NumericInferenceRules {
 
   implicit def greaterInferenceWitNat[C, A <: C, B <: Nat](implicit wa: Witness.Aux[A], tb: ToInt[B], nc: Numeric[C]): Greater[A] ==> Greater[B] =
     InferenceRule(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
+
+  implicit def equalPredicateInferenceNat[P, T, N <: Nat](implicit p: Predicate[P, T], nt: Numeric[T], tn: ToInt[N]): Equal[N] ==> P =
+    InferenceRule(p.isValid(nt.fromInt(tn())), s"equalPredicateInferenceNat(${p.show(nt.fromInt(tn()))})")
 }

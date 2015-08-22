@@ -40,4 +40,11 @@ class InferSpec extends Properties("infer") {
     illTyped("val c: String @@ StartsWith[W.`\"abcde\"`.T] = a", "invalid inference.*")
     a == b
   }
+
+  property("Equal[Nat] ==> Greater[A] ==> unrefined") = secure {
+    val a: Double Refined Equal[_10] = 10.0
+    val b: Double Refined Greater[W.`5.0`.T] = a
+    val c: Double = b
+    (a == b) && (b.get == c)
+  }
 }

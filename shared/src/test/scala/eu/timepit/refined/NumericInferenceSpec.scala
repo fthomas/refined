@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.boolean._
+import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -86,5 +87,13 @@ class NumericInferenceSpec extends Properties("NumericInference") {
 
   property("Interval[Nat] ==> GreaterEqual[Nat]") = secure {
     InferenceRule[Interval[_5, _10], GreaterEqual[_4]].isValid
+  }
+
+  property("Equal[Nat] ==> Greater[A]") = secure {
+    InferenceRule[Equal[_10], Greater[W.`5`.T]].isValid
+  }
+
+  property("Equal[Nat] =!> Greater[A]") = secure {
+    InferenceRule[Equal[_5], Greater[W.`10`.T]].notValid
   }
 }

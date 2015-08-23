@@ -22,7 +22,7 @@ object implicits {
    * used as it were a subtype of `T`.
    *
    * Note: This conversion is not needed if `F[T, _] <: T` holds (which
-   * is the case for `shapeless.@@`, for example).
+   * is the case for `shapeless.tag.@@`, for example).
    */
   implicit def autoUnwrap[F[_, _], T, P](tp: F[T, P])(implicit rt: RefType[F]): T =
     rt.unwrap(tp)

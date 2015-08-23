@@ -1,6 +1,6 @@
 ### Changes
 
-* Introduce the `RefType` type class which abstracts over `shapeless.@@`
+* Introduce the `RefType` type class which abstracts over `shapeless.tag.@@`
   and `Refined` and that allows 3rd-party types to be used as result type
   for refinements (e.g. [`scalaz.@@`][scalaz.@@]). `RefType` replaces the
   now removed `internal.Wrapper` type class. ([#48], [#53], [#54])

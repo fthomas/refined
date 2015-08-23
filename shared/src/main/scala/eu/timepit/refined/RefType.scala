@@ -14,7 +14,7 @@ import scala.reflect.macros.blackbox
  *
  * The library provides instances of `RefType` for
  *  - the `[[Refined]]` value class
- *  - and `shapeless.@@` which is a subtype of its first parameter
+ *  - and `shapeless.tag.@@` which is a subtype of its first parameter
  *    (i.e. `(T @@ P) <: T`)
  */
 trait RefType[F[_, _]] extends Serializable {

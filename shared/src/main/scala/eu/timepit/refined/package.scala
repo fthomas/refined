@@ -31,7 +31,7 @@ package object refined {
   def refineV[P]: RefineAux[Refined, P] = RefType[Refined].refine[P]
 
   /**
-   * Alias for `[[RefType.refine]][P]` with `shapeless.@@` as type
+   * Alias for `[[RefType.refine]][P]` with `shapeless.tag.@@` as type
    * parameter for `[[RefType]]`.
    *
    * Note: `T` stands for '''t'''ag.
@@ -47,7 +47,7 @@ package object refined {
   def refineMV[P]: RefineMAux[Refined, P] = RefType[Refined].refineM[P]
 
   /**
-   * Alias for `[[RefType.refineM]][P]` with `shapeless.@@` as type
+   * Alias for `[[RefType.refineM]][P]` with `shapeless.tag.@@` as type
    * parameter for `[[RefType]]`.
    *
    * Note: `M` stands for '''m'''acro and `T` stands for '''t'''ag.

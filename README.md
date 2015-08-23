@@ -313,12 +313,12 @@ This library is inspired by the [refined][refined.hs] library for Haskell.
 It even stole its name! Another Scala library that provides type-level
 validations is [bond][bond].
 
-## Disambiguation
+## Refinement (disambiguation)
 
 Unfortunately the term "refinement" has already a well-defined meaning in
-Scala which differs from how it is used in this library. See [Chapter 3,
-Types][spec-03-types] of the Scala Language Specification for details.
-In short, a refinement in the Scala sense is any pair of curly braces
+Scala which differs from [how it is used in this library][refinement-types].
+See [Chapter 3, Types][spec-03-types] of the Scala Language Specification for
+details. In short, a refinement in the Scala sense is any pair of curly braces
 `{...}` that appear in a type position.
 
 ## License
@@ -328,6 +328,7 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 
 [bond]: https://github.com/fwbrasil/bond
 [code-of-conduct]: http://typelevel.org/conduct.html
+[refinement-types]: https://en.wikipedia.org/wiki/Refinement_%28computing%29#Refinement_types
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

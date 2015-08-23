@@ -313,6 +313,14 @@ This library is inspired by the [refined][refined.hs] library for Haskell.
 It even stole its name! Another Scala library that provides type-level
 validations is [bond][bond].
 
+## Disambiguation
+
+Unfortunately the term "refinement" has already a well-defined meaning in
+Scala which differs from how it is used in this library. See [Chapter 3,
+Types][spec-03-types] of the Scala Language Specification for details.
+In short, a refinement in the Scala sense is any pair of curly braces
+`{...}` that appear in a type position.
+
 ## License
 
 *refined* is licensed under the MIT license, available at http://opensource.org/licenses/MIT
@@ -325,4 +333,5 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [shapeless]: https://github.com/milessabin/shapeless
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals
+[spec-03-types]: http://www.scala-lang.org/files/archive/spec/2.11/03-types.html
 [typelevel]: http://typelevel.org

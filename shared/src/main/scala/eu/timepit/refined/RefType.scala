@@ -5,6 +5,18 @@ import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox
 
+/**
+ * Type class that allows `F` to be used as result type of a refinement.
+ * The first type parameter of `F` is the type that is being refined by
+ * its second type parameter which is the type-level predicate that
+ * denotes the refinement. Consequently, `F[T, P]` is a phantom type
+ * that only contains a value of type `T`.
+ *
+ * The library provides instances of `RefType` for
+ *  - the `[[Refined]]` value class
+ *  - and `shapeless.@@` which is a subtype of its first parameter
+ *    (i.e. `(T @@ P) <: T`)
+ */
 trait RefType[F[_, _]] extends Serializable {
 
   def unsafeWrap[T, P](t: T): F[T, P]
@@ -95,7 +107,6 @@ object RefType {
     }
 
   final class RefTypeOps[F[_, _], T, P](tp: F[T, P])(implicit F: RefType[F]) {
-
     def unwrap: T =
       F.unwrap(tp)
 
@@ -104,7 +115,6 @@ object RefType {
   }
 
   object ops {
-
     implicit def toRefTypeOps[F[_, _]: RefType, T, P](tp: F[T, P]): RefTypeOps[F, T, P] =
       new RefTypeOps(tp)
   }

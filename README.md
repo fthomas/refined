@@ -40,7 +40,9 @@ scala> refineT[Positive](-5)
 res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
-Note that `@@` is [shapeless'][shapeless] type for tagging types.
+Note that `@@` is [shapeless'][shapeless] type for tagging types which has
+the nice property of being a subtype of its first type parameter (i.e.
+`(T @@ P) <: T`).
 
 *refined* also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted

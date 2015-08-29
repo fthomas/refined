@@ -4,7 +4,7 @@ import eu.timepit.refined.InferenceRule.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
-import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
+import eu.timepit.refined.numeric.{GreaterEqual, LessEqual}
 import shapeless.Witness
 
 object collection extends CollectionPredicates with CollectionInferenceRules {

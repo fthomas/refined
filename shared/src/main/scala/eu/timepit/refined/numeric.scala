@@ -6,7 +6,7 @@ import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric._
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
-import shapeless.{ Nat, Witness }
+import shapeless.{Nat, Witness}
 
 /**
  * Module for numeric predicates. Predicates that take type parameters

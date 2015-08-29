@@ -2,7 +2,7 @@ package eu.timepit.refined
 package internal
 
 import scala.reflect.macros.blackbox
-import scala.util.{ Success, Try }
+import scala.util.{Success, Try}
 
 object MacroUtils {
 

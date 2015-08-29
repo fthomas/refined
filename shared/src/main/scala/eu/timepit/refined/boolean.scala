@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.InferenceRule.==>
 import eu.timepit.refined.boolean._
-import shapeless.{ ::, HList, HNil }
+import shapeless.{::, HList, HNil}
 
 object boolean extends BooleanPredicates with BooleanInferenceRules0 {
 

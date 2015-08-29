@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 /**
  * Type class for validating values of type `T` according to a type-level

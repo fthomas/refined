@@ -5,7 +5,7 @@ import eu.timepit.refined.generic._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
 import shapeless.ops.record.Keys
-import shapeless.{ Coproduct, HList, LabelledGeneric, Witness }
+import shapeless.{Coproduct, HList, LabelledGeneric, Witness}
 
 object generic extends GenericPredicates with GenericInferenceRules {
 

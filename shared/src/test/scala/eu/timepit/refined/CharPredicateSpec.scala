@@ -14,6 +14,14 @@ class CharPredicateSpec extends Properties("CharPredicate") {
     Predicate[Digit, Char].show('c') ?= "isDigit('c')"
   }
 
+  property("Letter.isValid") = forAll { (c: Char) =>
+    Predicate[Letter, Char].isValid(c) ?= c.isLetter
+  }
+
+  property("Letter.show") = secure {
+    Predicate[Letter, Char].show('c') ?= "isLetter('c')"
+  }
+
   property("LowerCase.isValid") = forAll { (c: Char) =>
     Predicate[LowerCase, Char].isValid(c) ?= c.isLower
   }

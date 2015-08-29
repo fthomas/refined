@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.RefType.ops._
-import eu.timepit.refined.char.{Digit, LowerCase}
+import eu.timepit.refined.char.{ Digit, LowerCase }
 import eu.timepit.refined.collection.Forall
 import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric._

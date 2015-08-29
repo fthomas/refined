@@ -138,12 +138,7 @@ class StringPredicateSpec extends Properties("StringPredicate") {
   }
 
   property("Uuid.validate failure") = secure {
-    val jvmErr = Predicate[Uuid, String].validate("whops") ?=
+    Predicate[Uuid, String].validate("whops") ?=
       Some("Uuid predicate failed: Invalid UUID string: whops")
-
-    val jsErr = Predicate[Uuid, String].validate("whops") ?=
-      Some("Uuid predicate failed: Illegal UUID string: whops")
-
-    jvmErr || jsErr
   }
 }

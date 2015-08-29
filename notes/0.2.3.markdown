@@ -5,5 +5,6 @@
   instance. This allows types like `Double @@ Not[Equal[_0]]`.
 * Add an inference rule to go from `Equal[N <: Nat]` to any numeric predicate.
 * Remove deprecated `refine`, `refineLit`, and `refineM`.
+* Update to Scala.js 0.6.5.
 
 [#55]: https://github.com/fthomas/refined/issues/55

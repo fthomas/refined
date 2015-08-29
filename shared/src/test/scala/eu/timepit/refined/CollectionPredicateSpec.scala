@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.char.{ Digit, LowerCase }
+import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric._

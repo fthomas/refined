@@ -3,11 +3,11 @@ package eu.timepit.refined
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
-import eu.timepit.refined.numeric.{ Greater, Less }
+import eu.timepit.refined.numeric.{Greater, Less}
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
-import shapeless.{ ::, HNil }
+import shapeless.{::, HNil}
 
 class BooleanPredicateSpec extends Properties("BooleanPredicate") {
 

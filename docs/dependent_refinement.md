@@ -1,19 +1,12 @@
 ```scala
-scala> import eu.timepit.refined._
 import eu.timepit.refined._
-
-scala> import eu.timepit.refined.implicits._
 import eu.timepit.refined.implicits._
-
-scala> import eu.timepit.refined.string._
 import eu.timepit.refined.string._
-
-scala> import shapeless.Witness
 import shapeless.Witness
+import shapeless.tag.@@
+```
 
-scala> import shapeless.tag.@@
-import shapeless.tag.$at$at
-
+```scala
 scala> class FooAux[A](a: String, w: Witness.Aux[A]) {
      |   def apply(b: String @@ StartsWith[w.T]) = a + b
      | }

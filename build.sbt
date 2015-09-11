@@ -81,7 +81,7 @@ lazy val compileSettings = Seq(
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "com.chuusai" %%% "shapeless" % "2.2.5",
-    "org.scalacheck" %%% "scalacheck" % "1.12.4" % "test"
+    "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test"
   ),
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(

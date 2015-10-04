@@ -23,8 +23,8 @@ res3: Either[String,shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive]] =
 ```
 
 ```scala
-scala> import eu.timepit.refined.implicits._
-import eu.timepit.refined.implicits._
+scala> import eu.timepit.refined.auto._
+import eu.timepit.refined.auto._
 
 scala> import shapeless.nat._
 import shapeless.nat._

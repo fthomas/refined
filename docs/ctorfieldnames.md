@@ -4,9 +4,9 @@ predicates that are implemented with [shapeless'][shapeless]
 
 ```scala
 import eu.timepit.refined._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
-import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import shapeless.nat._

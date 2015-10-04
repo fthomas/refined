@@ -14,7 +14,7 @@ refineT[Positive](-5)
 ```
 
 ```tut:nofail
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import shapeless.nat._
 import shapeless.tag.@@
 

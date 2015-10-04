@@ -51,7 +51,7 @@ The type conversion of refined types is a compile-time operation that is
 provided by the library:
 
 ```scala
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import shapeless.nat._
 import shapeless.tag.@@
 
@@ -108,9 +108,9 @@ scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
               refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-// The implicits object contains an implicit version of refineMT which is
-// used here to validate that the right-hand side is equal to '3' (obviously
-// there is only one value satisfying this predicate):
+// The auto object contains an implicit version of refineMT which is used
+// here to validate that the right-hand side equals '3' (obviously there is
+// only one value satisfying this predicate):
 scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
 d1: Char @@ Equal[Char('3')] = 3
 

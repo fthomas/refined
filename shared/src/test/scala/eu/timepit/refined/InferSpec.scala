@@ -1,8 +1,8 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.auto._
 import eu.timepit.refined.char._
 import eu.timepit.refined.generic.Equal
-import eu.timepit.refined.implicits._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.StartsWith
 import org.scalacheck.Prop._

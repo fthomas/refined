@@ -20,7 +20,7 @@ is a valid regex. That means that those constructors will never throw an
 exception at runtime.
 
 ```tut:silent
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.util.string._
 ```
 ```tut:nofail

@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

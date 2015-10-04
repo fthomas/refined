@@ -10,7 +10,7 @@ object string {
    * Creates a `scala.util.matching.Regex` from a validated string.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.implicits._
+   * scala> import eu.timepit.refined.auto._
    *      | import eu.timepit.refined.util.string.regex
    *
    * scala> regex(".*")

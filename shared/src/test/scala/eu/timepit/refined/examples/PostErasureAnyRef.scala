@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package examples
 
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.string._
 import shapeless.tag.@@
 

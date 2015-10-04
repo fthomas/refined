@@ -172,11 +172,11 @@ lazy val siteSettings =
 lazy val miscSettings = Seq(
   initialCommands := s"""
     import $rootPkg._
+    import $rootPkg.auto._
     import $rootPkg.boolean._
     import $rootPkg.char._
     import $rootPkg.collection._
     import $rootPkg.generic._
-    import $rootPkg.implicits._
     import $rootPkg.InferenceRule.==>
     import $rootPkg.numeric._
     import $rootPkg.RefType.ops._

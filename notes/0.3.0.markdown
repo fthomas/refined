@@ -1,0 +1,6 @@
+### Changes
+
+* TODO: Validate, Result
+* Move `InferenceRule`, `Refined`, `RefType`, and `Predicate` from the
+  `eu.timepit.refined` package into the `eu.timepit.refined.api` package.
+* Rename `Predicate` to `Validate` and `InferenceRule` to `Inference`.

@@ -1,7 +1,8 @@
 package eu.timepit.refined
 package internal
 
-import eu.timepit.refined.InferenceRule.==>
+import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.RefType
 
 import scala.reflect.macros.blackbox
 
@@ -13,11 +14,11 @@ object InferM {
     import c.universe._
 
     val inferenceRule = MacroUtils.eval(c)(ir)
-
-    if (inferenceRule.isValid) {
-      val refType = MacroUtils.eval(c)(rt)
-      refType.unsafeRewrapM(c)(ta)
-    } else
+    if (inferenceRule.notValid) {
       c.abort(c.enclosingPosition, s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}")
+    }
+
+    val refType = MacroUtils.eval(c)(rt)
+    refType.unsafeRewrapM(c)(ta)
   }
 }

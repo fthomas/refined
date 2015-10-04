@@ -1,5 +1,6 @@
 package eu.timepit
 
+import eu.timepit.refined.api.{RefType, Refined}
 import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
@@ -23,32 +24,32 @@ package object refined {
   val W = shapeless.Witness
 
   /**
-   * Alias for `[[RefType.refine]][P]` with `[[Refined]]` as type
-   * parameter for `[[RefType]]`.
+   * Alias for `[[api.RefType.refine]][P]` with `[[api.Refined]]` as type
+   * parameter for `[[api.RefType]]`.
    *
    * Note: `V` stands for '''v'''alue class.
    */
   def refineV[P]: RefineAux[Refined, P] = RefType[Refined].refine[P]
 
   /**
-   * Alias for `[[RefType.refine]][P]` with `shapeless.tag.@@` as type
-   * parameter for `[[RefType]]`.
+   * Alias for `[[api.RefType.refine]][P]` with `shapeless.tag.@@` as type
+   * parameter for `[[api.RefType]]`.
    *
    * Note: `T` stands for '''t'''ag.
    */
   def refineT[P]: RefineAux[@@, P] = RefType[@@].refine[P]
 
   /**
-   * Alias for `[[RefType.refineM]][P]` with `[[Refined]]` as type
-   * parameter for `[[RefType]]`.
+   * Alias for `[[api.RefType.refineM]][P]` with `[[api.Refined]]` as type
+   * parameter for `[[api.RefType]]`.
    *
    * Note: `M` stands for '''m'''acro and `V` stands for '''v'''alue class.
    */
   def refineMV[P]: RefineMAux[Refined, P] = RefType[Refined].refineM[P]
 
   /**
-   * Alias for `[[RefType.refineM]][P]` with `shapeless.tag.@@` as type
-   * parameter for `[[RefType]]`.
+   * Alias for `[[api.RefType.refineM]][P]` with `shapeless.tag.@@` as type
+   * parameter for `[[api.RefType]]`.
    *
    * Note: `M` stands for '''m'''acro and `T` stands for '''t'''ag.
    */

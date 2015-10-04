@@ -279,7 +279,7 @@ The library comes with these predefined predicates:
 [`string`](https://github.com/fthomas/refined/blob/master/shared/src/main/scala/eu/timepit/refined/string.scala)
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
-* `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
+* `MatchesRegex[S]`: checks if a `String` matches the regular expression `S`
 * `Regex`: checks if a `String` is a valid regular expression
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
 * `Uri`: checks if a `String` is a valid URI

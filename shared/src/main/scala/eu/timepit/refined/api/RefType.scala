@@ -1,4 +1,5 @@
 package eu.timepit.refined
+package api
 
 import eu.timepit.refined.internal.{RefineAux, RefineMAux}
 import shapeless.tag.@@
@@ -68,7 +69,7 @@ trait RefType[F[_, _]] extends Serializable {
   def refineM[P]: RefineMAux[F, P] =
     new RefineMAux
 
-  def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit p: Predicate[P, U]): Either[String, F[U, P]] =
+  def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
 }
 
@@ -110,7 +111,7 @@ object RefType {
     def unwrap: T =
       F.unwrap(tp)
 
-    def mapRefine[U](f: T => U)(implicit p: Predicate[P, U]): Either[String, F[U, P]] =
+    def mapRefine[U](f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
       F.mapRefine(tp)(f)
   }
 

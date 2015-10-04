@@ -1,4 +1,5 @@
 package eu.timepit.refined
+package api
 
 /**
  * Wraps a value of type `T` that satisfies the predicate `P`. Instances of

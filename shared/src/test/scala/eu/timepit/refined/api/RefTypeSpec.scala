@@ -1,6 +1,7 @@
 package eu.timepit.refined
+package api
 
-import eu.timepit.refined.RefType.ops._
+import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection.Forall

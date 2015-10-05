@@ -31,6 +31,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     InferenceRule[Not[Not[Not[Not[Not[Not[Not[Not[UpperCase]]]]]]]], UpperCase].isValid
   }
 
+  // (=> (> a 5) (not (not (> a 4))))
   property("double negation introduction with Greater") = secure {
     InferenceRule[Greater[_5], Not[Not[Greater[_4]]]].isValid
   }

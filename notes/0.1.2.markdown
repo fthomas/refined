@@ -10,3 +10,5 @@
 
 * `Uri`: checks if a `String` is a valid URI
 * `Url`: checks if a `String` is a valid URL
+
+Released on 2015-07-06

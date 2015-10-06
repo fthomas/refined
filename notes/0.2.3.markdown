@@ -8,3 +8,5 @@
 * Update to Scala.js 0.6.5.
 
 [#55]: https://github.com/fthomas/refined/issues/55
+
+Released on 2015-08-31

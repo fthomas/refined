@@ -11,3 +11,5 @@
 [#53]: https://github.com/fthomas/refined/issues/53
 [#54]: https://github.com/fthomas/refined/pull/54
 [scalaz.@@]: https://github.com/scalaz/scalaz/blob/v7.1.3/core/src/main/scala/scalaz/package.scala#L103
+
+Released on 2015-08-17

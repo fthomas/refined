@@ -34,3 +34,5 @@
 [`string`](https://github.com/fthomas/refined/blob/v0.0.2/src/main/scala/eu/timepit/refined/string.scala)
 
 * `MatchesRegex[R]`: checks if a `String` matches the regular expression `R`
+
+Released on 2015-05-22

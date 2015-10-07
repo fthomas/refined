@@ -2,3 +2,5 @@
 
 * Cross-build to Scala.js.
 * Updated to shapeless 2.2.3.
+
+Released on 2015-06-27

@@ -128,6 +128,19 @@ lazy val noPublishSettings = Seq(
 lazy val releaseSettings = {
   import ReleaseTransformations._
 
+  lazy val addReleaseDateToReleaseNotes: ReleaseStep = { st: State =>
+    val extracted = Project.extract(st)
+    val newVersion = extracted.get(version)
+    val date = "date +%Y-%m-%d".!!.trim
+    val footer = s"\nReleased on $date\n"
+
+    val notes = s"notes/$newVersion.markdown"
+    IO.append(file(notes), footer)
+    s"git add $notes" !! st.log
+
+    st
+  }
+
   lazy val updateVersionInReadme: ReleaseStep = { st: State =>
     val extracted = Project.extract(st)
     val newVersion = extracted.get(version)
@@ -150,6 +163,7 @@ lazy val releaseSettings = {
       runClean,
       runTest,
       setReleaseVersion,
+      addReleaseDateToReleaseNotes,
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,

@@ -10,3 +10,5 @@
 
 * `Xml`: checks if a `String` is valid XML
 * `XPath`: checks if a `String` is a valid XPath expression
+
+Released on 2015-08-06

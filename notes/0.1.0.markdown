@@ -57,3 +57,5 @@
 [#13]: https://github.com/fthomas/refined/issues/13
 [#17]: https://github.com/fthomas/refined/issues/17
 [9f6d7d9]: https://github.com/fthomas/refined/commit/9f6d7d9ba22d20eee0a2fe2f721cde30fb4f94f9
+
+Released on 2015-06-20

@@ -16,34 +16,34 @@ Suppose we want to refine `Point`s with the quadrant they are lying in.
 So let's create simple types that represent the four quadrants:
 
 ```tut
-trait Quadrant1
-trait Quadrant2
-trait Quadrant3
-trait Quadrant4
+case class Quadrant1()
+case class Quadrant2()
+case class Quadrant3()
+case class Quadrant4()
 ```
 
 We now have type-level predicates and a type that we want to refine with these
-predicates. The next step is to define instances of the `Predicate` type class
+predicates. The next step is to define instances of the `Validate` type class
 for `Point` that are indexed by the corresponding quadrant predicate. We use
-the `Predicate.instance` function to create the instances from two functions,
+the `Validate.fromPredicate` function to create the instances from two functions,
 one that checks if a given `Point` lies in the corresponding quadrant and one
 that provides a string representation for the predicate that is used for error
 messages:
 
 ```tut:silent
-import eu.timepit.refined.Predicate
+import eu.timepit.refined.api.Validate
 
-implicit val quadrant1Predicate: Predicate[Quadrant1, Point] =
-  Predicate.instance(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)")
+implicit val quadrant1Validate: Validate.Flat[Point, Quadrant1] =
+  Validate.fromPredicate(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)", Quadrant1())
 
-implicit val quadrant2Predicate: Predicate[Quadrant2, Point] =
-  Predicate.instance(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)")
+implicit val quadrant2Validate: Validate.Flat[Point, Quadrant2] =
+  Validate.fromPredicate(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)", Quadrant2())
 
-implicit val quadrant3Predicate: Predicate[Quadrant3, Point] =
-  Predicate.instance(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)")
+implicit val quadrant3Validate: Validate.Flat[Point, Quadrant3] =
+  Validate.fromPredicate(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)", Quadrant3())
 
-implicit val quadrant4Predicate: Predicate[Quadrant4, Point] =
-  Predicate.instance(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)")
+implicit val quadrant4Validate: Validate.Flat[Point, Quadrant4] =
+  Validate.fromPredicate(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)", Quadrant4())
 ```
 
 We have now everything in place to refine `Point` values with the `refineT`
@@ -61,7 +61,7 @@ refineT[Quadrant4](Point(3, -2))
 
 We can also use refined's higher order predicates, which take other predicates
 as arguments, with our quadrant predicates (without defining corresponding
-`Predicate` instances):
+`Validate` instances):
 
 ```tut
 import eu.timepit.refined.boolean.Not

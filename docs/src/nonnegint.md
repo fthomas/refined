@@ -12,11 +12,12 @@ Erik's idea is similar to what *refined* provides but uses exceptions
 to prevent the creation of invalid values. This example shows how his
 `NonNegInt` can be recreated with *refined*:
 
-```tut
+```tut:silent
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.NonNegative
-
+```
+```tut
 // define a type alias for Int refined by the NonNegative predicate
 type NonNegInt = Int Refined NonNegative
 

@@ -13,15 +13,11 @@ to prevent the creation of invalid values. This example shows how his
 `NonNegInt` can be recreated with *refined*:
 
 ```scala
-scala> import eu.timepit.refined.api.Refined
 import eu.timepit.refined.api.Refined
-
-scala> import eu.timepit.refined.auto._
 import eu.timepit.refined.auto._
-
-scala> import eu.timepit.refined.numeric.NonNegative
 import eu.timepit.refined.numeric.NonNegative
-
+```
+```scala
 scala> // define a type alias for Int refined by the NonNegative predicate
      | type NonNegInt = Int Refined NonNegative
 defined type alias NonNegInt

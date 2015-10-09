@@ -6,7 +6,13 @@ package api
  * this class can be created with `[[refineV]]` and `[[refineMV]]` which
  * verify that the wrapped value satisfies `P`.
  */
-final case class Refined[T, P] private (get: T) extends AnyVal
+final case class Refined[T, P] private (get: T) extends AnyVal {
+
+  // Prevent the creation of a synthetic copy method that subverts the
+  // private constructor. See https://github.com/fthomas/refined/issues/57
+  private def copy[T2, P2](t: T2): Refined[T2, P2] =
+    new Refined(t)
+}
 
 object Refined {
 

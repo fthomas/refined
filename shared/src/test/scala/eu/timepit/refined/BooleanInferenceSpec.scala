@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
@@ -60,9 +61,8 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     Inference[Letter And UpperCase, UpperCase].isValid
   }
 
-  property("conjunction introduction") = secure {
+  property("conjunction introduction") = wellTyped {
     illTyped("Inference[UpperCase, UpperCase And Digit]", "could not find.*Inference.*")
-    true
   }
 
   property("disjunction associativity") = secure {
@@ -81,9 +81,8 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     Inference[Digit, Letter Or Digit].isValid
   }
 
-  property("disjunction elimination") = secure {
+  property("disjunction elimination") = wellTyped {
     illTyped("Inference[UpperCase Or Digit, Digit]", "could not find.*Inference.*")
-    true
   }
 
   property("De Morgan's law 1") = secure {

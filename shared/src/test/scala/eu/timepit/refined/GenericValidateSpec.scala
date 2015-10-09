@@ -88,17 +88,15 @@ class GenericValidateSpec extends Properties("GenericValidate") {
     isValid[Subtype[AnyVal]](0)
   }
 
-  property("Subtype.noInstance") = secure {
+  property("Subtype.noInstance") = wellTyped {
     illTyped("isValid[Subtype[Int]](0: AnyVal)", ".*could not find implicit value.*")
-    true
   }
 
   property("Supertype.isValid") = secure {
     isValid[Supertype[List[Int]]](Seq(0))
   }
 
-  property("Supertype.noInstance") = secure {
+  property("Supertype.noInstance") = wellTyped {
     illTyped("isValid[Supertype[Seq[Int]]](List(0))", ".*could not find implicit value.*")
-    true
   }
 }

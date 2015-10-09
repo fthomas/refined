@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.Validate
+import org.scalacheck.Prop
 
 object TestUtils {
 
@@ -32,5 +33,10 @@ object TestUtils {
 
   class ShowResultAux[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showResult(t, v.validate(t))
+  }
+
+  def wellTyped(body: => Unit): Prop = Prop.secure {
+    body
+    true
   }
 }

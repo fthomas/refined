@@ -1,5 +1,6 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Inference
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
@@ -19,9 +20,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     Inference[Exists[Digit], NonEmpty].isValid
   }
 
-  property("NonEmpty =!> Exists") = secure {
+  property("NonEmpty =!> Exists") = wellTyped {
     illTyped("Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
-    true
   }
 
   property("Head[A] ==> Head[B]") = secure {
@@ -32,9 +32,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     Inference[Head[Digit], Exists[Digit]].isValid
   }
 
-  property("Exists[A] =!> Head[A]") = secure {
+  property("Exists[A] =!> Head[A]") = wellTyped {
     illTyped("Inference[Exists[Digit], Head[Digit]]", "(?s)diverging implicit expansion for.*Inference.*")
-    true
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {
@@ -57,9 +56,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     Inference[Last[Whitespace], NonEmpty].isValid
   }
 
-  property("NonEmpty =!> Last") = secure {
+  property("NonEmpty =!> Last") = wellTyped {
     illTyped("Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
-    true
   }
 
   property("Size[A] ==> Size[B]") = secure {

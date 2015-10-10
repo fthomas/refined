@@ -1,12 +1,12 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
-import shapeless.{Nat, Witness}
+import shapeless.{ Nat, Witness }
 
 /**
  * Module for numeric predicates. Predicates that take type parameters

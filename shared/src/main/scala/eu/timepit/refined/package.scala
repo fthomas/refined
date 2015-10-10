@@ -1,6 +1,6 @@
 package eu.timepit
 
-import eu.timepit.refined.api.{RefType, Refined}
+import eu.timepit.refined.api.{ RefType, Refined }
 import eu.timepit.refined.internal._
 import shapeless.tag.@@
 

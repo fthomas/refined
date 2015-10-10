@@ -5,7 +5,7 @@ import eu.timepit.refined.api._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
 import shapeless.ops.hlist.ToList
-import shapeless.{::, HList, HNil}
+import shapeless.{ ::, HList, HNil }
 
 object boolean extends BooleanValidate with BooleanInference0 {
 

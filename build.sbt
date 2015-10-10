@@ -211,9 +211,9 @@ lazy val myDoctestSettings =
 lazy val styleSettings =
   scalariformSettings ++
   Seq(
-    sourceDirectories in (Compile, ScalariformKeys.format) +=
+    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) +=
       baseDirectory.value / "shared/src/main/scala",
-    sourceDirectories in (Test, ScalariformKeys.format) +=
+    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) +=
       baseDirectory.value / "shared/src/test/scala"
   )
 

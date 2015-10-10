@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package internal
 
-import eu.timepit.refined.api.{RefType, Validate}
+import eu.timepit.refined.api.{ RefType, Validate }
 
 import scala.reflect.macros.blackbox
 

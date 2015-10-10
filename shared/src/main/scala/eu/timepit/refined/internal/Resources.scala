@@ -2,7 +2,7 @@ package eu.timepit.refined.internal
 
 import eu.timepit.refined.api.Result
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 object Resources {
   val passed = "passed"

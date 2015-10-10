@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package api
 
-import eu.timepit.refined.internal.{RefineAux, RefineMAux}
+import eu.timepit.refined.internal.{ RefineAux, RefineMAux }
 import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox

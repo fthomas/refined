@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.string._
 import shapeless.Witness
 

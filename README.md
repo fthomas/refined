@@ -290,6 +290,7 @@ The library comes with these predefined predicates:
 
 ## Contributors and participation
 
+* [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * Your name here :-)
 

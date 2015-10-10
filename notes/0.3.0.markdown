@@ -1,5 +1,6 @@
 ### Changes
 
+* Support for Scala 2.10. Thanks to Alexandre Archambault! ([#51])
 * TODO: Validate, Result
 * Move `InferenceRule`, `Refined`, `RefType`, and `Predicate` from the
   `eu.timepit.refined` package into the `eu.timepit.refined.api` package.
@@ -10,5 +11,6 @@
 * Add `coflatMapRefine` to `RefType` which is similar to `coflatMap` on
   a `Comonad`.
 
+[#51]: https://github.com/fthomas/refined/pull/51
 [#61]: https://github.com/fthomas/refined/issues/61
 [#68]: https://github.com/fthomas/refined/pull/68

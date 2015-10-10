@@ -309,13 +309,13 @@ it in the Gitter channel and we'll add a link to it here.
 
 ## Performance concerns
 
-Using *refined*'s macros for compile-time refinement bears zero runtime
+Using *refined's* macros for compile-time refinement bears zero runtime
 overhead for reference types and only causes boxing for value types.
 [PostErasureAnyRef][PostErasureAnyRef] and [PostErasureAnyVal][PostErasureAnyVal]
 show the differences of unrefined and refined types during the posterasure
 compiler phase.
 
-[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/shared/src/test/scala/eu/timepit/refined/examples/PostErasureAnyVal.scala
+[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/shared/src/test/scala/eu/timepit/refined/examples/PostErasureAnyRef.scala
 [PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/shared/src/test/scala/eu/timepit/refined/examples/PostErasureAnyVal.scala
 
 ## Related projects

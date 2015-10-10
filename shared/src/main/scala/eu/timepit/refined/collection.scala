@@ -128,7 +128,7 @@ private[refined] trait CollectionValidate {
         t.toList.map(v.showExpr).mkString("(", " && ", ")")
     }
 
-  implicit def forallPredicateView[A, P, R, T](
+  implicit def forallValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
     ev: T => TraversableOnce[A]
@@ -154,7 +154,7 @@ private[refined] trait CollectionValidate {
         optElemShowResult(t.headOption, r.detail.p, (a: A) => s"head($t) = $a", v.showResult)
     }
 
-  implicit def headPredicateView[A, P, R, T](
+  implicit def headValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
     ev: T => Traversable[A]
@@ -201,7 +201,7 @@ private[refined] trait CollectionValidate {
         optElemShowResult(t.lastOption, r.detail.p, (a: A) => s"last($t) = $a", v.showResult)
     }
 
-  implicit def lastPredicateView[A, P, R, T](
+  implicit def lastValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
     ev: T => Traversable[A]

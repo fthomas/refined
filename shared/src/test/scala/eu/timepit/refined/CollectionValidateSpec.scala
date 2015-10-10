@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.char.{ Digit, LowerCase }
+import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._

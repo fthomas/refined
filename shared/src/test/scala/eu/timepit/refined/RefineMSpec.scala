@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.boolean.{ False, Not }
+import eu.timepit.refined.boolean.{False, Not}
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._

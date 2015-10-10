@@ -18,7 +18,7 @@ val p = Person("John", "Doe", 32)
 The `FieldNames` predicate takes as argument a predicate that validates a
 `List[String]` which are the field names of a product type (`Person` in these
 examples):
-```tut
+```tut:nofail
 p: Person @@ FieldNames[Forall[Size[GreaterEqual[W.`3`.T]]]]
 
 p: Person @@ FieldNames[Exists[StartsWith[W.`"last"`.T]]]
@@ -34,7 +34,7 @@ p: Person @@ FieldNames[Size[Equal[W.`4`.T]]]
 
 The `ConstructorNames` predicate validates the names of a sealed family of
 classes:
-```tut
+```tut:nofail
 val o: Option[Unit] = Some(())
 
 o: Option[Unit] @@ ConstructorNames[Size[Equal[W.`2`.T]]]

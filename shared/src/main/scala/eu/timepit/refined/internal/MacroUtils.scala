@@ -1,13 +1,13 @@
 package eu.timepit.refined
 package internal
 
-import scala.reflect.macros.blackbox
+import scala.reflect.macros.Context
 import scala.util.{ Success, Try }
 
 object MacroUtils {
 
-  def eval[T](c: blackbox.Context)(t: c.Expr[T]): T = {
-    val expr = c.Expr[T](c.untypecheck(t.tree))
+  def eval[T](c: Context)(t: c.Expr[T]): T = {
+    val expr = c.Expr[T](c.resetLocalAttrs(t.tree))
 
     // Try evaluating expr twice before failing, see
     // https://github.com/fthomas/refined/issues/3

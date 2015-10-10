@@ -133,7 +133,7 @@ private[refined] trait CollectionValidate {
     v: Validate.Aux[A, P, R],
     ev: T => TraversableOnce[A]
   ): Validate.Aux[T, Forall[P], Forall[List[v.Res]]] =
-    forallValidate.contramap(ev)
+    forallValidate[A, P, R, TraversableOnce].contramap(ev)
 
   implicit def headValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
@@ -159,7 +159,7 @@ private[refined] trait CollectionValidate {
     v: Validate.Aux[A, P, R],
     ev: T => Traversable[A]
   ): Validate.Aux[T, Head[P], Head[Option[v.Res]]] =
-    headValidate.contramap(ev)
+    headValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def indexValidate[A, P, R, N <: Int, T](
     implicit
@@ -206,7 +206,7 @@ private[refined] trait CollectionValidate {
     v: Validate.Aux[A, P, R],
     ev: T => Traversable[A]
   ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
-    lastValidate.contramap(ev)
+    lastValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def sizeValidate[T, P, RP](
     implicit

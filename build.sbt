@@ -59,6 +59,7 @@ lazy val projectSettings = Seq(
 
 lazy val compileSettings = Seq(
   scalaVersion := "2.11.7",
+  crossScalaVersions := Seq("2.11.7", "2.10.6"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -68,7 +69,7 @@ lazy val compileSettings = Seq(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-Xfuture",
     "-Xlint",
     //"-Xlog-implicits",
@@ -84,6 +85,14 @@ lazy val compileSettings = Seq(
     "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test"
   ),
 
+  libraryDependencies ++= {
+    if (scalaVersion.value startsWith "2.10.")
+      // this is required for shapeless.LabelledGeneric
+      Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full))
+    else
+      Seq.empty
+  },
+
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
     Wart.DefaultArguments,
@@ -96,7 +105,7 @@ lazy val compileSettings = Seq(
 
 lazy val scaladocSettings = Seq(
   scalacOptions in (Compile, doc) ++= Seq(
-    "-diagrams",
+    //"-diagrams",
     "-diagrams-debug",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath

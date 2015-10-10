@@ -86,6 +86,7 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     Inference[Interval[_5, _10], LessEqual[_11]].isValid
   }
 
+  /*
   property("Interval[Nat] ==> GreaterEqual[Nat]") = secure {
     Inference[Interval[_5, _10], GreaterEqual[_4]].isValid
   }
@@ -97,4 +98,5 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   property("Equal[Nat] =!> Greater[A]") = secure {
     Inference[Equal[_5], Greater[W.`10`.T]].notValid
   }
+  */
 }

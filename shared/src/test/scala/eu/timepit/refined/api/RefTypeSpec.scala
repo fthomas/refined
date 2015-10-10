@@ -3,7 +3,7 @@ package api
 
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
-import eu.timepit.refined.char.{Digit, LowerCase}
+import eu.timepit.refined.char.{ Digit, LowerCase }
 import eu.timepit.refined.collection.Forall
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex

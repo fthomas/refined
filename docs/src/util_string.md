@@ -49,6 +49,6 @@ uuid("whops")
 xml("<a>link</a>")
 xml("<a>link</a")
 
-xpath("A//B/*[1]")
+xpath("A//B/*[1]").isInstanceOf[javax.xml.xpath.XPathExpression]
 xpath("A//B/*[1")
 ```

@@ -28,7 +28,7 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at scala.collection.immutable.StringOps.r(StringOps.scala:30)
   at scala.collection.immutable.StringLike$class.r(StringLike.scala:244)
   at scala.collection.immutable.StringOps.r(StringOps.scala:30)
-  ... 178 elided
+  ... 190 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`
@@ -93,8 +93,8 @@ scala> xml("<a>link</a")
 xml("<a>link</a")
     ^
 
-scala> xpath("A//B/*[1]")
-res12: javax.xml.xpath.XPathExpression = com.sun.org.apache.xpath.internal.jaxp.XPathExpressionImpl@70b342e0
+scala> xpath("A//B/*[1]").isInstanceOf[javax.xml.xpath.XPathExpression]
+res12: Boolean = true
 
 scala> xpath("A//B/*[1")
 <console>:18: error: XPath predicate failed: javax.xml.transform.TransformerException: Expected ], but found:

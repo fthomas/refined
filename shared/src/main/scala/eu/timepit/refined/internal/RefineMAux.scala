@@ -1,41 +1,45 @@
 package eu.timepit.refined
 package internal
 
+import eu.timepit.refined.api.{ RefType, Validate }
+
 import scala.reflect.macros.Context
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
- * `[[refineMV]][P](t)`. See [[http://tpolecat.github.io/2015/07/30/infer.html]]
- * for a detailed explanation of this trick.
+ * `[[api.RefType.refineM]][P](t)`.
+ *
+ * See [[http://tpolecat.github.io/2015/07/30/infer.html]] for a detailed
+ * explanation of this trick.
  */
-final class RefineMAux[P, F[_, _]] {
+final class RefineMAux[F[_, _], P] {
 
-  def apply[T](t: T)(implicit p: Predicate[P, T], w: Wrapper[F]): F[T, P] = macro RefineMAux.macroImpl[P, T, F]
+  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMAux.macroImpl[F, T, P]
 }
 
 object RefineMAux {
 
-  def macroImpl[P: c.WeakTypeTag, T: c.WeakTypeTag, F[_, _]](c: Context)(t: c.Expr[T])(
-    p: c.Expr[Predicate[P, T]], w: c.Expr[Wrapper[F]]
+  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T])(
+    v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, P]] = {
     import c.universe._
 
-    val predicate = MacroUtils.eval(c)(p)
+    val validate = MacroUtils.eval(c)(v)
 
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
-      case _ if predicate.isConstant => null.asInstanceOf[T]
-      case _ => c.abort(
-        c.enclosingPosition,
-        "compile-time refinement only works with literals or constant predicates"
-      )
+      case _ if validate.isConstant => null.asInstanceOf[T]
+      case _ =>
+        val msg = "compile-time refinement only works with literals or constant predicates"
+        c.abort(c.enclosingPosition, msg)
     }
 
-    predicate.validate(tValue) match {
-      case None =>
-        val wrapper = MacroUtils.eval(c)(w)
-        wrapper.wrapM(c)(t)
-      case Some(msg) => c.abort(c.enclosingPosition, msg)
+    val res = validate.validate(tValue)
+    if (res.isFailed) {
+      c.abort(c.enclosingPosition, validate.showResult(tValue, res))
     }
+
+    val refType = MacroUtils.eval(c)(rt)
+    refType.unsafeWrapM(c)(t)
   }
 }

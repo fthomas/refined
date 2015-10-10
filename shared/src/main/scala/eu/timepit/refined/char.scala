@@ -1,43 +1,44 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.api.Validate
 import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.char._
 
-object char extends CharPredicates {
+object char extends CharValidate {
 
   /** Predicate that checks if a `Char` is a digit. */
-  trait Digit
+  case class Digit()
 
   /** Predicate that checks if a `Char` is a letter. */
-  trait Letter
+  case class Letter()
 
   /** Predicate that checks if a `Char` is a lower case character. */
-  trait LowerCase
+  case class LowerCase()
 
   /** Predicate that checks if a `Char` is an upper case character. */
-  trait UpperCase
+  case class UpperCase()
 
   /** Predicate that checks if a `Char` is white space. */
-  trait Whitespace
+  case class Whitespace()
 
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit
 }
 
-private[refined] trait CharPredicates {
+private[refined] trait CharValidate {
 
-  implicit def digitPredicate: Predicate[Digit, Char] =
-    Predicate.instance(_.isDigit, t => s"isDigit('$t')")
+  implicit def digitValidate: Validate.Flat[Char, Digit] =
+    Validate.fromPredicate(_.isDigit, t => s"isDigit('$t')", Digit())
 
-  implicit def letterPredicate: Predicate[Letter, Char] =
-    Predicate.instance(_.isLetter, t => s"isLetter('$t')")
+  implicit def letterValidate: Validate.Flat[Char, Letter] =
+    Validate.fromPredicate(_.isLetter, t => s"isLetter('$t')", Letter())
 
-  implicit def lowerCasePredicate: Predicate[LowerCase, Char] =
-    Predicate.instance(_.isLower, t => s"isLower('$t')")
+  implicit def lowerCaseValidate: Validate.Flat[Char, LowerCase] =
+    Validate.fromPredicate(_.isLower, t => s"isLower('$t')", LowerCase())
 
-  implicit def upperCasePredicate: Predicate[UpperCase, Char] =
-    Predicate.instance(_.isUpper, t => s"isUpper('$t')")
+  implicit def upperCaseValidate: Validate.Flat[Char, UpperCase] =
+    Validate.fromPredicate(_.isUpper, t => s"isUpper('$t')", UpperCase())
 
-  implicit def whitespacePredicate: Predicate[Whitespace, Char] =
-    Predicate.instance(_.isWhitespace, t => s"isWhitespace('$t')")
+  implicit def whitespaceValidate: Validate.Flat[Char, Whitespace] =
+    Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
 }

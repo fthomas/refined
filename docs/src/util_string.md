@@ -14,13 +14,13 @@ constructor checks at runtime if a given string is a valid regex:
 ```
 
 The library provides its own constructor for regexes in the `util.string`
-object. Together with an implicit conversion macro in the `implicits`
-object, these constructors check at compile-time if a given string literal
-is a valid regex. That means that those constructors will never throw an
+object. Together with an implicit conversion macro in the `auto` object,
+these constructors check at compile-time if a given string literal is a
+valid regex. That means that those constructors will never throw an
 exception at runtime.
 
 ```tut:silent
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.util.string._
 ```
 ```tut:nofail
@@ -49,6 +49,6 @@ uuid("whops")
 xml("<a>link</a>")
 xml("<a>link</a")
 
-xpath("A//B/*[1]")
+xpath("A//B/*[1]").isInstanceOf[javax.xml.xpath.XPathExpression]
 xpath("A//B/*[1")
 ```

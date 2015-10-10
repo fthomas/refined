@@ -1,5 +1,7 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtils.wellTyped
+import eu.timepit.refined.api.Inference
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric.Greater
@@ -11,57 +13,54 @@ import shapeless.test.illTyped
 class CollectionInferenceSpec extends Properties("CollectionInference") {
 
   property("Exists[A] ==> Exists[B]") = secure {
-    InferenceRule[Contains[W.`'5'`.T], Exists[Digit]].isValid
+    Inference[Contains[W.`'5'`.T], Exists[Digit]].isValid
   }
 
   property("Exists ==> NonEmpty") = secure {
-    InferenceRule[Exists[Digit], NonEmpty].isValid
+    Inference[Exists[Digit], NonEmpty].isValid
   }
 
-  property("NonEmpty =!> Exists") = secure {
-    illTyped("InferenceRule[NonEmpty, Exists[Digit]]", "could not find.*InferenceRule.*")
-    true
+  property("NonEmpty =!> Exists") = wellTyped {
+    illTyped("Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
   }
 
   property("Head[A] ==> Head[B]") = secure {
-    InferenceRule[Head[Digit], Head[LetterOrDigit]].isValid
+    Inference[Head[Digit], Head[LetterOrDigit]].isValid
   }
 
   property("Head[A] ==> Exists[A]") = secure {
-    InferenceRule[Head[Digit], Exists[Digit]].isValid
+    Inference[Head[Digit], Exists[Digit]].isValid
   }
 
-  property("Exists[A] =!> Head[A]") = secure {
-    illTyped("InferenceRule[Exists[Digit], Head[Digit]]", "(?s)diverging implicit expansion for.*InferenceRule.*")
-    true
+  property("Exists[A] =!> Head[A]") = wellTyped {
+    illTyped("Inference[Exists[Digit], Head[Digit]]", "(?s)diverging implicit expansion for.*Inference.*")
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {
-    InferenceRule[Index[_1, Letter], Index[_1, LetterOrDigit]].isValid
+    Inference[Index[_1, Letter], Index[_1, LetterOrDigit]].isValid
   }
 
   property("Index ==> Exists") = secure {
-    InferenceRule[Index[W.`1`.T, LowerCase], Exists[LowerCase]].isValid
+    Inference[Index[W.`1`.T, LowerCase], Exists[LowerCase]].isValid
   }
 
   property("Last[A] ==> Last[B]") = secure {
-    InferenceRule[Last[Letter], Last[LetterOrDigit]].isValid
+    Inference[Last[Letter], Last[LetterOrDigit]].isValid
   }
 
   property("Last ==> Exists") = secure {
-    InferenceRule[Last[Whitespace], Exists[Whitespace]].isValid
+    Inference[Last[Whitespace], Exists[Whitespace]].isValid
   }
 
   property("Last ==> NonEmpty") = secure {
-    InferenceRule[Last[Whitespace], NonEmpty].isValid
+    Inference[Last[Whitespace], NonEmpty].isValid
   }
 
-  property("NonEmpty =!> Last") = secure {
-    illTyped("InferenceRule[NonEmpty, Last[Whitespace]]", "could not find.*InferenceRule.*")
-    true
+  property("NonEmpty =!> Last") = wellTyped {
+    illTyped("Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
   }
 
   property("Size[A] ==> Size[B]") = secure {
-    InferenceRule[Size[Greater[_5]], Size[Greater[_4]]].isValid
+    Inference[Size[Greater[_5]], Size[Greater[_4]]].isValid
   }
 }

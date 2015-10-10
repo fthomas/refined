@@ -47,3 +47,5 @@
 
 [#2]: https://github.com/fthomas/refined/issues/2
 [#3]: https://github.com/fthomas/refined/issues/3
+
+Released on 2015-05-31

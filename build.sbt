@@ -59,7 +59,7 @@ lazy val projectSettings = Seq(
 
 lazy val compileSettings = Seq(
   scalaVersion := "2.11.7",
-  crossScalaVersions := Seq("2.11.7", "2.10.5"),
+  crossScalaVersions := Seq("2.11.7", "2.10.6"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -69,7 +69,7 @@ lazy val compileSettings = Seq(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-Xfuture",
     "-Xlint",
     //"-Xlog-implicits",
@@ -82,16 +82,30 @@ lazy val compileSettings = Seq(
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "com.chuusai" %%% "shapeless" % "2.2.5",
-    "org.scalacheck" %%% "scalacheck" % "1.12.4" % "test"
+    "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test"
   ),
 
-  wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff
-    Seq(Wart.Any, Wart.DefaultArguments, Wart.AsInstanceOf, Wart.NonUnitStatements, Wart.Null, Wart.Throw)
+  libraryDependencies ++= {
+    if (scalaVersion.value startsWith "2.10.")
+      // this is required for shapeless.LabelledGeneric
+      Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full))
+    else
+      Seq.empty
+  },
+
+  wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
+    Wart.Any,
+    Wart.DefaultArguments,
+    Wart.AsInstanceOf,
+    Wart.NonUnitStatements,
+    Wart.Null,
+    Wart.Throw
+  )
 )
 
 lazy val scaladocSettings = Seq(
   scalacOptions in (Compile, doc) ++= Seq(
-    "-diagrams",
+    //"-diagrams",
     "-diagrams-debug",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
@@ -123,6 +137,19 @@ lazy val noPublishSettings = Seq(
 lazy val releaseSettings = {
   import ReleaseTransformations._
 
+  lazy val addReleaseDateToReleaseNotes: ReleaseStep = { st: State =>
+    val extracted = Project.extract(st)
+    val newVersion = extracted.get(version)
+    val date = "date +%Y-%m-%d".!!.trim
+    val footer = s"\nReleased on $date\n"
+
+    val notes = s"notes/$newVersion.markdown"
+    IO.append(file(notes), footer)
+    s"git add $notes" !! st.log
+
+    st
+  }
+
   lazy val updateVersionInReadme: ReleaseStep = { st: State =>
     val extracted = Project.extract(st)
     val newVersion = extracted.get(version)
@@ -145,10 +172,12 @@ lazy val releaseSettings = {
       runClean,
       runTest,
       setReleaseVersion,
+      addReleaseDateToReleaseNotes,
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepTask(bintraySyncMavenCentral),
       releaseStepTask(GhPagesKeys.pushSite in "refinedJVM"),
       setNextVersion,
       commitNextVersion,
@@ -166,12 +195,14 @@ lazy val siteSettings =
 lazy val miscSettings = Seq(
   initialCommands := s"""
     import $rootPkg._
+    import $rootPkg.api._
+    import $rootPkg.api.Inference.==>
+    import $rootPkg.api.RefType.ops._
+    import $rootPkg.auto._
     import $rootPkg.boolean._
     import $rootPkg.char._
     import $rootPkg.collection._
     import $rootPkg.generic._
-    import $rootPkg.InferenceRule.==>
-    import $rootPkg.implicits._
     import $rootPkg.numeric._
     import $rootPkg.string._
     import shapeless.{ ::, HList, HNil }
@@ -189,9 +220,9 @@ lazy val myDoctestSettings =
 lazy val styleSettings =
   scalariformSettings ++
   Seq(
-    sourceDirectories in (Compile, ScalariformKeys.format) +=
+    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) +=
       baseDirectory.value / "shared/src/main/scala",
-    sourceDirectories in (Test, ScalariformKeys.format) +=
+    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) +=
       baseDirectory.value / "shared/src/test/scala"
   )
 

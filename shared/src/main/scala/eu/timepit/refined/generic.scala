@@ -1,69 +1,91 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.InferenceRule.==>
+import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.generic._
+import shapeless._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
+import shapeless.ops.nat.ToInt
 import shapeless.ops.record.Keys
-import shapeless.{ Coproduct, HList, LabelledGeneric, Witness }
 
-object generic extends GenericPredicates with GenericInferenceRules {
+object generic extends GenericValidate with GenericInference {
 
   /** Predicate that checks if a value is equal to `U`. */
-  trait Equal[U]
+  case class Equal[U](u: U)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
-  trait ConstructorNames[P]
+  case class ConstructorNames[P](p: P)
 
   /** Predicate that checks if the field names of a product type satisfy `P`. */
-  trait FieldNames[P]
+  case class FieldNames[P](p: P)
 
   /** Predicate that witnesses that the type of a value is a subtype of `U`. */
-  trait Subtype[U]
+  case class Subtype[U]()
 
   /** Predicate that witnesses that the type of a value is a supertype of `U`. */
-  trait Supertype[U]
+  case class Supertype[U]()
 }
 
-private[refined] trait GenericPredicates {
+private[refined] trait GenericValidate {
 
-  implicit def equalPredicate[T, U <: T](implicit wu: Witness.Aux[U]): Predicate[Equal[U], T] =
-    Predicate.instance(_ == wu.value, t => s"($t == ${wu.value})")
+  implicit def equalValidateWit[T, U <: T](
+    implicit
+    wu: Witness.Aux[U]
+  ): Validate.Flat[T, Equal[U]] =
+    Validate.fromPredicate(_ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
 
-  implicit def ctorNamesPredicate[T, P, R0 <: Coproduct, R1 <: HList, K <: HList](
+  implicit def equalValidateNat[N <: Nat, T](
+    implicit
+    tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
+  ): Validate.Flat[T, Equal[N]] =
+    Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+
+  implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
     implicit
     lg: LabelledGeneric.Aux[T, R0],
     cthl: ToHList.Aux[R0, R1],
     keys: Keys.Aux[R1, K],
     ktl: ToList[K, Symbol],
-    p: Predicate[P, List[String]]
-  ): Predicate[ConstructorNames[P], T] = {
+    v: Validate.Aux[List[String], NP, NR]
+  ): Validate.Aux[T, ConstructorNames[NP], ConstructorNames[v.Res]] = {
 
     val ctorNames = keys().toList.map(_.name)
-    Predicate.constant(p.isValid(ctorNames), p.show(ctorNames))
+    val rn = v.validate(ctorNames)
+    Validate.constant(rn.as(ConstructorNames(rn)), v.showExpr(ctorNames))
   }
 
-  implicit def fieldNamesPredicate[T, P, R <: HList, K <: HList](
+  implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
     implicit
     lg: LabelledGeneric.Aux[T, R],
     keys: Keys.Aux[R, K],
     ktl: ToList[K, Symbol],
-    p: Predicate[P, List[String]]
-  ): Predicate[FieldNames[P], T] = {
+    v: Validate.Aux[List[String], NP, NR]
+  ): Validate.Aux[T, FieldNames[NP], FieldNames[v.Res]] = {
 
     val fieldNames = keys().toList.map(_.name)
-    Predicate.constant(p.isValid(fieldNames), p.show(fieldNames))
+    val rn = v.validate(fieldNames)
+    Validate.constant(rn.as(FieldNames(rn)), v.showExpr(fieldNames))
   }
 
-  implicit def subtypePredicate[T, U >: T]: Predicate[Subtype[U], T] =
-    Predicate.alwaysValid
+  implicit def subtypeValidate[T, U >: T]: Validate.Flat[T, Subtype[U]] =
+    Validate.alwaysPassed(Subtype())
 
-  implicit def supertypePredicate[T, U <: T]: Predicate[Supertype[U], T] =
-    Predicate.alwaysValid
+  implicit def supertypeValidate[T, U <: T]: Validate.Flat[T, Supertype[U]] =
+    Validate.alwaysPassed(Supertype())
 }
 
-private[refined] trait GenericInferenceRules {
+private[refined] trait GenericInference {
 
-  implicit def equalPredicateInference[T, U <: T, P](implicit p: Predicate[P, T], wu: Witness.Aux[U]): Equal[U] ==> P =
-    InferenceRule(p.isValid(wu.value), s"equalPredicateInference(${p.show(wu.value)})")
+  implicit def equalValidateInferenceWit[T, U <: T, P](
+    implicit
+    v: Validate[T, P], wu: Witness.Aux[U]
+  ): Equal[U] ==> P =
+    Inference(v.isValid(wu.value), s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
+
+  implicit def equalValidateInferenceNat[T, N <: Nat, P](
+    implicit
+    v: Validate[T, P], nt: Numeric[T], tn: ToInt[N]
+  ): Equal[N] ==> P =
+    Inference(v.isValid(nt.fromInt(tn())), s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
 }

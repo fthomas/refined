@@ -8,3 +8,5 @@
 
 * `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
 * `Supertype[U]`: witnesses that the type of a value is a supertype of `U`
+
+Released on 2015-07-14

@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.TestUtils.wellTyped
+import eu.timepit.refined.auto._
 import eu.timepit.refined.util.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -12,9 +13,8 @@ class StringUtilSpec extends Properties("util.string") {
     uri("file:///dev/null") ?= new java.net.URI("file:///dev/null")
   }
 
-  property("uri failure") = secure {
+  property("uri failure") = wellTyped {
     illTyped("""uri("file:// /dev/null")""", "(?s)Uri predicate failed.*")
-    true
   }
 
   property("uuid success") = secure {
@@ -22,8 +22,7 @@ class StringUtilSpec extends Properties("util.string") {
       java.util.UUID.fromString("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
   }
 
-  property("uuid failure") = secure {
+  property("uuid failure") = wellTyped {
     illTyped("""uuid("whops")""", "(?s)Uuid predicate failed.*")
-    true
   }
 }

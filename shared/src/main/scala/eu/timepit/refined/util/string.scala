@@ -10,14 +10,14 @@ object string {
    * Creates a `scala.util.matching.Regex` from a validated string.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.implicits._
+   * scala> import eu.timepit.refined.auto._
    *      | import eu.timepit.refined.util.string.regex
    *
    * scala> regex(".*")
    * res1: scala.util.matching.Regex = .*
    *
    * scala> regex("{")
-   * <console>:41: error: Predicate isValidRegex("{") failed: Illegal repetition
+   * <console>:47: error: Regex predicate failed: Illegal repetition
    * {
    *        regex("{")
    *              ^

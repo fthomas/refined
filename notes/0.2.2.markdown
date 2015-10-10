@@ -1,0 +1,15 @@
+### Changes
+
+* Introduce the `RefType` type class which abstracts over `shapeless.tag.@@`
+  and `Refined` and that allows 3rd-party types to be used as result type
+  for refinements (e.g. [`scalaz.@@`][scalaz.@@]). `RefType` replaces the
+  now removed `internal.Wrapper` type class. ([#48], [#53], [#54])
+* Make the `Refined` constructor private ([#52])
+
+[#48]: https://github.com/fthomas/refined/issues/48
+[#52]: https://github.com/fthomas/refined/issues/52
+[#53]: https://github.com/fthomas/refined/issues/53
+[#54]: https://github.com/fthomas/refined/pull/54
+[scalaz.@@]: https://github.com/scalaz/scalaz/blob/v7.1.3/core/src/main/scala/scalaz/package.scala#L103
+
+Released on 2015-08-17

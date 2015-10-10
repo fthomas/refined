@@ -1,6 +1,8 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.implicits._
+import eu.timepit.refined.TestUtils.wellTyped
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -52,20 +54,18 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
     testRefineMT(refineMT[Positive][Int](1))
   }
 
-  property("refineMV failure") = secure {
+  property("refineMV failure") = wellTyped {
     illTyped("testRefineMV(-1)", "Predicate.*fail.*")
     illTyped("testRefineMV(refineMV(-1))", "could not find implicit value.*")
     illTyped("testRefineMV(refineMV[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMV(refineMV[Positive][Int](-1))", "Predicate.*fail.*")
-    true
   }
 
-  property("refineMT failure") = secure {
+  property("refineMT failure") = wellTyped {
     illTyped("testRefineMT(-1)", "Predicate.*fail.*")
     illTyped("testRefineMT(refineMT(-1))", "could not find implicit value.*")
     illTyped("testRefineMT(refineMT[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMT(refineMT[Positive][Int](-1))", "Predicate.*fail.*")
-    true
   }
 
   property("refineMV with type alias") = secure {
@@ -73,17 +73,17 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
 
     val x: PositiveInt = refineMV(5)
     val y: PositiveInt = 5
-    illTyped("val z: PositiveInt = -5", "Predicate failed: \\(-5 > 0\\).*")
-    x == y
+    val z = 5: PositiveInt
+    illTyped("val a: PositiveInt = -5", "Predicate failed: \\(-5 > 0\\).*")
+    x == y && y == z
   }
 
-  property("refineMT with type alias") = secure {
+  property("refineMT with type alias") = wellTyped {
     type PositiveInt = Int @@ Positive
 
     // This is expected, see https://github.com/fthomas/refined/issues/21:
     illTyped("val x: PositiveInt = refineMT(5)", "could not find implicit value.*")
     illTyped("val y: PositiveInt = 5", "(?s)type mismatch.*")
     illTyped("val z: PositiveInt = -5", "(?s)type mismatch.*")
-    true
   }
 }

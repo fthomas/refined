@@ -71,6 +71,20 @@ trait RefType[F[_, _]] extends Serializable {
 
   def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
+
+  def coflatMapRefine[T, P, U](tp: F[T, P])(f: F[T, P] => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
+    refine(f(tp))
+
+  // Note that we could define mapRefine in terms of coflatMapRefine
+  // and unwrap:
+  //
+  //   tp.mapRefine(f) = tp.coflatMapRefine(f compose unwrap)
+  //
+  // This is similar how a Comonad fa can define map in terms of coflatMap
+  // and extract:
+  //
+  //   fa.map(f) = fa.coflatMap(f compose extract)
+
 }
 
 object RefType {
@@ -113,6 +127,9 @@ object RefType {
 
     def mapRefine[U](f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
       F.mapRefine(tp)(f)
+
+    def coflatMapRefine[U](f: F[T, P] => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
+      F.coflatMapRefine(tp)(f)
   }
 
   object ops {

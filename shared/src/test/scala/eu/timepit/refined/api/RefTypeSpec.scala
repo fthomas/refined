@@ -3,7 +3,7 @@ package api
 
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
-import eu.timepit.refined.char.{Digit, LowerCase}
+import eu.timepit.refined.char.{ Digit, LowerCase }
 import eu.timepit.refined.collection.Forall
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex
@@ -50,6 +50,10 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
 
   property("mapRefine failure with Positive") = secure {
     rt.refine[Positive](5).right.flatMap(_.mapRefine(_ - 10)).isLeft
+  }
+
+  property("coflatMapRefine success with Positive") = secure {
+    rt.refine[Positive](5).right.flatMap(_.coflatMapRefine(_.unwrap)).isRight
   }
 
   property("implicit unwrap") = secure {

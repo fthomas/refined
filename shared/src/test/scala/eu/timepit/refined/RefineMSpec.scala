@@ -18,7 +18,7 @@ class RefineMSpec extends Properties("refineM") {
   property("RefineMAux instance") = secure {
     val rv = refineMV[Digit]
     val rt = refineMT[Digit]
-    rv('0') == Refined('0') && rt('0') == '0'
+    rv('0') == Refined.unsafeApply('0') && rt('0') == '0'
   }
 
   property("refineM with Forall") = wellTyped {

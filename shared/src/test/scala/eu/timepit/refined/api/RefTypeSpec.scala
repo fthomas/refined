@@ -52,6 +52,10 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
     rt.refine[Positive](5).right.flatMap(_.mapRefine(_ - 10)).isLeft
   }
 
+  property("coflatMapRefine success with Positive") = secure {
+    rt.refine[Positive](5).right.flatMap(_.coflatMapRefine(_.unwrap)).isRight
+  }
+
   property("implicit unwrap") = secure {
     rt.refine[Positive](5).right.map(_ + 1) == Right(6)
   }

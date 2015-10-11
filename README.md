@@ -258,6 +258,7 @@ The library comes with these predefined predicates:
 
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
+* [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 
 The *refined* project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]

@@ -229,7 +229,7 @@ lazy val styleSettings =
 addCommandAlias("validate", Seq(
   "clean",
   "refinedJS/test",
-  "coverage",
+  "+coverage",
   "compile",
   "refinedJVM/test",
   "scalastyle",

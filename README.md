@@ -141,7 +141,7 @@ scala> val u1: String @@ Url = "htp://example.com"
 Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which
 provides syntax for singleton types.
 
-## Installation
+## Using refined
 
 The latest version of the library is 0.2.3, which is available for Scala and
 [Scala.js][scala.js] version 2.11.
@@ -164,49 +164,15 @@ Release notes for the latest version are available in
 API documentation of the latest release is available at:
 [http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/#eu.timepit.refined.package)
 
-There are also further (type-checked) examples in the [`docs`][docs]
-directory including one for defining [custom predicates][custom-pred].
+There are further (type-checked) examples in the [`docs`][docs]
+directory including ones for defining [custom predicates][custom-pred]
+and working with [type aliases][type-aliases]. It also contains a
+[description][design-description] of *refined's* design and internals.
 
+[custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
+[design-description]: https://github.com/fthomas/refined/blob/master/docs/design_description.md
 [docs]: https://github.com/fthomas/refined/tree/master/docs
-[custom-pred]: https://github.com/fthomas/refined/tree/master/docs/custom_predicates.md
-
-## Internals
-
-*refined* basically consists of two parts, one for [refining types with
-type-level predicates](#predicates) and the other for [converting between
-different refined types](#inference-rules).
-
-### Predicates
-
-The refinement machinery is built of:
-
-* Type-level predicates for refining other types, like `UpperCase`, `Positive`, or
-  `LessEqual[_2]`. There are also higher order predicates for combining proper
-  predicates like `And[_, _]`, `Or[_, _]`, `Not[_]`, `Forall[_]`, or `Size[_]`.
-
-* A `Predicate` type class for validating a value of an unrefined type
-  (like `Double`) against a type-level predicate (like `Positive`).
-
-* A function `refineT` and a macro `refineMT` that take a predicate `P`
-  and some value of type `T`, validate this value with a `Predicate[P, T]`
-  and return the value with type `T @@ P` if validation was successful or
-  an error otherwise. The return type of `refineT` is `Either[String, T @@ P]`
-  while the `refineMT` returns a `T @@ P` or compilation fails. Since
-  `refineMT` is a macro it only works with literal values or constant
-  predicates.
-
-### Inference rules
-
-The type-conversions are built of:
-
-* An `InferenceRule` type class that is indexed by two type-level predicates
-  which states whether the second predicate can be logically derived from the
-  first. `InferenceRule[Greater[_5], Positive]` would be an instance of a
-  valid inference rule while `InferenceRule[Greater[_5], Negative]` would be
-  an invalid inference rule.
-
-* An implicit conversion defined as macro that casts a value of type `T @@ A`
-  to type `T @@ B` if a valid `InferenceRule[A, B]` is in scope.
+[type-aliases]: https://github.com/fthomas/refined/blob/master/docs/type_aliases.md
 
 ## Provided predicates
 

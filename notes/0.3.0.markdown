@@ -10,7 +10,10 @@
   refined types. ([#61])
 * Add `coflatMapRefine` to `RefType` which is similar to `coflatMap` on
   a `Comonad`.
+* Add `util.time` module with date- and time-related refined types
+  (`Month`, `DayOfMonth`, `Hour`, `Minute`, and `Second`). ([#64])
 
 [#51]: https://github.com/fthomas/refined/pull/51
 [#61]: https://github.com/fthomas/refined/issues/61
+[#64]: https://github.com/fthomas/refined/issues/64
 [#68]: https://github.com/fthomas/refined/pull/68

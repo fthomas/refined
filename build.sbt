@@ -232,6 +232,7 @@ addCommandAlias("validate", Seq(
   "+coverage",
   "compile",
   "refinedJVM/test",
+  "coverageReport",
   "scalastyle",
   "test:scalastyle",
   "doc",

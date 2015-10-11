@@ -165,6 +165,7 @@ lazy val releaseSettings = {
   }
 
   Seq(
+    releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -229,10 +230,9 @@ lazy val styleSettings =
 addCommandAlias("validate", Seq(
   "clean",
   "refinedJS/test",
-  "+coverage",
+  "coverage",
   "compile",
   "refinedJVM/test",
-  "coverageReport",
   "scalastyle",
   "test:scalastyle",
   "doc",

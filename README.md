@@ -144,7 +144,7 @@ provides syntax for singleton types.
 ## Using refined
 
 The latest version of the library is 0.3.0, which is available for Scala and
-[Scala.js][scala.js] version 2.11.
+[Scala.js][scala.js] version 2.10 and 2.11.
 
 If you're using SBT, add the following to your build:
 

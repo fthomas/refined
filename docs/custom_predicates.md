@@ -41,16 +41,16 @@ messages:
 ```scala
 import eu.timepit.refined.api.Validate
 
-implicit val quadrant1Validate: Validate.Flat[Point, Quadrant1] =
+implicit val quadrant1Validate: Validate.Plain[Point, Quadrant1] =
   Validate.fromPredicate(p => p.x >= 0 && p.y >= 0, p => s"($p is in quadrant 1)", Quadrant1())
 
-implicit val quadrant2Validate: Validate.Flat[Point, Quadrant2] =
+implicit val quadrant2Validate: Validate.Plain[Point, Quadrant2] =
   Validate.fromPredicate(p => p.x < 0 && p.y >= 0, p => s"($p is in quadrant 2)", Quadrant2())
 
-implicit val quadrant3Validate: Validate.Flat[Point, Quadrant3] =
+implicit val quadrant3Validate: Validate.Plain[Point, Quadrant3] =
   Validate.fromPredicate(p => p.x < 0 && p.y < 0, p => s"($p is in quadrant 3)", Quadrant3())
 
-implicit val quadrant4Validate: Validate.Flat[Point, Quadrant4] =
+implicit val quadrant4Validate: Validate.Plain[Point, Quadrant4] =
   Validate.fromPredicate(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)", Quadrant4())
 ```
 

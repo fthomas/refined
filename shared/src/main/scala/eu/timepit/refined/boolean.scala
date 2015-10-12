@@ -39,10 +39,10 @@ object boolean extends BooleanValidate with BooleanInference0 {
 
 private[refined] trait BooleanValidate {
 
-  implicit def trueValidate[T]: Validate.Flat[T, True] =
+  implicit def trueValidate[T]: Validate.Plain[T, True] =
     Validate.alwaysPassed(True())
 
-  implicit def falseValidate[T]: Validate.Flat[T, False] =
+  implicit def falseValidate[T]: Validate.Plain[T, False] =
     Validate.alwaysFailed(False())
 
   implicit def notValidate[T, P, R](implicit v: Validate.Aux[T, P, R]): Validate.Aux[T, Not[P], Not[v.Res]] =
@@ -171,7 +171,7 @@ private[refined] trait BooleanValidate {
       override val isConstant: Boolean = va.isConstant && vb.isConstant
     }
 
-  implicit def allOfHNilValidate[T]: Validate.Flat[T, AllOf[HNil]] =
+  implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
     Validate.alwaysPassed(AllOf(HList()))
 
   implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
@@ -197,7 +197,7 @@ private[refined] trait BooleanValidate {
       override val isConstant: Boolean = vh.isConstant && vt.isConstant
     }
 
-  implicit def anyOfHNilValidate[T]: Validate.Flat[T, AnyOf[HNil]] =
+  implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
     Validate.alwaysFailed(AnyOf(HList()))
 
   implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
@@ -223,7 +223,7 @@ private[refined] trait BooleanValidate {
       override val isConstant: Boolean = vh.isConstant && vt.isConstant
     }
 
-  implicit def oneOfHNilValidate[T]: Validate.Flat[T, OneOf[HNil]] =
+  implicit def oneOfHNilValidate[T]: Validate.Plain[T, OneOf[HNil]] =
     Validate.alwaysFailed(OneOf(HList()))
 
   implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](

@@ -109,7 +109,7 @@ private[refined] trait CollectionValidate {
         t.count(va.isValid)
     }
 
-  implicit def emptyValidate[T](implicit ev: T => TraversableOnce[_]): Validate.Flat[T, Empty] =
+  implicit def emptyValidate[T](implicit ev: T => TraversableOnce[_]): Validate.Plain[T, Empty] =
     Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
 
   implicit def forallValidate[A, P, R, T[a] <: TraversableOnce[a]](

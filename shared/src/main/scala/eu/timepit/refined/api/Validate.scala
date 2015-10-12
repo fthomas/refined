@@ -61,7 +61,7 @@ object Validate {
 
   type Aux[T, P, R0] = Validate[T, P] { type R = R0 }
 
-  type Flat[T, P] = Aux[T, P, P]
+  type Plain[T, P] = Aux[T, P, P]
 
   def apply[T, P](implicit v: Validate[T, P]): Aux[T, P, v.R] = v
 
@@ -82,14 +82,14 @@ object Validate {
    * Constructs a [[Validate]] from the predicate `f`. All values of type
    * `T` for which `f` returns `true` are considered valid according to `P`.
    */
-  def fromPredicate[T, P](f: T => Boolean, showExpr: T => String, p: P): Flat[T, P] =
+  def fromPredicate[T, P](f: T => Boolean, showExpr: T => String, p: P): Plain[T, P] =
     instance(t => Result.fromBoolean(f(t), p), showExpr)
 
   /**
    * Constructs a [[Validate]] from the partial function `pf`. All `T`s for
    * which `pf` throws an exception are considered invalid according to `P`.
    */
-  def fromPartial[T, U, P](pf: T => U, name: String, p: P): Flat[T, P] =
+  def fromPartial[T, U, P](pf: T => U, name: String, p: P): Plain[T, P] =
     new Validate[T, P] {
       override type R = P
 

@@ -37,31 +37,31 @@ object string extends StringValidate with StringInference {
 
 private[refined] trait StringValidate {
 
-  implicit def endsWithValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Flat[String, EndsWith[S]] =
+  implicit def endsWithValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[String, EndsWith[S]] =
     Validate.fromPredicate(_.endsWith(ws.value), t => s""""$t".endsWith("${ws.value}")""", EndsWith(ws.value))
 
-  implicit def matchesRegexValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Flat[String, MatchesRegex[S]] =
+  implicit def matchesRegexValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =
     Validate.fromPredicate(_.matches(ws.value), t => s""""$t".matches("${ws.value}")""", MatchesRegex(ws.value))
 
-  implicit def regexValidate: Validate.Flat[String, Regex] =
+  implicit def regexValidate: Validate.Plain[String, Regex] =
     Validate.fromPartial(new scala.util.matching.Regex(_), "Regex", Regex())
 
-  implicit def startsWithValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Flat[String, StartsWith[S]] =
+  implicit def startsWithValidate[S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[String, StartsWith[S]] =
     Validate.fromPredicate(_.startsWith(ws.value), t => s""""$t".startsWith("${ws.value}")""", StartsWith(ws.value))
 
-  implicit def uriValidate: Validate.Flat[String, Uri] =
+  implicit def uriValidate: Validate.Plain[String, Uri] =
     Validate.fromPartial(new java.net.URI(_), "Uri", Uri())
 
-  implicit def urlValidate: Validate.Flat[String, Url] =
+  implicit def urlValidate: Validate.Plain[String, Url] =
     Validate.fromPartial(new java.net.URL(_), "Url", Url())
 
-  implicit def uuidValidate: Validate.Flat[String, Uuid] =
+  implicit def uuidValidate: Validate.Plain[String, Uuid] =
     Validate.fromPartial(java.util.UUID.fromString, "Uuid", Uuid())
 
-  implicit def xmlValidate: Validate.Flat[String, Xml] =
+  implicit def xmlValidate: Validate.Plain[String, Xml] =
     Validate.fromPartial(scala.xml.XML.loadString, "Xml", Xml())
 
-  implicit def xpathValidate: Validate.Flat[String, XPath] =
+  implicit def xpathValidate: Validate.Plain[String, XPath] =
     Validate.fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
 }
 

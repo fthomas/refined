@@ -27,18 +27,18 @@ object char extends CharValidate {
 
 private[refined] trait CharValidate {
 
-  implicit def digitValidate: Validate.Flat[Char, Digit] =
+  implicit def digitValidate: Validate.Plain[Char, Digit] =
     Validate.fromPredicate(_.isDigit, t => s"isDigit('$t')", Digit())
 
-  implicit def letterValidate: Validate.Flat[Char, Letter] =
+  implicit def letterValidate: Validate.Plain[Char, Letter] =
     Validate.fromPredicate(_.isLetter, t => s"isLetter('$t')", Letter())
 
-  implicit def lowerCaseValidate: Validate.Flat[Char, LowerCase] =
+  implicit def lowerCaseValidate: Validate.Plain[Char, LowerCase] =
     Validate.fromPredicate(_.isLower, t => s"isLower('$t')", LowerCase())
 
-  implicit def upperCaseValidate: Validate.Flat[Char, UpperCase] =
+  implicit def upperCaseValidate: Validate.Plain[Char, UpperCase] =
     Validate.fromPredicate(_.isUpper, t => s"isUpper('$t')", UpperCase())
 
-  implicit def whitespaceValidate: Validate.Flat[Char, Whitespace] =
+  implicit def whitespaceValidate: Validate.Plain[Char, Whitespace] =
     Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
 }

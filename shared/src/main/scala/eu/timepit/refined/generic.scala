@@ -32,13 +32,13 @@ private[refined] trait GenericValidate {
   implicit def equalValidateWit[T, U <: T](
     implicit
     wu: Witness.Aux[U]
-  ): Validate.Flat[T, Equal[U]] =
+  ): Validate.Plain[T, Equal[U]] =
     Validate.fromPredicate(_ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
 
   implicit def equalValidateNat[N <: Nat, T](
     implicit
     tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
-  ): Validate.Flat[T, Equal[N]] =
+  ): Validate.Plain[T, Equal[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
@@ -68,10 +68,10 @@ private[refined] trait GenericValidate {
     Validate.constant(rn.as(FieldNames(rn)), v.showExpr(fieldNames))
   }
 
-  implicit def subtypeValidate[T, U >: T]: Validate.Flat[T, Subtype[U]] =
+  implicit def subtypeValidate[T, U >: T]: Validate.Plain[T, Subtype[U]] =
     Validate.alwaysPassed(Subtype())
 
-  implicit def supertypeValidate[T, U <: T]: Validate.Flat[T, Supertype[U]] =
+  implicit def supertypeValidate[T, U <: T]: Validate.Plain[T, Supertype[U]] =
     Validate.alwaysPassed(Supertype())
 }
 

@@ -62,25 +62,25 @@ private[refined] trait NumericValidate {
   implicit def lessValidateWit[T, N <: T](
     implicit
     wn: Witness.Aux[N], nt: Numeric[T]
-  ): Validate.Flat[T, Less[N]] =
+  ): Validate.Plain[T, Less[N]] =
     Validate.fromPredicate(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})", Less(wn.value))
 
   implicit def greaterValidateWit[T, N <: T](
     implicit
     wn: Witness.Aux[N], nt: Numeric[T]
-  ): Validate.Flat[T, Greater[N]] =
+  ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
 
   implicit def lessValidateNat[N <: Nat, T](
     implicit
     tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
-  ): Validate.Flat[T, Less[N]] =
+  ): Validate.Plain[T, Less[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) < tn(), t => s"($t < ${tn()})", Less(wn.value))
 
   implicit def greaterValidateNat[N <: Nat, T](
     implicit
     tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
-  ): Validate.Flat[T, Greater[N]] =
+  ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
 }
 

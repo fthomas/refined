@@ -29,3 +29,5 @@
 [#61]: https://github.com/fthomas/refined/issues/61
 [#64]: https://github.com/fthomas/refined/issues/64
 [#68]: https://github.com/fthomas/refined/pull/68
+
+Released on 2015-10-12

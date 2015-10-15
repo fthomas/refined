@@ -3,7 +3,6 @@ lazy val root = project.in(file("."))
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
-  .settings(styleSettings)
   .settings(
     console <<= console in (coreJVM, Compile),
     parallelExecution in Test in ThisBuild := false
@@ -222,10 +221,10 @@ lazy val myDoctestSettings =
 lazy val styleSettings =
   scalariformSettings ++
   Seq(
-    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) +=
-      baseDirectory.value / "shared/src/main/scala",
-    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) +=
-      baseDirectory.value / "shared/src/test/scala"
+    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
+      (sourceDirectories in Compile).value,
+    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=
+      (sourceDirectories in Test).value
   )
 
 addCommandAlias("validate", Seq(

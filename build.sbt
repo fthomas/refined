@@ -1,5 +1,10 @@
 lazy val root = project.in(file("."))
-  .aggregate(coreJVM, coreJS, docs)
+  .aggregate(
+    coreJVM,
+    coreJS,
+    docs,
+    scalacheckJVM,
+    scalacheckJS)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -36,9 +41,23 @@ lazy val docs = project
   )
   .dependsOn(coreJVM)
 
+lazy val scalacheck = crossProject
+  .settings(moduleName := "refined-scalacheck")
+  .settings(commonSettings: _*)
+  .settings(publishSettings: _*)
+  .settings(styleSettings: _*)
+  .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
+  .dependsOn(core)
+
+lazy val scalacheckJVM = scalacheck.jvm
+lazy val scalacheckJS = scalacheck.js
+
 val rootPkg = "eu.timepit.refined"
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
+
+lazy val shapelessVersion = "2.2.5"
+lazy val scalaCheckVersion = "1.12.5"
 
 lazy val commonSettings =
   projectSettings ++
@@ -81,8 +100,8 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    "com.chuusai" %%% "shapeless" % "2.2.5",
-    "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test"
+    "com.chuusai" %%% "shapeless" % shapelessVersion,
+    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),
 
   libraryDependencies ++= {
@@ -230,9 +249,11 @@ lazy val styleSettings =
 addCommandAlias("validate", Seq(
   "clean",
   "coreJS/test",
+  "scalacheckJS/test",
   "coverage",
   "compile",
   "coreJVM/test",
+  "scalacheckJVM/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

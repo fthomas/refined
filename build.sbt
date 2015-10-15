@@ -1,16 +1,17 @@
 lazy val root = project.in(file("."))
-  .aggregate(refinedJVM, refinedJS, docs)
+  .aggregate(coreJVM, coreJS, docs)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
   .settings(styleSettings)
   .settings(
-    console <<= console in (refinedJVM, Compile),
+    console <<= console in (coreJVM, Compile),
     parallelExecution in Test in ThisBuild := false
   )
 
-lazy val refined = crossProject.in(file("."))
+lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
+  .settings(moduleName := "refined")
   .settings(commonSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
@@ -21,8 +22,8 @@ lazy val refined = crossProject.in(file("."))
   .jvmSettings(myDoctestSettings: _*)
   .jsSettings(scalaJSStage in Test := FastOptStage)
 
-lazy val refinedJVM = refined.jvm
-lazy val refinedJS = refined.js
+lazy val coreJVM = core.jvm
+lazy val coreJS = core.js
 
 lazy val docs = project
   .settings(moduleName := "refined-docs")
@@ -34,7 +35,7 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
-  .dependsOn(refinedJVM)
+  .dependsOn(coreJVM)
 
 val rootPkg = "eu.timepit.refined"
 val gitPubUrl = "https://github.com/fthomas/refined.git"
@@ -179,7 +180,7 @@ lazy val releaseSettings = {
       tagRelease,
       publishArtifacts,
       releaseStepTask(bintraySyncMavenCentral),
-      releaseStepTask(GhPagesKeys.pushSite in "refinedJVM"),
+      releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
       setNextVersion,
       commitNextVersion,
       pushChanges
@@ -229,10 +230,10 @@ lazy val styleSettings =
 
 addCommandAlias("validate", Seq(
   "clean",
-  "refinedJS/test",
+  "coreJS/test",
   "coverage",
   "compile",
-  "refinedJVM/test",
+  "coreJVM/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

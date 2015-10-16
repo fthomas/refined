@@ -46,7 +46,7 @@ lazy val commonSettings =
 
 lazy val projectSettings = Seq(
   name := "refined",
-  description := "Refinement types for Scala",
+  description := "Simple refinement types for Scala",
 
   organization := "eu.timepit",
   homepage := Some(url("https://github.com/fthomas/refined")),

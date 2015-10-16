@@ -8,14 +8,14 @@ import shapeless.Witness
 
 object stringArbitrary {
 
-  implicit def arbEndsWith[F[_, _], S <: String](
+  implicit def endsWithArbitrary[F[_, _], S <: String](
     implicit
     rt: RefType[F],
     ws: Witness.Aux[S]
   ): Arbitrary[F[String, EndsWith[S]]] =
     Arbitrary(Arbitrary.arbString.arbitrary.map(_ + ws.value).map(rt.unsafeWrap))
 
-  implicit def arbStartsWith[F[_, _], S <: String](
+  implicit def startsWithArbitrary[F[_, _], S <: String](
     implicit
     rt: RefType[F],
     ws: Witness.Aux[S]

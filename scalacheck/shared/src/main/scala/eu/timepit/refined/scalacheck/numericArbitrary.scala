@@ -8,7 +8,7 @@ import shapeless.Witness
 
 object numericArbitrary {
 
-  implicit def arbLess[F[_, _], T, N <: T](
+  implicit def lessArbitrary[F[_, _], T, N <: T](
     implicit
     rt: RefType[F],
     wn: Witness.Aux[N],
@@ -18,7 +18,7 @@ object numericArbitrary {
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 
-  implicit def arbGreater[F[_, _], T, N <: T](
+  implicit def greaterArbitrary[F[_, _], T, N <: T](
     implicit
     rt: RefType[F],
     wn: Witness.Aux[N],
@@ -29,7 +29,7 @@ object numericArbitrary {
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 
-  implicit def arbInterval[F[_, _], T, L <: T, H <: T](
+  implicit def intervalArbitrary[F[_, _], T, L <: T, H <: T](
     implicit
     rt: RefType[F],
     wl: Witness.Aux[L],

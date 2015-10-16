@@ -231,7 +231,7 @@ lazy val miscSettings = Seq(
   """,
 
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-  buildInfoPackage := s"$rootPkg"
+  buildInfoPackage := s"$rootPkg.internal"
 )
 
 lazy val myDoctestSettings =

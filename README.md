@@ -160,11 +160,17 @@ The latest version of the library is 0.3.0, which is available for Scala and
 
 If you're using SBT, add the following to your build:
 
-    libraryDependencies += "eu.timepit" %% "refined" % "0.3.0"
+    libraryDependencies ++= Seq(
+      "eu.timepit" %% "refined"            % "0.3.0",
+      "eu.timepit" %% "refined-scalacheck" % "0.3.0" // optional
+    )
 
 Or for Scala.js:
 
-    libraryDependencies += "eu.timepit" %%% "refined" % "0.3.0"
+    libraryDependencies ++= Seq(
+      "eu.timepit" %%% "refined"            % "0.3.0",
+      "eu.timepit" %%% "refined-scalacheck" % "0.3.0" // optional
+    )
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 

@@ -74,6 +74,18 @@ This mechanism allows to pass values of more specific types (e.g. `Int @@ Greate
 to functions that take a more general type (e.g. `Int @@ Positive`) without manual
 intervention.
 
+## Table of contents
+
+- [More examples](#more-examples)
+- [Using refined](#using-refined)
+- [Documentation](#documentation)
+- [Provided predicates](#provided-predicates)
+- [Contributors and participation](#contributors-and-participation)
+- [Projects using refined](#projects-using-refined)
+- [Performance concerns](#performance-concerns)
+- [Related projects](#related-projects)
+- [License](#license)
+
 ## More examples
 
 ```scala

@@ -162,15 +162,10 @@ If you're using SBT, add the following to your build:
 
     libraryDependencies ++= Seq(
       "eu.timepit" %% "refined"            % "0.3.0",
-      "eu.timepit" %% "refined-scalacheck" % "0.3.0" // optional
+      "eu.timepit" %% "refined-scalacheck" % "0.3.0" % "test" // optional
     )
 
-Or for Scala.js:
-
-    libraryDependencies ++= Seq(
-      "eu.timepit" %%% "refined"            % "0.3.0",
-      "eu.timepit" %%% "refined-scalacheck" % "0.3.0" // optional
-    )
+For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 

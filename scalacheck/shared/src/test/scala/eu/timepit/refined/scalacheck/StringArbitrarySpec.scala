@@ -2,19 +2,14 @@ package eu.timepit.refined
 package scalacheck
 
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
 import eu.timepit.refined.scalacheck.stringArbitrary._
+import eu.timepit.refined.scalacheck.TestUtils._
 import eu.timepit.refined.string.{ EndsWith, StartsWith }
-import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class StringArbitrarySpec extends Properties("StringArbitrary") {
 
-  property("EndsWith") = forAll { (s: String Refined EndsWith[W.`"abc"`.T]) =>
-    s.endsWith("abc")
-  }
+  property("EndsWith") = checkArbitrary[Refined, String, EndsWith[W.`"abc"`.T]]
 
-  property("StartsWith") = forAll { (s: String Refined StartsWith[W.`"abc"`.T]) =>
-    s.startsWith("abc")
-  }
+  property("StartsWith") = checkArbitrary[Refined, String, StartsWith[W.`"abc"`.T]]
 }

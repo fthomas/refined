@@ -20,7 +20,9 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("Greater.negative") = checkArbitrary[Refined, Int, Greater[W.`-100`.T]]
 
-  property("Interval") = checkArbitrary[Refined, Int, Interval[W.`0`.T, W.`100`.T]]
+  property("Interval.Int") = checkArbitrary[Refined, Int, Interval[W.`23`.T, W.`42`.T]]
+
+  property("Interval.Double") = checkArbitrary[Refined, Double, Interval[W.`2.71828`.T, W.`3.14159`.T]]
 
   property("Interval.alias") = forAll { m: Minute =>
     m >= 0 && m <= 59

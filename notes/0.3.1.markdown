@@ -6,3 +6,5 @@
 
 [#58]: https://github.com/fthomas/refined/issues/58
 [scalacheck]: http://scalacheck.org/
+
+Released on 2015-10-17

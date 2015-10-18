@@ -45,8 +45,10 @@ lazy val scalacheck = crossProject
   .settings(moduleName := "refined-scalacheck")
   .settings(commonSettings: _*)
   .settings(publishSettings: _*)
+  .settings(releaseSettings: _*)
   .settings(styleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
+  .jsSettings(scalaJSStage in Test := FastOptStage)
   .dependsOn(core)
 
 lazy val scalacheckJVM = scalacheck.jvm

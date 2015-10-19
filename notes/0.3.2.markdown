@@ -3,3 +3,4 @@
 * Add an `anyArbitrary` module which provides `Arbitrary` instances for
   any refined type by using an `Arbitrary` of the base type and a
   `Validate` of the refinement's predicate to pick only valid values.
+* Add `Arbitrary` instances for `LessEqual` and `GreaterEqual`.

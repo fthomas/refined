@@ -2,7 +2,7 @@ package eu.timepit.refined
 package scalacheck
 
 import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric.{ Greater, Interval, Less }
+import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalacheck.numericArbitrary._
 import eu.timepit.refined.scalacheck.TestUtils._
 import eu.timepit.refined.util.time.Minute
@@ -15,9 +15,17 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("Less.negative") = checkArbitrary[Int, Less[W.`-100`.T]]
 
+  property("LessEqual.positive") = checkArbitrary[Int, LessEqual[W.`42`.T]]
+
+  property("LessEqual.negative") = checkArbitrary[Int, LessEqual[W.`-42`.T]]
+
   property("Greater.positive") = checkArbitrary[Int, Greater[W.`100`.T]]
 
   property("Greater.negative") = checkArbitrary[Int, Greater[W.`-100`.T]]
+
+  property("GreaterEqual.positive") = checkArbitrary[Int, GreaterEqual[W.`123456`.T]]
+
+  property("GreaterEqual.negative") = checkArbitrary[Int, GreaterEqual[W.`-123456`.T]]
 
   property("Interval.Int") = checkArbitrary[Int, Interval[W.`23`.T, W.`42`.T]]
 

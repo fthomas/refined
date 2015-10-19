@@ -2,7 +2,7 @@ package eu.timepit.refined
 package scalacheck
 
 import eu.timepit.refined.api.RefType
-import eu.timepit.refined.numeric.{ Greater, Interval, Less }
+import eu.timepit.refined.numeric._
 import org.scalacheck.{ Arbitrary, Gen }
 import shapeless.Witness
 
@@ -12,9 +12,21 @@ object numericArbitrary {
     implicit
     rt: RefType[F],
     wn: Witness.Aux[N],
-    nt: Numeric[T], c: Gen.Choose[T]
+    nt: Numeric[T],
+    c: Gen.Choose[T]
   ): Arbitrary[F[T, Less[N]]] = {
     val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), nt.minus(wn.value, nt.one))
+    Arbitrary(gen.map(rt.unsafeWrap))
+  }
+
+  implicit def lessEqualArbitrary[F[_, _], T, N <: T](
+    implicit
+    rt: RefType[F],
+    wn: Witness.Aux[N],
+    nt: Numeric[T],
+    c: Gen.Choose[T]
+  ): Arbitrary[F[T, LessEqual[N]]] = {
+    val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), wn.value)
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 
@@ -26,6 +38,17 @@ object numericArbitrary {
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Greater[N]]] = {
     val gen = Gen.chooseNum(nt.plus(wn.value, nt.one), nt.fromInt(Int.MaxValue))
+    Arbitrary(gen.map(rt.unsafeWrap))
+  }
+
+  implicit def greaterEqualArbitrary[F[_, _], T, N <: T](
+    implicit
+    rt: RefType[F],
+    wn: Witness.Aux[N],
+    nt: Numeric[T],
+    c: Gen.Choose[T]
+  ): Arbitrary[F[T, GreaterEqual[N]]] = {
+    val gen = Gen.chooseNum(wn.value, nt.fromInt(Int.MaxValue))
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 

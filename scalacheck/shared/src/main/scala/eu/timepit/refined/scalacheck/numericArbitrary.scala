@@ -15,7 +15,7 @@ object numericArbitrary {
     nt: Numeric[T],
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Less[N]]] = {
-    val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), nt.minus(wn.value, nt.one))
+    val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), wn.value).filter(nt.lt(_, wn.value))
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 
@@ -37,7 +37,7 @@ object numericArbitrary {
     nt: Numeric[T],
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Greater[N]]] = {
-    val gen = Gen.chooseNum(nt.plus(wn.value, nt.one), nt.fromInt(Int.MaxValue))
+    val gen = Gen.chooseNum(wn.value, nt.fromInt(Int.MaxValue)).filter(nt.gt(_, wn.value))
     Arbitrary(gen.map(rt.unsafeWrap))
   }
 

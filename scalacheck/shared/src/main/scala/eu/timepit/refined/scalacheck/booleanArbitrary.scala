@@ -15,6 +15,6 @@ object booleanArbitrary {
   ): Arbitrary[F[T, A Or B]] = {
     val genA = arbA.arbitrary.map(rt.unwrap)
     val genB = arbB.arbitrary.map(rt.unwrap)
-    Arbitrary(Gen.oneOf(genA, genB).map(rt.unsafeWrap))
+    arbitraryRefType(Gen.oneOf(genA, genB))
   }
 }

@@ -7,15 +7,15 @@ import org.scalacheck.{ Arbitrary, Gen }
 
 object charArbitrary {
 
-  implicit def digitArbitrary[F[_, _]](implicit rt: RefType[F]): Arbitrary[F[Char, Digit]] =
-    Arbitrary(Gen.numChar.map(rt.unsafeWrap))
+  implicit def digitArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Digit]] =
+    arbitraryRefType(Gen.numChar)
 
-  implicit def letterArbitrary[F[_, _]](implicit rt: RefType[F]): Arbitrary[F[Char, Letter]] =
-    Arbitrary(Gen.alphaChar.map(rt.unsafeWrap))
+  implicit def letterArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Letter]] =
+    arbitraryRefType(Gen.alphaChar)
 
-  implicit def lowerCaseArbitrary[F[_, _]](implicit rt: RefType[F]): Arbitrary[F[Char, LowerCase]] =
-    Arbitrary(Gen.alphaLowerChar.map(rt.unsafeWrap))
+  implicit def lowerCaseArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, LowerCase]] =
+    arbitraryRefType(Gen.alphaLowerChar)
 
-  implicit def upperCaseArbitrary[F[_, _]](implicit rt: RefType[F]): Arbitrary[F[Char, UpperCase]] =
-    Arbitrary(Gen.alphaUpperChar.map(rt.unsafeWrap))
+  implicit def upperCaseArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, UpperCase]] =
+    arbitraryRefType(Gen.alphaUpperChar)
 }

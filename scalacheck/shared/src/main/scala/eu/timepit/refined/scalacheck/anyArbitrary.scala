@@ -12,5 +12,5 @@ object anyArbitrary {
     v: Validate[T, P],
     arb: Arbitrary[T]
   ): Arbitrary[F[T, P]] =
-    Arbitrary(arb.arbitrary.filter(v.isValid).map(rt.unsafeWrap))
+    arbitraryRefType(arb.arbitrary.filter(v.isValid))
 }

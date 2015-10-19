@@ -16,7 +16,7 @@ object numericArbitrary {
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Less[N]]] = {
     val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), wn.value).filter(nt.lt(_, wn.value))
-    Arbitrary(gen.map(rt.unsafeWrap))
+    arbitraryRefType(gen)
   }
 
   implicit def lessEqualArbitrary[F[_, _], T, N <: T](
@@ -27,7 +27,7 @@ object numericArbitrary {
     c: Gen.Choose[T]
   ): Arbitrary[F[T, LessEqual[N]]] = {
     val gen = Gen.chooseNum(nt.fromInt(Int.MinValue), wn.value)
-    Arbitrary(gen.map(rt.unsafeWrap))
+    arbitraryRefType(gen)
   }
 
   implicit def greaterArbitrary[F[_, _], T, N <: T](
@@ -38,7 +38,7 @@ object numericArbitrary {
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Greater[N]]] = {
     val gen = Gen.chooseNum(wn.value, nt.fromInt(Int.MaxValue)).filter(nt.gt(_, wn.value))
-    Arbitrary(gen.map(rt.unsafeWrap))
+    arbitraryRefType(gen)
   }
 
   implicit def greaterEqualArbitrary[F[_, _], T, N <: T](
@@ -49,7 +49,7 @@ object numericArbitrary {
     c: Gen.Choose[T]
   ): Arbitrary[F[T, GreaterEqual[N]]] = {
     val gen = Gen.chooseNum(wn.value, nt.fromInt(Int.MaxValue))
-    Arbitrary(gen.map(rt.unsafeWrap))
+    arbitraryRefType(gen)
   }
 
   implicit def intervalArbitrary[F[_, _], T, L <: T, H <: T](
@@ -60,5 +60,5 @@ object numericArbitrary {
     nt: Numeric[T],
     c: Gen.Choose[T]
   ): Arbitrary[F[T, Interval[L, H]]] =
-    Arbitrary(Gen.chooseNum(wl.value, wh.value).map(rt.unsafeWrap))
+    arbitraryRefType(Gen.chooseNum(wl.value, wh.value))
 }

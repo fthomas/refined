@@ -13,12 +13,12 @@ object stringArbitrary {
     rt: RefType[F],
     ws: Witness.Aux[S]
   ): Arbitrary[F[String, EndsWith[S]]] =
-    Arbitrary(Arbitrary.arbString.arbitrary.map(_ + ws.value).map(rt.unsafeWrap))
+    arbitraryRefType(Arbitrary.arbString.arbitrary.map(_ + ws.value))
 
   implicit def startsWithArbitrary[F[_, _], S <: String](
     implicit
     rt: RefType[F],
     ws: Witness.Aux[S]
   ): Arbitrary[F[String, StartsWith[S]]] =
-    Arbitrary(Arbitrary.arbString.arbitrary.map(ws.value + _).map(rt.unsafeWrap))
+    arbitraryRefType(Arbitrary.arbString.arbitrary.map(ws.value + _))
 }

@@ -1,12 +1,12 @@
 package eu.timepit.refined
 package scalacheck
 
-import eu.timepit.refined.api.{ RefType, Validate }
-import org.scalacheck.Arbitrary
+import eu.timepit.refined.api.{ Refined, Validate }
 import org.scalacheck.Prop._
+import org.scalacheck.{ Arbitrary, Prop }
 
 object TestUtils {
 
-  def checkArbitrary[F[_, _], T, P](implicit arb: Arbitrary[F[T, P]], rt: RefType[F], v: Validate[T, P]) =
-    forAll((tp: F[T, P]) => v.isValid(rt.unwrap(tp)))
+  def checkArbitrary[T, P](implicit arb: Arbitrary[Refined[T, P]], v: Validate[T, P]): Prop =
+    forAll((tp: Refined[T, P]) => v.isValid(tp.get))
 }

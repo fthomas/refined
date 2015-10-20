@@ -3,7 +3,7 @@ package smt
 
 trait Formula[P] extends Serializable {
 
-  def subFormula(x: String): SubFormula
+  def subFormula(variable: String): SubFormula
 }
 
 object Formula {

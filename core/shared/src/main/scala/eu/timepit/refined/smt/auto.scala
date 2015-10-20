@@ -9,4 +9,6 @@ object auto {
     implicit
     fab: (Formula[A], Formula[B]), rt: RefType[F]
   ): F[T, B] = macro SmtInferM.macroImpl[F, T, A, B]
+
+  //
 }

@@ -8,7 +8,7 @@ import eu.timepit.refined.smt.{ Formula, SubFormula }
 import shapeless.ops.hlist.ToList
 import shapeless.{ ::, HList, HNil }
 
-object boolean extends BooleanValidate with BooleanInference0 {
+object boolean extends BooleanValidate with BooleanInference0 with BooleanSmt2Expr {
 
   /** Constant predicate that is always `true`. */
   case class True()

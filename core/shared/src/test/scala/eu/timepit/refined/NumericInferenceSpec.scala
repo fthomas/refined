@@ -10,7 +10,6 @@ import shapeless.nat._
 
 class NumericInferenceSpec extends Properties("NumericInference") {
 
-  // (=> (< a 7.2) (< a 7.5))
   property("Less[A] ==> Less[B]") = secure {
     Inference[Less[W.`7.2`.T], Less[W.`7.5`.T]].isValid
   }
@@ -92,7 +91,6 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     Inference[Interval[_5, _10], GreaterEqual[_4]].isValid
   }
 
-  // (=> (= a 10) (> a 5))
   property("Equal[Nat] ==> Greater[A]") = secure {
     Inference[Equal[_10], Greater[W.`5`.T]].isValid
   }

@@ -1,0 +1,10 @@
+### Changes
+
+* Add a refined-scalacheck module which provides [ScalaCheck][scalacheck]
+  `Arbitrary` instances of refined types for some of refined's predicates.
+  ([#58])
+
+[#58]: https://github.com/fthomas/refined/issues/58
+[scalacheck]: http://scalacheck.org/
+
+Released on 2015-10-17

@@ -1,5 +1,0 @@
-* Rename the `implicits` object to `auto` since the purpose of the
-  implicit conversions there is to automatically convert base types to
-  refined types. ([#61])
-
-[#61]: https://github.com/fthomas/refined/issues/61

@@ -39,3 +39,5 @@
 [ctorfieldnames]: https://github.com/fthomas/refined/blob/v0.2.0/docs/ctorfieldnames.md
 [type_aliases]:   https://github.com/fthomas/refined/blob/v0.2.0/docs/type_aliases.md
 [utils]:          https://github.com/fthomas/refined/blob/v0.2.0/docs/utils.md
+
+Released on 2015-07-27

@@ -61,3 +61,5 @@ The library comes with these predefined predicates:
 
 [refined.hs]: http://nikita-volkov.github.io/refined
 [shapeless]: https://github.com/milessabin/shapeless
+
+Released on 2015-05-15

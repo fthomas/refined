@@ -2,14 +2,14 @@
 
 ```tut:silent
 import eu.timepit.refined._
+import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-import shapeless.nat._
 ```
 
 ```tut
 type File = Char Refined Interval[W.`'a'`.T, W.`'h'`.T]
-type Rank = Int Refined Interval[_1, _8]
+type Rank = Int Refined Interval[W.`1`.T, W.`8`.T]
 
 case class Square(file: File, rank: Rank)
 ```

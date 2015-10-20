@@ -1,0 +1,33 @@
+### Changes
+
+* Support Scala 2.10. Thanks to Alexandre Archambault! ([#51])
+* Change all predicates so they can hold values of their parameters,
+  e.g. `trait Greater[N]` is now `case class Greater[N](n: N)`. This
+  allows predicates to be represented as values.
+* Add an ADT `Result[A]` which is either `Passed` or `Failed` that
+  represents the result of a validation against a type-level predicate.
+  A `Result[A]` contains some value of type `A` which allows to have
+  arbitrary nested results.
+* Replace the `Predicate` type class with `api.Validate`. `Validate`'s
+  main function is `validate(t: T): Result[R]` which checks if `t`
+  conforms to some type-level predicate. `R` is an abstract type member
+  of `Validate` that represents the detail of the validation result.
+  For plain predicates `R` is the same type as the predicate `P`.
+  For example, ``Validate[Int, Greater[W.`0`.T]].validate(1)`` will
+  return `Passed(Greater(0))`.
+* Rename `InferenceRule` to `Inference` and move `Inference`, `Refined`,
+  and `RefType` into the new `api` package.
+* Rename the `implicits` object to `auto` since the purpose of the
+  implicit conversions there is to automatically convert base types to
+  refined types. ([#61])
+* Add `coflatMapRefine` to `RefType` which is similar to `coflatMap` on
+  a `Comonad`. ([#68])
+* Add `util.time` module with date- and time-related refined types
+  (`Month`, `DayOfMonth`, `Hour`, `Minute`, and `Second`). ([#64])
+
+[#51]: https://github.com/fthomas/refined/pull/51
+[#61]: https://github.com/fthomas/refined/issues/61
+[#64]: https://github.com/fthomas/refined/issues/64
+[#68]: https://github.com/fthomas/refined/pull/68
+
+Released on 2015-10-12

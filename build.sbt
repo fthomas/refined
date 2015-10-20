@@ -1,16 +1,21 @@
 lazy val root = project.in(file("."))
-  .aggregate(refinedJVM, refinedJS, docs)
+  .aggregate(
+    coreJVM,
+    coreJS,
+    docs,
+    scalacheckJVM,
+    scalacheckJS)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
-  .settings(styleSettings)
   .settings(
-    console <<= console in (refinedJVM, Compile),
+    console <<= console in (coreJVM, Compile),
     parallelExecution in Test in ThisBuild := false
   )
 
-lazy val refined = crossProject.in(file("."))
+lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
+  .settings(moduleName := "refined")
   .settings(commonSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
@@ -21,8 +26,8 @@ lazy val refined = crossProject.in(file("."))
   .jvmSettings(myDoctestSettings: _*)
   .jsSettings(scalaJSStage in Test := FastOptStage)
 
-lazy val refinedJVM = refined.jvm
-lazy val refinedJS = refined.js
+lazy val coreJVM = core.jvm
+lazy val coreJS = core.js
 
 lazy val docs = project
   .settings(moduleName := "refined-docs")
@@ -34,11 +39,27 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
-  .dependsOn(refinedJVM)
+  .dependsOn(coreJVM)
+
+lazy val scalacheck = crossProject
+  .settings(moduleName := "refined-scalacheck")
+  .settings(commonSettings: _*)
+  .settings(publishSettings: _*)
+  .settings(releaseSettings: _*)
+  .settings(styleSettings: _*)
+  .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
+  .jsSettings(scalaJSStage in Test := FastOptStage)
+  .dependsOn(core)
+
+lazy val scalacheckJVM = scalacheck.jvm
+lazy val scalacheckJS = scalacheck.js
 
 val rootPkg = "eu.timepit.refined"
 val gitPubUrl = "https://github.com/fthomas/refined.git"
 val gitDevUrl = "git@github.com:fthomas/refined.git"
+
+lazy val shapelessVersion = "2.2.5"
+lazy val scalaCheckVersion = "1.12.5"
 
 lazy val commonSettings =
   projectSettings ++
@@ -46,7 +67,7 @@ lazy val commonSettings =
 
 lazy val projectSettings = Seq(
   name := "refined",
-  description := "Refinement types for Scala",
+  description := "Simple refinement types for Scala",
 
   organization := "eu.timepit",
   homepage := Some(url("https://github.com/fthomas/refined")),
@@ -59,6 +80,7 @@ lazy val projectSettings = Seq(
 
 lazy val compileSettings = Seq(
   scalaVersion := "2.11.7",
+  crossScalaVersions := Seq("2.11.7", "2.10.6"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -68,7 +90,7 @@ lazy val compileSettings = Seq(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-Xfuture",
     "-Xlint",
     //"-Xlog-implicits",
@@ -80,9 +102,17 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    "com.chuusai" %%% "shapeless" % "2.2.5",
-    "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test"
+    "com.chuusai" %%% "shapeless" % shapelessVersion,
+    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),
+
+  libraryDependencies ++= {
+    if (scalaVersion.value startsWith "2.10.")
+      // this is required for shapeless.LabelledGeneric
+      Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full))
+    else
+      Seq.empty
+  },
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
@@ -96,7 +126,7 @@ lazy val compileSettings = Seq(
 
 lazy val scaladocSettings = Seq(
   scalacOptions in (Compile, doc) ++= Seq(
-    "-diagrams",
+    //"-diagrams",
     "-diagrams-debug",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
@@ -128,6 +158,19 @@ lazy val noPublishSettings = Seq(
 lazy val releaseSettings = {
   import ReleaseTransformations._
 
+  lazy val addReleaseDateToReleaseNotes: ReleaseStep = { st: State =>
+    val extracted = Project.extract(st)
+    val newVersion = extracted.get(version)
+    val date = "date +%Y-%m-%d".!!.trim
+    val footer = s"\nReleased on $date\n"
+
+    val notes = s"notes/$newVersion.markdown"
+    IO.append(file(notes), footer)
+    s"git add $notes" !! st.log
+
+    st
+  }
+
   lazy val updateVersionInReadme: ReleaseStep = { st: State =>
     val extracted = Project.extract(st)
     val newVersion = extracted.get(version)
@@ -143,6 +186,7 @@ lazy val releaseSettings = {
   }
 
   Seq(
+    releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -150,12 +194,13 @@ lazy val releaseSettings = {
       runClean,
       runTest,
       setReleaseVersion,
+      addReleaseDateToReleaseNotes,
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
       releaseStepTask(bintraySyncMavenCentral),
-      releaseStepTask(GhPagesKeys.pushSite in "refinedJVM"),
+      releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
       setNextVersion,
       commitNextVersion,
       pushChanges
@@ -172,14 +217,15 @@ lazy val siteSettings =
 lazy val miscSettings = Seq(
   initialCommands := s"""
     import $rootPkg._
+    import $rootPkg.api._
+    import $rootPkg.api.Inference.==>
+    import $rootPkg.api.RefType.ops._
     import $rootPkg.auto._
     import $rootPkg.boolean._
     import $rootPkg.char._
     import $rootPkg.collection._
     import $rootPkg.generic._
-    import $rootPkg.InferenceRule.==>
     import $rootPkg.numeric._
-    import $rootPkg.RefType.ops._
     import $rootPkg.string._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
@@ -187,7 +233,7 @@ lazy val miscSettings = Seq(
   """,
 
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-  buildInfoPackage := s"$rootPkg"
+  buildInfoPackage := s"$rootPkg.internal"
 )
 
 lazy val myDoctestSettings =
@@ -196,18 +242,20 @@ lazy val myDoctestSettings =
 lazy val styleSettings =
   scalariformSettings ++
   Seq(
-    sourceDirectories in (Compile, ScalariformKeys.format) +=
-      baseDirectory.value / "shared/src/main/scala",
-    sourceDirectories in (Test, ScalariformKeys.format) +=
-      baseDirectory.value / "shared/src/test/scala"
+    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
+      (sourceDirectories in Compile).value,
+    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=
+      (sourceDirectories in Test).value
   )
 
 addCommandAlias("validate", Seq(
   "clean",
-  "refinedJS/test",
+  "coreJS/test",
+  "scalacheckJS/test",
   "coverage",
   "compile",
-  "refinedJVM/test",
+  "coreJVM/test",
+  "scalacheckJVM/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

@@ -22,16 +22,16 @@ NameStartChar ::=
 
 ```scala
 import eu.timepit.refined._
+import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.generic._
 import eu.timepit.refined.numeric._
 import shapeless.{ ::, HNil }
-import shapeless.tag.@@
 ```
 
 ```scala
-scala> type NameStartChar = AnyOf[
+scala> type NameStartChar = Char Refined AnyOf[
      |      Equal[W.`':'`.T]
      |   :: Interval[W.`'A'`.T, W.`'Z'`.T]
      |   :: Equal[W.`'_'`.T]
@@ -49,13 +49,13 @@ scala> type NameStartChar = AnyOf[
      |   :: HNil]
 defined type alias NameStartChar
 
-scala> val a: Char @@ NameStartChar = 'Ä'
-a: shapeless.tag.@@[Char,NameStartChar] = Ä
+scala> val a: NameStartChar = 'Ä'
+a: NameStartChar = Refined(Ä)
 ```
 
 ```scala
-scala> val b: Char @@ NameStartChar = ';'
-<console>:29: error: Predicate failed: ((; == :) || ((!(; < A) && !(; > Z)) || ((; == _) || ((!(; < a) && !(; > z)) || ((!(; < À) && !(; > Ö)) || ((!(; < Ø) && !(; > ö)) || ((!(; < ø) && !(; > ˿)) || ((!(; < Ͱ) && !(; > ͽ)) || ((!(; < ‌) && !(; > ‍)) || ((!(; < ⁰) && !(; > ↏)) || ((!(; < Ⰰ) && !(; > ⿯)) || ((!(; < 、) && !(; > ퟿)) || ((!(; < 豈) && !(; > ﷏)) || ((!(; < ﷰ) && !(; > �)) || false)))))))))))))).
-       val b: Char @@ NameStartChar = ';'
-                                      ^
+scala> val b: NameStartChar = ';'
+<console>:29: error: Predicate failed: ((; == :) || (!(; < A) && !(; > Z)) || (; == _) || (!(; < a) && !(; > z)) || (!(; < À) && !(; > Ö)) || (!(; < Ø) && !(; > ö)) || (!(; < ø) && !(; > ˿)) || (!(; < Ͱ) && !(; > ͽ)) || (!(; < ‌) && !(; > ‍)) || (!(; < ⁰) && !(; > ↏)) || (!(; < Ⰰ) && !(; > ⿯)) || (!(; < 、) && !(; > ퟿)) || (!(; < 豈) && !(; > ﷏)) || (!(; < ﷰ) && !(; > �)) || false).
+       val b: NameStartChar = ';'
+                              ^
 ```

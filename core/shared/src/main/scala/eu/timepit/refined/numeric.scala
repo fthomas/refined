@@ -4,6 +4,7 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
+import eu.timepit.refined.smt.Formula
 import shapeless.nat._
 import shapeless.ops.nat.ToInt
 import shapeless.{ Nat, Witness }
@@ -27,7 +28,7 @@ import shapeless.{ Nat, Witness }
  * res2: Double @@ Greater[W.`1.5`.T] = 1.6
  * }}}
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericValidate with NumericInference with NumericShowExpr {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   case class Less[N](n: N)
@@ -121,4 +122,14 @@ private[refined] trait NumericInference {
     wa: Witness.Aux[A], tb: ToInt[B], nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
+}
+
+private[refined] trait NumericShowExpr {
+
+  implicit def lessSmt2ExprWit[T, N <: T](implicit wn: Witness.Aux[N]): Formula[Less[N]] =
+    Formula.simple(x => s"(< $x ${wn.value})")
+
+  implicit def greaterSmt2ExprWit[T, N <: T](implicit wn: Witness.Aux[N]): Formula[Greater[N]] =
+    Formula.simple(x => s"(> $x ${wn.value})")
+
 }

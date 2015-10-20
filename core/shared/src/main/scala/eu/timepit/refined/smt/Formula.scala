@@ -1,7 +1,6 @@
 package eu.timepit.refined
 package smt
 
-
 trait Formula[P] extends Serializable {
 
   def subFormula(x: String): SubFormula
@@ -20,7 +19,7 @@ object Formula {
     instance(x => SubFormula(f(x)))
 
   implicit def default[P]: Formula[P] =
-      instance(x => SubFormula("", List("")))
+    instance(x => SubFormula("", List("")))
 
   implicit def pair[A, B](implicit fa: Formula[A], fb: Formula[B]): (Formula[A], Formula[B]) =
     (fa, fb)

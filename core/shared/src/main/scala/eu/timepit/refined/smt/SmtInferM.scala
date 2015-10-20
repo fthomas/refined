@@ -1,15 +1,16 @@
 package eu.timepit.refined
 package smt
 
+import eu.timepit.refined.api.RefType
 import eu.timepit.refined.internal.MacroUtils
 
-import scala.reflect.macros.blackbox
+import scala.reflect.macros.Context
 
 object SmtInferM {
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]])(
+  def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[F[T, A]])(
     fab: c.Expr[(Formula[A], Formula[B])], rt: c.Expr[RefType[F]]
-    ): c.Expr[F[T, B]] = {
+  ): c.Expr[F[T, B]] = {
     import c.universe._
     //println("in SmtInferM")
 

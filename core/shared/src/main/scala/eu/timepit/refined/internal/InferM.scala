@@ -4,11 +4,11 @@ package internal
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.RefType
 
-import scala.reflect.macros.Context
+import scala.reflect.macros.blackbox
 
 object InferM {
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[F[T, A]])(
+  def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]])(
     ir: c.Expr[A ==> B], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, B]] = {
     import c.universe._

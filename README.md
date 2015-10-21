@@ -14,25 +14,30 @@ A quick example:
 
 ```scala
 import eu.timepit.refined._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
+import shapeless.tag.@@
 
-// refineMT decorates the type of its parameter if it satisfies the
-// given type-level predicate:
+// This refines Int with the Positive predicate and checks via an
+// implicit macro that the assigned value satisfies it:
+val i1: Int @@ Positive = 5
+i1: Int @@ Positive = 5
+
+// If the value does not satisfy the predicate, we get a meaningful
+// compile error:
+val i2: Int @@ Positive = -5
+<console>:21: error: Predicate failed: (-5 > 0).
+       val i2: Int @@ Positive = -5
+                                  ^
+
+// There is also the explicit refineMT macro that can infer the base
+// type from its parameter:
 scala> refineMT[Positive](5)
 res0: Int @@ Positive = 5
 
-// The type Int @@ Positive is the type of all Int values that are
-// greater than zero.
-
-// If the parameter does not satisfy the predicate, we get a meaningful
-// compile error:
-scala> refineMT[Positive](-5)
-<console>:34: error: Predicate failed: (-5 > 0).
-              refineMT[Positive](-5)
-                                ^
-
-// refineMT is a macro and only works with literals. To validate
-// arbitrary (runtime) values we can use the refineT function:
+// Macros can only validate literals because their values are known at
+// compile-time. To validate arbitrary (runtime) values we can use the
+// refineT function:
 scala> refineT[Positive](5)
 res1: Either[String, Int @@ Positive] = Right(5)
 
@@ -40,9 +45,8 @@ scala> refineT[Positive](-5)
 res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
-Note that `@@` is [shapeless'][shapeless] type for tagging types which has
-the nice property of being a subtype of its first type parameter (i.e.
-`(T @@ P) <: T`).
+`@@` is [shapeless'][shapeless] type for tagging types which has the nice
+property of being a subtype of its first type parameter (i.e. `(T @@ P) <: T`).
 
 *refined* also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted
@@ -51,11 +55,9 @@ The type conversion of refined types is a compile-time operation that is
 provided by the library:
 
 ```scala
-import eu.timepit.refined.auto._
 import shapeless.nat._
-import shapeless.tag.@@
 
-scala> val a: Int @@ Greater[_5] = refineMT(10)
+scala> val a: Int @@ Greater[_5] = 10
 a: Int @@ Greater[_5] = 10
 
 // Since every value greater than 5 is also greater than 4, a can be ascribed
@@ -120,9 +122,6 @@ scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
               refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-// The auto object contains an implicit version of refineMT which is used
-// here to validate that the right-hand side equals '3' (obviously there is
-// only one value satisfying this predicate):
 scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
 d1: Char @@ Equal[Char('3')] = 3
 

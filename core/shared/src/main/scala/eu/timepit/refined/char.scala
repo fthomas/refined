@@ -3,8 +3,9 @@ package eu.timepit.refined
 import eu.timepit.refined.api.Validate
 import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.char._
+import eu.timepit.refined.smt.{SubFormula, Formula}
 
-object char extends CharValidate {
+object char extends CharValidate with CharSmt {
 
   /** Predicate that checks if a `Char` is a digit. */
   case class Digit()
@@ -41,4 +42,10 @@ private[refined] trait CharValidate {
 
   implicit def whitespaceValidate: Validate.Plain[Char, Whitespace] =
     Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
+}
+
+private[refined] trait CharSmt {
+
+  implicit def digitFormula: Formula[Digit] =
+    Formula.instance(x => SubFormula(s"isDigit($x)", List("(declare-sort Char 0)", "(declare-fun isDigit (Char) Bool)")))
 }

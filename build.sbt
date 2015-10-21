@@ -138,7 +138,7 @@ lazy val compileSettings = Seq(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    //"-Xfatal-warnings",
+    "-Xfatal-warnings",
     "-Xfuture",
     "-Xlint",
     //"-Xlog-implicits",
@@ -150,17 +150,11 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+    compilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full),
+    "org.typelevel" %%% "macro-compat" % "1.0.3",
     "com.chuusai" %%% "shapeless" % shapelessVersion,
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),
-
-  libraryDependencies ++= {
-    if (scalaVersion.value startsWith "2.10.")
-      // this is required for shapeless.LabelledGeneric
-      Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full))
-    else
-      Seq.empty
-  },
 
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,

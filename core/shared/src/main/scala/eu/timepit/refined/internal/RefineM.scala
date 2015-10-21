@@ -3,11 +3,11 @@ package internal
 
 import eu.timepit.refined.api.{ RefType, Validate }
 
-import scala.reflect.macros.Context
+import scala.reflect.macros.blackbox
 
 object RefineM {
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T])(
+  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T])(
     v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, P]] = {
     import c.universe._

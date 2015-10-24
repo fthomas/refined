@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package api
 
-import eu.timepit.refined.internal.{ RefineAux, RefineMAux }
+import eu.timepit.refined.internal.{ ApplyRefAux, RefineAux, RefineMAux }
 import shapeless.tag.@@
 
 import scala.reflect.macros.Context
@@ -78,7 +78,12 @@ trait RefType[F[_, _]] extends Serializable {
 
 object RefType {
 
+  /** Returns a `RefType` for the given type `F` from the implicit scope. */
   def apply[F[_, _]](implicit rt: RefType[F]): RefType[F] = rt
+
+  /** TODO */
+  def applyRef[FTP]: ApplyRefAux[FTP] =
+    new ApplyRefAux
 
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {

@@ -59,6 +59,11 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
   property("implicit unwrap") = secure {
     rt.refine[Positive](5).right.map(_ + 1) == Right(6)
   }
+
+  property("refine ~= RefType.applyRef") = forAll { (i: Int) =>
+    type PosInt = F[Int, Positive]
+    rt.refine[Positive](i) ?= RefType.applyRef[PosInt](i)
+  }
 }
 
 class RefTypeSpecRefined extends RefTypeProperties[Refined]("Refined")

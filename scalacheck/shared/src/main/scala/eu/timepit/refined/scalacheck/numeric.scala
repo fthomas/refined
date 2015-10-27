@@ -6,7 +6,7 @@ import eu.timepit.refined.numeric._
 import org.scalacheck.{ Arbitrary, Gen }
 import shapeless.Witness
 
-object numericArbitrary {
+object numeric {
 
   implicit def lessArbitrary[F[_, _], T, N <: T](
     implicit

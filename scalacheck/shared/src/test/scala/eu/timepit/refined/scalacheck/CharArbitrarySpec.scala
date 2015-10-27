@@ -3,8 +3,8 @@ package scalacheck
 
 import eu.timepit.refined.char._
 import eu.timepit.refined.scalacheck.TestUtils._
-import eu.timepit.refined.scalacheck.booleanArbitrary._
-import eu.timepit.refined.scalacheck.charArbitrary._
+import eu.timepit.refined.scalacheck.boolean._
+import eu.timepit.refined.scalacheck.char._
 import org.scalacheck.Properties
 
 class CharArbitrarySpec extends Properties("CharArbitrarySpec") {

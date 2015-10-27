@@ -17,5 +17,7 @@ class CharArbitrarySpec extends Properties("CharArbitrarySpec") {
 
   property("UpperCase") = checkArbitrary[Char, UpperCase]
 
+  property("Whitespace") = checkArbitrary[Char, Whitespace]
+
   property("LetterOrDigit") = checkArbitrary[Char, LetterOrDigit]
 }

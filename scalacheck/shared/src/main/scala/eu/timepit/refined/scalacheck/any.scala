@@ -4,7 +4,7 @@ package scalacheck
 import eu.timepit.refined.api.{ RefType, Validate }
 import org.scalacheck.Arbitrary
 
-object anyArbitrary {
+object any {
 
   implicit def arbitraryFromValidate[F[_, _], T, P](
     implicit

@@ -5,7 +5,7 @@ import eu.timepit.refined.api.RefType
 import eu.timepit.refined.boolean.Or
 import org.scalacheck.{ Arbitrary, Gen }
 
-object booleanArbitrary {
+object boolean {
 
   implicit def orArbitrary[F[_, _], T, A, B](
     implicit

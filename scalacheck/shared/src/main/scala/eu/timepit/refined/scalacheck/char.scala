@@ -5,7 +5,7 @@ import eu.timepit.refined.api.RefType
 import eu.timepit.refined.char.{ Digit, Letter, LowerCase, UpperCase }
 import org.scalacheck.{ Arbitrary, Gen }
 
-object charArbitrary {
+object char {
 
   implicit def digitArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Digit]] =
     arbitraryRefType(Gen.numChar)

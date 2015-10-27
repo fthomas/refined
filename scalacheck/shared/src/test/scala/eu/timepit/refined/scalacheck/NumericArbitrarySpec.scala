@@ -3,8 +3,8 @@ package scalacheck
 
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.scalacheck.numericArbitrary._
 import eu.timepit.refined.scalacheck.TestUtils._
+import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.util.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

@@ -5,9 +5,11 @@
   ``type Minute = Int Refined Interval[W.`0`.T, W.`59`.T]`` more
   convenient because one can use `Minute` as parameter for `applyRef`,
   e.g. `applyRef[Minute](45)`. ([#78])
-* Add an `anyArbitrary` module which provides `Arbitrary` instances for
-  any refined type by using an `Arbitrary` of the base type and a
-  `Validate` of the refinement's predicate to pick only valid values.
+* Add an `any` module which provides `Arbitrary` instances for any
+  refined type by using an `Arbitrary` of the base type and a `Validate`
+  of the refinement's predicate to pick only valid values.
 * Add `Arbitrary` instances for `LessEqual` and `GreaterEqual`.
+* Remove the `Arbitrary` suffix from modules providing `Arbitrary`
+  instances. 
 
 [#78]: https://github.com/fthomas/refined/issues/78

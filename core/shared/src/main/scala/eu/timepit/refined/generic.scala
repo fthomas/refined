@@ -9,10 +9,16 @@ import shapeless.ops.hlist.ToList
 import shapeless.ops.nat.ToInt
 import shapeless.ops.record.Keys
 
+import scala.reflect.runtime.currentMirror
+import scala.tools.reflect.ToolBox
+
 object generic extends GenericValidate with GenericInference {
 
   /** Predicate that checks if a value is equal to `U`. */
   case class Equal[U](u: U)
+
+  /** Predicate that checks if a value applied to the predicate `S` yields `true`. */
+  case class Eval[S](s: S)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
   case class ConstructorNames[P](p: P)
@@ -40,6 +46,13 @@ private[refined] trait GenericValidate {
     tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
   ): Validate.Plain[T, Equal[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+
+  implicit def evalValidate[T, S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[T, Eval[S]] = {
+    val toolBox = currentMirror.mkToolBox()
+    val tree = toolBox.parse(ws.value)
+    val predicate = toolBox.eval(tree).asInstanceOf[T => Boolean]
+    Validate.fromPredicate(predicate, _ => ws.value, Eval(ws.value))
+  }
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
     implicit

@@ -17,7 +17,7 @@ object generic extends GenericValidate with GenericInference {
   /** Predicate that checks if a value is equal to `U`. */
   case class Equal[U](u: U)
 
-  /** Predicate that checks if a value applied to the predicate `S` yields true. */
+  /** Predicate that checks if a value applied to the predicate `S` yields `true`. */
   case class Eval[S](s: S)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */

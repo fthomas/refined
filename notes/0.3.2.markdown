@@ -13,4 +13,11 @@
 * Remove the `Arbitrary` suffix from modules providing `Arbitrary`
   instances. 
 
+### New predicates
+
+[`generic`](https://github.com/fthomas/refined/blob/v0.3.2/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
+
+* `Eval[S]`: checks if a value applied to the predicate `S` yields `true` ([#82])
+
 [#78]: https://github.com/fthomas/refined/issues/78
+[#82]: https://github.com/fthomas/refined/pull/82

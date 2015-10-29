@@ -52,13 +52,43 @@ object numeric {
     arbitraryRefType(gen)
   }
 
-  implicit def intervalArbitrary[F[_, _], T, L <: T, H <: T](
+  implicit def intervalOpenArbitrary[F[_, _], T, L <: T, H <: T](
     implicit
     rt: RefType[F],
     wl: Witness.Aux[L],
     wh: Witness.Aux[H],
     nt: Numeric[T],
     c: Gen.Choose[T]
-  ): Arbitrary[F[T, Interval[L, H]]] =
+  ): Arbitrary[F[T, Interval.Open[L, H]]] =
+    arbitraryRefType(Gen.chooseNum(wl.value, wh.value).filter(t => nt.gt(t, wl.value) && nt.lt(t, wh.value)))
+
+  implicit def intervalOpenClosedArbitrary[F[_, _], T, L <: T, H <: T](
+    implicit
+    rt: RefType[F],
+    wl: Witness.Aux[L],
+    wh: Witness.Aux[H],
+    nt: Numeric[T],
+    c: Gen.Choose[T]
+  ): Arbitrary[F[T, Interval.OpenClosed[L, H]]] =
+    arbitraryRefType(Gen.chooseNum(wl.value, wh.value).filter(t => nt.gt(t, wl.value)))
+
+  implicit def intervalClosedOpenArbitrary[F[_, _], T, L <: T, H <: T](
+    implicit
+    rt: RefType[F],
+    wl: Witness.Aux[L],
+    wh: Witness.Aux[H],
+    nt: Numeric[T],
+    c: Gen.Choose[T]
+  ): Arbitrary[F[T, Interval.ClosedOpen[L, H]]] =
+    arbitraryRefType(Gen.chooseNum(wl.value, wh.value).filter(t => nt.lt(t, wh.value)))
+
+  implicit def intervalClosedArbitrary[F[_, _], T, L <: T, H <: T](
+    implicit
+    rt: RefType[F],
+    wl: Witness.Aux[L],
+    wh: Witness.Aux[H],
+    nt: Numeric[T],
+    c: Gen.Choose[T]
+  ): Arbitrary[F[T, Interval.Closed[L, H]]] =
     arbitraryRefType(Gen.chooseNum(wl.value, wh.value))
 }

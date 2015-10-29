@@ -27,9 +27,13 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("GreaterEqual.negative") = checkArbitrary[Int, GreaterEqual[W.`-123456`.T]]
 
-  property("Interval.Int") = checkArbitrary[Int, Interval[W.`23`.T, W.`42`.T]]
+  property("Interval.Open") = checkArbitrary[Int, Interval.Open[W.`-23`.T, W.`42`.T]]
 
-  property("Interval.Double") = checkArbitrary[Double, Interval[W.`2.71828`.T, W.`3.14159`.T]]
+  property("Interval.OpenClosed") = checkArbitrary[Double, Interval.OpenClosed[W.`2.71828`.T, W.`3.14159`.T]]
+
+  property("Interval.ClosedOpen") = checkArbitrary[Double, Interval.ClosedOpen[W.`-2.71828`.T, W.`3.14159`.T]]
+
+  property("Interval.Closed") = checkArbitrary[Int, Interval.Closed[W.`23`.T, W.`42`.T]]
 
   property("Interval.alias") = forAll { m: Minute =>
     m >= 0 && m <= 59

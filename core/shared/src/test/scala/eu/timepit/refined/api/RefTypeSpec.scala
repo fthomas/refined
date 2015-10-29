@@ -31,8 +31,8 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
     rt.refine[Greater[_5]](6).isRight
   }
 
-  property("refine failure with Interval") = secure {
-    rt.refine[Interval[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
+  property("refine failure with Interval.Closed") = secure {
+    rt.refine[Interval.Closed[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
   }
 
   property("refine failure with Forall") = secure {

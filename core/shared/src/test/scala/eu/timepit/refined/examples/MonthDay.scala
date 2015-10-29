@@ -20,7 +20,7 @@ object MonthDay extends App {
     type LastDay = W.`28`.T
   }
 
-  def printMonthDay(month: Month)(day: Int Refined Interval[W.`1`.T, month.LastDay]) =
+  def printMonthDay(month: Month)(day: Int Refined Interval.Closed[W.`1`.T, month.LastDay]) =
     println(s"$month.$day")
 
   printMonthDay(January)(31)

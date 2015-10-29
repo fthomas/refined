@@ -9,8 +9,8 @@ import eu.timepit.refined.numeric.Interval
 ```
 
 ```tut
-type File = Char Refined Interval[W.`'a'`.T, W.`'h'`.T]
-type Rank = Int Refined Interval[W.`1`.T, W.`8`.T]
+type File = Char Refined Interval.Closed[W.`'a'`.T, W.`'h'`.T]
+type Rank = Int Refined Interval.Closed[W.`1`.T, W.`8`.T]
 
 case class Square(file: File, rank: Rank)
 ```

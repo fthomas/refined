@@ -55,14 +55,6 @@ class GenericValidateSpec extends Properties("GenericValidate") {
     showResult[Equal[_1]](i) ?= showResult[Equal[W.`1`.T]](i)
   }
 
-  property("Eval.isValid") = secure {
-    isValid[Eval[W.`"(x: Int) => x % 2 == 0"`.T]](6)
-  }
-
-  property("Eval.showExpr") = secure {
-    showExpr[Eval[W.`"(x: Int) => x % 2 == 0"`.T]](0) ?= "(x: Int) => x % 2 == 0"
-  }
-
   property("ConstructorNames.isValid") = secure {
     isValid[ConstructorNames[Contains[W.`"Some"`.T]]](Option(0))
   }

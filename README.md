@@ -253,7 +253,10 @@ The library comes with these predefined predicates:
 * `NonPositive`: checks if a numeric value is zero or negative
 * `Negative`: checks if a numeric value is less than zero
 * `NonNegative`: checks if a numeric value is zero or positive
-* `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+* `Interval.Open[L, H]`: checks if a numeric value is in the interval (`L`, `H`)
+* `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
+* `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
+* `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
 
 [`string`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 

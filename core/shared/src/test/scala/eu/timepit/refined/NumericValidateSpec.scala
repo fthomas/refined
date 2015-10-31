@@ -64,11 +64,35 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showResult[Greater[_5]](i) ?= showResult[Greater[W.`5`.T]](i)
   }
 
-  property("Interval.isValid") = forAll { (d: Double) =>
-    isValid[Interval[_0, _1]](d) ?= (d >= 0.0 && d <= 1.0)
+  property("Interval.Open.isValid") = forAll { (d: Double) =>
+    isValid[Interval.Open[_0, _1]](d) ?= (d > 0.0 && d < 1.0)
   }
 
-  property("Interval.showExpr") = secure {
-    showExpr[Interval[_0, _1]](0.5) ?= "(!(0.5 < 0) && !(0.5 > 1))"
+  property("Interval.Open.showExpr") = secure {
+    showExpr[Interval.Open[_0, _1]](0.5) ?= "((0.5 > 0) && (0.5 < 1))"
+  }
+
+  property("Interval.OpenClosed.isValid") = forAll { (d: Double) =>
+    isValid[Interval.OpenClosed[_0, _1]](d) ?= (d > 0.0 && d <= 1.0)
+  }
+
+  property("Interval.OpenClosed.showExpr") = secure {
+    showExpr[Interval.OpenClosed[_0, _1]](0.5) ?= "((0.5 > 0) && !(0.5 > 1))"
+  }
+
+  property("Interval.ClosedOpen.isValid") = forAll { (d: Double) =>
+    isValid[Interval.ClosedOpen[_0, _1]](d) ?= (d >= 0.0 && d < 1.0)
+  }
+
+  property("Interval.ClosedOpen.showExpr") = secure {
+    showExpr[Interval.ClosedOpen[_0, _1]](0.5) ?= "(!(0.5 < 0) && (0.5 < 1))"
+  }
+
+  property("Interval.Closed.isValid") = forAll { (d: Double) =>
+    isValid[Interval.Closed[_0, _1]](d) ?= (d >= 0.0 && d <= 1.0)
+  }
+
+  property("Interval.Closed.showExpr") = secure {
+    showExpr[Interval.Closed[_0, _1]](0.5) ?= "(!(0.5 < 0) && !(0.5 > 1))"
   }
 }

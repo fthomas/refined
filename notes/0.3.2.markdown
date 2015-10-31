@@ -11,7 +11,8 @@
 * Add `Arbitrary` instances for `LessEqual`, `GreaterEqual`, and
   `Whitespace`.
 * Remove the `Arbitrary` suffix from modules providing `Arbitrary`
-  instances. 
+  instances.
+* Rename `Interval` to `Interval.Closed`. ([#80])
 
 ### New predicates
 
@@ -19,5 +20,13 @@
 
 * `Eval[S]`: checks if a value applied to the predicate `S` yields `true` ([#82])
 
+[`numeric`](https://github.com/fthomas/refined/blob/v0.3.2/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
+
+* `Interval.Open[L, H]`: checks if a numeric value is in the interval (`L`, `H`)
+* `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
+* `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
+* `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+
 [#78]: https://github.com/fthomas/refined/issues/78
+[#80]: https://github.com/fthomas/refined/issues/80
 [#82]: https://github.com/fthomas/refined/pull/82

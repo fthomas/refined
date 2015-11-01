@@ -29,7 +29,7 @@ package object refined {
    *
    * Note: `V` stands for '''v'''alue class.
    */
-  def refineV[P]: RefineAux[Refined, P] = RefType[Refined].refine[P]
+  def refineV[P]: RefinePartiallyApplied[Refined, P] = RefType[Refined].refine[P]
 
   /**
    * Alias for `[[api.RefType.refine]][P]` with `shapeless.tag.@@` as type
@@ -37,7 +37,7 @@ package object refined {
    *
    * Note: `T` stands for '''t'''ag.
    */
-  def refineT[P]: RefineAux[@@, P] = RefType[@@].refine[P]
+  def refineT[P]: RefinePartiallyApplied[@@, P] = RefType[@@].refine[P]
 
   /**
    * Alias for `[[api.RefType.refineM]][P]` with `[[api.Refined]]` as type
@@ -45,7 +45,7 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `V` stands for '''v'''alue class.
    */
-  def refineMV[P]: RefineMAux[Refined, P] = RefType[Refined].refineM[P]
+  def refineMV[P]: RefineMPartiallyApplied[Refined, P] = RefType[Refined].refineM[P]
 
   /**
    * Alias for `[[api.RefType.refineM]][P]` with `shapeless.tag.@@` as type
@@ -53,5 +53,5 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `T` stands for '''t'''ag.
    */
-  def refineMT[P]: RefineMAux[@@, P] = RefType[@@].refineM[P]
+  def refineMT[P]: RefineMPartiallyApplied[@@, P] = RefType[@@].refineM[P]
 }

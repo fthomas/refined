@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package api
 
-import eu.timepit.refined.internal.{ ApplyRefAux, RefineAux, RefineMAux }
+import eu.timepit.refined.internal.{ ApplyRefPartiallyApplied, RefineMPartiallyApplied, RefinePartiallyApplied }
 import shapeless.tag.@@
 
 import scala.reflect.macros.Context
@@ -41,12 +41,12 @@ trait RefType[F[_, _]] extends Serializable {
    * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
    * }}}
    *
-   * Note: The return type is `[[internal.RefineAux]][F, P]`, which has
-   * an `apply` method on it, allowing `refine` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
+   * which has an `apply` method on it, allowing `refine` to be called
+   * like in the given example.
    */
-  def refine[P]: RefineAux[F, P] =
-    new RefineAux(this)
+  def refine[P]: RefinePartiallyApplied[F, P] =
+    new RefinePartiallyApplied(this)
 
   /**
    * Macro that returns a value of type `T` refined as `F[T, P]` if
@@ -62,12 +62,12 @@ trait RefType[F[_, _]] extends Serializable {
    *
    * Note: `M` stands for '''m'''acro.
    *
-   * Note: The return type is `[[internal.RefineMAux]][F, P]`, which has
-   * an `apply` method on it, allowing `refineM` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.RefineMPartiallyApplied]][F, P]`,
+   * which has an `apply` method on it, allowing `refineM` to be called
+   * like in the given example.
    */
-  def refineM[P]: RefineMAux[F, P] =
-    new RefineMAux
+  def refineM[P]: RefineMPartiallyApplied[F, P] =
+    new RefineMPartiallyApplied
 
   def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
@@ -94,12 +94,12 @@ object RefType {
    * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
    * }}}
    *
-   * Note: The return type is `[[internal.ApplyRefAux]][FTP]`, which has
-   * an `apply` method on it, allowing `applyRef` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.ApplyRefPartiallyApplied]][FTP]`,
+   * which has an `apply` method on it, allowing `applyRef` to be called
+   * like in the given example.
    */
-  def applyRef[FTP]: ApplyRefAux[FTP] =
-    new ApplyRefAux
+  def applyRef[FTP]: ApplyRefPartiallyApplied[FTP] =
+    new ApplyRefPartiallyApplied
 
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {

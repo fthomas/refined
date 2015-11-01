@@ -10,7 +10,7 @@ import eu.timepit.refined.api.{ RefType, Validate }
  * See [[http://tpolecat.github.io/2015/07/30/infer.html]] for a detailed
  * explanation of this trick.
  */
-final class ApplyRefAux[FTP] {
+final class ApplyRefPartiallyApplied[FTP] {
 
   def apply[F[_, _], T, P](t: T)(
     implicit

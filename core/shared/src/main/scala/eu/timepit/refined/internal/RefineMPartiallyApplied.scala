@@ -12,12 +12,12 @@ import scala.reflect.macros.Context
  * See [[http://tpolecat.github.io/2015/07/30/infer.html]] for a detailed
  * explanation of this trick.
  */
-final class RefineMAux[F[_, _], P] {
+final class RefineMPartiallyApplied[F[_, _], P] {
 
-  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMAux.macroImpl[F, T, P]
+  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMPartiallyApplied.macroImpl[F, T, P]
 }
 
-object RefineMAux {
+object RefineMPartiallyApplied {
 
   def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T])(
     v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]

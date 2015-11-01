@@ -10,7 +10,7 @@ import eu.timepit.refined.api.{ RefType, Validate }
  * See [[http://tpolecat.github.io/2015/07/30/infer.html]] for a detailed
  * explanation of this trick.
  */
-final class RefineAux[F[_, _], P](rt: RefType[F]) {
+final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
 
   def apply[T](t: T)(implicit v: Validate[T, P]): Either[String, F[T, P]] = {
     val res = v.validate(t)

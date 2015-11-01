@@ -18,9 +18,9 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
     rt.unsafeWrap(s).unwrap == s
   }
 
-  property("RefineAux instance") = secure {
-    val aux = rt.refine[Digit]
-    aux('0').isRight
+  property("RefinePartiallyApplied instance") = secure {
+    val pa = rt.refine[Digit]
+    pa('0').isRight
   }
 
   property("refine success with Less") = secure {

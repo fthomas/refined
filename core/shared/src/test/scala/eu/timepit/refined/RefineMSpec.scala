@@ -15,7 +15,7 @@ import shapeless.test.illTyped
 
 class RefineMSpec extends Properties("refineM") {
 
-  property("RefineMAux instance") = secure {
+  property("RefineMPartiallyApplied instance") = secure {
     val rv = refineMV[Digit]
     val rt = refineMT[Digit]
     rv('0') == Refined.unsafeApply('0') && rt('0') == '0'

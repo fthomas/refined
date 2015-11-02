@@ -21,12 +21,12 @@ NameStartChar ::=
 ```
 
 ```scala
-import eu.timepit.refined._
+import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
-import eu.timepit.refined.boolean._
-import eu.timepit.refined.generic._
-import eu.timepit.refined.numeric._
+import eu.timepit.refined.boolean.AnyOf
+import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.numeric.Interval
 import shapeless.{ ::, HNil }
 ```
 
@@ -55,7 +55,7 @@ a: NameStartChar = Refined(Ä)
 
 ```scala
 scala> val b: NameStartChar = ';'
-<console>:29: error: Predicate failed: ((; == :) || (!(; < A) && !(; > Z)) || (; == _) || (!(; < a) && !(; > z)) || (!(; < À) && !(; > Ö)) || (!(; < Ø) && !(; > ö)) || (!(; < ø) && !(; > ˿)) || (!(; < Ͱ) && !(; > ͽ)) || (!(; < ‌) && !(; > ‍)) || (!(; < ⁰) && !(; > ↏)) || (!(; < Ⰰ) && !(; > ⿯)) || (!(; < 、) && !(; > ퟿)) || (!(; < 豈) && !(; > ﷏)) || (!(; < ﷰ) && !(; > �)) || false).
+<console>:21: error: Predicate failed: ((; == :) || (!(; < A) && !(; > Z)) || (; == _) || (!(; < a) && !(; > z)) || (!(; < À) && !(; > Ö)) || (!(; < Ø) && !(; > ö)) || (!(; < ø) && !(; > ˿)) || (!(; < Ͱ) && !(; > ͽ)) || (!(; < ‌) && !(; > ‍)) || (!(; < ⁰) && !(; > ↏)) || (!(; < Ⰰ) && !(; > ⿯)) || (!(; < 、) && !(; > ퟿)) || (!(; < 豈) && !(; > ﷏)) || (!(; < ﷰ) && !(; > �)) || false).
        val b: NameStartChar = ';'
                               ^
 ```

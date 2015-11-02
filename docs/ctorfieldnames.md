@@ -3,12 +3,12 @@ predicates that are implemented with [shapeless'][shapeless]
 `LabelledGeneric`.
 
 ```scala
-import eu.timepit.refined._
+import eu.timepit.refined.W
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
-import eu.timepit.refined.numeric._
-import eu.timepit.refined.string._
+import eu.timepit.refined.numeric.GreaterEqual
+import eu.timepit.refined.string.StartsWith
 import shapeless.tag.@@
 
 case class Person(firstName: String, lastName: String, age: Int)
@@ -30,12 +30,12 @@ These examples fail since `Person` has no field that is called "name" and it
 has three fields instead of four:
 ```scala
 scala> p: Person @@ FieldNames[Contains[W.`"name"`.T]]
-<console>:34: error: Predicate failed: !(!(firstName == name) && !(lastName == name) && !(age == name)).
+<console>:28: error: Predicate failed: !(!(firstName == name) && !(lastName == name) && !(age == name)).
        p: Person @@ FieldNames[Contains[W.`"name"`.T]]
        ^
 
 scala> p: Person @@ FieldNames[Size[Equal[W.`4`.T]]]
-<console>:34: error: Predicate failed: (3 == 4).
+<console>:28: error: Predicate failed: (3 == 4).
        p: Person @@ FieldNames[Size[Equal[W.`4`.T]]]
        ^
 ```
@@ -56,12 +56,12 @@ res6: shapeless.tag.@@[Option[Unit],eu.timepit.refined.generic.ConstructorNames[
 Let's see what happens if we use predicates that should fail:
 ```scala
 scala> o: Option[Unit] @@ ConstructorNames[Size[Equal[W.`3`.T]]]
-<console>:32: error: Predicate failed: (2 == 3).
+<console>:26: error: Predicate failed: (2 == 3).
        o: Option[Unit] @@ ConstructorNames[Size[Equal[W.`3`.T]]]
        ^
 
 scala> o: Option[Unit] @@ ConstructorNames[Contains[W.`"Just"`.T]]
-<console>:32: error: Predicate failed: !(!(None == Just) && !(Some == Just)).
+<console>:26: error: Predicate failed: !(!(None == Just) && !(Some == Just)).
        o: Option[Unit] @@ ConstructorNames[Contains[W.`"Just"`.T]]
        ^
 ```

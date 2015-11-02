@@ -304,20 +304,19 @@ compiler phase.
 
 ## Related projects
 
-The most advanced system using refinement types is probably
-[LiquidHaskell][liquid-haskell] which uses an SMT solver to infer refinements
-automatically. This library was inspired by the [refined][refined.hs] Haskell
-library. It even stole its name! Another Scala library that provides type-level
-validations is [bond][bond].
+* [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
+* [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
+* [LiquidHaskell](http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/):
+  Refinement Types via SMT and Predicate Abstraction
+* [refined][refined.hs]: Refinement types with static and runtime checking for
+  Haskell. *refined* was inspired this library and even stole its name!
 
 ## License
 
 *refined* is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
-[bond]: https://github.com/fwbrasil/bond
 [code-of-conduct]: http://typelevel.org/conduct.html
-[liquid-haskell]: http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

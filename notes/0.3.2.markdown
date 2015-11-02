@@ -1,6 +1,6 @@
 ### Changes
 
-* Add `RefType.applyRef` function that refines a value according to
+* Add `RefType.applyRef` function that refines a value according to a
   refined type. This makes working with type aliases like
   ``type Minute = Int Refined Interval[W.`0`.T, W.`59`.T]`` more
   convenient because one can use `Minute` as parameter for `applyRef`,

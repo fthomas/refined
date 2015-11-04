@@ -1,5 +1,7 @@
 ### Changes
 
+* Add a refined-scalaz module which provides a `RefType` instance for
+  `scalaz.@@` (Scalaz' tag type). ([#84])
 * Add `RefType.applyRef` function that refines a value according to a
   refined type. This makes working with type aliases like
   ``type Minute = Int Refined Interval[W.`0`.T, W.`59`.T]`` more
@@ -30,3 +32,4 @@
 [#78]: https://github.com/fthomas/refined/issues/78
 [#80]: https://github.com/fthomas/refined/issues/80
 [#82]: https://github.com/fthomas/refined/pull/82
+[#84]: https://github.com/fthomas/refined/pull/84

@@ -67,23 +67,4 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
     illTyped("testRefineMT(refineMT[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMT(refineMT[Positive][Int](-1))", "Predicate.*fail.*")
   }
-
-  property("refineMV with type alias") = secure {
-    type PositiveInt = Int Refined Positive
-
-    val x: PositiveInt = refineMV(5)
-    val y: PositiveInt = 5
-    val z = 5: PositiveInt
-    illTyped("val a: PositiveInt = -5", "Predicate failed: \\(-5 > 0\\).*")
-    x == y && y == z
-  }
-
-  property("refineMT with type alias") = wellTyped {
-    type PositiveInt = Int @@ Positive
-
-    // This is expected, see https://github.com/fthomas/refined/issues/21:
-    illTyped("val x: PositiveInt = refineMT(5)", "could not find implicit value.*")
-    illTyped("val y: PositiveInt = 5", "(?s)type mismatch.*")
-    illTyped("val z: PositiveInt = -5", "(?s)type mismatch.*")
-  }
 }

@@ -1,6 +1,7 @@
 package eu.timepit.refined
 package api
 
+import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{ Digit, LowerCase }
@@ -11,8 +12,9 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
 import shapeless.tag.@@
+import shapeless.test.illTyped
 
-abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F]) extends Properties(s"RefType[$name]") {
+abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) extends Properties(s"RefType[$name]") {
 
   property("unsafeWrap.unwrap ~= id") = forAll { (s: String) =>
     rt.unsafeWrap(s).unwrap == s
@@ -66,6 +68,35 @@ abstract class RefTypeProperties[F[_, _]](name: String)(implicit rt: RefType[F])
   }
 }
 
-class RefTypeSpecRefined extends RefTypeProperties[Refined]("Refined")
+class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
 
-class RefTypeSpecTag extends RefTypeProperties[@@]("@@")
+  property("refineM with type alias") = secure {
+    type PositiveInt = Int Refined Positive
+
+    val x: PositiveInt = RefType[Refined].refineM(5)
+    val y: PositiveInt = 5
+    val z = 5: PositiveInt
+    illTyped("val a: PositiveInt = -5", "Predicate failed: \\(-5 > 0\\).*")
+    x == y && y == z
+  }
+
+  property("(T Refined P) <!: T") = wellTyped {
+    illTyped("implicitly[(Int Refined Positive) <:< Int]", "Cannot prove.*")
+  }
+}
+
+class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
+
+  property("refineM with type alias") = wellTyped {
+    type PositiveInt = Int @@ Positive
+
+    // This is expected, see https://github.com/fthomas/refined/issues/21:
+    illTyped("val x: PositiveInt = RefType[@@]refineM(5)", "could not find implicit value.*")
+    illTyped("val y: PositiveInt = 5", "(?s)type mismatch.*")
+    illTyped("val z: PositiveInt = -5", "(?s)type mismatch.*")
+  }
+
+  property("(T @@ P) <: T") = wellTyped {
+    val x = implicitly[(Int @@ Positive) <:< Int]
+  }
+}

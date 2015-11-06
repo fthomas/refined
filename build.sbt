@@ -1,10 +1,40 @@
+/// shared variables
+
+val projectName = "refined"
+val rootPkg = s"eu.timepit.$projectName"
+val gitPubUrl = s"https://github.com/fthomas/$projectName.git"
+val gitDevUrl = s"git@github.com:fthomas/$projectName.git"
+
+val commonImports = s"""
+  import $rootPkg._
+  import $rootPkg.api._
+  import $rootPkg.api.Inference.==>
+  import $rootPkg.api.RefType.ops._
+  import $rootPkg.auto._
+  import $rootPkg.boolean._
+  import $rootPkg.char._
+  import $rootPkg.collection._
+  import $rootPkg.generic._
+  import $rootPkg.numeric._
+  import $rootPkg.string._
+  import shapeless.{ ::, HList, HNil }
+  import shapeless.nat._
+"""
+
+val shapelessVersion = "2.2.5"
+val scalaCheckVersion = "1.12.5"
+val scalazVersion = "7.1.5"
+
+/// project definitions
+
 lazy val root = project.in(file("."))
   .aggregate(
     coreJVM,
     coreJS,
     docs,
     scalacheckJVM,
-    scalacheckJS)
+    scalacheckJS,
+    scalaz)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -15,7 +45,7 @@ lazy val root = project.in(file("."))
 
 lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
-  .settings(moduleName := "refined")
+  .settings(moduleName := projectName)
   .settings(commonSettings: _*)
   .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
@@ -24,13 +54,19 @@ lazy val core = crossProject
   .settings(styleSettings: _*)
   .settings(siteSettings: _*)
   .jvmSettings(myDoctestSettings: _*)
+  .jvmSettings(
+    initialCommands := s"""
+      $commonImports
+      import shapeless.tag.@@
+    """
+  )
   .jsSettings(scalaJSStage in Test := FastOptStage)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
 lazy val docs = project
-  .settings(moduleName := "refined-docs")
+  .settings(moduleName := s"$projectName-docs")
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(tutSettings)
@@ -42,7 +78,7 @@ lazy val docs = project
   .dependsOn(coreJVM)
 
 lazy val scalacheck = crossProject
-  .settings(moduleName := "refined-scalacheck")
+  .settings(moduleName := s"$projectName-scalacheck")
   .settings(commonSettings: _*)
   .settings(publishSettings: _*)
   .settings(releaseSettings: _*)
@@ -54,23 +90,35 @@ lazy val scalacheck = crossProject
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-val rootPkg = "eu.timepit.refined"
-val gitPubUrl = "https://github.com/fthomas/refined.git"
-val gitDevUrl = "git@github.com:fthomas/refined.git"
+lazy val scalaz = project
+  .settings(moduleName := s"$projectName-scalaz")
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(releaseSettings)
+  .settings(styleSettings)
+  .settings(
+    libraryDependencies += "org.scalaz" %% "scalaz-core" % scalazVersion,
+    initialCommands := s"""
+      $commonImports
+      import $rootPkg.scalaz._
+      import $rootPkg.scalaz.auto._
+      import _root_.scalaz.@@
+    """
+  )
+  .dependsOn(coreJVM  % "compile->compile;test->test")
 
-lazy val shapelessVersion = "2.2.5"
-lazy val scalaCheckVersion = "1.12.5"
+/// settings definitions
 
 lazy val commonSettings =
   projectSettings ++
   compileSettings
 
 lazy val projectSettings = Seq(
-  name := "refined",
+  name := projectName,
   description := "Simple refinement types for Scala",
 
   organization := "eu.timepit",
-  homepage := Some(url("https://github.com/fthomas/refined")),
+  homepage := Some(url(s"https://github.com/fthomas/$projectName")),
   startYear := Some(2015),
   licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),
 
@@ -133,7 +181,7 @@ lazy val scaladocSettings = Seq(
   ),
 
   autoAPIMappings := true,
-  apiURL := Some(url("http://fthomas.github.io/refined/latest/api/"))
+  apiURL := Some(url(s"http://fthomas.github.io/$projectName/latest/api/"))
 )
 
 lazy val publishSettings = Seq(
@@ -215,23 +263,6 @@ lazy val siteSettings =
   Seq(git.remoteRepo := gitDevUrl)
 
 lazy val miscSettings = Seq(
-  initialCommands := s"""
-    import $rootPkg._
-    import $rootPkg.api._
-    import $rootPkg.api.Inference.==>
-    import $rootPkg.api.RefType.ops._
-    import $rootPkg.auto._
-    import $rootPkg.boolean._
-    import $rootPkg.char._
-    import $rootPkg.collection._
-    import $rootPkg.generic._
-    import $rootPkg.numeric._
-    import $rootPkg.string._
-    import shapeless.{ ::, HList, HNil }
-    import shapeless.nat._
-    import shapeless.tag.@@
-  """,
-
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
   buildInfoPackage := s"$rootPkg.internal"
 )
@@ -256,6 +287,7 @@ addCommandAlias("validate", Seq(
   "compile",
   "coreJVM/test",
   "scalacheckJVM/test",
+  "scalaz/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

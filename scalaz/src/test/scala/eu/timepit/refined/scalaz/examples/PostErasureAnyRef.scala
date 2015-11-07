@@ -45,7 +45,7 @@ package eu.timepit.refined.scalaz {
       private[this] val b2: String = PostErasureAnyRef.this.b1();
       <stable> <accessor> def b2(): String = PostErasureAnyRef.this.b2;
 
-      private[this] val c1: Object = Tag.apply("(a|b)");
+      private[this] val c1: Object = "(a|b)";
       <stable> <accessor> def c1(): Object = PostErasureAnyRef.this.c1;
 
       private[this] val c2: String = eu.timepit.refined.auto.autoUnwrap(PostErasureAnyRef.this.c1(), scalaz.this.`package`.scalazTagRefType()).$asInstanceOf[String]();

@@ -45,7 +45,7 @@ package eu.timepit.refined.scalaz {
       private[this] val b2: Int = PostErasureAnyVal.this.b1();
       <stable> <accessor> def b2(): Int = PostErasureAnyVal.this.b2;
 
-      private[this] val c1: Object = Tag.apply$mIc$sp(1);
+      private[this] val c1: Object = scala.Int.box(1);
       <stable> <accessor> def c1(): Object = PostErasureAnyVal.this.c1;
 
       private[this] val c2: Int = unbox(eu.timepit.refined.auto.autoUnwrap(PostErasureAnyVal.this.c1(), scalaz.this.`package`.scalazTagRefType()));

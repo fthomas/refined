@@ -7,7 +7,7 @@ import shapeless.tag.@@
 import scala.reflect.macros.blackbox
 
 /**
- * Type class that allows `F` to be used as result type of a refinement.
+ * Type class that allows `F` to be used as carrier type of a refinement.
  * The first type parameter of `F` is the base type that is being refined
  * by its second type parameter which is the type-level predicate that
  * denotes the refinement. Consequently, `F[T, P]` is a phantom type

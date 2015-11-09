@@ -1,7 +1,7 @@
 package eu.timepit.refined.scalaz
 
 import eu.timepit.refined.api.{ RefType, Validate }
-import eu.timepit.refined.internal.RefineMPartiallyApplied
+import eu.timepit.refined.internal.RefineM
 
 import scalaz.@@
 
@@ -15,5 +15,5 @@ object auto {
   implicit def autoRefineScalazTag[T, P](t: T)(
     implicit
     v: Validate[T, P], rt: RefType[@@]
-  ): T @@ P = macro RefineMPartiallyApplied.macroImpl[@@, T, P]
+  ): T @@ P = macro RefineM.macroImpl[@@, T, P]
 }

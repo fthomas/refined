@@ -38,7 +38,7 @@ trait auto {
   implicit def autoRefineV[T, P](t: T)(
     implicit
     v: Validate[T, P], rt: RefType[Refined]
-  ): Refined[T, P] = macro RefineMPartiallyApplied.macroImpl[Refined, T, P]
+  ): Refined[T, P] = macro RefineM.macroImpl[Refined, T, P]
 
   /**
    * Implicitly tags (at compile-time) a value of type `T` with `P` if `t`
@@ -50,7 +50,7 @@ trait auto {
   implicit def autoRefineT[T, P](t: T)(
     implicit
     v: Validate[T, P], rt: RefType[@@]
-  ): T @@ P = macro RefineMPartiallyApplied.macroImpl[@@, T, P]
+  ): T @@ P = macro RefineM.macroImpl[@@, T, P]
 }
 
 object auto extends auto

@@ -14,10 +14,10 @@ import scala.reflect.macros.Context
  */
 final class RefineMPartiallyApplied[F[_, _], P] {
 
-  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMPartiallyApplied.macroImpl[F, T, P]
+  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineM.macroImpl[F, T, P]
 }
 
-object RefineMPartiallyApplied {
+object RefineM {
 
   def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T])(
     v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]

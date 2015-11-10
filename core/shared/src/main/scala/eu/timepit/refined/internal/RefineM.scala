@@ -2,17 +2,19 @@ package eu.timepit.refined
 package internal
 
 import eu.timepit.refined.api.{ RefType, Validate }
+import macrocompat.bundle
 
-import scala.reflect.macros.Context
+import scala.reflect.macros.blackbox
 
-object RefineM {
+@bundle
+class RefineM(val c: blackbox.Context) extends MacroUtils {
+  import c.universe._
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T])(
+  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
     v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, P]] = {
-    import c.universe._
 
-    val validate = MacroUtils.eval(c)(v)
+    val validate = eval(v)
 
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
@@ -27,7 +29,7 @@ object RefineM {
       c.abort(c.enclosingPosition, validate.showResult(tValue, res))
     }
 
-    val refType = MacroUtils.eval(c)(rt)
+    val refType = eval(rt)
     refType.unsafeWrapM(c)(t)
   }
 }

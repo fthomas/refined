@@ -1,9 +1,12 @@
 package eu.timepit.refined
 package internal
 
+import macrocompat.bundle
+
 import scala.reflect.macros.blackbox
 import scala.util.{ Success, Try }
 
+@bundle
 trait MacroUtils {
 
   val c: blackbox.Context

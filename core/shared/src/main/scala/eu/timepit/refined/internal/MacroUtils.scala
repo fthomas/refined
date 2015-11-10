@@ -4,9 +4,11 @@ package internal
 import scala.reflect.macros.blackbox
 import scala.util.{ Success, Try }
 
-object MacroUtils {
+trait MacroUtils {
 
-  def eval[T](c: blackbox.Context)(t: c.Expr[T]): T = {
+  val c: blackbox.Context
+
+  def eval[T](t: c.Expr[T]): T = {
     val expr = c.Expr[T](c.untypecheck(t.tree))
 
     // Try evaluating expr twice before failing, see

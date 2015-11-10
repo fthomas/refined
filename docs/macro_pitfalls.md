@@ -100,7 +100,7 @@ java.lang.AssertionError: assertion failed: fooValidate
 	at scala.Option.getOrElse(Option.scala:121)
 	at eu.timepit.refined.internal.MacroUtils$.tryN(MacroUtils.scala:18)
 	at eu.timepit.refined.internal.MacroUtils$.eval(MacroUtils.scala:14)
-	at eu.timepit.refined.internal.RefineM$.macroImpl(RefineMPartiallyApplied.scala:27)
+	at eu.timepit.refined.internal.RefineM$.macroImpl(RefineM.scala:15)
 
          val x = refineMT[Foo](0)
                               ^

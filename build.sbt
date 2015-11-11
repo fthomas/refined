@@ -79,10 +79,7 @@ lazy val docs = project
 
 lazy val scalacheck = crossProject
   .settings(moduleName := s"$projectName-scalacheck")
-  .settings(commonSettings: _*)
-  .settings(publishSettings: _*)
-  .settings(releaseSettings: _*)
-  .settings(styleSettings: _*)
+  .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
   .jsSettings(scalaJSStage in Test := FastOptStage)
   .dependsOn(core)
@@ -92,10 +89,7 @@ lazy val scalacheckJS = scalacheck.js
 
 lazy val scalaz = project
   .settings(moduleName := s"$projectName-scalaz")
-  .settings(commonSettings)
-  .settings(publishSettings)
-  .settings(releaseSettings)
-  .settings(styleSettings)
+  .settings(submoduleSettings)
   .settings(
     libraryDependencies += "org.scalaz" %% "scalaz-core" % scalazVersion,
     initialCommands := s"""
@@ -112,6 +106,12 @@ lazy val scalaz = project
 lazy val commonSettings =
   projectSettings ++
   compileSettings
+
+lazy val submoduleSettings =
+  commonSettings ++
+  publishSettings ++
+  releaseSettings ++
+  styleSettings
 
 lazy val projectSettings = Seq(
   name := projectName,

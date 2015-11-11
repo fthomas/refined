@@ -13,7 +13,7 @@ import scala.reflect.macros.blackbox
  * denotes the refinement. Consequently, `F[T, P]` is a phantom type
  * that only contains a value of type `T`.
  *
- * The library provides instances of `RefType` for
+ * The library provides instances of `[[RefType]]` for
  *  - the `[[Refined]]` value class
  *  - and `shapeless.tag.@@` which is a subtype of its first parameter
  *    (i.e. `(T @@ P) <: T`)

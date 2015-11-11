@@ -7,7 +7,7 @@ import shapeless.tag.@@
 object string {
 
   /**
-   * Creates a `scala.util.matching.Regex` from a validated string.
+   * Creates a `[[scala.util.matching.Regex]]` from a validated string.
    *
    * Example: {{{
    * scala> import eu.timepit.refined.auto._

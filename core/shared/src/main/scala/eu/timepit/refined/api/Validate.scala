@@ -18,16 +18,16 @@ trait Validate[T, P] extends Serializable { self =>
 
   def validate(t: T): Res
 
-  /** Returns a string representation of this [[Validate]] using `t`. */
+  /** Returns a string representation of this `[[Validate]]` using `t`. */
   def showExpr(t: T): String
 
   def showResult(t: T, r: Res): String =
     Resources.predicateResultDetailDot(r, showExpr(t))
 
   /**
-   * Denotes whether this [[Validate]] is constant (which is false by
-   * default). A constant [[Validate]] ignores the argument passed to
-   * [[validate]].
+   * Denotes whether this `[[Validate]]` is constant (which is false by
+   * default). A constant `[[Validate]]` ignores the argument passed to
+   * `[[validate]]`.
    */
   val isConstant: Boolean = false
 
@@ -40,8 +40,8 @@ trait Validate[T, P] extends Serializable { self =>
     validate(t).isFailed
 
   /**
-   * Returns the result of [[showExpr]] in a `List`. Can be overridden to
-   * accumulate the string representations of sub-predicates.
+   * Returns the result of `[[showExpr]]` in a `List`. Can be overridden
+   * to accumulate the string representations of sub-predicates.
    */
   def accumulateShowExpr(t: T): List[String] =
     List(showExpr(t))
@@ -65,7 +65,7 @@ object Validate {
 
   def apply[T, P](implicit v: Validate[T, P]): Aux[T, P, v.R] = v
 
-  /** Constructs a [[Validate]] from its parameters. */
+  /** Constructs a `[[Validate]]` from its parameters. */
   def instance[T, P, R0](f: T => Result[R0], g: T => String, constant: Boolean = false): Aux[T, P, R0] =
     new Validate[T, P] {
       override type R = R0
@@ -74,19 +74,19 @@ object Validate {
       override val isConstant: Boolean = constant
     }
 
-  /** Constructs a constant [[Validate]] from its parameters. */
+  /** Constructs a constant `[[Validate]]` from its parameters. */
   def constant[T, P, R](isValidV: Result[R], showV: String): Aux[T, P, R] =
     instance(_ => isValidV, _ => showV, constant = true)
 
   /**
-   * Constructs a [[Validate]] from the predicate `f`. All values of type
+   * Constructs a `[[Validate]]` from the predicate `f`. All values of type
    * `T` for which `f` returns `true` are considered valid according to `P`.
    */
   def fromPredicate[T, P](f: T => Boolean, showExpr: T => String, p: P): Plain[T, P] =
     instance(t => Result.fromBoolean(f(t), p), showExpr)
 
   /**
-   * Constructs a [[Validate]] from the partial function `pf`. All `T`s for
+   * Constructs a `[[Validate]]` from the partial function `pf`. All `T`s for
    * which `pf` throws an exception are considered invalid according to `P`.
    */
   def fromPartial[T, U, P](pf: T => U, name: String, p: P): Plain[T, P] =
@@ -103,11 +103,11 @@ object Validate {
         Resources.namePredicateResultMessage(name, res, Try(pf(t)))
     }
 
-  /** Returns a [[Validate]] that ignores its inputs and always yields [[api.Passed]]. */
+  /** Returns a `[[Validate]]` that ignores its input and always yields `[[api.Passed]]`. */
   def alwaysPassed[T, P, R](r: R): Aux[T, P, R] =
     constant(Passed(r), "true")
 
-  /** Returns a [[Validate]] that ignores its input and always yields [[api.Failed]]. */
+  /** Returns a `[[Validate]]` that ignores its input and always yields `[[api.Failed]]`. */
   def alwaysFailed[T, P, R](r: R): Aux[T, P, R] =
     constant(Failed(r), "false")
 }

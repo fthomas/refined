@@ -289,6 +289,8 @@ it in the Gitter channel and we'll add a link to it here.
 * [argonaut-shapeless](https://github.com/alexarchambault/argonaut-shapeless) -
   provides the argonaut-refined module for (de)serialization of refined types
   from and to JSON
+* [circe](https://github.com/travisbrown/circe) - provides the circe-refined
+  module for (de)serialization of refined types from and to JSON
 * Your project here :-)
 
 ## Performance concerns

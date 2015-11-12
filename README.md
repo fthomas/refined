@@ -78,15 +78,15 @@ intervention.
 
 ## Table of contents
 
-- [More examples](#more-examples)
-- [Using refined](#using-refined)
-- [Documentation](#documentation)
-- [Provided predicates](#provided-predicates)
-- [Contributors and participation](#contributors-and-participation)
-- [Projects using refined](#projects-using-refined)
-- [Performance concerns](#performance-concerns)
-- [Related projects](#related-projects)
-- [License](#license)
+1. [More examples](#more-examples)
+2. [Using refined](#using-refined)
+3. [Documentation](#documentation)
+4. [Provided predicates](#provided-predicates)
+5. [Contributors and participation](#contributors-and-participation)
+6. [Projects using refined](#projects-using-refined)
+7. [Performance concerns](#performance-concerns)
+8. [Related projects](#related-projects)
+9. [License](#license)
 
 ## More examples
 

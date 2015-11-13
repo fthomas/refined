@@ -34,4 +34,8 @@ class RefTypeCodecSpec extends Properties("RefTypeCodec") {
   property("encode failure") = wellTyped {
     illTyped("""Codec[PosInt].encode(-5)""", "Predicate failed.*")
   }
+
+  property("sizeBound") = secure {
+    Codec[PosInt].sizeBound ?= intCodec.sizeBound
+  }
 }

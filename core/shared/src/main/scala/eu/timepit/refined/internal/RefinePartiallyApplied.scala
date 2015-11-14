@@ -17,4 +17,7 @@ final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
     if (res.isPassed) Right(rt.unsafeWrap(t))
     else Left(v.showResult(t, res))
   }
+
+  def force[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
+    apply(t).fold(err => throw new IllegalArgumentException(err), identity)
 }

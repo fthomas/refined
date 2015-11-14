@@ -46,6 +46,14 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
     rt.refine[DigitsOnly]("123").isRight
   }
 
+  property("refine.force success") = secure {
+    rt.refine[Positive].force(5) ?= rt.unsafeWrap[Int, Positive](5)
+  }
+
+  property("refine.force failure") = secure {
+    throws(classOf[IllegalArgumentException])(rt.refine[Positive].force(-5))
+  }
+
   property("mapRefine success with Positive") = secure {
     rt.refine[Positive](5).right.flatMap(_.mapRefine(_.toDouble)).isRight
   }

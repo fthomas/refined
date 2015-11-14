@@ -24,6 +24,7 @@ val commonImports = s"""
 val shapelessVersion = "2.2.5"
 val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.1.5"
+val scodecVersion = "1.8.2"
 
 /// project definitions
 
@@ -34,7 +35,9 @@ lazy val root = project.in(file("."))
     docs,
     scalacheckJVM,
     scalacheckJS,
-    scalaz)
+    scalaz,
+    scodecJVM,
+    scodecJS)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -99,7 +102,17 @@ lazy val scalaz = project
       import _root_.scalaz.@@
     """
   )
-  .dependsOn(coreJVM  % "compile->compile;test->test")
+  .dependsOn(coreJVM % "compile->compile;test->test")
+
+lazy val scodec = crossProject
+  .settings(moduleName := s"$projectName-scodec")
+  .settings(submoduleSettings: _*)
+  .jsSettings(scalaJSStage in Test := FastOptStage)
+  .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
+  .dependsOn(core % "compile->compile;test->test")
+
+lazy val scodecJVM = scodec.jvm
+lazy val scodecJS = scodec.js
 
 /// settings definitions
 
@@ -277,11 +290,13 @@ addCommandAlias("validate", Seq(
   "clean",
   "coreJS/test",
   "scalacheckJS/test",
+  "scodecJS/test",
   "coverage",
   "compile",
   "coreJVM/test",
   "scalacheckJVM/test",
   "scalaz/test",
+  "scodecJVM/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

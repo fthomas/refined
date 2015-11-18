@@ -161,6 +161,8 @@ If you're using SBT, add the following to your build:
 
     libraryDependencies ++= Seq(
       "eu.timepit" %% "refined"            % "0.3.2",
+      "eu.timepit" %% "refined-scalaz"     % "0.3.2",         // optional, JVM only
+      "eu.timepit" %% "refined-scodec"     % "0.3.2",         // optional
       "eu.timepit" %% "refined-scalacheck" % "0.3.2" % "test" // optional
     )
 

@@ -42,3 +42,5 @@
 [#92]: https://github.com/fthomas/refined/pull/92
 [scalaz]: https://github.com/scalaz/scalaz
 [scodec]: http://scodec.org/
+
+Released on 2015-11-18

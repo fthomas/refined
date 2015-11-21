@@ -23,7 +23,7 @@ val commonImports = s"""
 
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
-val shapelessVersion = "2.2.5"
+val shapelessVersion = "2.3.0-SNAPSHOT"
 val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.0"
 val scodecVersion = "1.9.0"
@@ -170,6 +170,11 @@ lazy val compileSettings = Seq(
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
+  ),
+
+  resolvers ++= Seq(
+    Resolver.sonatypeRepo("releases"),
+    Resolver.sonatypeRepo("snapshots")
   ),
 
   libraryDependencies ++= Seq(

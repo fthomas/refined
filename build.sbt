@@ -80,7 +80,7 @@ lazy val docs = project
   )
   .dependsOn(coreJVM)
 
-lazy val scalacheck = crossProject
+lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
@@ -90,7 +90,7 @@ lazy val scalacheck = crossProject
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = project
+lazy val scalaz = project.in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
   .settings(submoduleSettings)
   .settings(
@@ -104,7 +104,7 @@ lazy val scalaz = project
   )
   .dependsOn(coreJVM % "compile->compile;test->test")
 
-lazy val scodec = crossProject
+lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
   .jsSettings(scalaJSStage in Test := FastOptStage)

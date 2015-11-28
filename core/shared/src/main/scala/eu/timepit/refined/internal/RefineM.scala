@@ -20,13 +20,12 @@ class RefineM(val c: blackbox.Context) extends MacroUtils {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ if validate.isConstant => null.asInstanceOf[T]
       case _ =>
-        val msg = "compile-time refinement only works with literals or constant predicates"
-        c.abort(c.enclosingPosition, msg)
+        abort("compile-time refinement only works with literals or constant predicates")
     }
 
     val res = validate.validate(tValue)
     if (res.isFailed) {
-      c.abort(c.enclosingPosition, validate.showResult(tValue, res))
+      abort(validate.showResult(tValue, res))
     }
 
     val refType = eval(rt)

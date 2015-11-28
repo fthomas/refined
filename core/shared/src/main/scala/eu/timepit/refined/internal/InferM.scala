@@ -17,7 +17,7 @@ class InferM(val c: blackbox.Context) extends MacroUtils {
 
     val inferenceRule = eval(ir)
     if (inferenceRule.notValid) {
-      c.abort(c.enclosingPosition, s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}")
+      abort(s"invalid inference: ${weakTypeOf[A]} ==> ${weakTypeOf[B]}")
     }
 
     val refType = eval(rt)

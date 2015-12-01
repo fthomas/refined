@@ -21,6 +21,8 @@ val commonImports = s"""
   import shapeless.nat._
 """
 
+val macroCompatVersion = "1.1.0"
+val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.2.5"
 val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.1.5"
@@ -163,8 +165,8 @@ lazy val compileSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
-    "org.typelevel" %%% "macro-compat" % "1.1.0",
+    compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
+    "org.typelevel" %%% "macro-compat" % macroCompatVersion,
     "com.chuusai" %%% "shapeless" % shapelessVersion,
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),

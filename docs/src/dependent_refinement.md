@@ -40,7 +40,7 @@ and makes it available via the type member `T`:
 def baz[I <: Int](i: Witness.Aux[I])(j: Int @@ Greater[i.T]) = j - i.value
 ```
 
-```tut
+```tut:nofail
 baz(Witness(2))(4)
 ```
 

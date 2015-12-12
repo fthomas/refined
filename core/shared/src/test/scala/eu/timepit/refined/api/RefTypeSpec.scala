@@ -106,7 +106,7 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
     val y: Natural = 1L
     val z = 1L: Natural
     illTyped("Natural(-1L)", "Predicate.*fail.*")
-    illTyped("Natural(1.3)", "(?s)type mismatch.*")
+    illTyped("Natural(1.3)", "type mismatch.*")
     x == y && y == z
   }
 
@@ -133,7 +133,7 @@ class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
     val y: Long @@ NonNegative = 1L
     val z = 1L: Long @@ NonNegative
     illTyped("Natural(-1L)", "Predicate.*fail.*")
-    illTyped("Natural(1.3)", "(?s)type mismatch.*")
+    illTyped("Natural(1.3)", "type mismatch.*")
     (x: Long) == (y: Long) && (y: Long) == (z: Long)
   }
 

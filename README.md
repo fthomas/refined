@@ -157,7 +157,7 @@ provides syntax for singleton types.
 The latest version of the library is 0.3.2, which is available for Scala and
 [Scala.js][scala.js] version 2.10 and 2.11.
 
-If you're using SBT, add the following to your build:
+If you're using sbt, add the following to your build:
 
     libraryDependencies ++= Seq(
       "eu.timepit" %% "refined"            % "0.3.2",

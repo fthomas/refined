@@ -86,6 +86,12 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
+  .jvmSettings(
+    initialCommands := s"""
+      $commonImports
+      import org.scalacheck.Arbitrary
+    """
+  )
   .jsSettings(scalaJSStage in Test := FastOptStage)
   .dependsOn(core)
 

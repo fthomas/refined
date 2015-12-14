@@ -1,7 +1,7 @@
 # refined: simple refinement types for Scala
 [![Download](https://img.shields.io/maven-central/v/eu.timepit/refined_2.11.svg)][search.maven]
 [![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
-[![Gitter](https://img.shields.io/badge/Gitter-join%20chat-brightgreen.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Codacy Badge](https://img.shields.io/codacy/e4f25ef2656e463e8fed3f4f9314abdb.svg)](https://www.codacy.com/app/fthomas/refined)
 
@@ -149,8 +149,9 @@ scala> val u1: String @@ Url = "htp://example.com"
                                ^
 ```
 
-Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which
-provides syntax for singleton types.
+Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
+is a shortcut for [`shapeless.Witness`][singleton-types] which provides
+syntax for literal-based singleton types.
 
 ## Using refined
 

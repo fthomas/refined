@@ -174,6 +174,13 @@ Instructions for Maven and other build tools are available at [search.maven.org]
 Release notes for the latest version are available in
 [0.3.2.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.2.markdown).
 
+The optional dependencies are add-on libraries that provide support for
+other tag types or integration of refined types in other libraries.
+
+* `refined-scalaz` provides a `RefType` instance for `scalaz.@@`
+* `refined-scodec` provides `Codec` instance for refined types
+* `refined-scalacheck` provides `Arbitrary` instances for refined types
+
 ## Documentation
 
 API documentation of the latest release is available at:

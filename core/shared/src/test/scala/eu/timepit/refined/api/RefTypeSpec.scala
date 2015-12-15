@@ -10,6 +10,7 @@ import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.<:!<
 import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
@@ -88,8 +89,8 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
     x == y && y == z
   }
 
-  property("(T Refined P) <!: T") = wellTyped {
-    illTyped("implicitly[(Int Refined Positive) <:< Int]", "Cannot prove.*")
+  property("(T Refined P) <:! T") = wellTyped {
+    val x = implicitly[(Int Refined Positive) <:!< Int]
   }
 }
 

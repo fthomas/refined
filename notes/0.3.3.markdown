@@ -1,3 +1,9 @@
 ### Changes
 
+* Add the `RefType.refineMF` macro which requires that the base type must
+  be specified and cannot be inferred from its argument. This allows to
+  define aliases for the `RefineM` macro where the base type and
+  predicate are fixed. ([#107])
 * Update `refined-scalaz` to Scalaz 7.2.0
+
+[#107]: https://github.com/fthomas/refined/issues/107

@@ -42,8 +42,8 @@ trait RefType[F[_, _]] extends Serializable {
    * }}}
    *
    * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
-   * which has an `apply` method on it, allowing `refine` to be called
-   * like in the given example.
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
   def refine[P]: RefinePartiallyApplied[F, P] =
     new RefinePartiallyApplied(this)
@@ -63,8 +63,8 @@ trait RefType[F[_, _]] extends Serializable {
    * Note: `M` stands for '''m'''acro.
    *
    * Note: The return type is `[[internal.RefineMPartiallyApplied]][F, P]`,
-   * which has an `apply` method on it, allowing `refineM` to be called
-   * like in the given example.
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
   def refineM[P]: RefineMPartiallyApplied[F, P] =
     new RefineMPartiallyApplied

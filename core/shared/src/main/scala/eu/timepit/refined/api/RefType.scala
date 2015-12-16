@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package api
 
-import eu.timepit.refined.internal.{ ApplyRefPartiallyApplied, RefineMPartiallyApplied, RefinePartiallyApplied }
+import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
 import scala.reflect.macros.blackbox
@@ -42,8 +42,8 @@ trait RefType[F[_, _]] extends Serializable {
    * }}}
    *
    * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
-   * which has an `apply` method on it, allowing `refine` to be called
-   * like in the given example.
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
   def refine[P]: RefinePartiallyApplied[F, P] =
     new RefinePartiallyApplied(this)
@@ -63,11 +63,33 @@ trait RefType[F[_, _]] extends Serializable {
    * Note: `M` stands for '''m'''acro.
    *
    * Note: The return type is `[[internal.RefineMPartiallyApplied]][F, P]`,
-   * which has an `apply` method on it, allowing `refineM` to be called
-   * like in the given example.
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
   def refineM[P]: RefineMPartiallyApplied[F, P] =
     new RefineMPartiallyApplied
+
+  /**
+   * Macro that returns a value of type `T` refined as `F[T, P]` if
+   * it satisfies the predicate `P`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> RefType[Refined].refineMF[Long, Positive](10)
+   * res1: Refined[Long, Positive] = Refined(10)
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro and `F` for '''f'''ully applied.
+   *
+   * Note: The return type is `[[internal.RefineMFullyApplied]][F, T, P]`,
+   * which has an `apply` method on it, allowing `refineMF` to be called
+   * like in the given example. In contrast to `[[refineM]]`, the type
+   * `T` needs to be specified before `apply` can be called.
+   */
+  def refineMF[T, P]: RefineMFullyApplied[F, T, P] =
+    new RefineMFullyApplied
 
   def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))

@@ -1,11 +1,11 @@
 # refined: simple refinement types for Scala
 [![Download](https://img.shields.io/maven-central/v/eu.timepit/refined_2.11.svg)][search.maven]
 [![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
-[![Gitter](https://img.shields.io/badge/Gitter-join%20chat-brightgreen.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Codacy Badge](https://img.shields.io/codacy/e4f25ef2656e463e8fed3f4f9314abdb.svg)](https://www.codacy.com/app/fthomas/refined)
 
-*refined* is a Scala library for refining types with type-level predicates
+**refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
 as a port of the [refined][refined.hs] Haskell library (which also provides
 an excellent motivation why this kind of library is useful).
@@ -48,7 +48,7 @@ res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 `@@` is [shapeless'][shapeless] type for tagging types which has the nice
 property of being a subtype of its first type parameter (i.e. `(T @@ P) <: T`).
 
-*refined* also contains inference rules for converting between different
+**refined** also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted
 to `Int @@ Positive` because all integers greater than ten are also positive.
 The type conversion of refined types is a compile-time operation that is
@@ -149,8 +149,9 @@ scala> val u1: String @@ Url = "htp://example.com"
                                ^
 ```
 
-Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which
-provides syntax for singleton types.
+Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
+is a shortcut for [`shapeless.Witness`][singleton-types] which provides
+syntax for literal-based singleton types.
 
 ## Using refined
 
@@ -173,6 +174,13 @@ Instructions for Maven and other build tools are available at [search.maven.org]
 Release notes for the latest version are available in
 [0.3.2.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.2.markdown).
 
+The optional dependencies are add-on libraries that provide support for
+other tag types or integration of refined types in other libraries.
+
+* `refined-scalaz` provides a `RefType` instance for `scalaz.@@`
+* `refined-scodec` provides `Codec` instance for refined types
+* `refined-scalacheck` provides `Arbitrary` instances for refined types
+
 ## Documentation
 
 API documentation of the latest release is available at:
@@ -181,7 +189,7 @@ API documentation of the latest release is available at:
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
 and working with [type aliases][type-aliases]. It also contains a
-[description][design-description] of *refined's* design and internals.
+[description][design-description] of **refined's** design and internals.
 
 [custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
 [design-description]: https://github.com/fthomas/refined/blob/master/docs/design_description.md
@@ -279,7 +287,7 @@ The library comes with these predefined predicates:
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 
-The *refined* project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]
+The **refined** project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]
 and wants all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
 
 ## Projects using refined
@@ -300,7 +308,7 @@ it in the Gitter channel and we'll add a link to it here.
 
 ## Performance concerns
 
-Using *refined's* macros for compile-time refinement bears zero runtime
+Using **refined's** macros for compile-time refinement bears zero runtime
 overhead for reference types and only causes boxing for value types.
 [PostErasureAnyRef][PostErasureAnyRef] and [PostErasureAnyVal][PostErasureAnyVal]
 show the differences of unrefined and refined types during the posterasure
@@ -316,11 +324,11 @@ compiler phase.
 * [LiquidHaskell](http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/):
   Refinement Types via SMT and Predicate Abstraction
 * [refined][refined.hs]: Refinement types with static and runtime checking for
-  Haskell. *refined* was inspired this library and even stole its name!
+  Haskell. **refined** was inspired this library and even stole its name!
 
 ## License
 
-*refined* is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+**refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
 [code-of-conduct]: http://typelevel.org/conduct.html

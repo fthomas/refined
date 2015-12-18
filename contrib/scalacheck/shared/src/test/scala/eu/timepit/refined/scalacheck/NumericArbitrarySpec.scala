@@ -74,4 +74,11 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("Interval.alias") =
     forAll { m: Minute => m >= 0 && m <= 59 }
+
+  property("chooseRefinedNum") = {
+    type Natural = Int Refined NonNegative
+    forAll(chooseRefinedNum(23: Natural, 42: Natural)) { n =>
+      n >= 23 && n <= 42
+    }
+  }
 }

@@ -12,3 +12,5 @@
 [#106]: https://github.com/fthomas/refined/pull/106
 [#107]: https://github.com/fthomas/refined/issues/107
 [#109]: https://github.com/fthomas/refined/pull/109
+
+Released on 2015-12-18

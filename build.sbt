@@ -255,7 +255,7 @@ lazy val releaseSettings = {
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
-      runTest,
+      releaseStepCommand("testSequential"),
       setReleaseVersion,
       addReleaseDateToReleaseNotes,
       updateVersionInReadme,
@@ -309,4 +309,14 @@ addCommandAlias("validate", Seq(
   "test:scalastyle",
   "doc",
   "docs/tut"
+).mkString(";", ";", ""))
+
+addCommandAlias("testSequential", Seq(
+  "coreJS/test",
+  "coreJVM/test",
+  "scalacheckJS/test",
+  "scalacheckJVM/test",
+  "scalaz/test",
+  "scodecJS/test",
+  "scodecJVM/test"
 ).mkString(";", ";", ""))

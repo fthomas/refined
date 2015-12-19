@@ -175,11 +175,16 @@ Release notes for the latest version are available in
 [0.3.3.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.3.markdown).
 
 The optional dependencies are add-on libraries that provide support for
-other tag types or integration of refined types in other libraries.
+other tag types or integration of refined types in other libraries:
 
-* `refined-scalaz` provides a `RefType` instance for `scalaz.@@`
-* `refined-scodec` provides `Codec` instance for refined types
-* `refined-scalacheck` provides `Arbitrary` instances for refined types
+* `refined-scalaz` provides a `RefType` instance for `scalaz.@@` so
+  that it can be used as carrier of refinements (e.g. `scalaz.@@[Int, Positive]`)
+* `refined-scodec` provides a `scodec.Codec` instance for refined types
+* `refined-scalacheck` provides `org.scalacheck.Arbitrary` instances
+  for refined types
+
+See also the list of [projects that use refined](#projects-using-refined)
+for projects that directly provide support for **refined**.
 
 ## Documentation
 

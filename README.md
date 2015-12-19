@@ -184,7 +184,7 @@ other tag types or integration of refined types in other libraries:
   for refined types
 
 See also the list of [projects that use refined](#projects-using-refined)
-for projects that directly provide support for **refined**.
+for libraries that directly provide support for **refined**.
 
 ## Documentation
 

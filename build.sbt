@@ -1,7 +1,12 @@
+import com.typesafe.tools.mima.plugin.MimaPlugin.mimaDefaultSettings
+import com.typesafe.tools.mima.plugin.MimaKeys.previousArtifact
+
 /// shared variables
 
+val latestVersion = "0.3.3"
+val groupId = "eu.timepit"
 val projectName = "refined"
-val rootPkg = s"eu.timepit.$projectName"
+val rootPkg = s"$groupId.$projectName"
 val gitPubUrl = s"https://github.com/fthomas/$projectName.git"
 val gitDevUrl = s"git@github.com:fthomas/$projectName.git"
 
@@ -58,6 +63,7 @@ lazy val core = crossProject
   .settings(releaseSettings: _*)
   .settings(styleSettings: _*)
   .settings(siteSettings: _*)
+  .jvmSettings(commonJvmSettings: _*)
   .jvmSettings(myDoctestSettings: _*)
   .jvmSettings(
     initialCommands := s"""
@@ -86,6 +92,7 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
+  .jvmSettings(commonJvmSettings: _*)
   .jvmSettings(
     initialCommands := s"""
       $commonImports
@@ -101,6 +108,7 @@ lazy val scalacheckJS = scalacheck.js
 lazy val scalaz = project.in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
   .settings(submoduleSettings)
+  .settings(commonJvmSettings)
   .settings(
     libraryDependencies += "org.scalaz" %% "scalaz-core" % scalazVersion,
     initialCommands := s"""
@@ -115,6 +123,7 @@ lazy val scalaz = project.in(file("contrib/scalaz"))
 lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
+  .jvmSettings(commonJvmSettings: _*)
   .jsSettings(scalaJSStage in Test := FastOptStage)
   .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
   .dependsOn(core % "compile->compile;test->test")
@@ -126,7 +135,12 @@ lazy val scodecJS = scodec.js
 
 lazy val commonSettings =
   projectSettings ++
-  compileSettings
+  compileSettings ++
+  mimaDefaultSettings
+
+lazy val commonJvmSettings = Seq(
+  previousArtifact := Some(groupId %% moduleName.value % latestVersion)
+)
 
 lazy val submoduleSettings =
   commonSettings ++
@@ -299,6 +313,7 @@ lazy val styleSettings =
 
 addCommandAlias("validate", Seq(
   "clean",
+  "mimaReportBinaryIssues",
   "coreJS/test",
   "scalacheckJS/test",
   "scodecJS/test",

@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.{ RefType, Refined, Validate }
-import eu.timepit.refined.internal._
+import eu.timepit.refined.macros.{ InferM, RefineM }
 import shapeless.tag.@@
 
 trait auto {

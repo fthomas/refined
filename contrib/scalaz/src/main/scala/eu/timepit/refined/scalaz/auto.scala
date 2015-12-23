@@ -1,7 +1,7 @@
 package eu.timepit.refined.scalaz
 
 import eu.timepit.refined.api.{ RefType, Validate }
-import eu.timepit.refined.internal.RefineM
+import eu.timepit.refined.macros.RefineM
 
 import scalaz.@@
 

@@ -1,5 +1,5 @@
 package eu.timepit.refined
-package internal
+package macros
 
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.RefType

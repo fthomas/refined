@@ -64,4 +64,10 @@
    <parameter name="ignoreOverride">false</parameter>
   </parameters>
  </check>
+ <check level="error" enabled="true" class="org.scalastyle.scalariform.ImportOrderChecker">
+  <parameters>
+   <parameter name="groups">all</parameter>
+   <parameter name="group.all">.+</parameter>
+  </parameters>
+ </check>
 </scalastyle>

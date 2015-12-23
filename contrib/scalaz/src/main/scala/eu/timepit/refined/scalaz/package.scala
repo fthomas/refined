@@ -1,8 +1,7 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.RefType
-
 import _root_.scalaz.@@
+import eu.timepit.refined.api.RefType
 import scala.reflect.macros.blackbox
 
 package object scalaz {

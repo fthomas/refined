@@ -2,7 +2,6 @@ package eu.timepit.refined.scalaz
 
 import eu.timepit.refined.api.{ RefType, Validate }
 import eu.timepit.refined.macros.RefineMacro
-
 import scalaz.@@
 
 object auto {

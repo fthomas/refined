@@ -8,7 +8,7 @@ import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
 @bundle
-class InferM(val c: blackbox.Context) extends MacroUtils {
+class InferMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
   def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](ta: c.Expr[F[T, A]])(

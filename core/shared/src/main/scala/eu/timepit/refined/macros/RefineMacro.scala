@@ -7,7 +7,7 @@ import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
 @bundle
-class RefineM(val c: blackbox.Context) extends MacroUtils {
+class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
   def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(

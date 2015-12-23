@@ -2,7 +2,7 @@ package eu.timepit.refined
 package internal
 
 import eu.timepit.refined.api.{ RefType, Validate }
-import eu.timepit.refined.macros.RefineM
+import eu.timepit.refined.macros.RefineMacro
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
@@ -13,5 +13,5 @@ import eu.timepit.refined.macros.RefineM
  */
 final class RefineMPartiallyApplied[F[_, _], P] {
 
-  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineM.macroImpl[F, T, P]
+  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMacro.macroImpl[F, T, P]
 }

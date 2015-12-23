@@ -1,13 +1,12 @@
 package eu.timepit.refined.scalaz
 
+import _root_.scalaz.@@
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.api.{ RefType, RefTypeSpec }
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalaz.auto._
 import org.scalacheck.Prop._
 import shapeless.test.illTyped
-
-import _root_.scalaz.@@
 
 class RefTypeSpecScalazTag extends RefTypeSpec[@@]("scalaz.@@") {
 

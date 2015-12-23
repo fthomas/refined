@@ -1,5 +1,5 @@
 package eu.timepit.refined
-package internal
+package macros
 
 import macrocompat.bundle
 
@@ -8,7 +8,6 @@ import scala.util.{ Success, Try }
 
 @bundle
 trait MacroUtils {
-
   val c: blackbox.Context
 
   def abort(msg: String): Nothing =

@@ -96,11 +96,13 @@ java.lang.AssertionError: assertion failed: fooValidate
 	at scala.tools.reflect.ToolBoxFactory$ToolBoxImpl.eval(ToolBoxFactory.scala:444)
 	at scala.reflect.macros.contexts.Evals$class.eval(Evals.scala:20)
 	at scala.reflect.macros.contexts.Context.eval(Context.scala:6)
-	at eu.timepit.refined.internal.MacroUtils$$anonfun$eval$1.apply(MacroUtils.scala:14)
+	at eu.timepit.refined.macros.MacroUtils$$anonfun$eval$1.apply(MacroUtils.scala:22)
 	at scala.Option.getOrElse(Option.scala:121)
-	at eu.timepit.refined.internal.MacroUtils$.tryN(MacroUtils.scala:18)
-	at eu.timepit.refined.internal.MacroUtils$.eval(MacroUtils.scala:14)
-	at eu.timepit.refined.internal.RefineM$.macroImpl(RefineM.scala:15)
+	at eu.timepit.refined.macros.MacroUtils$class.tryN(MacroUtils.scala:26)
+	at eu.timepit.refined.macros.RefineMacro.tryN(RefineMacro.scala:9)
+	at eu.timepit.refined.macros.MacroUtils$class.eval(MacroUtils.scala:22)
+	at eu.timepit.refined.macros.RefineMacro.eval(RefineMacro.scala:9)
+	at eu.timepit.refined.macros.RefineMacro.impl(RefineMacro.scala:17)
 
          val x = refineMT[Foo](0)
                               ^

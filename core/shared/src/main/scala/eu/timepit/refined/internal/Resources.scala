@@ -1,4 +1,5 @@
-package eu.timepit.refined.internal
+package eu.timepit.refined
+package internal
 
 import eu.timepit.refined.api.Result
 
@@ -86,4 +87,12 @@ object Resources {
 
   def showResultOrBothFailed(expr: String, left: String, right: String): String =
     s"$Both $predicates of $expr $failed. $Left: $left $Right: $right"
+
+  //
+
+  val refineNonCompileTimeConstant =
+    "compile-time refinement only works with literals or constant predicates"
+
+  def invalidInference(from: String, to: String): String =
+    s"invalid inference: $from ==> $to"
 }

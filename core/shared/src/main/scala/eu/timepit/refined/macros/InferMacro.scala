@@ -11,7 +11,7 @@ import scala.reflect.macros.blackbox
 class InferMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](ta: c.Expr[F[T, A]])(
+  def impl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](ta: c.Expr[F[T, A]])(
     ir: c.Expr[A ==> B], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, B]] = {
 

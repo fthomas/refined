@@ -15,7 +15,7 @@ trait auto {
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
     implicit
     ir: A ==> B, rt: RefType[F]
-  ): F[T, B] = macro InferMacro.macroImpl[F, T, A, B]
+  ): F[T, B] = macro InferMacro.impl[F, T, A, B]
 
   /**
    * Implicitly unwraps the `T` from a value of type `F[T, P]` using the
@@ -38,7 +38,7 @@ trait auto {
   implicit def autoRefineV[T, P](t: T)(
     implicit
     v: Validate[T, P], rt: RefType[Refined]
-  ): Refined[T, P] = macro RefineMacro.macroImpl[Refined, T, P]
+  ): Refined[T, P] = macro RefineMacro.impl[Refined, T, P]
 
   /**
    * Implicitly tags (at compile-time) a value of type `T` with `P` if `t`
@@ -50,7 +50,7 @@ trait auto {
   implicit def autoRefineT[T, P](t: T)(
     implicit
     v: Validate[T, P], rt: RefType[@@]
-  ): T @@ P = macro RefineMacro.macroImpl[@@, T, P]
+  ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }
 
 object auto extends auto

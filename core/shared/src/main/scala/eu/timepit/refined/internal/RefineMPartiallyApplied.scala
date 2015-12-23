@@ -13,5 +13,5 @@ import eu.timepit.refined.macros.RefineMacro
  */
 final class RefineMPartiallyApplied[F[_, _], P] {
 
-  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMacro.macroImpl[F, T, P]
+  def apply[T](t: T)(implicit v: Validate[T, P], rt: RefType[F]): F[T, P] = macro RefineMacro.impl[F, T, P]
 }

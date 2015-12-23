@@ -10,7 +10,7 @@ import scala.reflect.macros.blackbox
 class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
-  def macroImpl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
+  def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
     v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, P]] = {
 

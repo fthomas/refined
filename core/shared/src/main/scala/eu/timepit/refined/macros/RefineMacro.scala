@@ -2,6 +2,7 @@ package eu.timepit.refined
 package macros
 
 import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.internal.Resources
 import macrocompat.bundle
 
 import scala.reflect.macros.blackbox
@@ -19,8 +20,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ if validate.isConstant => null.asInstanceOf[T]
-      case _ =>
-        abort("compile-time refinement only works with literals or constant predicates")
+      case _ => abort(Resources.refineNonCompileTimeConstant)
     }
 
     val res = validate.validate(tValue)

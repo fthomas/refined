@@ -293,8 +293,10 @@ The library comes with these predefined predicates:
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 
-The **refined** project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]
-and wants all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
+**refined** is a [Typelevel][typelevel] project. This means we embrace pure,
+typeful, functional programming, and provide a safe and friendly environment
+for teaching, learning, and contributing as described in the Typelevel
+[code of conduct][code-of-conduct].
 
 ## Projects using refined
 

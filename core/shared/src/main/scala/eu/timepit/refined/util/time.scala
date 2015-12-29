@@ -4,6 +4,7 @@ package util
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
 
+/** Module for date and time related refined types. */
 object time {
 
   /** An `Int` in the range from 1 to 12 representing the month-of-year. */
@@ -26,6 +27,4 @@ object time {
 
   /** An `Int` in the range from 0 to 999 representing the millisecond-of-second. */
   type Millis = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
-
-  // Add safe constructors for java.time types once we require Java 8 or higher.
 }

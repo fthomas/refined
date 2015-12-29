@@ -4,6 +4,12 @@ package util
 import eu.timepit.refined.string._
 import shapeless.tag.@@
 
+/**
+ * Module for statically checking constructors of types that can be
+ * instantiated with `String`s.
+ *
+ * @see [[https://github.com/fthomas/refined/blob/master/docs/util_string.md]]
+ */
 object string {
 
   /**

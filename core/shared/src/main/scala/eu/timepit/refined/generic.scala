@@ -47,8 +47,10 @@ private[refined] trait GenericValidate {
   ): Validate.Plain[T, Equal[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
 
+  // Cache ToolBox for Eval Validate instances
+  private lazy val toolBox = currentMirror.mkToolBox()
+
   implicit def evalValidate[T, S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[T, Eval[S]] = {
-    val toolBox = currentMirror.mkToolBox()
     val tree = toolBox.parse(ws.value)
     val predicate = toolBox.eval(tree).asInstanceOf[T => Boolean]
     Validate.fromPredicate(predicate, _ => ws.value, Eval(ws.value))

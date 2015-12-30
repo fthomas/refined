@@ -1,9 +1,11 @@
 package eu.timepit.refined
 
+import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Validate
 import eu.timepit.refined.generic.Eval
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import shapeless.test.illTyped
 
 class GenericValidateSpecJvm extends Properties("GenericValidate") {
 
@@ -17,7 +19,8 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
     Validate[Int, IsEven].showExpr(0) ?= "(x: Int) => x % 2 == 0"
   }
 
-  property("Eval.refineM") = secure {
-    refineMV[IsEven](2).get == 2
+  property("Eval.refineMV") = wellTyped {
+    refineMV[IsEven](2)
+    illTyped("refineMV[IsEven](3)", "Predicate.*fail.*")
   }
 }

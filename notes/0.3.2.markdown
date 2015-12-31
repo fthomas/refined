@@ -1,6 +1,46 @@
 ### Changes
 
-* Add an `anyArbitrary` module which provides `Arbitrary` instances for
-  any refined type by using an `Arbitrary` of the base type and a
-  `Validate` of the refinement's predicate to pick only valid values.
-* Add `Arbitrary` instances for `LessEqual` and `GreaterEqual`.
+* Add a refined-scalaz subproject which provides a `RefType` instance
+  for [`scalaz.@@`][scalaz] (Scalaz' tag type). ([#84])
+* Add a refined-scodec subproject which provides [`scodec.Codec`][scodec]
+  instances for refined types. ([#92])
+* Add `RefType.applyRef` function that refines a value according to a
+  refined type. This makes working with type aliases like
+  ``type Minute = Int Refined Interval[W.`0`.T, W.`59`.T]`` more
+  convenient because one can use `Minute` as parameter for `applyRef`,
+  e.g. `applyRef[Minute](45)`. ([#78])
+* Add an `any` module which provides `Arbitrary` instances for any
+  refined type by using an `Arbitrary` of the base type and a `Validate`
+  of the refinement's predicate to pick only valid values.
+* Add `Arbitrary` instances for `LessEqual`, `GreaterEqual`, and
+  `Whitespace`.
+* Add `checkArbitraryRefType` function to the `scalacheck` package
+  object which can be used the check `Arbitrary` instances of refined
+  types. ([#87])
+* Remove the `Arbitrary` suffix from modules providing `Arbitrary`
+  instances.
+* Rename `Interval` to `Interval.Closed`. ([#80])
+
+### New predicates
+
+[`generic`](https://github.com/fthomas/refined/blob/v0.3.2/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
+
+* `Eval[S]`: checks if a value applied to the predicate `S` yields `true` ([#82])
+
+[`numeric`](https://github.com/fthomas/refined/blob/v0.3.2/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
+
+* `Interval.Open[L, H]`: checks if a numeric value is in the interval (`L`, `H`)
+* `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
+* `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
+* `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+
+[#78]: https://github.com/fthomas/refined/issues/78
+[#80]: https://github.com/fthomas/refined/issues/80
+[#82]: https://github.com/fthomas/refined/pull/82
+[#84]: https://github.com/fthomas/refined/pull/84
+[#87]: https://github.com/fthomas/refined/pull/87
+[#92]: https://github.com/fthomas/refined/pull/92
+[scalaz]: https://github.com/scalaz/scalaz
+[scodec]: http://scodec.org/
+
+Released on 2015-11-18

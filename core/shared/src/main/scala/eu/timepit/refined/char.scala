@@ -5,6 +5,7 @@ import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.char._
 import eu.timepit.refined.smt.{SubFormula, Formula}
 
+/** Module for `Char` related predicates. */
 object char extends CharValidate with CharSmt {
 
   /** Predicate that checks if a `Char` is a digit. */

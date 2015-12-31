@@ -1,0 +1,16 @@
+### Changes
+
+* Add `Arbitrary` instances for numeric predicates indexed by `Nat`s and
+  improve the implementation of the other numeric `Arbitrary` instances.
+  Thanks to Jean-Rémi Desjardins! ([#106], [#109])
+* Add the `RefType.refineMF` macro which requires that the base type must
+  be specified and cannot be inferred from its argument. This allows to
+  define aliases for the `RefineM` macro where the base type and
+  predicate are fixed. ([#107])
+* Update `refined-scalaz` to Scalaz 7.2.0
+
+[#106]: https://github.com/fthomas/refined/pull/106
+[#107]: https://github.com/fthomas/refined/issues/107
+[#109]: https://github.com/fthomas/refined/pull/109
+
+Released on 2015-12-18

@@ -1,19 +1,19 @@
 package eu.timepit.refined
 package api
 
-import eu.timepit.refined.internal.{ RefineAux, RefineMAux }
+import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
-import scala.reflect.macros.Context
+import scala.reflect.macros.blackbox
 
 /**
- * Type class that allows `F` to be used as result type of a refinement.
- * The first type parameter of `F` is the type that is being refined by
- * its second type parameter which is the type-level predicate that
+ * Type class that allows `F` to be used as carrier type of a refinement.
+ * The first type parameter of `F` is the base type that is being refined
+ * by its second type parameter which is the type-level predicate that
  * denotes the refinement. Consequently, `F[T, P]` is a phantom type
  * that only contains a value of type `T`.
  *
- * The library provides instances of `RefType` for
+ * The library provides instances of `[[RefType]]` for
  *  - the `[[Refined]]` value class
  *  - and `shapeless.tag.@@` which is a subtype of its first parameter
  *    (i.e. `(T @@ P) <: T`)
@@ -24,33 +24,33 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unwrap[T, P](tp: F[T, P]): T
 
-  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T]): c.Expr[F[T, P]]
+  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[F[T, P]]
 
-  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
+  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
 
   /**
-   * Returns a value of type `T` wrapped in `F[T, P]` on the right if
+   * Returns a value of type `T` refined as `F[T, P]` on the right if
    * it satisfies the predicate `P`, or an error message on the left
    * otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined._
+   * scala> import eu.timepit.refined.api._
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType[Refined].refine[Positive](10)
    * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
    * }}}
    *
-   * Note: The return type is `[[internal.RefineAux]][F, P]`, which has
-   * an `apply` method on it, allowing `refine` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
-  def refine[P]: RefineAux[F, P] =
-    new RefineAux(this)
+  def refine[P]: RefinePartiallyApplied[F, P] =
+    new RefinePartiallyApplied(this)
 
   /**
-   * Macro that returns a value of type `T` wrapped in `F[T, P]` if it
-   * satisfies the predicate `P`, or fails to compile otherwise.
+   * Macro that returns a value of type `T` refined as `F[T, P]` if
+   * it satisfies the predicate `P`, or fails to compile otherwise.
    *
    * Example: {{{
    * scala> import eu.timepit.refined._
@@ -62,12 +62,34 @@ trait RefType[F[_, _]] extends Serializable {
    *
    * Note: `M` stands for '''m'''acro.
    *
-   * Note: The return type is `[[internal.RefineMAux]][F, P]`, which has
-   * an `apply` method on it, allowing `refineM` to be called like in the
-   * given example.
+   * Note: The return type is `[[internal.RefineMPartiallyApplied]][F, P]`,
+   * which has an `apply` method on it, allowing the type `T` to be
+   * inferred from its argument.
    */
-  def refineM[P]: RefineMAux[F, P] =
-    new RefineMAux
+  def refineM[P]: RefineMPartiallyApplied[F, P] =
+    new RefineMPartiallyApplied
+
+  /**
+   * Macro that returns a value of type `T` refined as `F[T, P]` if
+   * it satisfies the predicate `P`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> RefType[Refined].refineMF[Long, Positive](10)
+   * res1: Refined[Long, Positive] = Refined(10)
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro and `F` for '''f'''ully applied.
+   *
+   * Note: The return type is `[[internal.RefineMFullyApplied]][F, T, P]`,
+   * which has an `apply` method on it, allowing `refineMF` to be called
+   * like in the given example. In contrast to `[[refineM]]`, the type
+   * `T` needs to be specified before `apply` can be called.
+   */
+  def refineMF[T, P]: RefineMFullyApplied[F, T, P] =
+    new RefineMFullyApplied
 
   def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
@@ -78,7 +100,28 @@ trait RefType[F[_, _]] extends Serializable {
 
 object RefType {
 
+  /** Returns a `RefType` for the given type `F` from the implicit scope. */
   def apply[F[_, _]](implicit rt: RefType[F]): RefType[F] = rt
+
+  /**
+   * Returns a value of type `T` refined as `FTP` on the right if it
+   * satisfies the predicate in `FTP`, or an error message on the left
+   * otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> RefType.applyRef[Int Refined Positive](10)
+   * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
+   * }}}
+   *
+   * Note: The return type is `[[internal.ApplyRefPartiallyApplied]][FTP]`,
+   * which has an `apply` method on it, allowing `applyRef` to be called
+   * like in the given example.
+   */
+  def applyRef[FTP]: ApplyRefPartiallyApplied[FTP] =
+    new ApplyRefPartiallyApplied
 
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {
@@ -88,10 +131,10 @@ object RefType {
       override def unwrap[T, P](tp: Refined[T, P]): T =
         tp.get
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
+      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
         c.universe.reify(Refined.unsafeApply[T, P](t.splice))
 
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
+      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
         c.universe.reify(ta.splice.asInstanceOf[Refined[T, B]])
     }
 
@@ -103,10 +146,10 @@ object RefType {
       override def unwrap[T, P](tp: T @@ P): T =
         tp
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: Context)(t: c.Expr[T]): c.Expr[T @@ P] =
+      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] =
         c.universe.reify(t.splice.asInstanceOf[T @@ P])
 
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
+      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
         c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 

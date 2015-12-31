@@ -5,33 +5,33 @@ import org.scalacheck.Prop
 
 object TestUtils {
 
-  def isValid[P]: IsValidAux[P] = new IsValidAux
+  def isValid[P]: IsValidPartiallyApplied[P] = new IsValidPartiallyApplied
 
-  class IsValidAux[P] {
+  class IsValidPartiallyApplied[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): Boolean = v.isValid(t)
   }
 
-  def notValid[P]: NotValidAux[P] = new NotValidAux
+  def notValid[P]: NotValidPartiallyApplied[P] = new NotValidPartiallyApplied
 
-  class NotValidAux[P] {
+  class NotValidPartiallyApplied[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): Boolean = v.notValid(t)
   }
 
-  def validate[P]: ValidateAux[P] = new ValidateAux
+  def validate[P]: ValidatePartiallyApplied[P] = new ValidatePartiallyApplied
 
-  class ValidateAux[P] {
+  class ValidatePartiallyApplied[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): v.Res = v.validate(t)
   }
 
-  def showExpr[P]: ShowExprAux[P] = new ShowExprAux
+  def showExpr[P]: ShowExprPartiallyApplied[P] = new ShowExprPartiallyApplied
 
-  class ShowExprAux[P] {
+  class ShowExprPartiallyApplied[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showExpr(t)
   }
 
-  def showResult[P]: ShowResultAux[P] = new ShowResultAux
+  def showResult[P]: ShowResultPartiallyApplied[P] = new ShowResultPartiallyApplied
 
-  class ShowResultAux[P] {
+  class ShowResultPartiallyApplied[P] {
     def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showResult(t, v.validate(t))
   }
 

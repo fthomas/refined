@@ -4,35 +4,38 @@ The examples from the [README](https://github.com/fthomas/refined/blob/master/RE
 scala> import eu.timepit.refined._
 import eu.timepit.refined._
 
-scala> import eu.timepit.refined.numeric._
-import eu.timepit.refined.numeric._
-
-scala> refineMT[Positive](5)
-res0: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive] = 5
-
-scala> refineMT[Positive](-5)
-<console>:18: error: Predicate failed: (-5 > 0).
-       refineMT[Positive](-5)
-                         ^
-
-scala> refineT[Positive](5)
-res2: Either[String,shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive]] = Right(5)
-
-scala> refineT[Positive](-5)
-res3: Either[String,shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive]] = Left(Predicate failed: (-5 > 0).)
-```
-
-```scala
 scala> import eu.timepit.refined.auto._
 import eu.timepit.refined.auto._
 
-scala> import shapeless.nat._
-import shapeless.nat._
+scala> import eu.timepit.refined.numeric._
+import eu.timepit.refined.numeric._
 
 scala> import shapeless.tag.@@
 import shapeless.tag.$at$at
 
-scala> val a: Int @@ Greater[_5] = refineMT(10)
+scala> val i1: Int @@ Positive = 5
+i1: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive] = 5
+
+scala> val i2: Int @@ Positive = -5
+<console>:21: error: Predicate failed: (-5 > 0).
+       val i2: Int @@ Positive = -5
+                                  ^
+
+scala> refineMT[Positive](5)
+res0: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive] = 5
+
+scala> refineT[Positive](5)
+res1: Either[String,shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive]] = Right(5)
+
+scala> refineT[Positive](-5)
+res2: Either[String,shapeless.tag.@@[Int,eu.timepit.refined.numeric.Positive]] = Left(Predicate failed: (-5 > 0).)
+```
+
+```scala
+scala> import shapeless.nat._
+import shapeless.nat._
+
+scala> val a: Int @@ Greater[_5] = 10
 a: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._5]] = 10
 
 scala> val b: Int @@ Greater[_4] = a
@@ -64,7 +67,7 @@ scala> import eu.timepit.refined.string._
 import eu.timepit.refined.string._
 
 scala> refineMT[NonEmpty]("Hello")
-res4: shapeless.tag.@@[String,eu.timepit.refined.collection.NonEmpty] = Hello
+res3: shapeless.tag.@@[String,eu.timepit.refined.collection.NonEmpty] = Hello
 
 scala> refineMT[NonEmpty]("")
 <console>:41: error: Predicate isEmpty() did not fail.
@@ -80,7 +83,7 @@ scala> refineMT[ZeroToOne](1.8)
                           ^
 
 scala> refineMT[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
-res7: shapeless.tag.@@[Char,eu.timepit.refined.boolean.AnyOf[shapeless.::[eu.timepit.refined.char.Digit,shapeless.::[eu.timepit.refined.char.Letter,shapeless.::[eu.timepit.refined.char.Whitespace,shapeless.HNil]]]]] = F
+res6: shapeless.tag.@@[Char,eu.timepit.refined.boolean.AnyOf[shapeless.::[eu.timepit.refined.char.Digit,shapeless.::[eu.timepit.refined.char.Letter,shapeless.::[eu.timepit.refined.char.Whitespace,shapeless.HNil]]]]] = F
 
 scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:41: error: Predicate failed: "123.".matches("[0-9]+").

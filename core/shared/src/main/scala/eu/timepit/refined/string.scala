@@ -5,6 +5,11 @@ import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.string._
 import shapeless.Witness
 
+/**
+ * Module for `String` related predicates. Note that most of the predicates
+ * in `[[collection]]` also work for `String`s by treating them as sequences
+ * of `Char`s.
+ */
 object string extends StringValidate with StringInference {
 
   /** Predicate that checks if a `String` ends with the suffix `S`. */

@@ -54,8 +54,20 @@ object numeric extends NumericValidate with NumericInference with NumericShowExp
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
-  /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
-  type Interval[L, H] = GreaterEqual[L] And LessEqual[H]
+  object Interval {
+
+    /** Predicate that checks if a numeric value is in the interval `(L, H)`. */
+    type Open[L, H] = Greater[L] And Less[H]
+
+    /** Predicate that checks if a numeric value is in the interval `(L, H]`. */
+    type OpenClosed[L, H] = Greater[L] And LessEqual[H]
+
+    /** Predicate that checks if a numeric value is in the interval `[L, H)`. */
+    type ClosedOpen[L, H] = GreaterEqual[L] And Less[H]
+
+    /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
+    type Closed[L, H] = GreaterEqual[L] And LessEqual[H]
+  }
 }
 
 private[refined] trait NumericValidate {

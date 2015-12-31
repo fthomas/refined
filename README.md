@@ -1,11 +1,11 @@
 # refined: simple refinement types for Scala
-[![Download](https://img.shields.io/maven-central/v/eu.timepit/refined_2.11.svg)][search.maven]
 [![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
-[![Gitter](https://img.shields.io/badge/Gitter-join%20chat-brightgreen.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Codacy Badge](https://img.shields.io/codacy/e4f25ef2656e463e8fed3f4f9314abdb.svg)](https://www.codacy.com/app/fthomas/refined)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Download](https://img.shields.io/maven-central/v/eu.timepit/refined_2.11.svg)][search.maven]
 
-*refined* is a Scala library for refining types with type-level predicates
+**refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
 as a port of the [refined][refined.hs] Haskell library (which also provides
 an excellent motivation why this kind of library is useful).
@@ -14,25 +14,30 @@ A quick example:
 
 ```scala
 import eu.timepit.refined._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
+import shapeless.tag.@@
 
-// refineMT decorates the type of its parameter if it satisfies the
-// given type-level predicate:
+// This refines Int with the Positive predicate and checks via an
+// implicit macro that the assigned value satisfies it:
+val i1: Int @@ Positive = 5
+i1: Int @@ Positive = 5
+
+// If the value does not satisfy the predicate, we get a meaningful
+// compile error:
+val i2: Int @@ Positive = -5
+<console>:21: error: Predicate failed: (-5 > 0).
+       val i2: Int @@ Positive = -5
+                                  ^
+
+// There is also the explicit refineMT macro that can infer the base
+// type from its parameter:
 scala> refineMT[Positive](5)
 res0: Int @@ Positive = 5
 
-// The type Int @@ Positive is the type of all Int values that are
-// greater than zero.
-
-// If the parameter does not satisfy the predicate, we get a meaningful
-// compile error:
-scala> refineMT[Positive](-5)
-<console>:34: error: Predicate failed: (-5 > 0).
-              refineMT[Positive](-5)
-                                ^
-
-// refineMT is a macro and only works with literals. To validate
-// arbitrary (runtime) values we can use the refineT function:
+// Macros can only validate literals because their values are known at
+// compile-time. To validate arbitrary (runtime) values we can use the
+// refineT function:
 scala> refineT[Positive](5)
 res1: Either[String, Int @@ Positive] = Right(5)
 
@@ -40,22 +45,19 @@ scala> refineT[Positive](-5)
 res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
-Note that `@@` is [shapeless'][shapeless] type for tagging types which has
-the nice property of being a subtype of its first type parameter (i.e.
-`(T @@ P) <: T`).
+`@@` is [shapeless'][shapeless] type for tagging types which has the nice
+property of being a subtype of its first type parameter (i.e. `(T @@ P) <: T`).
 
-*refined* also contains inference rules for converting between different
+**refined** also contains inference rules for converting between different
 refined types. For example, `Int @@ Greater[_10]` can be safely converted
 to `Int @@ Positive` because all integers greater than ten are also positive.
 The type conversion of refined types is a compile-time operation that is
 provided by the library:
 
 ```scala
-import eu.timepit.refined.auto._
 import shapeless.nat._
-import shapeless.tag.@@
 
-scala> val a: Int @@ Greater[_5] = refineMT(10)
+scala> val a: Int @@ Greater[_5] = 10
 a: Int @@ Greater[_5] = 10
 
 // Since every value greater than 5 is also greater than 4, a can be ascribed
@@ -76,15 +78,15 @@ intervention.
 
 ## Table of contents
 
-- [More examples](#more-examples)
-- [Using refined](#using-refined)
-- [Documentation](#documentation)
-- [Provided predicates](#provided-predicates)
-- [Contributors and participation](#contributors-and-participation)
-- [Projects using refined](#projects-using-refined)
-- [Performance concerns](#performance-concerns)
-- [Related projects](#related-projects)
-- [License](#license)
+1. [More examples](#more-examples)
+2. [Using refined](#using-refined)
+3. [Documentation](#documentation)
+4. [Provided predicates](#provided-predicates)
+5. [Contributors and participation](#contributors-and-participation)
+6. [Projects using refined](#projects-using-refined)
+7. [Performance concerns](#performance-concerns)
+8. [Related projects](#related-projects)
+9. [License](#license)
 
 ## More examples
 
@@ -120,9 +122,6 @@ scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
               refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-// The auto object contains an implicit version of refineMT which is used
-// here to validate that the right-hand side equals '3' (obviously there is
-// only one value satisfying this predicate):
 scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
 d1: Char @@ Equal[Char('3')] = 3
 
@@ -150,19 +149,22 @@ scala> val u1: String @@ Url = "htp://example.com"
                                ^
 ```
 
-Note that `W` is a shortcut for [`shapeless.Witness`][singleton-types] which
-provides syntax for singleton types.
+Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
+is a shortcut for [`shapeless.Witness`][singleton-types] which provides
+syntax for literal-based singleton types.
 
 ## Using refined
 
-The latest version of the library is 0.3.1, which is available for Scala and
+The latest version of the library is 0.3.3, which is available for Scala and
 [Scala.js][scala.js] version 2.10 and 2.11.
 
-If you're using SBT, add the following to your build:
+If you're using sbt, add the following to your build:
 
     libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined"            % "0.3.1",
-      "eu.timepit" %% "refined-scalacheck" % "0.3.1" % "test" // optional
+      "eu.timepit" %% "refined"            % "0.3.3",
+      "eu.timepit" %% "refined-scalaz"     % "0.3.3",         // optional, JVM only
+      "eu.timepit" %% "refined-scodec"     % "0.3.3",         // optional
+      "eu.timepit" %% "refined-scalacheck" % "0.3.3" % "test" // optional
     )
 
 For Scala.js just replace `%%` with `%%%` above.
@@ -170,7 +172,19 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.3.1.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.1.markdown).
+[0.3.3.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.3.markdown).
+
+The optional dependencies are add-on libraries that provide support for
+other tag types or integration of refined types in other libraries:
+
+* `refined-scalaz` for support of [Scalaz](https://github.com/scalaz/scalaz)'
+  tag type (`scalaz.@@`)
+* `refined-scodec` for integration with [scodec](http://scodec.org/)
+* `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
+  class instances of refined types
+
+See also the list of [projects that use refined](#projects-using-refined)
+for libraries that directly provide support for **refined**.
 
 ## Documentation
 
@@ -180,7 +194,7 @@ API documentation of the latest release is available at:
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
 and working with [type aliases][type-aliases]. It also contains a
-[description][design-description] of *refined's* design and internals.
+[description][design-description] of **refined's** design and internals.
 
 [custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
 [design-description]: https://github.com/fthomas/refined/blob/master/docs/design_description.md
@@ -238,6 +252,7 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
+* `Eval[S]`: checks if a value applied to the predicate `S` yields `true`
 * `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
 * `FieldNames[P]`: checks if the field names of a product type satisfy `P`
 * `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
@@ -253,7 +268,10 @@ The library comes with these predefined predicates:
 * `NonPositive`: checks if a numeric value is zero or negative
 * `Negative`: checks if a numeric value is less than zero
 * `NonNegative`: checks if a numeric value is zero or positive
-* `Interval[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+* `Interval.Open[L, H]`: checks if a numeric value is in the interval (`L`, `H`)
+* `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
+* `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
+* `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
 
 [`string`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 
@@ -271,11 +289,14 @@ The library comes with these predefined predicates:
 
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
+* [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 
-The *refined* project supports the [Typelevel][typelevel] [code of conduct][code-of-conduct]
-and wants all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
+**refined** is a [Typelevel][typelevel] project. This means we embrace pure,
+typeful, functional programming, and provide a safe and friendly environment
+for teaching, learning, and contributing as described in the Typelevel
+[code of conduct][code-of-conduct].
 
 ## Projects using refined
 
@@ -284,37 +305,41 @@ and you'd like to include in this list, please open a pull request or mention
 it in the Gitter channel and we'll add a link to it here.
 
 * [argonaut-shapeless](https://github.com/alexarchambault/argonaut-shapeless) -
-  provides the argonaut-refined module for (de)serialization of refined types
-  from and to JSON
+  provides the argonaut-refined subproject for (de)serialization of refined
+  types from and to JSON
+* [circe](https://github.com/travisbrown/circe) - provides the circe-refined
+  subproject for (de)serialization of refined types from and to JSON
+* [Monocle](https://github.com/julien-truffaut/Monocle) - provides the
+  monocle-refined subproject which contains lenses for safe bit indexing
+  into primitive types
 * Your project here :-)
 
 ## Performance concerns
 
-Using *refined's* macros for compile-time refinement bears zero runtime
+Using **refined's** macros for compile-time refinement bears zero runtime
 overhead for reference types and only causes boxing for value types.
 [PostErasureAnyRef][PostErasureAnyRef] and [PostErasureAnyVal][PostErasureAnyVal]
 show the differences of unrefined and refined types during the posterasure
 compiler phase.
 
-[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/core/shared/src/test/scala/eu/timepit/refined/examples/PostErasureAnyRef.scala
-[PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/core/shared/src/test/scala/eu/timepit/refined/examples/PostErasureAnyVal.scala
+[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyRef.scala
+[PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyVal.scala
 
 ## Related projects
 
-The most advanced system using refinement types is probably
-[LiquidHaskell][liquid-haskell] which uses an SMT solver to infer refinements
-automatically. This library was inspired by the [refined][refined.hs] Haskell
-library. It even stole its name! Another Scala library that provides type-level
-validations is [bond][bond].
+* [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
+* [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
+* [LiquidHaskell](http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/):
+  Refinement Types via SMT and Predicate Abstraction
+* [refined][refined.hs]: Refinement types with static and runtime checking for
+  Haskell. **refined** was inspired this library and even stole its name!
 
 ## License
 
-*refined* is licensed under the MIT license, available at http://opensource.org/licenses/MIT
+**refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
-[bond]: https://github.com/fwbrasil/bond
 [code-of-conduct]: http://typelevel.org/conduct.html
-[liquid-haskell]: http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

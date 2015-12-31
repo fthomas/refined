@@ -2,11 +2,15 @@ The examples from the [README](https://github.com/fthomas/refined/blob/master/RE
 
 ```tut:nofail
 import eu.timepit.refined._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
+import shapeless.tag.@@
+
+val i1: Int @@ Positive = 5
+
+val i2: Int @@ Positive = -5
 
 refineMT[Positive](5)
-
-refineMT[Positive](-5)
 
 refineT[Positive](5)
 
@@ -14,11 +18,9 @@ refineT[Positive](-5)
 ```
 
 ```tut:nofail
-import eu.timepit.refined.auto._
 import shapeless.nat._
-import shapeless.tag.@@
 
-val a: Int @@ Greater[_5] = refineMT(10)
+val a: Int @@ Greater[_5] = 10
 
 val b: Int @@ Greater[_4] = a
 

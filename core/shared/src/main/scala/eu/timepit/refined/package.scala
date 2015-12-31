@@ -8,7 +8,7 @@ package object refined {
 
   /**
    * Alias for `shapeless.Witness` that provides concise syntax for
-   * literal singleton types.
+   * literal-based singleton types.
    *
    * Example: {{{
    * scala> val d: W.`3.14`.T = 3.14
@@ -18,8 +18,14 @@ package object refined {
    * s: String("abc") = abc
    * }}}
    *
-   * See [[https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals]]
-   * for more information about shapeless' support for singleton types.
+   * See the [[https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals shapeless wiki]]
+   * for more information about its support for singleton types.
+   *
+   * Note that if a future version of Scala implements
+   * [[http://docs.scala-lang.org/sips/pending/42.type.html SIP-23]],
+   * `shapeless.Witness` won't be necessary anymore to express
+   * literal-based singleton types. It will then be possible to use
+   * literals directly in a position where a type is expected.
    */
   val W = shapeless.Witness
 
@@ -29,7 +35,7 @@ package object refined {
    *
    * Note: `V` stands for '''v'''alue class.
    */
-  def refineV[P]: RefineAux[Refined, P] = RefType[Refined].refine[P]
+  def refineV[P]: RefinePartiallyApplied[Refined, P] = RefType[Refined].refine[P]
 
   /**
    * Alias for `[[api.RefType.refine]][P]` with `shapeless.tag.@@` as type
@@ -37,7 +43,7 @@ package object refined {
    *
    * Note: `T` stands for '''t'''ag.
    */
-  def refineT[P]: RefineAux[@@, P] = RefType[@@].refine[P]
+  def refineT[P]: RefinePartiallyApplied[@@, P] = RefType[@@].refine[P]
 
   /**
    * Alias for `[[api.RefType.refineM]][P]` with `[[api.Refined]]` as type
@@ -45,7 +51,7 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `V` stands for '''v'''alue class.
    */
-  def refineMV[P]: RefineMAux[Refined, P] = RefType[Refined].refineM[P]
+  def refineMV[P]: RefineMPartiallyApplied[Refined, P] = RefType[Refined].refineM[P]
 
   /**
    * Alias for `[[api.RefType.refineM]][P]` with `shapeless.tag.@@` as type
@@ -53,5 +59,5 @@ package object refined {
    *
    * Note: `M` stands for '''m'''acro and `T` stands for '''t'''ag.
    */
-  def refineMT[P]: RefineMAux[@@, P] = RefType[@@].refineM[P]
+  def refineMT[P]: RefineMPartiallyApplied[@@, P] = RefType[@@].refineM[P]
 }

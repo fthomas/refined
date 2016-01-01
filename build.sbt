@@ -318,7 +318,7 @@ addCommandAlias("validate", Seq(
   "coreJS/test",
   "scalacheckJS/test",
   "scodecJS/test",
-  "smtJS/test",
+  //"smtJS/test", // disabled because ProcessBuilder is not ported yet
   "coverage",
   "compile",
   "coreJVM/test",

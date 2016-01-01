@@ -2,12 +2,12 @@ package eu.timepit.refined
 package smt
 
 import eu.timepit.refined.api.RefType
-import eu.timepit.refined.internal.MacroUtils
+//import eu.timepit.refined.internal.MacroUtils
 
 import scala.reflect.macros.Context
 
 object SmtInferM {
-
+  /*
   def macroImpl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: Context)(ta: c.Expr[F[T, A]])(
     fab: c.Expr[(Formula[A], Formula[B])], rt: c.Expr[RefType[F]]
   ): c.Expr[F[T, B]] = {
@@ -60,4 +60,5 @@ object SmtInferM {
       c.abort(c.enclosingPosition, "invalid inference")
     }
   }
+  */
 }

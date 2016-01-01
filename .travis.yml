@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
     - graphviz
+    - z3
 cache:
   directories:
   - "$HOME/.ivy2/cache"

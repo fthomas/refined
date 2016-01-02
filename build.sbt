@@ -122,20 +122,17 @@ lazy val scodec = crossProject.in(file("contrib/scodec"))
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val smt = crossProject.in(file("contrib/smt"))
+lazy val smt = project.in(file("contrib/smt"))
   .settings(moduleName := s"$projectName-smt")
-  .settings(submoduleSettings: _*)
-  .jvmSettings(
+  .settings(submoduleSettings)
+  .settings(
     initialCommands := s"""
       $commonImports
       import $rootPkg.smt._
       import $rootPkg.smt.smtlib._
     """
   )
-  .dependsOn(core % "compile->compile;test->test")
-
-lazy val smtJVM = smt.jvm
-lazy val smtJS = smt.js
+  .dependsOn(coreJVM % "compile->compile;test->test")
 
 /// settings definitions
 
@@ -281,7 +278,7 @@ lazy val releaseSettings = {
       releaseStepTask(bintraySyncMavenCentral in "scalacheckJVM"),
       releaseStepTask(bintraySyncMavenCentral in "scalaz"),
       releaseStepTask(bintraySyncMavenCentral in "scodecJVM"),
-      releaseStepTask(bintraySyncMavenCentral in "smtJVM"),
+      releaseStepTask(bintraySyncMavenCentral in "smt"),
       releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
       setNextVersion,
       commitNextVersion,
@@ -318,14 +315,13 @@ addCommandAlias("validate", Seq(
   "coreJS/test",
   "scalacheckJS/test",
   "scodecJS/test",
-  //"smtJS/test", // disabled because ProcessBuilder is not ported yet
   "coverage",
   "compile",
   "coreJVM/test",
   "scalacheckJVM/test",
   "scalaz/test",
   "scodecJVM/test",
-  "smtJVM/test",
+  "smt/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

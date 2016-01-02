@@ -10,16 +10,15 @@ case class SmtEval[S](s: S)
 object SmtEval {
 
   implicit def smtEvalValidate[T: Sort, S <: String](implicit ws: Witness.Aux[S]): Validate[T, SmtEval[S]] = {
-
-    def p(t: T): Boolean = {
-      val function = defineValue("x", t)
-      val assertion = assert(ws.value)
-      val script = s"$function $assertion $checkSat"
-      val sat = invokeZ3(script)
-      sat == "sat"
+    def predicate(t: T): Boolean = {
+      val script = s"""
+        ${defineValue("x", t)}
+        ${assert(ws.value)}
+        $checkSat
+      """
+      unsafeInvokeZ3(script) == "sat"
     }
-
-    Validate.fromPredicate(p, _ => ws.value, SmtEval(ws.value))
+    Validate.fromPredicate(predicate, _ => ws.value, SmtEval(ws.value))
   }
 
   implicit def smtEvalInference[T: Sort, A <: String, B <: String](
@@ -27,13 +26,15 @@ object SmtEval {
     wa: Witness.Aux[A],
     wb: Witness.Aux[B]
   ): TypedInference[T, SmtEval[A], SmtEval[B]] = {
-    def check: Boolean = {
-      val const = declareConst("x")
-      val inf = defineInference(wa.value, wb.value)
-      val script = s"$const $inf (assert (not inference)) $checkSat"
-      val sat = invokeZ3(script)
-      sat == "unsat"
+    val isValid = {
+      val script = s"""
+        ${declareConst("x")}
+        ${defineInference(wa.value, wb.value)}
+        $assertInference
+        $checkSat
+      """
+      unsafeInvokeZ3(script) == "unsat"
     }
-    TypedInference(check, s"smtEvalInference(${wa.value}, ${wb.value})")
+    TypedInference(isValid, s"smtEvalInference(${wa.value}, ${wb.value})")
   }
 }

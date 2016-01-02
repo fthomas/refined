@@ -47,6 +47,9 @@ object smtlib {
   def assertNegation(f: String): String =
     assert(s"(not $f)")
 
+  val assertInference: String =
+    assertNegation("inference")
+
   val checkSat: String =
     "(check-sat)"
 
@@ -62,6 +65,6 @@ object smtlib {
   def defineInference(a: String, b: String): String =
     s"(define-fun inference () ${Sort.builtinBool.asString} ${implies(a, b)})"
 
-  def invokeZ3(script: String): String =
+  def unsafeInvokeZ3(script: String): String =
     (s"echo $script" #| "z3 -in").!!.trim
 }

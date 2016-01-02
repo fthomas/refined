@@ -4,11 +4,10 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
-import eu.timepit.refined.smt.{ Formula, SubFormula }
 import shapeless.ops.hlist.ToList
 import shapeless.{ ::, HList, HNil }
 
-object boolean extends BooleanValidate with BooleanInference0 with BooleanSmt2Expr {
+object boolean extends BooleanValidate with BooleanInference0 {
 
   /** Constant predicate that is always `true`. */
   case class True()
@@ -308,25 +307,4 @@ private[refined] trait BooleanInference2 {
 
   implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
-}
-
-private[refined] trait BooleanSmt2Expr {
-
-  implicit def trueSmt2Expr: Formula[True] =
-    Formula.simple(_ => "true")
-
-  implicit def falseSmt2Expr: Formula[False] =
-    Formula.simple(_ => "false")
-
-  implicit def notSmt2Expr[P](implicit s: Formula[P]): Formula[Not[P]] =
-    Formula.instance { x =>
-      val sf = s.subFormula(x)
-      SubFormula(s"(not ${sf.expr})", sf.definitions)
-    }
-
-  implicit def andSmt2Expr[A, B](implicit sa: Formula[A], sb: Formula[B]): Formula[A And B] =
-    Formula.simple(x => s"(and ${sa.subFormula(x).expr} ${sb.subFormula(x).expr})")
-
-  implicit def orSmt2Expr[A, B](implicit sa: Formula[A], sb: Formula[B]): Formula[A Or B] =
-    Formula.simple(x => s"(or ${sa.subFormula(x).expr} ${sb.subFormula(x).expr})")
 }

@@ -66,5 +66,5 @@ object smtlib {
     s"(define-fun inference () ${Sort.builtinBool.asString} ${implies(a, b)})"
 
   def unsafeInvokeZ3(script: String): String =
-    (s"echo $script" #| "z3 -in").!!.trim
+    (s"echo $script" #| "z3 -T:10 -in").!!.trim
 }

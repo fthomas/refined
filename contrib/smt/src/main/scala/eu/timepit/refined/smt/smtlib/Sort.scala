@@ -7,13 +7,15 @@ trait Sort[T] {
 }
 
 object Sort {
-  def apply[T](implicit sort: Sort[T]): Sort[T] =
-    sort
+  def apply[T](implicit sort: Sort[T]): Sort[T] = sort
 
   def instance[T](sort: String): Sort[T] =
     new Sort[T] {
       override def asString: String = sort
     }
+
+  implicit val byteSort: Sort[Byte] =
+    instance("Int")
 
   implicit val booleanSort: Sort[Boolean] =
     instance("Bool")

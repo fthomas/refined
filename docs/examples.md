@@ -42,7 +42,9 @@ scala> val b: Int @@ Greater[_4] = a
 b: shapeless.tag.@@[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._4]] = 10
 
 scala> val c: Int @@ Greater[_6] = a
-<console>:25: error: invalid inference: eu.timepit.refined.numeric.Greater[shapeless.nat._5] ==> eu.timepit.refined.numeric.Greater[shapeless.nat._6]
+<console>:25: error: invalid inference:
+  eu.timepit.refined.numeric.Greater[shapeless.nat._5] ==>
+  eu.timepit.refined.numeric.Greater[shapeless.nat._6]
        val c: Int @@ Greater[_6] = a
                                    ^
 ```
@@ -97,7 +99,9 @@ scala> val d2: Char @@ Digit = d1
 d2: shapeless.tag.@@[Char,eu.timepit.refined.char.Digit] = 3
 
 scala> val d3: Char @@ Letter = d1
-<console>:41: error: invalid inference: eu.timepit.refined.generic.Equal[Char('3')] ==> eu.timepit.refined.char.Letter
+<console>:41: error: invalid inference:
+  eu.timepit.refined.generic.Equal[Char('3')] ==>
+  eu.timepit.refined.char.Letter
        val d3: Char @@ Letter = d1
                                 ^
 

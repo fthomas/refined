@@ -94,5 +94,8 @@ object Resources {
     "compile-time refinement only works with literals or constant predicates"
 
   def invalidInference(from: String, to: String): String =
-    s"invalid inference: $from ==> $to"
+    s"""invalid inference:
+       |  $from ==>
+       |  $to
+     """.stripMargin.trim
 }

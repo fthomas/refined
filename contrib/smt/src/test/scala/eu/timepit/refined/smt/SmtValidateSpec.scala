@@ -5,7 +5,7 @@ import eu.timepit.refined.TestUtils._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
-class SmtEvalValidateSpec extends Properties("SmtEvalValidate") {
+class SmtValidateSpec extends Properties("SmtValidate") {
 
   type Int01 = Smt[W.`"(> x 0)"`.T]
 

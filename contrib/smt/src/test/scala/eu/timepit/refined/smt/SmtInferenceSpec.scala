@@ -7,7 +7,7 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
 
-class SmtEvalInferenceSpec extends Properties("SmtEvalInference") {
+class SmtInferenceSpec extends Properties("SmtInference") {
 
   property("(> x 10) ==> (> x 0)") = secure {
     TypedInference[Int, Smt[W.`"(> x 10)"`.T], Smt[W.`"(> x 0)"`.T]].isValid
@@ -28,7 +28,7 @@ class SmtEvalInferenceSpec extends Properties("SmtEvalInference") {
   property("autoInfer") = secure {
     val x: Int Refined Smt[W.`"(> x 2)"`.T] = 6
     val y: Int Refined Smt[W.`"(> x 0)"`.T] = x
-    illTyped("""val z: Int Refined Smt[W.`"(> x 4)"`.T] = x""", "invalid inference.*")
+    illTyped("""val z: Int Refined Smt[W.`"(> x 4)"`.T] = x""", "(?s)invalid inference.*")
     x == y
   }
 

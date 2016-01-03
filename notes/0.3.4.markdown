@@ -1,0 +1,6 @@
+### Changes
+
+* Improve the compiler error message of invalid type inference of
+  refined types. ([#117])
+
+[#117]: https://github.com/fthomas/refined/pull/117

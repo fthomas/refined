@@ -5,6 +5,20 @@ import scala.sys.process._
 
 object smtlib {
 
+  case class Show[T](asString: T => String)
+
+  object Show extends LowPriorityShow {
+    def apply[T](implicit show: Show[T]): Show[T] = show
+
+    implicit def listShow[T](implicit show: Show[T], sort: Sort[List[T]]): Show[List[T]] =
+      Show(_.foldRight(s"(as nil ${sort.asString})")((t, acc) => s"(insert ${show.asString(t)} $acc)"))
+  }
+
+  trait LowPriorityShow {
+    implicit def defaultShow[T]: Show[T] =
+      Show(_.toString)
+  }
+
   case class Sort[T](asString: String)
 
   object Sort {
@@ -39,6 +53,9 @@ object smtlib {
 
     implicit val shortSort: Sort[Short] =
       builtinInt
+
+    implicit def listSort[T](implicit sort: Sort[T]): Sort[List[T]] =
+      Sort(s"(List ${sort.asString})")
   }
 
   def assert(f: String): String =
@@ -56,8 +73,8 @@ object smtlib {
   def declareConst[T](name: String)(implicit sort: Sort[T]): String =
     s"(declare-const $name ${sort.asString})"
 
-  def defineValue[T](name: String, value: T)(implicit sort: Sort[T]): String =
-    s"(define-fun $name () ${sort.asString} $value)"
+  def defineValue[T](name: String, value: T)(implicit sort: Sort[T], show: Show[T]): String =
+    s"(define-fun $name () ${sort.asString} ${show.asString(value)})"
 
   def implies(a: String, b: String): String =
     s"(=> $a $b)"
@@ -65,6 +82,17 @@ object smtlib {
   def defineInference(a: String, b: String): String =
     s"(define-fun inference () ${Sort.builtinBool.asString} ${implies(a, b)})"
 
-  def unsafeInvokeZ3(script: String): String =
+  // TODO: better error handling
+  def unsafeInvokeZ3(script: String): String = {
+    /*
+    def append(sb: StringBuilder)(s: String): Unit = {
+      sb.append(s).append(System.lineSeparator())
+      ()
+    }
+    val outBuf = new StringBuilder
+    val errBuf = new StringBuilder
+    val logger = ProcessLogger(append(outBuf), append(errBuf))
+*/
     (s"echo $script" #| "z3 -T:10 -in").!!.trim
+  }
 }

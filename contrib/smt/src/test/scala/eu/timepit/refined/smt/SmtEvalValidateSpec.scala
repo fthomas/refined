@@ -7,7 +7,7 @@ import org.scalacheck.Properties
 
 class SmtEvalValidateSpec extends Properties("SmtEvalValidate") {
 
-  type Int01 = SmtEval[W.`"(> x 0)"`.T]
+  type Int01 = Smt[W.`"(> x 0)"`.T]
 
   property("Int01.isValid") = forAll { (i: Int) =>
     isValid[Int01](i) ?= (i > 0)
@@ -17,7 +17,7 @@ class SmtEvalValidateSpec extends Properties("SmtEvalValidate") {
     showExpr[Int01](1) ?= "(> x 0)"
   }
 
-  type Int02 = SmtEval[W.`"(and (> x 0) (< x 10))"`.T]
+  type Int02 = Smt[W.`"(and (> x 0) (< x 10))"`.T]
 
   property("Int02.isValid") = forAll { (i: Int) =>
     isValid[Int02](i) ?= (i > 0 && i < 10)

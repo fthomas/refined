@@ -5,11 +5,11 @@ import eu.timepit.refined.api.{ TypedInference, Validate }
 import eu.timepit.refined.smt.smtlib._
 import shapeless.Witness
 
-case class SmtEval[S](s: S)
+case class Smt[S](s: S)
 
-object SmtEval {
+object Smt {
 
-  implicit def smtEvalValidate[T: Sort, S <: String](implicit ws: Witness.Aux[S]): Validate[T, SmtEval[S]] = {
+  implicit def smtValidate[T: Sort: Show, S <: String](implicit ws: Witness.Aux[S]): Validate[T, Smt[S]] = {
     def predicate(t: T): Boolean = {
       val script = s"""
         ${defineValue("x", t)}
@@ -18,23 +18,23 @@ object SmtEval {
       """
       unsafeInvokeZ3(script) == "sat"
     }
-    Validate.fromPredicate(predicate, _ => ws.value, SmtEval(ws.value))
+    Validate.fromPredicate(predicate, _ => ws.value, Smt(ws.value))
   }
 
-  implicit def smtEvalInference[T: Sort, A <: String, B <: String](
+  implicit def smtInference[T: Sort, A <: String, B <: String](
     implicit
     wa: Witness.Aux[A],
     wb: Witness.Aux[B]
-  ): TypedInference[T, SmtEval[A], SmtEval[B]] = {
+  ): TypedInference[T, Smt[A], Smt[B]] = {
     val isValid = {
       val script = s"""
-        ${declareConst("x")}
+        ${declareConst[T]("x")}
         ${defineInference(wa.value, wb.value)}
         $assertInference
         $checkSat
       """
       unsafeInvokeZ3(script) == "unsat"
     }
-    TypedInference(isValid, s"smtEvalInference(${wa.value}, ${wb.value})")
+    TypedInference(isValid, s"smtInference(${wa.value}, ${wb.value})")
   }
 }

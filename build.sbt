@@ -80,7 +80,7 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
-  .dependsOn(coreJVM)
+  .dependsOn(coreJVM, smt)
 
 lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")

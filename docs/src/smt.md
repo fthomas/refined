@@ -1,4 +1,18 @@
-# refined-smt
+# SMT-based refinement types
+
+The `refined-smt` add-on provides a `Smt` predicate that uses a
+[SMT solver][SMT]
+
+
+SMT-LIB language
+
+
+SMT solver
+
+[Z3 theorem prover][Z3]
+
+
+
 
 ```tut
 import scala.sys.process._
@@ -34,3 +48,7 @@ val n: Natural = p
 ```tut:fail
 val p2: Percentage = n
 ```
+
+[SMT]: https://en.wikipedia.org/wiki/Satisfiability_modulo_theories
+[SMT-LIB]: http://smtlib.cs.uiowa.edu/language.shtml
+[Z3]: https://github.com/Z3Prover/z3

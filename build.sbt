@@ -39,7 +39,8 @@ lazy val root = project.in(file("."))
     scalacheckJS,
     scalaz,
     scodecJVM,
-    scodecJS)
+    scodecJS,
+    smt)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)

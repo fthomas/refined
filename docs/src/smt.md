@@ -1,17 +1,24 @@
 # SMT-based refinement types
 
 **refined's** refinement types are based on type-level predicates and
-associated type class instances for checking the validity of refinements
-and for conversion between refined types (refinement subtyping). The
-library comes with a lot of [predefined predicates][provided-predicates]
-and many of those take type parameters to allow for some customisation
-of their behavior. But using refinements that are not already covered
+type classes for checking the validity of refinements and for conversion
+between refined types (refinement subtyping). The library comes with a
+lot of [predefined predicates][provided-predicates] of which many take
+type parameters to allow for some customisation of their behavior.
+These predicates mirror ordinary value-level predicates but lifted into
+the type-level (for example `Greater[N]` or `StartsWith[S]`). This manual
+lifting is necessary because we cannot just use value-level predicates in
+types (which is typically only possible in languages with fully
+[dependent types][dependent-type]).
+ 
+ 
+ But using refinements that are not already covered
 by the predefined predicates either requires a clever combination of
 the existing predicates or introducing a new predicate and associated
 type class instances.
 
 
-
+composable, "stringly typed" programming
 
 power of 2
 is that even
@@ -75,6 +82,7 @@ val n: Natural = p
 val p2: Percentage = n
 ```
 
+[dependent-type]: https://en.wikipedia.org/wiki/Dependent_type
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates
 [SMT]: https://en.wikipedia.org/wiki/Satisfiability_modulo_theories
 [SMT-LIB]: http://smtlib.cs.uiowa.edu/language.shtml

@@ -21,7 +21,7 @@ val commonImports = s"""
   import shapeless.nat._
 """
 
-val macroCompatVersion = "1.1.0"
+val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.2.5"
 val scalaCheckVersion = "1.12.5"

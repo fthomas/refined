@@ -21,6 +21,15 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
     rt.unsafeWrap(s).unwrap == s
   }
 
+  property("unsafeRewrap.unsafeRewrap ~= id") = forAll { (c: Char) =>
+    trait A
+    trait B
+    val c1: F[Char, A] = rt.unsafeWrap(c)
+    val c2: F[Char, B] = rt.unsafeRewrap(c1)
+    val c3: F[Char, A] = rt.unsafeRewrap(c2)
+    c1 == c3
+  }
+
   property("RefinePartiallyApplied instance") = secure {
     val pa = rt.refine[Digit]
     pa('0').isRight

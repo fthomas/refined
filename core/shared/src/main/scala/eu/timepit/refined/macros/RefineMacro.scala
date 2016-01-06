@@ -28,7 +28,6 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
       abort(validate.showResult(tValue, res))
     }
 
-    val refType = eval(rt)
-    refType.unsafeWrapM(c)(t)
+    reify(rt.splice.unsafeWrap(t.splice))
   }
 }

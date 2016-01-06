@@ -5,6 +5,7 @@ import eu.timepit.refined.api.Validate
 import eu.timepit.refined.generic.Eval
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import scala.tools.reflect.ToolBoxError
 import shapeless.test.illTyped
 
 class GenericValidateSpecJvm extends Properties("GenericValidate") {
@@ -22,5 +23,18 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
   property("Eval.refineMV") = wellTyped {
     refineMV[IsEven](2)
     illTyped("refineMV[IsEven](3)", "Predicate.*fail.*")
+  }
+
+  property("Eval.refineMV.scope") = wellTyped {
+    val two = 2
+    illTyped(
+      """refineMV[Eval[W.`"(x: Int) => x >= two"`.T]](two)""",
+      "(?s)exception during macro expansion.*"
+    )
+  }
+
+  property("Eval.refineV.scope") = secure {
+    val two = 2
+    throws(classOf[ToolBoxError])(refineV[Eval[W.`"(x: Int) => x >= two"`.T]](two))
   }
 }

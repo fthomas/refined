@@ -3,10 +3,10 @@ package scalacheck
 
 import eu.timepit.refined.api.{ RefType, Validate }
 import eu.timepit.refined.numeric._
-import org.scalacheck.Gen.Choose
 import org.scalacheck.{ Arbitrary, Gen }
-import shapeless.ops.nat.ToInt
+import org.scalacheck.Gen.Choose
 import shapeless.{ Nat, Witness }
+import shapeless.ops.nat.ToInt
 
 object numeric {
 

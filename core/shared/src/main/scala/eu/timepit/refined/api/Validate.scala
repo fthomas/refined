@@ -2,7 +2,6 @@ package eu.timepit.refined
 package api
 
 import eu.timepit.refined.internal.Resources
-
 import scala.util.Try
 
 /**

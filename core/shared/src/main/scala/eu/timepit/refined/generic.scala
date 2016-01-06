@@ -1,16 +1,15 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.{ Inference, Validate }
+import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
+import scala.reflect.runtime.currentMirror
+import scala.tools.reflect.ToolBox
 import shapeless._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
 import shapeless.ops.nat.ToInt
 import shapeless.ops.record.Keys
-
-import scala.reflect.runtime.currentMirror
-import scala.tools.reflect.ToolBox
 
 object generic extends GenericValidate with GenericInference {
 

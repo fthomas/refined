@@ -1,11 +1,11 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api._
+import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
-import shapeless.ops.hlist.ToList
 import shapeless.{ ::, HList, HNil }
+import shapeless.ops.hlist.ToList
 
 object boolean extends BooleanValidate with BooleanInference0 {
 

@@ -5,7 +5,6 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.RefType
 import eu.timepit.refined.internal.Resources
 import macrocompat.bundle
-
 import scala.reflect.macros.blackbox
 
 @bundle

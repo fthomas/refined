@@ -2,7 +2,6 @@ package eu.timepit.refined
 package internal
 
 import eu.timepit.refined.api.Result
-
 import scala.util.{ Failure, Success, Try }
 
 object Resources {

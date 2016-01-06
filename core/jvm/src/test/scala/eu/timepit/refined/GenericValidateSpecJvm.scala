@@ -5,9 +5,8 @@ import eu.timepit.refined.api.Validate
 import eu.timepit.refined.generic.Eval
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.test.illTyped
-
 import scala.tools.reflect.ToolBoxError
+import shapeless.test.illTyped
 
 class GenericValidateSpecJvm extends Properties("GenericValidate") {
 

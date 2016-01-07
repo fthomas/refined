@@ -305,6 +305,10 @@ lazy val myDoctestSettings =
 lazy val styleSettings =
   scalariformSettings ++
   Seq(
+    // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
+    scalastyleSources in Compile :=
+      (unmanagedSourceDirectories in Compile).value,
+
     sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
       (sourceDirectories in Compile).value,
     sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=

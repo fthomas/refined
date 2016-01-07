@@ -2,7 +2,6 @@ package eu.timepit.refined
 package macros
 
 import macrocompat.bundle
-
 import scala.reflect.macros.blackbox
 import scala.util.{ Success, Try }
 

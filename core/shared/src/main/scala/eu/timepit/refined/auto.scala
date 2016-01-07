@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{ RefType, Refined, TypedInference, Validate }
+import eu.timepit.refined.api.{ Refined, RefType, TypedInference, Validate }
 import eu.timepit.refined.macros.{ InferMacro, RefineMacro }
 import shapeless.tag.@@
 

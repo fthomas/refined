@@ -4,7 +4,6 @@ package macros
 import eu.timepit.refined.api.{ RefType, Validate }
 import eu.timepit.refined.internal.Resources
 import macrocompat.bundle
-
 import scala.reflect.macros.blackbox
 
 @bundle
@@ -28,7 +27,6 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
       abort(validate.showResult(tValue, res))
     }
 
-    val refType = eval(rt)
-    refType.unsafeWrapM(c)(t)
+    reify(rt.splice.unsafeWrap(t.splice))
   }
 }

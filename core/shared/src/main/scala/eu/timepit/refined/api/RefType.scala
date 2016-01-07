@@ -4,8 +4,6 @@ package api
 import eu.timepit.refined.internal._
 import shapeless.tag.@@
 
-import scala.reflect.macros.blackbox
-
 /**
  * Type class that allows `F` to be used as carrier type of a refinement.
  * The first type parameter of `F` is the base type that is being refined
@@ -24,9 +22,7 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unwrap[T, P](tp: F[T, P]): T
 
-  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[F[T, P]]
-
-  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
+  def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
 
   /**
    * Returns a value of type `T` refined as `F[T, P]` on the right if
@@ -131,11 +127,8 @@ object RefType {
       override def unwrap[T, P](tp: Refined[T, P]): T =
         tp.get
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
-        c.universe.reify(Refined.unsafeApply[T, P](t.splice))
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
-        c.universe.reify(ta.splice.asInstanceOf[Refined[T, B]])
+      override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
+        ta.asInstanceOf[Refined[T, B]]
     }
 
   implicit val tagRefType: RefType[@@] =
@@ -146,11 +139,8 @@ object RefType {
       override def unwrap[T, P](tp: T @@ P): T =
         tp
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] =
-        c.universe.reify(t.splice.asInstanceOf[T @@ P])
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
-        c.universe.reify(ta.splice.asInstanceOf[T @@ B])
+      override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
+        ta.asInstanceOf[T @@ B]
     }
 
   final class RefTypeOps[F[_, _], T, P](tp: F[T, P])(implicit F: RefType[F]) {

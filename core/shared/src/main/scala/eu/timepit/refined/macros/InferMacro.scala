@@ -4,7 +4,6 @@ package macros
 import eu.timepit.refined.api.{ RefType, TypedInference }
 import eu.timepit.refined.internal.Resources
 import macrocompat.bundle
-
 import scala.reflect.macros.blackbox
 
 @bundle
@@ -20,7 +19,6 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
       abort(Resources.invalidInference(weakTypeOf[A].toString, weakTypeOf[B].toString))
     }
 
-    val refType = eval(rt)
-    refType.unsafeRewrapM(c)(ta)
+    reify(rt.splice.unsafeRewrap(ta.splice))
   }
 }

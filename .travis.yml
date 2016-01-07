@@ -8,7 +8,7 @@ jdk:
 before_install:
 - sudo add-apt-repository -y ppa:hvr/z3
 - sudo apt-get update -qq
-- sudo apt-get install -qq graphviz z3
+- sudo apt-get install -y -qq graphviz z3
 cache:
   directories:
   - "$HOME/.ivy2/cache"

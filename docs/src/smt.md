@@ -8,7 +8,7 @@ type parameters to allow for some customisation of their behavior.
 These predicates mirror ordinary value-level predicates but lifted into
 the type-level (`Greater[N]` for example mirrors `(x: Int) => x > n` or
 `StartsWith[S]` mirrors `(x: String) => x.startsWith(s)`). This manual
-lifting of predicates from the value-level to the type-level is necessary
+lifting of predicates from the value to the type-level is necessary
 because we cannot just use value-level predicates in a position where
 Scala expects a type (which is typically only possible in languages with
 fully [dependent types][dependent-type]).

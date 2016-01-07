@@ -6,10 +6,12 @@ between refined types (refinement subtyping). The library comes with a
 lot of [predefined predicates][provided-predicates] of which many take
 type parameters to allow for some customisation of their behavior.
 These predicates mirror ordinary value-level predicates but lifted into
-the type-level (for example `Greater[N]` or `StartsWith[S]`). This manual
-lifting is necessary because we cannot just use value-level predicates in
-types (which is typically only possible in languages with fully
-[dependent types][dependent-type]).
+the type-level (`Greater[N]` for example mirrors `(x: Int) => x > n` or
+`StartsWith[S]` mirrors `(x: String) => x.startsWith(s)`). This manual
+lifting of predicates from the value-level to the type-level is necessary
+because we cannot just use value-level predicates in a position where
+Scala expects a type (which is typically only possible in languages with
+fully [dependent types][dependent-type]).
  
  
  But using refinements that are not already covered

@@ -1,19 +1,40 @@
 # SMT-based refinement types
 
 **refined's** refinement types are based on type-level predicates and
-type classes for checking the validity of refinements and for conversion
+type classes for checking the validity of refinements and for converting
 between refined types (refinement subtyping). The library comes with a
 lot of [predefined predicates][provided-predicates] of which many take
 type parameters to allow for some customisation of their behavior.
 These predicates mirror ordinary value-level predicates but lifted into
-the type-level (`Greater[N]` for example mirrors `(x: Int) => x > n` or
-`StartsWith[S]` mirrors `(x: String) => x.startsWith(s)`). This manual
-lifting of predicates from the value to the type-level is necessary
-because we cannot just use value-level predicates in a position where
-Scala expects a type (which is typically only possible in languages with
+the type-level (`Greater[N]` for example roughly mirrors `(x: Int) =>
+x > n` or `StartsWith[S]` mirrors `(x: String) => x.startsWith(s)`).
+This lifting of predicates from the value to the type-level is necessary
+because we can't just use value-level predicates in a position where a
+type is expected (which is typically only possible in languages with
 fully [dependent types][dependent-type]).
+
+Using distinct types for predicates has the advantage that we can
+easily compose predicates via type aliases and that we don't loose
+information about the individual parts of composite predicates.
+
+```scala
+type Closed[L, H]
+  = GreaterEqual[L] And LessEqual[H] // definition of Closed
+  = Not[Less[L]] And Not[Greater[H]] // fully dealiased definition
+                                     // in terms primitive predicates
+
+type Exists[P] = Not[Forall[Not[P]]]
+```
+
+we don't
+loose information about the parts of composed predicates
  
- 
+
+Having distinct types for each predicate has many advantages
+  
+ to compose predicates
+ very easily with type aliases
+
  But using refinements that are not already covered
 by the predefined predicates either requires a clever combination of
 the existing predicates or introducing a new predicate and associated

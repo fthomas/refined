@@ -14,26 +14,26 @@ type is expected (which is typically only possible in languages with
 fully [dependent types][dependent-type]).
 
 Using distinct types for predicates has the advantage that we can
-easily compose predicates via type aliases and that we don't loose
-information about the individual parts of composite predicates.
+easily compose predicates via type aliases and that we retain information
+about the individual parts of composite predicates. That means if we
+check if a value satisfies a composite predicate, we not only know if
+the whole predicate passed or failed but also for each individual
+predicate if it passed or failed.
 
+Here are two examples how predicates can be composed via type aliases:
 ```scala
+// checks if a numeric value is in the closed interval [L, H]
 type Closed[L, H]
   = GreaterEqual[L] And LessEqual[H] // definition of Closed
   = Not[Less[L]] And Not[Greater[H]] // fully dealiased definition
                                      // in terms primitive predicates
 
+// checks if some element of a collection satisfies the predicate P
 type Exists[P] = Not[Forall[Not[P]]]
 ```
 
-we don't
-loose information about the parts of composed predicates
- 
 
-Having distinct types for each predicate has many advantages
-  
- to compose predicates
- very easily with type aliases
+
 
  But using refinements that are not already covered
 by the predefined predicates either requires a clever combination of

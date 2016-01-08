@@ -194,10 +194,10 @@ API documentation of the latest release is available at:
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
 and working with [type aliases][type-aliases]. It also contains a
-[description][design-description] of **refined's** design and internals.
+[description][design] of **refined's** design and internals.
 
 [custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
-[design-description]: https://github.com/fthomas/refined/blob/master/docs/design_description.md
+[design]: https://github.com/fthomas/refined/blob/master/docs/design.md
 [docs]: https://github.com/fthomas/refined/tree/master/docs
 [type-aliases]: https://github.com/fthomas/refined/blob/master/docs/type_aliases.md
 

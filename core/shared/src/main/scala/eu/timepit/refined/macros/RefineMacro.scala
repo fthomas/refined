@@ -11,7 +11,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
   def impl[F[_, _], T, P](t: c.Expr[T])(
-    v: c.Expr[Validate[T, P]], rt: c.Expr[RefType[F]]
+    rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
 
     val validate = eval(v)

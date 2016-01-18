@@ -15,14 +15,14 @@ scala> "(a|b".r // fails at runtime
 java.util.regex.PatternSyntaxException: Unclosed group near index 4
 (a|b
     ^
-  at java.util.regex.Pattern.error(Pattern.java:1955)
-  at java.util.regex.Pattern.accept(Pattern.java:1813)
-  at java.util.regex.Pattern.group0(Pattern.java:2908)
-  at java.util.regex.Pattern.sequence(Pattern.java:2051)
-  at java.util.regex.Pattern.expr(Pattern.java:1996)
-  at java.util.regex.Pattern.compile(Pattern.java:1696)
-  at java.util.regex.Pattern.<init>(Pattern.java:1351)
-  at java.util.regex.Pattern.compile(Pattern.java:1028)
+  at java.util.regex.Pattern.error(Pattern.java:1924)
+  at java.util.regex.Pattern.accept(Pattern.java:1782)
+  at java.util.regex.Pattern.group0(Pattern.java:2857)
+  at java.util.regex.Pattern.sequence(Pattern.java:2018)
+  at java.util.regex.Pattern.expr(Pattern.java:1964)
+  at java.util.regex.Pattern.compile(Pattern.java:1665)
+  at java.util.regex.Pattern.<init>(Pattern.java:1337)
+  at java.util.regex.Pattern.compile(Pattern.java:1022)
   at scala.util.matching.Regex.<init>(Regex.scala:191)
   at scala.collection.immutable.StringLike$class.r(StringLike.scala:255)
   at scala.collection.immutable.StringOps.r(StringOps.scala:30)

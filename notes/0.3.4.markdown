@@ -1,9 +1,10 @@
 ### Changes
 
 * Improve the compiler error message of invalid type inference of
-  refined types. ([#117])
+  refined types. ([#117], [#126])
 * Remove macro code from `RefType` and do not eval `RefType` instances
   during macro expansion.
 
 [#117]: https://github.com/fthomas/refined/pull/117
 [#120]: https://github.com/fthomas/refined/pull/120
+[#126]: https://github.com/fthomas/refined/pull/126

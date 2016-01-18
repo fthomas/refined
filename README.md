@@ -67,7 +67,9 @@ b: Int @@ Greater[_4] = 10
 
 // An unsound ascription leads to a compile error:
 scala> val c: Int @@ Greater[_6] = a
-<console>:34: error: invalid inference: Greater[_5] ==> Greater[_6]
+<console>:34: error: type mismatch (invalid inference):
+ Greater[_5] does not imply
+ Greater[_6]
        val b: Int @@ Greater[_6] = a
                                    ^
 ```
@@ -129,7 +131,9 @@ scala> val d2: Char @@ Digit = d1
 d2: Char @@ Digit = 3
 
 scala> val d3: Char @@ Letter = d1
-<console>:34: error: invalid inference: Equal[Char('3')] ==> Letter
+<console>:34: error: type mismatch (invalid inference):
+ Equal[Char('3')] does not imply
+ Letter
        val d3: Char @@ Letter = d1
                                 ^
 

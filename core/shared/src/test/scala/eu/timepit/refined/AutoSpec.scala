@@ -16,7 +16,7 @@ class AutoSpec extends Properties("auto") {
     val b: Char Refined Digit = a
     illTyped(
       "val c: Char Refined Letter = a",
-      """invalid inference:\s*eu.timepit.refined.generic.Equal\[Char\('0'\)\] ==>\s*eu.timepit.refined.char.Letter"""
+      """type mismatch \(invalid inference\):\s*eu.timepit.refined.generic.Equal\[Char\('0'\)\] does not imply\s*eu.timepit.refined.char.Letter"""
     )
     a == b
   }

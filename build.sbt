@@ -65,7 +65,7 @@ lazy val core = crossProject
       import shapeless.tag.@@
     """
   )
-  .jsSettings(scalaJSUseRhino in Global := false)
+  .jsSettings(submoduleJsSettings: _*)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -92,7 +92,7 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
       import org.scalacheck.Arbitrary
     """
   )
-  .jsSettings(scalaJSUseRhino in Global := false)
+  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core)
 
 lazy val scalacheckJVM = scalacheck.jvm
@@ -115,7 +115,7 @@ lazy val scalaz = project.in(file("contrib/scalaz"))
 lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
-  .jsSettings(scalaJSUseRhino in Global := false)
+  .jsSettings(submoduleJsSettings: _*)
   .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
   .dependsOn(core % "compile->compile;test->test")
 
@@ -133,6 +133,9 @@ lazy val submoduleSettings =
   publishSettings ++
   releaseSettings ++
   styleSettings
+
+lazy val submoduleJsSettings =
+  Seq(scalaJSUseRhino in Global := false)
 
 lazy val projectSettings = Seq(
   name := projectName,

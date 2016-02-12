@@ -1,0 +1,5 @@
+### Changes
+
+* Update to Scala.js 0.6.7. ([#129])
+
+[#129]: https://github.com/fthomas/refined/pull/129

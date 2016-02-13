@@ -26,7 +26,7 @@ val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.2.5"
 val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.0"
-val scodecVersion = "1.8.2"
+val scodecVersion = "1.9.0"
 
 /// project definitions
 

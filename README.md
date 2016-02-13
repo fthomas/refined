@@ -159,16 +159,16 @@ syntax for literal-based singleton types.
 
 ## Using refined
 
-The latest version of the library is 0.3.4, which is available for Scala and
+The latest version of the library is 0.3.5, which is available for Scala and
 [Scala.js][scala.js] version 2.10 and 2.11.
 
 If you're using sbt, add the following to your build:
 
     libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined"            % "0.3.4",
-      "eu.timepit" %% "refined-scalaz"     % "0.3.4",         // optional, JVM only
-      "eu.timepit" %% "refined-scodec"     % "0.3.4",         // optional
-      "eu.timepit" %% "refined-scalacheck" % "0.3.4" % "test" // optional
+      "eu.timepit" %% "refined"            % "0.3.5",
+      "eu.timepit" %% "refined-scalaz"     % "0.3.5",         // optional, JVM only
+      "eu.timepit" %% "refined-scodec"     % "0.3.5",         // optional
+      "eu.timepit" %% "refined-scalacheck" % "0.3.5" % "test" // optional
     )
 
 For Scala.js just replace `%%` with `%%%` above.
@@ -176,7 +176,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.3.4.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.4.markdown).
+[0.3.5.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.5.markdown).
 
 The optional dependencies are add-on libraries that provide support for
 other tag types or integration of refined types in other libraries:

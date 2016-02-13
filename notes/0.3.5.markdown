@@ -1,5 +1,7 @@
 ### Changes
 
 * Update to Scala.js 0.6.7. ([#129])
+* Update to scodec 1.9.0. ([#130])
 
 [#129]: https://github.com/fthomas/refined/pull/129
+[#130]: https://github.com/fthomas/refined/pull/130

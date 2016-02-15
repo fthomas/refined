@@ -1,0 +1,5 @@
+### Changes
+
+* Update to macro-compat 1.1.1. ([#131])
+
+[#131]: https://github.com/fthomas/refined/pull/131

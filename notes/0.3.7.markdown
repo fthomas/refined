@@ -3,6 +3,10 @@
 * Update to Scala 2.11.8. ([#134])
 * Update `refined-scalaz` to Scalaz 7.2.1 and build it for Scala.js.
   ([#133])
+* Add an `Adjacent` type class to `refined-scalacheck` to make the
+  numeric `Arbitrary` instances more robust. This type class allows
+  to get rid of `filter` calls in the numeric generators.
 
 [#133]: https://github.com/fthomas/refined/pull/133
 [#134]: https://github.com/fthomas/refined/pull/134
+[#135]: https://github.com/fthomas/refined/pull/135

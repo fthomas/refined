@@ -1,5 +1,7 @@
 ### Changes
 
+* Update to shapeless 2.3.0. ([#100])
 * Update to macro-compat 1.1.1. ([#131])
 
+[#100]: https://github.com/fthomas/refined/pull/100
 [#131]: https://github.com/fthomas/refined/pull/131

@@ -1,0 +1,6 @@
+### Changes
+
+* Update `refined-scalaz` to Scalaz 7.2.1 and build it for Scala.js.
+  ([#133])
+
+[#133]: https://github.com/fthomas/refined/pull/133

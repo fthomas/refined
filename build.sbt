@@ -25,7 +25,7 @@ val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.0"
 val scalaCheckVersion = "1.12.5"
-val scalazVersion = "7.2.0"
+val scalazVersion = "7.2.1"
 val scodecVersion = "1.9.0"
 
 /// project definitions
@@ -37,7 +37,8 @@ lazy val root = project.in(file("."))
     docs,
     scalacheckJVM,
     scalacheckJS,
-    scalaz,
+    scalazJVM,
+    scalazJS,
     scodecJVM,
     scodecJS)
   .settings(commonSettings)
@@ -98,11 +99,11 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = project.in(file("contrib/scalaz"))
+lazy val scalaz = crossProject.in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
-  .settings(submoduleSettings)
-  .settings(
-    libraryDependencies += "org.scalaz" %% "scalaz-core" % scalazVersion,
+  .settings(submoduleSettings: _*)
+  .settings(libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion)
+  .jvmSettings(
     initialCommands := s"""
       $commonImports
       import $rootPkg.scalaz._
@@ -110,7 +111,11 @@ lazy val scalaz = project.in(file("contrib/scalaz"))
       import _root_.scalaz.@@
     """
   )
-  .dependsOn(coreJVM % "compile->compile;test->test")
+  .jsSettings(submoduleJsSettings: _*)
+  .dependsOn(core % "compile->compile;test->test")
+
+lazy val scalazJVM = scalaz.jvm
+lazy val scalazJS = scalaz.js
 
 lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")

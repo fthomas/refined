@@ -5,7 +5,7 @@
   ([#133])
 * Add an `Adjacent` type class to `refined-scalacheck` to make the
   numeric `Arbitrary` instances more robust. This type class allows
-  to get rid of `filter` calls in the numeric generators.
+  to get rid of `filter` calls in the numeric generators. ([#135])
 
 [#133]: https://github.com/fthomas/refined/pull/133
 [#134]: https://github.com/fthomas/refined/pull/134

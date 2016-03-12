@@ -10,3 +10,5 @@
 [#133]: https://github.com/fthomas/refined/pull/133
 [#134]: https://github.com/fthomas/refined/pull/134
 [#135]: https://github.com/fthomas/refined/pull/135
+
+Released on 2016-03-12

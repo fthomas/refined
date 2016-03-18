@@ -109,7 +109,7 @@ object RefType {
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType.applyRef[Int Refined Positive](10)
-   * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
+   * res1: Either[String, Int Refined Positive] = Right(Refined(10))
    * }}}
    *
    * Note: The return type is `[[internal.ApplyRefPartiallyApplied]][FTP]`,

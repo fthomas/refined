@@ -1,13 +1,13 @@
 # SMT-based refinement types
 
 The `refined-smt` add-on is an experimental project that provides a
-`Smt` predicate which uses a [SMT solver][SMT] to check the validity
+`Sat` predicate which uses a [SMT solver][SMT] to check the validity
 of refinements and to convert between refined types (refinement
 subtyping). We currently require the [Z3 theorem prover][Z3] to be
 available in the PATH but the code can be easily changed to work with
 any other [SMT-LIB][SMT-LIB] compliant solver.
 
-Let's see the `Smt` predicate in action. The following examples use
+Let's see the `Sat` predicate in action. The following examples use
 this Z3 version:
 ```tut
 sys.process.Process("z3 -version").!!.trim
@@ -17,14 +17,14 @@ sys.process.Process("z3 -version").!!.trim
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
-import eu.timepit.refined.smt.Smt
+import eu.timepit.refined.smt.Sat
 ```
 
-The `Smt` predicates takes a type parameter which is `String` singleton
+The `Sat` predicates takes a type parameter which is `String` singleton
 type whose value needs to be a SMT-LIB expression that returns a boolean.
 Let's define a type for all even integers:
 ```tut
-type EvenInt = Int Refined Smt[W.`"(= (mod x 2) 0)"`.T]
+type EvenInt = Int Refined Sat[W.`"(= (mod x 2) 0)"`.T]
 ```
 And try it out:
 ```tut
@@ -39,8 +39,8 @@ val b: EvenInt = 3
 Let's define more refined types to demonstrate refinement subtyping
 using Z3:
 ```tut
-type Percentage = Int Refined Smt[W.`"(and (>= x 0) (<= x 100))"`.T]
-type Natural = Int Refined Smt[W.`"(>= x 0)"`.T]
+type Percentage = Int Refined Sat[W.`"(and (>= x 0) (<= x 100))"`.T]
+type Natural = Int Refined Sat[W.`"(>= x 0)"`.T]
 
 val p: Percentage = 63
 val n: Natural = p

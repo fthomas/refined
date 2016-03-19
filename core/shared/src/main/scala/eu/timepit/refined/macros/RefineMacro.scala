@@ -15,7 +15,6 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   ): c.Expr[F[T, P]] = {
 
     val validate = eval(v)
-
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ if validate.isConstant => null.asInstanceOf[T]
@@ -26,7 +25,11 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     if (res.isFailed) {
       abort(validate.showResult(tValue, res))
     }
-
     reify(rt.splice.unsafeWrap(t.splice))
   }
+
+  def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(
+    ev: c.Expr[F[T, P] =:= FTP], rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
+  ): c.Expr[FTP] =
+    c.Expr(impl(t)(rt, v).tree)
 }

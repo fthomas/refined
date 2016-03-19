@@ -119,6 +119,28 @@ object RefType {
   def applyRef[FTP]: ApplyRefPartiallyApplied[FTP] =
     new ApplyRefPartiallyApplied
 
+  /**
+   * Macro that returns a value of type `T` refined as `FTP` if  it
+   * satisfies the predicate in `FTP`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api._
+   *      | import eu.timepit.refined.numeric._
+   *
+   * scala> type PosInt = Int Refined Positive
+   * scala> RefType.applyRefM[PosInt](10)
+   * res1: PosInt = Refined(10)
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro.
+   *
+   * Note: The return type is `[[internal.ApplyRefMPartiallyApplied]][FTP]`,
+   * which has an `apply` method on it, allowing `applyRefM` to be called
+   * like in the given example.
+   */
+  def applyRefM[FTP]: ApplyRefMPartiallyApplied[FTP] =
+    new ApplyRefMPartiallyApplied
+
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {
       override def unsafeWrap[T, P](t: T): Refined[T, P] =

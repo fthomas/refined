@@ -88,7 +88,7 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
 
 class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
 
-  property("refineM with type alias") = secure {
+  property("refineM alias") = secure {
     type PositiveInt = Int Refined Positive
 
     val x: PositiveInt = RefType[Refined].refineM(5)
@@ -110,6 +110,18 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
     x == y && y == z
   }
 
+  property("applyRefM alias") = secure {
+    type Natural = Long Refined NonNegative
+    val Natural = RefType.applyRefM[Natural]
+
+    val x: Natural = Natural(1L)
+    val y: Natural = 1L
+    val z = 1L: Natural
+    illTyped("Natural(-1L)", "Predicate.*fail.*")
+    illTyped("Natural(1.3)", "Cannot prove that.*")
+    x == y && y == z
+  }
+
   property("(T Refined P) <:! T") = wellTyped {
     val x = implicitly[(Int Refined Positive) <:!< Int]
   }
@@ -117,7 +129,7 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
 
 class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
 
-  property("refineM with type alias") = wellTyped {
+  property("refineM alias") = wellTyped {
     type PositiveInt = Int @@ Positive
 
     // This is expected, see https://github.com/fthomas/refined/issues/21:

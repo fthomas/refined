@@ -82,17 +82,36 @@ object smtlib {
   def defineInference(a: String, b: String): String =
     s"(define-fun inference () ${Sort.builtinBool.asString} ${implies(a, b)})"
 
-  // TODO: better error handling
+  val sat: String =
+    "sat"
+
+  val unsat: String =
+    "unsat"
+
   def unsafeInvokeZ3(script: String): String = {
-    /*
-    def append(sb: StringBuilder)(s: String): Unit = {
-      sb.append(s).append(System.lineSeparator())
+    def appendTo(sb: StringBuilder)(line: String): Unit = {
+      sb.append(line)
+      sb.append(System.lineSeparator())
       ()
     }
+
     val outBuf = new StringBuilder
     val errBuf = new StringBuilder
-    val logger = ProcessLogger(append(outBuf), append(errBuf))
-*/
-    (s"echo $script" #| "z3 -T:10 -in").!!.trim
+    val logger = ProcessLogger(appendTo(outBuf), appendTo(errBuf))
+
+    val process = Process(s"echo $script").#|("z3 -T:10 -in")
+    val status = process.run(logger).exitValue()
+    val out = outBuf.result().trim
+
+    if (status != 0) {
+      val err = errBuf.result().trim
+      val msg = s"""
+        |"$script" failed with status $status
+        |  stdout: $out
+        |  stderr: $err
+      """.stripMargin.trim
+      throw new java.io.IOException(msg)
+    }
+    out
   }
 }

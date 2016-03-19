@@ -67,7 +67,9 @@ b: Int @@ Greater[_4] = 10
 
 // An unsound ascription leads to a compile error:
 scala> val c: Int @@ Greater[_6] = a
-<console>:34: error: invalid inference: Greater[_5] ==> Greater[_6]
+<console>:34: error: type mismatch (invalid inference):
+ Greater[_5] does not imply
+ Greater[_6]
        val b: Int @@ Greater[_6] = a
                                    ^
 ```
@@ -129,7 +131,9 @@ scala> val d2: Char @@ Digit = d1
 d2: Char @@ Digit = 3
 
 scala> val d3: Char @@ Letter = d1
-<console>:34: error: invalid inference: Equal[Char('3')] ==> Letter
+<console>:34: error: type mismatch (invalid inference):
+ Equal[Char('3')] does not imply
+ Letter
        val d3: Char @@ Letter = d1
                                 ^
 
@@ -155,16 +159,16 @@ syntax for literal-based singleton types.
 
 ## Using refined
 
-The latest version of the library is 0.3.3, which is available for Scala and
+The latest version of the library is 0.3.7, which is available for Scala and
 [Scala.js][scala.js] version 2.10 and 2.11.
 
 If you're using sbt, add the following to your build:
 
     libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined"            % "0.3.3",
-      "eu.timepit" %% "refined-scalaz"     % "0.3.3",         // optional, JVM only
-      "eu.timepit" %% "refined-scodec"     % "0.3.3",         // optional
-      "eu.timepit" %% "refined-scalacheck" % "0.3.3" % "test" // optional
+      "eu.timepit" %% "refined"            % "0.3.7",
+      "eu.timepit" %% "refined-scalaz"     % "0.3.7",         // optional, JVM only
+      "eu.timepit" %% "refined-scodec"     % "0.3.7",         // optional
+      "eu.timepit" %% "refined-scalacheck" % "0.3.7" % "test" // optional
     )
 
 For Scala.js just replace `%%` with `%%%` above.
@@ -172,7 +176,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.3.3.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.3.markdown).
+[0.3.7.markdown](https://github.com/fthomas/refined/blob/master/notes/0.3.7.markdown).
 
 The optional dependencies are add-on libraries that provide support for
 other tag types or integration of refined types in other libraries:
@@ -312,6 +316,9 @@ it in the Gitter channel and we'll add a link to it here.
 * [Monocle](https://github.com/julien-truffaut/Monocle) - provides the
   monocle-refined subproject which contains lenses for safe bit indexing
   into primitive types
+* [Quasar](https://github.com/quasar-analytics/quasar) - is an open source
+  NoSQL analytics engine which uses **refined** for natural and positive
+  integer types
 * Your project here :-)
 
 ## Performance concerns

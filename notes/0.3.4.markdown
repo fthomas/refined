@@ -1,9 +1,14 @@
 ### Changes
 
 * Improve the compiler error message of invalid type inference of
-  refined types. ([#117])
+  refined types. ([#117], [#126])
 * Remove macro code from `RefType` and do not eval `RefType` instances
-  during macro expansion.
+  during macro expansion. ([#120])
+* Update to Scala.js 0.6.6. ([#127])
 
 [#117]: https://github.com/fthomas/refined/pull/117
 [#120]: https://github.com/fthomas/refined/pull/120
+[#126]: https://github.com/fthomas/refined/pull/126
+[#127]: https://github.com/fthomas/refined/pull/127
+
+Released on 2016-02-03

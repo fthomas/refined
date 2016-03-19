@@ -21,12 +21,12 @@ val commonImports = s"""
   import shapeless.nat._
 """
 
-val macroCompatVersion = "1.1.0"
+val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
-val shapelessVersion = "2.2.5"
+val shapelessVersion = "2.3.0"
 val scalaCheckVersion = "1.12.5"
-val scalazVersion = "7.2.0"
-val scodecVersion = "1.8.2"
+val scalazVersion = "7.2.1"
+val scodecVersion = "1.9.0"
 
 /// project definitions
 
@@ -37,7 +37,8 @@ lazy val root = project.in(file("."))
     docs,
     scalacheckJVM,
     scalacheckJS,
-    scalaz,
+    scalazJVM,
+    scalazJS,
     scodecJVM,
     scodecJS,
     smt)
@@ -66,7 +67,7 @@ lazy val core = crossProject
       import shapeless.tag.@@
     """
   )
-  .jsSettings(scalaJSStage in Test := FastOptStage)
+  .jsSettings(submoduleJsSettings: _*)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -93,17 +94,17 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
       import org.scalacheck.Arbitrary
     """
   )
-  .jsSettings(scalaJSStage in Test := FastOptStage)
+  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core)
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = project.in(file("contrib/scalaz"))
+lazy val scalaz = crossProject.in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
-  .settings(submoduleSettings)
-  .settings(
-    libraryDependencies += "org.scalaz" %% "scalaz-core" % scalazVersion,
+  .settings(submoduleSettings: _*)
+  .settings(libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion)
+  .jvmSettings(
     initialCommands := s"""
       $commonImports
       import $rootPkg.scalaz._
@@ -111,12 +112,16 @@ lazy val scalaz = project.in(file("contrib/scalaz"))
       import _root_.scalaz.@@
     """
   )
-  .dependsOn(coreJVM % "compile->compile;test->test")
+  .jsSettings(submoduleJsSettings: _*)
+  .dependsOn(core % "compile->compile;test->test")
+
+lazy val scalazJVM = scalaz.jvm
+lazy val scalazJS = scalaz.js
 
 lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
-  .jsSettings(scalaJSStage in Test := FastOptStage)
+  .jsSettings(submoduleJsSettings: _*)
   .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
   .dependsOn(core % "compile->compile;test->test")
 
@@ -147,6 +152,9 @@ lazy val submoduleSettings =
   releaseSettings ++
   styleSettings
 
+lazy val submoduleJsSettings =
+  Seq(scalaJSUseRhino in Global := false)
+
 lazy val projectSettings = Seq(
   name := projectName,
   description := "Simple refinement types for Scala",
@@ -161,8 +169,8 @@ lazy val projectSettings = Seq(
 )
 
 lazy val compileSettings = Seq(
-  scalaVersion := "2.11.7",
-  crossScalaVersions := Seq("2.11.7", "2.10.6"),
+  scalaVersion := "2.11.8",
+  crossScalaVersions := Seq(scalaVersion.value, "2.10.6"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -268,16 +276,15 @@ lazy val releaseSettings = {
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
-      runTest,
       setReleaseVersion,
       addReleaseDateToReleaseNotes,
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(bintraySyncMavenCentral),
+      releaseStepTask(bintraySyncMavenCentral in "coreJVM"),
       releaseStepTask(bintraySyncMavenCentral in "scalacheckJVM"),
-      releaseStepTask(bintraySyncMavenCentral in "scalaz"),
+      releaseStepTask(bintraySyncMavenCentral in "scalazJVM"),
       releaseStepTask(bintraySyncMavenCentral in "scodecJVM"),
       releaseStepTask(bintraySyncMavenCentral in "smt"),
       releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
@@ -319,12 +326,13 @@ addCommandAlias("validate", Seq(
   "clean",
   "coreJS/test",
   "scalacheckJS/test",
+  "scalazJS/test",
   "scodecJS/test",
   "coverage",
   "compile",
   "coreJVM/test",
   "scalacheckJVM/test",
-  "scalaz/test",
+  "scalazJVM/test",
   "scodecJVM/test",
   "smt/test",
   "scalastyle",

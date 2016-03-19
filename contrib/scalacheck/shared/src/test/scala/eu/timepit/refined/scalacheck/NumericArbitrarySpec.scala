@@ -63,11 +63,20 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
   property("Interval.Open") =
     checkArbitraryRefType[Refined, Int, Interval.Open[W.`-23`.T, W.`42`.T]]
 
+  property("Interval.Open (0.554, 0.556)") =
+    checkArbitraryRefType[Refined, Double, Interval.Open[W.`0.554`.T, W.`0.556`.T]]
+
   property("Interval.OpenClosed") =
     checkArbitraryRefType[Refined, Double, Interval.OpenClosed[W.`2.71828`.T, W.`3.14159`.T]]
 
+  property("Interval.OpenClosed (0.54, 0.56]") =
+    checkArbitraryRefType[Refined, Float, Interval.OpenClosed[W.`0.54F`.T, W.`0.56F`.T]]
+
   property("Interval.ClosedOpen") =
     checkArbitraryRefType[Refined, Double, Interval.ClosedOpen[W.`-2.71828`.T, W.`3.14159`.T]]
+
+  property("Interval.ClosedOpen [0.4, 0.6)") =
+    checkArbitraryRefType[Refined, Float, Interval.ClosedOpen[W.`0.4F`.T, W.`0.6F`.T]]
 
   property("Interval.Closed") =
     checkArbitraryRefType[Refined, Int, Interval.Closed[W.`23`.T, W.`42`.T]]

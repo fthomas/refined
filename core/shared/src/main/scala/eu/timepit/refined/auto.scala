@@ -13,7 +13,7 @@ trait auto {
    */
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
     implicit
-    ti: TypedInference[T, A, B], rt: RefType[F]
+    rt: RefType[F], ti: TypedInference[T, A, B]
   ): F[T, B] = macro InferMacro.impl[F, T, A, B]
 
   /**
@@ -36,7 +36,7 @@ trait auto {
    */
   implicit def autoRefineV[T, P](t: T)(
     implicit
-    v: Validate[T, P], rt: RefType[Refined]
+    rt: RefType[Refined], v: Validate[T, P]
   ): Refined[T, P] = macro RefineMacro.impl[Refined, T, P]
 
   /**
@@ -48,7 +48,7 @@ trait auto {
    */
   implicit def autoRefineT[T, P](t: T)(
     implicit
-    v: Validate[T, P], rt: RefType[@@]
+    rt: RefType[@@], v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }
 

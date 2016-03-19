@@ -13,6 +13,6 @@ object auto {
    */
   implicit def autoRefineScalazTag[T, P](t: T)(
     implicit
-    v: Validate[T, P], rt: RefType[@@]
+    rt: RefType[@@], v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }

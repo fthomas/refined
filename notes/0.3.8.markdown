@@ -1,7 +1,19 @@
 ### Changes
 
+* Add `RefType.applyRefM`, the the macro variant of `RefType.applyRef`.
+  `applyRefM` is useful when working with type aliases for refined
+  types and without any implicits, for example:
+  ```scala
+  scala> type Natural = Long @@ NonNegative
+  defined type alias Natural
+
+  scala> RefType.applyRefM[Natural](42L)
+  res0: Natural = 42
+  ```
+  ([#112], [#138])
 * Fix the return type of `RefType.applyRef`. ([#137])
 * Update to Scala.js 0.6.8. ([#136])
 
+[#112]: https://github.com/fthomas/refined/issues/112
 [#136]: https://github.com/fthomas/refined/pull/136
 [#137]: https://github.com/fthomas/refined/pull/137

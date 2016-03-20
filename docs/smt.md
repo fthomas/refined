@@ -43,18 +43,22 @@ scala> val b: EvenInt = 5
 ```
 This usage of `Sat` is similar to the already existing [`Eval`][Eval]
 predicate which also allows to define arbitrary predicates but written in
-Scala. It is even more limited than `Eval` because it can only make use
-of functions and data types defined by the SMT solver.
+Scala. `Sat` is more limited than `Eval` because it can only make use of
+functions and data types defined by the SMT solver.
+
+The real power of `Sat` emerges when we use it for refinement subtyping,
+i.e. the notion that a refined type `T Refined P` is a subtype of
+`T Refined Q` if forall `T`, `P` implies `Q`. This is one instance of
+logical formulas SMT solvers are really good at solving when they know
+the theories behind `T`, `P`,  and `Q`.
 
 Let's define more refined types to demonstrate refinement subtyping
 using Z3:
 ```scala
-scala> type Natural       = Int Refined Sat[W.`"(>= x 0)"`.T]
-defined type alias Natural
-
-scala> type SmallPositive = Int Refined Sat[W.`"(and (>= x 1) (<= x 99))"`.T]
-defined type alias SmallPositive
-
+type Natural       = Int Refined Sat[W.`"(>= x 0)"`.T]
+type SmallPositive = Int Refined Sat[W.`"(and (>= x 1) (<= x 99))"`.T]
+```
+```scala
 scala> val s: SmallPositive = 63
 s: SmallPositive = Refined(63)
 
@@ -62,8 +66,10 @@ scala> val n: Natural = s
 n: Natural = Refined(63)
 ```
 In the last line Z3 deduced at compile-time that the refinement
-`"(and (>= x 1) (<= x 99))"` always implies the refinement `"(>= x 0)"`.
-If we try to assign a `Natural` to a `SmallPositive` we get a compile error:
+`"(and (>= x 1) (<= x 99))"` always implies the refinement `"(>= x 0)"`
+and therefore any `SmallPositive` can be assigned to `Natural`. If we try
+the inverse and assign a `Natural` to a `SmallPositive` we get a compile
+error:
 ```scala
 scala> val s2: SmallPositive = n
 <console>:22: error: type mismatch (invalid inference):

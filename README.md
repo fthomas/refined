@@ -20,12 +20,12 @@ import shapeless.tag.@@
 
 // This refines Int with the Positive predicate and checks via an
 // implicit macro that the assigned value satisfies it:
-val i1: Int @@ Positive = 5
+scala> val i1: Int @@ Positive = 5
 i1: Int @@ Positive = 5
 
 // If the value does not satisfy the predicate, we get a meaningful
 // compile error:
-val i2: Int @@ Positive = -5
+scala> val i2: Int @@ Positive = -5
 <console>:21: error: Predicate failed: (-5 > 0).
        val i2: Int @@ Positive = -5
                                   ^

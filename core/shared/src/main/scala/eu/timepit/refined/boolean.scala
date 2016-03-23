@@ -27,8 +27,8 @@ object boolean extends BooleanValidate with BooleanInference0 {
   /** Exclusive disjunction of the predicates `A` and `B`. */
   case class Xor[A, B](a: A, b: B)
 
-  /** Negative-And of the predicates `A` and `B`. */
-  case class Nand[A, B](a: A, b: B)
+  /** Negation conjunction of the predicates `A` and `B`. */
+  type Nand[A, B] = Not[A And B]
 
   /** Conjunction of all predicates in `PS`. */
   case class AllOf[PS](ps: PS)
@@ -168,44 +168,6 @@ private[refined] trait BooleanValidate {
             Resources.showResultOrRightPassed(expr)
           case (Failed(_), Failed(_)) =>
             Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
-        }
-      }
-
-      override val isConstant: Boolean = va.isConstant && vb.isConstant
-    }
-
-  implicit def nandValidate[T, A, RA, B, RB](
-    implicit
-    va: Validate.Aux[T, A, RA],
-    vb: Validate.Aux[T, B, RB]
-  ): Validate.Aux[T, A Nand B, va.Res Nand vb.Res] =
-    new Validate[T, A Nand B] {
-      override type R = va.Res Nand vb.Res
-
-      override def validate(t: T): Res = {
-        val (ra, rb) = (va.validate(t), vb.validate(t))
-        val nandResult: Boolean = (ra.isPassed, rb.isPassed) match {
-          case (true, true) => false
-          case _ => true
-        }
-        Result.fromBoolean(nandResult, Nand(ra, rb))
-      }
-
-      override def showExpr(t: T): String =
-        s"(${va.showExpr(t)} | ${vb.showExpr(t)})"
-
-      override def showResult(t: T, r: Res): String = {
-        val expr = showExpr(t)
-        val (ra, rb) = (r.detail.a, r.detail.b)
-        (ra, rb) match {
-          case (Passed(_), Passed(_)) =>
-            Resources.showResultNandFailed(expr)
-          case (Passed(_), Failed(_)) =>
-            Resources.showResultNandPassed(expr)
-          case (Failed(_), Passed(_)) =>
-            Resources.showResultNandPassed(expr)
-          case (Failed(_), Failed(_)) =>
-            Resources.showResultNandPassed(expr)
         }
       }
 

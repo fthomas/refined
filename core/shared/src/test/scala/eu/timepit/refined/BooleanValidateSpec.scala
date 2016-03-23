@@ -110,14 +110,14 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
   }
 
   property("Nand.showExpr") = secure {
-    showExpr[TF[Nand]](()) ?= "(true | false)"
+    showExpr[TF[Nand]](()) ?= "!(true && false)"
   }
 
   property("Nand.showResult") = secure {
-    (showResult[TT[Nand]](()) ?= "Combination of predicates (true | true) is failed.") &&
-      (showResult[FT[Nand]](()) ?= "Combination of predicates (false | true) is passed.") &&
-      (showResult[TF[Nand]](()) ?= "Combination of predicates (true | false) is passed.") &&
-      (showResult[FF[Nand]](()) ?= "Combination of predicates (false | false) is passed.")
+    (showResult[TT[Nand]](()) ?= "Predicate (true && true) did not fail.") &&
+      (showResult[FT[Nand]](()) ?= "Predicate (false && true) did not pass.") &&
+      (showResult[TF[Nand]](()) ?= "Predicate (true && false) did not pass.") &&
+      (showResult[FF[Nand]](()) ?= "Predicate (false && false) did not pass.")
   }
 
   property("AllOf.isValid") = forAll { (i: Int) =>

@@ -217,6 +217,7 @@ The library comes with these predefined predicates:
 * `And[A, B]`: conjunction of the predicates `A` and `B`
 * `Or[A, B]`: disjunction of the predicates `A` and `B`
 * `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
+* `Nand[A, B]`: Negation conjunction of the predicates `A` and `B`
 * `AllOf[PS]`: conjunction of all predicates in `PS`
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
@@ -295,6 +296,7 @@ The library comes with these predefined predicates:
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
+* [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

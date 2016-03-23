@@ -102,6 +102,24 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
         "Left: Predicate failed: false. Right: Predicate failed: false.")
   }
 
+  property("Nand.isValid") = secure {
+    isValid[FF[Nand]](()) &&
+      isValid[FT[Nand]](()) &&
+      isValid[TF[Nand]](()) &&
+      notValid[TT[Nand]](())
+  }
+
+  property("Nand.showExpr") = secure {
+    showExpr[TF[Nand]](()) ?= "!(true && false)"
+  }
+
+  property("Nand.showResult") = secure {
+    (showResult[TT[Nand]](()) ?= "Predicate (true && true) did not fail.") &&
+      (showResult[FT[Nand]](()) ?= "Predicate (false && true) did not pass.") &&
+      (showResult[TF[Nand]](()) ?= "Predicate (true && false) did not pass.") &&
+      (showResult[FF[Nand]](()) ?= "Predicate (false && false) did not pass.")
+  }
+
   property("AllOf.isValid") = forAll { (i: Int) =>
     isValid[AllOf[Greater[_0] :: Less[_10] :: HNil]](i) ?= (i > 0 && i < 10)
   }

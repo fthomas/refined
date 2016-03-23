@@ -133,6 +133,10 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     Inference[Letter Xor Digit, Digit Xor Letter].isValid
   }
 
+  property("Nand commutativity") = secure {
+    Inference[Letter Nand Digit, Digit Nand Letter].isValid
+  }
+
   property("modus tollens") = secure {
     Inference[Not[Digit Xor Letter], Not[Letter Xor Digit]] ?=
       Inference.alwaysValid("modusTollens(xorCommutativity)")

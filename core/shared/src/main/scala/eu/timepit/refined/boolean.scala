@@ -27,6 +27,9 @@ object boolean extends BooleanValidate with BooleanInference0 {
   /** Exclusive disjunction of the predicates `A` and `B`. */
   case class Xor[A, B](a: A, b: B)
 
+  /** Negation conjunction of the predicates `A` and `B`. */
+  type Nand[A, B] = Not[A And B]
+
   /** Conjunction of all predicates in `PS`. */
   case class AllOf[PS](ps: PS)
 
@@ -292,6 +295,9 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
 
   implicit def xorCommutativity[A, B]: (A Xor B) ==> (B Xor A) =
     Inference.alwaysValid("xorCommutativity")
+
+  implicit def nandCommutativity[A, B]: (A Nand B) ==> (B Nand A) =
+    Inference.alwaysValid("nandCommutativity")
 }
 
 private[refined] trait BooleanInference1 extends BooleanInference2 {

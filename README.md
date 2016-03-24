@@ -295,8 +295,8 @@ The library comes with these predefined predicates:
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
-* [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))
+* [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

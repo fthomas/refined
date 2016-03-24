@@ -14,7 +14,15 @@
 * Fix the return type of `RefType.applyRef`. ([#137])
 * Update to Scala.js 0.6.8. ([#136])
 
+### New predicates
+
+[`boolean`](https://github.com/fthomas/refined/blob/v0.3.8/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
+
+* `Nand[A, B]`: negation conjunction of the predicates `A` and `B`.
+  Thanks to Shohei Shimomura! ([#140])
+
 [#112]: https://github.com/fthomas/refined/issues/112
 [#136]: https://github.com/fthomas/refined/pull/136
 [#137]: https://github.com/fthomas/refined/pull/137
 [#138]: https://github.com/fthomas/refined/pull/138
+[#140]: https://github.com/fthomas/refined/pull/140

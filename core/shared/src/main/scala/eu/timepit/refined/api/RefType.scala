@@ -34,7 +34,7 @@ trait RefType[F[_, _]] extends Serializable {
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType[Refined].refine[Positive](10)
-   * res1: Either[String, Refined[Int, Positive]] = Right(Refined(10))
+   * res1: Either[String, Refined[Int, Positive]] = Right(10)
    * }}}
    *
    * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
@@ -53,7 +53,7 @@ trait RefType[F[_, _]] extends Serializable {
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType[Refined].refineM[Positive](10)
-   * res1: Refined[Int, Positive] = Refined(10)
+   * res1: Refined[Int, Positive] = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro.
@@ -74,7 +74,7 @@ trait RefType[F[_, _]] extends Serializable {
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType[Refined].refineMF[Long, Positive](10)
-   * res1: Refined[Long, Positive] = Refined(10)
+   * res1: Refined[Long, Positive] = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro and `F` for '''f'''ully applied.
@@ -109,7 +109,7 @@ object RefType {
    *      | import eu.timepit.refined.numeric._
    *
    * scala> RefType.applyRef[Int Refined Positive](10)
-   * res1: Either[String, Int Refined Positive] = Right(Refined(10))
+   * res1: Either[String, Int Refined Positive] = Right(10)
    * }}}
    *
    * Note: The return type is `[[internal.ApplyRefPartiallyApplied]][FTP]`,
@@ -129,7 +129,7 @@ object RefType {
    *
    * scala> type PosInt = Int Refined Positive
    * scala> RefType.applyRefM[PosInt](10)
-   * res1: PosInt = Refined(10)
+   * res1: PosInt = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro.

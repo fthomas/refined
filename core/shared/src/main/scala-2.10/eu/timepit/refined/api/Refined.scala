@@ -6,7 +6,11 @@ package api
  * this class can be created with `[[refineV]]` and `[[refineMV]]` which
  * verify that the wrapped value satisfies `P`.
  */
-final case class Refined[T, P] private (get: T) // extends AnyVal
+final case class Refined[T, P] private (get: T) {
+
+  override def toString: String =
+    get.toString
+}
 
 object Refined {
 

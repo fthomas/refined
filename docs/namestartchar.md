@@ -50,7 +50,7 @@ scala> type NameStartChar = Char Refined AnyOf[
 defined type alias NameStartChar
 
 scala> val a: NameStartChar = 'Ä'
-a: NameStartChar = Refined(Ä)
+a: NameStartChar = Ä
 ```
 
 ```scala

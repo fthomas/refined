@@ -59,7 +59,7 @@ lazy val core = crossProject
   .settings(releaseSettings: _*)
   .settings(styleSettings: _*)
   .settings(siteSettings: _*)
-  .jvmSettings(myDoctestSettings: _*)
+  .settings(myDoctestSettings: _*)
   .jvmSettings(
     initialCommands := s"""
       $commonImports
@@ -139,8 +139,10 @@ lazy val submoduleSettings =
   releaseSettings ++
   styleSettings
 
-lazy val submoduleJsSettings =
-  Seq(scalaJSUseRhino in Global := false)
+lazy val submoduleJsSettings = Seq(
+  doctestGenTests := Seq.empty,
+  scalaJSUseRhino in Global := false
+)
 
 lazy val projectSettings = Seq(
   name := projectName,

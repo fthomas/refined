@@ -292,8 +292,9 @@ lazy val miscSettings = Seq(
   buildInfoPackage := s"$rootPkg.internal"
 )
 
-lazy val myDoctestSettings =
-  doctestSettings ++ Seq(doctestWithDependencies := false)
+lazy val myDoctestSettings = Def.settings(
+  doctestWithDependencies := false
+)
 
 lazy val styleSettings =
   scalariformSettings ++

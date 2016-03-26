@@ -21,10 +21,10 @@ defined class Square
 
 ```scala
 scala> Square('a', 1)
-res0: Square = Square(Refined(a),Refined(1))
+res0: Square = Square(a,1)
 
 scala> Square('e', 4)
-res1: Square = Square(Refined(e),Refined(4))
+res1: Square = Square(e,4)
 ```
 
 ```scala
@@ -49,13 +49,13 @@ scala> Square('k', -1)
 
 ```scala
 scala> val a1 = Square('a', 1)
-a1: Square = Square(Refined(a),Refined(1))
+a1: Square = Square(a,1)
 
 scala> val b2 = for {
      |   f <- applyRef[File]((a1.file + 1).toChar).right
      |   r <- applyRef[Rank](a1.rank + 1).right
      | } yield Square(f, r)
-b2: scala.util.Either[String,Square] = Right(Square(Refined(b),Refined(2)))
+b2: scala.util.Either[String,Square] = Right(Square(b,2))
 
 scala> val i9 = for {
      |   f <- applyRef[File]((a1.file + 8).toChar).right

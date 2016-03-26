@@ -1,5 +1,7 @@
 ### Changes
 
+* Overwrite `Refined#toString` by delegating it to the `toString`
+  method of the wrapped value. ([#141])
 * Add `RefType.applyRefM`, the the macro variant of `RefType.applyRef`.
   `applyRefM` is useful when working with type aliases for refined
   types and without any implicits, for example:
@@ -26,3 +28,4 @@
 [#137]: https://github.com/fthomas/refined/pull/137
 [#138]: https://github.com/fthomas/refined/pull/138
 [#140]: https://github.com/fthomas/refined/pull/140
+[#141]: https://github.com/fthomas/refined/pull/141

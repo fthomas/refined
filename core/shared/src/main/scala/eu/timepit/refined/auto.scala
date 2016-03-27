@@ -1,7 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{ Refined, RefType, Validate }
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.{ Refined, RefType, TypedInference, Validate }
 import eu.timepit.refined.macros.{ InferMacro, RefineMacro }
 import shapeless.tag.@@
 
@@ -14,7 +13,7 @@ trait auto {
    */
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
     implicit
-    rt: RefType[F], ir: A ==> B
+    rt: RefType[F], ti: TypedInference[T, A, B]
   ): F[T, B] = macro InferMacro.impl[F, T, A, B]
 
   /**

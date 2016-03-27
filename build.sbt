@@ -40,7 +40,8 @@ lazy val root = project.in(file("."))
     scalazJVM,
     scalazJS,
     scodecJVM,
-    scodecJS)
+    scodecJS,
+    smt)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -81,7 +82,7 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
-  .dependsOn(coreJVM)
+  .dependsOn(coreJVM, smt)
 
 lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
@@ -126,6 +127,18 @@ lazy val scodec = crossProject.in(file("contrib/scodec"))
 
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
+
+lazy val smt = project.in(file("contrib/smt"))
+  .settings(moduleName := s"$projectName-smt")
+  .settings(submoduleSettings)
+  .settings(
+    initialCommands := s"""
+      $commonImports
+      import $rootPkg.smt._
+      import $rootPkg.smt.smtlib._
+    """
+  )
+  .dependsOn(coreJVM % "compile->compile;test->test")
 
 /// settings definitions
 
@@ -275,6 +288,7 @@ lazy val releaseSettings = {
       releaseStepTask(bintraySyncMavenCentral in "scalacheckJVM"),
       releaseStepTask(bintraySyncMavenCentral in "scalazJVM"),
       releaseStepTask(bintraySyncMavenCentral in "scodecJVM"),
+      releaseStepTask(bintraySyncMavenCentral in "smt"),
       releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
       setNextVersion,
       commitNextVersion,
@@ -323,6 +337,7 @@ addCommandAlias("validate", Seq(
   "scalacheckJVM/test",
   "scalazJVM/test",
   "scodecJVM/test",
+  "smt/test",
   "scalastyle",
   "test:scalastyle",
   "doc",

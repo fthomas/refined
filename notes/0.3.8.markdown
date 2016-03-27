@@ -20,7 +20,7 @@
 
 [`boolean`](https://github.com/fthomas/refined/blob/v0.3.8/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
 
-* `Nand[A, B]`: negation conjunction of the predicates `A` and `B`.
+* `Nand[A, B]`: negated conjunction of the predicates `A` and `B`.
   Thanks to Shohei Shimomura! ([#140])
 
 [#112]: https://github.com/fthomas/refined/issues/112

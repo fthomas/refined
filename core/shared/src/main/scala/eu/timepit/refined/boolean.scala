@@ -27,7 +27,7 @@ object boolean extends BooleanValidate with BooleanInference0 {
   /** Exclusive disjunction of the predicates `A` and `B`. */
   case class Xor[A, B](a: A, b: B)
 
-  /** Negation conjunction of the predicates `A` and `B`. */
+  /** Negated conjunction of the predicates `A` and `B`. */
   type Nand[A, B] = Not[A And B]
 
   /** Conjunction of all predicates in `PS`. */

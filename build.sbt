@@ -283,11 +283,12 @@ lazy val releaseSettings = {
   )
 }
 
-lazy val siteSettings =
-  site.settings ++
-  site.includeScaladoc() ++
-  ghpages.settings ++
-  Seq(git.remoteRepo := gitDevUrl)
+lazy val siteSettings = Def.settings(
+  site.settings,
+  site.includeScaladoc(),
+  ghpages.settings,
+  git.remoteRepo := gitDevUrl
+)
 
 lazy val miscSettings = Seq(
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
@@ -298,18 +299,17 @@ lazy val myDoctestSettings = Def.settings(
   doctestWithDependencies := false
 )
 
-lazy val styleSettings =
-  scalariformSettings ++
-  Seq(
-    // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
-    scalastyleSources in Compile :=
-      (unmanagedSourceDirectories in Compile).value,
+lazy val styleSettings = Def.settings(
+  scalariformSettings,
+  sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
+    (sourceDirectories in Compile).value,
+  sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=
+    (sourceDirectories in Test).value,
 
-    sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
-      (sourceDirectories in Compile).value,
-    sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=
-      (sourceDirectories in Test).value
-  )
+  // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
+  scalastyleSources in Compile :=
+    (unmanagedSourceDirectories in Compile).value
+)
 
 addCommandAlias("validate", Seq(
   "clean",

@@ -12,8 +12,8 @@ Scala's path dependent types makes it possible to express refinements
 that depend other statically known values:
 
 ```scala
-scala> def foo[S <: String](a: S)(b: String @@ StartsWith[a.type]) = a + b
-foo: [S <: String](a: S)(b: shapeless.tag.@@[String,eu.timepit.refined.string.StartsWith[a.type]])String
+scala> def foo(a: String)(b: String @@ StartsWith[a.type]) = a + b
+foo: (a: String)(b: shapeless.tag.@@[String,eu.timepit.refined.string.StartsWith[a.type]])String
 ```
 
 ```scala
@@ -23,7 +23,7 @@ res0: String = ababcd
 
 ```scala
 scala> foo("cd")("abcd")
-<console>:20: error: Predicate failed: "abcd".startsWith("cd").
+<console>:21: error: Predicate failed: "abcd".startsWith("cd").
        foo("cd")("abcd")
                  ^
 ```
@@ -32,15 +32,12 @@ Unfortunately Scala does not allow to use singleton types of `AnyVal`s,
 see [section 3.2.1][spec-3.2.1] of the Scala Language Specification:
 
 ```scala
-scala> def bar[I <: Int](i: I)(j: Int @@ Greater[i.type]) = j - i
-<console>:18: error: type mismatch;
- found   : i.type (with underlying type I)
+scala> def bar(i: Int)(j: Int @@ Greater[i.type]) = j - i
+<console>:19: error: type mismatch;
+ found   : i.type (with underlying type Int)
  required: AnyRef
-Note that I is bounded only by AnyVal, which means AnyRef is not a known parent.
-Such types can participate in value classes, but instances
-cannot appear in singleton types or in reference comparisons.
-       def bar[I <: Int](i: I)(j: Int @@ Greater[i.type]) = j - i
-                                                 ^
+       def bar(i: Int)(j: Int @@ Greater[i.type]) = j - i
+                                         ^
 ```
 
 ### shapeless to the rescue
@@ -61,7 +58,7 @@ res2: Int = 2
 
 ```scala
 scala> baz(Witness(6))(4)
-<console>:20: error: Predicate failed: (4 > 6).
+<console>:21: error: Predicate failed: (4 > 6).
        baz(Witness(6))(4)
                        ^
 ```

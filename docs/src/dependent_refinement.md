@@ -12,7 +12,7 @@ Scala's path dependent types makes it possible to express refinements
 that depend other statically known values:
 
 ```tut
-def foo[S <: String](a: S)(b: String @@ StartsWith[a.type]) = a + b
+def foo(a: String)(b: String @@ StartsWith[a.type]) = a + b
 ```
 
 ```tut
@@ -27,7 +27,7 @@ Unfortunately Scala does not allow to use singleton types of `AnyVal`s,
 see [section 3.2.1][spec-3.2.1] of the Scala Language Specification:
 
 ```tut:fail
-def bar[I <: Int](i: I)(j: Int @@ Greater[i.type]) = j - i
+def bar(i: Int)(j: Int @@ Greater[i.type]) = j - i
 ```
 
 ### shapeless to the rescue

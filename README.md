@@ -218,6 +218,7 @@ The library comes with these predefined predicates:
 * `Or[A, B]`: disjunction of the predicates `A` and `B`
 * `Xor[A, B]`: exclusive disjunction of the predicates `A` and `B`
 * `Nand[A, B]`: negated conjunction of the predicates `A` and `B`
+* `Nor[A, B]`: negated disjunction of the predicates `A` and `B`
 * `AllOf[PS]`: conjunction of all predicates in `PS`
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`

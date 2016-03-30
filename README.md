@@ -332,8 +332,8 @@ overhead for reference types and only causes boxing for value types.
 show the differences of unrefined and refined types during the posterasure
 compiler phase.
 
-[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyRef.scala
-[PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyVal.scala
+[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/shared/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyRef.scala
+[PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/shared/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyVal.scala
 
 ## Related projects
 

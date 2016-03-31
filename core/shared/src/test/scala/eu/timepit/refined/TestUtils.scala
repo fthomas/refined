@@ -39,4 +39,14 @@ object TestUtils {
     body
     true
   }
+
+  def getClassFile[C](c: C): String =
+    c.getClass.getCanonicalName.replace('.', '/') + ".class"
+
+  def getClassFilePath[C](c: C): java.net.URL =
+    getClass.getClassLoader.getResource(getClassFile(c))
+
+  def javapOutput[C](c: C, opts: String = ""): String =
+    scala.sys.process.Process(s"javap $opts ${getClassFilePath(c)}").!!
+      .trim.replaceAll("""(?m)\s+$""", "")
 }

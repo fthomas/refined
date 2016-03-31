@@ -326,14 +326,14 @@ it in the Gitter channel and we'll add a link to it here.
 
 ## Performance concerns
 
-Using **refined's** macros for compile-time refinement bears zero runtime
-overhead for reference types and only causes boxing for value types.
-[PostErasureAnyRef][PostErasureAnyRef] and [PostErasureAnyVal][PostErasureAnyVal]
-show the differences of unrefined and refined types during the posterasure
-compiler phase.
+Using **refined's** macros for compile-time refinement has zero runtime
+overhead for validating values but imposes minor runtime costs for wrapping
+and unwrapping refined values. Also refined reference types have the same
+runtime representation as their base types while refined value types are
+boxed. Refer to [RefTypeJavapSpec][RefTypeJavapSpec] for a more detailed
+analysis of the runtime component of refinement types on the JVM.
 
-[PostErasureAnyRef]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/shared/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyRef.scala
-[PostErasureAnyVal]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/shared/src/test/scala/eu/timepit/refined/scalaz/examples/PostErasureAnyVal.scala
+[RefTypeJavapSpec]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/RefTypeJavapSpec.scala
 
 ## Related projects
 

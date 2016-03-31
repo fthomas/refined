@@ -58,29 +58,26 @@ class RefTypeJavapSpec extends Properties("RefTypeJavap") {
         |       0: getstatic     #16                 // Field eu/timepit/refined/api/RefType$.MODULE$:Leu/timepit/refined/api/RefType$;
         |       3: invokevirtual #20                 // Method eu/timepit/refined/api/RefType$.refinedRefType:()Leu/timepit/refined/api/RefType;
         |       6: iconst_1
-        |       7: invokestatic  #26                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
-        |      10: invokeinterface #32,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap:(Ljava/lang/Object;)Ljava/lang/Object;
-        |      15: checkcast     #34                 // class eu/timepit/refined/api/Refined
-        |      18: invokevirtual #38                 // Method eu/timepit/refined/api/Refined.get:()Ljava/lang/Object;
-        |      21: checkcast     #40                 // class java/lang/Integer
-        |      24: areturn
+        |       7: invokeinterface #26,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap$mIc$sp:(I)Ljava/lang/Object;
+        |      12: checkcast     #28                 // class eu/timepit/refined/api/Refined
+        |      15: invokevirtual #32                 // Method eu/timepit/refined/api/Refined.get:()Ljava/lang/Object;
+        |      18: checkcast     #34                 // class java/lang/Integer
+        |      21: areturn
         |  public java.lang.Object shapeless_tag();
         |    Code:
         |       0: getstatic     #16                 // Field eu/timepit/refined/api/RefType$.MODULE$:Leu/timepit/refined/api/RefType$;
-        |       3: invokevirtual #47                 // Method eu/timepit/refined/api/RefType$.tagRefType:()Leu/timepit/refined/api/RefType;
+        |       3: invokevirtual #41                 // Method eu/timepit/refined/api/RefType$.tagRefType:()Leu/timepit/refined/api/RefType;
         |       6: iconst_1
-        |       7: invokestatic  #26                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
-        |      10: invokeinterface #32,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap:(Ljava/lang/Object;)Ljava/lang/Object;
-        |      15: invokestatic  #51                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
-        |      18: ireturn
+        |       7: invokeinterface #26,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap$mIc$sp:(I)Ljava/lang/Object;
+        |      12: invokestatic  #47                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+        |      15: ireturn
         |  public java.lang.Object scalaz_tag();
         |    Code:
-        |       0: getstatic     #57                 // Field eu/timepit/refined/scalaz/package$.MODULE$:Leu/timepit/refined/scalaz/package$;
-        |       3: invokevirtual #60                 // Method eu/timepit/refined/scalaz/package$.scalazTagRefType:()Leu/timepit/refined/api/RefType;
+        |       0: getstatic     #53                 // Field eu/timepit/refined/scalaz/package$.MODULE$:Leu/timepit/refined/scalaz/package$;
+        |       3: invokevirtual #56                 // Method eu/timepit/refined/scalaz/package$.scalazTagRefType:()Leu/timepit/refined/api/RefType;
         |       6: iconst_1
-        |       7: invokestatic  #26                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
-        |      10: invokeinterface #32,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap:(Ljava/lang/Object;)Ljava/lang/Object;
-        |      15: areturn
+        |       7: invokeinterface #26,  2           // InterfaceMethod eu/timepit/refined/api/RefType.unsafeWrap$mIc$sp:(I)Ljava/lang/Object;
+        |      12: areturn
         |  public int unrefined();
         |    Code:
         |       0: iconst_1
@@ -88,7 +85,7 @@ class RefTypeJavapSpec extends Properties("RefTypeJavap") {
         |  public eu.timepit.refined.scalaz.AnyValTest();
         |    Code:
         |       0: aload_0
-        |       1: invokespecial #65                 // Method java/lang/Object."<init>":()V
+        |       1: invokespecial #61                 // Method java/lang/Object."<init>":()V
         |       4: return
         |}
       """.stripMargin.trim

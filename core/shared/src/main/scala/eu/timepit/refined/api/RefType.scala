@@ -18,7 +18,7 @@ import shapeless.tag.@@
  */
 trait RefType[F[_, _]] extends Serializable {
 
-  def unsafeWrap[T, P](t: T): F[T, P]
+  def unsafeWrap[@specialized T, P](t: T): F[T, P]
 
   def unwrap[T, P](tp: F[T, P]): T
 
@@ -143,7 +143,7 @@ object RefType {
 
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {
-      override def unsafeWrap[T, P](t: T): Refined[T, P] =
+      override def unsafeWrap[@specialized T, P](t: T): Refined[T, P] =
         Refined.unsafeApply(t)
 
       override def unwrap[T, P](tp: Refined[T, P]): T =
@@ -155,7 +155,7 @@ object RefType {
 
   implicit val tagRefType: RefType[@@] =
     new RefType[@@] {
-      override def unsafeWrap[T, P](t: T): T @@ P =
+      override def unsafeWrap[@specialized T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]
 
       override def unwrap[T, P](tp: T @@ P): T =

@@ -15,6 +15,7 @@
   ([#112], [#138])
 * Fix the return type of `RefType.applyRef`. ([#137])
 * Update to Scala.js 0.6.8. ([#136])
+* Update `refined-scalaz` to Scalaz 7.2.2. ([#147])
 
 ### New predicates
 
@@ -32,3 +33,4 @@ Thanks to Shohei Shimomura for both predicates!
 [#140]: https://github.com/fthomas/refined/pull/140
 [#141]: https://github.com/fthomas/refined/pull/141
 [#143]: https://github.com/fthomas/refined/pull/143
+[#147]: https://github.com/fthomas/refined/pull/147

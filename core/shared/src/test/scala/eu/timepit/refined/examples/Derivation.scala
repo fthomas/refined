@@ -1,19 +1,16 @@
 package eu.timepit.refined
 package examples
 
-import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
-import eu.timepit.refined.boolean.True
 import eu.timepit.refined.string.MatchesRegex
 
 // inspired by http://meta.plasm.us/posts/2015/11/08/type-classes-and-generic-derivation/
 
-case class Person(name: String, age: Int)
-
 trait Parser[A] {
-  type P
-  def parse(s: String Refined P): A
+  type P <: String
+  final type RString = String Refined MatchesRegex[P]
+  def parse(s: RString): A
 }
 
 object Parser {
@@ -21,35 +18,45 @@ object Parser {
 
   def apply[A](implicit parser: Parser[A]): Parser.Aux[A, parser.P] = parser
 
-  implicit val stringParser: Parser.Aux[String, True] =
+  implicit val stringParser: Parser.Aux[String, W.`"""[^,]*,"""`.T] =
     new Parser[String] {
-      type P = True
-      def parse(s: String Refined P): String = s
+      type P = W.`"""[^,]*,"""`.T
+      def parse(s: RString): String = s.get.init
     }
 
-  implicit val intParser: Parser.Aux[Int, MatchesRegex[W.`"""\\-?\\d+"""`.T]] =
+  implicit val intParser: Parser.Aux[Int, W.`"""\\-?\\d+,"""`.T] =
     new Parser[Int] {
-      type P = MatchesRegex[W.`"""\\-?\\d+"""`.T]
-      def parse(s: String Refined P): Int = s.get.toInt
+      type P = W.`"""\\-?\\d+,"""`.T
+      def parse(s: RString): Int = s.get.init.toInt
     }
 
-  implicit val personParser: Parser.Aux[Person, MatchesRegex[W.`"""[^,]*,\\d+"""`.T]] =
-    new Parser[Person] {
-      type P = MatchesRegex[W.`"""[^,]*,\\d+"""`.T]
-      def parse(s: String Refined P): Person = {
-        val parts = s.split(",")
-        Person(parts(0), parts(1).toInt)
+  implicit def tupleParser[A, B, AR <: String, BR <: String](
+    implicit
+    pa: Parser.Aux[A, AR],
+    pb: Parser.Aux[B, BR],
+    c: Concat[AR, BR]
+  ): Parser[(A, B)] =
+    new Parser[(A, B)] {
+      type P = c.Out
+      def parse(s: RString): (A, B) = {
+        val splitted = s.get.split(",")
+        val (h, t) = (splitted.head + ",", splitted.tail.mkString("", ",", ","))
+
+        (pa.parse(Refined.unsafeApply(h)), pb.parse(Refined.unsafeApply(t)))
       }
     }
 }
 
 object Derivation extends App {
 
-  val x: Int = Parser[Int].parse("123")
-  assert(x == 123)
+  val a = Parser[Int].parse("123,")
+  assert(a == 123)
 
-  val bob: Person = Parser[Person].parse("Bob,32")
-  assert(bob == Person("Bob", 32))
+  //val p: Parser.Aux[(Int, Int), W.`"""\\-?\\d+,\\-?\\d+,"""`.T] = Parser.tupleParser(Parser.intParser, Parser.intParser, Concat[W.`"""\\-?\\d+,"""`.T, W.`"""\\-?\\d+,"""`.T])
+
+  val b = Parser[(Int, Int)].parse("12,34,")
+  //  val b = p.parse("12,34,")
+  assert(b == ((12, 34)))
 
   // Compilation fails for:
 

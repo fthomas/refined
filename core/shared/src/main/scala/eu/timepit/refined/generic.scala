@@ -11,6 +11,7 @@ import shapeless.ops.hlist.ToList
 import shapeless.ops.nat.ToInt
 import shapeless.ops.record.Keys
 
+/** Module for generic predicates. */
 object generic extends GenericValidate with GenericInference {
 
   /** Predicate that checks if a value is equal to `U`. */

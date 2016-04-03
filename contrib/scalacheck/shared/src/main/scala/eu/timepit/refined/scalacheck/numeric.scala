@@ -15,6 +15,8 @@ object numeric {
    * A generator that generates a random value in the given (inclusive)
    * range that satisfies the predicate `P`. If the range is invalid,
    * the generator will not generate any value.
+   *
+   * This is like ScalaCheck's `Gen.chooseNum` but for refined types.
    */
   def chooseRefinedNum[F[_, _], T: Numeric: Choose, P](min: F[T, P], max: F[T, P])(
     implicit

@@ -117,7 +117,8 @@ object numeric {
   ): Arbitrary[F[T, Interval.Closed[L, H]]] =
     rangeClosedArbitrary(wl.value, wh.value)
 
-  ///
+  /// The following functions are private because it is not guaranteed
+  /// that they produce valid values according to the predicate `P`.
 
   private def rangeOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(
     implicit

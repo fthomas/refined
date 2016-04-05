@@ -23,13 +23,6 @@ trait Validate[T, P] extends Serializable { self =>
   def showResult(t: T, r: Res): String =
     Resources.predicateResultDetailDot(r, showExpr(t))
 
-  /**
-   * Denotes whether this `[[Validate]]` is constant (which is false by
-   * default). A constant `[[Validate]]` ignores the argument passed to
-   * `[[validate]]`.
-   */
-  val isConstant: Boolean = false
-
   /** Checks if `t` satisfies the predicate `P`. */
   final def isValid(t: T): Boolean =
     validate(t).isPassed
@@ -49,7 +42,6 @@ trait Validate[T, P] extends Serializable { self =>
     new Validate[U, P] {
       override type R = self.R
       override def validate(u: U): Res = self.validate(f(u))
-      override val isConstant: Boolean = self.isConstant
       override def showExpr(u: U): String = self.showExpr(f(u))
       override def showResult(u: U, r: Res): String = self.showResult(f(u), r)
       override def accumulateShowExpr(u: U): List[String] = self.accumulateShowExpr(f(u))
@@ -65,17 +57,16 @@ object Validate {
   def apply[T, P](implicit v: Validate[T, P]): Aux[T, P, v.R] = v
 
   /** Constructs a `[[Validate]]` from its parameters. */
-  def instance[T, P, R0](f: T => Result[R0], g: T => String, constant: Boolean = false): Aux[T, P, R0] =
+  def instance[T, P, R0](f: T => Result[R0], g: T => String): Aux[T, P, R0] =
     new Validate[T, P] {
       override type R = R0
       override def validate(t: T): Res = f(t)
       override def showExpr(t: T): String = g(t)
-      override val isConstant: Boolean = constant
     }
 
   /** Constructs a constant `[[Validate]]` from its parameters. */
   def constant[T, P, R](isValidV: Result[R], showV: String): Aux[T, P, R] =
-    instance(_ => isValidV, _ => showV, constant = true)
+    instance(_ => isValidV, _ => showV)
 
   /**
    * Constructs a `[[Validate]]` from the predicate `f`. All values of type

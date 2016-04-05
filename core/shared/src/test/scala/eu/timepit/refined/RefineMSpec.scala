@@ -71,11 +71,6 @@ class RefineMSpec extends Properties("refineM") {
     illTyped("refineMV[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
   }
 
-  property("refineM success with constant predicate") = wellTyped {
-    def ignore1: List[Int] Refined Not[False] = refineMV(List(1, 2, 3))
-    def ignore2: List[Int] @@ Not[False] = refineMT(List(1, 2, 3))
-  }
-
   property("refineM failure with non-literals") = wellTyped {
     illTyped("refineMV[NonEmpty](List(1, 2, 3))", "compile-time refinement.*")
     illTyped("refineMT[NonEmpty](List(1, 2, 3))", "compile-time refinement.*")

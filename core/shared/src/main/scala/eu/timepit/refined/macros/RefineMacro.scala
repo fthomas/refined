@@ -17,7 +17,6 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     val validate = eval(v)
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
-      case _ if validate.isConstant => null.asInstanceOf[T]
       case _ => abort(Resources.refineNonCompileTimeConstant)
     }
 

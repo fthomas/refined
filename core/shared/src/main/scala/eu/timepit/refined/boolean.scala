@@ -72,8 +72,6 @@ private[refined] trait BooleanValidate {
           case Failed(_) => Resources.showResultNotInnerFailed(expr)
         }
       }
-
-      override val isConstant: Boolean = v.isConstant
     }
 
   implicit def andValidate[T, A, RA, B, RB](
@@ -106,8 +104,6 @@ private[refined] trait BooleanValidate {
             Resources.showResultAndBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
         }
       }
-
-      override val isConstant: Boolean = va.isConstant && vb.isConstant
     }
 
   implicit def orValidate[T, A, RA, B, RB](
@@ -140,8 +136,6 @@ private[refined] trait BooleanValidate {
             Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
         }
       }
-
-      override val isConstant: Boolean = va.isConstant && vb.isConstant
     }
 
   implicit def xorValidate[T, A, RA, B, RB](
@@ -174,8 +168,6 @@ private[refined] trait BooleanValidate {
             Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
         }
       }
-
-      override val isConstant: Boolean = va.isConstant && vb.isConstant
     }
 
   implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
@@ -200,8 +192,6 @@ private[refined] trait BooleanValidate {
 
       override def accumulateShowExpr(t: T): List[String] =
         vh.showExpr(t) :: vt.accumulateShowExpr(t)
-
-      override val isConstant: Boolean = vh.isConstant && vt.isConstant
     }
 
   implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
@@ -226,8 +216,6 @@ private[refined] trait BooleanValidate {
 
       override def accumulateShowExpr(t: T): List[String] =
         vh.showExpr(t) :: vt.accumulateShowExpr(t)
-
-      override val isConstant: Boolean = vh.isConstant && vt.isConstant
     }
 
   implicit def oneOfHNilValidate[T]: Validate.Plain[T, OneOf[HNil]] =
@@ -254,8 +242,6 @@ private[refined] trait BooleanValidate {
 
       override def accumulateShowExpr(t: T): List[String] =
         vh.showExpr(t) :: vt.accumulateShowExpr(t)
-
-      override val isConstant: Boolean = vh.isConstant && vt.isConstant
     }
 }
 

@@ -19,6 +19,8 @@
 * Remove the notion of "constant" `Validate` instances that allowed to
   refine non-literal values at compile-time. This feature hasn't proven
   to be useful after all. ([#148])
+* Eval `RefType` during macro expansion again to minimize the runtime
+  overhead of refinement types. ([#149], [#120])
 
 ### New predicates
 
@@ -30,6 +32,7 @@
 Thanks to Shohei Shimomura for both predicates!
 
 [#112]: https://github.com/fthomas/refined/issues/112
+[#120]: https://github.com/fthomas/refined/pull/120
 [#136]: https://github.com/fthomas/refined/pull/136
 [#137]: https://github.com/fthomas/refined/pull/137
 [#138]: https://github.com/fthomas/refined/pull/138
@@ -38,3 +41,4 @@ Thanks to Shohei Shimomura for both predicates!
 [#143]: https://github.com/fthomas/refined/pull/143
 [#147]: https://github.com/fthomas/refined/pull/147
 [#148]: https://github.com/fthomas/refined/pull/148
+[#149]: https://github.com/fthomas/refined/pull/149

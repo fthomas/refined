@@ -10,7 +10,7 @@ import scala.reflect.macros.blackbox
 class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
-  def impl[F[_, _], T, P](t: c.Expr[T])(
+  def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
     rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
 
@@ -24,7 +24,9 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     if (res.isFailed) {
       abort(validate.showResult(tValue, res))
     }
-    reify(rt.splice.unsafeWrap(t.splice))
+
+    val refType = eval(rt)
+    refType.unsafeWrapM(c)(t)
   }
 
   def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(

@@ -53,6 +53,12 @@ object collection extends CollectionValidate with CollectionInference {
   case class Init[P](p: P)
 
   /**
+   * Predicate that checks if the predicate `P` holds for all but head element
+   * of a `TraversableOnce`.
+   */
+  case class Tail[P](p: P)
+
+  /**
    * Predicate that checks if the size of a `TraversableOnce` satisfies the
    * predicate `P`.
    */
@@ -237,6 +243,29 @@ private[refined] trait CollectionValidate {
     ev: T => TraversableOnce[A]
   ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
     initValidate[A, P, R, TraversableOnce].contramap(ev)
+
+  implicit def tailValidate[A, P, R, T[a] <: TraversableOnce[a]](
+    implicit
+    v: Validate.Aux[A, P, R]
+  ): Validate.Aux[T[A], Tail[P], Tail[List[v.Res]]] =
+    new Validate[T[A], Tail[P]] {
+      override type R = Tail[List[v.Res]]
+
+      override def validate(t: T[A]): Res = {
+        val ra = t.toList.drop(1).map(v.validate)
+        Result.fromBoolean(ra.forall(_.isPassed), Tail(ra))
+      }
+
+      override def showExpr(t: T[A]): String =
+        t.toList.drop(1).map(v.showExpr).mkString("(", " && ", ")")
+    }
+
+  implicit def tailValidateView[A, P, R, T](
+    implicit
+    v: Validate.Aux[A, P, R],
+    ev: T => TraversableOnce[A]
+  ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
+    tailValidate[A, P, R, TraversableOnce].contramap(ev)
 
   implicit def sizeValidate[T, P, RP](
     implicit

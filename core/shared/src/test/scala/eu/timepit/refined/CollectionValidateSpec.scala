@@ -143,6 +143,30 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
     showExpr[Last[Digit]]("abc0") ?= "isDigit('0')"
   }
 
+  property("Init.String.isValid") = forAll { (s: String) =>
+    isValid[Init[LowerCase]](s) ?= s.toList.dropRight(1).forall(_.isLower)
+  }
+
+  property("Init.String.showExpr") = secure {
+    showExpr[Init[LowerCase]]("abcd") ?= "(isLower('a') && isLower('b') && isLower('c'))"
+  }
+
+  property("Init.String.showResult") = secure {
+    showResult[Init[LowerCase]]("abc") ?= "Predicate passed: (isLower('a') && isLower('b'))."
+  }
+
+  property("Tail.String.isValid") = forAll { (s: String) =>
+    isValid[Tail[LowerCase]](s) ?= s.toList.drop(1).forall(_.isLower)
+  }
+
+  property("Tail.String.showExpr") = secure {
+    showExpr[Tail[LowerCase]]("abcd") ?= "(isLower('b') && isLower('c') && isLower('d'))"
+  }
+
+  property("Tail.String.showResult") = secure {
+    showResult[Tail[LowerCase]]("abc") ?= "Predicate passed: (isLower('b') && isLower('c'))."
+  }
+
   property("MinSize.String.isValid") = forAll { (s: String) =>
     isValid[MinSize[_5]](s) ?= (s.length >= 5)
   }

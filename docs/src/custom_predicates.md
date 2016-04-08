@@ -46,17 +46,17 @@ implicit val quadrant4Validate: Validate.Plain[Point, Quadrant4] =
   Validate.fromPredicate(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)", Quadrant4())
 ```
 
-We have now everything in place to refine `Point` values with the `refineT`
+We have now everything in place to refine `Point` values with the `refineV`
 function and our predicates:
 
 ```tut
-import eu.timepit.refined.refineT
+import eu.timepit.refined.refineV
 
-refineT[Quadrant1](Point(1, 3))
+refineV[Quadrant1](Point(1, 3))
 
-refineT[Quadrant1](Point(3, -2))
+refineV[Quadrant1](Point(3, -2))
 
-refineT[Quadrant4](Point(3, -2))
+refineV[Quadrant4](Point(3, -2))
 ```
 
 We can also use refined's higher order predicates, which take other predicates
@@ -66,19 +66,19 @@ as arguments, with our quadrant predicates (without defining corresponding
 ```tut
 import eu.timepit.refined.boolean.Not
 
-refineT[Not[Quadrant1]](Point(-3, -9))
+refineV[Not[Quadrant1]](Point(-3, -9))
 
-refineT[Not[Quadrant1]](Point(5, 4))
+refineV[Not[Quadrant1]](Point(5, 4))
 
 import eu.timepit.refined.boolean.Or
 
 type Quadrant1Or3 = Quadrant1 Or Quadrant3
 
-refineT[Quadrant1Or3](Point(1, 3))
+refineV[Quadrant1Or3](Point(1, 3))
 
-refineT[Quadrant1Or3](Point(-3, -2))
+refineV[Quadrant1Or3](Point(-3, -2))
 
-refineT[Quadrant1Or3](Point(3, -2))
+refineV[Quadrant1Or3](Point(3, -2))
 ```
 
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates

@@ -54,21 +54,21 @@ implicit val quadrant4Validate: Validate.Plain[Point, Quadrant4] =
   Validate.fromPredicate(p => p.x >= 0 && p.y < 0, p => s"($p is in quadrant 4)", Quadrant4())
 ```
 
-We have now everything in place to refine `Point` values with the `refineT`
+We have now everything in place to refine `Point` values with the `refineV`
 function and our predicates:
 
 ```scala
-scala> import eu.timepit.refined.refineT
-import eu.timepit.refined.refineT
+scala> import eu.timepit.refined.refineV
+import eu.timepit.refined.refineV
 
-scala> refineT[Quadrant1](Point(1, 3))
-res4: Either[String,shapeless.tag.@@[Point,Quadrant1]] = Right(Point(1,3))
+scala> refineV[Quadrant1](Point(1, 3))
+res4: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant1]] = Right(Point(1,3))
 
-scala> refineT[Quadrant1](Point(3, -2))
-res5: Either[String,shapeless.tag.@@[Point,Quadrant1]] = Left(Predicate failed: (Point(3,-2) is in quadrant 1).)
+scala> refineV[Quadrant1](Point(3, -2))
+res5: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant1]] = Left(Predicate failed: (Point(3,-2) is in quadrant 1).)
 
-scala> refineT[Quadrant4](Point(3, -2))
-res6: Either[String,shapeless.tag.@@[Point,Quadrant4]] = Right(Point(3,-2))
+scala> refineV[Quadrant4](Point(3, -2))
+res6: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant4]] = Right(Point(3,-2))
 ```
 
 We can also use refined's higher order predicates, which take other predicates
@@ -79,11 +79,11 @@ as arguments, with our quadrant predicates (without defining corresponding
 scala> import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.boolean.Not
 
-scala> refineT[Not[Quadrant1]](Point(-3, -9))
-res7: Either[String,shapeless.tag.@@[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Right(Point(-3,-9))
+scala> refineV[Not[Quadrant1]](Point(-3, -9))
+res7: Either[String,eu.timepit.refined.api.Refined[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Right(Point(-3,-9))
 
-scala> refineT[Not[Quadrant1]](Point(5, 4))
-res8: Either[String,shapeless.tag.@@[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Left(Predicate (Point(5,4) is in quadrant 1) did not fail.)
+scala> refineV[Not[Quadrant1]](Point(5, 4))
+res8: Either[String,eu.timepit.refined.api.Refined[Point,eu.timepit.refined.boolean.Not[Quadrant1]]] = Left(Predicate (Point(5,4) is in quadrant 1) did not fail.)
 
 scala> import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.boolean.Or
@@ -91,14 +91,14 @@ import eu.timepit.refined.boolean.Or
 scala> type Quadrant1Or3 = Quadrant1 Or Quadrant3
 defined type alias Quadrant1Or3
 
-scala> refineT[Quadrant1Or3](Point(1, 3))
-res9: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(1,3))
+scala> refineV[Quadrant1Or3](Point(1, 3))
+res9: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant1Or3]] = Right(Point(1,3))
 
-scala> refineT[Quadrant1Or3](Point(-3, -2))
-res10: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Right(Point(-3,-2))
+scala> refineV[Quadrant1Or3](Point(-3, -2))
+res10: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant1Or3]] = Right(Point(-3,-2))
 
-scala> refineT[Quadrant1Or3](Point(3, -2))
-res11: Either[String,shapeless.tag.@@[Point,Quadrant1Or3]] = Left(Both predicates of ((Point(3,-2) is in quadrant 1) || (Point(3,-2) is in quadrant 3)) failed. Left: Predicate failed: (Point(3,-2) is in quadrant 1). Right: Predicate failed: (Point(3,-2) is in quadrant 3).)
+scala> refineV[Quadrant1Or3](Point(3, -2))
+res11: Either[String,eu.timepit.refined.api.Refined[Point,Quadrant1Or3]] = Left(Both predicates of ((Point(3,-2) is in quadrant 1) || (Point(3,-2) is in quadrant 3)) failed. Left: Predicate failed: (Point(3,-2) is in quadrant 1). Right: Predicate failed: (Point(3,-2) is in quadrant 3).)
 ```
 
 [provided-predicates]: https://github.com/fthomas/refined#provided-predicates

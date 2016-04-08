@@ -1,10 +1,10 @@
 # Dependent refinement
 
 ```tut:silent
+import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Greater
 import eu.timepit.refined.string.StartsWith
-import shapeless.tag.@@
 import shapeless.Witness
 ```
 
@@ -12,7 +12,7 @@ Scala's path dependent types makes it possible to express refinements
 that depend other statically known values:
 
 ```tut
-def foo(a: String)(b: String @@ StartsWith[a.type]) = a + b
+def foo(a: String)(b: String Refined StartsWith[a.type]) = a + b
 ```
 
 ```tut
@@ -27,7 +27,7 @@ Unfortunately Scala does not allow to use singleton types of `AnyVal`s,
 see [section 3.2.1][spec-3.2.1] of the Scala Language Specification:
 
 ```tut:fail
-def bar(i: Int)(j: Int @@ Greater[i.type]) = j - i
+def bar(i: Int)(j: Int Refined Greater[i.type]) = j - i
 ```
 
 ### shapeless to the rescue
@@ -37,7 +37,7 @@ the specification. `Witness` captures the singleton type of an `AnyVal`
 and makes it available via the type member `T`:
 
 ```tut
-def baz[I <: Int](i: Witness.Aux[I])(j: Int @@ Greater[i.T]) = j - i.value
+def baz[I <: Int](i: Witness.Aux[I])(j: Int Refined Greater[i.T]) = j - i.value
 ```
 
 ```tut:nofail

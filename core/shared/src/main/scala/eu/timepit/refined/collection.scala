@@ -47,6 +47,12 @@ object collection extends CollectionValidate with CollectionInference {
   case class Last[P](p: P)
 
   /**
+   * Predicate that checks if the predicate `P` holds for all but last element
+   * of a `TraversableOnce`.
+   */
+  case class Init[P](p: P)
+
+  /**
    * Predicate that checks if the size of a `TraversableOnce` satisfies the
    * predicate `P`.
    */
@@ -208,6 +214,29 @@ private[refined] trait CollectionValidate {
     ev: T => Traversable[A]
   ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
     lastValidate[A, P, R, Traversable].contramap(ev)
+
+  implicit def initValidate[A, P, R, T[a] <: TraversableOnce[a]](
+    implicit
+    v: Validate.Aux[A, P, R]
+  ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
+    new Validate[T[A], Init[P]] {
+      override type R = Init[List[v.Res]]
+
+      override def validate(t: T[A]): Res = {
+        val ra = t.toList.dropRight(1).map(v.validate)
+        Result.fromBoolean(ra.forall(_.isPassed), Init(ra))
+      }
+
+      override def showExpr(t: T[A]): String =
+        t.toList.dropRight(1).map(v.showExpr).mkString("(", " && ", ")")
+    }
+
+  implicit def initValidateView[A, P, R, T](
+    implicit
+    v: Validate.Aux[A, P, R],
+    ev: T => TraversableOnce[A]
+  ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
+    initValidate[A, P, R, TraversableOnce].contramap(ev)
 
   implicit def sizeValidate[T, P, RP](
     implicit

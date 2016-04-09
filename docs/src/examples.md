@@ -18,13 +18,11 @@ refineV[Positive](-5)
 ```
 
 ```tut:nofail
-import shapeless.nat._
+val a: Int Refined Greater[W.`5`.T] = 10
 
-val a: Int Refined Greater[_5] = 10
+val b: Int Refined Greater[W.`4`.T] = a
 
-val b: Int Refined Greater[_4] = a
-
-val c: Int Refined Greater[_6] = a
+val c: Int Refined Greater[W.`6`.T] = a
 ```
 
 ```tut:nofail
@@ -39,7 +37,7 @@ refineMV[NonEmpty]("Hello")
 
 refineMV[NonEmpty]("")
 
-type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
+type ZeroToOne = Not[Less[W.`0.0`.T]] And Not[Greater[W.`1.0`.T]]
 
 refineMV[ZeroToOne](1.8)
 

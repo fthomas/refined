@@ -46,34 +46,36 @@ res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
 **refined** also contains inference rules for converting between different
-refined types. For example, `Int Refined Greater[_10]` can be safely converted
-to `Int Refined Positive` because all integers greater than ten are also
-positive. The type conversion of refined types is a compile-time operation
-that is provided by the library:
+refined types. For example, ``Int Refined Greater[W.`10`.T]`` can be safely
+converted to `Int Refined Positive` because all integers greater than ten
+are also positive. The type conversion of refined types is a compile-time
+operation that is provided by the library:
 
 ```scala
-import shapeless.nat._
-
-scala> val a: Int Refined Greater[_5] = 10
-a: Int Refined Greater[_5] = 10
+scala> val a: Int Refined Greater[W.`5`.T] = 10
+a: Int Refined Greater[Int(5)] = 10
 
 // Since every value greater than 5 is also greater than 4, `a` can be
-// ascribed the type Int Refined Greater[_4]:
-scala> val b: Int Refined Greater[_4] = a
-b: Int Refined Greater[_4] = 10
+// ascribed the type Int Refined Greater[W.`4`.T]:
+scala> val b: Int Refined Greater[W.`4`.T] = a
+b: Int Refined Greater[Int(4)] = 10
 
 // An unsound ascription leads to a compile error:
-scala> val c: Int Refined Greater[_6] = a
-<console>:34: error: type mismatch (invalid inference):
- Greater[_5] does not imply
- Greater[_6]
-       val b: Int Refined Greater[_6] = a
-                                        ^
+scala> val c: Int Refined Greater[W.`6`.T] = a
+<console>:23: error: type mismatch (invalid inference):
+ Greater[Int(5)] does not imply
+ Greater[Int(6)]
+       val c: Int Refined Greater[W.`6`.T] = a
+                                             ^
 ```
 
-This mechanism allows to pass values of more specific types
-(e.g. `Int Refined Greater[_10]`) to functions that take a more general type
-(e.g. `Int Refined Positive`) without manual intervention.
+This mechanism allows to pass values of more specific types (e.g.
+``Int Refined Greater[W.`10`.T]``) to functions that take a more general
+type (e.g. `Int Refined Positive`) without manual intervention.
+
+Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
+is a shortcut for [`shapeless.Witness`][singleton-types] which provides
+syntax for literal-based singleton types.
 
 ## Table of contents
 
@@ -101,23 +103,23 @@ scala> refineMV[NonEmpty]("Hello")
 res2: String Refined NonEmpty = Hello
 
 scala> refineMV[NonEmpty]("")
-<console>:27: error: Predicate isEmpty() did not fail.
+<console>:39: error: Predicate isEmpty() did not fail.
             refineMV[NonEmpty]("")
                               ^
 
-scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
+scala> type ZeroToOne = Not[Less[W.`0.0`.T]] And Not[Greater[W.`1.0`.T]]
 defined type alias ZeroToOne
 
 scala> refineMV[ZeroToOne](1.8)
-<console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
-              refineMV[ZeroToOne](1.8)
-                                 ^
+<console>:40: error: Right predicate of (!(1.8 < 0.0) && !(1.8 > 1.0)) failed: Predicate (1.8 > 1.0) did not fail.
+       refineMV[ZeroToOne](1.8)
+                          ^
 
 scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char Refined AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 
 scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
-<console>:34: error: Predicate failed: "123.".matches("[0-9]+").
+<console>:39: error: Predicate failed: "123.".matches("[0-9]+").
               refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
@@ -128,7 +130,7 @@ scala> val d2: Char Refined Digit = d1
 d2: Char Refined Digit = 3
 
 scala> val d3: Char Refined Letter = d1
-<console>:34: error: type mismatch (invalid inference):
+<console>:39: error: type mismatch (invalid inference):
  Equal[Char('3')] does not imply
  Letter
        val d3: Char Refined Letter = d1
@@ -138,21 +140,17 @@ scala> val r1: String Refined Regex = "(a|b)"
 r1: String Refined Regex = (a|b)
 
 scala> val r2: String Refined Regex = "(a|b"
-<console>:40: error: Regex predicate failed: Unclosed group near index 4
+<console>:38: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
        val r2: String Refined Regex = "(a|b"
                                       ^
 
 scala> val u1: String Refined Url = "htp://example.com"
-<console>:40: error: Url predicate failed: unknown protocol: htp
+<console>:38: error: Url predicate failed: unknown protocol: htp
        val u1: String Refined Url = "htp://example.com"
                                     ^
 ```
-
-Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
-is a shortcut for [`shapeless.Witness`][singleton-types] which provides
-syntax for literal-based singleton types.
 
 ## Using refined
 

@@ -32,21 +32,18 @@ res2: Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeri
 ```
 
 ```scala
-scala> import shapeless.nat._
-import shapeless.nat._
+scala> val a: Int Refined Greater[W.`5`.T] = 10
+a: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[Int(5)]] = 10
 
-scala> val a: Int Refined Greater[_5] = 10
-a: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._5]] = 10
+scala> val b: Int Refined Greater[W.`4`.T] = a
+b: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[Int(4)]] = 10
 
-scala> val b: Int Refined Greater[_4] = a
-b: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._4]] = 10
-
-scala> val c: Int Refined Greater[_6] = a
-<console>:26: error: type mismatch (invalid inference):
- eu.timepit.refined.numeric.Greater[shapeless.nat._5] does not imply
- eu.timepit.refined.numeric.Greater[shapeless.nat._6]
-       val c: Int Refined Greater[_6] = a
-                                        ^
+scala> val c: Int Refined Greater[W.`6`.T] = a
+<console>:23: error: type mismatch (invalid inference):
+ eu.timepit.refined.numeric.Greater[Int(5)] does not imply
+ eu.timepit.refined.numeric.Greater[Int(6)]
+       val c: Int Refined Greater[W.`6`.T] = a
+                                             ^
 ```
 
 ```scala
@@ -72,15 +69,15 @@ scala> refineMV[NonEmpty]("Hello")
 res3: eu.timepit.refined.api.Refined[String,eu.timepit.refined.collection.NonEmpty] = Hello
 
 scala> refineMV[NonEmpty]("")
-<console>:42: error: Predicate isEmpty() did not fail.
+<console>:39: error: Predicate isEmpty() did not fail.
        refineMV[NonEmpty]("")
                          ^
 
-scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
+scala> type ZeroToOne = Not[Less[W.`0.0`.T]] And Not[Greater[W.`1.0`.T]]
 defined type alias ZeroToOne
 
 scala> refineMV[ZeroToOne](1.8)
-<console>:43: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
+<console>:40: error: Right predicate of (!(1.8 < 0.0) && !(1.8 > 1.0)) failed: Predicate (1.8 > 1.0) did not fail.
        refineMV[ZeroToOne](1.8)
                           ^
 
@@ -88,7 +85,7 @@ scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res6: eu.timepit.refined.api.Refined[Char,eu.timepit.refined.boolean.AnyOf[shapeless.::[eu.timepit.refined.char.Digit,shapeless.::[eu.timepit.refined.char.Letter,shapeless.::[eu.timepit.refined.char.Whitespace,shapeless.HNil]]]]] = F
 
 scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
-<console>:42: error: Predicate failed: "123.".matches("[0-9]+").
+<console>:39: error: Predicate failed: "123.".matches("[0-9]+").
        refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                              ^
 
@@ -99,7 +96,7 @@ scala> val d2: Char Refined Digit = d1
 d2: eu.timepit.refined.api.Refined[Char,eu.timepit.refined.char.Digit] = 3
 
 scala> val d3: Char Refined Letter = d1
-<console>:42: error: type mismatch (invalid inference):
+<console>:39: error: type mismatch (invalid inference):
  eu.timepit.refined.generic.Equal[Char('3')] does not imply
  eu.timepit.refined.char.Letter
        val d3: Char Refined Letter = d1
@@ -109,14 +106,14 @@ scala> val r1: String Refined Regex = "(a|b)"
 r1: eu.timepit.refined.api.Refined[String,eu.timepit.refined.string.Regex] = (a|b)
 
 scala> val r2: String Refined Regex = "(a|b"
-<console>:41: error: Regex predicate failed: Unclosed group near index 4
+<console>:38: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
        val r2: String Refined Regex = "(a|b"
                                       ^
 
 scala> val u1: String Refined Url = "htp://example.com"
-<console>:41: error: Url predicate failed: unknown protocol: htp
+<console>:38: error: Url predicate failed: unknown protocol: htp
        val u1: String Refined Url = "htp://example.com"
                                     ^
 ```

@@ -344,6 +344,5 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
-[shapeless]: https://github.com/milessabin/shapeless
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals
 [typelevel]: http://typelevel.org

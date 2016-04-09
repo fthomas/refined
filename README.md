@@ -14,69 +14,66 @@ A quick example:
 
 ```scala
 import eu.timepit.refined._
+import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-import shapeless.tag.@@
 
 // This refines Int with the Positive predicate and checks via an
 // implicit macro that the assigned value satisfies it:
-scala> val i1: Int @@ Positive = 5
-i1: Int @@ Positive = 5
+scala> val i1: Int Refined Positive = 5
+i1: Int Refined Positive = 5
 
 // If the value does not satisfy the predicate, we get a meaningful
 // compile error:
-scala> val i2: Int @@ Positive = -5
-<console>:21: error: Predicate failed: (-5 > 0).
-       val i2: Int @@ Positive = -5
-                                  ^
+scala> val i2: Int Refined Positive = -5
+<console>:22: error: Predicate failed: (-5 > 0).
+       val i2: Int Refined Positive = -5
+                                       ^
 
-// There is also the explicit refineMT macro that can infer the base
+// There is also the explicit refineMV macro that can infer the base
 // type from its parameter:
-scala> refineMT[Positive](5)
-res0: Int @@ Positive = 5
+scala> refineMV[Positive](5)
+res0: Int Refined Positive = 5
 
 // Macros can only validate literals because their values are known at
 // compile-time. To validate arbitrary (runtime) values we can use the
-// refineT function:
-scala> refineT[Positive](5)
-res1: Either[String, Int @@ Positive] = Right(5)
+// refineV function:
+scala> refineV[Positive](5)
+res1: Either[String, Int Refined Positive] = Right(5)
 
-scala> refineT[Positive](-5)
-res2: Either[String, Int @@ Positive] = Left(Predicate failed: (-5 > 0).)
+scala> refineV[Positive](-5)
+res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-5 > 0).)
 ```
 
-`@@` is [shapeless'][shapeless] type for tagging types which has the nice
-property of being a subtype of its first type parameter (i.e. `(T @@ P) <: T`).
-
 **refined** also contains inference rules for converting between different
-refined types. For example, `Int @@ Greater[_10]` can be safely converted
-to `Int @@ Positive` because all integers greater than ten are also positive.
-The type conversion of refined types is a compile-time operation that is
-provided by the library:
+refined types. For example, `Int Refined Greater[_10]` can be safely converted
+to `Int Refined Positive` because all integers greater than ten are also
+positive. The type conversion of refined types is a compile-time operation
+that is provided by the library:
 
 ```scala
 import shapeless.nat._
 
-scala> val a: Int @@ Greater[_5] = 10
-a: Int @@ Greater[_5] = 10
+scala> val a: Int Refined Greater[_5] = 10
+a: Int Refined Greater[_5] = 10
 
-// Since every value greater than 5 is also greater than 4, a can be ascribed
-// the type Int @@ Greater[_4]:
-scala> val b: Int @@ Greater[_4] = a
-b: Int @@ Greater[_4] = 10
+// Since every value greater than 5 is also greater than 4, `a` can be
+// ascribed the type Int Refined Greater[_4]:
+scala> val b: Int Refined Greater[_4] = a
+b: Int Refined Greater[_4] = 10
 
 // An unsound ascription leads to a compile error:
-scala> val c: Int @@ Greater[_6] = a
+scala> val c: Int Refined Greater[_6] = a
 <console>:34: error: type mismatch (invalid inference):
  Greater[_5] does not imply
  Greater[_6]
-       val b: Int @@ Greater[_6] = a
-                                   ^
+       val b: Int Refined Greater[_6] = a
+                                        ^
 ```
 
-This mechanism allows to pass values of more specific types (e.g. `Int @@ Greater[_10]`)
-to functions that take a more general type (e.g. `Int @@ Positive`) without manual
-intervention.
+This mechanism allows to pass values of more specific types
+(e.g. `Int Refined Greater[_10]`) to functions that take a more general type
+(e.g. `Int Refined Positive`) without manual intervention.
 
 ## Table of contents
 
@@ -93,64 +90,64 @@ intervention.
 ## More examples
 
 ```scala
-import shapeless.{ ::, HNil }
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
 import eu.timepit.refined.string._
+import shapeless.{ ::, HNil }
 
-scala> refineMT[NonEmpty]("Hello")
-res2: String @@ NonEmpty = Hello
+scala> refineMV[NonEmpty]("Hello")
+res2: String Refined NonEmpty = Hello
 
-scala> refineMT[NonEmpty]("")
+scala> refineMV[NonEmpty]("")
 <console>:27: error: Predicate isEmpty() did not fail.
-            refineMT[NonEmpty]("")
+            refineMV[NonEmpty]("")
                               ^
 
 scala> type ZeroToOne = Not[Less[_0]] And Not[Greater[_1]]
 defined type alias ZeroToOne
 
-scala> refineMT[ZeroToOne](1.8)
+scala> refineMV[ZeroToOne](1.8)
 <console>:27: error: Right predicate of (!(1.8 < 0) && !(1.8 > 1)) failed: Predicate (1.8 > 1) did not fail.
-              refineMT[ZeroToOne](1.8)
+              refineMV[ZeroToOne](1.8)
                                  ^
 
-scala> refineMT[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
-res3: Char @@ AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
+scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
+res3: Char Refined AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 
-scala> refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:34: error: Predicate failed: "123.".matches("[0-9]+").
-              refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+              refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-scala> val d1: Char @@ Equal[W.`'3'`.T] = '3'
-d1: Char @@ Equal[Char('3')] = 3
+scala> val d1: Char Refined Equal[W.`'3'`.T] = '3'
+d1: Char Refined Equal[Char('3')] = 3
 
-scala> val d2: Char @@ Digit = d1
-d2: Char @@ Digit = 3
+scala> val d2: Char Refined Digit = d1
+d2: Char Refined Digit = 3
 
-scala> val d3: Char @@ Letter = d1
+scala> val d3: Char Refined Letter = d1
 <console>:34: error: type mismatch (invalid inference):
  Equal[Char('3')] does not imply
  Letter
-       val d3: Char @@ Letter = d1
-                                ^
+       val d3: Char Refined Letter = d1
+                                     ^
 
-scala> val r1: String @@ Regex = "(a|b)"
-r1: String @@ Regex = (a|b)
+scala> val r1: String Refined Regex = "(a|b)"
+r1: String Refined Regex = (a|b)
 
-scala> val r2: String @@ Regex = "(a|b"
+scala> val r2: String Refined Regex = "(a|b"
 <console>:40: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
-       val r2: String @@ Regex = "(a|b"
-                                 ^
+       val r2: String Refined Regex = "(a|b"
+                                      ^
 
-scala> val u1: String @@ Url = "htp://example.com"
+scala> val u1: String Refined Url = "htp://example.com"
 <console>:40: error: Url predicate failed: unknown protocol: htp
-       val u1: String @@ Url = "htp://example.com"
-                               ^
+       val u1: String Refined Url = "htp://example.com"
+                                    ^
 ```
 
 Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)

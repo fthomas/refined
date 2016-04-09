@@ -16,15 +16,15 @@ import shapeless.ops.nat.ToInt
  * `Char` etc.
  *
  * Example: {{{
- * scala> import shapeless.nat._
- *      | import shapeless.tag.@@
+ * scala> import eu.timepit.refined.api.Refined
  *      | import eu.timepit.refined.numeric._
+ *      | import shapeless.nat._
  *
- * scala> refineMT[Greater[_5]](10)
- * res1: Int @@ Greater[_5] = 10
+ * scala> refineMV[Greater[_5]](10)
+ * res1: Int Refined Greater[_5] = 10
  *
- * scala> refineMT[Greater[W.`1.5`.T]](1.6)
- * res2: Double @@ Greater[W.`1.5`.T] = 1.6
+ * scala> refineMV[Greater[W.`1.5`.T]](1.6)
+ * res2: Double Refined Greater[W.`1.5`.T] = 1.6
  * }}}
  */
 object numeric extends NumericValidate with NumericInference {

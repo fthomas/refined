@@ -14,12 +14,12 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
 
-    val validate = eval(v)
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ => abort(Resources.refineNonCompileTimeConstant)
     }
 
+    val validate = eval(v)
     val res = validate.validate(tValue)
     if (res.isFailed) {
       abort(validate.showResult(tValue, res))

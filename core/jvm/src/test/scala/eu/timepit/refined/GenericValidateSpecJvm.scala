@@ -28,7 +28,7 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
   property("Eval.refineMV.scope") = wellTyped {
     val two = 2
     illTyped(
-      """refineMV[Eval[W.`"(x: Int) => x >= two"`.T]](two)""",
+      """refineMV[Eval[W.`"(x: Int) => x >= two"`.T]](2)""",
       "exception during macro expansion.*"
     )
   }

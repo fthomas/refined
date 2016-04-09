@@ -13,18 +13,18 @@ import shapeless.Witness
 object collection extends CollectionValidate with CollectionInference {
 
   /**
-   * Predicate that counts the number of elements in a `TraversableOnce`
+   * Predicate that counts the number of elements in a `Traversable`
    * which satisfy the predicate `PA` and passes the result to the numeric
    * predicate `PC`.
    */
   case class Count[PA, PC](pa: PA, pc: PC)
 
-  /** Predicate that checks if a `TraversableOnce` is empty. */
+  /** Predicate that checks if a `Traversable` is empty. */
   case class Empty()
 
   /**
    * Predicate that checks if the predicate `P` holds for all elements of a
-   * `TraversableOnce`.
+   * `Traversable`.
    */
   case class Forall[P](p: P)
 
@@ -48,47 +48,47 @@ object collection extends CollectionValidate with CollectionInference {
 
   /**
    * Predicate that checks if the predicate `P` holds for all but last element
-   * of a `TraversableOnce`.
+   * of a `Traversable`.
    */
   case class Init[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for all but head element
-   * of a `TraversableOnce`.
+   * of a `Traversable`.
    */
   case class Tail[P](p: P)
 
   /**
-   * Predicate that checks if the size of a `TraversableOnce` satisfies the
+   * Predicate that checks if the size of a `Traversable` satisfies the
    * predicate `P`.
    */
   case class Size[P](p: P)
 
   /**
-   * Predicate that checks if a `TraversableOnce` contains a value
+   * Predicate that checks if a `Traversable` contains a value
    * equal to `U`.
    */
   type Contains[U] = Exists[Equal[U]]
 
   /**
    * Predicate that checks if the predicate `P` holds for some elements of a
-   * `TraversableOnce`.
+   * `Traversable`.
    */
   type Exists[P] = Not[Forall[Not[P]]]
 
   /**
-   * Predicate that checks if the size of a `TraversableOnce` is greater than
+   * Predicate that checks if the size of a `Traversable` is greater than
    * or equal to `N`.
    */
   type MinSize[N] = Size[GreaterEqual[N]]
 
   /**
-   * Predicate that checks if the size of a `TraversableOnce` is less than
+   * Predicate that checks if the size of a `Traversable` is less than
    * or equal to `N`.
    */
   type MaxSize[N] = Size[LessEqual[N]]
 
-  /** Predicate that checks if a `TraversableOnce` is not empty. */
+  /** Predicate that checks if a `Traversable` is not empty. */
   type NonEmpty = Not[Empty]
 }
 
@@ -98,7 +98,7 @@ private[refined] trait CollectionValidate {
     implicit
     va: Validate.Aux[A, PA, RA],
     vc: Validate.Aux[Int, PC, RC],
-    ev: T => TraversableOnce[A]
+    ev: T => Traversable[A]
   ): Validate.Aux[T, Count[PA, PC], Count[List[va.Res], vc.Res]] =
     new Validate[T, Count[PA, PC]] {
       override type R = Count[List[va.Res], vc.Res]
@@ -114,7 +114,7 @@ private[refined] trait CollectionValidate {
 
       override def showResult(t: T, r: Res): String = {
         val c = count(t)
-        val expr = t.toList.map(va.showExpr).mkString("count(", ", ", ")")
+        val expr = t.map(va.showExpr).mkString("count(", ", ", ")")
         Resources.predicateTakingResultDetail(s"$expr = $c", r, vc.showResult(c, r.detail.pc))
       }
 
@@ -122,10 +122,10 @@ private[refined] trait CollectionValidate {
         t.count(va.isValid)
     }
 
-  implicit def emptyValidate[T](implicit ev: T => TraversableOnce[_]): Validate.Plain[T, Empty] =
+  implicit def emptyValidate[T](implicit ev: T => Traversable[_]): Validate.Plain[T, Empty] =
     Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
 
-  implicit def forallValidate[A, P, R, T[a] <: TraversableOnce[a]](
+  implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
     v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Forall[P], Forall[List[v.Res]]] =
@@ -138,15 +138,15 @@ private[refined] trait CollectionValidate {
       }
 
       override def showExpr(t: T[A]): String =
-        t.toList.map(v.showExpr).mkString("(", " && ", ")")
+        t.map(v.showExpr).mkString("(", " && ", ")")
     }
 
   implicit def forallValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
-    ev: T => TraversableOnce[A]
+    ev: T => Traversable[A]
   ): Validate.Aux[T, Forall[P], Forall[List[v.Res]]] =
-    forallValidate[A, P, R, TraversableOnce].contramap(ev)
+    forallValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def headValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
@@ -221,7 +221,7 @@ private[refined] trait CollectionValidate {
   ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
     lastValidate[A, P, R, Traversable].contramap(ev)
 
-  implicit def initValidate[A, P, R, T[a] <: TraversableOnce[a]](
+  implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
     v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
@@ -240,11 +240,11 @@ private[refined] trait CollectionValidate {
   implicit def initValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
-    ev: T => TraversableOnce[A]
+    ev: T => Traversable[A]
   ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
-    initValidate[A, P, R, TraversableOnce].contramap(ev)
+    initValidate[A, P, R, Traversable].contramap(ev)
 
-  implicit def tailValidate[A, P, R, T[a] <: TraversableOnce[a]](
+  implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
     v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Tail[P], Tail[List[v.Res]]] =
@@ -263,14 +263,14 @@ private[refined] trait CollectionValidate {
   implicit def tailValidateView[A, P, R, T](
     implicit
     v: Validate.Aux[A, P, R],
-    ev: T => TraversableOnce[A]
+    ev: T => Traversable[A]
   ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
-    tailValidate[A, P, R, TraversableOnce].contramap(ev)
+    tailValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def sizeValidate[T, P, RP](
     implicit
     v: Validate.Aux[Int, P, RP],
-    ev: T => TraversableOnce[_]
+    ev: T => Traversable[_]
   ): Validate.Aux[T, Size[P], Size[v.Res]] =
     new Validate[T, Size[P]] {
       override type R = Size[v.Res]

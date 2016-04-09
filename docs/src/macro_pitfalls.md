@@ -17,7 +17,7 @@ object Test1 {
   implicit def fooValidate[T]: Validate[T, Foo] =
     Validate.fromPredicate(_ => true, x => s"$x = Foo", Foo())
 
-  val x = refineMT[Foo](0)
+  val x = refineMV[Foo](0)
 }
 ```
 
@@ -32,6 +32,6 @@ object Test1 {
 }
 
 object Test2 {
-  val x = refineMT[Test1.Foo](0)
+  val x = refineMV[Test1.Foo](0)
 }
 ```

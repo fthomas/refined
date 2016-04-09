@@ -41,28 +41,28 @@ object collection extends CollectionValidate with CollectionInference {
   case class Index[N, P](n: N, p: P)
 
   /**
+   * Predicate that checks if the predicate `P` holds for all but the last
+   * element of a `Traversable`.
+   */
+  case class Init[P](p: P)
+
+  /**
    * Predicate that checks if the predicate `P` holds for the last element
    * of a `Traversable`.
    */
   case class Last[P](p: P)
 
   /**
-   * Predicate that checks if the predicate `P` holds for all but last element
-   * of a `Traversable`.
-   */
-  case class Init[P](p: P)
-
-  /**
-   * Predicate that checks if the predicate `P` holds for all but head element
-   * of a `Traversable`.
-   */
-  case class Tail[P](p: P)
-
-  /**
    * Predicate that checks if the size of a `Traversable` satisfies the
    * predicate `P`.
    */
   case class Size[P](p: P)
+
+  /**
+   * Predicate that checks if the predicate `P` holds for all but the first
+   * element of a `Traversable`.
+   */
+  case class Tail[P](p: P)
 
   /**
    * Predicate that checks if a `Traversable` contains a value
@@ -195,6 +195,29 @@ private[refined] trait CollectionValidate {
         optElemShowResult(t.lift(wn.value), r.detail.p, (a: A) => s"index($t, ${wn.value}) = $a", v.showResult)
     }
 
+  implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
+    implicit
+    v: Validate.Aux[A, P, R]
+  ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
+    new Validate[T[A], Init[P]] {
+      override type R = Init[List[v.Res]]
+
+      override def validate(t: T[A]): Res = {
+        val ra = t.toList.dropRight(1).map(v.validate)
+        Result.fromBoolean(ra.forall(_.isPassed), Init(ra))
+      }
+
+      override def showExpr(t: T[A]): String =
+        t.toList.dropRight(1).map(v.showExpr).mkString("(", " && ", ")")
+    }
+
+  implicit def initValidateView[A, P, R, T](
+    implicit
+    v: Validate.Aux[A, P, R],
+    ev: T => Traversable[A]
+  ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
+    initValidate[A, P, R, Traversable].contramap(ev)
+
   implicit def lastValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
     v: Validate.Aux[A, P, R]
@@ -221,28 +244,28 @@ private[refined] trait CollectionValidate {
   ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
     lastValidate[A, P, R, Traversable].contramap(ev)
 
-  implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
+  implicit def sizeValidate[T, P, RP](
     implicit
-    v: Validate.Aux[A, P, R]
-  ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
-    new Validate[T[A], Init[P]] {
-      override type R = Init[List[v.Res]]
+    v: Validate.Aux[Int, P, RP],
+    ev: T => Traversable[_]
+  ): Validate.Aux[T, Size[P], Size[v.Res]] =
+    new Validate[T, Size[P]] {
+      override type R = Size[v.Res]
 
-      override def validate(t: T[A]): Res = {
-        val ra = t.toList.dropRight(1).map(v.validate)
-        Result.fromBoolean(ra.forall(_.isPassed), Init(ra))
+      override def validate(t: T): Res = {
+        val r = v.validate(t.size)
+        r.as(Size(r))
       }
 
-      override def showExpr(t: T[A]): String =
-        t.toList.dropRight(1).map(v.showExpr).mkString("(", " && ", ")")
-    }
+      override def showExpr(t: T): String =
+        v.showExpr(t.size)
 
-  implicit def initValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
-  ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
-    initValidate[A, P, R, Traversable].contramap(ev)
+      override def showResult(t: T, r: Res): String = {
+        val size = t.size
+        val nested = v.showResult(size, r.detail.p)
+        Resources.predicateTakingResultDetail(s"size($t) = $size", r, nested)
+      }
+    }
 
   implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](
     implicit
@@ -266,29 +289,6 @@ private[refined] trait CollectionValidate {
     ev: T => Traversable[A]
   ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
     tailValidate[A, P, R, Traversable].contramap(ev)
-
-  implicit def sizeValidate[T, P, RP](
-    implicit
-    v: Validate.Aux[Int, P, RP],
-    ev: T => Traversable[_]
-  ): Validate.Aux[T, Size[P], Size[v.Res]] =
-    new Validate[T, Size[P]] {
-      override type R = Size[v.Res]
-
-      override def validate(t: T): Res = {
-        val r = v.validate(t.size)
-        r.as(Size(r))
-      }
-
-      override def showExpr(t: T): String =
-        v.showExpr(t.size)
-
-      override def showResult(t: T, r: Res): String = {
-        val size = t.size
-        val nested = v.showResult(size, r.detail.p)
-        Resources.predicateTakingResultDetail(s"size($t) = $size", r, nested)
-      }
-    }
 
   private def optElemShowExpr[A](elem: Option[A], f: A => String): String =
     elem.fold(Resources.showExprEmptyCollection)(f)

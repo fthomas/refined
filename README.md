@@ -235,17 +235,18 @@ The library comes with these predefined predicates:
 [`collection`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Contains[U]`: checks if a `Traversable` contains a value equal to `U`
-* `Count[PA, PC]`: counts the number of elements in a `Traversable` which satisfy the predicate `PA` and passes the result to the predicate `PC`
+* `Count[PA, PC]`: counts the number of elements in a `Traversable` which satisfy the
+  predicate `PA` and passes the result to the predicate `PC`
 * `Empty`: checks if a `Traversable` is empty
 * `NonEmpty`: checks if a `Traversable` is not empty
 * `Forall[P]`: checks if the predicate `P` holds for all elements of a `Traversable`
 * `Exists[P]`: checks if the predicate `P` holds for some elements of a `Traversable`
 * `Head[P]`: checks if the predicate `P` holds for the first element of a `Traversable`
 * `Index[N, P]`: checks if the predicate `P` holds for the element at index `N` of a sequence
+* `Init[P]`: checks if the predicate `P` holds for all but the last element of a `Traversable`
 * `Last[P]`: checks if the predicate `P` holds for the last element of a `Traversable`
+* `Tail[P]`: checks if the predicate `P` holds for all but the first element of a `Traversable`
 * `Size[P]`: checks if the size of a `Traversable` satisfies the predicate `P`
-* `Init[P]`: checks if the predicate `P` holds for all but last element of a `Traversable`
-* `Tail[P]`: checks if the predicate `P` holds for all but head element of a `Traversable`
 * `MinSize[N]`: checks if the size of a `Traversable` is greater than or equal to `N`
 * `MaxSize[N]`: checks if the size of a `Traversable` is less than or equal to `N`
 

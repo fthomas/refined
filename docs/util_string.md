@@ -15,20 +15,20 @@ scala> "(a|b".r // fails at runtime
 java.util.regex.PatternSyntaxException: Unclosed group near index 4
 (a|b
     ^
-  at java.util.regex.Pattern.error(Pattern.java:1924)
-  at java.util.regex.Pattern.accept(Pattern.java:1782)
-  at java.util.regex.Pattern.group0(Pattern.java:2857)
-  at java.util.regex.Pattern.sequence(Pattern.java:2018)
-  at java.util.regex.Pattern.expr(Pattern.java:1964)
-  at java.util.regex.Pattern.compile(Pattern.java:1665)
-  at java.util.regex.Pattern.<init>(Pattern.java:1337)
-  at java.util.regex.Pattern.compile(Pattern.java:1022)
+  at java.util.regex.Pattern.error(Pattern.java:1955)
+  at java.util.regex.Pattern.accept(Pattern.java:1813)
+  at java.util.regex.Pattern.group0(Pattern.java:2908)
+  at java.util.regex.Pattern.sequence(Pattern.java:2051)
+  at java.util.regex.Pattern.expr(Pattern.java:1996)
+  at java.util.regex.Pattern.compile(Pattern.java:1696)
+  at java.util.regex.Pattern.<init>(Pattern.java:1351)
+  at java.util.regex.Pattern.compile(Pattern.java:1028)
   at scala.util.matching.Regex.<init>(Regex.scala:191)
   at scala.collection.immutable.StringLike$class.r(StringLike.scala:255)
-  at scala.collection.immutable.StringOps.r(StringOps.scala:30)
+  at scala.collection.immutable.StringOps.r(StringOps.scala:29)
   at scala.collection.immutable.StringLike$class.r(StringLike.scala:244)
-  at scala.collection.immutable.StringOps.r(StringOps.scala:30)
-  ... 190 elided
+  at scala.collection.immutable.StringOps.r(StringOps.scala:29)
+  ... 166 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`
@@ -46,7 +46,7 @@ scala> regex("(a|b)") // succeeds at compile- and runtime
 res2: scala.util.matching.Regex = (a|b)
 
 scala> regex("(a|b") // fails at compile-time
-<console>:18: error: Regex predicate failed: Unclosed group near index 4
+<console>:19: error: Regex predicate failed: Unclosed group near index 4
 (a|b
     ^
        regex("(a|b") // fails at compile-time
@@ -65,7 +65,7 @@ scala> uri("/valid/path")
 res4: java.net.URI = /valid/path
 
 scala> uri("/path/ with/space")
-<console>:18: error: Uri predicate failed: Illegal character in path at index 6: /path/ with/space
+<console>:19: error: Uri predicate failed: Illegal character in path at index 6: /path/ with/space
        uri("/path/ with/space")
            ^
 
@@ -73,7 +73,7 @@ scala> url("http://scala-lang.org/")
 res6: java.net.URL = http://scala-lang.org/
 
 scala> url("htp://example.com")
-<console>:18: error: Url predicate failed: unknown protocol: htp
+<console>:19: error: Url predicate failed: unknown protocol: htp
        url("htp://example.com")
            ^
 
@@ -81,7 +81,7 @@ scala> uuid("9ecce884-47fe-4ba4-a1bb-1a3d71ed6530")
 res8: java.util.UUID = 9ecce884-47fe-4ba4-a1bb-1a3d71ed6530
 
 scala> uuid("whops")
-<console>:18: error: Uuid predicate failed: Invalid UUID string: whops
+<console>:19: error: Uuid predicate failed: Invalid UUID string: whops
        uuid("whops")
             ^
 
@@ -89,7 +89,7 @@ scala> xml("<a>link</a>")
 res10: scala.xml.Elem = <a>link</a>
 
 scala> xml("<a>link</a")
-<console>:18: error: Xml predicate failed: XML document structures must start and end within the same entity.
+<console>:19: error: Xml predicate failed: XML document structures must start and end within the same entity.
 xml("<a>link</a")
     ^
 
@@ -97,7 +97,7 @@ scala> xpath("A//B/*[1]").isInstanceOf[javax.xml.xpath.XPathExpression]
 res12: Boolean = true
 
 scala> xpath("A//B/*[1")
-<console>:18: error: XPath predicate failed: javax.xml.transform.TransformerException: Expected ], but found:
+<console>:19: error: XPath predicate failed: javax.xml.transform.TransformerException: Expected ], but found:
        xpath("A//B/*[1")
              ^
 ```

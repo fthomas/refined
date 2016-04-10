@@ -15,7 +15,6 @@
   ([#112], [#138])
 * Fix the return type of `RefType.applyRef`. ([#137])
 * Use `Refined` instead of `@@` in `util.string` for refined types.
-  ([#152])
 * Update to Scala.js 0.6.8. ([#136])
 * Update `refined-scalaz` to Scalaz 7.2.2. ([#147])
 * Remove the notion of "constant" `Validate` instances that allowed to
@@ -50,4 +49,3 @@ Thanks to Shohei Shimomura for all new predicates!
 [#148]: https://github.com/fthomas/refined/pull/148
 [#149]: https://github.com/fthomas/refined/pull/149
 [#150]: https://github.com/fthomas/refined/pull/150
-[#152]: https://github.com/fthomas/refined/pull/152

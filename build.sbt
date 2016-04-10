@@ -120,8 +120,13 @@ lazy val scalazJS = scalaz.js
 lazy val scodec = crossProject.in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
+  .jvmSettings(
+    initialCommands := s"""
+      $commonImports
+    """
+  )
+  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core % "compile->compile;test->test")
 
 lazy val scodecJVM = scodec.jvm

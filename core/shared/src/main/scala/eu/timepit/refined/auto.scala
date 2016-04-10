@@ -5,7 +5,7 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.macros.{ InferMacro, RefineMacro }
 import shapeless.tag.@@
 
-trait auto {
+object auto {
 
   /**
    * Implicitly converts (at compile-time) a value of type `F[T, A]` to
@@ -52,8 +52,3 @@ trait auto {
     rt: RefType[@@], v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }
-
-object auto extends auto
-
-@deprecated("The 'implicits' object has been deprecated in favor of the 'auto' object.", "0.2.4")
-object implicits extends auto

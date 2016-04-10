@@ -20,6 +20,7 @@
   to be useful after all. ([#148])
 * Eval `RefType` during macro expansion again to minimize the runtime
   overhead of refinement types. ([#149], [#120])
+* Remove the deprecated `implicits` object. ([#152])
 
 ### New predicates
 
@@ -52,3 +53,4 @@ Thanks to Shohei Shimomura for all new predicates!
 [#148]: https://github.com/fthomas/refined/pull/148
 [#149]: https://github.com/fthomas/refined/pull/149
 [#150]: https://github.com/fthomas/refined/pull/150
+[#152]: https://github.com/fthomas/refined/pull/152

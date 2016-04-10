@@ -15,8 +15,6 @@
   ([#112], [#138])
 * Fix the return type of `RefType.applyRef`. ([#137])
 * Use `Refined` instead of `@@` in `util.string` for refined types.
-* Update to Scala.js 0.6.8. ([#136])
-* Update `refined-scalaz` to Scalaz 7.2.2. ([#147])
 * Remove the notion of "constant" `Validate` instances that allowed to
   refine non-literal values at compile-time. This feature hasn't proven
   to be useful after all. ([#148])
@@ -25,17 +23,22 @@
 
 ### New predicates
 
-[`boolean`](https://github.com/fthomas/refined/blob/v0.3.8/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
+[`boolean`](https://github.com/fthomas/refined/blob/v0.4.0/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
 
 * `Nand[A, B]`: negated conjunction of the predicates `A` and `B`. ([#140])
 * `Nor[A, B]`: negated disjunction of the predicates `A` and `B`. ([#143])
 
-[`collection`](https://github.com/fthomas/refined/blob/v0.3.8/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
+[`collection`](https://github.com/fthomas/refined/blob/v0.4.0/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Init[P]`: checks if the predicate `P` holds for all but the last element of a `Traversable`. ([#150])
 * `Tail[P]`: checks if the predicate `P` holds for all but the first element of a `Traversable`. ([#150])
 
 Thanks to Shohei Shimomura for all new predicates!
+
+### Updates
+
+* Update to Scala.js 0.6.8. ([#136])
+* Update `refined-scalaz` to Scalaz 7.2.2. ([#147])
 
 [#112]: https://github.com/fthomas/refined/issues/112
 [#120]: https://github.com/fthomas/refined/pull/120

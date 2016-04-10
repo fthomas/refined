@@ -54,3 +54,5 @@ Thanks to Shohei Shimomura for all new predicates!
 [#149]: https://github.com/fthomas/refined/pull/149
 [#150]: https://github.com/fthomas/refined/pull/150
 [#152]: https://github.com/fthomas/refined/pull/152
+
+Released on 2016-04-10

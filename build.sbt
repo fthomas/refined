@@ -28,6 +28,10 @@ val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.2"
 val scodecVersion = "1.9.0"
 
+val allSubprojects = List("core", "scalacheck", "scalaz", "scodec")
+val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
+val allSubprojectsJS = allSubprojects.map(_ + "JS")
+
 /// project definitions
 
 lazy val root = project.in(file("."))
@@ -274,10 +278,6 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(bintraySyncMavenCentral in "coreJVM"),
-      releaseStepTask(bintraySyncMavenCentral in "scalacheckJVM"),
-      releaseStepTask(bintraySyncMavenCentral in "scalazJVM"),
-      releaseStepTask(bintraySyncMavenCentral in "scodecJVM"),
       releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
       setNextVersion,
       commitNextVersion,
@@ -285,6 +285,9 @@ lazy val releaseSettings = {
     )
   )
 }
+
+addCommandAlias("syncMavenCentral",
+  allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral").mkString(";", ";", ""))
 
 lazy val siteSettings = Def.settings(
   site.settings,
@@ -314,20 +317,12 @@ lazy val styleSettings = Def.settings(
     (unmanagedSourceDirectories in Compile).value
 )
 
-addCommandAlias("validate", Seq(
-  "clean",
-  "coreJS/test",
-  "scalacheckJS/test",
-  "scalazJS/test",
-  "scodecJS/test",
-  "coverage",
-  "compile",
-  "coreJVM/test",
-  "scalacheckJVM/test",
-  "scalazJVM/test",
-  "scodecJVM/test",
-  "scalastyle",
-  "test:scalastyle",
-  "doc",
-  "docs/tut"
-).mkString(";", ";", ""))
+val validateCommands =
+  (List("clean")
+    ++ allSubprojectsJS.map(_ + "/test")
+    ++ List("coverage")
+    ++ allSubprojectsJVM.map(_ + "/test")
+    ++ List("scalastyle", "test:scalastyle")
+    ++ List("doc", "docs/tut"))
+
+addCommandAlias("validate", validateCommands.mkString(";", ";", ""))

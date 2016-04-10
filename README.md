@@ -332,6 +332,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
   Refinement Types via SMT and Predicate Abstraction
 * [refined][refined.hs]: Refinement types with static and runtime checking for
   Haskell. **refined** was inspired this library and even stole its name!
+* [Subtypes in Perl 6](https://design.perl6.org/S12.html#Types_and_Subtypes)
 
 ## License
 

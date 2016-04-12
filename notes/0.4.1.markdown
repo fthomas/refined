@@ -1,0 +1,14 @@
+### Changes
+
+* Make parameter types of function literals in the `Eval` predicate
+  optional. This allows to write
+  ```scala
+  val x: Int Refined Eval[W.`"x => x > 0"`.T] = 1
+  ```
+  instead of
+  ```scala
+  val y: Int Refined Eval[W.`"(x: Int) => x > 0"`.T] = 1
+  ```
+  ([#153])
+
+[#153]: https://github.com/fthomas/refined/pull/153

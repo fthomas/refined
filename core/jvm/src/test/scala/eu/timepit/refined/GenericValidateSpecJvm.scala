@@ -12,8 +12,11 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
 
   type IsEven = Eval[W.`"(x: Int) => x % 2 == 0"`.T]
 
-  property("Eval.isValid") = forAll { (i: Int) =>
-    Validate[Int, IsEven].isValid(i) ?= (i % 2 == 0)
+  property("Eval.isValid") = {
+    val v = Validate[Int, IsEven]
+    forAll { (i: Int) =>
+      v.isValid(i) ?= (i % 2 == 0)
+    }
   }
 
   property("Eval.showExpr") = secure {
@@ -23,6 +26,10 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
   property("Eval.refineMV") = wellTyped {
     refineMV[IsEven](2)
     illTyped("refineMV[IsEven](3)", "Predicate.*fail.*")
+  }
+
+  property("Eval.refineV.no parameter type") = {
+    refineV[Eval[W.`"_.head >= 0"`.T]](List(1, -2)).isRight
   }
 
   property("Eval.refineMV.scope") = wellTyped {

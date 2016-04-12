@@ -4,6 +4,7 @@ import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
 import scala.reflect.runtime.currentMirror
+import scala.reflect.runtime.universe.TypeTag
 import scala.tools.reflect.ToolBox
 import shapeless._
 import shapeless.ops.coproduct.ToHList
@@ -50,8 +51,12 @@ private[refined] trait GenericValidate {
   // Cache ToolBox for Eval Validate instances
   private lazy val toolBox = currentMirror.mkToolBox()
 
-  implicit def evalValidate[T, S <: String](implicit ws: Witness.Aux[S]): Validate.Plain[T, Eval[S]] = {
-    val tree = toolBox.parse(ws.value)
+  implicit def evalValidate[T, S <: String](
+    implicit
+    tt: TypeTag[T],
+    ws: Witness.Aux[S]
+  ): Validate.Plain[T, Eval[S]] = {
+    val tree = toolBox.parse(s"(${ws.value}): (${tt.tpe} => Boolean)")
     val predicate = toolBox.eval(tree).asInstanceOf[T => Boolean]
     Validate.fromPredicate(predicate, _ => ws.value, Eval(ws.value))
   }

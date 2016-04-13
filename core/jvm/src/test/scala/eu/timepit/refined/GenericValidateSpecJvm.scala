@@ -29,7 +29,10 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
   }
 
   property("Eval.refineV.no parameter type") = {
-    refineV[Eval[W.`"_.head >= 0"`.T]](List(1, -2)).isRight
+    val v = Validate[List[Int], Eval[W.`"_.headOption.fold(false)(_ > 0)"`.T]]
+    forAll { (l: List[Int]) =>
+      v.isValid(l) ?= l.headOption.fold(false)(_ > 0)
+    }
   }
 
   property("Eval.refineMV.scope") = wellTyped {

@@ -20,14 +20,16 @@ object Concat {
     def stringOf(tpe: Type): String =
       tpe match {
         case ConstantType(Constant(a)) => a.asInstanceOf[String]
+        case TypeRef(_, sym, _) =>
+          sym.info match {
+            case ConstantType(Constant(a)) => a.asInstanceOf[String]
+            case _ => c.abort(c.enclosingPosition, s"Cannot extract String from ${sym.info}")
+          }
         case _ => c.abort(c.enclosingPosition, s"Cannot extract String from $tpe")
       }
 
     val aTpe = weakTypeOf[A]
     val bTpe = weakTypeOf[B]
-
-    println(showRaw(aTpe))
-    println(showRaw(bTpe))
 
     val ab = stringOf(aTpe) + stringOf(bTpe)
     val abTpe = c.internal.constantType(Constant(ab))

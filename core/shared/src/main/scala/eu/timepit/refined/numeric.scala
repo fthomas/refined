@@ -17,8 +17,8 @@ import shapeless.ops.nat.ToInt
  *
  * Example: {{{
  * scala> import eu.timepit.refined.api.Refined
- *      | import eu.timepit.refined.numeric._
- *      | import shapeless.nat._
+ *      | import eu.timepit.refined.numeric.Greater
+ *      | import shapeless.nat._5
  *
  * scala> refineMV[Greater[_5]](10)
  * res1: Int Refined Greater[_5] = 10

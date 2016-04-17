@@ -4,6 +4,10 @@ package api
 /**
  * Evidence that states if the conclusion `C` can be inferred from the
  * premise `P` or not.
+ *
+ * This type class is used to implement refinement subtyping. If a valid
+ * `Inference[P, C]` exists, the type `F[T, P]` is considered a subtype
+ * of `F[T, C]`.
  */
 case class Inference[P, C](isValid: Boolean, show: String) {
 

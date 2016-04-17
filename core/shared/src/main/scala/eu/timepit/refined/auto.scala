@@ -5,12 +5,27 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.macros.{ InferMacro, RefineMacro }
 import shapeless.tag.@@
 
+/**
+ * Module that provides automatic refinements and automatic conversions
+ * between refined types (refinement subtyping) at compile-time.
+ */
 object auto {
 
   /**
    * Implicitly converts (at compile-time) a value of type `F[T, A]` to
    * `F[T, B]` if there is a valid inference `A ==> B`. If the
    * inference is invalid, compilation fails.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api.Refined
+   *      | import eu.timepit.refined.auto.{ autoInfer, autoRefineV }
+   *      | import eu.timepit.refined.numeric.Greater
+   *
+   * scala> val x: Int Refined Greater[W.`5`.T] = 100
+   *
+   * scala> x: Int Refined Greater[W.`0`.T]
+   * res0: Int Refined Greater[W.`0`.T] = 100
+   * }}}
    */
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
     implicit

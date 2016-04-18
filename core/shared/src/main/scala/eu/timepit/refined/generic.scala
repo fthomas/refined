@@ -17,20 +17,7 @@ object generic extends GenericValidate with GenericInference {
   /** Predicate that checks if a value is equal to `U`. */
   case class Equal[U](u: U)
 
-  /**
-   * Predicate that checks if a value applied to the predicate `S`
-   * yields `true`.
-   *
-   * Example: {{{
-   * scala> import eu.timepit.refined.api.Refined
-   *      | import eu.timepit.refined.auto._
-   *      | import eu.timepit.refined.generic.Eval
-   *
-   * scala> type EvenInt = Int Refined Eval[W.`"i => i % 2 == 0"`.T]
-   * scala> 42: EvenInt
-   * res0: EvenInt = 42
-   * }}}
-   */
+  /** Predicate that checks if a value applied to the predicate `S` yields `true`. */
   case class Eval[S](s: S)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */

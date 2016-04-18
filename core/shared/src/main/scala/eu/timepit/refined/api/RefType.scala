@@ -35,11 +35,11 @@ trait RefType[F[_, _]] extends Serializable {
    * otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.api._
-   *      | import eu.timepit.refined.numeric._
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
    *
    * scala> RefType[Refined].refine[Positive](10)
-   * res1: Either[String, Refined[Int, Positive]] = Right(10)
+   * res0: Either[String, Refined[Int, Positive]] = Right(10)
    * }}}
    *
    * Note: The return type is `[[internal.RefinePartiallyApplied]][F, P]`,
@@ -54,11 +54,11 @@ trait RefType[F[_, _]] extends Serializable {
    * it satisfies the predicate `P`, or fails to compile otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined._
-   *      | import eu.timepit.refined.numeric._
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
    *
    * scala> RefType[Refined].refineM[Positive](10)
-   * res1: Refined[Int, Positive] = 10
+   * res0: Refined[Int, Positive] = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro.
@@ -75,11 +75,11 @@ trait RefType[F[_, _]] extends Serializable {
    * it satisfies the predicate `P`, or fails to compile otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined._
-   *      | import eu.timepit.refined.numeric._
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
    *
    * scala> RefType[Refined].refineMF[Long, Positive](10)
-   * res1: Refined[Long, Positive] = 10
+   * res0: Refined[Long, Positive] = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro and `F` for '''f'''ully applied.
@@ -110,11 +110,12 @@ object RefType {
    * otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.api._
-   *      | import eu.timepit.refined.numeric._
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
    *
-   * scala> RefType.applyRef[Int Refined Positive](10)
-   * res1: Either[String, Int Refined Positive] = Right(10)
+   * scala> type PosInt = Int Refined Positive
+   * scala> RefType.applyRef[PosInt](10)
+   * res0: Either[String, PosInt] = Right(10)
    * }}}
    *
    * Note: The return type is `[[internal.ApplyRefPartiallyApplied]][FTP]`,
@@ -129,12 +130,12 @@ object RefType {
    * satisfies the predicate in `FTP`, or fails to compile otherwise.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.api._
-   *      | import eu.timepit.refined.numeric._
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
    *
    * scala> type PosInt = Int Refined Positive
    * scala> RefType.applyRefM[PosInt](10)
-   * res1: PosInt = 10
+   * res0: PosInt = 10
    * }}}
    *
    * Note: `M` stands for '''m'''acro.

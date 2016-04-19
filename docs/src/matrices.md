@@ -8,15 +8,24 @@ case class Dim[R <: Int, C <: Int](rows: R, columns: C)
 ```
 
 ```tut
+type Matrix[R <: Int, C <: Int] = List[List[Int]] Refined Dim[R, C]
+
 class MatrixAux[R <: Int, C <: Int](val wr: Witness.Aux[R], val wc: Witness.Aux[C]) {
-  def apply[A](f: (Int, Int) => A): List[List[A]] Refined Dim[wr.T, wc.T] =
+  def apply(f: (Int, Int) => Int): Matrix[wr.T, wc.T] =
     Refined.unsafeApply(List.tabulate(wr.value, wc.value)(f))
 }
 
-def matrix[A](rows: Int, columns: Int)(f: (Int, Int) => A) =
+def matrix(rows: Int, columns: Int)(f: (Int, Int) => Int) =
   new MatrixAux(Witness(rows), Witness(columns))(f)
 ```
 
 ```tut
-matrix(2, 3)((r, c) => s"$r$c")
+val m1 = matrix(2, 3)((r, c) => r * 10 + c)
+```
+
+```tut
+def transpose[R <: Int, C <: Int](m: Matrix[R, C]): Matrix[C, R] =
+  Refined.unsafeApply(m.get.transpose)
+
+transpose(m1)
 ```

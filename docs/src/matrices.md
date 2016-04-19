@@ -1,5 +1,4 @@
 ```tut:silent
-import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import shapeless.Witness
 ```

@@ -63,4 +63,29 @@ scala> baz(Witness(6))(4)
                        ^
 ```
 
+With a little more involved definition of our function we can even hide
+`Witness` at the call site:
+
+```scala
+scala> class BarAux[I <: Int](i: Witness.Aux[I]) {
+     |   def apply(j: Int Refined Greater[i.T]) = j - i.value
+     | }
+defined class BarAux
+
+scala> def bar(i: Int) = new BarAux(Witness(i))
+bar: (i: Int)BarAux[i.type]
+```
+
+```scala
+scala> bar(2)(4)
+res4: Int = 2
+```
+
+```scala
+scala> bar(6)(4)
+<console>:22: error: Predicate failed: (4 > 6).
+       bar(6)(4)
+              ^
+```
+
 [spec-3.2.1]: http://www.scala-lang.org/files/archive/spec/2.11/03-types.html#singleton-types

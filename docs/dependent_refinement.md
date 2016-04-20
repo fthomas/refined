@@ -67,24 +67,24 @@ With a little more involved definition of our function we can even hide
 `Witness` at the call site:
 
 ```scala
-scala> class BarAux[I <: Int](i: Witness.Aux[I]) {
+scala> class QuxAux[I <: Int](i: Witness.Aux[I]) {
      |   def apply(j: Int Refined Greater[i.T]) = j - i.value
      | }
-defined class BarAux
+defined class QuxAux
 
-scala> def bar(i: Int) = new BarAux(Witness(i))
-bar: (i: Int)BarAux[i.type]
+scala> def qux(i: Int) = new QuxAux(Witness(i))
+qux: (i: Int)QuxAux[i.type]
 ```
 
 ```scala
-scala> bar(2)(4)
+scala> qux(2)(4)
 res4: Int = 2
 ```
 
 ```scala
-scala> bar(6)(4)
+scala> qux(6)(4)
 <console>:22: error: Predicate failed: (4 > 6).
-       bar(6)(4)
+       qux(6)(4)
               ^
 ```
 

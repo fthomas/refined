@@ -52,19 +52,19 @@ With a little more involved definition of our function we can even hide
 `Witness` at the call site:
 
 ```tut
-class BarAux[I <: Int](i: Witness.Aux[I]) {
+class QuxAux[I <: Int](i: Witness.Aux[I]) {
   def apply(j: Int Refined Greater[i.T]) = j - i.value
 }
 
-def bar(i: Int) = new BarAux(Witness(i))
+def qux(i: Int) = new QuxAux(Witness(i))
 ```
 
 ```tut:nofail
-bar(2)(4)
+qux(2)(4)
 ```
 
 ```tut:fail
-bar(6)(4)
+qux(6)(4)
 ```
 
 [spec-3.2.1]: http://www.scala-lang.org/files/archive/spec/2.11/03-types.html#singleton-types

@@ -1,7 +1,8 @@
 /// shared variables
 
+val groupName = "eu.timepit"
 val projectName = "refined"
-val rootPkg = s"eu.timepit.$projectName"
+val rootPkg = s"$groupName.$projectName"
 val gitPubUrl = s"https://github.com/fthomas/$projectName.git"
 val gitDevUrl = s"git@github.com:fthomas/$projectName.git"
 
@@ -157,7 +158,7 @@ lazy val projectSettings = Seq(
   name := projectName,
   description := "Simple refinement types for Scala",
 
-  organization := "eu.timepit",
+  organization := groupName,
   homepage := Some(url(s"https://github.com/fthomas/$projectName")),
   startYear := Some(2015),
   licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),

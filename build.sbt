@@ -1,8 +1,9 @@
 /// shared variables
 
-val groupName = "eu.timepit"
+val latestVersion = "0.4.0"
+val groupId = "eu.timepit"
 val projectName = "refined"
-val rootPkg = s"$groupName.$projectName"
+val rootPkg = s"$groupId.$projectName"
 val gitPubUrl = s"https://github.com/fthomas/$projectName.git"
 val gitDevUrl = s"git@github.com:fthomas/$projectName.git"
 
@@ -71,6 +72,7 @@ lazy val core = crossProject
       import shapeless.tag.@@
     """
   )
+  .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
 
 lazy val coreJVM = core.jvm
@@ -98,6 +100,7 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
       import org.scalacheck.Arbitrary
     """
   )
+  .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core)
 
@@ -116,6 +119,7 @@ lazy val scalaz = crossProject.in(file("contrib/scalaz"))
       import _root_.scalaz.@@
     """
   )
+  .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core % "compile->compile;test->test")
 
@@ -131,6 +135,7 @@ lazy val scodec = crossProject.in(file("contrib/scodec"))
       $commonImports
     """
   )
+  .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core % "compile->compile;test->test")
 
@@ -149,6 +154,19 @@ lazy val submoduleSettings =
   releaseSettings ++
   styleSettings
 
+lazy val submoduleJvmSettings = Seq(
+  mimaPreviousArtifacts := Set(groupId %% moduleName.value % latestVersion),
+  mimaBinaryIssueFilters ++= {
+    import com.typesafe.tools.mima.core._
+    import com.typesafe.tools.mima.core.ProblemFilters._
+    Seq(
+      exclude[DirectMissingMethodProblem  ]("eu.timepit.refined.generic.evalValidate"),
+      exclude[DirectMissingMethodProblem  ]("eu.timepit.refined.GenericValidate.evalValidate"),
+      exclude[ReversedMissingMethodProblem]("eu.timepit.refined.GenericValidate.evalValidate")
+    )
+  }
+)
+
 lazy val submoduleJsSettings = Seq(
   doctestGenTests := Seq.empty,
   scalaJSUseRhino in Global := false
@@ -158,7 +176,7 @@ lazy val projectSettings = Seq(
   name := projectName,
   description := "Simple refinement types for Scala",
 
-  organization := groupName,
+  organization := groupId,
   homepage := Some(url(s"https://github.com/fthomas/$projectName")),
   startYear := Some(2015),
   licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),
@@ -319,7 +337,7 @@ lazy val styleSettings = Def.settings(
 )
 
 val validateCommands =
-  (List("clean")
+  (List("clean", "mimaReportBinaryIssues")
     ++ allSubprojectsJS.map(_ + "/test")
     ++ List("coverage")
     ++ allSubprojectsJVM.map(_ + "/test")

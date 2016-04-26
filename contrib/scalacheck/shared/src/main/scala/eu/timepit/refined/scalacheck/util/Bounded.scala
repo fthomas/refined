@@ -1,5 +1,10 @@
 package eu.timepit.refined.scalacheck.util
 
+/**
+ * Auxiliary type class that provides the upper and lower bounds of a
+ * type `T`. This is needed for the `Arbitrary` instances of numeric
+ * refined types.
+ */
 trait Bounded[T] {
   def minValue: T
   def maxValue: T

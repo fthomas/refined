@@ -2,9 +2,12 @@ package eu.timepit.refined
 package scalacheck
 
 import eu.timepit.refined.api.Refined
+import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.char._
+import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.scalacheck.boolean._
 import eu.timepit.refined.scalacheck.char._
+import eu.timepit.refined.scalacheck.numeric._
 import org.scalacheck.Properties
 
 class CharArbitrarySpec extends Properties("CharArbitrarySpec") {
@@ -26,4 +29,9 @@ class CharArbitrarySpec extends Properties("CharArbitrarySpec") {
 
   property("LetterOrDigit") =
     checkArbitraryRefType[Refined, Char, LetterOrDigit]
+
+  property("HexDigit") = {
+    type HexDigit = Digit Or Interval.Closed[W.`'a'`.T, W.`'f'`.T]
+    checkArbitraryRefType[Refined, Char, HexDigit]
+  }
 }

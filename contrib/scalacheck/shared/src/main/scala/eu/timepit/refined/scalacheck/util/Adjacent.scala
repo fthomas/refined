@@ -1,5 +1,10 @@
 package eu.timepit.refined.scalacheck.util
 
+/**
+ * Auxiliary type class that provides the next smaller or next greater
+ * value for a given argument. This is needed for the `Arbitrary`
+ * instances of numeric refined types.
+ */
 trait Adjacent[T] {
   def nextUp(t: T): Option[T]
 

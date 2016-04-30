@@ -12,4 +12,9 @@
   ```
   ([#153])
 
+### Updates
+
+* Update to Scala.js 0.6.9. ([#155])
+
 [#153]: https://github.com/fthomas/refined/pull/153
+[#155]: https://github.com/fthomas/refined/pull/155

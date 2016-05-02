@@ -1,28 +1,25 @@
 package eu.timepit.refined.examples
 
 import eu.timepit.refined.api.RefType.ops._
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{RefType, Validate}
 
 class RefTypeExperiments[P, R[_, _]](implicit rt: RefType[R]) {
 
-  type F[x] = R[x, P]
-  type G[x] = Either[String, x]
+  type F [x] = R[x, P]
+  type G [x] = Either[String, x]
 
   // Monad-like functions
 
-  def pureLike[A](a: A)(implicit v: Validate[A, P]): G[F[A]] =
-    rt.refine[P](a)
+  def pureLike[A](a: A)(implicit v: Validate[A, P]): G[F[A]] = rt.refine[P](a)
 
-  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B] =
-    f(extract(fa))
+  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B] = f(extract(fa))
 
   // Comonad-like functions
 
-  def extract[A](fa: F[A]): A =
-    fa.unwrap
+  def extract[A](fa: F[A]): A = fa.unwrap
 
-  def coflatMapLike[A, B](fa: F[A])(f: F[A] => B)(implicit v: Validate[B, P]): G[F[B]] =
-    pureLike(f(fa))
+  def coflatMapLike[A, B](fa: F[A])(f: F[A] => B)(
+      implicit v: Validate[B, P]): G[F[B]] = pureLike(f(fa))
 
   // Notice the antisymmetry in:
   // pureLike <-> extract
@@ -30,7 +27,8 @@ class RefTypeExperiments[P, R[_, _]](implicit rt: RefType[R]) {
 
   // Let's define mapLike:
 
-  def mapLikeViaCoflatMapAndExtract[A, B](fa: F[A])(f: A => B)(implicit v: Validate[B, P]): G[F[B]] =
+  def mapLikeViaCoflatMapAndExtract[A, B](fa: F[A])(f: A => B)(
+      implicit v: Validate[B, P]): G[F[B]] =
     coflatMapLike(fa)(fa => f(extract(fa)))
 
   //def mapLikeViaFlatMapAndPure[A, B](fa: F[A])(f: A => B): G[F[B]] =

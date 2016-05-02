@@ -41,5 +41,6 @@ private[refined] trait CharValidate {
     Validate.fromPredicate(_.isUpper, t => s"isUpper('$t')", UpperCase())
 
   implicit def whitespaceValidate: Validate.Plain[Char, Whitespace] =
-    Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
+    Validate.fromPredicate(
+        _.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
 }

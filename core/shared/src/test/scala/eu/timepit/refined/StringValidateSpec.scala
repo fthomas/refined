@@ -49,11 +49,11 @@ class StringValidateSpec extends Properties("StringValidate") {
   }
 
   property("Uri.showResult") = secure {
-    val jvmErr = showResult[Uri](" /a/b/c") ?=
-      "Uri predicate failed: Illegal character in path at index 0:  /a/b/c"
+    val jvmErr =
+      showResult[Uri](" /a/b/c") ?= "Uri predicate failed: Illegal character in path at index 0:  /a/b/c"
 
-    val jsErr = showResult[Uri](" /a/b/c") ?=
-      "Uri predicate failed: Malformed URI in  /a/b/c at -1"
+    val jsErr =
+      showResult[Uri](" /a/b/c") ?= "Uri predicate failed: Malformed URI in  /a/b/c at -1"
 
     jvmErr || jsErr
   }

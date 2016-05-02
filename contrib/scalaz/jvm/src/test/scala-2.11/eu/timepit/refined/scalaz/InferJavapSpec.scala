@@ -29,7 +29,8 @@ class InferAnyRefTest {
 
   def Refined: Refined[String, StartsWith[W.`"ab"`.T]] = r.Refined
 
-  def shapeless_tag: shapeless.tag.@@[String, StartsWith[W.`"ab"`.T]] = r.shapeless_tag
+  def shapeless_tag: shapeless.tag.@@[String, StartsWith[W.`"ab"`.T]] =
+    r.shapeless_tag
 
   def scalaz_tag: scalaz.@@[String, StartsWith[W.`"ab"`.T]] = r.scalaz_tag
 

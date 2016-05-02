@@ -17,15 +17,14 @@ trait Parser[A] {
 }
 
 object Parser {
-  type Aux[A, P0] = Parser[A] { type P = P0 }
+  type Aux [A, P0] = Parser[A] { type P = P0 }
 
   def apply[A](implicit parser: Parser[A]): Parser.Aux[A, parser.P] = parser
 
-  implicit val stringParser: Parser.Aux[String, True] =
-    new Parser[String] {
-      type P = True
-      def parse(s: String Refined P): String = s
-    }
+  implicit val stringParser: Parser.Aux[String, True] = new Parser[String] {
+    type P = True
+    def parse(s: String Refined P): String = s
+  }
 
   implicit val intParser: Parser.Aux[Int, MatchesRegex[W.`"""\\-?\\d+"""`.T]] =
     new Parser[Int] {
@@ -33,14 +32,14 @@ object Parser {
       def parse(s: String Refined P): Int = s.get.toInt
     }
 
-  implicit val personParser: Parser.Aux[Person, MatchesRegex[W.`"""[^,]*,\\d+"""`.T]] =
-    new Parser[Person] {
-      type P = MatchesRegex[W.`"""[^,]*,\\d+"""`.T]
-      def parse(s: String Refined P): Person = {
-        val parts = s.split(",")
-        Person(parts(0), parts(1).toInt)
-      }
+  implicit val personParser: Parser.Aux[
+      Person, MatchesRegex[W.`"""[^,]*,\\d+"""`.T]] = new Parser[Person] {
+    type P = MatchesRegex[W.`"""[^,]*,\\d+"""`.T]
+    def parse(s: String Refined P): Person = {
+      val parts = s.split(",")
+      Person(parts(0), parts(1).toInt)
     }
+  }
 }
 
 object Derivation extends App {
@@ -58,12 +57,12 @@ object Derivation extends App {
   [error] Derivation.scala:48: Predicate failed: "12a".matches("\-?\d+").
   [error]   Parser[Int].parse("12a")
   [error]                     ^
-  */
+   */
 
   //Parser[Person].parse("32,Bob")
   /*
   [error] Derivation.scala:59: Predicate failed: "32,Bob".matches("[^,]*,\d+").
   [error]   Parser[Person].parse("32,Bob")
   [error]                        ^
-  */
+ */
 }

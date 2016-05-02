@@ -29,10 +29,12 @@ object TestUtils {
     def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showExpr(t)
   }
 
-  def showResult[P]: ShowResultPartiallyApplied[P] = new ShowResultPartiallyApplied
+  def showResult[P]: ShowResultPartiallyApplied[P] =
+    new ShowResultPartiallyApplied
 
   class ShowResultPartiallyApplied[P] {
-    def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showResult(t, v.validate(t))
+    def apply[T](t: T)(implicit v: Validate[T, P]): String =
+      v.showResult(t, v.validate(t))
   }
 
   def wellTyped(body: => Unit): Prop = Prop.secure {
@@ -47,6 +49,9 @@ object TestUtils {
     getClass.getClassLoader.getResource(getClassFile(c))
 
   def javapOutput[C](c: C, opts: String = ""): String =
-    scala.sys.process.Process(s"javap $opts ${getClassFilePath(c)}").!!
-      .trim.replaceAll("""(?m)\s+$""", "")
+    scala.sys.process
+      .Process(s"javap $opts ${getClassFilePath(c)}")
+      .!!
+      .trim
+      .replaceAll("""(?m)\s+$""", "")
 }

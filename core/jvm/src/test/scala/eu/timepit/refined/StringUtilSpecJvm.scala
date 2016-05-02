@@ -18,7 +18,8 @@ class StringUtilSpecJvm extends Properties("util.string") {
   }
 
   property("url success") = secure {
-    url("http://example.com").toString ?= new java.net.URL("http://example.com").toString
+    url("http://example.com").toString ?=
+      new java.net.URL("http://example.com").toString
   }
 
   property("url failure") = secure {

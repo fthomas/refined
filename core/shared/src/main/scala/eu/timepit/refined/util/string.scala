@@ -5,40 +5,38 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.string._
 
 /**
- * Module for statically checking constructors of types that can be
- * instantiated with `String`s.
- *
- * @see [[https://github.com/fthomas/refined/blob/master/docs/util_string.md]]
- */
+  * Module for statically checking constructors of types that can be
+  * instantiated with `String`s.
+  *
+  * @see [[https://github.com/fthomas/refined/blob/master/docs/util_string.md]]
+  */
 object string {
 
   /**
-   * Creates a `[[scala.util.matching.Regex]]` from a validated string.
-   *
-   * Example: {{{
-   * scala> import eu.timepit.refined.auto._
-   *      | import eu.timepit.refined.util.string.regex
-   *
-   * scala> regex(".*")
-   * res1: scala.util.matching.Regex = .*
-   *
-   * scala> regex("{")
-   * <console>:47: error: Regex predicate failed: Illegal repetition
-   * {
-   *        regex("{")
-   *              ^
-   * }}}
-   */
+    * Creates a `[[scala.util.matching.Regex]]` from a validated string.
+    *
+    * Example: {{{
+    * scala> import eu.timepit.refined.auto._
+    *      | import eu.timepit.refined.util.string.regex
+    *
+    * scala> regex(".*")
+    * res1: scala.util.matching.Regex = .*
+    *
+    * scala> regex("{")
+    * <console>:47: error: Regex predicate failed: Illegal repetition
+    * {
+    *        regex("{")
+    *              ^
+    * }}}
+    */
   def regex(s: String Refined Regex): scala.util.matching.Regex =
     new scala.util.matching.Regex(s.get)
 
   /** Creates a `java.net.URI` from a validated string. */
-  def uri(s: String Refined Uri): java.net.URI =
-    new java.net.URI(s.get)
+  def uri(s: String Refined Uri): java.net.URI = new java.net.URI(s.get)
 
   /** Creates a `java.net.URL` from a validated string. */
-  def url(s: String Refined Url): java.net.URL =
-    new java.net.URL(s.get)
+  def url(s: String Refined Url): java.net.URL = new java.net.URL(s.get)
 
   /** Creates a `java.net.UUID` from a validated string. */
   def uuid(s: String Refined Uuid): java.util.UUID =

@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.char.{ Digit, LowerCase }
+import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
@@ -36,8 +36,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Count.showResult") = secure {
-    showResult[Count[LowerCase, Greater[_2]]](List('a', 'B')) ?=
-      "Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2)."
+    showResult[Count[LowerCase, Greater[_2]]](List('a', 'B')) ?= "Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2)."
   }
 
   property("Count.String.isValid") = forAll { (s: String) =>
@@ -93,8 +92,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Head.showResult") = secure {
-    showResult[Head[Digit]](List('a', '1')) ?=
-      "Predicate taking head(List(a, 1)) = a failed: Predicate failed: isDigit('a')."
+    showResult[Head[Digit]](List('a', '1')) ?= "Predicate taking head(List(a, 1)) = a failed: Predicate failed: isDigit('a')."
   }
 
   property("Head.String.isValid") = forAll { (s: String) =>
@@ -118,8 +116,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Index.showResult.nonEmpty") = secure {
-    showResult[Index[W.`2`.T, Digit]](List('a', 'b', 'c')) ?=
-      "Predicate taking index(List(a, b, c), 2) = c failed: Predicate failed: isDigit('c')."
+    showResult[Index[W.`2`.T, Digit]](List('a', 'b', 'c')) ?= "Predicate taking index(List(a, b, c), 2) = c failed: Predicate failed: isDigit('c')."
   }
 
   property("Last.isValid") = forAll { (l: List[Int]) =>
@@ -131,8 +128,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Last.showResult") = secure {
-    showResult[Last[Greater[_5]]](List(1, 2, 3)) ?=
-      "Predicate taking last(List(1, 2, 3)) = 3 failed: Predicate failed: (3 > 5)."
+    showResult[Last[Greater[_5]]](List(1, 2, 3)) ?= "Predicate taking last(List(1, 2, 3)) = 3 failed: Predicate failed: (3 > 5)."
   }
 
   property("Last.String.isValid") = forAll { (s: String) =>

@@ -21,7 +21,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Exists") = wellTyped {
-    illTyped("Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
+    illTyped(
+        "Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
   }
 
   property("Head[A] ==> Head[B]") = secure {
@@ -33,7 +34,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Exists[A] =!> Head[A]") = wellTyped {
-    illTyped("Inference[Exists[Digit], Head[Digit]]", "diverging implicit expansion for.*Inference.*")
+    illTyped("Inference[Exists[Digit], Head[Digit]]",
+             "diverging implicit expansion for.*Inference.*")
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {
@@ -57,7 +59,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Last") = wellTyped {
-    illTyped("Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
+    illTyped(
+        "Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
   }
 
   property("Size[A] ==> Size[B]") = secure {

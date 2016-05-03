@@ -321,11 +321,8 @@ lazy val myDoctestSettings = Def.settings(
 )
 
 lazy val styleSettings = Def.settings(
-  scalariformSettings,
-  sourceDirectories in (Compile, SbtScalariform.ScalariformKeys.format) :=
-    (sourceDirectories in Compile).value,
-  sourceDirectories in (Test, SbtScalariform.ScalariformKeys.format) :=
-    (sourceDirectories in Test).value,
+  scalafmtConfig := Some(file(".scalafmt")),
+  reformatOnCompileSettings,
 
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
   scalastyleSources in Compile :=

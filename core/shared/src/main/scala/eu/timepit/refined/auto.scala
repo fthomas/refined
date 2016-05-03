@@ -40,8 +40,7 @@ object auto {
     * Note: This conversion is not needed if `F[T, _] <: T` holds (which
     * is the case for `shapeless.tag.@@`, for example).
     */
-  implicit def autoUnwrap[F[_, _], T, P](tp: F[T, P])(
-      implicit rt: RefType[F]): T = rt.unwrap(tp)
+  implicit def autoUnwrap[F[_, _], T, P](tp: F[T, P])(implicit rt: RefType[F]): T = rt.unwrap(tp)
 
   /**
     * Implicitly wraps (at compile-time) a value of type `T` in

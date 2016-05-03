@@ -18,8 +18,7 @@ trait Adjacent[T] {
 object Adjacent {
   def apply[T](implicit a: Adjacent[T]): Adjacent[T] = a
 
-  def instance[T](
-      nextUpF: T => Option[T], nextDownF: T => Option[T]): Adjacent[T] =
+  def instance[T](nextUpF: T => Option[T], nextDownF: T => Option[T]): Adjacent[T] =
     new Adjacent[T] {
       override def nextUp(t: T): Option[T] = nextUpF(t)
       override def nextDown(t: T): Option[T] = nextDownF(t)

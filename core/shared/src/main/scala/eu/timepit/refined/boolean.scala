@@ -100,8 +100,7 @@ private[refined] trait BooleanValidate {
         case (Failed(_), Passed(_)) =>
           Resources.showResultAndLeftFailed(expr, va.showResult(t, ra))
         case (Failed(_), Failed(_)) =>
-          Resources.showResultAndBothFailed(
-              expr, va.showResult(t, ra), vb.showResult(t, rb))
+          Resources.showResultAndBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
       }
     }
   }
@@ -131,8 +130,7 @@ private[refined] trait BooleanValidate {
         case (Failed(_), Passed(_)) =>
           Resources.showResultOrRightPassed(expr)
         case (Failed(_), Failed(_)) =>
-          Resources.showResultOrBothFailed(
-              expr, va.showResult(t, ra), vb.showResult(t, rb))
+          Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
       }
     }
   }
@@ -162,8 +160,7 @@ private[refined] trait BooleanValidate {
         case (Failed(_), Passed(_)) =>
           Resources.showResultOrRightPassed(expr)
         case (Failed(_), Failed(_)) =>
-          Resources.showResultOrBothFailed(
-              expr, va.showResult(t, ra), vb.showResult(t, rb))
+          Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
       }
     }
   }
@@ -181,8 +178,7 @@ private[refined] trait BooleanValidate {
       override def validate(t: T): Res = {
         val rh = vh.validate(t)
         val rt = vt.validate(t)
-        Result.fromBoolean(
-            rh.isPassed && rt.isPassed, AllOf(rh :: rt.detail.ps))
+        Result.fromBoolean(rh.isPassed && rt.isPassed, AllOf(rh :: rt.detail.ps))
       }
 
       override def showExpr(t: T): String =
@@ -205,8 +201,7 @@ private[refined] trait BooleanValidate {
       override def validate(t: T): Res = {
         val rh = vh.validate(t)
         val rt = vt.validate(t)
-        Result.fromBoolean(
-            rh.isPassed || rt.isPassed, AnyOf(rh :: rt.detail.ps))
+        Result.fromBoolean(rh.isPassed || rt.isPassed, AnyOf(rh :: rt.detail.ps))
       }
 
       override def showExpr(t: T): String =
@@ -247,27 +242,22 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def minimalTautology[A]: A ==> A =
     Inference.alwaysValid("minimalTautology")
 
-  implicit def doubleNegationElimination[A, B](
-      implicit p1: A ==> B): Not[Not[A]] ==> B =
+  implicit def doubleNegationElimination[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
     p1.adapt("doubleNegationElimination(%s)")
 
-  implicit def doubleNegationIntroduction[A, B](
-      implicit p1: A ==> B): A ==> Not[Not[B]] =
+  implicit def doubleNegationIntroduction[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
     p1.adapt("doubleNegationIntroduction(%s)")
 
-  implicit def conjunctionAssociativity[
-      A, B, C]: ((A And B) And C) ==> (A And (B And C)) =
+  implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ==> (A And (B And C)) =
     Inference.alwaysValid("conjunctionAssociativity")
 
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     Inference.alwaysValid("conjunctionCommutativity")
 
-  implicit def conjunctionEliminationR[A, B, C](
-      implicit p1: B ==> C): (A And B) ==> C =
+  implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationR(%s)")
 
-  implicit def disjunctionAssociativity[
-      A, B, C]: ((A Or B) Or C) ==> (A Or (B Or C)) =
+  implicit def disjunctionAssociativity[A, B, C]: ((A Or B) Or C) ==> (A Or (B Or C)) =
     Inference.alwaysValid("disjunctionAssociativity")
 
   implicit def disjunctionCommutativity[A, B]: (A Or B) ==> (B Or A) =
@@ -303,11 +293,9 @@ private[refined] trait BooleanInference1 extends BooleanInference2 {
 
 private[refined] trait BooleanInference2 {
 
-  implicit def conjunctionEliminationL[A, B, C](
-      implicit p1: A ==> C): (A And B) ==> C =
+  implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")
 
-  implicit def hypotheticalSyllogism[A, B, C](
-      implicit p1: A ==> B, p2: B ==> C): A ==> C =
+  implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
 }

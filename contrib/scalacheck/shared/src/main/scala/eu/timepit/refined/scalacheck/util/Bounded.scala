@@ -22,8 +22,7 @@ object Bounded {
 
   implicit val char: Bounded[Char] = instance(Char.MinValue, Char.MaxValue)
 
-  implicit val double: Bounded[Double] = instance(
-      Double.MinValue, Double.MaxValue)
+  implicit val double: Bounded[Double] = instance(Double.MinValue, Double.MaxValue)
 
   implicit val float: Bounded[Float] = instance(Float.MinValue, Float.MaxValue)
 

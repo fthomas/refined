@@ -113,15 +113,13 @@ private[refined] trait CollectionValidate {
       override def showResult(t: T, r: Res): String = {
         val c = count(t)
         val expr = t.map(va.showExpr).mkString("count(", ", ", ")")
-        Resources.predicateTakingResultDetail(
-            s"$expr = $c", r, vc.showResult(c, r.detail.pc))
+        Resources.predicateTakingResultDetail(s"$expr = $c", r, vc.showResult(c, r.detail.pc))
       }
 
       private def count(t: T): Int = t.count(va.isValid)
     }
 
-  implicit def emptyValidate[T](
-      implicit ev: T => Traversable[_]): Validate.Plain[T, Empty] =
+  implicit def emptyValidate[T](implicit ev: T => Traversable[_]): Validate.Plain[T, Empty] =
     Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
 
   implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](
@@ -160,8 +158,7 @@ private[refined] trait CollectionValidate {
         optElemShowExpr(t.headOption, v.showExpr)
 
       override def showResult(t: T[A], r: Res): String =
-        optElemShowResult(
-            t.headOption, r.detail.p, (a: A) => s"head($t) = $a", v.showResult)
+        optElemShowResult(t.headOption, r.detail.p, (a: A) => s"head($t) = $a", v.showResult)
     }
 
   implicit def headValidateView[A, P, R, T](
@@ -187,10 +184,8 @@ private[refined] trait CollectionValidate {
         optElemShowExpr(t.lift(wn.value), v.showExpr)
 
       override def showResult(t: T, r: Res): String =
-        optElemShowResult(t.lift(wn.value),
-                          r.detail.p,
-                          (a: A) => s"index($t, ${wn.value}) = $a",
-                          v.showResult)
+        optElemShowResult(
+            t.lift(wn.value), r.detail.p, (a: A) => s"index($t, ${wn.value}) = $a", v.showResult)
     }
 
   implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
@@ -229,8 +224,7 @@ private[refined] trait CollectionValidate {
         optElemShowExpr(t.lastOption, v.showExpr)
 
       override def showResult(t: T[A], r: Res): String =
-        optElemShowResult(
-            t.lastOption, r.detail.p, (a: A) => s"last($t) = $a", v.showResult)
+        optElemShowResult(t.lastOption, r.detail.p, (a: A) => s"last($t) = $a", v.showResult)
     }
 
   implicit def lastValidateView[A, P, R, T](
@@ -296,8 +290,7 @@ private[refined] trait CollectionValidate {
 
 private[refined] trait CollectionInference {
 
-  implicit def existsInference[A, B](
-      implicit p1: A ==> B): Exists[A] ==> Exists[B] =
+  implicit def existsInference[A, B](implicit p1: A ==> B): Exists[A] ==> Exists[B] =
     p1.adapt("existsInference(%s)")
 
   implicit def existsNonEmptyInference[P]: Exists[P] ==> NonEmpty =
@@ -309,8 +302,7 @@ private[refined] trait CollectionInference {
   implicit def headExistsInference[P]: Head[P] ==> Exists[P] =
     Inference.alwaysValid("headExistsInference")
 
-  implicit def indexInference[N, A, B](
-      implicit p1: A ==> B): Index[N, A] ==> Index[N, B] =
+  implicit def indexInference[N, A, B](implicit p1: A ==> B): Index[N, A] ==> Index[N, B] =
     p1.adapt("indexInference(%s)")
 
   implicit def indexExistsInference[N, P]: Index[N, P] ==> Exists[P] =

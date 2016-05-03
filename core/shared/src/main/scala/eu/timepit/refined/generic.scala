@@ -38,16 +38,14 @@ private[refined] trait GenericValidate {
   implicit def equalValidateWit[T, U <: T](
       implicit wu: Witness.Aux[U]
   ): Validate.Plain[T, Equal[U]] =
-    Validate.fromPredicate(
-        _ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
+    Validate.fromPredicate(_ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
 
   implicit def equalValidateNat[N <: Nat, T](
       implicit tn: ToInt[N],
       wn: Witness.Aux[N],
       nt: Numeric[T]
   ): Validate.Plain[T, Equal[N]] =
-    Validate.fromPredicate(
-        t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+    Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
 
   // Cache ToolBox for Eval Validate instances
   private lazy val toolBox = currentMirror.mkToolBox()
@@ -64,8 +62,7 @@ private[refined] trait GenericValidate {
     Validate.fromPredicate(predicate, _ => ws.value, Eval(ws.value))
   }
 
-  implicit def ctorNamesValidate[
-      T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
+  implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],
       cthl: ToHList.Aux[R0, R1],
       keys: Keys.Aux[R1, K],
@@ -103,14 +100,13 @@ private[refined] trait GenericInference {
       implicit v: Validate[T, P],
       wu: Witness.Aux[U]
   ): Equal[U] ==> P =
-    Inference(v.isValid(wu.value),
-              s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
+    Inference(v.isValid(wu.value), s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
 
   implicit def equalValidateInferenceNat[T, N <: Nat, P](
       implicit v: Validate[T, P],
       nt: Numeric[T],
       tn: ToInt[N]
   ): Equal[N] ==> P =
-    Inference(v.isValid(nt.fromInt(tn())),
-              s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
+    Inference(
+        v.isValid(nt.fromInt(tn())), s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
 }

@@ -24,8 +24,7 @@ object Resources {
   def predicateResultDetailDot(r: Result[_], detail: String): String =
     s"${predicateResultDetail(r, detail)}."
 
-  def predicateTakingResultDetail(
-      taking: String, r: Result[_], detail: String): String =
+  def predicateTakingResultDetail(taking: String, r: Result[_], detail: String): String =
     s"$Predicate taking $taking ${toLowerCase(r)}: $detail"
 
   def showExprEmptyCollection: String = "<no element>"
@@ -36,8 +35,7 @@ object Resources {
   def namePredicateResult(name: String, r: Result[_]): String =
     s"$name $predicate ${toLowerCase(r)}"
 
-  def namePredicateResultMessage(
-      name: String, r: Result[_], maybeThrowable: Try[_]): String = {
+  def namePredicateResultMessage(name: String, r: Result[_], maybeThrowable: Try[_]): String = {
     val suffix = maybeThrowable match {
       case Success(_) => "."
       case Failure(e) => s": ${e.getMessage}"
@@ -68,8 +66,7 @@ object Resources {
   def showResultAndLeftFailed(expr: String, left: String): String =
     s"$Left $predicate of $expr $failed: $left"
 
-  def showResultAndBothFailed(
-      expr: String, left: String, right: String): String =
+  def showResultAndBothFailed(expr: String, left: String, right: String): String =
     s"$Both $predicates of $expr $failed. $Left: $left $Right: $right"
 
   // Or
@@ -83,8 +80,7 @@ object Resources {
   def showResultOrLeftPassed(expr: String): String =
     s"$Left $predicate of $expr $passed."
 
-  def showResultOrBothFailed(
-      expr: String, left: String, right: String): String =
+  def showResultOrBothFailed(expr: String, left: String, right: String): String =
     s"$Both $predicates of $expr $failed. $Left: $left $Right: $right"
 
   //

@@ -68,25 +68,25 @@ object collection extends CollectionValidate with CollectionInference {
     * Predicate that checks if a `Traversable` contains a value
     * equal to `U`.
     */
-  type Contains [U] = Exists[Equal[U]]
+  type Contains[U] = Exists[Equal[U]]
 
   /**
     * Predicate that checks if the predicate `P` holds for some elements of a
     * `Traversable`.
     */
-  type Exists [P] = Not[Forall[Not[P]]]
+  type Exists[P] = Not[Forall[Not[P]]]
 
   /**
     * Predicate that checks if the size of a `Traversable` is greater than
     * or equal to `N`.
     */
-  type MinSize [N] = Size[GreaterEqual[N]]
+  type MinSize[N] = Size[GreaterEqual[N]]
 
   /**
     * Predicate that checks if the size of a `Traversable` is less than
     * or equal to `N`.
     */
-  type MaxSize [N] = Size[LessEqual[N]]
+  type MaxSize[N] = Size[LessEqual[N]]
 
   /** Predicate that checks if a `Traversable` is not empty. */
   type NonEmpty = Not[Empty]

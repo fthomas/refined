@@ -17,7 +17,7 @@ trait Parser[A] {
 }
 
 object Parser {
-  type Aux [A, P0] = Parser[A] { type P = P0 }
+  type Aux[A, P0] = Parser[A] { type P = P0 }
 
   def apply[A](implicit parser: Parser[A]): Parser.Aux[A, parser.P] = parser
 

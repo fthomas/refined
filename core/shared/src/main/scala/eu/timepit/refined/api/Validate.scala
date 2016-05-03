@@ -48,9 +48,9 @@ trait Validate[T, P] extends Serializable { self =>
 
 object Validate {
 
-  type Aux [T, P, R0] = Validate[T, P] { type R = R0 }
+  type Aux[T, P, R0] = Validate[T, P] { type R = R0 }
 
-  type Plain [T, P] = Aux[T, P, P]
+  type Plain[T, P] = Aux[T, P, P]
 
   def apply[T, P](implicit v: Validate[T, P]): Aux[T, P, v.R] = v
 

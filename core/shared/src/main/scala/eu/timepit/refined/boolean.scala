@@ -30,10 +30,10 @@ object boolean extends BooleanValidate with BooleanInference0 {
   case class Xor[A, B](a: A, b: B)
 
   /** Negated conjunction of the predicates `A` and `B`. */
-  type Nand [A, B] = Not[A And B]
+  type Nand[A, B] = Not[A And B]
 
   /** Negated disjunction of the predicates `A` and `B`. */
-  type Nor [A, B] = Not[A Or B]
+  type Nor[A, B] = Not[A Or B]
 
   /** Conjunction of all predicates in `PS`. */
   case class AllOf[PS](ps: PS)

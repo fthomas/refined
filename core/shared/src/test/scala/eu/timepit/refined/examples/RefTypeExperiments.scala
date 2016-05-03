@@ -5,8 +5,8 @@ import eu.timepit.refined.api.{RefType, Validate}
 
 class RefTypeExperiments[P, R[_, _]](implicit rt: RefType[R]) {
 
-  type F [x] = R[x, P]
-  type G [x] = Either[String, x]
+  type F[x] = R[x, P]
+  type G[x] = Either[String, x]
 
   // Monad-like functions
 

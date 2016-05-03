@@ -19,7 +19,8 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
 
     val inference = eval(ir)
     if (inference.notValid) {
-      abort(Resources.invalidInference(
+      abort(
+          Resources.invalidInference(
               weakTypeOf[A].toString, weakTypeOf[B].toString))
     }
 

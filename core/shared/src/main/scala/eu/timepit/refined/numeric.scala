@@ -36,10 +36,10 @@ object numeric extends NumericValidate with NumericInference {
   case class Greater[N](n: N)
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
-  type LessEqual [N] = Not[Greater[N]]
+  type LessEqual[N] = Not[Greater[N]]
 
   /** Predicate that checks if a numeric value is greater than or equal to `N`. */
-  type GreaterEqual [N] = Not[Less[N]]
+  type GreaterEqual[N] = Not[Less[N]]
 
   /** Predicate that checks if a numeric value is positive (> 0). */
   type Positive = Greater[_0]
@@ -56,16 +56,16 @@ object numeric extends NumericValidate with NumericInference {
   object Interval {
 
     /** Predicate that checks if a numeric value is in the interval `(L, H)`. */
-    type Open [L, H] = Greater[L] And Less[H]
+    type Open[L, H] = Greater[L] And Less[H]
 
     /** Predicate that checks if a numeric value is in the interval `(L, H]`. */
-    type OpenClosed [L, H] = Greater[L] And LessEqual[H]
+    type OpenClosed[L, H] = Greater[L] And LessEqual[H]
 
     /** Predicate that checks if a numeric value is in the interval `[L, H)`. */
-    type ClosedOpen [L, H] = GreaterEqual[L] And Less[H]
+    type ClosedOpen[L, H] = GreaterEqual[L] And Less[H]
 
     /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
-    type Closed [L, H] = GreaterEqual[L] And LessEqual[H]
+    type Closed[L, H] = GreaterEqual[L] And LessEqual[H]
   }
 }
 

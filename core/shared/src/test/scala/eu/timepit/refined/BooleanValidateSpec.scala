@@ -12,10 +12,10 @@ import shapeless.{::, HNil}
 
 class BooleanValidateSpec extends Properties("BooleanValidate") {
 
-  type FF [Op[_, _]] = False Op False
-  type FT [Op[_, _]] = False Op True
-  type TF [Op[_, _]] = True Op False
-  type TT [Op[_, _]] = True Op True
+  type FF[Op[_, _]] = False Op False
+  type FT[Op[_, _]] = False Op True
+  type TF[Op[_, _]] = True Op False
+  type TT[Op[_, _]] = True Op True
 
   property("True.isValid") = secure {
     isValid[True](())

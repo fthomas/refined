@@ -19,7 +19,7 @@ case class Inference[P, C](isValid: Boolean, show: String) {
 
 object Inference {
 
-  type ==> [P, C] = Inference[P, C]
+  type ==>[P, C] = Inference[P, C]
 
   def apply[P, C](implicit i: Inference[P, C]): Inference[P, C] = i
 

@@ -29,6 +29,7 @@ val shapelessVersion = "2.3.0"
 val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.2"
 val scodecVersion = "1.9.0"
+val playVersion = "2.5.0"
 
 val allSubprojects = List("core", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
@@ -46,7 +47,8 @@ lazy val root = project.in(file("."))
     scalazJVM,
     scalazJS,
     scodecJVM,
-    scodecJS)
+    scodecJS,
+    play)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -141,6 +143,20 @@ lazy val scodec = crossProject.in(file("contrib/scodec"))
 
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
+
+// Build only builds on the JVM
+lazy val play = project.in(file("contrib/play"))
+  .settings(moduleName := s"$projectName-play")
+  .settings(submoduleSettings: _*)
+  .settings(submoduleJvmSettings: _*)
+  .settings(
+    crossScalaVersions := Seq("2.11.8"),
+    initialCommands := s"""
+      $commonImports
+    """
+  )
+  .settings(libraryDependencies += "com.typesafe.play" %% "play-json" % playVersion)
+  .dependsOn(coreJVM % "compile->compile;test->test")
 
 /// settings definitions
 

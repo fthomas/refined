@@ -284,6 +284,7 @@ The library comes with these predefined predicates:
 ## Contributors and participation
 
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
+* [Dale Wijnand](https://github.com/dwijnand) ([@dwijnand](https://twitter.com/dwijnand))
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))

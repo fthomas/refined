@@ -336,12 +336,18 @@ lazy val styleSettings = Def.settings(
     (unmanagedSourceDirectories in Compile).value
 )
 
-val validateCommands =
-  (List("clean", "mimaReportBinaryIssues")
-    ++ allSubprojectsJS.map(_ + "/test")
-    ++ List("coverage")
-    ++ allSubprojectsJVM.map(_ + "/test")
-    ++ List("scalastyle", "test:scalastyle")
-    ++ List("doc", "docs/tut"))
+addCommandAlias("testJS",  allSubprojectsJS  map (_ + "/test") mkString (";", ";", ""))
+addCommandAlias("testJVM", allSubprojectsJVM map (_ + "/test") mkString (";", ";", ""))
+
+val validateCommands = (Vector.empty[String]
+  ++ List("clean")
+  ++ List("mimaReportBinaryIssues")
+  ++ List("coverageOff")
+  ++ List("testJS")
+  ++ List("coverage")
+  ++ List("testJVM")
+  ++ List("scalastyle", "test:scalastyle")
+  ++ List("doc", "docs/tut")
+)
 
 addCommandAlias("validate", validateCommands.mkString(";", ";", ""))

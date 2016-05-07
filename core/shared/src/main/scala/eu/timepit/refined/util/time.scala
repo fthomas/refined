@@ -11,9 +11,9 @@ object time {
   type Month = Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
 
   /**
-   * An `Int` in the range from 1 to 31 representing the day-of-month.
-   * Note that the days from 29 to 31 are not valid for all months.
-   */
+    * An `Int` in the range from 1 to 31 representing the day-of-month.
+    * Note that the days from 29 to 31 are not valid for all months.
+    */
   type Day = Int Refined Interval.Closed[W.`1`.T, W.`31`.T]
 
   /** An `Int` in the range from 0 to 23 representing the hour-of-day. */

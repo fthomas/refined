@@ -38,13 +38,14 @@ class GenericValidateSpecJvm extends Properties("GenericValidate") {
   property("Eval.refineMV.scope") = wellTyped {
     val two = 2
     illTyped(
-      """refineMV[Eval[W.`"(x: Int) => x >= two"`.T]](2)""",
-      "exception during macro expansion.*"
+        """refineMV[Eval[W.`"(x: Int) => x >= two"`.T]](2)""",
+        "exception during macro expansion.*"
     )
   }
 
   property("Eval.refineV.scope") = secure {
     val two = 2
-    throws(classOf[ToolBoxError])(refineV[Eval[W.`"(x: Int) => x >= two"`.T]](two))
+    throws(classOf[ToolBoxError])(
+        refineV[Eval[W.`"(x: Int) => x >= two"`.T]](two))
   }
 }

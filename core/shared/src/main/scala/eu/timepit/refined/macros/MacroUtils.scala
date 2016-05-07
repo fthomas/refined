@@ -3,14 +3,13 @@ package macros
 
 import macrocompat.bundle
 import scala.reflect.macros.blackbox
-import scala.util.{ Success, Try }
+import scala.util.{Success, Try}
 
 @bundle
 trait MacroUtils {
   val c: blackbox.Context
 
-  def abort(msg: String): Nothing =
-    c.abort(c.enclosingPosition, msg)
+  def abort(msg: String): Nothing = c.abort(c.enclosingPosition, msg)
 
   def eval[T](t: c.Expr[T]): T = {
     val expr = c.Expr[T](c.untypecheck(t.tree))

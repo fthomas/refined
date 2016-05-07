@@ -4,7 +4,7 @@ package api
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
-import eu.timepit.refined.char.{ Digit, LowerCase }
+import eu.timepit.refined.char.{Digit, LowerCase}
 import eu.timepit.refined.collection.Forall
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex
@@ -15,7 +15,8 @@ import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
-abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) extends Properties(s"RefType[$name]") {
+abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
+    extends Properties(s"RefType[$name]") {
 
   property("unsafeWrap.unwrap ~= id") = forAll { (s: String) =>
     rt.unsafeWrap(s).unwrap == s
@@ -133,7 +134,8 @@ class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
     type PositiveInt = Int @@ Positive
 
     // This is expected, see https://github.com/fthomas/refined/issues/21:
-    illTyped("val x: PositiveInt = RefType[@@]refineM(5)", "could not find implicit value.*")
+    illTyped("val x: PositiveInt = RefType[@@]refineM(5)",
+             "could not find implicit value.*")
     illTyped("val y: PositiveInt = 5", "type mismatch.*")
     illTyped("val z: PositiveInt = -5", "type mismatch.*")
   }

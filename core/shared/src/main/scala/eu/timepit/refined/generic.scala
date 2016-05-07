@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{ Inference, Validate }
+import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
 import scala.reflect.runtime.currentMirror
@@ -36,14 +36,14 @@ object generic extends GenericValidate with GenericInference {
 private[refined] trait GenericValidate {
 
   implicit def equalValidateWit[T, U <: T](
-    implicit
-    wu: Witness.Aux[U]
+      implicit wu: Witness.Aux[U]
   ): Validate.Plain[T, Equal[U]] =
     Validate.fromPredicate(_ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
 
   implicit def equalValidateNat[N <: Nat, T](
-    implicit
-    tn: ToInt[N], wn: Witness.Aux[N], nt: Numeric[T]
+      implicit tn: ToInt[N],
+      wn: Witness.Aux[N],
+      nt: Numeric[T]
   ): Validate.Plain[T, Equal[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
 
@@ -51,9 +51,8 @@ private[refined] trait GenericValidate {
   private lazy val toolBox = currentMirror.mkToolBox()
 
   implicit def evalValidate[T, S <: String](
-    implicit
-    mt: Manifest[T],
-    ws: Witness.Aux[S]
+      implicit mt: Manifest[T],
+      ws: Witness.Aux[S]
   ): Validate.Plain[T, Eval[S]] = {
     // The ascription (T => Boolean) allows to omit the parameter
     // type in ws.value (i.e. "x => ..." instead of "(x: T) => ...").
@@ -64,12 +63,11 @@ private[refined] trait GenericValidate {
   }
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
-    implicit
-    lg: LabelledGeneric.Aux[T, R0],
-    cthl: ToHList.Aux[R0, R1],
-    keys: Keys.Aux[R1, K],
-    ktl: ToList[K, Symbol],
-    v: Validate.Aux[List[String], NP, NR]
+      implicit lg: LabelledGeneric.Aux[T, R0],
+      cthl: ToHList.Aux[R0, R1],
+      keys: Keys.Aux[R1, K],
+      ktl: ToList[K, Symbol],
+      v: Validate.Aux[List[String], NP, NR]
   ): Validate.Aux[T, ConstructorNames[NP], ConstructorNames[v.Res]] = {
 
     val ctorNames = keys().toList.map(_.name)
@@ -78,11 +76,10 @@ private[refined] trait GenericValidate {
   }
 
   implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
-    implicit
-    lg: LabelledGeneric.Aux[T, R],
-    keys: Keys.Aux[R, K],
-    ktl: ToList[K, Symbol],
-    v: Validate.Aux[List[String], NP, NR]
+      implicit lg: LabelledGeneric.Aux[T, R],
+      keys: Keys.Aux[R, K],
+      ktl: ToList[K, Symbol],
+      v: Validate.Aux[List[String], NP, NR]
   ): Validate.Aux[T, FieldNames[NP], FieldNames[v.Res]] = {
 
     val fieldNames = keys().toList.map(_.name)
@@ -100,14 +97,16 @@ private[refined] trait GenericValidate {
 private[refined] trait GenericInference {
 
   implicit def equalValidateInferenceWit[T, U <: T, P](
-    implicit
-    v: Validate[T, P], wu: Witness.Aux[U]
+      implicit v: Validate[T, P],
+      wu: Witness.Aux[U]
   ): Equal[U] ==> P =
     Inference(v.isValid(wu.value), s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
 
   implicit def equalValidateInferenceNat[T, N <: Nat, P](
-    implicit
-    v: Validate[T, P], nt: Numeric[T], tn: ToInt[N]
+      implicit v: Validate[T, P],
+      nt: Numeric[T],
+      tn: ToInt[N]
   ): Equal[N] ==> P =
-    Inference(v.isValid(nt.fromInt(tn())), s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
+    Inference(
+        v.isValid(nt.fromInt(tn())), s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
 }

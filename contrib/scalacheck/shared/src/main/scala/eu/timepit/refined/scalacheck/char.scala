@@ -3,7 +3,7 @@ package scalacheck
 
 import eu.timepit.refined.api.RefType
 import eu.timepit.refined.char._
-import org.scalacheck.{ Arbitrary, Gen }
+import org.scalacheck.{Arbitrary, Gen}
 
 object char {
 
@@ -22,6 +22,5 @@ object char {
   implicit def whitespaceArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Whitespace]] =
     arbitraryRefType(Gen.oneOf(whitespaceChars))
 
-  private val whitespaceChars: Seq[Char] =
-    (Char.MinValue to Char.MaxValue).filter(_.isWhitespace)
+  private val whitespaceChars: Seq[Char] = (Char.MinValue to Char.MaxValue).filter(_.isWhitespace)
 }

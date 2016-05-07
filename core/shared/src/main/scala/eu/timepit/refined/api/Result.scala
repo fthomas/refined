@@ -5,23 +5,18 @@ sealed abstract class Result[A] extends Product with Serializable {
 
   def detail: A
 
-  def as[B](b: B): Result[B] =
-    map(_ => b)
+  def as[B](b: B): Result[B] = map(_ => b)
 
-  def fold[B](ifPassed: A => B, ifFailed: A => B): B =
-    this match {
-      case Passed(d) => ifPassed(d)
-      case Failed(d) => ifFailed(d)
-    }
+  def fold[B](ifPassed: A => B, ifFailed: A => B): B = this match {
+    case Passed(d) => ifPassed(d)
+    case Failed(d) => ifFailed(d)
+  }
 
-  def isPassed: Boolean =
-    morph(true, false)
+  def isPassed: Boolean = morph(true, false)
 
-  def isFailed: Boolean =
-    morph(false, true)
+  def isFailed: Boolean = morph(false, true)
 
-  def map[B](f: A => B): Result[B] =
-    fold(a => Passed(f(a)), a => Failed(f(a)))
+  def map[B](f: A => B): Result[B] = fold(a => Passed(f(a)), a => Failed(f(a)))
 
   def morph[B](ifPassed: B, ifFailed: B): B =
     fold(_ => ifPassed, _ => ifFailed)

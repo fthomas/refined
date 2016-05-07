@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.boolean.{ False, Not }
+import eu.timepit.refined.boolean.{False, Not}
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
@@ -22,8 +22,10 @@ class RefineMSpec extends Properties("refineM") {
   }
 
   property("refineM with Forall") = wellTyped {
-    def ignore1: String Refined Forall[LowerCase] = refineMV[Forall[LowerCase]]("hello")
-    def ignore2: String @@ Forall[LowerCase] = refineMT[Forall[LowerCase]]("hello")
+    def ignore1: String Refined Forall[LowerCase] =
+      refineMV[Forall[LowerCase]]("hello")
+    def ignore2: String @@ Forall[LowerCase] =
+      refineMT[Forall[LowerCase]]("hello")
     illTyped("""refineMV[Forall[UpperCase]]("hello")""", "Predicate.*fail.*")
     illTyped("""refineMT[Forall[UpperCase]]("hello")""", "Predicate.*fail.*")
   }
@@ -39,8 +41,10 @@ class RefineMSpec extends Properties("refineM") {
     type ShortString = Size[LessEqual[_10]]
     def ignore1: String Refined ShortString = refineMV[ShortString]("abc")
     def ignore2: String @@ ShortString = refineMT[ShortString]("abc")
-    illTyped("""refineMV[ShortString]("abcdefghijklmnopqrstuvwxyz")""", "Predicate.*fail.*")
-    illTyped("""refineMT[ShortString]("abcdefghijklmnopqrstuvwxyz")""", "Predicate.*fail.*")
+    illTyped("""refineMV[ShortString]("abcdefghijklmnopqrstuvwxyz")""",
+             "Predicate.*fail.*")
+    illTyped("""refineMT[ShortString]("abcdefghijklmnopqrstuvwxyz")""",
+             "Predicate.*fail.*")
   }
 
   property("refineM with LowerCase") = wellTyped {
@@ -53,8 +57,10 @@ class RefineMSpec extends Properties("refineM") {
   property("refineM with MatchesRegex") = wellTyped {
     def ignore1: String Refined MatchesRegex[W.`"[0-9]+"`.T] = refineMV("123")
     def ignore2: String @@ MatchesRegex[W.`"[0-9]+"`.T] = refineMT("123")
-    illTyped("""refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
-    illTyped("""refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
+    illTyped("""refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""",
+             "Predicate.*fail.*")
+    illTyped("""refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""",
+             "Predicate.*fail.*")
   }
 
   property("refineM with Contains") = wellTyped {

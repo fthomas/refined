@@ -27,8 +27,7 @@ class RefTypeCodecSpec extends Properties("RefTypeCodec") {
   }
 
   property("encode success") = secure {
-    Codec[PosInt].encode(5) ?=
-      Attempt.successful(bin"00000101")
+    Codec[PosInt].encode(5) ?= Attempt.successful(bin"00000101")
   }
 
   property("encode failure") = wellTyped {

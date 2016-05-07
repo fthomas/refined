@@ -5,7 +5,7 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection.Empty
-import eu.timepit.refined.numeric.{ Greater, Positive }
+import eu.timepit.refined.numeric.{Greater, Positive}
 import eu.timepit.refined.scalaz.auto._
 import eu.timepit.refined.string.StartsWith
 import org.scalacheck.Prop._
@@ -108,7 +108,8 @@ class RefineJavapSpec extends Properties("RefineJavap") {
   }
 
   property("Array[AnyVal].getClass: Refined") = secure {
-    Array(1: Refined[Int, Positive]).getClass == classOf[Array[Refined[Int, Positive]]]
+    Array(1: Refined[Int, Positive]).getClass == classOf[Array[Refined[
+                Int, Positive]]]
   }
 
   property("Array[AnyVal].getClass: shapeless.tag.@@") = secure {
@@ -120,11 +121,13 @@ class RefineJavapSpec extends Properties("RefineJavap") {
   }
 
   property("Array[AnyRef].getClass: Refined") = secure {
-    Array("": Refined[String, Empty]).getClass == classOf[Array[Refined[String, Empty]]]
+    Array("": Refined[String, Empty]).getClass == classOf[Array[Refined[
+                String, Empty]]]
   }
 
   property("Array[AnyRef].getClass: shapeless.tag.@@") = secure {
-    Array("": shapeless.tag.@@[String, Empty]).getClass == classOf[Array[String]]
+    Array("": shapeless.tag.@@[String, Empty]).getClass == classOf[Array[
+            String]]
   }
 
   property("Array[AnyRef].getClass: scalaz.@@") = secure {

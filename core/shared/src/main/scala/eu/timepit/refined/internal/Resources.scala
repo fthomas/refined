@@ -2,7 +2,7 @@ package eu.timepit.refined
 package internal
 
 import eu.timepit.refined.api.Result
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 object Resources {
   val passed = "passed"
@@ -16,8 +16,7 @@ object Resources {
   val Left = "Left"
   val Right = "Right"
 
-  def predicateResult(r: Result[_]): String =
-    s"$Predicate ${toLowerCase(r)}"
+  def predicateResult(r: Result[_]): String = s"$Predicate ${toLowerCase(r)}"
 
   def predicateResultDetail(r: Result[_], detail: String): String =
     s"${predicateResult(r)}: $detail"
@@ -28,8 +27,7 @@ object Resources {
   def predicateTakingResultDetail(taking: String, r: Result[_], detail: String): String =
     s"$Predicate taking $taking ${toLowerCase(r)}: $detail"
 
-  def showExprEmptyCollection: String =
-    "<no element>"
+  def showExprEmptyCollection: String = "<no element>"
 
   def showResultEmptyCollection: String =
     s"$Predicate $failed: empty collection."
@@ -45,11 +43,9 @@ object Resources {
     namePredicateResult(name, r) + suffix
   }
 
-  def isValidName[T](name: String, t: T): String =
-    s"""isValid$name("$t")"""
+  def isValidName[T](name: String, t: T): String = s"""isValid$name("$t")"""
 
-  def toLowerCase(r: Result[_]): String =
-    r.morph(passed, failed)
+  def toLowerCase(r: Result[_]): String = r.morph(passed, failed)
 
   // Not
 

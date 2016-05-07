@@ -1,7 +1,7 @@
 package eu.timepit.refined.scalacheck.util
 
-import java.lang.{ Double => JDouble }
-import java.lang.{ Float => JFloat }
+import java.lang.{Double => JDouble}
+import java.lang.{Float => JFloat}
 
 // Delete this when Scala.js provides def nextAfter(a: Float, b: Double): Float
 object OurMath {
@@ -29,9 +29,11 @@ object OurMath {
       Float.NegativeInfinity
     } else {
       if (direction > start) {
-        if (start > 0) incrBits else if (start < 0) decrBits else Float.MinPositiveValue
+        if (start > 0) incrBits
+        else if (start < 0) decrBits else Float.MinPositiveValue
       } else if (direction < start) {
-        if (start > 0) decrBits else if (start < 0) incrBits else -Float.MinPositiveValue
+        if (start > 0) decrBits
+        else if (start < 0) incrBits else -Float.MinPositiveValue
       } else {
         direction.toFloat
       }

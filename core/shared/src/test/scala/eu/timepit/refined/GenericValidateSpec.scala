@@ -64,8 +64,7 @@ class GenericValidateSpec extends Properties("GenericValidate") {
   }
 
   property("ConstructorNames.showExpr") = secure {
-    showExpr[ConstructorNames[Contains[W.`"Just"`.T]]](Option(0)) ?=
-      "!(!(None == Just) && !(Some == Just))"
+    showExpr[ConstructorNames[Contains[W.`"Just"`.T]]](Option(0)) ?= "!(!(None == Just) && !(Some == Just))"
   }
 
   property("FieldNames.isValid") = secure {
@@ -80,8 +79,7 @@ class GenericValidateSpec extends Properties("GenericValidate") {
 
   property("FieldNames.showExpr") = secure {
     case class A(fst: Any = 1, snd: Any = 2)
-    showExpr[FieldNames[Contains[W.`"third"`.T]]](A()) ?=
-      "!(!(fst == third) && !(snd == third))"
+    showExpr[FieldNames[Contains[W.`"third"`.T]]](A()) ?= "!(!(fst == third) && !(snd == third))"
   }
 
   property("Subtype.isValid") = secure {
@@ -89,7 +87,8 @@ class GenericValidateSpec extends Properties("GenericValidate") {
   }
 
   property("Subtype.noInstance") = wellTyped {
-    illTyped("isValid[Subtype[Int]](0: AnyVal)", ".*could not find implicit value.*")
+    illTyped("isValid[Subtype[Int]](0: AnyVal)",
+             ".*could not find implicit value.*")
   }
 
   property("Supertype.isValid") = secure {
@@ -97,6 +96,7 @@ class GenericValidateSpec extends Properties("GenericValidate") {
   }
 
   property("Supertype.noInstance") = wellTyped {
-    illTyped("isValid[Supertype[Seq[Int]]](List(0))", ".*could not find implicit value.*")
+    illTyped("isValid[Supertype[Seq[Int]]](List(0))",
+             ".*could not find implicit value.*")
   }
 }

@@ -162,7 +162,15 @@ lazy val submoduleJvmSettings = Seq(
     Seq(
       exclude[DirectMissingMethodProblem  ]("eu.timepit.refined.generic.evalValidate"),
       exclude[DirectMissingMethodProblem  ]("eu.timepit.refined.GenericValidate.evalValidate"),
-      exclude[ReversedMissingMethodProblem]("eu.timepit.refined.GenericValidate.evalValidate")
+      exclude[ReversedMissingMethodProblem]("eu.timepit.refined.GenericValidate.evalValidate"),
+      exclude[MissingTypesProblem]("eu.timepit.refined.api.Refined"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productElement"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productArity"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.canEqual"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.copy"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productIterator"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productPrefix"),
+      exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.apply")
     )
   }
 )

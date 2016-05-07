@@ -6,7 +6,12 @@ package api
  * this class can be created with `[[refineV]]` and `[[refineMV]]` which
  * verify that the wrapped value satisfies `P`.
  */
-final case class Refined[T, P] private (get: T) {
+final class Refined[T, P] private (val get: T) extends Serializable {
+  override def hashCode: Int = get.##
+  override def equals(that: Any): Boolean = that match {
+    case that: Refined[_, _] => this.get == that.get
+    case _ => false
+  }
 
   override def toString: String =
     get.toString
@@ -20,6 +25,10 @@ object Refined {
    */
   def unsafeApply[T, P](t: T): Refined[T, P] =
     new Refined(t)
+
+  def unapply[T, P](r: Refined[T, P]): Option[T] =
+    Some(r.get)
+
 }
 
 /*

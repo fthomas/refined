@@ -33,7 +33,7 @@ object string extends StringValidate with StringInference {
   /** Predicate that checks if a `String` is a valid UUID. */
   case class Uuid()
 
-  /** Predicate that checks if a `String` is valid XML. */
+  /** Predicate that checks if a `String` is well-formed XML. */
   case class Xml()
 
   /** Predicate that checks if a `String` is a valid XPath expression. */

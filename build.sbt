@@ -347,15 +347,17 @@ lazy val styleSettings = Def.settings(
 addCommandAlias("testJS",  allSubprojectsJS  map (_ + "/test") mkString (";", ";", ""))
 addCommandAlias("testJVM", allSubprojectsJVM map (_ + "/test") mkString (";", ";", ""))
 
-val validateCommands = (Vector.empty[String]
-  ++ List("clean")
-  ++ List("mimaReportBinaryIssues")
-  ++ List("coverageOff")
-  ++ List("testJS")
-  ++ List("coverage")
-  ++ List("testJVM")
-  ++ List("scalastyle", "test:scalastyle")
-  ++ List("doc", "docs/tut")
+val validateCommands = List(
+  "clean",
+  "mimaReportBinaryIssues",
+  "coverageOff",
+  "testJS",
+  "coverage",
+  "testJVM",
+  "scalastyle",
+  "test:scalastyle",
+  "doc",
+  "docs/tut"
 )
 
 addCommandAlias("validate", validateCommands.mkString(";", ";", ""))

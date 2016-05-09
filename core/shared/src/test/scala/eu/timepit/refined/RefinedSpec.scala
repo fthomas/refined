@@ -3,6 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.collection.NonEmpty
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
 
@@ -22,5 +23,11 @@ class RefinedSpec extends Properties("Refined") {
       """ nonEmptyString1.copy("") """,
       "value copy is not a member of RefinedSpec\\.this\\.NonEmptyString"
     )
+  }
+
+  property("unapply") = secure {
+    val x: NonEmptyString = refineMV("Hi")
+    val Refined(s) = x
+    s ?= x.get
   }
 }

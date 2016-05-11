@@ -310,6 +310,8 @@ it in the Gitter channel and we'll add a link to it here.
 * [Monocle](https://github.com/julien-truffaut/Monocle) - provides the
   monocle-refined subproject which contains lenses for safe bit indexing
   into primitive types
+* [play-json-refined](https://github.com/lunaryorn/play-json-refined) -
+  provides Play JSON `Reads`/`Writes` instances for refined types
 * [Quasar](https://github.com/quasar-analytics/quasar) - is an open source
   NoSQL analytics engine which uses **refined** for natural and positive
   integer types

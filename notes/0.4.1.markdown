@@ -1,7 +1,7 @@
 ### Changes
 
 * Drop `case` in `Refined` to prevent the creation of synthetic `apply`
-  and `copy` methods that subverts the private constructor.
+  and `copy` methods which subvert the private constructor.
   Thanks to Dale Wijnand! ([#160])
 * Make parameter types of function literals in the `Eval` predicate
   optional. This allows to write

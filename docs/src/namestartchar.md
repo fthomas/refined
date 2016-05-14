@@ -1,5 +1,9 @@
-http://www.w3.org/TR/xml11/#NT-NameStartChar
+# A ridiculously long refinement
 
+This example demonstrates how [`NameStartChar`](http://www.w3.org/TR/xml11/#NT-NameStartChar)
+as defined in the XML specification can be written as a refined type.
+
+The formal definition of `NameStartChar` looks like this:
 ```
 NameStartChar ::=
     ":"
@@ -20,6 +24,8 @@ NameStartChar ::=
   | [#x10000-#xEFFFF]
 ```
 
+We can translate that to a refined type by using the `AnyOf`, `Equal`,
+and `Interval.Closed` predicates:
 ```tut:silent
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
@@ -28,9 +34,7 @@ import eu.timepit.refined.boolean.AnyOf
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric.Interval
 import shapeless.{ ::, HNil }
-```
 
-```tut
 type NameStartChar = Char Refined AnyOf[
      Equal[W.`':'`.T]
   :: Interval.Closed[W.`'A'`.T, W.`'Z'`.T]
@@ -47,10 +51,14 @@ type NameStartChar = Char Refined AnyOf[
   :: Interval.Closed[W.`'\uF900'`.T, W.`'\uFDCF'`.T]
   :: Interval.Closed[W.`'\uFDF0'`.T, W.`'\uFFFD'`.T]
   :: HNil]
+```
 
+We can now use that type. `'Ä'` is a valid `NameStartChar`:
+```tut
 val a: NameStartChar = 'Ä'
 ```
 
+But `';'` is not:
 ```tut:fail
 val b: NameStartChar = ';'
 ```

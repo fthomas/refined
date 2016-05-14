@@ -53,7 +53,7 @@ type NameStartChar = Char Refined AnyOf[
   :: HNil]
 ```
 
-We can now use that type. `'Ä'` is a valid `NameStartChar`:
+And then use it. `'Ä'` is a valid `NameStartChar`:
 ```tut
 val a: NameStartChar = 'Ä'
 ```

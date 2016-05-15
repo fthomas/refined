@@ -182,7 +182,7 @@ other tag types or integration of refined types in other libraries:
 * `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
   class instances of refined types
 
-See also the list of [projects that use refined](#projects-using-refined)
+See also the list of [projects that use refined][built-with-refined]
 for libraries that directly provide support for **refined**.
 
 ## Documentation
@@ -298,24 +298,9 @@ for teaching, learning, and contributing as described in the Typelevel
 
 ## Projects using refined
 
-If you have a project that uses the library to enforce more static guarantees
-and you'd like to include in this list, please open a pull request or mention
-it in the Gitter channel and we'll add a link to it here.
-
-* [argonaut-shapeless](https://github.com/alexarchambault/argonaut-shapeless) -
-  provides the argonaut-refined subproject for (de)serialization of refined
-  types from and to JSON
-* [circe](https://github.com/travisbrown/circe) - provides the circe-refined
-  subproject for (de)serialization of refined types from and to JSON
-* [Monocle](https://github.com/julien-truffaut/Monocle) - provides the
-  monocle-refined subproject which contains lenses for safe bit indexing
-  into primitive types
-* [play-json-refined](https://github.com/lunaryorn/play-json-refined) -
-  provides Play JSON `Reads`/`Writes` instances for refined types
-* [Quasar](https://github.com/quasar-analytics/quasar) - is an open source
-  NoSQL analytics engine which uses **refined** for natural and positive
-  integer types
-* Your project here :-)
+Please see the wiki for an [incomplete list of projects and companies][built-with-refined]
+which use **refined**. If you are using the library and your project isn't
+listed yet, please add it.
 
 ## Performance concerns
 
@@ -343,6 +328,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
+[built-with-refined]: https://github.com/fthomas/refined/wiki/Built-with-refined
 [code-of-conduct]: http://typelevel.org/conduct.html
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org

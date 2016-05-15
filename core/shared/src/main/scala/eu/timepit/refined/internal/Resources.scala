@@ -90,7 +90,7 @@ object Resources {
   //
 
   val refineNonCompileTimeConstant =
-    "compile-time refinement only works with literals or constant predicates"
+    "compile-time refinement only works with literals"
 
   def invalidInference(from: String, to: String): String =
     s"""type mismatch (invalid inference):

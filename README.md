@@ -195,9 +195,13 @@ directory including ones for defining [custom predicates][custom-pred]
 and working with [type aliases][type-aliases]. It also contains a
 [description][design] of **refined's** design and internals.
 
+Talks and other external resources are listed on the [Resources][resources]
+page in the wiki.
+
 [custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
 [design]: https://github.com/fthomas/refined/blob/master/docs/design.md
 [docs]: https://github.com/fthomas/refined/tree/master/docs
+[resources]: https://github.com/fthomas/refined/wiki/Resources
 [type-aliases]: https://github.com/fthomas/refined/blob/master/docs/type_aliases.md
 
 ## Provided predicates

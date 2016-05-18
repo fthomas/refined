@@ -1,7 +1,8 @@
 package eu.timepit.refined
 package internal
 
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{ Failed, Passed, RefType, Validate }
+import eu.timepit.refined.boolean.Not
 
 /**
  * Helper class that allows the type `T` to be inferred from calls like
@@ -20,4 +21,10 @@ final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
 
   def force[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
     apply(t).fold(err => throw new IllegalArgumentException(err), identity)
+
+  def orNot[T](t: T)(implicit v: Validate[T, P]): Either[F[T, Not[P]], F[T, P]] =
+    v.validate(t) match {
+      case Passed(_) => Right(rt.unsafeWrap(t))
+      case Failed(_) => Left(rt.unsafeWrap(t))
+    }
 }

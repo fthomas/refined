@@ -9,6 +9,8 @@ addons:
   apt:
     packages:
     - graphviz
+install:
+- pip install --user codecov
 cache:
   directories:
   - "$HOME/.ivy2/cache"
@@ -16,7 +18,7 @@ cache:
 script:
 - sbt ++$TRAVIS_SCALA_VERSION validate
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- codecov
 notifications:
   webhooks:
     urls:

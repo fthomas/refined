@@ -9,6 +9,10 @@ import org.scalacheck.Gen.Choose
 import shapeless.{ Nat, Witness }
 import shapeless.ops.nat.ToInt
 
+/**
+ * Module that provides `Arbitrary` instances and generators for
+ * numeric predicates.
+ */
 object numeric {
 
   /**

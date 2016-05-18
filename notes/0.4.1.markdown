@@ -14,6 +14,7 @@
   val y: Int Refined Eval[W.`"(x: Int) => x > 0"`.T] = 1
   ```
   ([#153])
+* Add `Arbitrary` instance for `Equal`. ([#170])
 
 ### Updates
 
@@ -24,3 +25,4 @@
 [#155]: https://github.com/fthomas/refined/pull/155
 [#160]: https://github.com/fthomas/refined/pull/160
 [#165]: https://github.com/fthomas/refined/pull/165
+[#170]: https://github.com/fthomas/refined/pull/170

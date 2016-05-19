@@ -5,6 +5,10 @@ import eu.timepit.refined.api.RefType
 import eu.timepit.refined.char._
 import org.scalacheck.{ Arbitrary, Gen }
 
+/**
+ * Module that provides `Arbitrary` instances for `Char` related
+ * predicates.
+ */
 object char {
 
   implicit def digitArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Digit]] =

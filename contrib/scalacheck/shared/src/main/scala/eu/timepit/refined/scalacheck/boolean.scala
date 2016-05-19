@@ -5,6 +5,7 @@ import eu.timepit.refined.api.RefType
 import eu.timepit.refined.boolean.Or
 import org.scalacheck.{ Arbitrary, Gen }
 
+/** Module that provides `Arbitrary` instances for logical predicates. */
 object boolean {
 
   implicit def orArbitrary[F[_, _], T, A, B](

@@ -6,6 +6,10 @@ import eu.timepit.refined.string.{ EndsWith, StartsWith }
 import org.scalacheck.Arbitrary
 import shapeless.Witness
 
+/**
+ * Module that provides `Arbitrary` instances for `String` related
+ * predicates.
+ */
 object string {
 
   implicit def endsWithArbitrary[F[_, _], S <: String](

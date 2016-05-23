@@ -64,6 +64,22 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showResult[Greater[_5]](i) ?= showResult[Greater[W.`5`.T]](i)
   }
 
+  property("Equal.isValid") = forAll { (d: Double) =>
+    isValid[Equal[W.`1.0`.T]](d) ?= (d == 1.0)
+  }
+
+  property("Equal.Nat.isValid") = forAll { (i: Int) =>
+    isValid[Equal[_5]](i) ?= (i == 5)
+  }
+
+  property("NotEqual.isValid") = forAll { (d: Double) =>
+    isValid[NotEqual[W.`1.0`.T]](d) ?= (d != 1.0)
+  }
+
+  property("NotEqual.Nat.isValid") = forAll { (i: Int) =>
+    isValid[NotEqual[_5]](i) ?= (i != 5)
+  }
+
   property("Interval.Open.isValid") = forAll { (d: Double) =>
     isValid[Interval.Open[_0, _1]](d) ?= (d > 0.0 && d < 1.0)
   }

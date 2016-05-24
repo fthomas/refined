@@ -28,14 +28,6 @@ scala> foo("cd")("abcd")
                  ^
 ```
 
-If we only supply the first argument to `foo`, we can observe the
-singleton type of that value in the type of the resulting function:
-
-```scala
-scala> foo("ab") _
-res2: eu.timepit.refined.api.Refined[String,eu.timepit.refined.string.StartsWith[String("ab")]] => String = <function1>
-```
-
 Unfortunately Scala does not allow to use singleton types of `AnyVal`s,
 see [section 3.2.1][spec-3.2.1] of the Scala Language Specification:
 
@@ -61,7 +53,7 @@ baz: [I <: Int](i: shapeless.Witness.Aux[I])(j: eu.timepit.refined.api.Refined[I
 
 ```scala
 scala> baz(Witness(2))(4)
-res3: Int = 2
+res2: Int = 2
 ```
 
 ```scala
@@ -86,7 +78,7 @@ qux: (i: Int)QuxAux[i.type]
 
 ```scala
 scala> qux(2)(4)
-res5: Int = 2
+res4: Int = 2
 ```
 
 ```scala

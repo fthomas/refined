@@ -23,13 +23,6 @@ foo("ab")("abcd")
 foo("cd")("abcd")
 ```
 
-If we only supply the first argument to `foo`, we can observe the
-singleton type of that value in the type of the resulting function:
-
-```tut
-foo("ab") _
-```
-
 Unfortunately Scala does not allow to use singleton types of `AnyVal`s,
 see [section 3.2.1][spec-3.2.1] of the Scala Language Specification:
 

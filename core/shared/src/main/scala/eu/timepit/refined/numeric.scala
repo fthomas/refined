@@ -12,8 +12,8 @@ import shapeless.ops.nat.ToInt
  * Module for numeric predicates. Predicates that take type parameters
  * support both shapeless' natural numbers (`Nat`) and numeric singleton
  * types (which are made available by shapeless' `Witness` - abbreviated
- * as [[W]] in refined) which include subtypes of `Int`, `Long`, `Double`,
- * `Char` etc.
+ * as `[[W]]` in refined) which include subtypes of `Int`, `Long`,
+ * `Double`, `Char` etc.
  *
  * Example: {{{
  * scala> import eu.timepit.refined.api.Refined
@@ -26,7 +26,8 @@ import shapeless.ops.nat.ToInt
  * scala> refineMV[Greater[W.`1.5`.T]](1.6)
  * res2: Double Refined Greater[W.`1.5`.T] = 1.6
  * }}}
- * @note: Equal from generic.scala can also be used for numeric types
+ *
+ * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
 object numeric extends NumericValidate with NumericInference {
 

@@ -26,6 +26,7 @@ import shapeless.ops.nat.ToInt
  * scala> refineMV[Greater[W.`1.5`.T]](1.6)
  * res2: Double Refined Greater[W.`1.5`.T] = 1.6
  * }}}
+ * @note: Equal from generic.scala can also be used for numeric types
  */
 object numeric extends NumericValidate with NumericInference {
 

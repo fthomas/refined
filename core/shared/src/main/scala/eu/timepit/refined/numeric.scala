@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.{ Inference, Validate }
 import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.boolean.{ And, Not, Or }
+import eu.timepit.refined.boolean.{ And, Not }
 import eu.timepit.refined.numeric._
 import shapeless.{ Nat, Witness }
 import shapeless.nat._0
@@ -26,6 +26,7 @@ import shapeless.ops.nat.ToInt
  * scala> refineMV[Greater[W.`1.5`.T]](1.6)
  * res2: Double Refined Greater[W.`1.5`.T] = 1.6
  * }}}
+ * @note: Equal from generic.scala can also be used for numeric types
  */
 object numeric extends NumericValidate with NumericInference {
 
@@ -34,12 +35,6 @@ object numeric extends NumericValidate with NumericInference {
 
   /** Predicate that checks if a numeric value is greater than `N`. */
   case class Greater[N](n: N)
-
-  /** Predicate that checks if a numeric value is equal to `N`. */
-  type Equal[N] = Not[Or[Greater[N], Less[N]]]
-
-  /** Predicate that checks if a numeric value is not equal to `N`. */
-  type NotEqual[N] = Or[Greater[N], Less[N]]
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
   type LessEqual[N] = Not[Greater[N]]

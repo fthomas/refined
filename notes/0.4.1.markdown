@@ -14,6 +14,8 @@
   val y: Int Refined Eval[W.`"(x: Int) => x > 0"`.T] = 1
   ```
   ([#153])
+* Renamed `RefinePartiallyApplied.force` to `unsafeFrom` and add
+  `ApplyRefPartiallyApplied.unsafeFrom`. ([#175])
 * Add `Arbitrary` instance for `Equal`. ([#170])
 
 ### Updates
@@ -28,3 +30,4 @@
 [#165]: https://github.com/fthomas/refined/pull/165
 [#170]: https://github.com/fthomas/refined/pull/170
 [#172]: https://github.com/fthomas/refined/pull/172
+[#175]: https://github.com/fthomas/refined/pull/175

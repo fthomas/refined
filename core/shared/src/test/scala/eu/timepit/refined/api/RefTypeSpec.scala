@@ -56,12 +56,12 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
     rt.refine[DigitsOnly]("123").isRight
   }
 
-  property("refine.force success") = secure {
-    rt.refine[Positive].force(5) ?= rt.unsafeWrap[Int, Positive](5)
+  property("refine.unsafeFrom success") = secure {
+    rt.refine[Positive].unsafeFrom(5) ?= rt.unsafeWrap[Int, Positive](5)
   }
 
-  property("refine.force failure") = secure {
-    throws(classOf[IllegalArgumentException])(rt.refine[Positive].force(-5))
+  property("refine.unsafeFrom failure") = secure {
+    throws(classOf[IllegalArgumentException])(rt.refine[Positive].unsafeFrom(-5))
   }
 
   property("mapRefine success with Positive") = secure {
@@ -83,6 +83,14 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
   property("refine ~= RefType.applyRef") = forAll { (i: Int) =>
     type PosInt = F[Int, Positive]
     rt.refine[Positive](i) ?= RefType.applyRef[PosInt](i)
+  }
+
+  property("RefType.applyRef.unsafeFrom success") = secure {
+    RefType.applyRef[F[Int, Positive]].unsafeFrom(5) ?= rt.unsafeWrap[Int, Positive](5)
+  }
+
+  property("RefType.applyRef.unsafeFrom success") = secure {
+    throws(classOf[IllegalArgumentException])(RefType.applyRef[F[Int, Positive]].unsafeFrom(-5))
   }
 }
 

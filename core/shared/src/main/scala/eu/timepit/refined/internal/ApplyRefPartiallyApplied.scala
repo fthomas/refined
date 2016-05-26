@@ -17,4 +17,10 @@ final class ApplyRefPartiallyApplied[FTP] {
     ev: F[T, P] =:= FTP, rt: RefType[F], v: Validate[T, P]
   ): Either[String, FTP] =
     rt.refine[P](t).right.map(ev)
+
+  def unsafeFrom[F[_, _], T, P](t: T)(
+    implicit
+    ev: F[T, P] =:= FTP, rt: RefType[F], v: Validate[T, P]
+  ): FTP =
+    apply(t).fold(err => throw new IllegalArgumentException(err), identity)
 }

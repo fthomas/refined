@@ -18,6 +18,10 @@ final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
     else Left(v.showResult(t, res))
   }
 
-  def force[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
+  def unsafeFrom[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
     apply(t).fold(err => throw new IllegalArgumentException(err), identity)
+
+  @deprecated("force has been renamed to unsafeFrom", "0.5.0")
+  def force[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
+    unsafeFrom(t)
 }

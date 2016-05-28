@@ -15,22 +15,22 @@ import shapeless.ops.record.Keys
 object generic extends GenericValidate with GenericInference {
 
   /** Predicate that checks if a value is equal to `U`. */
-  case class Equal[U](u: U)
+  final case class Equal[U](u: U)
 
   /** Predicate that checks if a value applied to the predicate `S` yields `true`. */
-  case class Eval[S](s: S)
+  final case class Eval[S](s: S)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
-  case class ConstructorNames[P](p: P)
+  final case class ConstructorNames[P](p: P)
 
   /** Predicate that checks if the field names of a product type satisfy `P`. */
-  case class FieldNames[P](p: P)
+  final case class FieldNames[P](p: P)
 
   /** Predicate that witnesses that the type of a value is a subtype of `U`. */
-  case class Subtype[U]()
+  final case class Subtype[U]()
 
   /** Predicate that witnesses that the type of a value is a supertype of `U`. */
-  case class Supertype[U]()
+  final case class Supertype[U]()
 }
 
 private[refined] trait GenericValidate {

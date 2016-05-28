@@ -17,52 +17,52 @@ object collection extends CollectionValidate with CollectionInference {
    * which satisfy the predicate `PA` and passes the result to the numeric
    * predicate `PC`.
    */
-  case class Count[PA, PC](pa: PA, pc: PC)
+  final case class Count[PA, PC](pa: PA, pc: PC)
 
   /** Predicate that checks if a `Traversable` is empty. */
-  case class Empty()
+  final case class Empty()
 
   /**
    * Predicate that checks if the predicate `P` holds for all elements of a
    * `Traversable`.
    */
-  case class Forall[P](p: P)
+  final case class Forall[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for the first element
    * of a `Traversable`.
    */
-  case class Head[P](p: P)
+  final case class Head[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for the element at
    * index `N` of a sequence.
    */
-  case class Index[N, P](n: N, p: P)
+  final case class Index[N, P](n: N, p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for all but the last
    * element of a `Traversable`.
    */
-  case class Init[P](p: P)
+  final case class Init[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for the last element
    * of a `Traversable`.
    */
-  case class Last[P](p: P)
+  final case class Last[P](p: P)
 
   /**
    * Predicate that checks if the size of a `Traversable` satisfies the
    * predicate `P`.
    */
-  case class Size[P](p: P)
+  final case class Size[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for all but the first
    * element of a `Traversable`.
    */
-  case class Tail[P](p: P)
+  final case class Tail[P](p: P)
 
   /**
    * Predicate that checks if a `Traversable` contains a value

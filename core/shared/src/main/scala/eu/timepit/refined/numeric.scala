@@ -32,10 +32,10 @@ import shapeless.ops.nat.ToInt
 object numeric extends NumericValidate with NumericInference {
 
   /** Predicate that checks if a numeric value is less than `N`. */
-  case class Less[N](n: N)
+  final case class Less[N](n: N)
 
   /** Predicate that checks if a numeric value is greater than `N`. */
-  case class Greater[N](n: N)
+  final case class Greater[N](n: N)
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
   type LessEqual[N] = Not[Greater[N]]

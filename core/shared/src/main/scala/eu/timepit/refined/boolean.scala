@@ -11,22 +11,22 @@ import shapeless.ops.hlist.ToList
 object boolean extends BooleanValidate with BooleanInference0 {
 
   /** Constant predicate that is always `true`. */
-  case class True()
+  final case class True()
 
   /** Constant predicate that is always `false`. */
-  case class False()
+  final case class False()
 
   /** Negation of the predicate `P`. */
-  case class Not[P](p: P)
+  final case class Not[P](p: P)
 
   /** Conjunction of the predicates `A` and `B`. */
-  case class And[A, B](a: A, b: B)
+  final case class And[A, B](a: A, b: B)
 
   /** Disjunction of the predicates `A` and `B`. */
-  case class Or[A, B](a: A, b: B)
+  final case class Or[A, B](a: A, b: B)
 
   /** Exclusive disjunction of the predicates `A` and `B`. */
-  case class Xor[A, B](a: A, b: B)
+  final case class Xor[A, B](a: A, b: B)
 
   /** Negated conjunction of the predicates `A` and `B`. */
   type Nand[A, B] = Not[A And B]
@@ -35,13 +35,13 @@ object boolean extends BooleanValidate with BooleanInference0 {
   type Nor[A, B] = Not[A Or B]
 
   /** Conjunction of all predicates in `PS`. */
-  case class AllOf[PS](ps: PS)
+  final case class AllOf[PS](ps: PS)
 
   /** Disjunction of all predicates in `PS`. */
-  case class AnyOf[PS](ps: PS)
+  final case class AnyOf[PS](ps: PS)
 
   /** Exclusive disjunction of all predicates in `PS`. */
-  case class OneOf[PS](ps: PS)
+  final case class OneOf[PS](ps: PS)
 }
 
 private[refined] trait BooleanValidate {

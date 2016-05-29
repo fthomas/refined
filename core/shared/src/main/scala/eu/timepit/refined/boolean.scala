@@ -28,12 +28,6 @@ object boolean extends BooleanValidate with BooleanInference0 {
   /** Exclusive disjunction of the predicates `A` and `B`. */
   final case class Xor[A, B](a: A, b: B)
 
-  /** Negated conjunction of the predicates `A` and `B`. */
-  type Nand[A, B] = Not[A And B]
-
-  /** Negated disjunction of the predicates `A` and `B`. */
-  type Nor[A, B] = Not[A Or B]
-
   /** Conjunction of all predicates in `PS`. */
   final case class AllOf[PS](ps: PS)
 
@@ -42,6 +36,12 @@ object boolean extends BooleanValidate with BooleanInference0 {
 
   /** Exclusive disjunction of all predicates in `PS`. */
   final case class OneOf[PS](ps: PS)
+
+  /** Negated conjunction of the predicates `A` and `B`. */
+  type Nand[A, B] = Not[A And B]
+
+  /** Negated disjunction of the predicates `A` and `B`. */
+  type Nor[A, B] = Not[A Or B]
 }
 
 private[refined] trait BooleanValidate {

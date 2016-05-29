@@ -13,31 +13,31 @@ import shapeless.Witness
 object string extends StringValidate with StringInference {
 
   /** Predicate that checks if a `String` ends with the suffix `S`. */
-  case class EndsWith[S](s: S)
+  final case class EndsWith[S](s: S)
 
   /** Predicate that checks if a `String` matches the regular expression `S`. */
-  case class MatchesRegex[S](s: S)
+  final case class MatchesRegex[S](s: S)
 
   /** Predicate that checks if a `String` is a valid regular expression. */
-  case class Regex()
+  final case class Regex()
 
   /** Predicate that checks if a `String` starts with the prefix `S`. */
-  case class StartsWith[S](s: S)
+  final case class StartsWith[S](s: S)
 
   /** Predicate that checks if a `String` is a valid URI. */
-  case class Uri()
+  final case class Uri()
 
   /** Predicate that checks if a `String` is a valid URL. */
-  case class Url()
+  final case class Url()
 
   /** Predicate that checks if a `String` is a valid UUID. */
-  case class Uuid()
+  final case class Uuid()
 
   /** Predicate that checks if a `String` is well-formed XML. */
-  case class Xml()
+  final case class Xml()
 
   /** Predicate that checks if a `String` is a valid XPath expression. */
-  case class XPath()
+  final case class XPath()
 }
 
 private[refined] trait StringValidate {

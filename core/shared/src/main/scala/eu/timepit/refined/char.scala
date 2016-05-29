@@ -8,19 +8,19 @@ import eu.timepit.refined.char._
 object char extends CharValidate {
 
   /** Predicate that checks if a `Char` is a digit. */
-  case class Digit()
+  final case class Digit()
 
   /** Predicate that checks if a `Char` is a letter. */
-  case class Letter()
+  final case class Letter()
 
   /** Predicate that checks if a `Char` is a lower case character. */
-  case class LowerCase()
+  final case class LowerCase()
 
   /** Predicate that checks if a `Char` is an upper case character. */
-  case class UpperCase()
+  final case class UpperCase()
 
   /** Predicate that checks if a `Char` is white space. */
-  case class Whitespace()
+  final case class Whitespace()
 
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit

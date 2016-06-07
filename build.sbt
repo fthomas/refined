@@ -171,6 +171,7 @@ lazy val submoduleJvmSettings = Seq(
       exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productIterator"),
       exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.productPrefix"),
       exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.apply"),
+      exclude[IncompatibleResultTypeProblem]("eu.timepit.refined.api.Refined.unapply"),
       exclude[FinalClassProblem]("eu.timepit.refined.boolean$AllOf"),
       exclude[FinalClassProblem]("eu.timepit.refined.boolean$OneOf"),
       exclude[FinalClassProblem]("eu.timepit.refined.generic$Supertype"),

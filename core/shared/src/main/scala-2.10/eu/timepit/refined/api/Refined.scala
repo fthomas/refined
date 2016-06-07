@@ -26,7 +26,7 @@ object Refined {
   def unsafeApply[T, P](t: T): Refined[T, P] =
     new Refined(t)
 
-  def unapply[T, P](r: Refined[T, P]): Option[T] =
+  def unapply[T, P](r: Refined[T, P]): Some[T] =
     Some(r.get)
 
 }

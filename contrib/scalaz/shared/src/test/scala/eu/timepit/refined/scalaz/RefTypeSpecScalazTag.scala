@@ -1,6 +1,9 @@
 package eu.timepit.refined.scalaz
 
 import _root_.scalaz.@@
+import _root_.scalaz.std.anyVal._
+import _root_.scalaz.syntax.equal._
+import _root_.scalaz.syntax.show._
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.api.{ RefType, RefTypeSpec }
 import eu.timepit.refined.numeric._
@@ -22,5 +25,18 @@ class RefTypeSpecScalazTag extends RefTypeSpec[@@]("scalaz.@@") {
 
   property("(T @@ P) <!: T") = wellTyped {
     illTyped("implicitly[(Int @@ Positive) <:< Int]", "Cannot prove.*")
+  }
+
+  property("scalaz.Equal") = secure {
+    type PosInt = Int @@ Positive
+    val x: PosInt = 5
+    val y: PosInt = 5
+    x === y
+  }
+
+  property("scalaz.Show") = secure {
+    type PosInt = Int @@ Positive
+    val x: PosInt = 5
+    x.shows ?= "5"
   }
 }

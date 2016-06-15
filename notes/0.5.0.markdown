@@ -17,6 +17,9 @@
 * Renamed `RefinePartiallyApplied.force` to `unsafeFrom` and add
   `ApplyRefPartiallyApplied.unsafeFrom`. ([#175])
 * Add `Arbitrary` instance for `Equal`. ([#170])
+* Add `scalaz.Equal` and `scalaz.Show` instances for refined types.
+  These instances use the respective instances of the base types.
+  ([#179])
 
 ### Updates
 
@@ -32,3 +35,4 @@
 [#172]: https://github.com/fthomas/refined/pull/172
 [#175]: https://github.com/fthomas/refined/pull/175
 [#178]: https://github.com/fthomas/refined/pull/178
+[#179]: https://github.com/fthomas/refined/pull/179

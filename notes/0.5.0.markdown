@@ -22,7 +22,7 @@
 
 * Update to Scala.js 0.6.9. ([#155])
 * Update to shapeless 2.3.1. ([#165])
-* Update `refined-scalaz` to Scalaz 7.2.3. ([#172])
+* Update `refined-scalaz` to Scalaz 7.2.4. ([#172], [#178])
 
 [#153]: https://github.com/fthomas/refined/pull/153
 [#155]: https://github.com/fthomas/refined/pull/155
@@ -31,3 +31,4 @@
 [#170]: https://github.com/fthomas/refined/pull/170
 [#172]: https://github.com/fthomas/refined/pull/172
 [#175]: https://github.com/fthomas/refined/pull/175
+[#178]: https://github.com/fthomas/refined/pull/178

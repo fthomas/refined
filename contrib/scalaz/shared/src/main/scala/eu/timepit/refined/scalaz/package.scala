@@ -3,6 +3,7 @@ package eu.timepit.refined
 import _root_.scalaz.@@
 import _root_.scalaz.Equal
 import _root_.scalaz.Show
+import _root_.scalaz.syntax.contravariant._
 import eu.timepit.refined.api.RefType
 import scala.reflect.macros.blackbox
 
@@ -27,8 +28,8 @@ package object scalaz {
     }
 
   implicit def refTypeEqual[F[_, _], T: Equal, P](implicit rt: RefType[F]): Equal[F[T, P]] =
-    Equal.equalBy(rt.unwrap)
+    Equal[T].contramap(rt.unwrap)
 
-  implicit def refTypeShow[F[_, _], T, P](implicit rt: RefType[F], s: Show[T]): Show[F[T, P]] =
-    Show.shows(tp => s.shows(rt.unwrap(tp)))
+  implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
+    Show[T].contramap(rt.unwrap)
 }

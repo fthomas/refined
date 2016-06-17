@@ -39,3 +39,5 @@
 [#178]: https://github.com/fthomas/refined/pull/178
 [#179]: https://github.com/fthomas/refined/pull/179
 [#180]: https://github.com/fthomas/refined/pull/180
+
+Released on 2016-06-17

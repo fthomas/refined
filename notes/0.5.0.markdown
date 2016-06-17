@@ -20,6 +20,8 @@
 * Add `scalaz.Equal` and `scalaz.Show` instances for refined types.
   These instances use the respective instances of the base types.
   ([#179])
+* Update the documentation of the `numeric` module.
+  Thanks to John-Michael Reed!
 
 ### Updates
 

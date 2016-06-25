@@ -59,7 +59,6 @@ lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(commonSettings: _*)
-  .settings(scaladocSettings: _*)
   .settings(publishSettings: _*)
   .settings(miscSettings: _*)
   .settings(releaseSettings: _*)
@@ -146,7 +145,8 @@ lazy val scodecJS = scodec.js
 
 lazy val commonSettings =
   projectSettings ++
-  compileSettings
+  compileSettings ++
+  scaladocSettings
 
 lazy val submoduleSettings =
   commonSettings ++

@@ -27,9 +27,17 @@ package object scalaz {
         c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 
+  /**
+   * `Equal` instance for refined types that delegates to the `Equal`
+   * instance of the base type.
+   */
   implicit def refTypeEqual[F[_, _], T: Equal, P](implicit rt: RefType[F]): Equal[F[T, P]] =
     Equal[T].contramap(rt.unwrap)
 
+  /**
+   * `Show` instance for refined types that delegates to the `Show`
+   * instance of the base type.
+   */
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
     Show[T].contramap(rt.unwrap)
 }

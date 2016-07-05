@@ -23,5 +23,4 @@ object Refined {
 
   def unapply[T, P](r: Refined[T, P]): Some[T] =
     Some(r.get)
-
 }

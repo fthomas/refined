@@ -7,11 +7,15 @@ package api
  * verify that the wrapped value satisfies `P`.
  */
 final class Refined[T, P] private (val get: T) extends Serializable {
-  override def hashCode: Int = get.##
-  override def equals(that: Any): Boolean = that match {
-    case that: Refined[_, _] => this.get == that.get
-    case _ => false
-  }
+
+  override def hashCode(): Int =
+    get.hashCode()
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Refined[_, _] => this.get == that.get
+      case _ => false
+    }
 
   override def toString: String =
     get.toString
@@ -28,7 +32,6 @@ object Refined {
 
   def unapply[T, P](r: Refined[T, P]): Some[T] =
     Some(r.get)
-
 }
 
 /*

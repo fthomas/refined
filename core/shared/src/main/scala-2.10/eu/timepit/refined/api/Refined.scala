@@ -8,8 +8,8 @@ package api
  */
 final class Refined[T, P] private (val get: T) extends Serializable {
 
-  override def hashCode(): Int =
-    get.hashCode()
+  override def hashCode: Int =
+    get.hashCode
 
   override def equals(that: Any): Boolean =
     that match {

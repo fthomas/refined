@@ -1,0 +1,5 @@
+### Updates
+
+* Update `refined-scodec` to scodec 1.10.2. ([#187])
+
+[#187]: https://github.com/fthomas/refined/pull/187

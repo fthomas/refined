@@ -33,4 +33,18 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     ev: c.Expr[F[T, P] =:= FTP], rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =
     c.Expr(impl(t)(rt, v).tree)
+
+  def unsafeFrom[F[_, _], T, P](t: c.Expr[T])(rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]): c.Expr[F[T, P]] = {
+    extractConstant(t) match {
+      case None =>
+        c.Expr(q"""
+           {
+           val res = $v.validate($t)
+               if (res.isPassed) $rt.unsafeWrap($t)
+               else sys.error($v.showResult($t, res))
+           }
+         """)
+      case Some(tValue) => ???
+    }
+  }
 }

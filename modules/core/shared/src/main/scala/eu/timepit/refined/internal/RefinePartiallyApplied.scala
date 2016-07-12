@@ -20,4 +20,7 @@ final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
 
   def unsafeFrom[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
     apply(t).fold(err => throw new IllegalArgumentException(err), identity)
+
+  def unsafeFrom2[T](t: T)(implicit rt: RefType[F], v: Validate[T, P]): F[T, P] =
+    macro macros.RefineMacro.unsafeFrom[F, T, P]
 }

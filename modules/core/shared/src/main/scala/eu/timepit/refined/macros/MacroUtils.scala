@@ -22,6 +22,14 @@ trait MacroUtils {
     tryN(2, c.eval(expr))
   }
 
+  def extractConstant[T](t: c.Expr[T]): Option[T] = {
+    import c.universe._
+    t.tree match {
+      case Literal(Constant(value)) => Some(value.asInstanceOf[T])
+      case _ => None
+    }
+  }
+
   def tryN[T](n: Int, t: => T): T =
     Stream.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
 }

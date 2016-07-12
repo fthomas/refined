@@ -39,11 +39,14 @@ res0: Int Refined Positive = 5
 // Macros can only validate literals because their values are known at
 // compile-time. To validate arbitrary (runtime) values we can use the
 // refineV function:
-scala> refineV[Positive](5)
-res1: Either[String, Int Refined Positive] = Right(5)
 
-scala> refineV[Positive](-5)
-res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-5 > 0).)
+scala> val x = 42 // suppose the value of x is not known at compile-time
+
+scala> refineV[Positive](x)
+res1: Either[String, Int Refined Positive] = Right(42)
+
+scala> refineV[Positive](-x)
+res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-42 > 0).)
 ```
 
 **refined** also contains inference rules for converting between different

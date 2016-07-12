@@ -1,18 +1,12 @@
 The examples from the [README](https://github.com/fthomas/refined/blob/master/README.md):
 
 ```scala
-scala> import eu.timepit.refined._
 import eu.timepit.refined._
-
-scala> import eu.timepit.refined.api.Refined
 import eu.timepit.refined.api.Refined
-
-scala> import eu.timepit.refined.auto._
 import eu.timepit.refined.auto._
-
-scala> import eu.timepit.refined.numeric._
 import eu.timepit.refined.numeric._
-
+```
+```scala
 scala> val i1: Int Refined Positive = 5
 i1: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive] = 5
 
@@ -24,11 +18,14 @@ scala> val i2: Int Refined Positive = -5
 scala> refineMV[Positive](5)
 res0: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive] = 5
 
-scala> refineV[Positive](5)
-res1: Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]] = Right(5)
+scala> val x = 42
+x: Int = 42
 
-scala> refineV[Positive](-5)
-res2: Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]] = Left(Predicate failed: (-5 > 0).)
+scala> refineV[Positive](x)
+res1: Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]] = Right(42)
+
+scala> refineV[Positive](-x)
+res2: Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]] = Left(Predicate failed: (-42 > 0).)
 ```
 
 ```scala
@@ -47,24 +44,14 @@ scala> val c: Int Refined Greater[W.`6`.T] = a
 ```
 
 ```scala
-scala> import eu.timepit.refined.boolean._
 import eu.timepit.refined.boolean._
-
-scala> import eu.timepit.refined.char._
 import eu.timepit.refined.char._
-
-scala> import eu.timepit.refined.collection._
 import eu.timepit.refined.collection._
-
-scala> import eu.timepit.refined.generic._
 import eu.timepit.refined.generic._
-
-scala> import eu.timepit.refined.string._
 import eu.timepit.refined.string._
-
-scala> import shapeless.{ ::, HNil }
-import shapeless.{$colon$colon, HNil}
-
+import shapeless.{ ::, HNil }
+```
+```scala
 scala> refineMV[NonEmpty]("Hello")
 res3: eu.timepit.refined.api.Refined[String,eu.timepit.refined.collection.NonEmpty] = Hello
 

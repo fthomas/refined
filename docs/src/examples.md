@@ -1,20 +1,23 @@
 The examples from the [README](https://github.com/fthomas/refined/blob/master/README.md):
 
-```tut:nofail
+```tut:silent
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-
+```
+```tut:nofail
 val i1: Int Refined Positive = 5
 
 val i2: Int Refined Positive = -5
 
 refineMV[Positive](5)
 
-refineV[Positive](5)
+val x = 42
 
-refineV[Positive](-5)
+refineV[Positive](x)
+
+refineV[Positive](-x)
 ```
 
 ```tut:nofail
@@ -25,14 +28,15 @@ val b: Int Refined Greater[W.`4`.T] = a
 val c: Int Refined Greater[W.`6`.T] = a
 ```
 
-```tut:nofail
+```tut:silent
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic._
 import eu.timepit.refined.string._
 import shapeless.{ ::, HNil }
-
+```
+```tut:nofail
 refineMV[NonEmpty]("Hello")
 
 refineMV[NonEmpty]("")

@@ -22,5 +22,5 @@ final class ApplyRefPartiallyApplied[FTP] {
     implicit
     ev: F[T, P] =:= FTP, rt: RefType[F], v: Validate[T, P]
   ): FTP =
-    apply(t).fold(err => throw new IllegalArgumentException(err), identity)
+    ev(rt.refine[P].unsafeFrom(t))
 }

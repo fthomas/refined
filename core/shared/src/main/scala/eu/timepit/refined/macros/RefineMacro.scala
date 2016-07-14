@@ -38,13 +38,22 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     extractConstant(t) match {
       case None =>
         c.Expr(q"""
-           {
-           val res = $v.validate($t)
-               if (res.isPassed) $rt.unsafeWrap($t)
-               else sys.error($v.showResult($t, res))
-           }
-         """)
-      case Some(tValue) => ???
+          {
+            val tValue = $t
+            val res = $v.validate(tValue)
+            if (res.isPassed) $rt.unsafeWrap(tValue)
+            else sys.error($v.showResult(tValue, res))
+          }
+        """)
+      case Some(tValue) =>
+        val validate = eval(v)
+        val res = validate.validate(tValue)
+        if (res.isFailed) {
+          abort(validate.showResult(tValue, res))
+        }
+
+        val refType = eval(rt)
+        refType.unsafeWrapM(c)(t)
     }
   }
 }

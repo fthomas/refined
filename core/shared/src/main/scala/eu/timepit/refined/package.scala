@@ -1,10 +1,13 @@
 package eu.timepit
 
-import eu.timepit.refined.api.{ Refined, RefType }
+import eu.timepit.refined.api.{ RefType, Refined }
 import eu.timepit.refined.internal._
+import eu.timepit.refined.numeric.NonNegative
 import shapeless.tag.@@
 
 package object refined {
+
+  type Natural = Int Refined NonNegative
 
   /**
    * Alias for `shapeless.Witness` that provides concise syntax for

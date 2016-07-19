@@ -89,7 +89,7 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F]) exten
     RefType.applyRef[F[Int, Positive]].unsafeFrom(5) ?= rt.unsafeWrap[Int, Positive](5)
   }
 
-  property("RefType.applyRef.unsafeFrom success") = secure {
+  property("RefType.applyRef.unsafeFrom failure") = secure {
     throws(classOf[IllegalArgumentException])(RefType.applyRef[F[Int, Positive]].unsafeFrom(-5))
   }
 }
@@ -141,7 +141,7 @@ class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
     type PositiveInt = Int @@ Positive
 
     // This is expected, see https://github.com/fthomas/refined/issues/21:
-    illTyped("val x: PositiveInt = RefType[@@]refineM(5)", "could not find implicit value.*")
+    illTyped("val x: PositiveInt = RefType[@@].refineM(5)", "could not find implicit value.*")
     illTyped("val y: PositiveInt = 5", "type mismatch.*")
     illTyped("val z: PositiveInt = -5", "type mismatch.*")
   }

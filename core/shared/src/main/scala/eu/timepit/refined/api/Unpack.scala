@@ -3,7 +3,10 @@ package api
 
 trait RefineOps[FTP] {
   def refine[T](t: T)(implicit u: Unpack.AuxT[FTP, T]): Either[String, FTP] =
-    u.refType.refine(t)(u.validate).right.map(u.pack)
+    u.refine(t)
+
+  def refine3[T](implicit u: Unpack.AuxT[FTP, _]): T => Either[String, FTP] =
+    (t) => u.refine(t).asInstanceOf
 
   def refine2[F[_, _], T, P](t: T)(implicit ev: F[T, P] =:= FTP, rt: RefType[F], v: Validate[T, P]): Either[String, FTP] =
     rt.refine[P](t).right.map(ev)
@@ -29,6 +32,9 @@ trait Unpack[FTP] {
   def validate: Validate[T, P]
 
   def pack: F[T, P] =:= FTP
+
+  def refine(t: T): Either[String, FTP] =
+    refType.refine[P](t)(validate).right.map(pack)
 }
 
 object Unpack {

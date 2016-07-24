@@ -53,11 +53,8 @@ object RefinedType {
       override type P = P0
 
       override val refType: RefType[F] = rt
-
       override val validate: Validate[T, P] = v
-
       override val subst1: F[T, P] =:= F0[T, P0] = implicitly
-
       override val subst2: F0[T0, P0] =:= F[T, P] = implicitly
     }
 }

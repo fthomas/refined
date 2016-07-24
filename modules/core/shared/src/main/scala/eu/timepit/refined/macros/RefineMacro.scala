@@ -15,9 +15,8 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
       v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
 
-    val tValue: T = t.tree match {
-      case Literal(Constant(value)) => value.asInstanceOf[T]
-      case _ => abort(Resources.refineNonCompileTimeConstant)
+    val tValue: T = extractConstant(t).getOrElse {
+      abort(Resources.refineNonCompileTimeConstant)
     }
 
     val validate = eval(v)
@@ -59,4 +58,10 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
         refType.unsafeWrapM(c)(t)
     }
   }
+
+  def extractConstant[T](t: c.Expr[T]): Option[T] =
+    t.tree match {
+      case Literal(Constant(value)) => Some(value.asInstanceOf[T])
+      case _ => None
+    }
 }

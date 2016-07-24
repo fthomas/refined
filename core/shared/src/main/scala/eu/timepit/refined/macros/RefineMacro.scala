@@ -33,4 +33,21 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     ev: c.Expr[F[T, P] =:= FTP], rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =
     c.Expr(impl(t)(rt, v).tree)
+
+  def refineImpl[FTP, T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
+    rt: c.Expr[api.RefinedType.AuxT[FTP, T]]
+  ): c.Expr[FTP] = {
+    val tValue: T = t.tree match {
+      case Literal(Constant(value)) => value.asInstanceOf[T]
+      case _ => abort(Resources.refineNonCompileTimeConstant)
+    }
+
+    val refinedType = eval(rt)
+    val res = refinedType.validate.validate(tValue)
+    if (res.isFailed) {
+      abort(refinedType.validate.showResult(tValue, res))
+    }
+
+    c.Expr[FTP](refinedType.refType.unsafeWrapM[T, P](c)(t).tree)
+  }
 }

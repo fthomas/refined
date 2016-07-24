@@ -6,19 +6,27 @@ trait RefinedType[FTP] {
   type T
   type P
 
-  def refType: RefType[F]
+  val refType: RefType[F]
 
-  def validate: Validate[T, P]
+  val validate: Validate[T, P]
 
-  def subst1: F[T, P] =:= FTP
+  val subst1: F[T, P] =:= FTP
 
-  def subst2: FTP =:= F[T, P]
+  val subst2: FTP =:= F[T, P]
 
-  def refine(t: T): Either[String, FTP] = ???
+  def refine(t: T): Either[String, FTP] = {
+    val res = validate.validate(t)
+    if (res.isPassed) Right(subst1(refType.unsafeWrap(t)))
+    else Left(validate.showResult(t, res))
+  }
 
-  def refineUnsafe(t: T): FTP = ???
+  def refineUnsafe(t: T): FTP =
+    refine(t).fold(err => throw new IllegalArgumentException(err), identity)
 
-  def refineM(t: T): FTP = ???
+  def refineM(t: T)(
+    implicit
+    rt: RefinedType.AuxT[FTP, T]
+  ): FTP = macro macros.RefineMacro.refineImpl[FTP, T, P]
 }
 
 object RefinedType {
@@ -44,12 +52,12 @@ object RefinedType {
       override type T = T0
       override type P = P0
 
-      override def refType: RefType[F] = rt
+      override val refType: RefType[F] = rt
 
-      override def validate: Validate[T, P] = v
+      override val validate: Validate[T, P] = v
 
-      override def subst1: F[T, P] =:= F0[T, P0] = implicitly
+      override val subst1: F[T, P] =:= F0[T, P0] = implicitly
 
-      override def subst2: F0[T0, P0] =:= F[T, P] = implicitly
+      override val subst2: F0[T0, P0] =:= F[T, P] = implicitly
     }
 }

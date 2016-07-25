@@ -11,7 +11,7 @@ import org.scalacheck.Properties
 class StringArbitrarySpec extends Properties("StringArbitrary") {
 
   property("EndsWith") =
-    checkArbitraryRefType[Refined, String, EndsWith[W.`"abc"`.T]]
+    checkArbitraryRefinedType[String Refined EndsWith[W.`"abc"`.T]]
 
   property("MatchesRegex") =
     checkArbitraryRefType[Refined, String, MatchesRegex[W.`".{2,}"`.T]]

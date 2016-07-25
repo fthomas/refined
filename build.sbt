@@ -337,7 +337,7 @@ addCommandAlias("testJVM", allSubprojectsJVM map (_ + "/test") mkString (";", ";
 
 val validateCommands = List(
   "clean",
-  "mimaReportBinaryIssues",
+  //"mimaReportBinaryIssues",
   "coverageOff",
   "testJS",
   "coverage",

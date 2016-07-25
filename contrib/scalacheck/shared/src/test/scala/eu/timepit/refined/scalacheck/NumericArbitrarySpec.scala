@@ -79,10 +79,10 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
     checkArbitraryRefType[Refined, Float, Interval.ClosedOpen[W.`0.4F`.T, W.`0.6F`.T]]
 
   property("Interval.Closed") =
-    checkArbitraryRefType[Refined, Int, Interval.Closed[W.`23`.T, W.`42`.T]]
+    checkArbitraryRefinedType[Int Refined Interval.Closed[W.`23`.T, W.`42`.T]]
 
   property("Interval.alias") =
-    forAll { m: Minute => m >= 0 && m <= 59 }
+    checkArbitraryRefinedType[Minute]
 
   property("chooseRefinedNum") = {
     type Natural = Int Refined NonNegative

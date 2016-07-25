@@ -27,6 +27,9 @@ trait RefinedType[FTP] {
     implicit
     rt: RefinedType.AuxT[FTP, T]
   ): FTP = macro macros.RefineMacro.refineImpl[FTP, T, P]
+
+  def unwrap(tp: FTP): T =
+    refType.unwrap(subst2(tp))
 }
 
 object RefinedType {

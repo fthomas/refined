@@ -1,5 +1,11 @@
+### Changes
+
+* Replace the type parameter `P` in `RefType#unwrap` with an
+  existential type. ([#192])
+
 ### Updates
 
 * Update `refined-scodec` to scodec 1.10.2. ([#187])
 
 [#187]: https://github.com/fthomas/refined/pull/187
+[#192]: https://github.com/fthomas/refined/pull/192

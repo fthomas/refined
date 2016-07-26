@@ -21,7 +21,7 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unsafeWrap[T, P](t: T): F[T, P]
 
-  def unwrap[T, P](tp: F[T, P]): T
+  def unwrap[T](tp: F[T, _]): T
 
   def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
 
@@ -152,7 +152,7 @@ object RefType {
       override def unsafeWrap[T, P](t: T): Refined[T, P] =
         Refined.unsafeApply(t)
 
-      override def unwrap[T, P](tp: Refined[T, P]): T =
+      override def unwrap[T](tp: Refined[T, _]): T =
         tp.get
 
       override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
@@ -170,7 +170,7 @@ object RefType {
       override def unsafeWrap[T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]
 
-      override def unwrap[T, P](tp: T @@ P): T =
+      override def unwrap[T](tp: T @@ _): T =
         tp
 
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =

@@ -14,7 +14,7 @@ package object scalaz {
       override def unsafeWrap[T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]
 
-      override def unwrap[T, P](tp: T @@ P): T =
+      override def unwrap[T](tp: T @@ _): T =
         tp.asInstanceOf[T]
 
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =

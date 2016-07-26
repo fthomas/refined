@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package scalacheck
 
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{ RefinedType, RefType }
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalacheck.util.{ Adjacent, Bounded }
 import org.scalacheck.{ Arbitrary, Gen }
@@ -22,12 +22,13 @@ object numeric {
    *
    * This is like ScalaCheck's `Gen.chooseNum` but for refined types.
    */
-  def chooseRefinedNum[F[_, _], T: Numeric: Choose, P](min: F[T, P], max: F[T, P])(
+  def chooseRefinedNum[FTP, T: Numeric: Choose](min: FTP, max: FTP)(
     implicit
-    rt: RefType[F],
-    v: Validate[T, P]
-  ): Gen[F[T, P]] =
-    Gen.chooseNum(rt.unwrap(min), rt.unwrap(max)).filter(v.isValid).map(rt.unsafeWrap)
+    rt: RefinedType.AuxT[FTP, T]
+  ): Gen[FTP] =
+    Gen.chooseNum(rt.unwrap(min), rt.unwrap(max))
+      .filter(rt.validate.isValid)
+      .map(rt.wrapUnsafe)
 
   ///
 

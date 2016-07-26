@@ -10,13 +10,13 @@ trait RefinedType[FTP] {
 
   val validate: Validate[T, P]
 
-  val subst1: F[T, P] =:= FTP
+  val alias: F[T, P] =:= FTP
 
-  val subst2: FTP =:= F[T, P]
+  val unalias: FTP =:= F[T, P]
 
   def refine(t: T): Either[String, FTP] = {
     val res = validate.validate(t)
-    if (res.isPassed) Right(subst1(refType.unsafeWrap(t)))
+    if (res.isPassed) Right(wrapUnsafe(t))
     else Left(validate.showResult(t, res))
   }
 
@@ -29,7 +29,10 @@ trait RefinedType[FTP] {
   ): FTP = macro macros.RefineMacro.refineImpl[FTP, T, P]
 
   def unwrap(tp: FTP): T =
-    refType.unwrap(subst2(tp))
+    refType.unwrap(unalias(tp))
+
+  def wrapUnsafe(t: T): FTP =
+    alias(refType.unsafeWrap(t))
 }
 
 object RefinedType {
@@ -57,7 +60,7 @@ object RefinedType {
 
       override val refType: RefType[F] = rt
       override val validate: Validate[T, P] = v
-      override val subst1: F[T, P] =:= F0[T, P0] = implicitly
-      override val subst2: F0[T0, P0] =:= F[T, P] = implicitly
+      override val alias: F[T, P] =:= F0[T, P0] = implicitly
+      override val unalias: F0[T0, P0] =:= F[T, P] = implicitly
     }
 }

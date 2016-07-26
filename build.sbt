@@ -26,7 +26,7 @@ val commonImports = s"""
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.1"
-val scalaCheckVersion = "1.12.5"
+val scalaCheckVersion = "1.13.2"
 val scalazVersion = "7.2.4"
 val scodecVersion = "1.10.2"
 

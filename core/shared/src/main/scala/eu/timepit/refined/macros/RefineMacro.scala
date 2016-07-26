@@ -31,7 +31,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
     rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] =
-    refineImpl(t)(reify(api.RefinedType.instance(rt.splice, v.splice)))
+    refineImpl[F[T, P], T, P](t)(reify(api.RefinedType.instance(rt.splice, v.splice)))
 
   @deprecated("", "")
   def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(

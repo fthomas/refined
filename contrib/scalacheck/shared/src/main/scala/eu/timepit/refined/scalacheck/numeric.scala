@@ -22,9 +22,9 @@ object numeric {
    *
    * This is like ScalaCheck's `Gen.chooseNum` but for refined types.
    */
-  def chooseRefinedNum[FTP, T: Numeric: Choose](min: FTP, max: FTP)(
+  def chooseRefinedNum[FTP, T](min: FTP, max: FTP)(
     implicit
-    rt: RefinedType.AuxT[FTP, T]
+    rt: RefinedType.AuxT[FTP, T], nt: Numeric[T], ct: Choose[T]
   ): Gen[FTP] =
     Gen.chooseNum(rt.unwrap(min), rt.unwrap(max))
       .filter(rt.validate.isValid)

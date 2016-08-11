@@ -10,25 +10,30 @@ import scala.reflect.macros.blackbox
 class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
-  def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
-    rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
-  ): c.Expr[F[T, P]] = {
-
+  def refineImpl[FTP, T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
+    rt: c.Expr[api.RefinedType.AuxT[FTP, T]]
+  ): c.Expr[FTP] = {
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
       case _ => abort(Resources.refineNonCompileTimeConstant)
     }
 
-    val validate = eval(v)
-    val res = validate.validate(tValue)
+    val refinedType = eval(rt)
+    val res = refinedType.validate.validate(tValue)
     if (res.isFailed) {
-      abort(validate.showResult(tValue, res))
+      abort(refinedType.validate.showResult(tValue, res))
     }
 
-    val refType = eval(rt)
-    refType.unsafeWrapM(c)(t)
+    c.Expr[FTP](refinedType.refType.unsafeWrapM[T, P](c)(t).tree)
   }
 
+  @deprecated("", "0.6.0")
+  def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
+    rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
+  ): c.Expr[F[T, P]] =
+    refineImpl[F[T, P], T, P](t)(reify(api.RefinedType.instance(rt.splice, v.splice)))
+
+  @deprecated("", "0.6.0")
   def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(
     ev: c.Expr[F[T, P] =:= FTP], rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =

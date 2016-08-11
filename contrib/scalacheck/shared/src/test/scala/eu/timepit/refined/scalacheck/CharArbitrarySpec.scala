@@ -13,25 +13,25 @@ import org.scalacheck.Properties
 class CharArbitrarySpec extends Properties("CharArbitrarySpec") {
 
   property("Digit") =
-    checkArbitraryRefType[Refined, Char, Digit]
+    checkArbitraryRefinedType[Char Refined Digit]
 
   property("Letter") =
-    checkArbitraryRefType[Refined, Char, Letter]
+    checkArbitraryRefinedType[Char Refined Letter]
 
   property("LowerCase") =
-    checkArbitraryRefType[Refined, Char, LowerCase]
+    checkArbitraryRefinedType[Char Refined LowerCase]
 
   property("UpperCase") =
-    checkArbitraryRefType[Refined, Char, UpperCase]
+    checkArbitraryRefinedType[Char Refined UpperCase]
 
   property("Whitespace") =
-    checkArbitraryRefType[Refined, Char, Whitespace]
+    checkArbitraryRefinedType[Char Refined Whitespace]
 
   property("LetterOrDigit") =
-    checkArbitraryRefType[Refined, Char, LetterOrDigit]
+    checkArbitraryRefinedType[Char Refined LetterOrDigit]
 
   property("HexDigit") = {
     type HexDigit = Digit Or Interval.Closed[W.`'a'`.T, W.`'f'`.T]
-    checkArbitraryRefType[Refined, Char, HexDigit]
+    checkArbitraryRefinedType[Char Refined HexDigit]
   }
 }

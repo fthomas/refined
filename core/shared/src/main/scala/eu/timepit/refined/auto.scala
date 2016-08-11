@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{ Refined, RefType, Validate }
+import eu.timepit.refined.api.{ Refined, RefinedType, RefType }
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.macros.{ InferMacro, RefineMacro }
 import shapeless.tag.@@
@@ -52,8 +52,8 @@ object auto {
    */
   implicit def autoRefineV[T, P](t: T)(
     implicit
-    rt: RefType[Refined], v: Validate[T, P]
-  ): Refined[T, P] = macro RefineMacro.impl[Refined, T, P]
+    rt: RefinedType.AuxT[Refined[T, P], T]
+  ): Refined[T, P] = macro RefineMacro.refineImpl[Refined[T, P], T, P]
 
   /**
    * Implicitly tags (at compile-time) a value of type `T` with `P` if `t`
@@ -64,6 +64,6 @@ object auto {
    */
   implicit def autoRefineT[T, P](t: T)(
     implicit
-    rt: RefType[@@], v: Validate[T, P]
-  ): T @@ P = macro RefineMacro.impl[@@, T, P]
+    rt: RefinedType.AuxT[T @@ P, T]
+  ): T @@ P = macro RefineMacro.refineImpl[T @@ P, T, P]
 }

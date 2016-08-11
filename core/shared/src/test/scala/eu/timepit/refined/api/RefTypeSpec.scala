@@ -126,7 +126,7 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
     val y: Natural = 1L
     val z = 1L: Natural
     illTyped("Natural(-1L)", "Predicate.*fail.*")
-    illTyped("Natural(1.3)", "Cannot prove that.*")
+    illTyped("Natural(1.3)", "could not find implicit value.*")
     x == y && y == z
   }
 

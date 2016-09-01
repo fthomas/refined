@@ -6,10 +6,11 @@
 ### Updates
 
 * Update `refined-scodec` to scodec 1.10.2. ([#187])
-* Update Scala.js to 0.6.11. ([#194])
+* Update Scala.js to 0.6.12. ([#194], [#197])
 * Update shapeless to 2.3.2. ([#196])
 
 [#187]: https://github.com/fthomas/refined/pull/187
 [#192]: https://github.com/fthomas/refined/pull/192
 [#194]: https://github.com/fthomas/refined/pull/194
 [#196]: https://github.com/fthomas/refined/pull/196
+[#197]: https://github.com/fthomas/refined/pull/197

@@ -2,9 +2,8 @@
 [![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Download](https://img.shields.io/maven-central/v/eu.timepit/refined_2.11.svg)][search.maven]
+[![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg)](https://index.scala-lang.org/fthomas/refined/refined)
 [![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.11.svg?color=blue&label=Scaladoc)](https://www.javadoc.io/doc/eu.timepit/refined_2.11)
-[![Scaladex](https://img.shields.io/badge/Scaladex-refined-f26527.svg)](https://index.scala-lang.org/fthomas/refined)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started

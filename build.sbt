@@ -329,7 +329,8 @@ lazy val styleSettings = Def.settings(
 
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
   scalastyleSources in Compile :=
-    (unmanagedSourceDirectories in Compile).value
+    (unmanagedSourceDirectories in Compile).value ++
+      (unmanagedSourceDirectories in Test).value
 )
 
 addCommandAlias("testJS",  allSubprojectsJS  map (_ + "/test") mkString (";", ";", ""))

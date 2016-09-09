@@ -7,8 +7,8 @@ import eu.timepit.refined.char._
 import eu.timepit.refined.numeric.{ Greater, Less }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 import shapeless.{ ::, HNil }
+import shapeless.nat._
 
 class BooleanValidateSpec extends Properties("BooleanValidate") {
 

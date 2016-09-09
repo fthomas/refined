@@ -162,12 +162,14 @@ The latest version of the library is 0.5.0, which is available for Scala and
 
 If you're using sbt, add the following to your build:
 
-    libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined"            % "0.5.0",
-      "eu.timepit" %% "refined-scalaz"     % "0.5.0",         // optional
-      "eu.timepit" %% "refined-scodec"     % "0.5.0",         // optional
-      "eu.timepit" %% "refined-scalacheck" % "0.5.0" % "test" // optional
-    )
+```sbt
+libraryDependencies ++= Seq(
+  "eu.timepit" %% "refined"            % "0.5.0",
+  "eu.timepit" %% "refined-scalaz"     % "0.5.0",         // optional
+  "eu.timepit" %% "refined-scodec"     % "0.5.0",         // optional
+  "eu.timepit" %% "refined-scalacheck" % "0.5.0" % "test" // optional
+)
+```
 
 For Scala.js just replace `%%` with `%%%` above.
 

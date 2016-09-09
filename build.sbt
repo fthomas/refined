@@ -27,7 +27,7 @@ val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.2"
 val scalaCheckVersion = "1.12.5"
-val scalazVersion = "7.2.4"
+val scalazVersion = "7.2.6"
 val scodecVersion = "1.10.2"
 
 val allSubprojects = List("core", "scalacheck", "scalaz", "scodec")

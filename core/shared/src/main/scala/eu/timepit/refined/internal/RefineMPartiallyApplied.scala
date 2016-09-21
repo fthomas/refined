@@ -1,7 +1,7 @@
 package eu.timepit.refined
 package internal
 
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.macros.RefineMacro
 
 /**
@@ -13,5 +13,6 @@ import eu.timepit.refined.macros.RefineMacro
  */
 final class RefineMPartiallyApplied[F[_, _], P] {
 
-  def apply[T](t: T)(implicit rt: RefType[F], v: Validate[T, P]): F[T, P] = macro RefineMacro.impl[F, T, P]
+  def apply[T](t: T)(implicit rt: RefType[F], v: Validate[T, P]): F[T, P] =
+    macro RefineMacro.impl[F, T, P]
 }

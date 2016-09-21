@@ -25,9 +25,11 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
 
-  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[F[T, P]]
+  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(
+      t: c.Expr[T]): c.Expr[F[T, P]]
 
-  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
+  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(
+      ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
 
   /**
    * Returns a value of type `T` refined as `F[T, P]` on the right if
@@ -92,10 +94,12 @@ trait RefType[F[_, _]] extends Serializable {
   def refineMF[T, P]: RefineMFullyApplied[F, T, P] =
     new RefineMFullyApplied
 
-  def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
+  def mapRefine[T, P, U](tp: F[T, P])(f: T => U)(
+      implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(unwrap(tp)))
 
-  def coflatMapRefine[T, P, U](tp: F[T, P])(f: F[T, P] => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
+  def coflatMapRefine[T, P, U](tp: F[T, P])(f: F[T, P] => U)(
+      implicit v: Validate[U, P]): Either[String, F[U, P]] =
     refine(f(tp))
 }
 
@@ -158,10 +162,12 @@ object RefType {
       override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
         Refined.unsafeApply(ta.get)
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[Refined[T, P]] =
+      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(
+          t: c.Expr[T]): c.Expr[Refined[T, P]] =
         c.universe.reify(Refined.unsafeApply(t.splice))
 
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
+      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
+          c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
         c.universe.reify(Refined.unsafeApply(ta.splice.get))
     }
 
@@ -176,10 +182,12 @@ object RefType {
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
         ta.asInstanceOf[T @@ B]
 
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(t: c.Expr[T]): c.Expr[T @@ P] =
+      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(
+          t: c.Expr[T]): c.Expr[T @@ P] =
         c.universe.reify(t.splice.asInstanceOf[T @@ P])
 
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
+      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
+          c: blackbox.Context)(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
         c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 

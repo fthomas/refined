@@ -3,7 +3,7 @@ package macros
 
 import macrocompat.bundle
 import scala.reflect.macros.blackbox
-import scala.util.{ Success, Try }
+import scala.util.{Success, Try}
 
 @bundle
 trait MacroUtils {

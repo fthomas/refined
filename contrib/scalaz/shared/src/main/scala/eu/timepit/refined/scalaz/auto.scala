@@ -1,6 +1,6 @@
 package eu.timepit.refined.scalaz
 
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.macros.RefineMacro
 import scalaz.@@
 
@@ -12,7 +12,7 @@ object auto {
    * compilation fails.
    */
   implicit def autoRefineScalazTag[T, P](t: T)(
-    implicit
-    rt: RefType[@@], v: Validate[T, P]
+      implicit rt: RefType[@@],
+      v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }

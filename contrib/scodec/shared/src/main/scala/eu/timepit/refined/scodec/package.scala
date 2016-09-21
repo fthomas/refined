@@ -2,13 +2,14 @@ package eu.timepit.refined
 
 import _root_.scodec._
 import _root_.scodec.bits.BitVector
-import eu.timepit.refined.api.{ RefType, Validate }
+import eu.timepit.refined.api.{RefType, Validate}
 
 package object scodec {
 
   implicit def refTypeCodec[F[_, _], T, P](
-    implicit
-    codec: Codec[T], refType: RefType[F], validate: Validate[T, P]
+      implicit codec: Codec[T],
+      refType: RefType[F],
+      validate: Validate[T, P]
   ): Codec[F[T, P]] =
     new Codec[F[T, P]] {
       override def sizeBound: SizeBound =

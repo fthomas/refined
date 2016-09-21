@@ -1,7 +1,7 @@
 package eu.timepit.refined.scalacheck.util
 
-import java.lang.{ Double => JDouble }
-import java.lang.{ Float => JFloat }
+import java.lang.{Double => JDouble}
+import java.lang.{Float => JFloat}
 
 // Delete this when Scala.js provides def nextAfter(a: Float, b: Double): Float
 object OurMath {

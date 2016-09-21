@@ -36,17 +36,17 @@ val allSubprojectsJS = allSubprojects.map(_ + "JS")
 
 /// project definitions
 
-lazy val root = project.in(file("."))
-  .aggregate(
-    coreJVM,
-    coreJS,
-    docs,
-    scalacheckJVM,
-    scalacheckJS,
-    scalazJVM,
-    scalazJS,
-    scodecJVM,
-    scodecJS)
+lazy val root = project
+  .in(file("."))
+  .aggregate(coreJVM,
+             coreJS,
+             docs,
+             scalacheckJVM,
+             scalacheckJS,
+             scalazJVM,
+             scalazJS,
+             scodecJVM,
+             scodecJS)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -89,7 +89,8 @@ lazy val docs = project
   )
   .dependsOn(coreJVM)
 
-lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
+lazy val scalacheck = crossProject
+  .in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
@@ -106,7 +107,8 @@ lazy val scalacheck = crossProject.in(file("contrib/scalacheck"))
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = crossProject.in(file("contrib/scalaz"))
+lazy val scalaz = crossProject
+  .in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion)
@@ -125,7 +127,8 @@ lazy val scalaz = crossProject.in(file("contrib/scalaz"))
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 
-lazy val scodec = crossProject.in(file("contrib/scodec"))
+lazy val scodec = crossProject
+  .in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
   .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
@@ -145,14 +148,14 @@ lazy val scodecJS = scodec.js
 
 lazy val commonSettings =
   projectSettings ++
-  compileSettings ++
-  scaladocSettings
+    compileSettings ++
+    scaladocSettings ++
+    styleSettings
 
 lazy val submoduleSettings =
   commonSettings ++
-  publishSettings ++
-  releaseSettings ++
-  styleSettings
+    publishSettings ++
+    releaseSettings
 
 lazy val submoduleJvmSettings = Seq(
   mimaPreviousArtifacts := Set(groupId %% moduleName.value % latestVersion),
@@ -171,14 +174,11 @@ lazy val submoduleJsSettings = Seq(
 lazy val projectSettings = Seq(
   name := projectName,
   description := "Simple refinement types for Scala",
-
   organization := groupId,
   homepage := Some(url(s"https://github.com/fthomas/$projectName")),
   startYear := Some(2015),
   licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),
-
-  scmInfo := Some(ScmInfo(homepage.value.get,
-    s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl")))
+  scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl")))
 )
 
 lazy val compileSettings = Seq(
@@ -186,7 +186,8 @@ lazy val compileSettings = Seq(
   crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.12.0-RC1"),
   scalacOptions ++= Seq(
     "-deprecation",
-    "-encoding", "UTF-8",
+    "-encoding",
+    "UTF-8",
     "-feature",
     "-language:existentials",
     "-language:experimental.macros",
@@ -201,7 +202,6 @@ lazy val compileSettings = Seq(
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   ),
-
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
@@ -209,7 +209,6 @@ lazy val compileSettings = Seq(
     "com.chuusai" %%% "shapeless" % shapelessVersion,
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),
-
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
     Wart.AsInstanceOf,
@@ -223,17 +222,20 @@ lazy val scaladocSettings = Seq(
   scalacOptions in (Compile, doc) ++= Seq(
     //"-diagrams",
     "-diagrams-debug",
-    "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-    "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
+    "-doc-source-url",
+    scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
+    "-sourcepath",
+    baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
-
   autoAPIMappings := true,
   apiURL := Some(url(s"http://fthomas.github.io/$projectName/latest/api/"))
 )
 
 lazy val publishSettings = Seq(
   publishMavenStyle := true,
-  pomIncludeRepository := { _ => false },
+  pomIncludeRepository := { _ =>
+    false
+  },
   pomExtra :=
     <developers>
       <developer>
@@ -302,7 +304,7 @@ lazy val releaseSettings = {
 }
 
 addCommandAlias("syncMavenCentral",
-  allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral").mkString(";", ";", ""))
+                allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral").mkString(";", ";", ""))
 
 lazy val siteSettings = Def.settings(
   site.settings,
@@ -323,18 +325,18 @@ lazy val myDoctestSettings = Def.settings(
 lazy val styleSettings = Def.settings(
   scalafmtConfig := Some(file(".scalafmt")),
   reformatOnCompileSettings,
-
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
   scalastyleSources in Compile :=
     (unmanagedSourceDirectories in Compile).value ++
       (unmanagedSourceDirectories in Test).value
 )
 
-addCommandAlias("testJS",  allSubprojectsJS  map (_ + "/test") mkString (";", ";", ""))
+addCommandAlias("testJS", allSubprojectsJS map (_ + "/test") mkString (";", ";", ""))
 addCommandAlias("testJVM", allSubprojectsJVM map (_ + "/test") mkString (";", ";", ""))
 
 val validateCommands = List(
   "clean",
+  "scalafmtTest",
   "mimaReportBinaryIssues",
   "coverageOff",
   "testJS",

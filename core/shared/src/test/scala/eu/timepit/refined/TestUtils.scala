@@ -47,6 +47,9 @@ object TestUtils {
     getClass.getClassLoader.getResource(getClassFile(c))
 
   def javapOutput[C](c: C, opts: String = ""): String =
-    scala.sys.process.Process(s"javap $opts ${getClassFilePath(c)}").!!
-      .trim.replaceAll("""(?m)\s+$""", "")
+    scala.sys.process
+      .Process(s"javap $opts ${getClassFilePath(c)}")
+      .!!
+      .trim
+      .replaceAll("""(?m)\s+$""", "")
 }

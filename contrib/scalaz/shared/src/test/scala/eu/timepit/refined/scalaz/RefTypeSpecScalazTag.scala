@@ -5,7 +5,7 @@ import _root_.scalaz.std.anyVal._
 import _root_.scalaz.syntax.equal._
 import _root_.scalaz.syntax.show._
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.api.{ RefType, RefTypeSpec }
+import eu.timepit.refined.api.{RefType, RefTypeSpec}
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalaz.auto._
 import org.scalacheck.Prop._

@@ -48,4 +48,4 @@ compiler errors like this:
 [error]                    ^
 
 See https://issues.scala-lang.org/browse/SI-6260 for more information.
-*/
+ */

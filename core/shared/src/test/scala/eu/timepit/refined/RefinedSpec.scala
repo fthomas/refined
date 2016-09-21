@@ -27,7 +27,7 @@ class RefinedSpec extends Properties("Refined") {
 
   property("equals") = secure {
     (Refined.unsafeApply(1) ?= Refined.unsafeApply(1)) &&
-      !Refined.unsafeApply(1).equals(1)
+    !Refined.unsafeApply(1).equals(1)
   }
 
   property("hashCode") = forAll { i: Int =>

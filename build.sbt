@@ -1,11 +1,12 @@
-/// shared variables
+/// variables
 
 val latestVersion = "0.5.0"
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
-val gitPubUrl = s"https://github.com/fthomas/$projectName.git"
-val gitDevUrl = s"git@github.com:fthomas/$projectName.git"
+val gitHubOwner = "fthomas"
+val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
+val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val commonImports = s"""
   import $rootPkg._
@@ -30,11 +31,11 @@ val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.6"
 val scodecVersion = "1.10.2"
 
-val allSubprojects = List("core", "scalacheck", "scalaz", "scodec")
+val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = allSubprojects.map(_ + "JS")
 
-/// project definitions
+/// projects
 
 lazy val root = project
   .in(file("."))
@@ -51,7 +52,8 @@ lazy val root = project
   .settings(noPublishSettings)
   .settings(releaseSettings)
   .settings(
-    console <<= console in (coreJVM, Compile),
+    console := console.in(coreJVM, Compile).value,
+    console.in(Test) := console.in(coreJVM, Test).value,
     parallelExecution in Test in ThisBuild := false
   )
 
@@ -59,12 +61,11 @@ lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(commonSettings: _*)
-  .settings(publishSettings: _*)
   .settings(miscSettings: _*)
+  .settings(publishSettings: _*)
   .settings(releaseSettings: _*)
-  .settings(styleSettings: _*)
   .settings(siteSettings: _*)
-  .settings(myDoctestSettings: _*)
+  .settings(styleSettings: _*)
   .jvmSettings(
     initialCommands := s"""
       $commonImports
@@ -144,20 +145,23 @@ lazy val scodec = crossProject
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-/// settings definitions
+/// settings
 
-lazy val commonSettings =
-  projectSettings ++
-    compileSettings ++
-    scaladocSettings ++
-    styleSettings
+lazy val commonSettings = Def.settings(
+  compileSettings,
+  metadataSettings,
+  myDoctestSettings,
+  scaladocSettings,
+  styleSettings
+)
 
-lazy val submoduleSettings =
-  commonSettings ++
-    publishSettings ++
-    releaseSettings
+lazy val submoduleSettings = Def.settings(
+  commonSettings,
+  publishSettings,
+  releaseSettings
+)
 
-lazy val submoduleJvmSettings = Seq(
+lazy val submoduleJvmSettings = Def.settings(
   mimaPreviousArtifacts := Set(groupId %% moduleName.value % latestVersion),
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
@@ -166,22 +170,22 @@ lazy val submoduleJvmSettings = Seq(
   }
 )
 
-lazy val submoduleJsSettings = Seq(
+lazy val submoduleJsSettings = Def.settings(
   doctestGenTests := Seq.empty,
   scalaJSUseRhino in Global := false
 )
 
-lazy val projectSettings = Seq(
+lazy val metadataSettings = Def.settings(
   name := projectName,
   description := "Simple refinement types for Scala",
   organization := groupId,
-  homepage := Some(url(s"https://github.com/fthomas/$projectName")),
+  homepage := Some(url(s"https://github.com/$gitHubOwner/$projectName")),
   startYear := Some(2015),
   licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl")))
 )
 
-lazy val compileSettings = Seq(
+lazy val compileSettings = Def.settings(
   scalaVersion := "2.11.8",
   crossScalaVersions := Seq(scalaVersion.value, "2.10.6"),
   scalacOptions ++= Seq(
@@ -218,7 +222,7 @@ lazy val compileSettings = Seq(
   )
 )
 
-lazy val scaladocSettings = Seq(
+lazy val scaladocSettings = Def.settings(
   scalacOptions in (Compile, doc) ++= Seq(
     //"-diagrams",
     "-diagrams-debug",
@@ -228,10 +232,10 @@ lazy val scaladocSettings = Seq(
     baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
   autoAPIMappings := true,
-  apiURL := Some(url(s"http://fthomas.github.io/$projectName/latest/api/"))
+  apiURL := Some(url(s"http://$gitHubOwner.github.io/$projectName/latest/api/"))
 )
 
-lazy val publishSettings = Seq(
+lazy val publishSettings = Def.settings(
   publishMavenStyle := true,
   pomIncludeRepository := { _ =>
     false
@@ -246,7 +250,7 @@ lazy val publishSettings = Seq(
     </developers>
 )
 
-lazy val noPublishSettings = Seq(
+lazy val noPublishSettings = Def.settings(
   publish := (),
   publishLocal := (),
   publishArtifact := false
@@ -303,9 +307,6 @@ lazy val releaseSettings = {
   )
 }
 
-addCommandAlias("syncMavenCentral",
-                allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral").mkString(";", ";", ""))
-
 lazy val siteSettings = Def.settings(
   site.settings,
   site.includeScaladoc(),
@@ -313,7 +314,7 @@ lazy val siteSettings = Def.settings(
   git.remoteRepo := gitDevUrl
 )
 
-lazy val miscSettings = Seq(
+lazy val miscSettings = Def.settings(
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
   buildInfoPackage := s"$rootPkg.internal"
 )
@@ -331,21 +332,27 @@ lazy val styleSettings = Def.settings(
       (unmanagedSourceDirectories in Test).value
 )
 
-addCommandAlias("testJS", allSubprojectsJS map (_ + "/test") mkString (";", ";", ""))
-addCommandAlias("testJVM", allSubprojectsJVM map (_ + "/test") mkString (";", ";", ""))
+/// commands
 
-val validateCommands = List(
-  "clean",
-  "scalafmtTest",
-  "mimaReportBinaryIssues",
-  "coverageOff",
-  "testJS",
-  "coverage",
-  "testJVM",
-  "scalastyle",
-  "test:scalastyle",
-  "doc",
-  "docs/tut"
-)
+def addCommandsAlias(name: String, cmds: Seq[String]) =
+  addCommandAlias(name, cmds.mkString(";", ";", ""))
 
-addCommandAlias("validate", validateCommands.mkString(";", ";", ""))
+addCommandsAlias("syncMavenCentral", allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral"))
+
+addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
+addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
+
+addCommandsAlias("validate",
+                 Seq(
+                   "clean",
+                   "scalafmtTest",
+                   "mimaReportBinaryIssues",
+                   "coverageOff",
+                   "testJS",
+                   "coverage",
+                   "testJVM",
+                   "scalastyle",
+                   "test:scalastyle",
+                   "doc",
+                   "docs/tut"
+                 ))

@@ -323,7 +323,7 @@ lazy val myDoctestSettings = Def.settings(
 )
 
 lazy val styleSettings = Def.settings(
-  scalafmtConfig := Some(file(".scalafmt")),
+  scalafmtConfig := Some(file(".scalafmt.conf")),
   reformatOnCompileSettings,
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
   scalastyleSources in Compile :=

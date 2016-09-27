@@ -1,12 +1,12 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{ Inference, Result, Validate }
+import eu.timepit.refined.api.{Inference, Result, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.Resources
-import eu.timepit.refined.numeric.{ GreaterEqual, LessEqual }
+import eu.timepit.refined.numeric.{GreaterEqual, LessEqual}
 import shapeless.Witness
 
 /** Module for collection predicates. */
@@ -95,10 +95,9 @@ object collection extends CollectionValidate with CollectionInference {
 private[refined] trait CollectionValidate {
 
   implicit def countValidate[A, PA, RA, PC, RC, T](
-    implicit
-    va: Validate.Aux[A, PA, RA],
-    vc: Validate.Aux[Int, PC, RC],
-    ev: T => Traversable[A]
+      implicit va: Validate.Aux[A, PA, RA],
+      vc: Validate.Aux[Int, PC, RC],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Count[PA, PC], Count[List[va.Res], vc.Res]] =
     new Validate[T, Count[PA, PC]] {
       override type R = Count[List[va.Res], vc.Res]
@@ -126,8 +125,7 @@ private[refined] trait CollectionValidate {
     Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
 
   implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](
-    implicit
-    v: Validate.Aux[A, P, R]
+      implicit v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Forall[P], Forall[List[v.Res]]] =
     new Validate[T[A], Forall[P]] {
       override type R = Forall[List[v.Res]]
@@ -142,15 +140,13 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def forallValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Forall[P], Forall[List[v.Res]]] =
     forallValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def headValidate[A, P, R, T[a] <: Traversable[a]](
-    implicit
-    v: Validate.Aux[A, P, R]
+      implicit v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Head[P], Head[Option[v.Res]]] =
     new Validate[T[A], Head[P]] {
       override type R = Head[Option[v.Res]]
@@ -168,17 +164,15 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def headValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Head[P], Head[Option[v.Res]]] =
     headValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def indexValidate[A, P, R, N <: Int, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => PartialFunction[Int, A],
-    wn: Witness.Aux[N]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => PartialFunction[Int, A],
+      wn: Witness.Aux[N]
   ): Validate.Aux[T, Index[N, P], Index[N, Option[v.Res]]] =
     new Validate[T, Index[N, P]] {
       override type R = Index[N, Option[v.Res]]
@@ -192,12 +186,14 @@ private[refined] trait CollectionValidate {
         optElemShowExpr(t.lift(wn.value), v.showExpr)
 
       override def showResult(t: T, r: Res): String =
-        optElemShowResult(t.lift(wn.value), r.detail.p, (a: A) => s"index($t, ${wn.value}) = $a", v.showResult)
+        optElemShowResult(t.lift(wn.value),
+                          r.detail.p,
+                          (a: A) => s"index($t, ${wn.value}) = $a",
+                          v.showResult)
     }
 
   implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
-    implicit
-    v: Validate.Aux[A, P, R]
+      implicit v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
     new Validate[T[A], Init[P]] {
       override type R = Init[List[v.Res]]
@@ -212,15 +208,13 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def initValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
     initValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def lastValidate[A, P, R, T[a] <: Traversable[a]](
-    implicit
-    v: Validate.Aux[A, P, R]
+      implicit v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Last[P], Last[Option[v.Res]]] =
     new Validate[T[A], Last[P]] {
       override type R = Last[Option[v.Res]]
@@ -238,16 +232,14 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def lastValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
     lastValidate[A, P, R, Traversable].contramap(ev)
 
   implicit def sizeValidate[T, P, RP](
-    implicit
-    v: Validate.Aux[Int, P, RP],
-    ev: T => Traversable[_]
+      implicit v: Validate.Aux[Int, P, RP],
+      ev: T => Traversable[_]
   ): Validate.Aux[T, Size[P], Size[v.Res]] =
     new Validate[T, Size[P]] {
       override type R = Size[v.Res]
@@ -268,8 +260,7 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](
-    implicit
-    v: Validate.Aux[A, P, R]
+      implicit v: Validate.Aux[A, P, R]
   ): Validate.Aux[T[A], Tail[P], Tail[List[v.Res]]] =
     new Validate[T[A], Tail[P]] {
       override type R = Tail[List[v.Res]]
@@ -284,16 +275,18 @@ private[refined] trait CollectionValidate {
     }
 
   implicit def tailValidateView[A, P, R, T](
-    implicit
-    v: Validate.Aux[A, P, R],
-    ev: T => Traversable[A]
+      implicit v: Validate.Aux[A, P, R],
+      ev: T => Traversable[A]
   ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
     tailValidate[A, P, R, Traversable].contramap(ev)
 
   private def optElemShowExpr[A](elem: Option[A], f: A => String): String =
     elem.fold(Resources.showExprEmptyCollection)(f)
 
-  private def optElemShowResult[A, R](elem: Option[A], res: Option[Result[R]], f: A => String, g: (A, Result[R]) => String): String =
+  private def optElemShowResult[A, R](elem: Option[A],
+                                      res: Option[Result[R]],
+                                      f: A => String,
+                                      g: (A, Result[R]) => String): String =
     (elem, res) match {
       case (Some(a), Some(r)) =>
         Resources.predicateTakingResultDetail(f(a), r, g(a, r))

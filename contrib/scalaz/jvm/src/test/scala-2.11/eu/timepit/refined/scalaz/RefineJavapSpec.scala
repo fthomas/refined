@@ -5,7 +5,7 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection.Empty
-import eu.timepit.refined.numeric.{ Greater, Positive }
+import eu.timepit.refined.numeric.{Greater, Positive}
 import eu.timepit.refined.scalaz.auto._
 import eu.timepit.refined.string.StartsWith
 import org.scalacheck.Prop._

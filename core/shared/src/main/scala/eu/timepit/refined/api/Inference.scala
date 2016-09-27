@@ -27,6 +27,8 @@ object Inference {
   def alwaysValid[P, C](show: String): Inference[P, C] =
     Inference(isValid = true, show)
 
-  def combine[P1, P2, P, C1, C2, C](i1: Inference[P1, C1], i2: Inference[P2, C2], show: String): Inference[P, C] =
+  def combine[P1, P2, P, C1, C2, C](i1: Inference[P1, C1],
+                                    i2: Inference[P2, C2],
+                                    show: String): Inference[P, C] =
     Inference(i1.isValid && i2.isValid, show.format(i1.show, i2.show))
 }

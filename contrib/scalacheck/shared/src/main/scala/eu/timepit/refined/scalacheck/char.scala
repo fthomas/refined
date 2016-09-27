@@ -3,7 +3,7 @@ package scalacheck
 
 import eu.timepit.refined.api.RefType
 import eu.timepit.refined.char._
-import org.scalacheck.{ Arbitrary, Gen }
+import org.scalacheck.{Arbitrary, Gen}
 
 /**
  * Module that provides `Arbitrary` instances for `Char` related

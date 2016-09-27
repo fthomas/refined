@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
-import eu.timepit.refined.char.{ Digit, Letter }
+import eu.timepit.refined.char.{Digit, Letter}
 import eu.timepit.refined.generic.Equal
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

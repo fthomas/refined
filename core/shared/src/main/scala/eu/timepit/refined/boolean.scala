@@ -4,7 +4,7 @@ import eu.timepit.refined.api._
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
-import shapeless.{ ::, HList, HNil }
+import shapeless.{::, HList, HNil}
 import shapeless.ops.hlist.ToList
 
 /** Module for logical predicates. */
@@ -52,7 +52,8 @@ private[refined] trait BooleanValidate {
   implicit def falseValidate[T]: Validate.Plain[T, False] =
     Validate.alwaysFailed(False())
 
-  implicit def notValidate[T, P, R](implicit v: Validate.Aux[T, P, R]): Validate.Aux[T, Not[P], Not[v.Res]] =
+  implicit def notValidate[T, P, R](
+      implicit v: Validate.Aux[T, P, R]): Validate.Aux[T, Not[P], Not[v.Res]] =
     new Validate[T, Not[P]] {
       override type R = Not[v.Res]
 
@@ -75,9 +76,8 @@ private[refined] trait BooleanValidate {
     }
 
   implicit def andValidate[T, A, RA, B, RB](
-    implicit
-    va: Validate.Aux[T, A, RA],
-    vb: Validate.Aux[T, B, RB]
+      implicit va: Validate.Aux[T, A, RA],
+      vb: Validate.Aux[T, B, RB]
   ): Validate.Aux[T, A And B, va.Res And vb.Res] =
     new Validate[T, A And B] {
       override type R = va.Res And vb.Res
@@ -107,9 +107,8 @@ private[refined] trait BooleanValidate {
     }
 
   implicit def orValidate[T, A, RA, B, RB](
-    implicit
-    va: Validate.Aux[T, A, RA],
-    vb: Validate.Aux[T, B, RB]
+      implicit va: Validate.Aux[T, A, RA],
+      vb: Validate.Aux[T, B, RB]
   ): Validate.Aux[T, A Or B, va.Res Or vb.Res] =
     new Validate[T, A Or B] {
       override type R = va.Res Or vb.Res
@@ -139,9 +138,8 @@ private[refined] trait BooleanValidate {
     }
 
   implicit def xorValidate[T, A, RA, B, RB](
-    implicit
-    va: Validate.Aux[T, A, RA],
-    vb: Validate.Aux[T, B, RB]
+      implicit va: Validate.Aux[T, A, RA],
+      vb: Validate.Aux[T, B, RB]
   ): Validate.Aux[T, A Xor B, va.Res Xor vb.Res] =
     new Validate[T, A Xor B] {
       override type R = va.Res Xor vb.Res
@@ -174,9 +172,8 @@ private[refined] trait BooleanValidate {
     Validate.alwaysPassed(AllOf(HList()))
 
   implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-    implicit
-    vh: Validate.Aux[T, PH, RH],
-    vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
+      implicit vh: Validate.Aux[T, PH, RH],
+      vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
   ): Validate.Aux[T, AllOf[PH :: PT], AllOf[vh.Res :: RT]] =
     new Validate[T, AllOf[PH :: PT]] {
       override type R = AllOf[vh.Res :: RT]
@@ -198,9 +195,8 @@ private[refined] trait BooleanValidate {
     Validate.alwaysFailed(AnyOf(HList()))
 
   implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-    implicit
-    vh: Validate.Aux[T, PH, RH],
-    vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
+      implicit vh: Validate.Aux[T, PH, RH],
+      vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
   ): Validate.Aux[T, AnyOf[PH :: PT], AnyOf[vh.Res :: RT]] =
     new Validate[T, AnyOf[PH :: PT]] {
       override type R = AnyOf[vh.Res :: RT]
@@ -222,10 +218,9 @@ private[refined] trait BooleanValidate {
     Validate.alwaysFailed(OneOf(HList()))
 
   implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-    implicit
-    vh: Validate.Aux[T, PH, RH],
-    vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
-    toList: ToList[RT, Result[_]]
+      implicit vh: Validate.Aux[T, PH, RH],
+      vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
+      toList: ToList[RT, Result[_]]
   ): Validate.Aux[T, OneOf[PH :: PT], OneOf[vh.Res :: RT]] =
     new Validate[T, OneOf[PH :: PT]] {
       override type R = OneOf[vh.Res :: RT]

@@ -4,10 +4,10 @@ import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.api.Validate
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
-import eu.timepit.refined.numeric.{ Greater, Less }
+import eu.timepit.refined.numeric.{Greater, Less}
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.{ ::, HNil }
+import shapeless.{::, HNil}
 import shapeless.nat._
 
 class BooleanValidateSpec extends Properties("BooleanValidate") {
@@ -47,9 +47,9 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("And.isValid") = secure {
     notValid[FF[And]](()) &&
-      notValid[FT[And]](()) &&
-      notValid[TF[And]](()) &&
-      isValid[TT[And]](())
+    notValid[FT[And]](()) &&
+    notValid[TF[And]](()) &&
+    isValid[TT[And]](())
   }
 
   property("And.showExpr") = secure {
@@ -58,17 +58,17 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("And.showResult") = secure {
     (showResult[TT[And]](()) ?= "Both predicates of (true && true) passed.") &&
-      (showResult[FT[And]](()) ?= "Left predicate of (false && true) failed: Predicate failed: false.") &&
-      (showResult[TF[And]](()) ?= "Right predicate of (true && false) failed: Predicate failed: false.") &&
-      (showResult[FF[And]](()) ?= "Both predicates of (false && false) failed. " +
-        "Left: Predicate failed: false. Right: Predicate failed: false.")
+    (showResult[FT[And]](()) ?= "Left predicate of (false && true) failed: Predicate failed: false.") &&
+    (showResult[TF[And]](()) ?= "Right predicate of (true && false) failed: Predicate failed: false.") &&
+    (showResult[FF[And]](()) ?= "Both predicates of (false && false) failed. " +
+      "Left: Predicate failed: false. Right: Predicate failed: false.")
   }
 
   property("Or.isValid") = secure {
     notValid[FF[Or]](()) &&
-      isValid[FT[Or]](()) &&
-      isValid[TF[Or]](()) &&
-      isValid[TT[Or]](())
+    isValid[FT[Or]](()) &&
+    isValid[TF[Or]](()) &&
+    isValid[TT[Or]](())
   }
 
   property("Or.showExpr") = secure {
@@ -77,17 +77,17 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("Or.showResult") = secure {
     (showResult[TT[Or]](()) ?= "Both predicates of (true || true) passed.") &&
-      (showResult[FT[Or]](()) ?= "Right predicate of (false || true) passed.") &&
-      (showResult[TF[Or]](()) ?= "Left predicate of (true || false) passed.") &&
-      (showResult[FF[Or]](()) ?= "Both predicates of (false || false) failed. " +
-        "Left: Predicate failed: false. Right: Predicate failed: false.")
+    (showResult[FT[Or]](()) ?= "Right predicate of (false || true) passed.") &&
+    (showResult[TF[Or]](()) ?= "Left predicate of (true || false) passed.") &&
+    (showResult[FF[Or]](()) ?= "Both predicates of (false || false) failed. " +
+      "Left: Predicate failed: false. Right: Predicate failed: false.")
   }
 
   property("Xor.isValid") = secure {
     notValid[FF[Xor]](()) &&
-      isValid[FT[Xor]](()) &&
-      isValid[TF[Xor]](()) &&
-      notValid[TT[Xor]](())
+    isValid[FT[Xor]](()) &&
+    isValid[TF[Xor]](()) &&
+    notValid[TT[Xor]](())
   }
 
   property("Xor.showExpr") = secure {
@@ -96,17 +96,17 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("Xor.showResult") = secure {
     (showResult[TT[Xor]](()) ?= "Both predicates of (true ^ true) passed.") &&
-      (showResult[FT[Xor]](()) ?= "Right predicate of (false ^ true) passed.") &&
-      (showResult[TF[Xor]](()) ?= "Left predicate of (true ^ false) passed.") &&
-      (showResult[FF[Xor]](()) ?= "Both predicates of (false ^ false) failed. " +
-        "Left: Predicate failed: false. Right: Predicate failed: false.")
+    (showResult[FT[Xor]](()) ?= "Right predicate of (false ^ true) passed.") &&
+    (showResult[TF[Xor]](()) ?= "Left predicate of (true ^ false) passed.") &&
+    (showResult[FF[Xor]](()) ?= "Both predicates of (false ^ false) failed. " +
+      "Left: Predicate failed: false. Right: Predicate failed: false.")
   }
 
   property("Nand.isValid") = secure {
     isValid[FF[Nand]](()) &&
-      isValid[FT[Nand]](()) &&
-      isValid[TF[Nand]](()) &&
-      notValid[TT[Nand]](())
+    isValid[FT[Nand]](()) &&
+    isValid[TF[Nand]](()) &&
+    notValid[TT[Nand]](())
   }
 
   property("Nand.showExpr") = secure {
@@ -115,16 +115,16 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("Nand.showResult") = secure {
     (showResult[TT[Nand]](()) ?= "Predicate (true && true) did not fail.") &&
-      (showResult[FT[Nand]](()) ?= "Predicate (false && true) did not pass.") &&
-      (showResult[TF[Nand]](()) ?= "Predicate (true && false) did not pass.") &&
-      (showResult[FF[Nand]](()) ?= "Predicate (false && false) did not pass.")
+    (showResult[FT[Nand]](()) ?= "Predicate (false && true) did not pass.") &&
+    (showResult[TF[Nand]](()) ?= "Predicate (true && false) did not pass.") &&
+    (showResult[FF[Nand]](()) ?= "Predicate (false && false) did not pass.")
   }
 
   property("Nor.isValid") = secure {
     isValid[FF[Nor]](()) &&
-      notValid[FT[Nor]](()) &&
-      notValid[TF[Nor]](()) &&
-      notValid[TT[Nor]](())
+    notValid[FT[Nor]](()) &&
+    notValid[TF[Nor]](()) &&
+    notValid[TT[Nor]](())
   }
 
   property("Nor.showExpr") = secure {
@@ -133,9 +133,9 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("Nor.showResult") = secure {
     (showResult[TT[Nor]](()) ?= "Predicate (true || true) did not fail.") &&
-      (showResult[FT[Nor]](()) ?= "Predicate (false || true) did not fail.") &&
-      (showResult[TF[Nor]](()) ?= "Predicate (true || false) did not fail.") &&
-      (showResult[FF[Nor]](()) ?= "Predicate (false || false) did not pass.")
+    (showResult[FT[Nor]](()) ?= "Predicate (false || true) did not fail.") &&
+    (showResult[TF[Nor]](()) ?= "Predicate (true || false) did not fail.") &&
+    (showResult[FF[Nor]](()) ?= "Predicate (false || false) did not pass.")
   }
 
   property("AllOf.isValid") = forAll { (i: Int) =>

@@ -12,7 +12,8 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
   import c.universe._
 
   def impl[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](ta: c.Expr[F[T, A]])(
-    rt: c.Expr[RefType[F]], ir: c.Expr[A ==> B]
+      rt: c.Expr[RefType[F]],
+      ir: c.Expr[A ==> B]
   ): c.Expr[F[T, B]] = {
 
     val inference = eval(ir)

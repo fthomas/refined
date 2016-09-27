@@ -3,7 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
-import eu.timepit.refined.char.{ Digit, Letter, UpperCase, Whitespace }
+import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric.Greater
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -46,7 +46,8 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("conjunction associativity") = secure {
-    Inference[(UpperCase And Letter) And Not[Whitespace], UpperCase And (Letter And Not[Whitespace])].isValid
+    Inference[(UpperCase And Letter) And Not[Whitespace],
+              UpperCase And (Letter And Not[Whitespace])].isValid
   }
 
   property("conjunction commutativity") = secure {
@@ -93,7 +94,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   property("De Morgan's law 1 (reversed)") = secure {
     Inference[Not[UpperCase] Or Not[Letter], Not[UpperCase And Letter]].isValid
   }
-  */
+   */
 
   property("De Morgan's law 2") = secure {
     Inference[Not[UpperCase Or Letter], Not[UpperCase] And Not[Letter]].isValid
@@ -103,31 +104,31 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   property("De Morgan's law 2 (reversed)") = secure {
     Inference[Not[UpperCase] And Not[Letter], Not[UpperCase Or Letter]].isValid
   }
-  */
+   */
 
   /*
   property("De Morgan's law 1 (substitution form)") = secure {
     Inference[Not[Not[UpperCase] Or Not[Letter]], UpperCase And Letter].isValid
   }
-  */
+   */
 
   /*
   property("De Morgan's law 1 (substitution form, reversed)") = secure {
     Inference[UpperCase And Letter, Not[Not[UpperCase] Or Not[Letter]]].isValid
   }
-  */
+   */
 
   /*
   property("De Morgan's law 2 (substitution form)") = secure {
     Inference[Not[Not[UpperCase] And Not[Letter]], UpperCase Or Letter].isValid
   }
-  */
+   */
 
   /*
   property("De Morgan's law 2 (substitution form, reversed)") = secure {
     Inference[UpperCase Or Letter, Not[Not[UpperCase] And Not[Letter]]].isValid
   }
-  */
+   */
 
   property("Xor commutativity") = secure {
     Inference[Letter Xor Digit, Digit Xor Letter].isValid

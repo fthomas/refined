@@ -1,1 +1,1 @@
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.1.9")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.1.10")

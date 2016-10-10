@@ -346,14 +346,14 @@ addCommandsAlias("validate",
                  Seq(
                    "clean",
                    "scalafmtTest",
+                   "scalastyle",
+                   "test:scalastyle",
                    "mimaReportBinaryIssues",
                    "testJS",
                    "coverage",
                    "testJVM",
                    "coverageReport",
                    "coverageOff",
-                   "scalastyle",
-                   "test:scalastyle",
                    "doc",
                    "docs/tut"
                  ))

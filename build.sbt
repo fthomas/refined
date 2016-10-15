@@ -60,20 +60,25 @@ lazy val root = project
 lazy val core = crossProject
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
-  .settings(commonSettings: _*)
+  .settings(submoduleSettings: _*)
+  .jvmSettings(submoduleJvmSettings: _*)
+  .jsSettings(submoduleJsSettings: _*)
   .settings(miscSettings: _*)
-  .settings(publishSettings: _*)
-  .settings(releaseSettings: _*)
   .settings(siteSettings: _*)
-  .settings(styleSettings: _*)
-  .jvmSettings(
+  .settings(
+    libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      compilerPlugin(
+        "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
+      "org.typelevel" %%% "macro-compat" % macroCompatVersion,
+      "com.chuusai" %%% "shapeless" % shapelessVersion,
+      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+    ),
     initialCommands := s"""
       $commonImports
       import shapeless.tag.@@
     """
   )
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -94,15 +99,15 @@ lazy val scalacheck = crossProject
   .in(file("contrib/scalacheck"))
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
-  .settings(libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
-  .jvmSettings(
+  .jvmSettings(submoduleJvmSettings: _*)
+  .jsSettings(submoduleJsSettings: _*)
+  .settings(
+    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands := s"""
       $commonImports
       import org.scalacheck.Arbitrary
     """
   )
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core)
 
 lazy val scalacheckJVM = scalacheck.jvm
@@ -112,8 +117,10 @@ lazy val scalaz = crossProject
   .in(file("contrib/scalaz"))
   .settings(moduleName := s"$projectName-scalaz")
   .settings(submoduleSettings: _*)
-  .settings(libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion)
-  .jvmSettings(
+  .jvmSettings(submoduleJvmSettings: _*)
+  .jsSettings(submoduleJsSettings: _*)
+  .settings(
+    libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands := s"""
       $commonImports
       import $rootPkg.scalaz._
@@ -121,8 +128,6 @@ lazy val scalaz = crossProject
       import _root_.scalaz.@@
     """
   )
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core % "compile->compile;test->test")
 
 lazy val scalazJVM = scalaz.jvm
@@ -132,14 +137,14 @@ lazy val scodec = crossProject
   .in(file("contrib/scodec"))
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
-  .settings(libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion)
-  .jvmSettings(
+  .jvmSettings(submoduleJvmSettings: _*)
+  .jsSettings(submoduleJsSettings: _*)
+  .settings(
+    libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion,
     initialCommands := s"""
       $commonImports
     """
   )
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .dependsOn(core % "compile->compile;test->test")
 
 lazy val scodecJVM = scodec.jvm
@@ -180,7 +185,7 @@ lazy val metadataSettings = Def.settings(
   organization := groupId,
   homepage := Some(url(s"https://github.com/$gitHubOwner/$projectName")),
   startYear := Some(2015),
-  licenses += "MIT" -> url("http://opensource.org/licenses/MIT"),
+  licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl")))
 )
 
@@ -204,13 +209,6 @@ lazy val compileSettings = Def.settings(
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
-  ),
-  libraryDependencies ++= Seq(
-    "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
-    "org.typelevel" %%% "macro-compat" % macroCompatVersion,
-    "com.chuusai" %%% "shapeless" % shapelessVersion,
-    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
   ),
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
@@ -285,7 +283,7 @@ lazy val releaseSettings = {
     st
   }
 
-  Seq(
+  Def.settings(
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](

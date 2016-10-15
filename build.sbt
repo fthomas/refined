@@ -171,8 +171,7 @@ lazy val submoduleJvmSettings = Def.settings(
 )
 
 lazy val submoduleJsSettings = Def.settings(
-  doctestGenTests := Seq.empty,
-  scalaJSUseRhino in Global := false
+  doctestGenTests := Seq.empty
 )
 
 lazy val metadataSettings = Def.settings(

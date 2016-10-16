@@ -33,7 +33,7 @@ val scodecVersion = "1.10.2"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full % "test")
+  "org.scalamacros" % "paradise" % macroParadiseVersion % "test" cross CrossVersion.full)
 
 val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")

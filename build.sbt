@@ -31,6 +31,10 @@ val scalaCheckVersion = "1.12.5"
 val scalazVersion = "7.2.6"
 val scodecVersion = "1.10.2"
 
+// needed for tests with Scala 2.10
+val macroParadise = compilerPlugin(
+  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full % "test")
+
 val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = allSubprojects.map(_ + "JS")
@@ -68,11 +72,10 @@ lazy val core = crossProject
   .settings(
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-      compilerPlugin(
-        "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+      macroParadise
     ),
     initialCommands := s"""
       $commonImports
@@ -140,7 +143,10 @@ lazy val scodec = crossProject
   .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
   .settings(
-    libraryDependencies += "org.scodec" %%% "scodec-core" % scodecVersion,
+    libraryDependencies ++= Seq(
+      "org.scodec" %%% "scodec-core" % scodecVersion,
+      macroParadise
+    ),
     initialCommands := s"""
       $commonImports
     """

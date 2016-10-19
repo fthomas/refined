@@ -5,7 +5,7 @@
 
 ### Updates
 
-* Update `refined-scalacheck` to ScalaCheck 1.13.2. ([#128])
+* Update `refined-scalacheck` to ScalaCheck 1.13.3. ([#128], [#210])
 * Update `refined-scalaz` to Scalaz 7.2.6. ([#198])
 * Update `refined-scodec` to scodec 1.10.2. ([#187])
 * Update Scala.js to 0.6.13. ([#194], [#197], [#206])
@@ -19,3 +19,4 @@
 [#197]: https://github.com/fthomas/refined/pull/197
 [#198]: https://github.com/fthomas/refined/pull/198
 [#206]: https://github.com/fthomas/refined/pull/206
+[#210]: https://github.com/fthomas/refined/pull/210

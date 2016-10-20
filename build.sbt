@@ -1,6 +1,6 @@
 /// variables
 
-val latestVersion = "0.5.0"
+val latestVersion = "0.6.0"
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"

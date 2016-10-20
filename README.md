@@ -157,17 +157,17 @@ scala> val u1: String Refined Url = "htp://example.com"
 
 ## Using refined
 
-The latest version of the library is 0.5.0, which is available for Scala and
+The latest version of the library is 0.6.0, which is available for Scala and
 [Scala.js][scala.js] version 2.10, 2.11, and 2.12.0-RC2.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"            % "0.5.0",
-  "eu.timepit" %% "refined-scalaz"     % "0.5.0",         // optional
-  "eu.timepit" %% "refined-scodec"     % "0.5.0",         // optional
-  "eu.timepit" %% "refined-scalacheck" % "0.5.0" % "test" // optional
+  "eu.timepit" %% "refined"            % "0.6.0",
+  "eu.timepit" %% "refined-scalaz"     % "0.6.0",         // optional
+  "eu.timepit" %% "refined-scodec"     % "0.6.0",         // optional
+  "eu.timepit" %% "refined-scalacheck" % "0.6.0" % "test" // optional
 )
 ```
 
@@ -176,7 +176,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.5.0.markdown](https://github.com/fthomas/refined/blob/master/notes/0.5.0.markdown).
+[0.6.0.markdown](https://github.com/fthomas/refined/blob/master/notes/0.6.0.markdown).
 
 The optional dependencies are add-on libraries that provide support for
 other tag types or integration of refined types in other libraries:

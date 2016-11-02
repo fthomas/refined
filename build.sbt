@@ -215,14 +215,14 @@ lazy val compileSettings = Def.settings(
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
-  ),
+  ) /*,
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
     Wart.AsInstanceOf,
     Wart.NonUnitStatements,
     Wart.Null,
     Wart.Throw
-  )
+  )*/
 )
 
 lazy val scaladocSettings = Def.settings(

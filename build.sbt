@@ -353,10 +353,10 @@ addCommandsAlias("validate",
                    "test:scalastyle",
                    //"mimaReportBinaryIssues",
                    "testJS",
-                   "coverage",
+                   //"coverage",
                    "testJVM",
-                   "coverageReport",
-                   "coverageOff",
+                   //"coverageReport",
+                   //"coverageOff",
                    "doc",
                    "docs/tut"
                  ))

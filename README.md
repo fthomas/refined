@@ -158,7 +158,7 @@ scala> val u1: String Refined Url = "htp://example.com"
 ## Using refined
 
 The latest version of the library is 0.6.0, which is available for Scala and
-[Scala.js][scala.js] version 2.10, 2.11, and 2.12.0-RC2.
+[Scala.js][scala.js] version 2.10, 2.11, and 2.12.
 
 If you're using sbt, add the following to your build:
 

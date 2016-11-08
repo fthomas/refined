@@ -27,8 +27,8 @@ val commonImports = s"""
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.2"
-val scalaCheckVersion = "1.13.3"
-val scalazVersion = "7.2.6"
+val scalaCheckVersion = "1.13.4"
+val scalazVersion = "7.2.7"
 val scodecVersion = "1.10.3"
 
 // needed for tests with Scala 2.10
@@ -196,8 +196,8 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalaVersion := "2.11.8",
-  crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.12.0-RC2"),
+  scalaVersion := "2.12.0",
+  crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.11.8"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

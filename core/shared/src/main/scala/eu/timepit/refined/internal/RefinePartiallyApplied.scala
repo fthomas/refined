@@ -18,6 +18,12 @@ final class RefinePartiallyApplied[F[_, _], P](rt: RefType[F]) {
     else Left(v.showResult(t, res))
   }
 
+  def withErrors[T](t: T)(implicit v: Validate[T, P]): Either[v.Res, F[T, P]] = {
+    val res = v.validate(t)
+    if (res.isPassed) Right(rt.unsafeWrap(t))
+    else Left(res)
+  }
+
   def unsafeFrom[T](t: T)(implicit v: Validate[T, P]): F[T, P] =
     apply(t).fold(err => throw new IllegalArgumentException(err), identity)
 

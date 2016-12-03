@@ -37,6 +37,19 @@ object auto {
    * `[[api.RefType]]` instance of `F`. This allows a `F[T, P]` to be
    * used as it were a subtype of `T`.
    *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api.Refined
+   *      | import eu.timepit.refined.auto.{ autoRefineV, autoUnwrap }
+   *      | import eu.timepit.refined.numeric.Positive
+   *
+   * scala> def plusOne(i: Int): Int = i + 1
+   *      | val x: Int Refined Positive = 42
+   *
+   * // converts x implicitly to an Int:
+   * scala> plusOne(x)
+   * res0: Int = 43
+   * }}}
+   *
    * Note: This conversion is not needed if `F[T, _] <: T` holds (which
    * is the case for `shapeless.tag.@@`, for example).
    */

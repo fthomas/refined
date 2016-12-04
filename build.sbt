@@ -177,7 +177,9 @@ lazy val submoduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     import com.typesafe.tools.mima.core.ProblemFilters._
-    Seq()
+    Seq(
+      exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.internal.RefinePartiallyApplied.force"))
   }
 )
 

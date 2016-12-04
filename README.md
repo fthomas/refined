@@ -324,6 +324,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 
 ## Related projects
 
+* [SMT-Based Checking of Predicate-Qualified Types for Scala](http://lara.epfl.ch/~kuncak/papers/SchmidKuncak16CheckingPredicate.pdf)
 * [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
 * [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
 * [LiquidHaskell](http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/):

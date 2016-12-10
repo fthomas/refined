@@ -198,8 +198,6 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq(scalaVersion.value, "2.10.6", "2.11.8"),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

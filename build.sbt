@@ -51,7 +51,6 @@ lazy val core = crossProject
   .settings(submoduleSettings: _*)
   .jvmSettings(submoduleJvmSettings: _*)
   .jsSettings(submoduleJsSettings: _*)
-  .settings(miscSettings: _*)
   .settings(siteSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
@@ -63,7 +62,9 @@ lazy val core = crossProject
     ),
     initialCommands += s"""
       import shapeless.tag.@@
-    """
+    """,
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+    buildInfoPackage := s"$rootPkg.internal"
   )
 
 lazy val coreJVM = core.jvm
@@ -305,11 +306,6 @@ lazy val siteSettings = Def.settings(
   site.includeScaladoc(),
   ghpages.settings,
   git.remoteRepo := gitDevUrl
-)
-
-lazy val miscSettings = Def.settings(
-  buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-  buildInfoPackage := s"$rootPkg.internal"
 )
 
 lazy val myDoctestSettings = Def.settings(

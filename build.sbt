@@ -194,7 +194,12 @@ lazy val metadataSettings = Def.settings(
   homepage := Some(url(s"https://github.com/$gitHubOwner/$projectName")),
   startYear := Some(2015),
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
-  scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl")))
+  scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl"))),
+  developers := List(
+    Developer(id = "fthomas",
+              name = "Frank S. Thomas",
+              email = "",
+              url("https://github.com/fthomas")))
 )
 
 lazy val compileSettings = Def.settings(
@@ -242,15 +247,7 @@ lazy val publishSettings = Def.settings(
   publishMavenStyle := true,
   pomIncludeRepository := { _ =>
     false
-  },
-  pomExtra :=
-    <developers>
-      <developer>
-        <id>fthomas</id>
-        <name>Frank S. Thomas</name>
-        <url>https://github.com/fthomas</url>
-      </developer>
-    </developers>
+  }
 )
 
 lazy val noPublishSettings = Def.settings(

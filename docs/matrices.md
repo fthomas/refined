@@ -30,7 +30,7 @@ m1: eu.timepit.refined.api.Refined[List[List[Int]],Dim[Int(2),Int(3)]] = List(Li
 
 ```scala
 scala> def transpose[R <: Int, C <: Int](m: Matrix[R, C]): Matrix[C, R] =
-     |   Refined.unsafeApply(m.get.transpose)
+     |   Refined.unsafeApply(m.value.transpose)
 transpose: [R <: Int, C <: Int](m: Matrix[R,C])Matrix[C,R]
 
 scala> transpose(m1)

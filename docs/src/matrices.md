@@ -25,7 +25,7 @@ val m1 = matrix(2, 3)((r, c) => r * 10 + c)
 
 ```tut
 def transpose[R <: Int, C <: Int](m: Matrix[R, C]): Matrix[C, R] =
-  Refined.unsafeApply(m.get.transpose)
+  Refined.unsafeApply(m.value.transpose)
 
 transpose(m1)
 ```

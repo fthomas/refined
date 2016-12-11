@@ -37,6 +37,6 @@ class RefinedSpec extends Properties("Refined") {
   property("unapply") = secure {
     val x: NonEmptyString = refineMV("Hi")
     val Refined(s) = x
-    s ?= x.get
+    s ?= x.value
   }
 }

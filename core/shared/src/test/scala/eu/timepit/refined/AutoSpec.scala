@@ -24,13 +24,13 @@ class AutoSpec extends Properties("auto") {
   property("autoUnwrap") = secure {
     val a: Char Refined Letter = 'A'
     val b: Char = a
-    a.get == b
+    a.value == b
   }
 
   property("autoRefineV") = secure {
     val a: Char Refined Equal[W.`'0'`.T] = '0'
     illTyped("val b: Char Refined Equal[W.`'0'`.T] = '1'", """Predicate failed: \(1 == 0\).""")
-    a.get == '0'
+    a.value == '0'
   }
 
   property("autoRefineT") = secure {

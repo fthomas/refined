@@ -6,10 +6,13 @@ package api
  * this class can be created with `[[refineV]]` and `[[refineMV]]` which
  * verify that the wrapped value satisfies `P`.
  */
-final class Refined[T, P] private (val get: T) extends AnyVal with Serializable {
+final class Refined[T, P] private (val value: T) extends AnyVal with Serializable {
+
+  @deprecated("`get` has been renamed to `value` to avoid confusion with `Option#get`", "0.6.1")
+  def get: T = value
 
   override def toString: String =
-    get.toString
+    value.toString
 }
 
 object Refined {
@@ -22,5 +25,5 @@ object Refined {
     new Refined(t)
 
   def unapply[T, P](r: Refined[T, P]): Some[T] =
-    Some(r.get)
+    Some(r.value)
 }

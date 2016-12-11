@@ -157,10 +157,10 @@ object RefType {
         Refined.unsafeApply(t)
 
       override def unwrap[T](tp: Refined[T, _]): T =
-        tp.get
+        tp.value
 
       override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
-        Refined.unsafeApply(ta.get)
+        Refined.unsafeApply(ta.value)
 
       override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(
           t: c.Expr[T]): c.Expr[Refined[T, P]] =
@@ -168,7 +168,7 @@ object RefType {
 
       override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
           c: blackbox.Context)(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
-        c.universe.reify(Refined.unsafeApply(ta.splice.get))
+        c.universe.reify(Refined.unsafeApply(ta.splice.value))
     }
 
   implicit val tagRefType: RefType[@@] =

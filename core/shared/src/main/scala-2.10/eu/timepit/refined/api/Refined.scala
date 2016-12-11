@@ -6,19 +6,22 @@ package api
  * this class can be created with `[[refineV]]` and `[[refineMV]]` which
  * verify that the wrapped value satisfies `P`.
  */
-final class Refined[T, P] private (val get: T) extends Serializable {
+final class Refined[T, P] private (val value: T) extends Serializable {
+
+  @deprecated("`get` has been renamed to `value` to avoid confusion with `Option#get`", "0.6.1")
+  def get: T = value
 
   override def hashCode: Int =
-    get.hashCode
+    value.hashCode
 
   override def equals(that: Any): Boolean =
     that match {
-      case that: Refined[_, _] => this.get == that.get
+      case that: Refined[_, _] => this.value == that.value
       case _ => false
     }
 
   override def toString: String =
-    get.toString
+    value.toString
 }
 
 object Refined {
@@ -31,7 +34,7 @@ object Refined {
     new Refined(t)
 
   def unapply[T, P](r: Refined[T, P]): Some[T] =
-    Some(r.get)
+    Some(r.value)
 }
 
 /*

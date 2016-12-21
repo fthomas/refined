@@ -9,9 +9,11 @@
 ### Updates
 
 * Update to Scala 2.12.1. ([#226])
+* Update to Scala.js 0.6.14. ([#232])
 * Update `refined-scalaz` to Scalaz 7.2.8. ([#223])
 
 [#220]: https://github.com/fthomas/refined/issues/220
 [#223]: https://github.com/fthomas/refined/pull/223
 [#225]: https://github.com/fthomas/refined/pull/225
 [#226]: https://github.com/fthomas/refined/pull/226
+[#232]: https://github.com/fthomas/refined/pull/232

@@ -14,14 +14,18 @@ val shapelessVersion = "2.3.2"
 val scalaCheckVersion = "1.13.4"
 val scalazVersion = "7.2.8"
 val scodecVersion = "1.10.3"
+val pureconfigVersion = "0.4.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % "test" cross CrossVersion.full)
 
-val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec")
+val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec", "pureconfig")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
-val allSubprojectsJS = allSubprojects.map(_ + "JS")
+val allSubprojectsJS = {
+  val jvmOnlySubprojects = Seq("pureconfig")
+  (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
+}
 
 /// projects
 
@@ -35,7 +39,8 @@ lazy val root = project
              scalazJVM,
              scalazJS,
              scodecJVM,
-             scodecJS)
+             scodecJS,
+             pureconfigJVM)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -135,6 +140,22 @@ lazy val scodec = crossProject
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
+lazy val pureconfig = crossProject
+  .in(file("contrib/pureconfig"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(moduleName := s"$projectName-pureconfig")
+  .settings(submoduleSettings: _*)
+  .jvmSettings(submoduleJvmSettings: _*)
+  .jsSettings(submoduleJsSettings: _*)
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.github.melrief" %% "pureconfig" % pureconfigVersion,
+      macroParadise
+    )
+  )
+
+lazy val pureconfigJVM = pureconfig.jvm
+
 /// settings
 
 lazy val commonSettings = Def.settings(
@@ -167,7 +188,20 @@ lazy val submoduleSettings = Def.settings(
 )
 
 lazy val submoduleJvmSettings = Def.settings(
-  mimaPreviousArtifacts := Set(groupId %% moduleName.value % latestVersion),
+  mimaPreviousArtifacts := {
+    val latestVersionWithoutModules = Set(
+      s"$projectName-pureconfig" → "0.6.0"
+    )
+
+    val latestVersionExists =
+      !latestVersionWithoutModules.contains {
+        moduleName.value → latestVersion
+      }
+
+    if (latestVersionExists)
+      Set(groupId %% moduleName.value % latestVersion)
+    else Set.empty
+  },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     import com.typesafe.tools.mima.core.ProblemFilters._

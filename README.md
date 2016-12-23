@@ -165,13 +165,14 @@ If you're using sbt, add the following to your build:
 ```sbt
 libraryDependencies ++= Seq(
   "eu.timepit" %% "refined"            % "0.6.0",
-  "eu.timepit" %% "refined-scalaz"     % "0.6.0",         // optional
-  "eu.timepit" %% "refined-scodec"     % "0.6.0",         // optional
-  "eu.timepit" %% "refined-scalacheck" % "0.6.0" % "test" // optional
+  "eu.timepit" %% "refined-scalaz"     % "0.6.0",          // optional
+  "eu.timepit" %% "refined-scodec"     % "0.6.0",          // optional
+  "eu.timepit" %% "refined-scalacheck" % "0.6.0" % "test", // optional
+  "eu.timepit" %% "refined-pureconfig" % "0.6.0"           // optional
 )
 ```
 
-For Scala.js just replace `%%` with `%%%` above.
+For Scala.js just replace `%%` with `%%%` above (except for `refined-pureconfig` which is not available for Scala.js).
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
@@ -186,6 +187,7 @@ other tag types or integration of refined types in other libraries:
 * `refined-scodec` for integration with [scodec](http://scodec.org/)
 * `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
   class instances of refined types
+* `refined-pureconfig` for [PureConfig](https://github.com/melrief/pureconfig) integration
 
 See also the list of [projects that use refined][built-with-refined]
 for libraries that directly provide support for **refined**.

@@ -25,6 +25,13 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       Failure(PredicateFailedException("Predicate failed: (0 > 0)."))
   }
 
+  property("roundtrip success") = secure {
+    val config = Config(1)
+    val configValue = ConfigConvert[Config].to(config)
+    ConfigConvert[Config].from(configValue) ?=
+      Success(config)
+  }
+
   def loadConfigWithValue(value: String): Try[Config] =
     loadConfig[Config](ConfigFactory.parseString(s"value = $value"))
 }

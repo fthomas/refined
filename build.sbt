@@ -1,6 +1,5 @@
 /// variables
 
-val latestVersion = "0.6.0"
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -195,11 +194,11 @@ lazy val submoduleJvmSettings = Def.settings(
 
     val latestVersionExists =
       !latestVersionWithoutModules.contains {
-        moduleName.value → latestVersion
+        moduleName.value → latestVersion.value
       }
 
     if (latestVersionExists)
-      Set(groupId %% moduleName.value % latestVersion)
+      Set(groupId %% moduleName.value % latestVersion.value)
     else Set.empty
   },
   mimaBinaryIssueFilters ++= {
@@ -303,7 +302,7 @@ lazy val releaseSettings = {
   lazy val updateVersionInReadme: ReleaseStep = { st: State =>
     val extracted = Project.extract(st)
     val newVersion = extracted.get(version)
-    val oldVersion = "git describe --abbrev=0".!!.trim.replaceAll("^v", "")
+    val oldVersion = extracted.get(latestVersion)
 
     val readme = "README.md"
     val oldContent = IO.read(file(readme))
@@ -328,6 +327,7 @@ lazy val releaseSettings = {
       tagRelease,
       publishArtifacts,
       releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
+      setLatestVersion,
       setNextVersion,
       commitNextVersion,
       pushChanges

@@ -300,6 +300,7 @@ The library comes with these predefined predicates:
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [John-Michael Reed](https://github.com/JohnReedLOL)
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))
+* [Viktor Lövgren](https://github.com/vlovgr) ([@vlovgr](https://twitter.com/vlovgr)
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
 * Your name here :-)
 

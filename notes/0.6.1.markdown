@@ -1,6 +1,9 @@
 ### Changes
 
-* Deprecated `Refined#get` in favor of `Refined#value` to avoid
+* Add the `refined-pureconfig` subproject which adds support for
+  refined types to [PureConfig](https://github.com/melrief/pureconfig).
+  Thanks to [Viktor Lövgren](https://github.com/vlovgr)! ([#233])
+* Deprecate `Refined#get` in favor of `Refined#value` to avoid
   confusion with `Option#get` which is an unsafe operation while
   `Refined#get` was always safe. ([#220])
 * Remove deprecated `RefinePartiallyApplied.force` which has been
@@ -17,3 +20,4 @@
 [#225]: https://github.com/fthomas/refined/pull/225
 [#226]: https://github.com/fthomas/refined/pull/226
 [#232]: https://github.com/fthomas/refined/pull/232
+[#233]: https://github.com/fthomas/refined/pull/233

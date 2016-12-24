@@ -5,7 +5,7 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalacheck.numeric._
-import eu.timepit.refined.util.time.Minute
+import eu.timepit.refined.types.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._

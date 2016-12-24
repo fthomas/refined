@@ -1,12 +1,10 @@
-package eu.timepit.refined
-package util
+package eu.timepit.refined.types
 
+import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
 
-/** Module for date and time related refined types. */
-@deprecated("`util.time` has been renamed `types.time`", "0.6.2")
-object time {
+trait TimeTypes {
 
   /** An `Int` in the range from 1 to 12 representing the month-of-year. */
   type Month = Int Refined Interval.Closed[W.`1`.T, W.`12`.T]

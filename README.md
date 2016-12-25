@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](http://fthomas.github.io/refined/latest/api/index.html#eu.timepit.refined.package@W:shapeless.Witness.type)
+Note that [`W`](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 

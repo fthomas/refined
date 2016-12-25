@@ -61,12 +61,17 @@ lazy val core = crossProject
   .settings(
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
       macroParadise
     ),
+    libraryDependencies ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 10)) => Seq.empty
+        case _ => Seq("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
+      }
+    },
     initialCommands += s"""
       import shapeless.tag.@@
     """,

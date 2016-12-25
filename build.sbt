@@ -50,6 +50,7 @@ lazy val root = project
   )
 
 lazy val core = crossProject
+  .in(file("modules/core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(submoduleSettings: _*)
@@ -75,6 +76,7 @@ lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
 lazy val docs = project
+  .in(file("modules/docs"))
   .dependsOn(coreJVM)
   .settings(moduleName := s"$projectName-docs")
   .settings(commonSettings)
@@ -87,7 +89,7 @@ lazy val docs = project
   )
 
 lazy val scalacheck = crossProject
-  .in(file("contrib/scalacheck"))
+  .in(file("modules/scalacheck"))
   .dependsOn(core)
   .settings(moduleName := s"$projectName-scalacheck")
   .settings(submoduleSettings: _*)
@@ -104,7 +106,7 @@ lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
 lazy val scalaz = crossProject
-  .in(file("contrib/scalaz"))
+  .in(file("modules/scalaz"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(moduleName := s"$projectName-scalaz")
   .settings(submoduleSettings: _*)
@@ -123,7 +125,7 @@ lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 
 lazy val scodec = crossProject
-  .in(file("contrib/scodec"))
+  .in(file("modules/scodec"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(moduleName := s"$projectName-scodec")
   .settings(submoduleSettings: _*)
@@ -140,7 +142,7 @@ lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
 lazy val pureconfig = crossProject
-  .in(file("contrib/pureconfig"))
+  .in(file("modules/pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(moduleName := s"$projectName-pureconfig")
   .settings(submoduleSettings: _*)

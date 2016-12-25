@@ -11,6 +11,7 @@ val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.2"
 val scalaCheckVersion = "1.13.4"
+val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.8"
 val scodecVersion = "1.10.3"
 val pureconfigVersion = "0.4.0"
@@ -60,6 +61,7 @@ lazy val core = crossProject
   .settings(
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",

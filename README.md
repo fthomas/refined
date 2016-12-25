@@ -195,7 +195,7 @@ for libraries that directly provide support for **refined**.
 ## Documentation
 
 API documentation of the latest release is available at:
-[http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/#eu.timepit.refined.package)
+[http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html)
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
@@ -205,17 +205,17 @@ and working with [type aliases][type-aliases]. It also contains a
 Talks and other external resources are listed on the [Resources][resources]
 page in the wiki.
 
-[custom-pred]: https://github.com/fthomas/refined/blob/master/docs/custom_predicates.md
-[design]: https://github.com/fthomas/refined/blob/master/docs/design.md
-[docs]: https://github.com/fthomas/refined/tree/master/docs
+[custom-pred]: https://github.com/fthomas/refined/blob/master/modules/docs/custom_predicates.md
+[design]: https://github.com/fthomas/refined/blob/master/modules/docs/design.md
+[docs]: https://github.com/fthomas/refined/tree/master/modules/docs
 [resources]: https://github.com/fthomas/refined/wiki/Resources
-[type-aliases]: https://github.com/fthomas/refined/blob/master/docs/type_aliases.md
+[type-aliases]: https://github.com/fthomas/refined/blob/master/modules/docs/type_aliases.md
 
 ## Provided predicates
 
 The library comes with these predefined predicates:
 
-[`boolean`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
+[`boolean`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/boolean.scala)
 
 * `True`: constant predicate that is always `true`
 * `False`: constant predicate that is always `false`
@@ -229,7 +229,7 @@ The library comes with these predefined predicates:
 * `AnyOf[PS]`: disjunction of all predicates in `PS`
 * `OneOf[PS]`: exclusive disjunction of all predicates in `PS`
 
-[`char`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/char.scala)
+[`char`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/char.scala)
 
 * `Digit`: checks if a `Char` is a digit
 * `Letter`: checks if a `Char` is a letter
@@ -238,7 +238,7 @@ The library comes with these predefined predicates:
 * `UpperCase`: checks if a `Char` is an upper case character
 * `Whitespace`: checks if a `Char` is white space
 
-[`collection`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
+[`collection`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
 * `Contains[U]`: checks if a `Traversable` contains a value equal to `U`
 * `Count[PA, PC]`: counts the number of elements in a `Traversable` which satisfy the
@@ -256,7 +256,7 @@ The library comes with these predefined predicates:
 * `MinSize[N]`: checks if the size of a `Traversable` is greater than or equal to `N`
 * `MaxSize[N]`: checks if the size of a `Traversable` is less than or equal to `N`
 
-[`generic`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
+[`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
 * `Eval[S]`: checks if a value applied to the predicate `S` yields `true`
@@ -265,7 +265,7 @@ The library comes with these predefined predicates:
 * `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
 * `Supertype[U]`: witnesses that the type of a value is a supertype of `U`
 
-[`numeric`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
+[`numeric`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
 
 * `Less[N]`: checks if a numeric value is less than `N`
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
@@ -280,7 +280,7 @@ The library comes with these predefined predicates:
 * `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
 * `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
 
-[`string`](https://github.com/fthomas/refined/blob/master/core/shared/src/main/scala/eu/timepit/refined/string.scala)
+[`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
 * `MatchesRegex[S]`: checks if a `String` matches the regular expression `S`
@@ -322,8 +322,8 @@ overhead for reference types and only causes boxing for value types.
 Refer to [RefineJavapSpec][RefineJavapSpec] and [InferJavapSpec][InferJavapSpec]
 for a detailed analysis of the runtime component of refinement types on the JVM.
 
-[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/InferJavapSpec.scala
-[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/contrib/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/RefineJavapSpec.scala
+[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/InferJavapSpec.scala
+[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/RefineJavapSpec.scala
 
 ## Related projects
 

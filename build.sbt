@@ -167,6 +167,7 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.generic._
     import $rootPkg.numeric._
     import $rootPkg.string._
+    import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
   """

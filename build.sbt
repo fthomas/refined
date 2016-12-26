@@ -1,3 +1,5 @@
+import org.scalajs.sbtplugin.cross.CrossProject
+
 /// variables
 
 val groupId = "eu.timepit"
@@ -51,12 +53,9 @@ lazy val root = project
   )
 
 lazy val core = crossProject
-  .in(file("modules/core"))
+  .configureCross(moduleConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
-  .settings(submoduleSettings: _*)
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(siteSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
@@ -96,12 +95,8 @@ lazy val docs = project
   )
 
 lazy val scalacheck = crossProject
-  .in(file("modules/scalacheck"))
+  .configureCross(moduleConfig("scalacheck"))
   .dependsOn(core)
-  .settings(moduleName := s"$projectName-scalacheck")
-  .settings(submoduleSettings: _*)
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(
     libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
@@ -113,12 +108,8 @@ lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
 lazy val scalaz = crossProject
-  .in(file("modules/scalaz"))
+  .configureCross(moduleConfig("scalaz"))
   .dependsOn(core % "compile->compile;test->test")
-  .settings(moduleName := s"$projectName-scalaz")
-  .settings(submoduleSettings: _*)
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
@@ -132,12 +123,8 @@ lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 
 lazy val scodec = crossProject
-  .in(file("modules/scodec"))
+  .configureCross(moduleConfig("scodec"))
   .dependsOn(core % "compile->compile;test->test")
-  .settings(moduleName := s"$projectName-scodec")
-  .settings(submoduleSettings: _*)
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion,
@@ -149,12 +136,8 @@ lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
 lazy val pureconfig = crossProject
-  .in(file("modules/pureconfig"))
+  .configureCross(moduleConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
-  .settings(moduleName := s"$projectName-pureconfig")
-  .settings(submoduleSettings: _*)
-  .jvmSettings(submoduleJvmSettings: _*)
-  .jsSettings(submoduleJsSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       "com.github.melrief" %% "pureconfig" % pureconfigVersion,
@@ -189,13 +172,20 @@ lazy val commonSettings = Def.settings(
   """
 )
 
-lazy val submoduleSettings = Def.settings(
+def moduleConfig(name: String): CrossProject => CrossProject =
+  _.in(file(s"modules/$name"))
+    .settings(moduleName := s"$projectName-$name")
+    .settings(moduleSettings)
+    .jvmSettings(moduleJvmSettings)
+    .jsSettings(moduleJsSettings)
+
+lazy val moduleSettings = Def.settings(
   commonSettings,
   publishSettings,
   releaseSettings
 )
 
-lazy val submoduleJvmSettings = Def.settings(
+lazy val moduleJvmSettings = Def.settings(
   mimaPreviousArtifacts := {
     val latestVersionWithoutModules = Set(
       s"$projectName-pureconfig" → "0.6.0"
@@ -219,7 +209,7 @@ lazy val submoduleJvmSettings = Def.settings(
   }
 )
 
-lazy val submoduleJsSettings = Def.settings(
+lazy val moduleJsSettings = Def.settings(
   doctestGenTests := Seq.empty
 )
 

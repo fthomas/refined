@@ -11,6 +11,7 @@ val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.2"
 val scalaCheckVersion = "1.13.4"
+val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.8"
 val scodecVersion = "1.10.3"
 val pureconfigVersion = "0.4.0"
@@ -65,6 +66,12 @@ lazy val core = crossProject
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
       macroParadise
     ),
+    libraryDependencies ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 10)) => Seq.empty
+        case _ => Seq("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
+      }
+    },
     initialCommands += s"""
       import shapeless.tag.@@
     """,

@@ -5,6 +5,7 @@
   `type NegInt = Int Refined Negative` to the
   `eu.timepit.refined.types` package. The date and time related type
   aliases haven been moved from `util.time` to the `types.time` package.
-  ([#236][#236])
+  ([#236][#236], [#240][#240])
 
 [#236]: https://github.com/fthomas/refined/pull/236
+[#240]: https://github.com/fthomas/refined/pull/240

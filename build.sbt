@@ -189,17 +189,21 @@ lazy val moduleSettings = Def.settings(
 lazy val moduleJvmSettings = Def.settings(
   mimaPreviousArtifacts := {
     val latestVersionWithoutModules = Set(
-      s"$projectName-pureconfig" → "0.6.0"
+      s"$projectName-pureconfig" -> "0.6.0",
+      s"$projectName-scalacheck" -> "0.3.0",
+      s"$projectName-scalaz" -> "0.3.1",
+      s"$projectName-scodec" -> "0.3.1"
     )
 
     val latestVersionExists =
       !latestVersionWithoutModules.contains {
-        moduleName.value → latestVersion.value
+        moduleName.value -> latestVersion.value
       }
 
-    if (latestVersionExists)
+    if (publishArtifact.value && latestVersionExists)
       Set(groupId %% moduleName.value % latestVersion.value)
-    else Set.empty
+    else
+      Set.empty
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._

@@ -322,8 +322,8 @@ overhead for reference types and only causes boxing for value types.
 Refer to [RefineJavapSpec][RefineJavapSpec] and [InferJavapSpec][InferJavapSpec]
 for a detailed analysis of the runtime component of refinement types on the JVM.
 
-[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/InferJavapSpec.scala
-[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.11/eu/timepit/refined/scalaz/RefineJavapSpec.scala
+[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/InferJavapSpec.scala
+[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/RefineJavapSpec.scala
 
 ## Related projects
 

@@ -48,7 +48,7 @@ class RefineJavapSpec extends Properties("RefineJavap") {
         |       7: invokevirtual #26                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
         |      10: checkcast     #28                 // class java/lang/Integer
         |      13: areturn
-        |  public java.lang.Object shapeless_tag();
+        |  public int shapeless_tag();
         |    Code:
         |       0: iconst_2
         |       1: invokestatic  #22                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;

@@ -57,7 +57,7 @@ class InferJavapSpec extends Properties("InferJavapTest") {
         |      10: invokevirtual #33                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
         |      13: checkcast     #35                 // class java/lang/Integer
         |      16: areturn
-        |  public java.lang.Object shapeless_tag();
+        |  public int shapeless_tag();
         |    Code:
         |       0: aload_0
         |       1: invokevirtual #25                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;

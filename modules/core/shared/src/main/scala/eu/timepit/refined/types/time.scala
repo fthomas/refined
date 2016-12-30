@@ -4,6 +4,9 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
 
+/** Module for date and time related refined types. */
+object time extends TimeTypes
+
 trait TimeTypes {
 
   /** An `Int` in the range from 1 to 12 representing the month-of-year. */

@@ -3,6 +3,9 @@ package eu.timepit.refined.types
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 
+/** Module for numeric refined types. */
+object numeric extends NumericTypes
+
 trait NumericTypes {
 
   /** An `Int` in the range from 1 to `Int.MaxValue`. */

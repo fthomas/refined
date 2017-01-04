@@ -7,5 +7,12 @@
   aliases haven been moved from `util.time` to the `types.time` package.
   ([#236][#236], [#240][#240])
 
+### Updates
+
+* Update `refined-pureconfig` to [PureConfig][pureconfig] 0.5.0.
+  ([#245][#245])
+
 [#236]: https://github.com/fthomas/refined/pull/236
 [#240]: https://github.com/fthomas/refined/pull/240
+[#245]: https://github.com/fthomas/refined/pull/245
+[pureconfig]: https://github.com/melrief/pureconfig

@@ -16,7 +16,7 @@ val scalaCheckVersion = "1.13.4"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.8"
 val scodecVersion = "1.10.3"
-val pureconfigVersion = "0.4.0"
+val pureconfigVersion = "0.5.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(

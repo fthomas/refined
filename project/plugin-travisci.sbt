@@ -1,1 +1,1 @@
-addSbtPlugin("com.dwijnand" % "sbt-travisci" % "1.0.0-M4")
+addSbtPlugin("com.dwijnand" % "sbt-travisci" % "1.0.0")

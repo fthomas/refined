@@ -20,7 +20,7 @@ val pureconfigVersion = "0.5.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion % "test" cross CrossVersion.full)
+  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.full)
 
 val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec", "pureconfig")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
@@ -62,7 +62,7 @@ lazy val core = crossProject
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test,
       macroParadise
     ),
     libraryDependencies ++= {

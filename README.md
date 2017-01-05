@@ -165,14 +165,14 @@ If you're using sbt, add the following to your build:
 ```sbt
 libraryDependencies ++= Seq(
   "eu.timepit" %% "refined"            % "0.6.1",
-  "eu.timepit" %% "refined-scalaz"     % "0.6.1",          // optional
-  "eu.timepit" %% "refined-scodec"     % "0.6.1",          // optional
-  "eu.timepit" %% "refined-scalacheck" % "0.6.1" % "test", // optional
-  "eu.timepit" %% "refined-pureconfig" % "0.6.1"           // optional
+  "eu.timepit" %% "refined-pureconfig" % "0.6.1"  // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck" % "0.6.1", // optional
+  "eu.timepit" %% "refined-scalaz"     % "0.6.1", // optional
+  "eu.timepit" %% "refined-scodec"     % "0.6.1", // optional
 )
 ```
 
-For Scala.js just replace `%%` with `%%%` above (except for `refined-pureconfig` which is not available for Scala.js).
+For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
@@ -182,12 +182,12 @@ Release notes for the latest version are available in
 The optional dependencies are add-on libraries that provide support for
 other tag types or integration of refined types in other libraries:
 
-* `refined-scalaz` for support of [Scalaz](https://github.com/scalaz/scalaz)'
-  tag type (`scalaz.@@`)
-* `refined-scodec` for integration with [scodec](http://scodec.org/)
+* `refined-pureconfig` for [PureConfig](https://github.com/melrief/pureconfig) integration
 * `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
   class instances of refined types
-* `refined-pureconfig` for [PureConfig](https://github.com/melrief/pureconfig) integration
+* `refined-scalaz` for support of [Scalaz](https://github.com/scalaz/scalaz)'
+  tag type (`scalaz.@@`)
+* `refined-scodec` for [scodec](http://scodec.org/) integration
 
 See also the list of [projects that use refined][built-with-refined]
 for libraries that directly provide support for **refined**.

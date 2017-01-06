@@ -53,7 +53,7 @@ lazy val root = project
   )
 
 lazy val core = crossProject
-  .configureCross(moduleConfig("core"))
+  .configureCross(moduleCrossConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(siteSettings: _*)
@@ -82,10 +82,8 @@ lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
 lazy val docs = project
-  .in(file("modules/docs"))
+  .configure(moduleConfig("docs"))
   .dependsOn(coreJVM)
-  .settings(moduleName := s"$projectName-docs")
-  .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(tutSettings)
   .settings(
@@ -95,7 +93,7 @@ lazy val docs = project
   )
 
 lazy val scalacheck = crossProject
-  .configureCross(moduleConfig("scalacheck"))
+  .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core)
   .settings(
     libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
@@ -108,7 +106,7 @@ lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
 lazy val scalaz = crossProject
-  .configureCross(moduleConfig("scalaz"))
+  .configureCross(moduleCrossConfig("scalaz"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
@@ -123,7 +121,7 @@ lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 
 lazy val scodec = crossProject
-  .configureCross(moduleConfig("scodec"))
+  .configureCross(moduleCrossConfig("scodec"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= Seq(
@@ -136,7 +134,7 @@ lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
 lazy val pureconfig = crossProject
-  .configureCross(moduleConfig("pureconfig"))
+  .configureCross(moduleCrossConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= Seq(
@@ -173,14 +171,19 @@ lazy val commonSettings = Def.settings(
   """
 )
 
-def moduleConfig(name: String): CrossProject => CrossProject =
+def moduleConfig(name: String): Project => Project =
   _.in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
-    .settings(moduleSettings)
+    .settings(commonSettings)
+
+def moduleCrossConfig(name: String): CrossProject => CrossProject =
+  _.in(file(s"modules/$name"))
+    .settings(moduleName := s"$projectName-$name")
+    .settings(moduleCrossSettings)
     .jvmSettings(moduleJvmSettings)
     .jsSettings(moduleJsSettings)
 
-lazy val moduleSettings = Def.settings(
+lazy val moduleCrossSettings = Def.settings(
   commonSettings,
   publishSettings,
   releaseSettings

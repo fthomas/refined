@@ -94,7 +94,7 @@ lazy val docs = project
 
 lazy val scalacheck = crossProject
   .configureCross(moduleCrossConfig("scalacheck"))
-  .dependsOn(core)
+  .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""

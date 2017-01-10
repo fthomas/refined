@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{RefType, Validate}
-import org.scalacheck.{Arbitrary, Gen, Prop}
+import org.scalacheck.{Arbitrary, Cogen, Gen, Prop}
 
 package object scalacheck {
 
@@ -12,4 +12,7 @@ package object scalacheck {
                                            rt: RefType[F],
                                            v: Validate[T, P]): Prop =
     Prop.forAll((tp: F[T, P]) => v.isValid(rt.unwrap(tp)))
+
+  implicit def refTypeCogen[F[_, _], T: Cogen, P](implicit rt: RefType[F]): Cogen[F[T, P]] =
+    Cogen[T].contramap(tp => rt.unwrap(tp))
 }

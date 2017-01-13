@@ -386,5 +386,7 @@ addCommandsAlias("validate",
                    "coverageReport",
                    "coverageOff",
                    "doc",
-                   "docs/tut"
+                   "docs/tut",
+                   "package",
+                   "packageSrc"
                  ))

@@ -102,7 +102,7 @@ java.lang.AssertionError: assertion failed: fooValidate
 	at eu.timepit.refined.macros.RefineMacro.tryN(RefineMacro.scala:9)
 	at eu.timepit.refined.macros.MacroUtils$class.eval(MacroUtils.scala:20)
 	at eu.timepit.refined.macros.RefineMacro.eval(RefineMacro.scala:9)
-	at eu.timepit.refined.macros.RefineMacro.impl(RefineMacro.scala:17)
+	at eu.timepit.refined.macros.RefineMacro.impl(RefineMacro.scala:23)
 
          val x = refineMV[Foo](0)
                               ^

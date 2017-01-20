@@ -3,8 +3,6 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
-import scala.reflect.runtime.currentMirror
-import scala.tools.reflect.ToolBox
 import shapeless._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
@@ -16,9 +14,6 @@ object generic extends GenericValidate with GenericInference {
 
   /** Predicate that checks if a value is equal to `U`. */
   final case class Equal[U](u: U)
-
-  /** Predicate that checks if a value applied to the predicate `S` yields `true`. */
-  final case class Eval[S](s: S)
 
   /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
   final case class ConstructorNames[P](p: P)
@@ -46,21 +41,6 @@ private[refined] trait GenericValidate {
       nt: Numeric[T]
   ): Validate.Plain[T, Equal[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
-
-  // Cache ToolBox for Eval Validate instances
-  private lazy val toolBox = currentMirror.mkToolBox()
-
-  implicit def evalValidate[T, S <: String](
-      implicit mt: Manifest[T],
-      ws: Witness.Aux[S]
-  ): Validate.Plain[T, Eval[S]] = {
-    // The ascription (T => Boolean) allows to omit the parameter
-    // type in ws.value (i.e. "x => ..." instead of "(x: T) => ...").
-    val tree = toolBox.parse(s"(${ws.value}): ($mt => Boolean)")
-
-    val predicate = toolBox.eval(tree).asInstanceOf[T => Boolean]
-    Validate.fromPredicate(predicate, _ => ws.value, Eval(ws.value))
-  }
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],

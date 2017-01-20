@@ -29,20 +29,20 @@ res1: Square = Square(e,4)
 
 ```scala
 scala> Square('i', 2)
-<console>:23: error: Right predicate of (!(i < a) && !(i > h)) failed: Predicate (i > h) did not fail.
+<console>:24: error: Right predicate of (!(i < a) && !(i > h)) failed: Predicate (i > h) did not fail.
        Square('i', 2)
               ^
 
 scala> Square('a', 9)
-<console>:23: error: Right predicate of (!(9 < 1) && !(9 > 8)) failed: Predicate (9 > 8) did not fail.
+<console>:24: error: Right predicate of (!(9 < 1) && !(9 > 8)) failed: Predicate (9 > 8) did not fail.
        Square('a', 9)
                    ^
 
 scala> Square('k', -1)
-<console>:23: error: Right predicate of (!(k < a) && !(k > h)) failed: Predicate (k > h) did not fail.
+<console>:24: error: Right predicate of (!(k < a) && !(k > h)) failed: Predicate (k > h) did not fail.
        Square('k', -1)
               ^
-<console>:23: error: Left predicate of (!(-1 < 1) && !(-1 > 8)) failed: Predicate (-1 < 1) did not fail.
+<console>:24: error: Left predicate of (!(-1 < 1) && !(-1 > 8)) failed: Predicate (-1 < 1) did not fail.
        Square('k', -1)
                     ^
 ```

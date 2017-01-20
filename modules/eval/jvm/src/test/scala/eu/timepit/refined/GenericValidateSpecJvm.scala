@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Validate
-import eu.timepit.refined.generic.Eval
+import eu.timepit.refined.eval.Eval
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import scala.tools.reflect.ToolBoxError

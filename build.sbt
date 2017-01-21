@@ -22,7 +22,8 @@ val pureconfigVersion = "0.5.0"
 val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.full)
 
-val allSubprojects = Seq("core", "scalacheck", "scalaz", "scodec", "pureconfig")
+val allSubprojects =
+  Seq("core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("pureconfig")
@@ -36,6 +37,8 @@ lazy val root = project
   .aggregate(coreJVM,
              coreJS,
              docs,
+             evalJVM,
+             evalJS,
              scalacheckJVM,
              scalacheckJS,
              scalazJVM,
@@ -59,7 +62,8 @@ lazy val core = crossProject
   .settings(siteSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test,
@@ -68,7 +72,8 @@ lazy val core = crossProject
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 10)) => Seq.empty
-        case _ => Seq("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
+        case _ =>
+          Seq("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
       }
     },
     initialCommands += s"""
@@ -91,6 +96,16 @@ lazy val docs = project
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
+
+lazy val eval = crossProject
+  .configureCross(moduleCrossConfig("eval"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
+  )
+
+lazy val evalJVM = eval.jvm
+lazy val evalJS = eval.js
 
 lazy val scalacheck = crossProject
   .configureCross(moduleCrossConfig("scalacheck"))
@@ -162,6 +177,7 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.boolean._
     import $rootPkg.char._
     import $rootPkg.collection._
+    import $rootPkg.eval._
     import $rootPkg.generic._
     import $rootPkg.numeric._
     import $rootPkg.string._
@@ -191,22 +207,16 @@ lazy val moduleCrossSettings = Def.settings(
 
 lazy val moduleJvmSettings = Def.settings(
   mimaPreviousArtifacts := {
-    val latestVersionWithoutModules = Set(
-      s"$projectName-pureconfig" -> "0.6.0",
-      s"$projectName-scalacheck" -> "0.3.0",
-      s"$projectName-scalaz" -> "0.3.1",
-      s"$projectName-scodec" -> "0.3.1"
-    )
 
-    val latestVersionExists =
-      !latestVersionWithoutModules.contains {
-        moduleName.value -> latestVersion.value
+    val hasNoPredecessor = unreleasedModules.value contains moduleName.value
+
+    latestVersionInSeries.value match {
+      case Some(latest) if publishArtifact.value && !hasNoPredecessor => {
+        Set(groupId %% moduleName.value % latest)
       }
+      case other => Set.empty
+    }
 
-    if (publishArtifact.value && latestVersionExists)
-      Set(groupId %% moduleName.value % latestVersion.value)
-    else
-      Set.empty
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
@@ -373,20 +383,22 @@ addCommandsAlias("syncMavenCentral", allSubprojectsJVM.map(_ + "/bintraySyncMave
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
-addCommandsAlias("validate",
-                 Seq(
-                   "clean",
-                   "scalafmtTest",
-                   "scalastyle",
-                   "test:scalastyle",
-                   "mimaReportBinaryIssues",
-                   "testJS",
-                   "coverage",
-                   "testJVM",
-                   "coverageReport",
-                   "coverageOff",
-                   "doc",
-                   "docs/tut",
-                   "package",
-                   "packageSrc"
-                 ))
+addCommandsAlias(
+  "validate",
+  Seq(
+    "clean",
+    "scalafmtTest",
+    "scalastyle",
+    "test:scalastyle",
+    "mimaReportBinaryIssues",
+    "testJS",
+    "coverage",
+    "testJVM",
+    "coverageReport",
+    "coverageOff",
+    "doc",
+    "docs/tut",
+    "package",
+    "packageSrc"
+  )
+)

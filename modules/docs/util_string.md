@@ -28,7 +28,7 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
   at scala.collection.immutable.StringLike$class.r(StringLike.scala:244)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  ... 166 elided
+  ... 202 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`

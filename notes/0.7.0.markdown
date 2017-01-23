@@ -1,0 +1,18 @@
+### Changes
+
+* Move the `Eval` predicate into the new `refined-eval` module
+  because it requires a runtime dependency on the Scala compiler.
+  Consequently the dependency on the Scala compiler in the core
+  module is changed to a "provided" dependency.
+  Thanks to [Chris Hodapp](https://github.com/clhodapp)!
+  ([#207][#207], [#251][#251])
+
+### Updates
+
+* Update `refined-pureconfig` to [PureConfig][pureconfig] 0.5.1.
+  ([#252][#252])
+
+[#207]: https://github.com/fthomas/refined/issues/207
+[#251]: https://github.com/fthomas/refined/pull/251
+[#252]: https://github.com/fthomas/refined/pull/252
+[pureconfig]: https://github.com/melrief/pureconfig

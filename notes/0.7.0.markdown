@@ -16,3 +16,5 @@
 [#251]: https://github.com/fthomas/refined/pull/251
 [#252]: https://github.com/fthomas/refined/pull/252
 [pureconfig]: https://github.com/melrief/pureconfig
+
+Released on 2017-01-24

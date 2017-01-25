@@ -21,16 +21,15 @@ object LatestVersion extends AutoPlugin {
 
       val latestVersionSbt = "latestVersion.sbt"
       val content = Seq(
-        s"""
-          |latestVersion in ThisBuild := "$newVersion"
-          |
-          |latestVersionInSeries in ThisBuild := Some("$newVersion")
-          |
-          |unreleasedModules in ThisBuild := Seq(
-          |// Example:
-          |// "refined-eval"
-          |)
-        """.stripMargin
+        s"""|latestVersion in ThisBuild := "$newVersion"
+            |
+            |latestVersionInSeries in ThisBuild := Some("$newVersion")
+            |
+            |unreleasedModules in ThisBuild := Set(
+            |  // Example:
+            |  // "refined-eval"
+            |)
+            |""".stripMargin
       )
 
       IO.writeLines(file(latestVersionSbt), content)

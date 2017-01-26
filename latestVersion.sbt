@@ -4,5 +4,5 @@ latestVersionInSeries in ThisBuild := Some("0.7.0")
 
 unreleasedModules in ThisBuild := Set(
 // Example:
-  "refined-eval"
+//  "refined-eval"
 )

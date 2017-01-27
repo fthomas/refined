@@ -46,4 +46,3 @@ object LatestVersion extends AutoPlugin {
     }
   }
 }
-

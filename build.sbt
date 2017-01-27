@@ -344,7 +344,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(GhPagesKeys.pushSite in "coreJVM"),
+      releaseStepTask(GhPagesKeys.pushSite in LocalProject("coreJVM")),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,
@@ -365,8 +365,6 @@ lazy val myDoctestSettings = Def.settings(
 )
 
 lazy val styleSettings = Def.settings(
-  scalafmtConfig := Some(file(".scalafmt.conf")),
-  reformatOnCompileSettings,
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
   scalastyleSources in Compile :=
     (unmanagedSourceDirectories in Compile).value ++

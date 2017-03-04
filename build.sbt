@@ -20,7 +20,7 @@ val pureconfigVersion = "0.5.1"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.full)
+  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
   Seq("core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")

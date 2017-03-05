@@ -20,7 +20,7 @@ val pureconfigVersion = "0.5.1"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.full)
+  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
   Seq("core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")
@@ -62,8 +62,8 @@ lazy val core = crossProject
   .settings(siteSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value % Provided,
+      scalaOrganization.value % "scala-reflect" % scalaVersion.value,
+      scalaOrganization.value % "scala-compiler" % scalaVersion.value % Provided,
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test,
@@ -101,7 +101,7 @@ lazy val eval = crossProject
   .configureCross(moduleCrossConfig("eval"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
+    libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value
   )
 
 lazy val evalJVM = eval.jvm

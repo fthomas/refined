@@ -13,7 +13,9 @@ trait MacroUtils {
     c.abort(c.enclosingPosition, msg)
 
   def eval[T](t: c.Expr[T]): T = {
-    val expr = c.Expr[T](c.untypecheck(t.tree))
+    // Duplicate and untypecheck before calling `eval`, see:
+    // http://www.scala-lang.org/api/2.12.0/scala-reflect/scala/reflect/macros/Evals.html#eval[T]%28expr:Evals.this.Expr[T]%29:T
+    val expr = c.Expr[T](c.untypecheck(t.tree.duplicate))
 
     // Try evaluating expr twice before failing, see
     // https://github.com/fthomas/refined/issues/3

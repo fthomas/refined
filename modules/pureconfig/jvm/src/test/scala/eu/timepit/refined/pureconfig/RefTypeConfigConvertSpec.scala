@@ -19,7 +19,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       Right(Config(1))
   }
 
-  property("load failure") = secure {
+  property("load failure (predicate)") = secure {
     loadConfigWithValue("0") =?
       Left(
         ConfigReaderFailures(
@@ -27,6 +27,18 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
             value = "0",
             toTyp = "",
             because = "Predicate failed: (0 > 0).",
+            location = None
+          )))
+  }
+
+  property("load failure (wrong type)") = secure {
+    loadConfigWithValue("abc") =?
+      Left(
+        ConfigReaderFailures(
+          CannotConvert(
+            value = "abc",
+            toTyp = "Int",
+            because = "java.lang.NumberFormatException: For input string: \"abc\"",
             location = None
           )))
   }

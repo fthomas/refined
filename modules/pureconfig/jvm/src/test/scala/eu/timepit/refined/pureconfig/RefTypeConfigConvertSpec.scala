@@ -22,13 +22,12 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   property("load failure (predicate)") = secure {
     loadConfigWithValue("0") =?
       Left(
-        ConfigReaderFailures(
-          CannotConvert(
-            value = "0",
-            toTyp = "",
-            because = "Predicate failed: (0 > 0).",
-            location = None
-          )))
+        ConfigReaderFailures(CannotConvert(
+          value = "0",
+          toTyp = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+          because = "Predicate failed: (0 > 0).",
+          location = None
+        )))
   }
 
   property("load failure (wrong type)") = secure {

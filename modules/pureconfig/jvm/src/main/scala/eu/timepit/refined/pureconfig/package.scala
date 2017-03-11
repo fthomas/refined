@@ -4,13 +4,15 @@ import _root_.pureconfig.ConfigConvert
 import _root_.pureconfig.error.{CannotConvert, ConfigReaderFailures, ConfigValueLocation}
 import com.typesafe.config.ConfigValue
 import eu.timepit.refined.api.{RefType, Validate}
+import scala.reflect.runtime.universe.WeakTypeTag
 
 package object pureconfig {
 
   implicit def refTypeConfigConvert[F[_, _], T, P](
       implicit configConvert: ConfigConvert[T],
       refType: RefType[F],
-      validate: Validate[T, P]
+      validate: Validate[T, P],
+      typeTag: WeakTypeTag[F[T, P]]
   ): ConfigConvert[F[T, P]] = new ConfigConvert[F[T, P]] {
     override def from(config: ConfigValue): Either[ConfigReaderFailures, F[T, P]] =
       configConvert.from(config) match {
@@ -21,7 +23,7 @@ package object pureconfig {
                 ConfigReaderFailures(
                   CannotConvert(
                     value = config.render(),
-                    toTyp = "",
+                    toTyp = typeTag.tpe.toString,
                     because = because,
                     location = ConfigValueLocation(config)
                   )))

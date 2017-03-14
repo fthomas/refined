@@ -16,7 +16,7 @@ val scalaCheckVersion = "1.13.4"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.9"
 val scodecVersion = "1.10.3"
-val pureconfigVersion = "0.5.1"
+val pureconfigVersion = "0.6.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
@@ -221,9 +221,7 @@ lazy val moduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     import com.typesafe.tools.mima.core.ProblemFilters._
-    Seq(
-      exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.internal.RefinePartiallyApplied.force"))
+    Seq()
   }
 )
 

@@ -1,3 +1,9 @@
+### Changes
+
+* Improve `MacroUtils.eval` by calling `duplicate` before untypechecking
+  the tree. ([#262][#262]) Hopefully this fixes nondeterministic compiler
+  crashes like [#260][#260].
+
 ### Updates
 
 * Update `refined-pureconfig` to PureConfig 0.6.0.
@@ -7,4 +13,6 @@
   ([#258][#258])
 
 [#258]: https://github.com/fthomas/refined/pull/258
+[#260]: https://github.com/fthomas/refined/issues/260
+[#262]: https://github.com/fthomas/refined/pull/262
 [#264]: https://github.com/fthomas/refined/pull/264

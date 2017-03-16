@@ -7,6 +7,12 @@
   Thanks to [Chris Hodapp](https://github.com/clhodapp)!
   ([#207][#207], [#251][#251])
 
+  Note that if you are using refined's macros, you need to add
+  
+    "org.scala-lang" % "scala-compiler" % scalaVersion.value % Provided
+
+  now to your `libraryDependencies`.
+
 ### Updates
 
 * Update `refined-pureconfig` to [PureConfig][pureconfig] 0.5.1.

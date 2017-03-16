@@ -13,12 +13,13 @@
 * Update `refined-pureconfig` to PureConfig 0.6.0.
   Thanks to [Viktor Lövgren](https://github.com/vlovgr)!
   ([#264][#264])
-* Update `refined-scalaz` to Scalaz 7.2.9.
-  ([#258][#258])
+* Update `refined-scalaz` to Scalaz 7.2.10.
+  ([#258][#258], [#267][#267])
 
 [#258]: https://github.com/fthomas/refined/pull/258
 [#256]: https://github.com/fthomas/refined/issues/256
 [#260]: https://github.com/fthomas/refined/issues/260
 [#262]: https://github.com/fthomas/refined/pull/262
 [#264]: https://github.com/fthomas/refined/pull/264
+[#267]: https://github.com/fthomas/refined/pull/267
 [#268]: https://github.com/fthomas/refined/pull/268

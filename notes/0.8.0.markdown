@@ -23,3 +23,5 @@
 [#264]: https://github.com/fthomas/refined/pull/264
 [#267]: https://github.com/fthomas/refined/pull/267
 [#268]: https://github.com/fthomas/refined/pull/268
+
+Released on 2017-03-17

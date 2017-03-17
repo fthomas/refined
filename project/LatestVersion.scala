@@ -29,7 +29,7 @@ object LatestVersion extends AutoPlugin {
             |  // Example:
             |  // "refined-eval"
             |)
-            |""".stripMargin
+            |""".stripMargin.trim
       )
 
       IO.writeLines(file(latestVersionSbt), content)

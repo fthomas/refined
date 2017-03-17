@@ -6,4 +6,3 @@ unreleasedModules in ThisBuild := Set(
   // Example:
   // "refined-eval"
 )
-

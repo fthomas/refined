@@ -3,6 +3,10 @@
 * Improve `MacroUtils.eval` by calling `duplicate` before untypechecking
   the tree. ([#262][#262]) Hopefully this fixes nondeterministic compiler
   crashes like [#260][#260].
+* Remove "provided" from the dependency on the Scala compiler again.
+  This means that you do not need to add a dependency on the compiler if
+  you are using refined's macros. ([#268][#268]) See [#256][#256] for more
+  details.
 
 ### Updates
 
@@ -13,7 +17,9 @@
   ([#258][#258], [#267][#267])
 
 [#258]: https://github.com/fthomas/refined/pull/258
+[#256]: https://github.com/fthomas/refined/issues/256
 [#260]: https://github.com/fthomas/refined/issues/260
 [#262]: https://github.com/fthomas/refined/pull/262
 [#264]: https://github.com/fthomas/refined/pull/264
 [#267]: https://github.com/fthomas/refined/pull/267
+[#268]: https://github.com/fthomas/refined/pull/268

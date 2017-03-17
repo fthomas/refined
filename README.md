@@ -164,7 +164,6 @@ If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "org.scala-lang" % "scala-compiler" % scalaVersion.value % Provided,
   "eu.timepit" %% "refined"            % "0.7.0",
   "eu.timepit" %% "refined-pureconfig" % "0.7.0"  // optional, JVM-only
   "eu.timepit" %% "refined-scalacheck" % "0.7.0", // optional

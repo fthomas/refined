@@ -101,7 +101,10 @@ lazy val eval = crossProject
   .configureCross(moduleCrossConfig("eval"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value
+    libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
+    initialCommands += s"""
+      import $rootPkg.eval._
+    """
   )
 
 lazy val evalJVM = eval.jvm
@@ -177,7 +180,6 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.boolean._
     import $rootPkg.char._
     import $rootPkg.collection._
-    import $rootPkg.eval._
     import $rootPkg.generic._
     import $rootPkg.numeric._
     import $rootPkg.string._

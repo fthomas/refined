@@ -23,9 +23,10 @@ package object pureconfig {
                 ConfigReaderFailures(
                   CannotConvert(
                     value = config.render(),
-                    toTyp = typeTag.tpe.toString,
+                    toType = typeTag.tpe.toString,
                     because = because,
-                    location = ConfigValueLocation(config)
+                    location = ConfigValueLocation(config),
+                    path = None
                   )))
 
             case Right(refined) ⇒

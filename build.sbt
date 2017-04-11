@@ -16,7 +16,7 @@ val scalaCheckVersion = "1.13.4"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.10"
 val scodecVersion = "1.10.3"
-val pureconfigVersion = "0.6.0"
+val pureconfigVersion = "0.7.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
@@ -156,7 +156,7 @@ lazy val pureconfig = crossProject
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= Seq(
-      "com.github.melrief" %% "pureconfig" % pureconfigVersion,
+      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
       macroParadise
     )
   )

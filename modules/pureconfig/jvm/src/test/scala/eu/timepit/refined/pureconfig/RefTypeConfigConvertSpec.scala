@@ -24,9 +24,10 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       Left(
         ConfigReaderFailures(CannotConvert(
           value = "0",
-          toTyp = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+          toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
           because = "Predicate failed: (0 > 0).",
-          location = None
+          location = None,
+          path = Some("value")
         )))
   }
 
@@ -36,9 +37,10 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
         ConfigReaderFailures(
           CannotConvert(
             value = "abc",
-            toTyp = "Int",
+            toType = "Int",
             because = "java.lang.NumberFormatException: For input string: \"abc\"",
-            location = None
+            location = None,
+            path = Some("value")
           )))
   }
 

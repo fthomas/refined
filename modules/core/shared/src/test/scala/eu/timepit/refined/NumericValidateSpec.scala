@@ -64,6 +64,58 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showResult[Greater[_5]](i) ?= showResult[Greater[W.`5`.T]](i)
   }
 
+  property("Modulo.isValid") = forAll { (d: Double) =>
+    isValid[Modulo[W.`2.0`.T, W.`0.0`.T]](d) ?= (d % 2.0 == 0.0)
+  }
+
+  property("Modulo.showExpr") = secure {
+    showExpr[Modulo[W.`2.0`.T, W.`0.0`.T]](4.0) ?= s"(${4.0} % ${2.0} == ${0.0})"
+  }
+
+  property("Modulo.Nat.isValid") = forAll { (i: Int) =>
+    isValid[Modulo[_2, _0]](i) ?= (i % 2 == 0)
+  }
+
+  property("Modulo.Nat.showExpr") = secure {
+    showExpr[Modulo[_2, _0]](4) ?= "(4 % 2 == 0)"
+  }
+
+  property("Modulo.Nat ~= Modulo.Int") = forAll { (i: Int) =>
+    showResult[Modulo[_5, _2]](i) ?= showResult[Modulo[W.`5`.T, W.`2`.T]](i)
+  }
+
+  property("Divisible.isValid") = forAll { (i: Int) =>
+    isValid[Divisible[_2]](i) ?= (i % 2 == 0)
+  }
+
+  property("Divisible.showExpr") = secure {
+    showExpr[Divisible[_2]](4) ?= "(4 % 2 == 0)"
+  }
+
+  property("NonDivisible.isValid") = forAll { (i: Int) =>
+    isValid[NonDivisible[_2]](i) ?= (i % 2 != 0)
+  }
+
+  property("NonDivisible.showExpr") = secure {
+    showExpr[NonDivisible[_2]](4) ?= "!(4 % 2 == 0)"
+  }
+
+  property("Even.isValid") = forAll { (i: Int) =>
+    isValid[Even](i) ?= (i % 2 == 0)
+  }
+
+  property("Even.showExpr") = secure {
+    showExpr[Even](4) ?= "(4 % 2 == 0)"
+  }
+
+  property("Odd.isValid") = forAll { (i: Int) =>
+    isValid[Odd](i) ?= (i % 2 != 0)
+  }
+
+  property("Odd.showExpr") = secure {
+    showExpr[Odd](4) ?= "!(4 % 2 == 0)"
+  }
+
   property("Interval.Open.isValid") = forAll { (d: Double) =>
     isValid[Interval.Open[_0, _1]](d) ?= (d > 0.0 && d < 1.0)
   }

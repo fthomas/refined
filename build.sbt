@@ -262,7 +262,7 @@ lazy val compileSettings = Def.settings(
     //"-Xlog-implicits",
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard"N
+    "-Ywarn-value-discard"
   ),
   scalacOptions += {
     CrossVersion.partialVersion(scalaVersion.value) match {

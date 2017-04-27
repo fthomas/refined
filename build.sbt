@@ -259,12 +259,17 @@ lazy val compileSettings = Def.settings(
     "-unchecked",
     "-Xfatal-warnings",
     "-Xfuture",
-    "-Xlint",
     //"-Xlog-implicits",
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard"
+    "-Ywarn-value-discard"N
   ),
+  scalacOptions += {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, 12)) => "-Xlint:-unused,_"
+      case _ => "-Xlint"
+    }
+  },
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
     Wart.AsInstanceOf,

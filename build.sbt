@@ -271,10 +271,22 @@ lazy val compileSettings = Def.settings(
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   ),
-  scalacOptions += {
+  scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 12)) => "-Xlint:-unused,_"
-      case _ => "-Xlint"
+      case Some((2, 12)) =>
+        Seq(
+          "-Xlint:-unused,_",
+          //"-Ywarn-unused:implicits",
+          "-Ywarn-unused:imports",
+          //"-Ywarn-unused:locals",
+          //"-Ywarn-unused:params",
+          "-Ywarn-unused:patvars"
+          //"-Ywarn-unused:privates"
+        )
+      case _ =>
+        Seq(
+          "-Xlint"
+        )
     }
   },
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(

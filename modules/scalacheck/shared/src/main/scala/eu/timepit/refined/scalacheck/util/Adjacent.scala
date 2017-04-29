@@ -34,8 +34,8 @@ object Adjacent {
 
   implicit val floatAdjacent: Adjacent[Float] =
     instance(
-      t => firstIfGt(OurMath.nextAfter(t, Float.PositiveInfinity), t),
-      t => firstIfLt(OurMath.nextAfter(t, Float.NegativeInfinity), t)
+      t => firstIfGt(Math.nextAfter(t, Float.PositiveInfinity), t),
+      t => firstIfLt(Math.nextAfter(t, Float.NegativeInfinity), t)
     )
 
   implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =

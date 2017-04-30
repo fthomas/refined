@@ -279,6 +279,11 @@ The library comes with these predefined predicates:
 * `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
 * `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
 * `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
+* `Modulo[N, O]`: checks if a numeric value modulo `N` is `O`
+* `Divisible[N]`: checks if a numeric value is evenly divisible by `N`
+* `NonDivisible[N]`: checks if a numeric value is not evenly divisible by `N`
+* `Even`: checks if a numeric value is evenly divisible by 2
+* `Odd`: checks if a numeric value is not evenly divisible by 2
 
 [`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 

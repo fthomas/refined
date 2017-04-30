@@ -1,6 +1,6 @@
 ### New predicates
 
-[`numeric`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
+[`numeric`](https://github.com/fthomas/refined/blob/v0.8.1/modules/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
 
 * `Modulo[N, O]`: checks if a numeric value modulo `N` is `O`. ([#278][#278])
 * `Divisible[N]`: checks if a numeric value is evenly divisible by `N`. ([#278][#278])
@@ -16,8 +16,10 @@ Thanks to [Viktor Lövgren](https://github.com/vlovgr) for these predicates!
   Thanks to [Torsten Scholak](https://github.com/tscholak)!
   ([#273][#273])
 * Update to Scala.js 0.6.16. ([#270][#270], [#279][#279])
+* Update `refined-scalaz` to Scalaz 7.2.12. ([#281][#281])
 
 [#270]: https://github.com/fthomas/refined/pull/270
 [#273]: https://github.com/fthomas/refined/pull/273
 [#278]: https://github.com/fthomas/refined/pull/278
 [#279]: https://github.com/fthomas/refined/pull/279
+[#281]: https://github.com/fthomas/refined/pull/281

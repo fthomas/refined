@@ -92,7 +92,7 @@ lazy val docs = project
   .settings(noPublishSettings)
   .settings(tutSettings)
   .settings(
-    tutScalacOptions := scalacOptions.value,
+    tutScalacOptions := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )

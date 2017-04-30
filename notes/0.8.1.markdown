@@ -1,6 +1,10 @@
 ### Updates
 
+* Update `refined-pureconfig` to PureConfig 0.7.0.
+  Thanks to [Torsten Scholak](https://github.com/tscholak)!
+  ([#273][#273])
 * Update to Scala.js 0.6.16. ([#270][#270], [#279][#279])
 
 [#270]: https://github.com/fthomas/refined/pull/270
+[#273]: https://github.com/fthomas/refined/pull/273
 [#279]: https://github.com/fthomas/refined/pull/279

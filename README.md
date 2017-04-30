@@ -339,7 +339,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 * [SMT-Based Checking of Predicate-Qualified Types for Scala](http://lara.epfl.ch/~kuncak/papers/SchmidKuncak16CheckingPredicate.pdf)
 * [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
 * [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
-* [LiquidHaskell](https://ucsd-progsys.github.io/liquidhaskell-blog/about):
+* [LiquidHaskell](https://ucsd-progsys.github.io/liquidhaskell-blog/):
   Refinement Types via SMT and Predicate Abstraction
 * [refined][refined.hs]: Refinement types with static and runtime checking for
   Haskell. **refined** was inspired this library and even stole its name!

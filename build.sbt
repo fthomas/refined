@@ -283,10 +283,7 @@ lazy val compileSettings = Def.settings(
           "-Ywarn-unused:patvars"
           //"-Ywarn-unused:privates"
         )
-      case _ =>
-        Seq(
-          "-Xlint"
-        )
+      case _ => Seq("-Xlint")
     }
   },
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(

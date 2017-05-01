@@ -286,6 +286,8 @@ lazy val compileSettings = Def.settings(
       case _ => Seq("-Xlint")
     }
   },
+  scalacOptions in (Compile, console) -= "-Ywarn-unused:imports",
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
   wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
     Wart.Any,
     Wart.AsInstanceOf,

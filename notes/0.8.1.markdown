@@ -23,3 +23,5 @@ Thanks to [Viktor Lövgren](https://github.com/vlovgr) for these predicates!
 [#278]: https://github.com/fthomas/refined/pull/278
 [#279]: https://github.com/fthomas/refined/pull/279
 [#281]: https://github.com/fthomas/refined/pull/281
+
+Released on 2017-05-08

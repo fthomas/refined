@@ -165,10 +165,10 @@ If you're using sbt, add the following to your build:
 ```sbt
 libraryDependencies ++= Seq(
   "eu.timepit" %% "refined"            % "0.8.1",
-  "eu.timepit" %% "refined-pureconfig" % "0.8.1"  // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig" % "0.8.1", // optional, JVM-only
   "eu.timepit" %% "refined-scalacheck" % "0.8.1", // optional
   "eu.timepit" %% "refined-scalaz"     % "0.8.1", // optional
-  "eu.timepit" %% "refined-scodec"     % "0.8.1", // optional
+  "eu.timepit" %% "refined-scodec"     % "0.8.1"  // optional
 )
 ```
 

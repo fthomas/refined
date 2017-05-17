@@ -168,7 +168,7 @@ libraryDependencies ++= Seq(
   "eu.timepit" %% "refined-pureconfig" % "0.8.1", // optional, JVM-only
   "eu.timepit" %% "refined-scalacheck" % "0.8.1", // optional
   "eu.timepit" %% "refined-scalaz"     % "0.8.1", // optional
-  "eu.timepit" %% "refined-scodec"     % "0.8.1", // optional
+  "eu.timepit" %% "refined-scodec"     % "0.8.1"  // optional
 )
 ```
 

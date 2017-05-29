@@ -27,7 +27,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
           toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
           because = "Predicate failed: (0 > 0).",
           location = None,
-          path = Some("value")
+          path = "value"
         )))
   }
 
@@ -40,7 +40,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
             toType = "Int",
             because = "java.lang.NumberFormatException: For input string: \"abc\"",
             location = None,
-            path = Some("value")
+            path = "value"
           )))
   }
 

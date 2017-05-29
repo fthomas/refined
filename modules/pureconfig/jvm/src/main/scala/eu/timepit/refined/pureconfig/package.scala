@@ -26,7 +26,7 @@ package object pureconfig {
                     toType = typeTag.tpe.toString,
                     because = because,
                     location = ConfigValueLocation(config),
-                    path = None
+                    path = ""
                   )))
 
             case Right(refined) ⇒

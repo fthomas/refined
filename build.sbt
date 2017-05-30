@@ -65,7 +65,6 @@ lazy val cats = crossProject
     libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
     initialCommands += s"""
       import $rootPkg.cats._
-      import $rootPkg.cats.auto._
     """
   )
 

@@ -9,6 +9,7 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
+val catsVersion = "0.9.0"
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
 val shapelessVersion = "2.3.2"
@@ -23,7 +24,7 @@ val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
-  Seq("core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")
+  Seq("cats", "core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("pureconfig")
@@ -34,7 +35,9 @@ val allSubprojectsJS = {
 
 lazy val root = project
   .in(file("."))
-  .aggregate(coreJVM,
+  .aggregate(catsJVM,
+             catsJS,
+             coreJVM,
              coreJS,
              docs,
              evalJVM,
@@ -54,6 +57,19 @@ lazy val root = project
     console.in(Test) := console.in(coreJVM, Test).value,
     parallelExecution in Test in ThisBuild := false
   )
+
+lazy val cats = crossProject
+  .configureCross(moduleCrossConfig("cats"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
+    initialCommands += s"""
+      import $rootPkg.cats._
+    """
+  )
+
+lazy val catsJVM = cats.jvm
+lazy val catsJS = cats.js
 
 lazy val core = crossProject
   .configureCross(moduleCrossConfig("core"))

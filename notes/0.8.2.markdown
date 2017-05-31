@@ -1,0 +1,15 @@
+### Changes
+
+* Add the `refined-cats` subproject which adds `Eq` and `Show`
+  instances for any refined type.
+  Thanks to [Derek Morr](https://github.com/derekmorr)!
+  ([#284][#284])
+
+### Updates
+
+* Update `refined-pureconfig` to PureConfig 0.7.2.
+  Thanks to [Viktor Lövgren](https://github.com/vlovgr)!
+  ([#283][#283])
+
+[#283]: https://github.com/fthomas/refined/pull/283
+[#284]: https://github.com/fthomas/refined/pull/284

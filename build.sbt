@@ -105,10 +105,10 @@ lazy val coreJS = core.js
 lazy val docs = project
   .configure(moduleConfig("docs"))
   .dependsOn(coreJVM)
+  .enablePlugins(TutPlugin)
   .settings(noPublishSettings)
-  .settings(tutSettings)
   .settings(
-    tutScalacOptions := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
+    scalacOptions in Tut := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )

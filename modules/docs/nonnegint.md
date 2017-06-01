@@ -35,7 +35,7 @@ res4: Int = 2
 ```scala
 scala> // trying to call element with a negative Int fails to compile
      | element(Vector(1, 2, 3), -1)
-<console>:21: error: Predicate (-1 < 0) did not fail.
+<console>:20: error: Predicate (-1 < 0) did not fail.
        element(Vector(1, 2, 3), -1)
                                  ^
 ```

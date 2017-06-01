@@ -69,7 +69,7 @@ scala> refineMV[ZeroToOne](1.8)
                           ^
 
 scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
-res6: eu.timepit.refined.api.Refined[Char,eu.timepit.refined.boolean.AnyOf[shapeless.::[eu.timepit.refined.char.Digit,shapeless.::[eu.timepit.refined.char.Letter,shapeless.::[eu.timepit.refined.char.Whitespace,shapeless.HNil]]]]] = F
+res6: eu.timepit.refined.api.Refined[Char,eu.timepit.refined.boolean.AnyOf[eu.timepit.refined.char.Digit :: eu.timepit.refined.char.Letter :: eu.timepit.refined.char.Whitespace :: shapeless.HNil]] = F
 
 scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
 <console>:39: error: Predicate failed: "123.".matches("[0-9]+").

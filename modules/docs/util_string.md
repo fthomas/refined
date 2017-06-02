@@ -23,12 +23,14 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at java.util.regex.Pattern.compile(Pattern.java:1696)
   at java.util.regex.Pattern.<init>(Pattern.java:1351)
   at java.util.regex.Pattern.compile(Pattern.java:1028)
-  at scala.util.matching.Regex.<init>(Regex.scala:191)
-  at scala.collection.immutable.StringLike$class.r(StringLike.scala:255)
+  at scala.util.matching.Regex.<init>(Regex.scala:223)
+  at scala.collection.immutable.StringLike.r(StringLike.scala:281)
+  at scala.collection.immutable.StringLike.r$(StringLike.scala:281)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  at scala.collection.immutable.StringLike$class.r(StringLike.scala:244)
+  at scala.collection.immutable.StringLike.r(StringLike.scala:270)
+  at scala.collection.immutable.StringLike.r$(StringLike.scala:270)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  ... 202 elided
+  ... 107 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`

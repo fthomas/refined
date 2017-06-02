@@ -83,7 +83,7 @@ res4: Int = 2
 
 ```scala
 scala> qux(6)(4)
-<console>:22: error: Predicate failed: (4 > 6).
+<console>:21: error: Predicate failed: (4 > 6).
        qux(6)(4)
               ^
 ```

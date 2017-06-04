@@ -153,6 +153,19 @@ scala> val u1: String Refined Url = "htp://example.com"
 <console>:38: error: Url predicate failed: unknown protocol: htp
        val u1: String Refined Url = "htp://example.com"
                                     ^
+
+// Fully refined type: type (Int) with predicate (here: 7 <= value <= 77).
+type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
+
+val userInput = 55
+
+// With typed value declaration.
+val ageEither1 : Either[String, Age] = refineV(userInput)
+println(ageEither1)
+
+// With inferred type value.
+val ageEither2 = RefType.applyRef[Age](userInput)
+println(ageEither2)
 ```
 
 ## Using refined

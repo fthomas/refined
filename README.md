@@ -182,7 +182,7 @@ Release notes for the latest version are available in
 The optional dependencies are add-on libraries that provide support for
 other tag types or integration of refined types in other libraries:
 
-* `refined-pureconfig` for [PureConfig](https://github.com/melrief/pureconfig) integration
+* `refined-pureconfig` for [PureConfig](https://github.com/pureconfig/pureconfig) integration
 * `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
   class instances of refined types
 * `refined-scalaz` for support of [Scalaz](https://github.com/scalaz/scalaz)'

@@ -1,4 +1,4 @@
-import org.scalajs.sbtplugin.cross.CrossProject
+import sbtcrossproject.{crossProject, CrossProject, CrossType}
 
 /// variables
 
@@ -58,7 +58,7 @@ lazy val root = project
     parallelExecution in Test in ThisBuild := false
   )
 
-lazy val cats = crossProject
+lazy val cats = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("cats"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -71,7 +71,7 @@ lazy val cats = crossProject
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
 
-lazy val core = crossProject
+lazy val core = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
@@ -113,7 +113,7 @@ lazy val docs = project
     tutTargetDirectory := baseDirectory.value
   )
 
-lazy val eval = crossProject
+lazy val eval = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("eval"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -126,7 +126,7 @@ lazy val eval = crossProject
 lazy val evalJVM = eval.jvm
 lazy val evalJS = eval.js
 
-lazy val scalacheck = crossProject
+lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -139,7 +139,7 @@ lazy val scalacheck = crossProject
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = crossProject
+lazy val scalaz = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalaz"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -154,7 +154,7 @@ lazy val scalaz = crossProject
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 
-lazy val scodec = crossProject
+lazy val scodec = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scodec"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -167,7 +167,7 @@ lazy val scodec = crossProject
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val pureconfig = crossProject
+lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(

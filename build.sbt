@@ -303,14 +303,7 @@ lazy val compileSettings = Def.settings(
     }
   },
   scalacOptions in (Compile, console) -= "-Ywarn-unused:imports",
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
-  wartremoverErrors in (Compile, compile) ++= Warts.unsafe diff Seq(
-    Wart.Any,
-    Wart.AsInstanceOf,
-    Wart.NonUnitStatements,
-    Wart.Null,
-    Wart.Throw
-  )
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
 lazy val scaladocSettings = Def.settings(

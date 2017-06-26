@@ -70,7 +70,9 @@ private[refined] trait StringValidate {
     Validate.fromPartial(new java.net.URL(_), "Url", Url())
 
   implicit def uuidValidate: Validate.Plain[String, Uuid] =
-    Validate.fromPartial(java.util.UUID.fromString, "Uuid", Uuid())
+    Validate.fromPartial(s => require(java.util.UUID.fromString(s).toString == s.toLowerCase),
+                         "Uuid",
+                         Uuid())
 
   implicit def xmlValidate: Validate.Plain[String, Xml] =
     Validate.fromPartial(scala.xml.XML.loadString, "Xml", Xml())

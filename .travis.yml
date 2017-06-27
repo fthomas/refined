@@ -6,6 +6,7 @@ scala:
 jdk:
 - oraclejdk8
 - oraclejdk9
+dist: trusty
 sudo: false
 addons:
   apt:
@@ -31,7 +32,7 @@ notifications:
 
 matrix:
   include:
-  - scala: 2.11.11
+  - scala: 2.11.12
     sudo: required
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.0/bin/travis_setup.sh | bash -x

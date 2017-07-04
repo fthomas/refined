@@ -20,19 +20,12 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     refineConstant(t, tValue)(rt, v)
   }
 
-  def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(
-      ev: c.Expr[F[T, P] =:= FTP],
-      rt: c.Expr[RefType[F]],
-      v: c.Expr[Validate[T, P]]
-  ): c.Expr[FTP] =
-    c.Expr(impl(t)(rt, v).tree)
-
-  def unsafeFrom[F[_, _], T, P](t: c.Expr[T])(rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]): c.Expr[F[T, P]] = {
+  def unsafeFrom[F[_, _], T, P](t: c.Expr[T])(rt: c.Expr[RefType[F]],
+                                              v: c.Expr[Validate[T, P]]): c.Expr[F[T, P]] =
     extractConstant(t) match {
       case Some(tValue) => refineConstant(t, tValue)(rt, v)
-      case None => reify(functions.refineUnsafe(t.splice)(rt.splice, v.splice))
+      case None => reify(rt.splice.refine.unsafeFrom(t.splice)(v.splice))
     }
-  }
 
   def extractConstant[T](t: c.Expr[T]): Option[T] =
     t.tree match {
@@ -41,7 +34,8 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     }
 
   def refineConstant[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T], tValue: T)(
-    rt: c.Expr[RefType[F]], v: c.Expr[Validate[T, P]]
+      rt: c.Expr[RefType[F]],
+      v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
     val validate = eval(v)
     val res = validate.validate(tValue)
@@ -52,4 +46,11 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
     val refType = eval(rt)
     refType.unsafeWrapM(c)(t)
   }
+
+  def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(
+      ev: c.Expr[F[T, P] =:= FTP],
+      rt: c.Expr[RefType[F]],
+      v: c.Expr[Validate[T, P]]
+  ): c.Expr[FTP] =
+    c.Expr(impl(t)(rt, v).tree)
 }

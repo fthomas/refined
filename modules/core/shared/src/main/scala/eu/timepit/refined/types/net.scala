@@ -22,12 +22,6 @@ trait NetTypes {
   /** An `Int` in the range from 49152 to 65535 representing a port number. */
   type DynamicPortNumber = Int Refined Interval.Closed[W.`49152`.T, W.`65535`.T]
 
-  type WellKnownPortNumber = SystemPortNumber
-
-  type RegisteredPortNumber = UserPortNumber
-
-  type PrivatePortNumber = DynamicPortNumber
-
   /** An `Int` in the range from 1024 to 65535 representing a port number. */
   type NonSystemPortNumber = Or[UserPortNumber, DynamicPortNumber]
 }

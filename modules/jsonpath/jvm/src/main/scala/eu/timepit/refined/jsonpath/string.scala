@@ -4,6 +4,7 @@ package jsonpath
 import eu.timepit.refined.api.Validate
 
 object string extends StringValidate {
+
   /** Predicate that checks if a `String` is a valid JSON path. */
   final case class JSONPath()
 }

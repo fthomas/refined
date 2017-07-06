@@ -18,16 +18,17 @@ val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.13"
 val scodecVersion = "1.10.3"
 val pureconfigVersion = "0.7.2"
+val jsonpathVersion = "2.3.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig")
+  Seq("cats", "core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig", "jsonpath")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
-  val jvmOnlySubprojects = Seq("pureconfig")
+  val jvmOnlySubprojects = Seq("pureconfig", "jsonpath")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 
@@ -48,7 +49,8 @@ lazy val root = project
              scalazJS,
              scodecJVM,
              scodecJS,
-             pureconfigJVM)
+             pureconfigJVM,
+             jsonpathJVM)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -179,6 +181,17 @@ lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
 
 lazy val pureconfigJVM = pureconfig.jvm
 
+lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("jsonpath"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.jayway.jsonpath" % "json-path" % jsonpathVersion,
+      macroParadise
+    )
+  )
+
+lazy val jsonpathJVM = jsonpath.jvm
 /// settings
 
 lazy val commonSettings = Def.settings(

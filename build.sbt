@@ -197,7 +197,6 @@ lazy val jsonpathJVM = jsonpath.jvm
 lazy val commonSettings = Def.settings(
   compileSettings,
   metadataSettings,
-  myDoctestSettings,
   scaladocSettings,
   styleSettings,
   initialCommands := s"""
@@ -403,10 +402,6 @@ lazy val siteSettings = Def.settings(
   site.includeScaladoc(),
   ghpages.settings,
   git.remoteRepo := gitDevUrl
-)
-
-lazy val myDoctestSettings = Def.settings(
-  doctestWithDependencies := false
 )
 
 lazy val styleSettings = Def.settings(

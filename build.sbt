@@ -263,7 +263,8 @@ lazy val moduleJvmSettings = Def.settings(
 )
 
 lazy val moduleJsSettings = Def.settings(
-  doctestGenTests := Seq.empty
+  libraryDependencies += "com.lihaoyi" %% "utest" % "0.4.8" % "test",
+  doctestTestFramework := DoctestTestFramework.MicroTest
 )
 
 lazy val metadataSettings = Def.settings(
@@ -292,7 +293,7 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //XXX "-Xfatal-warnings",
     "-Xfuture",
     //"-Xlog-implicits",
     "-Yno-adapted-args",

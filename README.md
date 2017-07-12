@@ -154,7 +154,7 @@ scala> val u1: String Refined Url = "htp://example.com"
        val u1: String Refined Url = "htp://example.com"
                                     ^
 
-// Fully refined type: type (Int) with predicate (here: 7 <= value <= 77).
+// Fully refined type: type (Int) with predicate (here: 7 <= value < 77).
 type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
 
 val userInput = 55

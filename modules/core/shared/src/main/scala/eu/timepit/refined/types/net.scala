@@ -1,8 +1,8 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
+import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.numeric.Interval
 
 /** Module for refined types that are related to the Internet protocol suite. */

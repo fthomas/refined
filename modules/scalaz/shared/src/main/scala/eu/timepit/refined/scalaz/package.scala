@@ -1,8 +1,8 @@
 package eu.timepit.refined
 
-import _root_.scalaz.@@
 import _root_.scalaz.Equal
 import _root_.scalaz.Show
+import _root_.scalaz.@@
 import _root_.scalaz.syntax.contravariant._
 import eu.timepit.refined.api.RefType
 import scala.reflect.macros.blackbox

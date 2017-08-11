@@ -1,6 +1,7 @@
 package eu.timepit.refined
 
 import _root_.cats.Show
+import _root_.cats.instances.eq._
 import _root_.cats.kernel.Eq
 import _root_.cats.syntax.contravariant._
 import eu.timepit.refined.api.RefType

@@ -320,12 +320,14 @@ The library comes with these predefined predicates:
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
+* [Leif Wickland](https://github.com/leifwickland)
 * [Naoki Aoyama](https://github.com/aoiroaoino) ([@AoiroAoino](https://twitter.com/AoiroAoino))
+* [ronanM](https://github.com/ronanM)
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))
-* [sobacode](https://github.com/sobacode)
 * [Torsten Scholak](https://github.com/tscholak) ([@tscholak](https://twitter.com/tscholak))
 * [Viktor Lövgren](https://github.com/vlovgr) ([@vlovgr](https://twitter.com/vlovgr))
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
+* [Yuki Ishikawa](https://github.com/sobacode)
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

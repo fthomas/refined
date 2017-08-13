@@ -197,7 +197,6 @@ lazy val jsonpathJVM = jsonpath.jvm
 lazy val commonSettings = Def.settings(
   compileSettings,
   metadataSettings,
-  myDoctestSettings,
   scaladocSettings,
   styleSettings,
   initialCommands := s"""
@@ -264,7 +263,8 @@ lazy val moduleJvmSettings = Def.settings(
 )
 
 lazy val moduleJsSettings = Def.settings(
-  doctestGenTests := Seq.empty
+  libraryDependencies += "com.lihaoyi" %% "utest" % "0.4.8" % "test",
+  doctestTestFramework := DoctestTestFramework.MicroTest
 )
 
 lazy val metadataSettings = Def.settings(
@@ -293,7 +293,7 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //XXX "-Xfatal-warnings",
     "-Xfuture",
     //"-Xlog-implicits",
     "-Yno-adapted-args",
@@ -406,10 +406,6 @@ lazy val siteSettings = Def.settings(
   site.includeScaladoc(),
   ghpages.settings,
   git.remoteRepo := gitDevUrl
-)
-
-lazy val myDoctestSettings = Def.settings(
-  doctestWithDependencies := false
 )
 
 lazy val styleSettings = Def.settings(

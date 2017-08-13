@@ -237,16 +237,13 @@ lazy val moduleCrossSettings = Def.settings(
 
 lazy val moduleJvmSettings = Def.settings(
   mimaPreviousArtifacts := {
-
-    val hasNoPredecessor = unreleasedModules.value contains moduleName.value
-
+    val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
     latestVersionInSeries.value match {
-      case Some(latest) if publishArtifact.value && !hasNoPredecessor => {
+      case Some(latest) if publishArtifact.value && hasPredecessor =>
         Set(groupId %% moduleName.value % latest)
-      }
-      case other => Set.empty
+      case _ =>
+        Set.empty
     }
-
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._

@@ -77,7 +77,6 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
-  .settings(siteSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
@@ -332,7 +331,13 @@ lazy val scaladocSettings = Def.settings(
     )
   },
   autoAPIMappings := true,
-  apiURL := Some(url(s"http://$gitHubOwner.github.io/$projectName/latest/api/"))
+  apiURL := {
+    val binaryScalaVersion = CrossVersion.binaryScalaVersion(scalaVersion.value)
+    val refinedVersion = if (isSnapshot.value) latestVersion.value else version.value
+    val indexHtml = rootPkg.replace('.', '/') + "/index.html"
+    Some(url(
+      s"https://static.javadoc.io/$groupId/${moduleName.value}_$binaryScalaVersion/$refinedVersion/$indexHtml"))
+  }
 )
 
 lazy val publishSettings = Def.settings(
@@ -392,7 +397,6 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepTask(GhPagesKeys.pushSite in LocalProject("coreJVM")),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,
@@ -400,13 +404,6 @@ lazy val releaseSettings = {
     )
   )
 }
-
-lazy val siteSettings = Def.settings(
-  site.settings,
-  site.includeScaladoc(),
-  ghpages.settings,
-  git.remoteRepo := gitDevUrl
-)
 
 lazy val myDoctestSettings = Def.settings(
   doctestWithDependencies := false

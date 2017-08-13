@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.8.2/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -208,7 +208,7 @@ for libraries that directly provide support for **refined**.
 ## Documentation
 
 API documentation of the latest release is available at:
-[http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html)
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.8.2/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]

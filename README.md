@@ -3,7 +3,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://www.javadoc.io/doc/eu.timepit/refined_2.12)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://static.javadoc.io/eu.timepit/refined_2.12/0.8.2/eu/timepit/refined/index.html)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.8.2/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -208,7 +208,7 @@ for libraries that directly provide support for **refined**.
 ## Documentation
 
 API documentation of the latest release is available at:
-[http://fthomas.github.io/refined/latest/api/](http://fthomas.github.io/refined/latest/api/eu/timepit/refined/index.html)
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.8.2/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]

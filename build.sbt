@@ -320,14 +320,17 @@ lazy val compileSettings = Def.settings(
 )
 
 lazy val scaladocSettings = Def.settings(
-  scalacOptions in (Compile, doc) ++= Seq(
-    //"-diagrams",
-    "-diagrams-debug",
-    "-doc-source-url",
-    scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-    "-sourcepath",
-    baseDirectory.in(LocalRootProject).value.getAbsolutePath
-  ),
+  scalacOptions in (Compile, doc) ++= {
+    val tree = if (isSnapshot.value) "master" else s"v${version.value}"
+    Seq(
+      //"-diagrams",
+      "-diagrams-debug",
+      "-doc-source-url",
+      s"${scmInfo.value.get.browseUrl}/blob/${tree}€{FILE_PATH}.scala",
+      "-sourcepath",
+      baseDirectory.in(LocalRootProject).value.getAbsolutePath
+    )
+  },
   autoAPIMappings := true,
   apiURL := Some(url(s"http://$gitHubOwner.github.io/$projectName/latest/api/"))
 )

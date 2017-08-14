@@ -37,23 +37,25 @@ val allSubprojectsJS = {
 
 lazy val root = project
   .in(file("."))
-  .aggregate(catsJVM,
-             catsJS,
-             coreJVM,
-             coreJS,
-             docs,
-             evalJVM,
-             evalJS,
-             scalacheckJVM,
-             scalacheckJS,
-             scalazJVM,
-             scalazJS,
-             scodecJVM,
-             scodecJS,
-             pureconfigJVM,
-             jsonpathJVM,
-             declineJS,
-             declineJVM)
+  .aggregate(
+    catsJVM,
+    catsJS,
+    coreJVM,
+    coreJS,
+    docs,
+    evalJVM,
+    evalJS,
+    scalacheckJVM,
+    scalacheckJS,
+    scalazJVM,
+    scalazJS,
+    scodecJVM,
+    scodecJS,
+    pureconfigJVM,
+    jsonpathJVM,
+    declineJS,
+    declineJVM
+  )
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)

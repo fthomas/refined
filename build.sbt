@@ -196,7 +196,6 @@ lazy val jsonpathJVM = jsonpath.jvm
 lazy val commonSettings = Def.settings(
   compileSettings,
   metadataSettings,
-  myDoctestSettings,
   scaladocSettings,
   styleSettings,
   initialCommands := s"""
@@ -400,10 +399,6 @@ lazy val releaseSettings = {
     )
   )
 }
-
-lazy val myDoctestSettings = Def.settings(
-  doctestWithDependencies := false
-)
 
 lazy val styleSettings = Def.settings(
   // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47

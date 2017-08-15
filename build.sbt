@@ -201,7 +201,6 @@ lazy val decline = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("decline"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    skip in compile := scalaVersion.value.startsWith("2.10"),
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "com.monovore" %%% "decline" % declineVersion
@@ -237,7 +236,8 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
-  """
+  """,
+  unreleasedModules := Set(s"$projectName-decline")
 )
 
 def moduleConfig(name: String): Project => Project =

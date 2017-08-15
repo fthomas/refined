@@ -201,6 +201,7 @@ lazy val decline = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("decline"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    skip in compile := scalaVersion.value.startsWith("2.10"),
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "com.monovore" %%% "decline" % declineVersion

@@ -1,13 +1,10 @@
 package eu.timepit.refined.decline
 
 import _root_.com.monovore.decline._
-
 import cats.data.Validated
-
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
-
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 

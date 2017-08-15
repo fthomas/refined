@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import _root_.com.monovore.decline.Argument
-import cats.data.{ValidatedNel, Validated}
+import cats.data.{Validated, ValidatedNel}
 import eu.timepit.refined.api.{RefType, Validate}
 
 package object decline {

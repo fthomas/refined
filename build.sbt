@@ -237,7 +237,7 @@ lazy val commonSettings = Def.settings(
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
   """,
-  unreleasedModules := Set(s"$projectName-decline")
+  unreleasedModules := Set(s"$projectName-decline", s"$projectName-jsonpath")
 )
 
 def moduleConfig(name: String): Project => Project =

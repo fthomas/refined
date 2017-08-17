@@ -19,6 +19,7 @@ val scalazVersion = "7.2.15"
 val scodecVersion = "1.10.3"
 val pureconfigVersion = "0.7.2"
 val jsonpathVersion = "2.3.0"
+val declineVersion = "0.3.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(
@@ -36,21 +37,25 @@ val allSubprojectsJS = {
 
 lazy val root = project
   .in(file("."))
-  .aggregate(catsJVM,
-             catsJS,
-             coreJVM,
-             coreJS,
-             docs,
-             evalJVM,
-             evalJS,
-             scalacheckJVM,
-             scalacheckJS,
-             scalazJVM,
-             scalazJS,
-             scodecJVM,
-             scodecJS,
-             pureconfigJVM,
-             jsonpathJVM)
+  .aggregate(
+    catsJVM,
+    catsJS,
+    coreJVM,
+    coreJS,
+    docs,
+    evalJVM,
+    evalJS,
+    scalacheckJVM,
+    scalacheckJS,
+    scalazJVM,
+    scalazJS,
+    scodecJVM,
+    scodecJS,
+    pureconfigJVM,
+    jsonpathJVM,
+    declineJS,
+    declineJVM
+  )
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -191,6 +196,23 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val jsonpathJVM = jsonpath.jvm
+
+lazy val decline = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("decline"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-core" % catsVersion,
+      "com.monovore" %%% "decline" % declineVersion
+    ),
+    initialCommands += s"""
+      import $rootPkg.decline._
+    """
+  )
+
+lazy val declineJS = decline.js
+lazy val declineJVM = decline.jvm
+
 /// settings
 
 lazy val commonSettings = Def.settings(
@@ -213,7 +235,8 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
-  """
+  """,
+  unreleasedModules := Set(s"$projectName-decline", s"$projectName-jsonpath")
 )
 
 def moduleConfig(name: String): Project => Project =

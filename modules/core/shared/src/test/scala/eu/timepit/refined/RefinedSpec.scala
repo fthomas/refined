@@ -3,12 +3,12 @@ package eu.timepit.refined
 import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.collection.NonEmpty
+import eu.timepit.refined.types.string.NonEmptyString
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
 
 class RefinedSpec extends Properties("Refined") {
-  type NonEmptyString = String Refined NonEmpty
 
   property("apply") = wellTyped {
     illTyped(
@@ -18,10 +18,10 @@ class RefinedSpec extends Properties("Refined") {
   }
 
   property("copy") = wellTyped {
-    val nonEmptyString1: NonEmptyString = refineMV[NonEmpty]("abc")
+    val x: NonEmptyString = refineMV[NonEmpty]("abc")
     illTyped(
-      """ nonEmptyString1.copy("") """,
-      "value copy is not a member of RefinedSpec\\.this\\.NonEmptyString"
+      """ x.copy("") """,
+      "value copy is not a member of eu.timepit.refined.types.string.NonEmptyString"
     )
   }
 
@@ -38,5 +38,13 @@ class RefinedSpec extends Properties("Refined") {
     val x: NonEmptyString = refineMV("Hi")
     val Refined(s) = x
     s ?= x.value
+  }
+
+  property("unapply in pattern matching") = secure {
+    val x: NonEmptyString = refineMV("abc")
+    x match {
+      case Refined("abc") => true
+      case _ => false
+    }
   }
 }

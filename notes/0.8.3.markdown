@@ -1,0 +1,42 @@
+### New features
+
+* Add new port number types to`eu.timepit.refined.types.net` like
+  `SystemPortNumber` and `NonSystemPortNumber`.
+  Thanks to [Shohei Shimomura](https://github.com/sh0hei)!
+  ([#294][#294] [#304][#304])
+* Add the `refined-jsonpath` subproject which provides the `JSONPath`
+  predicate that checks if a `String` is a valid [JSONPath](http://goessner.net/articles/JsonPath/).
+  Thanks to [Iurii Susuk](https://github.com/ysusuk)! ([#305][#305])
+
+### Bug fixes
+
+* Tighten `Validate` instance for `UUID` by allowing only `String`s of
+  length 36 in the standard 8-4-4-4-12 representation.
+  Thanks to [Yuki Ishikawa](https://github.com/sobacode)!
+  ([#296][#296], [#300][#300])
+
+### Updates
+
+* Update to Scala.js 0.6.20. ([#290][#290], [#303][#303], [#303][#303],
+  [#324][#324])
+* Update `refined-cats` to Cats 1.0.0-MF.
+  Thanks to [Shohei Shimomura](https://github.com/sh0hei)! ([#311][#311])
+* Update `refined-scalaz` to Scalaz 7.2.15. ([#312][#312])
+* Update `refined-pureconfig` to PureConfig 0.8.0. ([#323][#323])
+
+Also many thanks to [ronanM](https://github.com/ronanM),
+[Leif Wickland](https://github.com/leifwickland), and
+[Richard Gomes](https://github.com/frgomes) for various improvements.
+
+[#290]: https://github.com/fthomas/refined/pull/290
+[#294]: https://github.com/fthomas/refined/issues/294
+[#296]: https://github.com/fthomas/refined/issues/296
+[#300]: https://github.com/fthomas/refined/pull/300
+[#303]: https://github.com/fthomas/refined/pull/303
+[#304]: https://github.com/fthomas/refined/pull/304
+[#305]: https://github.com/fthomas/refined/pull/305
+[#309]: https://github.com/fthomas/refined/pull/309
+[#311]: https://github.com/fthomas/refined/pull/311
+[#312]: https://github.com/fthomas/refined/pull/312
+[#323]: https://github.com/fthomas/refined/pull/323
+[#324]: https://github.com/fthomas/refined/pull/324

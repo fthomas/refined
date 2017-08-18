@@ -1,4 +1,5 @@
 import sbtcrossproject.{crossProject, CrossProject, CrossType}
+import scala.sys.process._
 
 /// variables
 
@@ -314,7 +315,8 @@ lazy val compileSettings = Def.settings(
 
 lazy val scaladocSettings = Def.settings(
   scalacOptions in (Compile, doc) ++= {
-    val tree = if (isSnapshot.value) "master" else s"v${version.value}"
+    val tag = s"v${version.value}"
+    val tree = if (isSnapshot.value) "master" else tag
     Seq(
       //"-diagrams",
       "-diagrams-debug",

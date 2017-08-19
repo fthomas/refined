@@ -296,7 +296,7 @@ lazy val compileSettings = Def.settings(
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 12)) =>
+      case Some((2, minor)) if minor >= 12 =>
         Seq(
           "-Xlint:-unused,_",
           //"-Ywarn-unused:implicits",

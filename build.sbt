@@ -197,7 +197,6 @@ lazy val commonSettings = Def.settings(
   compileSettings,
   metadataSettings,
   scaladocSettings,
-  styleSettings,
   initialCommands := s"""
     import $rootPkg._
     import $rootPkg.api._
@@ -399,13 +398,6 @@ lazy val releaseSettings = {
     )
   )
 }
-
-lazy val styleSettings = Def.settings(
-  // workaround for https://github.com/scalastyle/scalastyle-sbt-plugin/issues/47
-  scalastyleSources in Compile :=
-    (unmanagedSourceDirectories in Compile).value ++
-      (unmanagedSourceDirectories in Test).value
-)
 
 /// commands
 

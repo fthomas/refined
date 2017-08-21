@@ -44,7 +44,7 @@ class RefinedSpec extends Properties("Refined") {
     val x: NonEmptyString = refineMV("abc")
     x match {
       case Refined("abc") => true
-      case _ => false
+      case _              => false
     }
   }
 }

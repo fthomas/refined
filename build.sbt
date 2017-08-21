@@ -342,8 +342,8 @@ lazy val publishSettings = Def.settings(
 )
 
 lazy val noPublishSettings = Def.settings(
-  publish := (),
-  publishLocal := (),
+  publish := {},
+  publishLocal := {},
   publishArtifact := false
 )
 

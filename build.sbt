@@ -17,7 +17,7 @@ val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.15"
 val scodecVersion = "1.10.3"
-val pureconfigVersion = "0.7.2"
+val pureconfigVersion = "0.8.0"
 val jsonpathVersion = "2.3.0"
 
 // needed for tests with Scala 2.10

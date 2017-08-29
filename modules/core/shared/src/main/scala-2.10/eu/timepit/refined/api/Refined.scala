@@ -17,7 +17,7 @@ final class Refined[T, P] private (val value: T) extends Serializable {
   override def equals(that: Any): Boolean =
     that match {
       case that: Refined[_, _] => this.value == that.value
-      case _ => false
+      case _                   => false
     }
 
   override def toString: String =

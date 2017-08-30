@@ -11,15 +11,15 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val catsVersion = "1.0.0-MF"
+val jsonpathVersion = "2.4.0"
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
+val pureconfigVersion = "0.8.0"
 val shapelessVersion = "2.3.2"
 val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.15"
 val scodecVersion = "1.10.3"
-val pureconfigVersion = "0.8.0"
-val jsonpathVersion = "2.3.0"
 
 // needed for tests with Scala 2.10
 val macroParadise = compilerPlugin(

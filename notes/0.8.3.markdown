@@ -40,3 +40,5 @@ Also many thanks to [ronanM](https://github.com/ronanM),
 [#312]: https://github.com/fthomas/refined/pull/312
 [#323]: https://github.com/fthomas/refined/pull/323
 [#324]: https://github.com/fthomas/refined/pull/324
+
+Released on 2017-09-06

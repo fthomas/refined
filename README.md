@@ -329,7 +329,7 @@ The library comes with these predefined predicates:
 * [Torsten Scholak](https://github.com/tscholak) ([@tscholak](https://twitter.com/tscholak))
 * [Viktor Lövgren](https://github.com/vlovgr) ([@vlovgr](https://twitter.com/vlovgr))
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))
-* [Yuki Ishikawa](https://github.com/sobacode)
+* [Yuki Ishikawa](https://github.com/rider-yi)
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

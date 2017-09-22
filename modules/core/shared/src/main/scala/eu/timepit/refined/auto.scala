@@ -64,9 +64,8 @@ object auto {
    * This is an implicit version of `[[refineMV]]`.
    */
   implicit def autoRefineV[T, P](t: T)(
-      implicit rt: RefType[Refined],
-      v: Validate[T, P]
-  ): Refined[T, P] = macro RefineMacro.impl[Refined, T, P]
+      implicit v: Validate[T, P]
+  ): Refined[T, P] = macro RefineMacro.impl_Refined[T, P]
 
   /**
    * Implicitly tags (at compile-time) a value of type `T` with `P` if `t`
@@ -76,7 +75,6 @@ object auto {
    * This is an implicit version of `[[refineMT]]`.
    */
   implicit def autoRefineT[T, P](t: T)(
-      implicit rt: RefType[@@],
-      v: Validate[T, P]
-  ): T @@ P = macro RefineMacro.impl[@@, T, P]
+      implicit v: Validate[T, P]
+  ): T @@ P = macro RefineMacro.impl_@@[T, P]
 }

@@ -26,7 +26,7 @@ val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "scalacheck", "scalaz", "scodec", "pureconfig", "jsonpath")
+  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("pureconfig", "jsonpath")
@@ -46,14 +46,14 @@ lazy val root = project
     docs,
     evalJVM,
     evalJS,
+    jsonpathJVM,
+    pureconfigJVM,
     scalacheckJVM,
     scalacheckJS,
     scalazJVM,
     scalazJS,
     scodecJVM,
-    scodecJS,
-    pureconfigJVM,
-    jsonpathJVM
+    scodecJS
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
@@ -137,6 +137,30 @@ lazy val eval = crossProject(JSPlatform, JVMPlatform)
 lazy val evalJVM = eval.jvm
 lazy val evalJS = eval.js
 
+lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("jsonpath"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.jayway.jsonpath" % "json-path" % jsonpathVersion,
+      macroParadise
+    )
+  )
+
+lazy val jsonpathJVM = jsonpath.jvm
+
+lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("pureconfig"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
+      macroParadise
+    )
+  )
+
+lazy val pureconfigJVM = pureconfig.jvm
+
 lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
@@ -178,29 +202,6 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("pureconfig"))
-  .dependsOn(core % "compile->compile;test->test")
-  .settings(
-    libraryDependencies ++= Seq(
-      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
-      macroParadise
-    )
-  )
-
-lazy val pureconfigJVM = pureconfig.jvm
-
-lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("jsonpath"))
-  .dependsOn(core % "compile->compile;test->test")
-  .settings(
-    libraryDependencies ++= Seq(
-      "com.jayway.jsonpath" % "json-path" % jsonpathVersion,
-      macroParadise
-    )
-  )
-
-lazy val jsonpathJVM = jsonpath.jvm
 /// settings
 
 lazy val commonSettings = Def.settings(

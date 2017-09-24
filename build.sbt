@@ -29,7 +29,7 @@ val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
-  val jvmOnlySubprojects = Seq("pureconfig", "jsonpath")
+  val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 

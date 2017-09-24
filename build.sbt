@@ -37,21 +37,24 @@ val allSubprojectsJS = {
 
 lazy val root = project
   .in(file("."))
-  .aggregate(catsJVM,
-             catsJS,
-             coreJVM,
-             coreJS,
-             docs,
-             evalJVM,
-             evalJS,
-             scalacheckJVM,
-             scalacheckJS,
-             scalazJVM,
-             scalazJS,
-             scodecJVM,
-             scodecJS,
-             pureconfigJVM,
-             jsonpathJVM)
+  .aggregate(
+    benchmark,
+    catsJVM,
+    catsJS,
+    coreJVM,
+    coreJS,
+    docs,
+    evalJVM,
+    evalJS,
+    scalacheckJVM,
+    scalacheckJS,
+    scalazJVM,
+    scalazJS,
+    scodecJVM,
+    scodecJS,
+    pureconfigJVM,
+    jsonpathJVM
+  )
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -60,6 +63,12 @@ lazy val root = project
     console.in(Test) := console.in(coreJVM, Test).value,
     parallelExecution in Test in ThisBuild := false
   )
+
+lazy val benchmark = project
+  .configure(moduleConfig("benchmark"))
+  .dependsOn(coreJVM)
+  .enablePlugins(JmhPlugin)
+  .settings(noPublishSettings)
 
 lazy val cats = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("cats"))

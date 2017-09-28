@@ -1,8 +1,9 @@
 ### Improvements
 
-* Avoid calling `eval` in the refine macro for known `RefType` instances.
-  This reduces compilation times by roughly 26% for all compile-time
-  refinements.
-  ([#332][#332])
+* Avoid calling `eval` in refine and infer macros for known `RefType`
+  instances. This reduces compilation times by roughly 26% for all
+  compile-time refinements with common predicates.
+  ([#332][#332], [#333][#333])
 
 [#332]: https://github.com/fthomas/refined/pull/332
+[#333]: https://github.com/fthomas/refined/pull/333

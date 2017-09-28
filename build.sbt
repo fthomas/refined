@@ -258,6 +258,8 @@ lazy val moduleJvmSettings = Def.settings(
     import com.typesafe.tools.mima.core._
     Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.macros.MacroUtils.refTypeObj"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateWit"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateNat"),

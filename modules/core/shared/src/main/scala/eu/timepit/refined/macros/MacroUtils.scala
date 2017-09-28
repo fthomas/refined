@@ -1,13 +1,16 @@
 package eu.timepit.refined
 package macros
 
+import eu.timepit.refined.api.{Refined, RefType}
 import macrocompat.bundle
 import scala.reflect.macros.blackbox
 import scala.util.{Success, Try}
+import shapeless.tag.@@
 
 @bundle
 trait MacroUtils {
   val c: blackbox.Context
+  import c.universe.weakTypeOf
 
   def abort(msg: String): Nothing =
     c.abort(c.enclosingPosition, msg)
@@ -24,4 +27,12 @@ trait MacroUtils {
 
   def tryN[T](n: Int, t: => T): T =
     Stream.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
+
+  protected def refTypeObj[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
+    if (rt.tree.tpe =:= weakTypeOf[RefType[Refined]])
+      RefType[Refined].asInstanceOf[RefType[F]]
+    else if (rt.tree.tpe =:= weakTypeOf[RefType[@@]])
+      RefType[@@].asInstanceOf[RefType[F]]
+    else
+      eval(rt)
 }

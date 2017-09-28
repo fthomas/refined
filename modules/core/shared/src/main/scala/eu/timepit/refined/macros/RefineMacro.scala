@@ -1,11 +1,10 @@
 package eu.timepit.refined
 package macros
 
-import eu.timepit.refined.api.{Refined, RefType, Validate}
+import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.internal.Resources
 import macrocompat.bundle
 import scala.reflect.macros.blackbox
-import shapeless.tag.@@
 
 @bundle
 class RefineMacro(val c: blackbox.Context) extends MacroUtils {
@@ -36,12 +35,4 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
       v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =
     c.Expr(impl(t)(rt, v).tree)
-
-  private def refTypeObj[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
-    if (rt.tree.tpe =:= weakTypeOf[RefType[Refined]])
-      RefType[Refined].asInstanceOf[RefType[F]]
-    else if (rt.tree.tpe =:= weakTypeOf[RefType[@@]])
-      RefType[@@].asInstanceOf[RefType[F]]
-    else
-      eval(rt)
 }

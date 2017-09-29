@@ -21,6 +21,6 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
       abort(Resources.invalidInference(weakTypeOf[A].toString, weakTypeOf[B].toString))
     }
 
-    refTypeObj(rt).unsafeRewrapM(c)(ta)
+    refTypeInstance(rt).unsafeRewrapM(c)(ta)
   }
 }

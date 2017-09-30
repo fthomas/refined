@@ -28,7 +28,7 @@ trait MacroUtils {
   def tryN[T](n: Int, t: => T): T =
     Stream.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
 
-  protected def refTypeObj[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
+  protected def refTypeInstance[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
     if (rt.tree.tpe =:= weakTypeOf[RefType[Refined]])
       RefType[Refined].asInstanceOf[RefType[F]]
     else if (rt.tree.tpe =:= weakTypeOf[RefType[@@]])

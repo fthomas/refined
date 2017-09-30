@@ -46,8 +46,8 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   ): Validate[T, P] =
     validateInstances
       .collectFirst {
-        case (tpeT, list) if tpeT =:= T.tpe =>
-          list.collectFirst {
+        case (tpeT, instancesForT) if tpeT =:= T.tpe =>
+          instancesForT.collectFirst {
             case (tpeP, validate) if tpeP =:= P.tpe =>
               validate.asInstanceOf[Validate[T, P]]
           }

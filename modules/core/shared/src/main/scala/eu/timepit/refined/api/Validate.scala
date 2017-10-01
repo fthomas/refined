@@ -72,8 +72,14 @@ object Validate {
    * Constructs a `[[Validate]]` from the predicate `f`. All values of type
    * `T` for which `f` returns `true` are considered valid according to `P`.
    */
-  def fromPredicate[T, P](f: T => Boolean, showExpr: T => String, p: P): Plain[T, P] =
-    instance(t => Result.fromBoolean(f(t), p), showExpr)
+  def fromPredicate[T, P](f: T => Boolean, showExpr: T => String, p: P): Plain[T, P] = {
+    val g = showExpr
+    new Validate[T, P] {
+      override type R = P
+      override def validate(t: T): Res = Result.fromBoolean(f(t), p)
+      override def showExpr(t: T): String = g(t)
+    }
+  }
 
   /**
    * Constructs a `[[Validate]]` from the partial function `pf`. All `T`s for

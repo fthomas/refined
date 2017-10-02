@@ -15,10 +15,16 @@ sealed abstract class Result[A] extends Product with Serializable {
     }
 
   def isPassed: Boolean =
-    morph(true, false)
+    this match {
+      case Passed(_) => true
+      case Failed(_) => false
+    }
 
   def isFailed: Boolean =
-    morph(false, true)
+    this match {
+      case Passed(_) => false
+      case Failed(_) => true
+    }
 
   def map[B](f: A => B): Result[B] =
     fold(a => Passed(f(a)), a => Failed(f(a)))

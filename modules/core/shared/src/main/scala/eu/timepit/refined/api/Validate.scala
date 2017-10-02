@@ -3,6 +3,7 @@ package api
 
 import eu.timepit.refined.internal.Resources
 import scala.util.Try
+import scala.util.control.NonFatal
 
 /**
  * Type class for validating values of type `T` according to a type-level
@@ -90,7 +91,12 @@ object Validate {
       override type R = P
 
       override def validate(t: T): Res =
-        Result.fromBoolean(Try(pf(t)).isSuccess, p)
+        try {
+          pf(t)
+          Passed(p)
+        } catch {
+          case NonFatal(_) => Failed(p)
+        }
 
       override def showExpr(t: T): String =
         Resources.isValidName(name, t)

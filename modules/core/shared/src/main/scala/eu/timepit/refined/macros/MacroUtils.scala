@@ -30,9 +30,9 @@ trait MacroUtils {
 
   protected def refTypeInstance[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
     if (rt.tree.tpe =:= weakTypeOf[RefType[Refined]])
-      RefType[Refined].asInstanceOf[RefType[F]]
+      RefType.refinedRefType.asInstanceOf[RefType[F]]
     else if (rt.tree.tpe =:= weakTypeOf[RefType[@@]])
-      RefType[@@].asInstanceOf[RefType[F]]
+      RefType.tagRefType.asInstanceOf[RefType[F]]
     else
       eval(rt)
 }

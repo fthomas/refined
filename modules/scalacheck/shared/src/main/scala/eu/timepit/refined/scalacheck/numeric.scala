@@ -13,7 +13,9 @@ import shapeless.ops.nat.ToInt
  * Module that provides `Arbitrary` instances and generators for
  * numeric predicates.
  */
-object numeric {
+object numeric extends NumericInstances
+
+trait NumericInstances {
 
   /**
    * A generator that generates a random value in the given (inclusive)

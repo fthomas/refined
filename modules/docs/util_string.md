@@ -30,7 +30,7 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at scala.collection.immutable.StringLike.r(StringLike.scala:270)
   at scala.collection.immutable.StringLike.r$(StringLike.scala:270)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  ... 107 elided
+  ... 118 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`
@@ -92,8 +92,8 @@ res10: scala.xml.Elem = <a>link</a>
 
 scala> xml("<a>link</a")
 <console>:19: error: Xml predicate failed: XML document structures must start and end within the same entity.
-xml("<a>link</a")
-    ^
+       xml("<a>link</a")
+           ^
 
 scala> xpath("A//B/*[1]").isInstanceOf[javax.xml.xpath.XPathExpression]
 res12: Boolean = true

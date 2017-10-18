@@ -9,7 +9,9 @@ import org.scalacheck.{Arbitrary, Gen}
  * Module that provides `Arbitrary` instances for `Char` related
  * predicates.
  */
-object char {
+object char extends CharInstances
+
+trait CharInstances {
 
   implicit def digitArbitrary[F[_, _]: RefType]: Arbitrary[F[Char, Digit]] =
     arbitraryRefType(Gen.numChar)

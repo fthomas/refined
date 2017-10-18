@@ -7,7 +7,9 @@ import org.scalacheck.{Arbitrary, Gen}
 import shapeless.Witness
 
 /** Module that provides `Arbitrary` instances for generic predicates. */
-object generic {
+object generic extends GenericInstances
+
+trait GenericInstances {
 
   implicit def equalArbitrary[F[_, _]: RefType, T, U <: T](
       implicit wu: Witness.Aux[U]

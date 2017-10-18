@@ -13,7 +13,9 @@ import org.scalacheck.Arbitrary
  * out invalid values. For most refinements this will cause ScalaCheck to
  * fail because this instance will discard too many values.
  */
-object any {
+object any extends AnyInstances
+
+trait AnyInstances {
 
   implicit def arbitraryFromValidate[F[_, _], T, P](
       implicit rt: RefType[F],

@@ -10,7 +10,9 @@ import shapeless.Witness
  * Module that provides `Arbitrary` instances for `String` related
  * predicates.
  */
-object string {
+object string extends StringInstances
+
+trait StringInstances {
 
   implicit def endsWithArbitrary[F[_, _], S <: String](
       implicit rt: RefType[F],

@@ -26,7 +26,7 @@ val macroParadise = compilerPlugin(
   "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
+  Seq("cats", "core", "eval", "jsonpath", "macros", "pureconfig", "scalacheck", "scalaz", "scodec")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
@@ -47,6 +47,8 @@ lazy val root = project
     evalJVM,
     evalJS,
     jsonpathJVM,
+    macrosJVM,
+    macrosJS,
     pureconfigJVM,
     scalacheckJVM,
     scalacheckJS,
@@ -85,6 +87,7 @@ lazy val catsJS = cats.js
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("core"))
+  .dependsOn(macros % "compile->compile;test->test")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
@@ -96,6 +99,8 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test,
       macroParadise
     ),
+    addCompilerPlugin(
+      "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 10)) => Seq.empty
@@ -149,6 +154,19 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
 
 lazy val jsonpathJVM = jsonpath.jvm
 
+lazy val macros = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("macros"))
+  .settings(
+    libraryDependencies ++= Seq(
+      scalaOrganization.value % "scala-reflect" % scalaVersion.value,
+      scalaOrganization.value % "scala-compiler" % scalaVersion.value,
+      macroParadise
+    )
+  )
+
+lazy val macrosJVM = macros.jvm
+lazy val macrosJS = macros.js
+
 lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
@@ -156,7 +174,8 @@ lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++= Seq(
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
       macroParadise
-    )
+    ),
+    addCompilerPlugin("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.full)
   )
 
 lazy val pureconfigJVM = pureconfig.jvm

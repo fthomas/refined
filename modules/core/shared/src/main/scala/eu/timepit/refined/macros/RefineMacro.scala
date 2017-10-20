@@ -11,6 +11,7 @@ import scala.reflect.macros.blackbox
 
 @bundle
 class RefineMacro(val c: blackbox.Context) extends MacroUtils {
+
   import c.universe._
 
   def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
@@ -19,8 +20,14 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
   ): c.Expr[F[T, P]] = {
 
     val tValue: T = t.tree match {
-      case Literal(Constant(value)) => value.asInstanceOf[T]
-      case _                        => abort(Resources.refineNonCompileTimeConstant)
+      case Literal(Constant(value)) =>
+        value.asInstanceOf[T]
+      case q"scala.`package`.BigInt.apply(${lit: Literal})" =>
+        BigInt(lit.value.value.asInstanceOf[Int]).asInstanceOf[T]
+      case q"scala.`package`.BigDecimal.apply(${lit: Literal})" =>
+        BigDecimal(lit.value.value.asInstanceOf[Double]).asInstanceOf[T]
+      case _ =>
+        abort(Resources.refineNonCompileTimeConstant)
     }
 
     val validate = validateInstance(v)

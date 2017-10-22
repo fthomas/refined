@@ -10,7 +10,7 @@ import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
 @bundle
-class RefineMacro(val c: blackbox.Context) extends MacroUtils {
+class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatchers {
 
   import c.universe._
 
@@ -18,16 +18,11 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils {
       rt: c.Expr[RefType[F]],
       v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
-
     val tValue: T = t.tree match {
-      case Literal(Constant(value)) =>
-        value.asInstanceOf[T]
-      case q"scala.`package`.BigInt.apply(${lit: Literal})" =>
-        BigInt(lit.value.value.asInstanceOf[Int]).asInstanceOf[T]
-      case q"scala.`package`.BigDecimal.apply(${lit: Literal})" =>
-        BigDecimal(lit.value.value.asInstanceOf[Double]).asInstanceOf[T]
-      case _ =>
-        abort(Resources.refineNonCompileTimeConstant)
+      case Literal(Constant(value)) => value.asInstanceOf[T]
+      case BigDecimalMatcher(value) => value.asInstanceOf[T]
+      case BigIntMatcher(value)     => value.asInstanceOf[T]
+      case _                        => abort(Resources.refineNonCompileTimeConstant)
     }
 
     val validate = validateInstance(v)

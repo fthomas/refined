@@ -3,7 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{Digit, Letter}
-import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.generic._
 import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
@@ -42,12 +42,21 @@ class AutoSpec extends Properties("auto") {
   }
 
   property("#36") = secure {
-    val i: BigInt Refined Positive = BigInt(1)
+    val a: BigInt Refined Positive = BigInt(1)
+    val b: BigInt Refined Positive = BigInt(0x7fffffffffffffffL)
+    val c: BigInt Refined Positive = BigInt("1")
     val d: BigDecimal Refined Positive = BigDecimal(1.0)
-    val m: BigInt Refined Positive = BigInt(0x7fffffffffffffffL) // TODO: Kaboom
-    illTyped("val f1: BigInt Refined Positive = BigInt(0)", """Predicate failed: \(0 > 0\).""")
-    illTyped("val f2: BigInt Refined Positive = BigInt(i.value.toInt)", "compile-time refinement only works with literals")
-    i.value.toInt == 1 && d.value.toDouble == 1.0
+    val e: BigDecimal Refined Positive = BigDecimal.exact(0.1)
+    val f: BigDecimal Refined Positive = BigDecimal.valueOf(0.1)
+
+    val g: BigInt Refined Equal[W.`0`.T] = BigInt("0")
+    val h: BigInt Refined Equal[W.`1`.T] = BigInt(1)
+    val i: BigDecimal Refined Equal[W.`0.0`.T] = BigDecimal.exact("0.0")
+    val j: BigDecimal Refined Equal[W.`0.0`.T] = autoRefineV(BigDecimal(0.0))
+
+    illTyped("val err: BigInt Refined Positive = BigInt(0)", """Predicate failed: \(0 > 0\).""")
+    illTyped("val err: BigInt Refined Positive = BigInt(a.value.toInt)", "compile-time refinement.*")
+    illTyped("val err: BigInt Refined Positive = BigInt(\"0.1\")", "compile-time refinement.*")
   }
 
   property("#260") = secure {

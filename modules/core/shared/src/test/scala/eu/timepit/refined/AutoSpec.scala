@@ -47,16 +47,24 @@ class AutoSpec extends Properties("auto") {
     val c: BigInt Refined Positive = BigInt("1")
     val d: BigDecimal Refined Positive = BigDecimal(1.0)
     val e: BigDecimal Refined Positive = BigDecimal.exact(0.1)
-    val f: BigDecimal Refined Positive = BigDecimal.valueOf(0.1)
+    val f: BigDecimal Refined Positive = BigDecimal.valueOf(0.3)
 
-    val g: BigInt Refined Equal[W.`0`.T] = BigInt("0")
-    val h: BigInt Refined Equal[W.`1`.T] = BigInt(1)
-    val i: BigDecimal Refined Equal[W.`0.0`.T] = BigDecimal.exact("0.0")
-    val j: BigDecimal Refined Equal[W.`0.0`.T] = autoRefineV(BigDecimal(0.0))
+    illTyped("val err: BigInt Refined Equal[W.`0`.T] = BigInt(\"0\")")
+    illTyped("val err: BigInt Refined Equal[W.`1`.T] = BigInt(1)")
+    illTyped("val err: BigDecimal Refined Equal[W.`0.0`.T] = BigDecimal(0.0)")
+    illTyped("val err: BigDecimal Refined Equal[W.`0.0`.T] = BigDecimal.exact(\"0.0\")")
 
     illTyped("val err: BigInt Refined Positive = BigInt(0)", """Predicate failed: \(0 > 0\).""")
-    illTyped("val err: BigInt Refined Positive = BigInt(a.value.toInt)", "compile-time refinement.*")
+    illTyped("val err: BigInt Refined Positive = BigInt(a.value.toInt)",
+             "compile-time refinement.*")
     illTyped("val err: BigInt Refined Positive = BigInt(\"0.1\")", "compile-time refinement.*")
+
+    (a.value ?= BigInt(1)) &&
+    (b.value ?= BigInt(Long.MaxValue)) &&
+    (c.value ?= BigInt(1)) &&
+    (d.value ?= BigDecimal(1.0)) &&
+    (e.value ?= BigDecimal.exact(0.1)) &&
+    (f.value ?= BigDecimal.valueOf(0.3))
   }
 
   property("#260") = secure {

@@ -30,11 +30,14 @@ trait NumericTypes {
   type PosLong = Long Refined Positive
 
   /** A `Long` in the range from 0 to `Long.MaxValue`. */
+  @refinedCompanion
   type NonNegLong = Long Refined NonNegative
 
   /** A `Long` in the range from `Long.MinValue` to -1. */
+  @refinedCompanion
   type NegLong = Long Refined Negative
 
   /** A `Long` in the range from `Long.MinValue` to 0. */
+  @refinedCompanion
   type NonPosLong = Long Refined NonPositive
 }

@@ -2,7 +2,6 @@ package eu.timepit.refined.types
 
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.numeric.Interval
 
 /** Module for refined types that are related to the Internet protocol suite. */
@@ -23,5 +22,5 @@ trait NetTypes {
   type DynamicPortNumber = Int Refined Interval.Closed[W.`49152`.T, W.`65535`.T]
 
   /** An `Int` in the range from 1024 to 65535 representing a port number. */
-  type NonSystemPortNumber = Or[UserPortNumber, DynamicPortNumber]
+  type NonSystemPortNumber = Int Refined Interval.Closed[W.`1024`.T, W.`65535`.T]
 }

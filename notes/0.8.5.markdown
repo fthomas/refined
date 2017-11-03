@@ -1,0 +1,5 @@
+### Updates
+
+* Update `refined-cats` to Cats 1.0.0-RC1. ([350][350])
+
+[350]: https://github.com/fthomas/refined/pull/350

@@ -21,9 +21,9 @@ val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.15"
 val scodecVersion = "1.10.3"
 
-// needed for tests with Scala 2.10
+// needed for quasiquotes
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
+  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch)
 
 val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
@@ -315,7 +315,7 @@ lazy val compileSettings = Def.settings(
           "-Ywarn-unused:imports",
           //"-Ywarn-unused:locals",
           //"-Ywarn-unused:params",
-          "-Ywarn-unused:patvars"
+          //"-Ywarn-unused:patvars"
           //"-Ywarn-unused:privates"
         )
       case _ => Seq("-Xlint")

@@ -10,7 +10,7 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val catsVersion = "1.0.0-MF"
+val catsVersion = "1.0.0-RC1"
 val jsonpathVersion = "2.4.0"
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.0"
@@ -21,9 +21,9 @@ val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.15"
 val scodecVersion = "1.10.3"
 
-// needed for tests with Scala 2.10
+// needed for quasiquotes
 val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion % Test cross CrossVersion.patch)
+  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch)
 
 val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "macros", "pureconfig", "scalacheck", "scalaz", "scodec")

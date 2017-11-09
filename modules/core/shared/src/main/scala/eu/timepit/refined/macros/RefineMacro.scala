@@ -10,16 +10,18 @@ import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
 @bundle
-class RefineMacro(val c: blackbox.Context) extends MacroUtils {
+class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatchers {
+
   import c.universe._
 
   def impl[F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
       rt: c.Expr[RefType[F]],
       v: c.Expr[Validate[T, P]]
   ): c.Expr[F[T, P]] = {
-
     val tValue: T = t.tree match {
       case Literal(Constant(value)) => value.asInstanceOf[T]
+      case BigDecimalMatcher(value) => value.asInstanceOf[T]
+      case BigIntMatcher(value)     => value.asInstanceOf[T]
       case _                        => abort(Resources.refineNonCompileTimeConstant)
     }
 

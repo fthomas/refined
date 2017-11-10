@@ -160,7 +160,8 @@ lazy val macros = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++= Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      macroParadise
+      macroParadise,
+      "org.typelevel" %%% "macro-compat" % macroCompatVersion
     )
   )
 

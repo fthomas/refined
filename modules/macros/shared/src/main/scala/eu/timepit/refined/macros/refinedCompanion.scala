@@ -1,15 +1,17 @@
 package eu.timepit.refined.macros
 
+import macrocompat.bundle
 import scala.annotation.{compileTimeOnly, StaticAnnotation}
 import scala.reflect.macros.blackbox
 
 @compileTimeOnly("enable macro paradise to expand macro annotations")
 class refinedCompanion extends StaticAnnotation {
-  def macroTransform(annottees: Any*): Any = macro refinedCompanion.impl
+  def macroTransform(annottees: Any*): Any = macro RefinedCompanionMacro.impl
 }
 
-object refinedCompanion {
-  def impl(c: blackbox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
+@bundle
+class RefinedCompanionMacro(val c: blackbox.Context) {
+  def impl(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
     val typeDef = annottees.head

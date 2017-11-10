@@ -2,7 +2,7 @@ package eu.timepit.refined.macros
 
 import macrocompat.bundle
 import scala.annotation.{compileTimeOnly, StaticAnnotation}
-import scala.reflect.macros.blackbox
+import scala.reflect.macros.whitebox
 
 @compileTimeOnly("enable macro paradise to expand macro annotations")
 class refinedCompanion extends StaticAnnotation {
@@ -10,7 +10,7 @@ class refinedCompanion extends StaticAnnotation {
 }
 
 @bundle
-class RefinedCompanionMacro(val c: blackbox.Context) {
+class RefinedCompanionMacro(val c: whitebox.Context) {
   def impl(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
@@ -40,6 +40,6 @@ class RefinedCompanionMacro(val c: blackbox.Context) {
         """
     }
 
-    c.Expr(typeDefAndCompanion)
+    c.Expr[Any](typeDefAndCompanion)
   }
 }

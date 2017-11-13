@@ -15,6 +15,12 @@ object string extends StringValidate with StringInference {
   /** Predicate that checks if a `String` ends with the suffix `S`. */
   final case class EndsWith[S](s: S)
 
+  /** Predicate that checks if a `String` is a valid IPv4 */
+  final case class IPv4()
+
+  /** Predicate that checks if a `String` is a valid IPv6 */
+  final case class IPv6()
+
   /** Predicate that checks if a `String` matches the regular expression `S`. */
   final case class MatchesRegex[S](s: S)
 
@@ -47,6 +53,20 @@ private[refined] trait StringValidate {
     Validate.fromPredicate(_.endsWith(ws.value),
                            t => s""""$t".endsWith("${ws.value}")""",
                            EndsWith(ws.value))
+
+  implicit def ipv4Validate: Validate.Plain[String, IPv4] =
+    Validate.fromPartial(
+      s => require(java.net.InetAddress.getByName(s).isInstanceOf[java.net.Inet4Address]),
+      "IPv4",
+      IPv4()
+    )
+
+  implicit def ipv6Validate: Validate.Plain[String, IPv6] =
+    Validate.fromPartial(
+      s => require(java.net.InetAddress.getByName(s).isInstanceOf[java.net.Inet6Address]),
+      "IPv6",
+      IPv6()
+    )
 
   implicit def matchesRegexValidate[S <: String](
       implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =

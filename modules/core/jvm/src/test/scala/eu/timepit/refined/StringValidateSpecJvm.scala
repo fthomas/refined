@@ -6,6 +6,21 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class StringValidateSpecJvm extends Properties("StringValidate") {
+  property("IPv4.isValid") = secure {
+    isValid[IPv4]("10.0.0.1")
+  }
+
+  property("IPv4.showResult.Failed") = secure {
+    showResult[IPv4]("::1") ?= "IPv4 predicate failed: requirement failed"
+  }
+
+  property("IPv6.isValid") = secure {
+    isValid[IPv6]("::1")
+  }
+
+  property("IPv6.showResult.Failed") = secure {
+    showResult[IPv6]("10.0.0.1") ?= "IPv6 predicate failed: requirement failed"
+  }
 
   property("Regex.showResult") = secure {
     showResult[Regex]("(a|b") ?=

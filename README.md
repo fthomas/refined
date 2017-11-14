@@ -178,6 +178,9 @@ If you're using sbt, add the following to your build:
 ```sbt
 libraryDependencies ++= Seq(
   "eu.timepit" %% "refined"            % "0.8.4",
+  "eu.timepit" %% "refined-cats"       % "0.8.4", // optional
+  "eu.timepit" %% "refined-eval"       % "0.8.4", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"   % "0.8.4", // optional, JVM-only
   "eu.timepit" %% "refined-pureconfig" % "0.8.4", // optional, JVM-only
   "eu.timepit" %% "refined-scalacheck" % "0.8.4", // optional
   "eu.timepit" %% "refined-scalaz"     % "0.8.4", // optional
@@ -192,18 +195,72 @@ Instructions for Maven and other build tools are available at [search.maven.org]
 Release notes for the latest version are available in
 [0.8.4.markdown](https://github.com/fthomas/refined/blob/master/notes/0.8.4.markdown).
 
-The optional dependencies are add-on libraries that provide support for
-other tag types or integration of refined types in other libraries:
+## Community
 
-* `refined-pureconfig` for [PureConfig](https://github.com/pureconfig/pureconfig) integration
-* `refined-scalacheck` for [ScalaCheck](http://scalacheck.org/) type
-  class instances of refined types
-* `refined-scalaz` for support of [Scalaz](https://github.com/scalaz/scalaz)'
-  tag type (`scalaz.@@`)
-* `refined-scodec` for [scodec](http://scodec.org/) integration
+### Internal modules
 
-See also the list of [projects that use refined][built-with-refined]
-for libraries that directly provide support for **refined**.
+The project provides these optional extensions and library integrations:
+
+* `refined-cats` provides [Cats](https://github.com/typelevel/cats)
+  type class instances for refined types
+* `refined-eval` provides the `Eval[S]` predicate that checks if a value
+  applied to the predicate `S` yields `true`
+* `refined-jsonpath` provides the `JSONPath` predicate that checks if a
+  `String` is a valid [JSONPath](http://goessner.net/articles/JsonPath/)
+* `refined-pureconfig` allows to read configuration with refined types
+  using [PureConfig](https://github.com/pureconfig/pureconfig)
+* `refined-scalacheck` allows to generate arbitrary values of refined types
+  with [ScalaCheck](http://scalacheck.org/)
+* `refined-scalaz` provides [Scalaz](https://github.com/scalaz/scalaz)
+  type class instances for refined types and support for `scalaz.@@`
+* `refined-scodec` allows binary decoding and encoding of refined types with
+  [scodec](http://scodec.org/)
+
+### External modules
+
+Below is an incomplete list of third-party extensions and library integrations
+for **refined**. If your library is missing, please open a pull request to
+list it here:
+
+* [argonaut-refined](https://github.com/alexarchambault/argonaut-shapeless)
+* [circe-refined](https://github.com/circe/circe)
+* [ciris-refined](https://github.com/vlovgr/ciris)
+* [decline-refined](http://ben.kirw.in/decline/refined.html)
+* [doobie-refined](https://github.com/tpolecat/doobie)
+* [exercises-refined](https://github.com/ysusuk/exercises-refined)
+* [extruder-refined](https://github.com/janstenpickle/extruder)
+* [kantan.csv-refined](http://nrinaudo.github.io/kantan.csv/tut/refined.html)
+* [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/tut/refined.html)
+* [kantan.xpath-refined](http://nrinaudo.github.io/kantan.xpath/tut/refined.html)
+* [monocle-refined](https://github.com/julien-truffaut/Monocle)
+* [play-json-refined](https://github.com/lunaryorn/play-json-refined)
+* [play-json-refined](https://github.com/btlines/play-json-refined)
+* [refined-anorm](https://github.com/derekmorr/refined-anorm)
+* [refined-guava](https://github.com/derekmorr/refined-guava)
+* [seals-refined](https://github.com/durban/seals)
+* [slick-refined](https://github.com/kwark/slick-refined)
+* [strictify-refined](https://github.com/cakesolutions/strictify)
+* [validated-config](https://github.com/carlpulley/validated-config)
+* [xml-names-core](https://github.com/slamdata/scala-xml-names)
+
+### Projects using refined
+
+If your open source project is using **refined**, please consider opening
+a pull request to list it here:
+
+* [Quasar](https://github.com/quasar-analytics/quasar): An open source
+  NoSQL analytics engine which uses refined for natural and positive
+  integer types
+* [rvi_sota_server](https://github.com/GENIVI/rvi_sota_server): The SOTA
+  Server Reference Implementation uses refined for domain specific types.
+  like the [vehicle identification number (VIN)](https://en.wikipedia.org/wiki/Vehicle_identification_number).
+
+### Adopters
+
+Are you using **refined** in your organization or company? Please consider
+opening a pull request to list it here:
+
+* [Zalando](https://tech.zalando.de/)
 
 ## Documentation
 
@@ -272,7 +329,6 @@ The library comes with these predefined predicates:
 [`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
-* `Eval[S]`: checks if a value applied to the predicate `S` yields `true`
 * `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
 * `FieldNames[P]`: checks if the field names of a product type satisfy `P`
 * `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
@@ -339,12 +395,6 @@ typeful, functional programming, and provide a safe and friendly environment
 for teaching, learning, and contributing as described in the Typelevel
 [code of conduct][code-of-conduct].
 
-## Projects using refined
-
-Please see the wiki for an [incomplete list of projects and companies][built-with-refined]
-which use **refined**. If you are using the library and your project isn't
-listed yet, please add it.
-
 ## Performance concerns
 
 Using **refined's** macros for compile-time refinement has zero runtime
@@ -372,7 +422,6 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
-[built-with-refined]: https://github.com/fthomas/refined/wiki/Built-with-refined
 [code-of-conduct]: http://typelevel.org/conduct.html
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org

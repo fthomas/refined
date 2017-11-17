@@ -17,6 +17,21 @@ object string extends StringValidate with StringInference {
 
   /** Predicate that checks if a `String` is a valid IPv4 */
   final case class IPv4()
+  object IPv4 {
+    val regex = "^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$".r.pattern
+    val maxOctet = 255
+    val predicate: String => Boolean = s => {
+      val matcher = regex.matcher(s)
+      matcher.find() && matcher.matches() && {
+        val octet1 = matcher.group(1).toInt
+        val octet2 = matcher.group(2).toInt
+        val octet3 = matcher.group(3).toInt
+        val octet4 = matcher.group(4).toInt
+
+        (octet1 <= maxOctet) && (octet2 <= maxOctet) && (octet3 <= maxOctet) && (octet4 <= maxOctet)
+      }
+    }
+  }
 
   /** Predicate that checks if a `String` matches the regular expression `S`. */
   final case class MatchesRegex[S](s: S)
@@ -43,24 +58,6 @@ object string extends StringValidate with StringInference {
   final case class XPath()
 }
 
-object Predicates {
-  object IPv4 {
-    val regex = "^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$".r.pattern
-    val maxOctet = 255
-    val predicate: String => Boolean = s => {
-      val matcher = regex.matcher(s)
-      matcher.find() && matcher.matches() && {
-        val octet1 = matcher.group(1).toInt
-        val octet2 = matcher.group(2).toInt
-        val octet3 = matcher.group(3).toInt
-        val octet4 = matcher.group(4).toInt
-
-        (octet1 <= maxOctet) && (octet2 <= maxOctet) && (octet3 <= maxOctet) && (octet4 <= maxOctet)
-      }
-    }
-  }
-}
-
 private[refined] trait StringValidate {
   implicit def endsWithValidate[S <: String](
       implicit ws: Witness.Aux[S]): Validate.Plain[String, EndsWith[S]] =
@@ -69,7 +66,7 @@ private[refined] trait StringValidate {
                            EndsWith(ws.value))
 
   implicit def ipv4Validate[S <: String]: Validate.Plain[String, IPv4] =
-    Validate.fromPredicate(Predicates.IPv4.predicate, t => s"${t} is a valid IPv4", IPv4())
+    Validate.fromPredicate(IPv4.predicate, t => s"${t} is a valid IPv4", IPv4())
 
   implicit def matchesRegexValidate[S <: String](
       implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =

@@ -69,4 +69,16 @@ class StringValidateSpec extends Properties("StringValidate") {
   property("Uuid.showResult.Failed") = secure {
     showResult[Uuid]("whops") ?= "Uuid predicate failed: Invalid UUID string: whops"
   }
+
+  property("IPv4.isValid") = secure {
+    isValid[IPv4]("10.0.0.1")
+  }
+
+  property("IPv4.showResult.InvalidOctet") = secure {
+    showResult[IPv4]("10.0.256.1") ?= "Predicate failed: 10.0.256.1 is a valid IPv4."
+  }
+
+  property("IPv4.showResult.Failed") = secure {
+    showResult[IPv4]("::1") ?= "Predicate failed: ::1 is a valid IPv4."
+  }
 }

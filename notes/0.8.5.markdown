@@ -2,6 +2,8 @@
 
 * Update `refined-cats` to Cats 1.0.0-RC1. ([350][350])
 * Update to Scala.js 0.6.21. ([351][351])
+* Update `refined-scalaz` to Scalaz 7.2.17. ([360][360])
 
 [350]: https://github.com/fthomas/refined/pull/350
 [351]: https://github.com/fthomas/refined/pull/351
+[360]: https://github.com/fthomas/refined/pull/360

@@ -384,7 +384,7 @@ The library comes with these predefined predicates:
 * [Richard Gomes](https://github.com/frgomes)
 * [ronanM](https://github.com/ronanM)
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))
-* [Tim Steinbach](https://github.com/NeQuissimus)
+* [Tim Steinbach](https://github.com/NeQuissimus) ([@Tim_Steinbach](https://twitter.com/tim_steinbach))
 * [Torsten Scholak](https://github.com/tscholak) ([@tscholak](https://twitter.com/tscholak))
 * [Viktor Lövgren](https://github.com/vlovgr) ([@vlovgr](https://twitter.com/vlovgr))
 * [Vladimir Koshelev](https://github.com/koshelev) ([@vlad_koshelev](https://twitter.com/vlad_koshelev))

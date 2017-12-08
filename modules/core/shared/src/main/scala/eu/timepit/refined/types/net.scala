@@ -59,10 +59,10 @@ trait NetTypes {
   type Rfc2544Benchmark = String Refined Rfc2544BenchmarkSpec
 
   /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544  */
-  type PrivateNetwork = String Refined Rfc1918PrivateSpec Or
+  type PrivateNetwork = String Refined (Rfc1918PrivateSpec Or
     Rfc5737TestnetSpec Or
     Rfc3927LocalLinkSpec Or
-    Rfc2544BenchmarkSpec
+    Rfc2544BenchmarkSpec)
 
   object PrivateNetworks {
     type Rfc1918ClassAPrivateSpec = IPv4 And StartsWith[W.`"10."`.T]

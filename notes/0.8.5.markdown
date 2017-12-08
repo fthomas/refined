@@ -1,9 +1,40 @@
+### New features
+
+* Add a `TrimmedString` refined type for `String`s without leading or
+  trailing whitespace. ([#275][#275])
+* Support `BigInt` and `BigDecimal` literals in compile-time checks.
+  For example, this is now possible:
+  ```scala
+  scala> val x: BigDecimal Refined Positive = BigDecimal("2E+500")
+  x: BigDecimal Refined Positive = 2E+500
+
+  scala> val x: BigDecimal Refined Positive = BigDecimal("-2E+500")
+  <console>:50: error: Predicate failed: (-2E+500 > 0).
+         val x: BigDecimal Refined Positive = BigDecimal("-2E+500")
+                                                        ^
+  ```
+  Thanks to [kusamakura](https://github.com/kusamakura)!
+  ([#345][#345])
+* Add `IPv4` predicate for `String`s and refined types for private IPv4
+  addresses. Thanks to [Tim Steinbach](https://github.com/NeQuissimus)!
+  ([#356][#356])
+
+### Changes
+
+* Split objects in `refined-scalacheck` into traits and objects for
+  easier reuse. Thanks to [Nicolas Rinaudo](https://github.com/nrinaudo)!
+  ([#343][#343])
+
 ### Updates
 
-* Update `refined-cats` to Cats 1.0.0-RC1. ([350][350])
-* Update to Scala.js 0.6.21. ([351][351])
-* Update `refined-scalaz` to Scalaz 7.2.17. ([360][360])
+* Update `refined-cats` to Cats 1.0.0-RC1. ([#350][#350])
+* Update to Scala.js 0.6.21. ([#351][#351])
+* Update `refined-scalaz` to Scalaz 7.2.17. ([#360][#360])
 
-[350]: https://github.com/fthomas/refined/pull/350
-[351]: https://github.com/fthomas/refined/pull/351
-[360]: https://github.com/fthomas/refined/pull/360
+[#275]: https://github.com/fthomas/refined/pull/275
+[#343]: https://github.com/fthomas/refined/pull/343
+[#345]: https://github.com/fthomas/refined/pull/345
+[#350]: https://github.com/fthomas/refined/pull/350
+[#351]: https://github.com/fthomas/refined/pull/351
+[#356]: https://github.com/fthomas/refined/pull/356
+[#360]: https://github.com/fthomas/refined/pull/360

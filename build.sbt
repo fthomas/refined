@@ -196,7 +196,11 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++= Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion,
       macroParadise
-    )
+    ),
+    initialCommands += s"""
+      import $rootPkg.scodec.predicates.byteVector._
+      import _root_.scodec.bits.ByteVector
+    """
   )
 
 lazy val scodecJVM = scodec.jvm

@@ -18,6 +18,14 @@
 * Add `IPv4` predicate for `String`s and refined types for private IPv4
   addresses. Thanks to [Tim Steinbach](https://github.com/NeQuissimus)!
   ([#356][#356])
+* Add `Validate[ByteVector, Size[P]]` instance to the `refined-scodec`
+  module. This allows to refine `ByteVector`s with the `Size` predicate,
+  for example:
+  ```scala
+  scala> refineV[Size[Equal[W.`2L`.T]]](ByteVector.fromValidHex("0xabcd"))
+  res0: Either[String, ByteVector Refined Size[Equal[Long(2L)]]] = Right(ByteVector(2 bytes, 0xabcd))
+  ```
+  ([#365][#365])
 
 ### Changes
 
@@ -38,3 +46,4 @@
 [#351]: https://github.com/fthomas/refined/pull/351
 [#356]: https://github.com/fthomas/refined/pull/356
 [#360]: https://github.com/fthomas/refined/pull/360
+[#365]: https://github.com/fthomas/refined/pull/365

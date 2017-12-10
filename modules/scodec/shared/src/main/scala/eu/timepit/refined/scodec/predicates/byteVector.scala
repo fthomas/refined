@@ -5,6 +5,7 @@ import eu.timepit.refined.collection.Size
 import eu.timepit.refined.internal.Resources
 import scodec.bits.ByteVector
 
+/** Module that provides `Validate` type class instances for `ByteVector`. */
 object byteVector extends ByteVectorValidate
 
 private[refined] trait ByteVectorValidate {

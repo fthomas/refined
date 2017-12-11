@@ -95,6 +95,7 @@ syntax for [literal-based singleton types][sip-23].
 ## More examples
 
 ```scala
+import eu.timepit.refined.api.RefType
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
@@ -154,18 +155,18 @@ scala> val u1: String Refined Url = "htp://example.com"
        val u1: String Refined Url = "htp://example.com"
                                     ^
 
-// Fully refined type: type (Int) with predicate (here: 7 <= value < 77).
-type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
+// Here we define a refined type "Int with the predicate (7 <= value < 77)".
+scala> type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
 
-val userInput = 55
+scala> val userInput = 55
 
-// With typed value declaration.
-val ageEither1 : Either[String, Age] = refineV(userInput)
-println(ageEither1)
+// We can refine values by either using `refineV` with an explicit return type
+scala> val ageEither1: Either[String, Age] = refineV(userInput)
+ageEither1: Either[String,Age] = Right(55)
 
-// With inferred type value.
-val ageEither2 = RefType.applyRef[Age](userInput)
-println(ageEither2)
+// or by using `RefType.applyRef` with a refined type as parameter.
+scala> val ageEither2 = RefType.applyRef[Age](userInput)
+ageEither2: Either[String,Age] = Right(55)
 ```
 
 ## Using refined

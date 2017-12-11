@@ -160,11 +160,12 @@ scala> type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
 
 scala> val userInput = 55
 
-// We can refine values by either using `refineV` with an explicit return type
+// We can refine values with this refined type by either using `refineV`
+// with an explicit return type
 scala> val ageEither1: Either[String, Age] = refineV(userInput)
 ageEither1: Either[String,Age] = Right(55)
 
-// or by using `RefType.applyRef` with a refined type as parameter.
+// or by using `RefType.applyRef` with the refined type as type parameter.
 scala> val ageEither2 = RefType.applyRef[Age](userInput)
 ageEither2: Either[String,Age] = Right(55)
 ```

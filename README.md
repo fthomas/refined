@@ -216,7 +216,7 @@ The project provides these optional extensions and library integrations:
 * `refined-scalaz` provides [Scalaz](https://github.com/scalaz/scalaz)
   type class instances for refined types and support for `scalaz.@@`
 * `refined-scodec` allows binary decoding and encoding of refined types with
-  [scodec](http://scodec.org/)
+  [scodec](http://scodec.org/) and allows refining `scodec.bits.ByteVector`
 
 ### External modules
 

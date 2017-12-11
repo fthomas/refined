@@ -1,11 +1,11 @@
-package eu.timepit.refined.scodec.predicates
+package eu.timepit.refined.scodec
 
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.W
 import eu.timepit.refined.collection.Size
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.numeric.Greater
-import eu.timepit.refined.scodec.predicates.byteVector._
+import eu.timepit.refined.scodec.byteVector._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import scodec.bits.ByteVector

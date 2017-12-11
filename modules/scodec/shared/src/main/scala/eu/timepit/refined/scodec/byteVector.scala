@@ -1,4 +1,4 @@
-package eu.timepit.refined.scodec.predicates
+package eu.timepit.refined.scodec
 
 import eu.timepit.refined.api.Validate
 import eu.timepit.refined.collection.Size

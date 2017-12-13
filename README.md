@@ -235,6 +235,7 @@ list it here:
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/tut/refined.html)
 * [kantan.xpath-refined](http://nrinaudo.github.io/kantan.xpath/tut/refined.html)
 * [monocle-refined](https://github.com/julien-truffaut/Monocle)
+* [play-refined](https://github.com/kwark/play-refined)
 * [play-json-refined](https://github.com/lunaryorn/play-json-refined)
 * [play-json-refined](https://github.com/btlines/play-json-refined)
 * [refined-anorm](https://github.com/derekmorr/refined-anorm)

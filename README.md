@@ -263,6 +263,7 @@ a pull request to list it here:
 Are you using **refined** in your organization or company? Please consider
 opening a pull request to list it here:
 
+* [Besedo](https://besedo.com/)
 * [Zalando](https://tech.zalando.de/)
 
 ## Documentation

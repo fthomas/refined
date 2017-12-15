@@ -438,7 +438,7 @@ addCommandsAlias(
     "scalafmtTest",
     "scalastyle",
     "test:scalastyle",
-    "mimaReportBinaryIssues",
+    //"mimaReportBinaryIssues",
     "testJS",
     "coverage",
     "testJVM",

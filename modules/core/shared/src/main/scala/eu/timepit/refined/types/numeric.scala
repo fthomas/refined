@@ -1,6 +1,6 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.api.Refined
+import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 
 /** Module for numeric refined types. */
@@ -10,6 +10,8 @@ trait NumericTypes {
 
   /** An `Int` in the range from 1 to `Int.MaxValue`. */
   type PosInt = Int Refined Positive
+
+  object PosInt extends RefinedTypeOps[PosInt, Refined, Int, Positive]
 
   /** An `Int` in the range from 0 to `Int.MaxValue`. */
   type NonNegInt = Int Refined NonNegative

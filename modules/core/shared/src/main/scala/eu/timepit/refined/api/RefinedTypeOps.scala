@@ -16,8 +16,8 @@ class RefinedTypeOps[FTP, F[_, _], T, P](
     macro macros.RefineMacro.implApplyRef[FTP, F, T, P]
 
   def from(t: T): Either[String, FTP] =
-    rt.refine[P](t).map(ev)
+    rt.refine[P](t).right.map(ev)
 
   def unapply(t: T): Option[FTP] =
-    from(t).toOption
+    from(t).right.toOption
 }

@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 import eu.timepit.refined.W
-import eu.timepit.refined.api.Refined
+import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean.{And, Or}
 import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.string.{IPv4, MatchesRegex, StartsWith}
@@ -14,17 +14,27 @@ trait NetTypes {
   /** An `Int` in the range from 0 to 65535 representing a port number. */
   type PortNumber = Int Refined Interval.Closed[W.`0`.T, W.`65535`.T]
 
+  object PortNumber extends RefinedTypeOps[PortNumber, Int]
+
   /** An `Int` in the range from 0 to 1023 representing a port number. */
   type SystemPortNumber = Int Refined Interval.Closed[W.`0`.T, W.`1023`.T]
+
+  object SystemPortNumber extends RefinedTypeOps[SystemPortNumber, Int]
 
   /** An `Int` in the range from 1024 to 49151 representing a port number. */
   type UserPortNumber = Int Refined Interval.Closed[W.`1024`.T, W.`49151`.T]
 
+  object UserPortNumber extends RefinedTypeOps[UserPortNumber, Int]
+
   /** An `Int` in the range from 49152 to 65535 representing a port number. */
   type DynamicPortNumber = Int Refined Interval.Closed[W.`49152`.T, W.`65535`.T]
 
+  object DynamicPortNumber extends RefinedTypeOps[DynamicPortNumber, Int]
+
   /** An `Int` in the range from 1024 to 65535 representing a port number. */
   type NonSystemPortNumber = Int Refined Interval.Closed[W.`1024`.T, W.`65535`.T]
+
+  object NonSystemPortNumber extends RefinedTypeOps[NonSystemPortNumber, Int]
 
   import PrivateNetworks._
 

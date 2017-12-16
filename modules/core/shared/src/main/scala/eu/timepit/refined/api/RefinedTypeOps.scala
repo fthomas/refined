@@ -15,4 +15,7 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) {
 
   def unapply(t: T): Option[FTP] =
     from(t).right.toOption
+
+  def unsafeFrom(t: T): FTP =
+    rt.unsafeRefine(t)
 }

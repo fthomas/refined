@@ -12,11 +12,14 @@ trait RefinedType[FTP] {
 
   val alias: F[T, P] =:= FTP
 
-  def refine(t: T): Either[String, FTP] = {
+  final def refine(t: T): Either[String, FTP] = {
     val res = validate.validate(t)
     if (res.isPassed) Right(alias(refType.unsafeWrap(t)))
     else Left(validate.showResult(t, res))
   }
+
+  final def unsafeRefine(t: T): FTP =
+    refine(t).fold(err => throw new IllegalArgumentException(err), identity)
 }
 
 object RefinedType {

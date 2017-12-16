@@ -261,14 +261,14 @@ lazy val moduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.macros.MacroUtils.refTypeInstance"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateWit"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateNat"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.StringValidate.ipv4Validate"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*")

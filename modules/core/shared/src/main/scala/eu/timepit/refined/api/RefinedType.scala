@@ -1,6 +1,10 @@
 package eu.timepit.refined
 package api
 
+/**
+ * Type class that combines `[[RefType]]` and `[[Validate]]` instances
+ * for a refined type `FTP`.
+ */
 trait RefinedType[FTP] {
   type F[_, _]
   type T

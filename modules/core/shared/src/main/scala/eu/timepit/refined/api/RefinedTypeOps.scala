@@ -3,8 +3,8 @@ package api
 
 /**
  * Provides functions to create values of the refined type `FTP` from
- * values of the base type `T`. The intended usage of this class is to
- * simplify the definition of a refined type's companion object.
+ * values of the base type `T`. It is intended to simplify the definition
+ * of a refined type's companion object.
  *
  * Example: {{{
  * scala> import eu.timepit.refined.api.{ Refined, RefinedTypeOps }

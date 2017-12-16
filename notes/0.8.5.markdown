@@ -8,7 +8,7 @@
   // definition of the refined type `PosInt`
   scala> type PosInt = Int Refined Positive
 
-  // definition of companion object for `PosInt`
+  // definition of the companion object for `PosInt`
   scala> object PosInt extends RefinedTypeOps[PosInt, Int]
 
   scala> PosInt(1) // create `PosInt`s from literals

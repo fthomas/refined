@@ -13,8 +13,10 @@ trait StringTypes {
   /** A `String` that is not empty. */
   type NonEmptyString = String Refined NonEmpty
 
-  object NonEmptyString extends RefinedTypeOps[NonEmptyString, Refined, String, NonEmpty]
+  object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
   /** A `String` that contains no leading or trailing whitespace. */
   type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
+
+  object TrimmedString extends RefinedTypeOps[TrimmedString, String]
 }

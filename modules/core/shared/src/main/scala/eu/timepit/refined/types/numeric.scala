@@ -11,7 +11,7 @@ trait NumericTypes {
   /** An `Int` in the range from 1 to `Int.MaxValue`. */
   type PosInt = Int Refined Positive
 
-  object PosInt extends RefinedTypeOps[PosInt, Refined, Int, Positive]
+  object PosInt extends RefinedTypeOps[PosInt, Int]
 
   /** An `Int` in the range from 0 to `Int.MaxValue`. */
   type NonNegInt = Int Refined NonNegative

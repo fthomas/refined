@@ -1,14 +1,9 @@
-package eu.timepit.refined.api
+package eu.timepit.refined
+package api
 
-import eu.timepit.refined.macros
+class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) {
 
-class RefinedTypeOps[FTP, F[_, _], T, P](
-    implicit ev: F[T, P] =:= FTP,
-    rt: RefType[F],
-    v: Validate[T, P]
-) {
-
-  def apply(t: T)(
+  def apply[F[_, _], P](t: T)(
       implicit ev: F[T, P] =:= FTP,
       rt: RefType[F],
       v: Validate[T, P]
@@ -16,7 +11,7 @@ class RefinedTypeOps[FTP, F[_, _], T, P](
     macro macros.RefineMacro.implApplyRef[FTP, F, T, P]
 
   def from(t: T): Either[String, FTP] =
-    rt.refine[P](t).right.map(ev)
+    rt.refine(t)
 
   def unapply(t: T): Option[FTP] =
     from(t).right.toOption

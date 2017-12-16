@@ -14,6 +14,11 @@ class NumericTypesSpec extends Properties("NumericTypes") {
     PosInt.from(-1) ?= Left("Predicate failed: (-1 > 0).")
   }
 
+  property("PosInt.unapply(1)") = secure {
+    val PosInt(x) = 1
+    x ?= PosInt(1)
+  }
+
   property("PosInt.unsafeFrom(1)") = secure {
     PosInt.unsafeFrom(1) ?= PosInt(1)
   }

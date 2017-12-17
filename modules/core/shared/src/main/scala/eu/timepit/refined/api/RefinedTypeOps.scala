@@ -21,7 +21,7 @@ package api
  * res1: Either[String, PosInt] = Right(2)
  * }}}
  */
-class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) {
+class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Serializable {
 
   def apply[F[_, _], P](t: T)(
       implicit ev: F[T, P] =:= FTP,

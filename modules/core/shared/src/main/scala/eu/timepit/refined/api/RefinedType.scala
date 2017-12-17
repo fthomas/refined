@@ -5,9 +5,12 @@ package api
  * Type class that combines `[[RefType]]` and `[[Validate]]` instances
  * for a refined type `FTP`.
  */
-trait RefinedType[FTP] {
+trait RefinedType[FTP] extends Serializable {
+
   type F[_, _]
+
   type T
+
   type P
 
   val refType: RefType[F]

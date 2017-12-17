@@ -22,7 +22,7 @@ package object refined {
    * for more information about its support for singleton types.
    *
    * Note that if a future version of Scala implements
-   * [[http://docs.scala-lang.org/sips/pending/42.type.html SIP-23]],
+   * [[http://docs.scala-lang.org/sips/42.type.html SIP-23]],
    * `shapeless.Witness` won't be necessary anymore to express
    * literal-based singleton types. It will then be possible to use
    * literals directly in a position where a type is expected.

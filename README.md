@@ -432,5 +432,5 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals
-[sip-23]: http://docs.scala-lang.org/sips/pending/42.type.html
+[sip-23]: http://docs.scala-lang.org/sips/42.type.html
 [typelevel]: http://typelevel.org

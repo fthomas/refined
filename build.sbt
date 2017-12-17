@@ -271,8 +271,7 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.StringValidate.ipv4Validate"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.types.NetTypes.PrivateNetworks")
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*")
     )
   }
 )

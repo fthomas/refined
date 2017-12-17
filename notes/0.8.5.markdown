@@ -1,7 +1,26 @@
 ### New features
 
-* Add a `TrimmedString` refined type for `String`s without leading or
-  trailing whitespace. ([#275][#275])
+* Add `RefinedTypeOps` to simplify the definition of a refined type's
+  companion object and the `RefinedType` type class which combines
+  `RefType` and `Validate` instances for a refined type. With the
+  former a companion of a refined type can now defined like this:
+  ```scala
+  // definition of the refined type `PosInt`
+  scala> type PosInt = Int Refined Positive
+
+  // definition of the companion object for `PosInt`
+  scala> object PosInt extends RefinedTypeOps[PosInt, Int]
+
+  scala> PosInt(1) // create `PosInt`s from literals
+  res0: PosInt = 1
+
+  scala> PosInt.from(2) // create `PosInt`s from runtime values
+  res1: Either[String, PosInt] = Right(2)
+  ```
+  This change also adds companion objects for the refined types in
+  the `eu.timepit.refined.types` package which simplifies creating
+  values of these types a lot.
+  ([#342][#342], [#369][#369], [#193][#193])
 * Support `BigInt` and `BigDecimal` literals in compile-time checks.
   For example, this is now possible:
   ```scala
@@ -26,6 +45,8 @@
   res0: Either[String, ByteVector Refined Size[Equal[Long(2L)]]] = Right(ByteVector(2 bytes, 0xabcd))
   ```
   ([#365][#365])
+* Add a `TrimmedString` refined type for `String`s without leading or
+  trailing whitespace. ([#275][#275])
 
 ### Changes
 
@@ -39,7 +60,9 @@
 * Update to Scala.js 0.6.21. ([#351][#351])
 * Update `refined-scalaz` to Scalaz 7.2.17. ([#360][#360])
 
+[#193]: https://github.com/fthomas/refined/pull/193
 [#275]: https://github.com/fthomas/refined/pull/275
+[#342]: https://github.com/fthomas/refined/issues/342
 [#343]: https://github.com/fthomas/refined/pull/343
 [#345]: https://github.com/fthomas/refined/pull/345
 [#350]: https://github.com/fthomas/refined/pull/350
@@ -47,3 +70,4 @@
 [#356]: https://github.com/fthomas/refined/pull/356
 [#360]: https://github.com/fthomas/refined/pull/360
 [#365]: https://github.com/fthomas/refined/pull/365
+[#369]: https://github.com/fthomas/refined/pull/369

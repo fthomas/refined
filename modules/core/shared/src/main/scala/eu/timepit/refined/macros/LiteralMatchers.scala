@@ -1,11 +1,11 @@
 package eu.timepit.refined.macros
 
 import macrocompat.bundle
+import scala.reflect.macros.blackbox
 
 @bundle
 trait LiteralMatchers {
-  this: MacroUtils =>
-
+  val c: blackbox.Context
   import c.universe._
 
   private[macros] object BigIntMatcher {

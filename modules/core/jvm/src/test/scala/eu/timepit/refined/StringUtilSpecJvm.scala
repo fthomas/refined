@@ -8,15 +8,6 @@ import shapeless.test.illTyped
 
 class StringUtilSpecJvm extends Properties("util.string") {
 
-  property("regex success") = secure {
-    regex("(a|b)").toString ?= "(a|b)".r.toString
-  }
-
-  property("regex failure") = secure {
-    illTyped("""regex("(a|b")""", "Regex predicate failed.*")
-    true
-  }
-
   property("url success") = secure {
     url("http://example.com").toString ?= new java.net.URL("http://example.com").toString
   }

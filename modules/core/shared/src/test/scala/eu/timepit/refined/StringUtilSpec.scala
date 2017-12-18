@@ -9,6 +9,15 @@ import shapeless.test.illTyped
 
 class StringUtilSpec extends Properties("util.string") {
 
+  property("regex success") = secure {
+    regex("(a|b)").toString ?= "(a|b)".r.toString
+  }
+
+  property("regex failure") = secure {
+    illTyped("""regex("(a|b")""", "Regex predicate failed.*")
+    true
+  }
+
   property("uri success") = secure {
     uri("file:///dev/null") ?= new java.net.URI("file:///dev/null")
   }

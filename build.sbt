@@ -21,9 +21,8 @@ val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.17"
 val scodecVersion = "1.10.3"
 
-// needed for quasiquotes
-val macroParadise = compilerPlugin(
-  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch)
+val macroParadise =
+  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
 
 val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
@@ -89,12 +88,12 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .settings(moduleName := projectName)
   .settings(
     libraryDependencies ++= Seq(
+      compilerPlugin(macroParadise),
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "org.typelevel" %%% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test,
-      macroParadise
+      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
     ),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
@@ -143,7 +142,7 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
   .settings(
     libraryDependencies ++= Seq(
       "com.jayway.jsonpath" % "json-path" % jsonpathVersion,
-      macroParadise
+      compilerPlugin(macroParadise % Test)
     )
   )
 
@@ -155,7 +154,7 @@ lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
   .settings(
     libraryDependencies ++= Seq(
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
-      macroParadise
+      compilerPlugin(macroParadise % Test)
     )
   )
 
@@ -195,7 +194,7 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
   .settings(
     libraryDependencies ++= Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion,
-      macroParadise
+      compilerPlugin(macroParadise % Test)
     ),
     initialCommands += s"""
       import $rootPkg.scodec.predicates.byteVector._

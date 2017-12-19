@@ -1,7 +1,7 @@
 package eu.timepit.refined.cats
 
 import cats.instances.int._
-import cats.syntax.eq._
+import cats.syntax.order._
 import cats.syntax.show._
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
@@ -15,5 +15,11 @@ class CatsSpec extends Properties("cats") {
 
   property("Show") = secure {
     PosInt.unsafeFrom(5).show ?= "5"
+  }
+
+  property("Order") = secure {
+    val x: PosInt = PosInt(5)
+    val y: PosInt = PosInt(6)
+    x min y ?= x
   }
 }

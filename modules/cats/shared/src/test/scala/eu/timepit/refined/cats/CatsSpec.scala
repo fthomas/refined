@@ -22,8 +22,8 @@ class CatsSpec extends Properties("cats") {
   }
 
   property("Order") = secure {
-    val x: PosInt = 5
-    val y: PosInt = 6
+    val x: PosInt = PosInt(5)
+    val y: PosInt = PosInt(6)
     x min y ?= x
   }
 }

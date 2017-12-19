@@ -76,3 +76,5 @@
 [#369]: https://github.com/fthomas/refined/pull/369
 [#375]: https://github.com/fthomas/refined/pull/375
 [#376]: https://github.com/fthomas/refined/pull/376
+
+Released on 2017-12-19

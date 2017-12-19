@@ -37,6 +37,9 @@
 * Add `IPv4` predicate for `String`s and refined types for private IPv4
   addresses. Thanks to [Tim Steinbach](https://github.com/NeQuissimus)!
   ([#356][#356])
+* Add `cats.Order` instance for any refined type whose base type has
+  also an `Order` instance.
+  Thanks to [Howy Perrin](https://github.com/howyp)! ([#376][#376])
 * Add `Validate[ByteVector, Size[P]]` instance to the `refined-scodec`
   module. This allows to refine `ByteVector`s with the `Size` predicate,
   for example:
@@ -72,3 +75,4 @@
 [#365]: https://github.com/fthomas/refined/pull/365
 [#369]: https://github.com/fthomas/refined/pull/369
 [#375]: https://github.com/fthomas/refined/pull/375
+[#376]: https://github.com/fthomas/refined/pull/376

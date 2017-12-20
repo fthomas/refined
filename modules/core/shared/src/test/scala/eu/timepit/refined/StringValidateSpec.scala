@@ -1,9 +1,10 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
+import eu.timepit.refined.api.Validate
 import eu.timepit.refined.string._
+import org.scalacheck.{Arbitrary, Properties}
 import org.scalacheck.Prop._
-import org.scalacheck.Properties
 import shapeless.Witness
 
 class StringValidateSpec extends Properties("StringValidate") {
@@ -81,4 +82,22 @@ class StringValidateSpec extends Properties("StringValidate") {
   property("IPv4.showResult.Failed") = secure {
     showResult[IPv4]("::1") ?= "Predicate failed: ::1 is a valid IPv4."
   }
+
+  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(implicit v: Validate[String, P]) = {
+    property(s"Valid$name") = secure {
+      forAll { (n: N) =>
+        isValid[P](n.toString) &&
+          (showResult[P](n.toString) ?= s"$name predicate passed.")
+      }
+    }
+    property(s"Valid$name.showResult.Failed") = secure {
+      showResult[P](invalidValue) ?= s"Predicate failed: $name"
+    }
+  }
+
+  validNumber[Int, ValidInt]("Int", Long.MaxValue.toString)
+  validNumber[Long, ValidLong]("Long", "1.0")
+  validNumber[Double, ValidDouble]("Double", "a")
+  validNumber[BigInt, ValidBigInt]("BigInt", "1.0")
+  validNumber[BigDecimal, ValidBigDecimal]("BigDecimal", "a")
 }

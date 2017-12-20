@@ -1,8 +1,9 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, InhabitantsOf, Refined, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.numeric.Interval.Closed
 import eu.timepit.refined.numeric._
 import shapeless.{Nat, Witness}
 import shapeless.nat.{_0, _2}
@@ -29,7 +30,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericValidate with NumericInference with NumericInhabitantsOf {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -180,4 +181,18 @@ private[refined] trait NumericInference {
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
+}
+
+private[refined] trait NumericInhabitantsOf {
+
+  implicit def intervalClosedInhabitantsOf[C, H <: C, L <: C](
+      implicit wl: Witness.Aux[L],
+      wh: Witness.Aux[H],
+      integral: Integral[C]): InhabitantsOf[C Refined Interval.Closed[L, H]] =
+    new InhabitantsOf[C Refined Interval.Closed[L, H]] {
+      override def all: Stream[C Refined Closed[L, H]] =
+        Stream
+          .range(wl.value, integral.plus(wh.value, integral.fromInt(1)))
+          .map(Refined.unsafeApply[C, Interval.Closed[L, H]])
+    }
 }

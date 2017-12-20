@@ -117,19 +117,19 @@ private[refined] trait StringValidate {
       .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
 
   implicit def validIntValidate: Validate.Plain[String, ValidInt] =
-    Validate.fromPartial(_.toInt, "Int", ValidInt())
+    Validate.fromPartial(_.toInt, "ValidInt", ValidInt())
 
   implicit def validLongValidate: Validate.Plain[String, ValidLong] =
-    Validate.fromPartial(_.toLong, "Long", ValidLong())
+    Validate.fromPartial(_.toLong, "ValidLong", ValidLong())
 
   implicit def validDoubleValidate: Validate.Plain[String, ValidDouble] =
-    Validate.fromPartial(_.toDouble, "Double", ValidDouble())
+    Validate.fromPartial(_.toDouble, "ValidDouble", ValidDouble())
 
   implicit def validBigIntValidate: Validate.Plain[String, ValidBigInt] =
-    Validate.fromPartial(BigInt(_), "BigInt", ValidBigInt())
+    Validate.fromPartial(BigInt(_), "ValidBigInt", ValidBigInt())
 
   implicit def validBigDecimalValidate: Validate.Plain[String, ValidBigDecimal] =
-    Validate.fromPartial(BigDecimal(_), "BigDecimal", ValidBigDecimal())
+    Validate.fromPartial(BigDecimal(_), "ValidBigDecimal", ValidBigDecimal())
 }
 
 private[refined] trait StringInference {

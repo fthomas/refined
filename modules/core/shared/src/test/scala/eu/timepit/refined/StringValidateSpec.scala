@@ -84,20 +84,20 @@ class StringValidateSpec extends Properties("StringValidate") {
   }
 
   private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(implicit v: Validate[String, P]) = {
-    property(s"Valid$name") = secure {
+    property(name) = secure {
       forAll { (n: N) =>
         isValid[P](n.toString) &&
           (showResult[P](n.toString) ?= s"$name predicate passed.")
       }
     }
-    property(s"Valid$name.showResult.Failed") = secure {
-      showResult[P](invalidValue) ?= s"Predicate failed: $name"
+    property(s"$name.showResult.Failed") = secure {
+      showResult[P](invalidValue).startsWith(s"$name predicate failed")
     }
   }
 
-  validNumber[Int, ValidInt]("Int", Long.MaxValue.toString)
-  validNumber[Long, ValidLong]("Long", "1.0")
-  validNumber[Double, ValidDouble]("Double", "a")
-  validNumber[BigInt, ValidBigInt]("BigInt", "1.0")
-  validNumber[BigDecimal, ValidBigDecimal]("BigDecimal", "a")
+  validNumber[Int, ValidInt]("ValidInt", Long.MaxValue.toString)
+  validNumber[Long, ValidLong]("ValidLong", "1.0")
+  validNumber[Double, ValidDouble]("ValidDouble", "a")
+  validNumber[BigInt, ValidBigInt]("ValidBigInt", "1.0")
+  validNumber[BigDecimal, ValidBigDecimal]("ValidBigDecimal", "a")
 }

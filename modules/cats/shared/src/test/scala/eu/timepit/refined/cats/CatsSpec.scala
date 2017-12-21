@@ -1,5 +1,6 @@
 package eu.timepit.refined.cats
 
+import cats.data.{NonEmptyList, Validated}
 import cats.implicits._
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
@@ -22,5 +23,15 @@ class CatsSpec extends Properties("cats") {
 
   property("Show") = secure {
     PosInt.unsafeFrom(5).show ?= "5"
+  }
+
+  property("Validate when Valid") = secure {
+    import validation._
+    PosInt.validate(5) ?= Validated.Valid(PosInt.unsafeFrom(5))
+  }
+
+  property("Validate when Invalid") = secure {
+    import validation._
+    PosInt.validate(0) ?= Validated.Invalid(NonEmptyList("Predicate failed: (0 > 0).", Nil))
   }
 }

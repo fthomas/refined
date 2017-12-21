@@ -1,7 +1,10 @@
 package eu.timepit.refined.cats
 
-import cats.data.{NonEmptyList, Validated}
+import cats.data.Validated
 import cats.implicits._
+import eu.timepit.refined.W
+import eu.timepit.refined.api.{Refined, RefinedTypeOps}
+import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -26,12 +29,18 @@ class CatsSpec extends Properties("cats") {
   }
 
   property("Validate when Valid") = secure {
-    import validation._
+    import syntax._
     PosInt.validate(5) ?= Validated.Valid(PosInt.unsafeFrom(5))
   }
 
   property("Validate when Invalid") = secure {
-    import validation._
-    PosInt.validate(0) ?= Validated.Invalid(NonEmptyList("Predicate failed: (0 > 0).", Nil))
+    import syntax._
+    PosInt.validate(-1) ?= Validated.invalidNel("Predicate failed: (-1 > 0).")
+  }
+
+  property("validate without import") = secure {
+    type OneToTen = Int Refined Interval.Closed[W.`1`.T, W.`10`.T]
+    object OneToTen extends RefinedTypeOps[OneToTen, Int] with CatsRefinedTypeOpsSyntax
+    OneToTen.validate(5) ?= Validated.valid(OneToTen.unsafeFrom(5))
   }
 }

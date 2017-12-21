@@ -83,11 +83,12 @@ class StringValidateSpec extends Properties("StringValidate") {
     showResult[IPv4]("::1") ?= "Predicate failed: ::1 is a valid IPv4."
   }
 
-  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(implicit v: Validate[String, P]) = {
+  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(
+      implicit v: Validate[String, P]) = {
     property(name) = secure {
       forAll { (n: N) =>
         isValid[P](n.toString) &&
-          (showResult[P](n.toString) ?= s"$name predicate passed.")
+        (showResult[P](n.toString) ?= s"$name predicate passed.")
       }
     }
     property(s"$name.showResult.Failed") = secure {

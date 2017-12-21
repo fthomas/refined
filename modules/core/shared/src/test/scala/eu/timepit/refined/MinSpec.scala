@@ -21,4 +21,8 @@ class MinSpec extends Properties("Min") {
   property("Min - Greater - Nat") = secure {
     Min[Int Refined Greater[_0]].min =? refineMV[Greater[_0]](1)
   }
+
+  property("Min - Less - Int") = secure {
+    Min[Int Refined Less[_0]].min =? refineMV[Less[_0]](Int.MinValue)
+  }
 }

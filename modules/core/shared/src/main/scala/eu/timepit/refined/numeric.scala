@@ -206,7 +206,16 @@ private[refined] trait NumericInference {
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
 }
 
-private[refined] trait NumericMin {
+private[refined] trait NumericMinLowPriority {
+  implicit val intMin: Min[Int] = new Min[Int] { val min = Int.MinValue }
+
+  implicit def lessMinInt[C: Min, N]: Min[C Refined Less[N]] =
+    new Min[C Refined Less[N]] {
+      override def min = Refined.unsafeApply[C, Less[N]](Min[C].min)
+    }
+
+}
+private[refined] trait NumericMin extends NumericMinLowPriority {
 
   implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
                                         numeric: Numeric[C]): Min[C Refined Greater[N]] =

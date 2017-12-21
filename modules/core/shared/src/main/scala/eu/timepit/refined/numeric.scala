@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, Min, Refined, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.numeric._
@@ -29,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericValidate with NumericInference with NumericMin {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -204,4 +204,21 @@ private[refined] trait NumericInference {
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
+}
+
+private[refined] trait NumericMin {
+
+  implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
+                                        numeric: Numeric[C]): Min[C Refined Greater[N]] =
+    new Min[C Refined Greater[N]] {
+      override def min = Refined.unsafeApply[C, Greater[N]](numeric.plus(w.value, numeric.one))
+    }
+
+  implicit def greaterMinWitNat[C, N <: Nat](implicit
+                                             toInt: ToInt[N],
+                                             w: Witness.Aux[N],
+                                             numeric: Numeric[C]): Min[C Refined Greater[N]] =
+    new Min[C Refined Greater[N]] {
+      override def min = Refined.unsafeApply[C, Greater[N]](numeric.fromInt(toInt.apply() + 1))
+    }
 }

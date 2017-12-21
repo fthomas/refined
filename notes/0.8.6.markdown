@@ -1,7 +1,15 @@
 ### New features
 
 * Add the `validate` method to companions of refined types to accumulate
-  errors with `cats.data.ValidatedNel`.
+  errors with `cats.data.ValidatedNel`. To use that method, `syntax._`
+  from the `refined-cats` module needs to be imported like this:
+  ```scala
+  scala> import eu.timepit.refined.types.numeric.PosInt
+  scala> import eu.timepit.refined.cats.syntax._
+
+  scala> PosInt.validate(1)
+  res0: cats.data.ValidatedNel[String,PosInt] = Valid(1)
+  ```
   Thanks to [Howy Perrin](https://github.com/howyp)!
   ([#382][#382], [#384][#384])
 

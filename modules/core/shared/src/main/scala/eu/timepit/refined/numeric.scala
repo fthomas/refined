@@ -207,7 +207,10 @@ private[refined] trait NumericInference {
 }
 
 private[refined] trait NumericMinLowPriority {
+  implicit val byteMin: Min[Byte] = new Min[Byte] { val min = Byte.MinValue }
+  implicit val shortMin: Min[Short] = new Min[Short] { val min = Short.MinValue }
   implicit val intMin: Min[Int] = new Min[Int] { val min = Int.MinValue }
+  implicit val longMin: Min[Long] = new Min[Long] { val min = Long.MinValue }
 
   implicit def lessMinInt[C: Min, N]: Min[C Refined Less[N]] =
     new Min[C Refined Less[N]] {

@@ -37,6 +37,10 @@ class MinSpec extends Properties("Min") {
     Min[Long Refined Less[_0]].min =? refineMV[Less[_0]](Long.MinValue)
   }
 
+  property("Min[Long Refined Less[_0]]") = secure {
+    Min[Int Refined NonPositive].min =? refineMV(Int.MinValue)
+  }
+
   property("CompanionObject.min - Positive - Long") = secure {
     PosLong.min =? PosLong.unsafeFrom(1)
   }

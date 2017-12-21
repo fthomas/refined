@@ -217,6 +217,10 @@ private[refined] trait NumericMinLowPriority {
       override def min = Refined.unsafeApply[C, Less[N]](Min[C].min)
     }
 
+  implicit def notGreaterMinInt[C: Min, N]: Min[C Refined Not[Greater[N]]] =
+    new Min[C Refined Not[Greater[N]]] {
+      override def min = Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min)
+    }
 }
 private[refined] trait NumericMin extends NumericMinLowPriority {
 

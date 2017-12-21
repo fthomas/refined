@@ -223,16 +223,23 @@ private[refined] trait NumericMin {
     }
 
   implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
-                                        numeric: Numeric[C]): Min[C Refined Greater[N]] =
+                                        integral: Integral[C]): Min[C Refined Greater[N]] =
     new Min[C Refined Greater[N]] {
-      override def min = Refined.unsafeApply[C, Greater[N]](numeric.plus(w.value, numeric.one))
+      override def min = Refined.unsafeApply[C, Greater[N]](integral.plus(w.value, integral.one))
     }
 
   implicit def greaterMinWitNat[C, N <: Nat](implicit
                                              toInt: ToInt[N],
                                              w: Witness.Aux[N],
-                                             numeric: Numeric[C]): Min[C Refined Greater[N]] =
+                                             integral: Integral[C]): Min[C Refined Greater[N]] =
     new Min[C Refined Greater[N]] {
-      override def min = Refined.unsafeApply[C, Greater[N]](numeric.fromInt(toInt.apply() + 1))
+      override def min = Refined.unsafeApply[C, Greater[N]](integral.fromInt(toInt.apply() + 1))
+    }
+
+  implicit def notLessMin[C, N](implicit greaterMin: Min[C Refined Greater[N]],
+                                integral: Integral[C]): Min[C Refined Not[Less[N]]] =
+    new Min[C Refined Not[Less[N]]] {
+      override def min =
+        Refined.unsafeApply[C, Not[Less[N]]](integral.minus(greaterMin.min.value, integral.one))
     }
 }

@@ -207,39 +207,29 @@ private[refined] trait NumericInference {
 }
 
 private[refined] trait NumericMin {
-  implicit val byteMin: Min[Byte] = new Min[Byte] { val min = Byte.MinValue }
-  implicit val shortMin: Min[Short] = new Min[Short] { val min = Short.MinValue }
-  implicit val intMin: Min[Int] = new Min[Int] { val min = Int.MinValue }
-  implicit val longMin: Min[Long] = new Min[Long] { val min = Long.MinValue }
+  implicit val byteMin: Min[Byte] = Min.instance(Byte.MinValue)
+  implicit val shortMin: Min[Short] = Min.instance(Short.MinValue)
+  implicit val intMin: Min[Int] = Min.instance(Int.MinValue)
+  implicit val longMin: Min[Long] = Min.instance(Long.MinValue)
 
   implicit def lessMinInt[C: Min, N]: Min[C Refined Less[N]] =
-    new Min[C Refined Less[N]] {
-      override def min = Refined.unsafeApply[C, Less[N]](Min[C].min)
-    }
+    Min.instance(Refined.unsafeApply[C, Less[N]](Min[C].min))
 
   implicit def notGreaterMinInt[C: Min, N]: Min[C Refined Not[Greater[N]]] =
-    new Min[C Refined Not[Greater[N]]] {
-      override def min = Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min)
-    }
+    Min.instance(Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min))
 
   implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
                                         integral: Integral[C]): Min[C Refined Greater[N]] =
-    new Min[C Refined Greater[N]] {
-      override def min = Refined.unsafeApply[C, Greater[N]](integral.plus(w.value, integral.one))
-    }
+    Min.instance(Refined.unsafeApply[C, Greater[N]](integral.plus(w.value, integral.one)))
 
   implicit def greaterMinWitNat[C, N <: Nat](implicit
                                              toInt: ToInt[N],
                                              w: Witness.Aux[N],
                                              integral: Integral[C]): Min[C Refined Greater[N]] =
-    new Min[C Refined Greater[N]] {
-      override def min = Refined.unsafeApply[C, Greater[N]](integral.fromInt(toInt.apply() + 1))
-    }
+    Min.instance(Refined.unsafeApply[C, Greater[N]](integral.fromInt(toInt.apply() + 1)))
 
   implicit def notLessMin[C, N](implicit greaterMin: Min[C Refined Greater[N]],
                                 integral: Integral[C]): Min[C Refined Not[Less[N]]] =
-    new Min[C Refined Not[Less[N]]] {
-      override def min =
-        Refined.unsafeApply[C, Not[Less[N]]](integral.minus(greaterMin.min.value, integral.one))
-    }
+    Min.instance(
+      Refined.unsafeApply[C, Not[Less[N]]](integral.minus(greaterMin.min.value, integral.one)))
 }

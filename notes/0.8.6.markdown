@@ -1,0 +1,9 @@
+### New features
+
+* Add the `validate` method to companions of refined types to accumulate
+  errors with `cats.data.ValidatedNel`.
+  Thanks to [Howy Perrin](https://github.com/howyp)!
+  ([#382][#382], [#384][#384])
+
+[#382]: https://github.com/fthomas/refined/pull/382
+[#384]: https://github.com/fthomas/refined/pull/384

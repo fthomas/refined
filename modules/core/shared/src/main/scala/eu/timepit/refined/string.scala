@@ -56,6 +56,21 @@ object string extends StringValidate with StringInference {
 
   /** Predicate that checks if a `String` is a valid XPath expression. */
   final case class XPath()
+
+  /** Predicate that checks if a `String` can be a valid `Int`. */
+  final case class ValidInt()
+
+  /** Predicate that checks if a `String` can be a valid `Long`. */
+  final case class ValidLong()
+
+  /** Predicate that checks if a `String` can be a valid `Double`. */
+  final case class ValidDouble()
+
+  /** Predicate that checks if a `String` can be a valid `BigInt`. */
+  final case class ValidBigInt()
+
+  /** Predicate that checks if a `String` can be a valid `BigDecimal`. */
+  final case class ValidBigDecimal()
 }
 
 private[refined] trait StringValidate {
@@ -100,6 +115,21 @@ private[refined] trait StringValidate {
   implicit def xpathValidate: Validate.Plain[String, XPath] =
     Validate
       .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
+
+  implicit def validIntValidate: Validate.Plain[String, ValidInt] =
+    Validate.fromPartial(_.toInt, "ValidInt", ValidInt())
+
+  implicit def validLongValidate: Validate.Plain[String, ValidLong] =
+    Validate.fromPartial(_.toLong, "ValidLong", ValidLong())
+
+  implicit def validDoubleValidate: Validate.Plain[String, ValidDouble] =
+    Validate.fromPartial(_.toDouble, "ValidDouble", ValidDouble())
+
+  implicit def validBigIntValidate: Validate.Plain[String, ValidBigInt] =
+    Validate.fromPartial(BigInt(_), "ValidBigInt", ValidBigInt())
+
+  implicit def validBigDecimalValidate: Validate.Plain[String, ValidBigDecimal] =
+    Validate.fromPartial(BigDecimal(_), "ValidBigDecimal", ValidBigDecimal())
 }
 
 private[refined] trait StringInference {

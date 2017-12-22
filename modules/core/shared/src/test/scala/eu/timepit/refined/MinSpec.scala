@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.{Min, Refined}
 import eu.timepit.refined.numeric._
+import eu.timepit.refined.boolean._
 import eu.timepit.refined.types.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -42,6 +43,9 @@ class MinSpec extends Properties("Min") {
   }
   property("Min[Int Refined NonNegative]") = secure {
     Min[Int Refined NonNegative].min =? refineMV(0)
+  }
+  property("Min[Int Refined Not[Less[W.`-5`.T]]]") = secure {
+    Min[Int Refined Not[Less[W.`-5`.T]]].min =? refineMV(-5)
   }
 
   property("CompanionObject.min - Positive - Long") = secure {

@@ -12,6 +12,10 @@
   ```
   Thanks to [Howy Perrin](https://github.com/howyp)!
   ([#382][#382], [#384][#384])
+* Add the `validate` method using `scalaz.ValidationNel` also to the
+  `refined-scalaz` module.
+  Thanks to [kusamakura](https://github.com/kusamakura)! ([#385][#385])
 
 [#382]: https://github.com/fthomas/refined/pull/382
 [#384]: https://github.com/fthomas/refined/pull/384
+[#385]: https://github.com/fthomas/refined/pull/385

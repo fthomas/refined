@@ -44,5 +44,6 @@ object RefinedTypeOps {
   class Numeric[FTP, T](implicit numeric: scala.math.Numeric[T], rt: RefinedType.AuxT[FTP, T])
       extends RefinedTypeOps[FTP, T] {
     def min(implicit m: Min[FTP]): FTP = m.min
+    def max(implicit m: Max[FTP]): FTP = m.max
   }
 }

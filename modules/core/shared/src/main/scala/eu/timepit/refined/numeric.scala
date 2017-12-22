@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Min, Refined, Validate}
+import eu.timepit.refined.api._
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.numeric._
@@ -29,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference with NumericMin {
+object numeric extends NumericValidate with NumericInference with NumericMin with NumericMax {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -238,4 +238,38 @@ private[refined] trait NumericMin {
                                numeric: Numeric[C]): Min[C Refined (L And R)] =
     Min.instance(
       Refined.unsafeApply[C, (L And R)](numeric.max(leftMin.min.value, rightMin.min.value)))
+}
+
+private[refined] trait NumericMax {
+  implicit val byteMax: Max[Byte] = Max.instance(Byte.MaxValue)
+  implicit val shortMax: Max[Short] = Max.instance(Short.MaxValue)
+  implicit val intMax: Max[Int] = Max.instance(Int.MaxValue)
+  implicit val longMax: Max[Long] = Max.instance(Long.MaxValue)
+
+  implicit def greaterMax[C: Max, N]: Max[C Refined Greater[N]] =
+    Max.instance(Refined.unsafeApply[C, Greater[N]](Max[C].max))
+
+  implicit def notLessMax[C: Max, N]: Max[C Refined Not[Less[N]]] =
+    Max.instance(Refined.unsafeApply[C, Not[Less[N]]](Max[C].max))
+
+  implicit def lessMaxWit[C, N <: C](implicit w: Witness.Aux[N],
+                                     integral: Integral[C]): Max[C Refined Less[N]] =
+    Max.instance(Refined.unsafeApply[C, Less[N]](integral.minus(w.value, integral.one)))
+
+  implicit def lessMaxWitNat[C, N <: Nat](implicit
+                                          toInt: ToInt[N],
+                                          w: Witness.Aux[N],
+                                          integral: Integral[C]): Max[C Refined Less[N]] =
+    Max.instance(Refined.unsafeApply[C, Less[N]](integral.fromInt(toInt.apply() - 1)))
+
+  implicit def notGreaterMax[C, N](implicit lessMax: Max[C Refined Less[N]],
+                                   integral: Integral[C]): Max[C Refined Not[Greater[N]]] =
+    Max.instance(
+      Refined.unsafeApply[C, Not[Greater[N]]](integral.plus(lessMax.max.value, integral.one)))
+
+  implicit def andMax[C, L, R](implicit leftMax: Max[C Refined L],
+                               rightMax: Max[C Refined R],
+                               numeric: Numeric[C]): Max[C Refined (L And R)] =
+    Max.instance(
+      Refined.unsafeApply[C, (L And R)](numeric.min(leftMax.max.value, rightMax.max.value)))
 }

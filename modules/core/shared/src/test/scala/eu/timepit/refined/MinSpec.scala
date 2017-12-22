@@ -1,8 +1,8 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Min, Refined}
-import eu.timepit.refined.numeric._
 import eu.timepit.refined.boolean._
+import eu.timepit.refined.numeric._
 import eu.timepit.refined.types.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

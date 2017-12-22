@@ -41,11 +41,18 @@ class MinSpec extends Properties("Min") {
   property("Min[Int Refined NonPositive]") = secure {
     Min[Int Refined NonPositive].min =? refineMV(Int.MinValue)
   }
+
   property("Min[Int Refined NonNegative]") = secure {
     Min[Int Refined NonNegative].min =? refineMV(0)
   }
+
   property("Min[Int Refined Not[Less[W.`-5`.T]]]") = secure {
     Min[Int Refined Not[Less[W.`-5`.T]]].min =? refineMV(-5)
+  }
+
+  property("Min[Int Refined Interval.Open[_10, _20]]") = secure {
+    Min[Int Refined Interval.Open[_10, _20]](andMin(greaterMinWitNat, lessMin, implicitly)).min =? refineMV[
+      Interval.Open[_10, _20]](11)
   }
 
   property("CompanionObject.min - Positive - Long") = secure {

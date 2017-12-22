@@ -212,7 +212,7 @@ private[refined] trait NumericMin {
   implicit val intMin: Min[Int] = Min.instance(Int.MinValue)
   implicit val longMin: Min[Long] = Min.instance(Long.MinValue)
 
-  implicit def lessMinInt[C: Min, N]: Min[C Refined Less[N]] =
+  implicit def lessMin[C: Min, N]: Min[C Refined Less[N]] =
     Min.instance(Refined.unsafeApply[C, Less[N]](Min[C].min))
 
   implicit def notGreaterMinInt[C: Min, N]: Min[C Refined Not[Greater[N]]] =
@@ -232,4 +232,10 @@ private[refined] trait NumericMin {
                                 integral: Integral[C]): Min[C Refined Not[Less[N]]] =
     Min.instance(
       Refined.unsafeApply[C, Not[Less[N]]](integral.minus(greaterMin.min.value, integral.one)))
+
+  implicit def andMin[C, L, R](implicit leftMin: Min[C Refined L],
+                               rightMin: Min[C Refined R],
+                               numeric: Numeric[C]): Min[C Refined (L And R)] =
+    Min.instance(
+      Refined.unsafeApply[C, (L And R)](numeric.max(leftMin.min.value, rightMin.min.value)))
 }

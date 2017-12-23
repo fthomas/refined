@@ -252,20 +252,19 @@ private[refined] trait NumericMax {
   implicit def notLessMax[C: Max, N]: Max[C Refined Not[Less[N]]] =
     Max.instance(Refined.unsafeApply[C, Not[Less[N]]](Max[C].max))
 
-  implicit def lessMaxWit[C, N <: C](implicit w: Witness.Aux[N],
-                                     integral: Integral[C]): Max[C Refined Less[N]] =
-    Max.instance(Refined.unsafeApply[C, Less[N]](integral.minus(w.value, integral.one)))
+  implicit def notGreaterWit[C, N <: C](
+      implicit w: Witness.Aux[N]): Max[C Refined Not[Greater[N]]] =
+    Max.instance(Refined.unsafeApply[C, Not[Greater[N]]](w.value))
 
-  implicit def lessMaxWitNat[C, N <: Nat](implicit
+  implicit def notGreaterNat[C, N <: Nat](implicit
                                           toInt: ToInt[N],
                                           w: Witness.Aux[N],
-                                          integral: Integral[C]): Max[C Refined Less[N]] =
-    Max.instance(Refined.unsafeApply[C, Less[N]](integral.fromInt(toInt.apply() - 1)))
+                                          numeric: Numeric[C]): Max[C Refined Not[Greater[N]]] =
+    Max.instance(Refined.unsafeApply[C, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def notGreaterMax[C, N](implicit lessMax: Max[C Refined Less[N]],
-                                   integral: Integral[C]): Max[C Refined Not[Greater[N]]] =
-    Max.instance(
-      Refined.unsafeApply[C, Not[Greater[N]]](integral.plus(lessMax.max.value, integral.one)))
+  implicit def lessMax[C, N](implicit notGreater: Max[C Refined Not[Greater[N]]],
+                             adj: Adjacent[C]): Max[C Refined Less[N]] =
+    Max.instance(Refined.unsafeApply[C, Less[N]](adj.nextDown(notGreater.max.value)))
 
   implicit def andMax[C, L, R](implicit leftMax: Max[C Refined L],
                                rightMax: Max[C Refined R],

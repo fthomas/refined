@@ -218,20 +218,18 @@ private[refined] trait NumericMin {
   implicit def notGreaterMinInt[C: Min, N]: Min[C Refined Not[Greater[N]]] =
     Min.instance(Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min))
 
-  implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
-                                        adj: Adjacent[C]): Min[C Refined Greater[N]] =
-    Min.instance(Refined.unsafeApply[C, Greater[N]](adj.nextUp(w.value)))
+  implicit def notLessMinWit[C, N <: C](implicit w: Witness.Aux[N]): Min[C Refined Not[Less[N]]] =
+    Min.instance(Refined.unsafeApply[C, Not[Less[N]]](w.value))
 
-  implicit def greaterMinWitNat[C, N <: Nat](implicit
-                                             toInt: ToInt[N],
-                                             w: Witness.Aux[N],
-                                             integral: Integral[C]): Min[C Refined Greater[N]] =
-    Min.instance(Refined.unsafeApply[C, Greater[N]](integral.fromInt(toInt.apply() + 1)))
+  implicit def notLessMinNat[C, N <: Nat](implicit
+                                          toInt: ToInt[N],
+                                          w: Witness.Aux[N],
+                                          numeric: Numeric[C]): Min[C Refined Not[Less[N]]] =
+    Min.instance(Refined.unsafeApply[C, Not[Less[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def notLessMin[C, N](implicit greaterMin: Min[C Refined Greater[N]],
-                                integral: Integral[C]): Min[C Refined Not[Less[N]]] =
-    Min.instance(
-      Refined.unsafeApply[C, Not[Less[N]]](integral.minus(greaterMin.min.value, integral.one)))
+  implicit def greaterMin[C, N](implicit notLessMin: Min[C Refined Not[Less[N]]],
+                                adj: Adjacent[C]): Min[C Refined Greater[N]] =
+    Min.instance(Refined.unsafeApply[C, Greater[N]](adj.nextUp(notLessMin.min.value)))
 
   implicit def andMin[C, L, R](implicit leftMin: Min[C Refined L],
                                rightMin: Min[C Refined R],

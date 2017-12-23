@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Min, Refined}
+import eu.timepit.refined.api.{Min, Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.types.numeric._
@@ -42,12 +42,28 @@ class MinSpec extends Properties("Min") {
     Min[Long Refined Less[_0]].min =? refineMV(Long.MinValue)
   }
 
+  property("Min[Float Refined Less[_0]]") = secure {
+    Min[Float Refined Less[_0]].min =? Refined.unsafeApply(Float.MinValue)
+  }
+
+  property("Min[Double Refined Less[_0]]") = secure {
+    Min[Double Refined Less[_0]].min =? Refined.unsafeApply(Double.MinValue)
+  }
+
   property("Min[Int Refined NonPositive]") = secure {
     Min[Int Refined NonPositive].min =? refineMV(Int.MinValue)
   }
 
   property("Min[Int Refined NonNegative]") = secure {
     Min[Int Refined NonNegative].min =? refineMV(0)
+  }
+
+  property("Min[Float Refined NonNegative]") = secure {
+    Min[Float Refined NonNegative].min =? refineMV(0f)
+  }
+
+  property("Min[Double Refined NonNegative]") = secure {
+    Min[Double Refined NonNegative].min =? refineMV(0f)
   }
 
   property("Min[Int Refined Not[Less[W.`-5`.T]]]") = secure {
@@ -63,7 +79,18 @@ class MinSpec extends Properties("Min") {
       refineMV[Interval.Closed[W.`-20`.T, W.`10`.T]](-20)
   }
 
+  property("Min[Double Refined Interval.Closed[W.`-20.001d`.T, W.`0d`.T]]") = secure {
+    Min[Double Refined Interval.Closed[W.`-20.001d`.T, W.`0d`.T]].min =?
+      refineMV[Interval.Closed[W.`-20.001d`.T, W.`0d`.T]](-20.001d)
+  }
+
   property("CompanionObject.min - Positive - Long") = secure {
     PosLong.min =? PosLong.unsafeFrom(1)
+  }
+
+  property("CompanionObject.min - Negative - Float") = secure {
+    type NegFloat = Float Refined Negative
+    object NegFloat extends RefinedTypeOps.Numeric[NegFloat, Float]
+    NegFloat.min =? NegFloat.unsafeFrom(Float.MinValue)
   }
 }

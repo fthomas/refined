@@ -211,6 +211,8 @@ private[refined] trait NumericMin {
   implicit val shortMin: Min[Short] = Min.instance(Short.MinValue)
   implicit val intMin: Min[Int] = Min.instance(Int.MinValue)
   implicit val longMin: Min[Long] = Min.instance(Long.MinValue)
+  implicit val floatMin: Min[Float] = Min.instance(Float.MinValue)
+  implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
 
   implicit def lessMin[C: Min, N]: Min[C Refined Less[N]] =
     Min.instance(Refined.unsafeApply[C, Less[N]](Min[C].min))

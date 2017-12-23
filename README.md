@@ -382,7 +382,7 @@ The library comes with these predefined predicates:
 * [Jean-Rémi Desjardins](https://github.com/jedesah) ([@jrdesjardins](https://twitter.com/jrdesjardins))
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
-* [Jose Fernando Go-Oco](https://github.com/kusamakura)
+* [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
 * [Naoki Aoyama](https://github.com/aoiroaoino) ([@AoiroAoino](https://twitter.com/AoiroAoino))
 * [Nicolas Rinaudo](https://github.com/nrinaudo) ([@NicolasRinaudo](https://twitter.com/NicolasRinaudo))

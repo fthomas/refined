@@ -51,26 +51,26 @@ object string extends StringValidate with StringInference {
   /** Predicate that checks if a `String` is a valid UUID. */
   final case class Uuid()
 
+  /** Predicate that checks if a `String` is a parsable `Int`. */
+  final case class ValidInt()
+
+  /** Predicate that checks if a `String` is a parsable `Long`. */
+  final case class ValidLong()
+
+  /** Predicate that checks if a `String` is a parsable `Double`. */
+  final case class ValidDouble()
+
+  /** Predicate that checks if a `String` is a parsable `BigInt`. */
+  final case class ValidBigInt()
+
+  /** Predicate that checks if a `String` is a parsable `BigDecimal`. */
+  final case class ValidBigDecimal()
+
   /** Predicate that checks if a `String` is well-formed XML. */
   final case class Xml()
 
   /** Predicate that checks if a `String` is a valid XPath expression. */
   final case class XPath()
-
-  /** Predicate that checks if a `String` can be a valid `Int`. */
-  final case class ValidInt()
-
-  /** Predicate that checks if a `String` can be a valid `Long`. */
-  final case class ValidLong()
-
-  /** Predicate that checks if a `String` can be a valid `Double`. */
-  final case class ValidDouble()
-
-  /** Predicate that checks if a `String` can be a valid `BigInt`. */
-  final case class ValidBigInt()
-
-  /** Predicate that checks if a `String` can be a valid `BigDecimal`. */
-  final case class ValidBigDecimal()
 }
 
 private[refined] trait StringValidate {
@@ -109,13 +109,6 @@ private[refined] trait StringValidate {
                          "Uuid",
                          Uuid())
 
-  implicit def xmlValidate: Validate.Plain[String, Xml] =
-    Validate.fromPartial(scala.xml.XML.loadString, "Xml", Xml())
-
-  implicit def xpathValidate: Validate.Plain[String, XPath] =
-    Validate
-      .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
-
   implicit def validIntValidate: Validate.Plain[String, ValidInt] =
     Validate.fromPartial(_.toInt, "ValidInt", ValidInt())
 
@@ -130,6 +123,13 @@ private[refined] trait StringValidate {
 
   implicit def validBigDecimalValidate: Validate.Plain[String, ValidBigDecimal] =
     Validate.fromPartial(BigDecimal(_), "ValidBigDecimal", ValidBigDecimal())
+
+  implicit def xmlValidate: Validate.Plain[String, Xml] =
+    Validate.fromPartial(scala.xml.XML.loadString, "Xml", Xml())
+
+  implicit def xpathValidate: Validate.Plain[String, XPath] =
+    Validate
+      .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
 }
 
 private[refined] trait StringInference {

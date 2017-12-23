@@ -16,6 +16,19 @@
   `refined-scalaz` module.
   Thanks to [kusamakura](https://github.com/kusamakura)! ([#385][#385])
 
+### New predicates
+
+[`string`](https://github.com/fthomas/refined/blob/v0.8.6/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
+
+* `ValidInt`: checks if a `String` is a parsable `Int`
+* `ValidLong`: checks if a `String` is a parsable `Long`
+* `ValidDouble`: checks if a `String` is a parsable `Double`
+* `ValidBigInt`: checks if a `String` is a parsable `BigInt`
+* `ValidBigDecimal`: checks if a `String` is a parsable `BigDecimal`
+
+Thanks to [kusamakura](https://github.com/kusamakura)! ([#379][#379])
+
+[#379]: https://github.com/fthomas/refined/pull/379
 [#382]: https://github.com/fthomas/refined/pull/382
 [#384]: https://github.com/fthomas/refined/pull/384
 [#385]: https://github.com/fthomas/refined/pull/385

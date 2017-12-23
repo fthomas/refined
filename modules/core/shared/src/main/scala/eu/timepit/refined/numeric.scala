@@ -219,8 +219,8 @@ private[refined] trait NumericMin {
     Min.instance(Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min))
 
   implicit def greaterMinWit[C, N <: C](implicit w: Witness.Aux[N],
-                                        integral: Integral[C]): Min[C Refined Greater[N]] =
-    Min.instance(Refined.unsafeApply[C, Greater[N]](integral.plus(w.value, integral.one)))
+                                        adj: Adjacent[C]): Min[C Refined Greater[N]] =
+    Min.instance(Refined.unsafeApply[C, Greater[N]](adj.nextUp(w.value)))
 
   implicit def greaterMinWitNat[C, N <: Nat](implicit
                                              toInt: ToInt[N],

@@ -245,6 +245,8 @@ private[refined] trait NumericMax {
   implicit val shortMax: Max[Short] = Max.instance(Short.MaxValue)
   implicit val intMax: Max[Int] = Max.instance(Int.MaxValue)
   implicit val longMax: Max[Long] = Max.instance(Long.MaxValue)
+  implicit val floatMax: Max[Float] = Max.instance(Float.MaxValue)
+  implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
 
   implicit def greaterMax[C: Max, N]: Max[C Refined Greater[N]] =
     Max.instance(Refined.unsafeApply[C, Greater[N]](Max[C].max))

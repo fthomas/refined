@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Max, Refined}
+import eu.timepit.refined.api.{Max, Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.types.numeric._
@@ -22,6 +22,10 @@ class MaxSpec extends Properties("Max") {
     Max[Long Refined Less[_5]].max =? refineMV(4L)
   }
 
+  property("Max[Float Refined Less[_5]]") = secure {
+    Max[Float Refined Less[_5]].max =? refineMV(4.9999995f)
+  }
+
   property("Max[Byte Refined Greater[_0]]") = secure {
     Max[Byte Refined Greater[_0]].max =? refineMV(Byte.MaxValue)
   }
@@ -38,12 +42,28 @@ class MaxSpec extends Properties("Max") {
     Max[Long Refined Greater[_0]].max =? refineMV(Long.MaxValue)
   }
 
+  property("Max[Float Refined Greater[_0]]") = secure {
+    Max[Float Refined Greater[_0]].max =? refineMV(Float.MaxValue)
+  }
+
+  property("Max[Double Refined Greater[_0]]") = secure {
+    Max[Double Refined Greater[_0]].max =? refineMV(Double.MaxValue)
+  }
+
   property("Max[Int Refined NonNegative]") = secure {
     Max[Int Refined NonNegative].max =? refineMV(Int.MaxValue)
   }
 
   property("Max[Int Refined NonPositive]") = secure {
     Max[Int Refined NonPositive].max =? refineMV(0)
+  }
+
+  property("Max[Float Refined NonPositive]") = secure {
+    Max[Float Refined NonPositive].max =? refineMV(0f)
+  }
+
+  property("Max[Double Refined NonPositive]") = secure {
+    Max[Double Refined NonPositive].max =? refineMV(0d)
   }
 
   property("Max[Int Refined Not[Greater[W.`-5`.T]]]") = secure {
@@ -59,7 +79,18 @@ class MaxSpec extends Properties("Max") {
       refineMV[Interval.Closed[W.`-20`.T, W.`10`.T]](10)
   }
 
+  property("Max[Double Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
+    Max[Double Refined Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]].max =?
+      refineMV[Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]](10.99991d)
+  }
+
   property("CompanionObject.max - Negative - Long") = secure {
     NegLong.max =? NegLong.unsafeFrom(-1)
+  }
+
+  property("CompanionObject.max - Positive - Float") = secure {
+    type PosFloat = Float Refined Positive
+    object PosFloat extends RefinedTypeOps.Numeric[PosFloat, Float]
+    PosFloat.max =? PosFloat.unsafeFrom(Float.MaxValue)
   }
 }

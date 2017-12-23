@@ -22,7 +22,7 @@ class MinSpec extends Properties("Min") {
     Min[Long Refined Greater[_0]].min =? refineMV(1L)
   }
 
-  property("Min[Floata Refined Greater[_0]]") = secure {
+  property("Min[Float Refined Greater[_0]]") = secure {
     Min[Float Refined Greater[W.`0f`.T]].min =? Refined.unsafeApply("1.4E-45".toFloat)
   }
 

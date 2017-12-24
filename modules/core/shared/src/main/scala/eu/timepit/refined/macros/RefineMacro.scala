@@ -34,7 +34,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
     refTypeInstance(rt).unsafeWrapM(c)(t)
   }
 
-  def implApplyRef[FTP, F[_, _], T, P](t: c.Expr[T])(
+  def implApplyRef[FTP, F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(
       ev: c.Expr[F[T, P] =:= FTP],
       rt: c.Expr[RefType[F]],
       v: c.Expr[Validate[T, P]]

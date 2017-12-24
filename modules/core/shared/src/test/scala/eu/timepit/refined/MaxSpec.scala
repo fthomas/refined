@@ -84,6 +84,11 @@ class MaxSpec extends Properties("Max") {
       refineMV[Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]](10.99991d)
   }
 
+  property("Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]") = secure {
+    Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].max =?
+      refineMV[Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]('Z')
+  }
+
   property("CompanionObject.max - Negative - Long") = secure {
     NegLong.MaxValue =? NegLong.unsafeFrom(-1)
   }

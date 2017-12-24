@@ -213,11 +213,12 @@ private[refined] trait NumericMin {
   implicit val longMin: Min[Long] = Min.instance(Long.MinValue)
   implicit val floatMin: Min[Float] = Min.instance(Float.MinValue)
   implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
+  implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
 
   implicit def lessMin[C: Min, N]: Min[C Refined Less[N]] =
     Min.instance(Refined.unsafeApply[C, Less[N]](Min[C].min))
 
-  implicit def notGreaterMinInt[C: Min, N]: Min[C Refined Not[Greater[N]]] =
+  implicit def notGreaterMin[C: Min, N]: Min[C Refined Not[Greater[N]]] =
     Min.instance(Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min))
 
   implicit def notLessMinWit[C, N <: C](implicit w: Witness.Aux[N]): Min[C Refined Not[Less[N]]] =
@@ -247,6 +248,7 @@ private[refined] trait NumericMax {
   implicit val longMax: Max[Long] = Max.instance(Long.MaxValue)
   implicit val floatMax: Max[Float] = Max.instance(Float.MaxValue)
   implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
+  implicit val charMax: Max[Char] = Max.instance(Char.MaxValue)
 
   implicit def greaterMax[C: Max, N]: Max[C Refined Greater[N]] =
     Max.instance(Refined.unsafeApply[C, Greater[N]](Max[C].max))

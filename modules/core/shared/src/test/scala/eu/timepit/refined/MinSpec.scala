@@ -84,6 +84,11 @@ class MinSpec extends Properties("Min") {
       refineMV[Interval.Closed[W.`-20.001d`.T, W.`0d`.T]](-20.001d)
   }
 
+  property("Min[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]") = secure {
+    Min[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].min =?
+      refineMV[Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]('A')
+  }
+
   property("CompanionObject.min - Positive - Long") = secure {
     PosLong.MinValue =? PosLong.unsafeFrom(1)
   }

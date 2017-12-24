@@ -34,11 +34,11 @@ Thanks to [kusamakura](https://github.com/kusamakura)! ([#379][#379])
   use `RefineMacro.implApplyRef`. Before this change, compilation time
   of e.g. `PosInt(1)` was one order of magnitude slower than `1: PosInt`.
   With this change there is no difference in compilation times between
-  these two calls. ([#338][#338])
+  these two calls. ([#388][#388])
 
 [#334]: https://github.com/fthomas/refined/pull/334
 [#379]: https://github.com/fthomas/refined/pull/379
 [#382]: https://github.com/fthomas/refined/pull/382
 [#384]: https://github.com/fthomas/refined/pull/384
 [#385]: https://github.com/fthomas/refined/pull/385
-[#338]: https://github.com/fthomas/refined/pull/388
+[#388]: https://github.com/fthomas/refined/pull/388

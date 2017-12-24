@@ -39,7 +39,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
       rt: c.Expr[RefType[F]],
       v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =
-    c.Expr(impl(t)(rt, v).tree)
+    c.Expr[FTP](impl(t)(rt, v).tree)
 
   private def validateInstance[T, P](v: c.Expr[Validate[T, P]])(
       implicit

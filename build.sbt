@@ -262,6 +262,8 @@ lazy val moduleJvmSettings = Def.settings(
     Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.macros.MacroUtils.refTypeInstance"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.macros.RefineMacro.implApplyRef"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateWit"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](

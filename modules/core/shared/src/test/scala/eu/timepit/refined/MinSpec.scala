@@ -85,12 +85,12 @@ class MinSpec extends Properties("Min") {
   }
 
   property("CompanionObject.min - Positive - Long") = secure {
-    PosLong.min =? PosLong.unsafeFrom(1)
+    PosLong.MinValue =? PosLong.unsafeFrom(1)
   }
 
   property("CompanionObject.min - Negative - Float") = secure {
     type NegFloat = Float Refined Negative
     object NegFloat extends RefinedTypeOps.Numeric[NegFloat, Float]
-    NegFloat.min =? NegFloat.unsafeFrom(Float.MinValue)
+    NegFloat.MinValue =? NegFloat.unsafeFrom(Float.MinValue)
   }
 }

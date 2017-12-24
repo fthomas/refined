@@ -41,9 +41,9 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
     rt.unsafeRefine(t)
 }
 object RefinedTypeOps {
-  class Numeric[FTP, T](implicit numeric: scala.math.Numeric[T], rt: RefinedType.AuxT[FTP, T])
+  class Numeric[FTP: Min: Max, T](implicit rt: RefinedType.AuxT[FTP, T])
       extends RefinedTypeOps[FTP, T] {
-    def min(implicit m: Min[FTP]): FTP = m.min
-    def max(implicit m: Max[FTP]): FTP = m.max
+    val MinValue: FTP = Min[FTP].min
+    val MaxValue: FTP = Max[FTP].max
   }
 }

@@ -85,12 +85,12 @@ class MaxSpec extends Properties("Max") {
   }
 
   property("CompanionObject.max - Negative - Long") = secure {
-    NegLong.max =? NegLong.unsafeFrom(-1)
+    NegLong.MaxValue =? NegLong.unsafeFrom(-1)
   }
 
   property("CompanionObject.max - Positive - Float") = secure {
     type PosFloat = Float Refined Positive
     object PosFloat extends RefinedTypeOps.Numeric[PosFloat, Float]
-    PosFloat.max =? PosFloat.unsafeFrom(Float.MaxValue)
+    PosFloat.MaxValue =? PosFloat.unsafeFrom(Float.MaxValue)
   }
 }

@@ -74,6 +74,11 @@ class MaxSpec extends Properties("Max") {
     Max[Int Refined Interval.Open[_10, _20]].max =? refineMV[Interval.Open[_10, _20]](19)
   }
 
+  property("Max[Double Refined Interval.Open[_10, _20]]") = secure {
+    Max[Double Refined Interval.Open[_10, _20]].max =? refineMV[Interval.Open[_10, _20]](
+      19.999999999999996d)
+  }
+
   property("Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
     Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].max =?
       refineMV[Interval.Closed[W.`-20`.T, W.`10`.T]](10)

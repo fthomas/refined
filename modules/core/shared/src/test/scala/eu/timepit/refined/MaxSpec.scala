@@ -7,6 +7,7 @@ import eu.timepit.refined.types.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 
 class MaxSpec extends Properties("Max") {
 
@@ -82,6 +83,11 @@ class MaxSpec extends Properties("Max") {
   property("Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
     Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].max =?
       refineMV[Interval.Closed[W.`-20`.T, W.`10`.T]](10)
+  }
+
+  property("Max[Int @@ Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
+    Max[Int @@ Interval.Closed[W.`-20`.T, W.`10`.T]].max =?
+      refineMT[Interval.Closed[W.`-20`.T, W.`10`.T]](10)
   }
 
   property("Max[Double Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {

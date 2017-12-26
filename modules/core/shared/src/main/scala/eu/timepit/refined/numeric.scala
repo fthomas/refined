@@ -250,29 +250,35 @@ private[refined] trait NumericMax {
   implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
   implicit val charMax: Max[Char] = Max.instance(Char.MaxValue)
 
-  implicit def greaterMax[C: Max, N]: Max[C Refined Greater[N]] =
-    Max.instance(Refined.unsafeApply[C, Greater[N]](Max[C].max))
+  implicit def greaterMax[F[_, _], C, N](implicit rt: RefType[F],
+                                         m: Max[C]): Max[F[C, Greater[N]]] =
+    Max.instance(rt.unsafeWrap[C, Greater[N]](m.max))
 
-  implicit def notLessMax[C: Max, N]: Max[C Refined Not[Less[N]]] =
-    Max.instance(Refined.unsafeApply[C, Not[Less[N]]](Max[C].max))
+  implicit def notLessMax[F[_, _], C, N](implicit rt: RefType[F],
+                                         m: Max[C]): Max[F[C, Not[Less[N]]]] =
+    Max.instance(rt.unsafeWrap[C, Not[Less[N]]](m.max))
 
-  implicit def notGreaterWit[C, N <: C](
-      implicit w: Witness.Aux[N]): Max[C Refined Not[Greater[N]]] =
-    Max.instance(Refined.unsafeApply[C, Not[Greater[N]]](w.value))
+  implicit def notGreaterWit[F[_, _], C, N <: C](implicit rt: RefType[F],
+                                                 w: Witness.Aux[N]): Max[F[C, Not[Greater[N]]]] =
+    Max.instance(rt.unsafeWrap[C, Not[Greater[N]]](w.value))
 
-  implicit def notGreaterNat[C, N <: Nat](implicit
-                                          toInt: ToInt[N],
-                                          w: Witness.Aux[N],
-                                          numeric: Numeric[C]): Max[C Refined Not[Greater[N]]] =
-    Max.instance(Refined.unsafeApply[C, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
+  implicit def notGreaterNat[F[_, _], C, N <: Nat](
+      implicit
+      rt: RefType[F],
+      toInt: ToInt[N],
+      w: Witness.Aux[N],
+      numeric: Numeric[C]): Max[F[C, Not[Greater[N]]]] =
+    Max.instance(rt.unsafeWrap[C, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def lessMax[C, N](implicit notGreater: Max[C Refined Not[Greater[N]]],
-                             adj: Adjacent[C]): Max[C Refined Less[N]] =
-    Max.instance(Refined.unsafeApply[C, Less[N]](adj.nextDown(notGreater.max.value)))
+  implicit def lessMax[F[_, _], C, N](implicit rt: RefType[F],
+                                      notGreater: Max[F[C, Not[Greater[N]]]],
+                                      adj: Adjacent[C]): Max[F[C, Less[N]]] =
+    Max.instance(rt.unsafeWrap[C, Less[N]](adj.nextDown(rt.unwrap(notGreater.max))))
 
-  implicit def andMax[C, L, R](implicit leftMax: Max[C Refined L],
-                               rightMax: Max[C Refined R],
-                               numeric: Numeric[C]): Max[C Refined (L And R)] =
+  implicit def andMax[F[_, _], C, L, R](implicit rt: RefType[F],
+                                        leftMax: Max[F[C, L]],
+                                        rightMax: Max[F[C, R]],
+                                        numeric: Numeric[C]): Max[F[C, (L And R)]] =
     Max.instance(
-      Refined.unsafeApply[C, (L And R)](numeric.min(leftMax.max.value, rightMax.max.value)))
+      rt.unsafeWrap[C, (L And R)](numeric.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max))))
 }

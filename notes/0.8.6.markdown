@@ -47,3 +47,5 @@ Thanks to [kusamakura](https://github.com/kusamakura)! ([#379][#379])
 [#385]: https://github.com/fthomas/refined/pull/385
 [#388]: https://github.com/fthomas/refined/pull/388
 [#390]: https://github.com/fthomas/refined/pull/390
+
+Released on 2017-12-27

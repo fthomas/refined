@@ -36,9 +36,14 @@ Thanks to [kusamakura](https://github.com/kusamakura)! ([#379][#379])
   With this change there is no difference in compilation times between
   these two calls. ([#388][#388])
 
+### Updates
+
+* Update `refined-cats` to Cats 1.0.0. ([#390][#390])
+
 [#334]: https://github.com/fthomas/refined/pull/334
 [#379]: https://github.com/fthomas/refined/pull/379
 [#382]: https://github.com/fthomas/refined/pull/382
 [#384]: https://github.com/fthomas/refined/pull/384
 [#385]: https://github.com/fthomas/refined/pull/385
 [#388]: https://github.com/fthomas/refined/pull/388
+[#390]: https://github.com/fthomas/refined/pull/390

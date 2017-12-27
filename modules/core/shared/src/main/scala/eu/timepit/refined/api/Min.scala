@@ -1,15 +1,15 @@
 package eu.timepit.refined.api
 
-trait Min[FTP] { def min: FTP }
+trait Min[T] { def min: T }
 object Min {
-  def apply[FTP](implicit ev: Min[FTP]): Min[FTP] = ev
-  def instance[FTP](m: FTP): Min[FTP] = new Min[FTP] { def min: FTP = m }
+  def apply[T](implicit ev: Min[T]): Min[T] = ev
+  def instance[T](m: T): Min[T] = new Min[T] { def min: T = m }
 }
 
-trait Max[FTP] { def max: FTP }
+trait Max[T] { def max: T }
 object Max {
-  def apply[FTP](implicit ev: Max[FTP]): Max[FTP] = ev
-  def instance[FTP](m: FTP): Max[FTP] = new Max[FTP] { def max: FTP = m }
+  def apply[T](implicit ev: Max[T]): Max[T] = ev
+  def instance[T](m: T): Max[T] = new Max[T] { def max: T = m }
 }
 
 /**

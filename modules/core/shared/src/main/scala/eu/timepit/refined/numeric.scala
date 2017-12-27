@@ -215,34 +215,34 @@ private[refined] trait NumericMin {
   implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
   implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
 
-  implicit def lessMin[F[_, _], C, N](implicit rt: RefType[F], m: Min[C]): Min[F[C, Less[N]]] =
-    Min.instance(rt.unsafeWrap[C, Less[N]](m.min))
+  implicit def lessMin[F[_, _], T, N](implicit rt: RefType[F], m: Min[T]): Min[F[T, Less[N]]] =
+    Min.instance(rt.unsafeWrap[T, Less[N]](m.min))
 
-  implicit def notGreaterMin[F[_, _], C, N](implicit rt: RefType[F],
-                                            m: Min[C]): Min[F[C, Not[Greater[N]]]] =
-    Min.instance(rt.unsafeWrap[C, Not[Greater[N]]](m.min))
+  implicit def notGreaterMin[F[_, _], T, N](implicit rt: RefType[F],
+                                            m: Min[T]): Min[F[T, Not[Greater[N]]]] =
+    Min.instance(rt.unsafeWrap[T, Not[Greater[N]]](m.min))
 
-  implicit def notLessMinWit[F[_, _], C, N <: C](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Min[F[C, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[C, Not[Less[N]]](w.value))
+  implicit def notLessMinWit[F[_, _], T, N <: T](implicit rt: RefType[F],
+                                                 w: Witness.Aux[N]): Min[F[T, Not[Less[N]]]] =
+    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](w.value))
 
-  implicit def notLessMinNat[F[_, _], C, N <: Nat](implicit rt: RefType[F],
+  implicit def notLessMinNat[F[_, _], T, N <: Nat](implicit rt: RefType[F],
                                                    toInt: ToInt[N],
                                                    w: Witness.Aux[N],
-                                                   numeric: Numeric[C]): Min[F[C, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[C, Not[Less[N]]](numeric.fromInt(toInt.apply())))
+                                                   numeric: Numeric[T]): Min[F[T, Not[Less[N]]]] =
+    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def greaterMin[F[_, _], C, N](implicit rt: RefType[F],
-                                         notLessMin: Min[F[C, Not[Less[N]]]],
-                                         adj: Adjacent[C]): Min[F[C, Greater[N]]] =
-    Min.instance(rt.unsafeWrap[C, Greater[N]](adj.nextUp(rt.unwrap(notLessMin.min))))
+  implicit def greaterMin[F[_, _], T, N](implicit rt: RefType[F],
+                                         notLessMin: Min[F[T, Not[Less[N]]]],
+                                         adj: Adjacent[T]): Min[F[T, Greater[N]]] =
+    Min.instance(rt.unsafeWrap[T, Greater[N]](adj.nextUp(rt.unwrap(notLessMin.min))))
 
-  implicit def andMin[F[_, _], C, L, R](implicit rt: RefType[F],
-                                        leftMin: Min[F[C, L]],
-                                        rightMin: Min[F[C, R]],
-                                        numeric: Numeric[C]): Min[F[C, (L And R)]] =
+  implicit def andMin[F[_, _], T, L, R](implicit rt: RefType[F],
+                                        leftMin: Min[F[T, L]],
+                                        rightMin: Min[F[T, R]],
+                                        numeric: Numeric[T]): Min[F[T, (L And R)]] =
     Min.instance(
-      rt.unsafeWrap[C, (L And R)](numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min))))
+      rt.unsafeWrap[T, (L And R)](numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min))))
 }
 
 private[refined] trait NumericMax {
@@ -254,35 +254,35 @@ private[refined] trait NumericMax {
   implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
   implicit val charMax: Max[Char] = Max.instance(Char.MaxValue)
 
-  implicit def greaterMax[F[_, _], C, N](implicit rt: RefType[F],
-                                         m: Max[C]): Max[F[C, Greater[N]]] =
-    Max.instance(rt.unsafeWrap[C, Greater[N]](m.max))
+  implicit def greaterMax[F[_, _], T, N](implicit rt: RefType[F],
+                                         m: Max[T]): Max[F[T, Greater[N]]] =
+    Max.instance(rt.unsafeWrap[T, Greater[N]](m.max))
 
-  implicit def notLessMax[F[_, _], C, N](implicit rt: RefType[F],
-                                         m: Max[C]): Max[F[C, Not[Less[N]]]] =
-    Max.instance(rt.unsafeWrap[C, Not[Less[N]]](m.max))
+  implicit def notLessMax[F[_, _], T, N](implicit rt: RefType[F],
+                                         m: Max[T]): Max[F[T, Not[Less[N]]]] =
+    Max.instance(rt.unsafeWrap[T, Not[Less[N]]](m.max))
 
-  implicit def notGreaterWit[F[_, _], C, N <: C](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Max[F[C, Not[Greater[N]]]] =
-    Max.instance(rt.unsafeWrap[C, Not[Greater[N]]](w.value))
+  implicit def notGreaterWit[F[_, _], T, N <: T](implicit rt: RefType[F],
+                                                 w: Witness.Aux[N]): Max[F[T, Not[Greater[N]]]] =
+    Max.instance(rt.unsafeWrap[T, Not[Greater[N]]](w.value))
 
-  implicit def notGreaterNat[F[_, _], C, N <: Nat](
+  implicit def notGreaterNat[F[_, _], T, N <: Nat](
       implicit
       rt: RefType[F],
       toInt: ToInt[N],
       w: Witness.Aux[N],
-      numeric: Numeric[C]): Max[F[C, Not[Greater[N]]]] =
-    Max.instance(rt.unsafeWrap[C, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
+      numeric: Numeric[T]): Max[F[T, Not[Greater[N]]]] =
+    Max.instance(rt.unsafeWrap[T, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def lessMax[F[_, _], C, N](implicit rt: RefType[F],
-                                      notGreater: Max[F[C, Not[Greater[N]]]],
-                                      adj: Adjacent[C]): Max[F[C, Less[N]]] =
-    Max.instance(rt.unsafeWrap[C, Less[N]](adj.nextDown(rt.unwrap(notGreater.max))))
+  implicit def lessMax[F[_, _], T, N](implicit rt: RefType[F],
+                                      notGreater: Max[F[T, Not[Greater[N]]]],
+                                      adj: Adjacent[T]): Max[F[T, Less[N]]] =
+    Max.instance(rt.unsafeWrap[T, Less[N]](adj.nextDown(rt.unwrap(notGreater.max))))
 
-  implicit def andMax[F[_, _], C, L, R](implicit rt: RefType[F],
-                                        leftMax: Max[F[C, L]],
-                                        rightMax: Max[F[C, R]],
-                                        numeric: Numeric[C]): Max[F[C, (L And R)]] =
+  implicit def andMax[F[_, _], T, L, R](implicit rt: RefType[F],
+                                        leftMax: Max[F[T, L]],
+                                        rightMax: Max[F[T, R]],
+                                        numeric: Numeric[T]): Max[F[T, (L And R)]] =
     Max.instance(
-      rt.unsafeWrap[C, (L And R)](numeric.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max))))
+      rt.unsafeWrap[T, (L And R)](numeric.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max))))
 }

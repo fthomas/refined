@@ -3,6 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.api._
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.internal.Adjacent
 import eu.timepit.refined.numeric._
 import shapeless.{Nat, Witness}
 import shapeless.nat.{_0, _2}

@@ -7,6 +7,7 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Gen.Choose
 import shapeless.{Nat, Witness}
 import shapeless.ops.nat.ToInt
+import shapeless.tag.@@
 
 /**
  * Module that provides `Arbitrary` instances and generators for
@@ -22,7 +23,6 @@ trait DeprecatedNumericInstances {
   ): Arbitrary[F[T, Less[N]]] =
     rangeClosedOpenArbitrary(bounded.minValue, wn.value)
 
-  @deprecated("Use numericMaxAndMinArbitrary instead", "0.8.6")
   @deprecated("Use numericMaxAndMinArbitrary instead", "0.8.6")
   implicit def lessArbitraryNat[F[_, _]: RefType, T: Choose: Adjacent, N <: Nat](
       implicit bounded: Bounded[T],
@@ -140,7 +140,7 @@ trait DeprecatedNumericInstances {
 
 }
 
-trait NumericInstances {
+trait NumericInstances extends DeprecatedNumericInstances {
 
   /**
    * A generator that generates a random value in the given (inclusive)

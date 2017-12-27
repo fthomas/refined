@@ -7,6 +7,7 @@ import eu.timepit.refined.types.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 
 class MinSpec extends Properties("Min") {
 
@@ -72,6 +73,10 @@ class MinSpec extends Properties("Min") {
 
   property("Min[Int Refined Interval.Open[_10, _20]]") = secure {
     Min[Int Refined Interval.Open[_10, _20]].min =? refineMV[Interval.Open[_10, _20]](11)
+  }
+
+  property("Min[Int @@ Interval.Open[_10, _20]]") = secure {
+    Min[Int @@ Interval.Open[_10, _20]].min =? refineMT[Interval.Open[_10, _20]](11)
   }
 
   property("Min[Double Refined Interval.Open[_10, _20]]") = secure {

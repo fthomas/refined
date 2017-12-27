@@ -215,30 +215,34 @@ private[refined] trait NumericMin {
   implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
   implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
 
-  implicit def lessMin[C: Min, N]: Min[C Refined Less[N]] =
-    Min.instance(Refined.unsafeApply[C, Less[N]](Min[C].min))
+  implicit def lessMin[F[_, _], C, N](implicit rt: RefType[F], m: Min[C]): Min[F[C, Less[N]]] =
+    Min.instance(rt.unsafeWrap[C, Less[N]](m.min))
 
-  implicit def notGreaterMin[C: Min, N]: Min[C Refined Not[Greater[N]]] =
-    Min.instance(Refined.unsafeApply[C, Not[Greater[N]]](Min[C].min))
+  implicit def notGreaterMin[F[_, _], C, N](implicit rt: RefType[F],
+                                            m: Min[C]): Min[F[C, Not[Greater[N]]]] =
+    Min.instance(rt.unsafeWrap[C, Not[Greater[N]]](m.min))
 
-  implicit def notLessMinWit[C, N <: C](implicit w: Witness.Aux[N]): Min[C Refined Not[Less[N]]] =
-    Min.instance(Refined.unsafeApply[C, Not[Less[N]]](w.value))
+  implicit def notLessMinWit[F[_, _], C, N <: C](implicit rt: RefType[F],
+                                                 w: Witness.Aux[N]): Min[F[C, Not[Less[N]]]] =
+    Min.instance(rt.unsafeWrap[C, Not[Less[N]]](w.value))
 
-  implicit def notLessMinNat[C, N <: Nat](implicit
-                                          toInt: ToInt[N],
-                                          w: Witness.Aux[N],
-                                          numeric: Numeric[C]): Min[C Refined Not[Less[N]]] =
-    Min.instance(Refined.unsafeApply[C, Not[Less[N]]](numeric.fromInt(toInt.apply())))
+  implicit def notLessMinNat[F[_, _], C, N <: Nat](implicit rt: RefType[F],
+                                                   toInt: ToInt[N],
+                                                   w: Witness.Aux[N],
+                                                   numeric: Numeric[C]): Min[F[C, Not[Less[N]]]] =
+    Min.instance(rt.unsafeWrap[C, Not[Less[N]]](numeric.fromInt(toInt.apply())))
 
-  implicit def greaterMin[C, N](implicit notLessMin: Min[C Refined Not[Less[N]]],
-                                adj: Adjacent[C]): Min[C Refined Greater[N]] =
-    Min.instance(Refined.unsafeApply[C, Greater[N]](adj.nextUp(notLessMin.min.value)))
+  implicit def greaterMin[F[_, _], C, N](implicit rt: RefType[F],
+                                         notLessMin: Min[F[C, Not[Less[N]]]],
+                                         adj: Adjacent[C]): Min[F[C, Greater[N]]] =
+    Min.instance(rt.unsafeWrap[C, Greater[N]](adj.nextUp(rt.unwrap(notLessMin.min))))
 
-  implicit def andMin[C, L, R](implicit leftMin: Min[C Refined L],
-                               rightMin: Min[C Refined R],
-                               numeric: Numeric[C]): Min[C Refined (L And R)] =
+  implicit def andMin[F[_, _], C, L, R](implicit rt: RefType[F],
+                                        leftMin: Min[F[C, L]],
+                                        rightMin: Min[F[C, R]],
+                                        numeric: Numeric[C]): Min[F[C, (L And R)]] =
     Min.instance(
-      Refined.unsafeApply[C, (L And R)](numeric.max(leftMin.min.value, rightMin.min.value)))
+      rt.unsafeWrap[C, (L And R)](numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min))))
 }
 
 private[refined] trait NumericMax {

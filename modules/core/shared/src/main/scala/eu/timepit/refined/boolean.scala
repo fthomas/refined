@@ -8,7 +8,7 @@ import shapeless.{::, HList, HNil}
 import shapeless.ops.hlist.ToList
 
 /** Module for logical predicates. */
-object boolean extends BooleanValidate with BooleanInference0 {
+object boolean extends BooleanInference0 {
 
   /** Constant predicate that is always `true`. */
   final case class True()
@@ -254,8 +254,6 @@ object boolean extends BooleanValidate with BooleanInference0 {
   /** Negated disjunction of the predicates `A` and `B`. */
   type Nor[A, B] = Not[A Or B]
 }
-
-private[refined] trait BooleanValidate {}
 
 private[refined] trait BooleanInference0 extends BooleanInference1 {
 

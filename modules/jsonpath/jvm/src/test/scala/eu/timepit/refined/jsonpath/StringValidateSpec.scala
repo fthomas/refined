@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package jsonpath
+package eu.timepit.refined.jsonpath
 
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.jsonpath.string._

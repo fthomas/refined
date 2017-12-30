@@ -1,7 +1,7 @@
-package eu.timepit.refined
-package internal
+package eu.timepit.refined.internal
 
 import eu.timepit.refined.api.{RefType, Validate}
+import eu.timepit.refined.macros.RefineMacro
 
 /**
  * Helper class that allows the types `F`, `T`, and `P` to be inferred
@@ -16,5 +16,5 @@ final class ApplyRefMPartiallyApplied[FTP] {
       implicit ev: F[T, P] =:= FTP,
       rt: RefType[F],
       v: Validate[T, P]
-  ): FTP = macro macros.RefineMacro.implApplyRef[FTP, F, T, P]
+  ): FTP = macro RefineMacro.implApplyRef[FTP, F, T, P]
 }

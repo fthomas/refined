@@ -1,5 +1,6 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
+
+import eu.timepit.refined.macros.RefineMacro
 
 /**
  * Provides functions to create values of the refined type `FTP` from
@@ -28,7 +29,7 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
       rt: RefType[F],
       v: Validate[T, P]
   ): FTP =
-    macro macros.RefineMacro.implApplyRef[FTP, F, T, P]
+    macro RefineMacro.implApplyRef[FTP, F, T, P]
 
   def from(t: T): Either[String, FTP] =
     rt.refine(t)

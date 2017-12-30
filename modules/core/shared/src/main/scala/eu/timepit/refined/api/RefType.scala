@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
 
 import eu.timepit.refined.internal._
 import scala.reflect.macros.blackbox

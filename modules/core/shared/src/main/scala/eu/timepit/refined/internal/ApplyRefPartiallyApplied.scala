@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package internal
+package eu.timepit.refined.internal
 
 import eu.timepit.refined.api.{RefType, Validate}
 

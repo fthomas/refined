@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
 
 /**
  * Type class that combines `[[RefType]]` and `[[Validate]]` instances

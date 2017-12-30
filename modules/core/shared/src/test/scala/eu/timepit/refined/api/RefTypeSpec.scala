@@ -1,7 +1,7 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
 
 import eu.timepit.refined.TestUtils._
+import eu.timepit.refined.W
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{Digit, LowerCase}

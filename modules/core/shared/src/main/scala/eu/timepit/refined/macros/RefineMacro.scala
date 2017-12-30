@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package macros
+package eu.timepit.refined.macros
 
 import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.char.{Digit, Letter, LowerCase, UpperCase, Whitespace}

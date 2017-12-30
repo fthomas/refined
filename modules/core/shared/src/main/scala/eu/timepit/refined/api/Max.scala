@@ -64,6 +64,9 @@ trait LowPriorityMaxInstances {
                                           v: Validate[T, P]): Max[F[T, P]] =
     Max.instance(rt.unsafeWrap(findValid(m.max)))
 
-  protected def findValid[T, P](from: T)(implicit v: Validate[T, P], a: Adjacent[T]) =
-    Stream.iterate(from)(a.nextDown).filter(v.isValid).head
+  protected def findValid[T, P](from: T)(implicit v: Validate[T, P], a: Adjacent[T]) = {
+    var result = from
+    while (!v.isValid(result)) result = a.nextDown(result)
+    result
+  }
 }

@@ -3,7 +3,6 @@ package eu.timepit.refined
 import eu.timepit.refined.api._
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
-import eu.timepit.refined.internal.Adjacent
 import eu.timepit.refined.numeric._
 import shapeless.{Nat, Witness}
 import shapeless.nat.{_0, _2}
@@ -30,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference with NumericMin with NumericMax {
+object numeric extends NumericValidate with NumericInference {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -205,85 +204,4 @@ private[refined] trait NumericInference {
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
-}
-
-private[refined] trait NumericMin {
-  implicit val byteMin: Min[Byte] = Min.instance(Byte.MinValue)
-  implicit val shortMin: Min[Short] = Min.instance(Short.MinValue)
-  implicit val intMin: Min[Int] = Min.instance(Int.MinValue)
-  implicit val longMin: Min[Long] = Min.instance(Long.MinValue)
-  implicit val floatMin: Min[Float] = Min.instance(Float.MinValue)
-  implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
-  implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
-
-  implicit def lessMin[F[_, _], T, N](implicit rt: RefType[F], m: Min[T]): Min[F[T, Less[N]]] =
-    Min.instance(rt.unsafeWrap[T, Less[N]](m.min))
-
-  implicit def notGreaterMin[F[_, _], T, N](implicit rt: RefType[F],
-                                            m: Min[T]): Min[F[T, Not[Greater[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Greater[N]]](m.min))
-
-  implicit def notLessMinWit[F[_, _], T, N <: T](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Min[F[T, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](w.value))
-
-  implicit def notLessMinNat[F[_, _], T, N <: Nat](implicit rt: RefType[F],
-                                                   toInt: ToInt[N],
-                                                   w: Witness.Aux[N],
-                                                   numeric: Numeric[T]): Min[F[T, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](numeric.fromInt(toInt.apply())))
-
-  implicit def greaterMin[F[_, _], T, N](implicit rt: RefType[F],
-                                         notLessMin: Min[F[T, Not[Less[N]]]],
-                                         adj: Adjacent[T]): Min[F[T, Greater[N]]] =
-    Min.instance(rt.unsafeWrap[T, Greater[N]](adj.nextUp(rt.unwrap(notLessMin.min))))
-
-  implicit def andMin[F[_, _], T, L, R](implicit rt: RefType[F],
-                                        leftMin: Min[F[T, L]],
-                                        rightMin: Min[F[T, R]],
-                                        numeric: Numeric[T]): Min[F[T, (L And R)]] =
-    Min.instance(
-      rt.unsafeWrap[T, (L And R)](numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min))))
-}
-
-private[refined] trait NumericMax {
-  implicit val byteMax: Max[Byte] = Max.instance(Byte.MaxValue)
-  implicit val shortMax: Max[Short] = Max.instance(Short.MaxValue)
-  implicit val intMax: Max[Int] = Max.instance(Int.MaxValue)
-  implicit val longMax: Max[Long] = Max.instance(Long.MaxValue)
-  implicit val floatMax: Max[Float] = Max.instance(Float.MaxValue)
-  implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
-  implicit val charMax: Max[Char] = Max.instance(Char.MaxValue)
-
-  implicit def greaterMax[F[_, _], T, N](implicit rt: RefType[F],
-                                         m: Max[T]): Max[F[T, Greater[N]]] =
-    Max.instance(rt.unsafeWrap[T, Greater[N]](m.max))
-
-  implicit def notLessMax[F[_, _], T, N](implicit rt: RefType[F],
-                                         m: Max[T]): Max[F[T, Not[Less[N]]]] =
-    Max.instance(rt.unsafeWrap[T, Not[Less[N]]](m.max))
-
-  implicit def notGreaterWit[F[_, _], T, N <: T](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Max[F[T, Not[Greater[N]]]] =
-    Max.instance(rt.unsafeWrap[T, Not[Greater[N]]](w.value))
-
-  implicit def notGreaterNat[F[_, _], T, N <: Nat](
-      implicit
-      rt: RefType[F],
-      toInt: ToInt[N],
-      w: Witness.Aux[N],
-      numeric: Numeric[T]): Max[F[T, Not[Greater[N]]]] =
-    Max.instance(rt.unsafeWrap[T, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
-
-  implicit def lessMax[F[_, _], T, N](implicit rt: RefType[F],
-                                      notGreater: Max[F[T, Not[Greater[N]]]],
-                                      adj: Adjacent[T]): Max[F[T, Less[N]]] =
-    Max.instance(rt.unsafeWrap[T, Less[N]](adj.nextDown(rt.unwrap(notGreater.max))))
-
-  implicit def andMax[F[_, _], T, L, R](implicit rt: RefType[F],
-                                        leftMax: Max[F[T, L]],
-                                        rightMax: Max[F[T, R]],
-                                        numeric: Numeric[T]): Max[F[T, (L And R)]] =
-    Max.instance(
-      rt.unsafeWrap[T, (L And R)](numeric.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max))))
 }

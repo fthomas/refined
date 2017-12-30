@@ -100,6 +100,18 @@ class MaxSpec extends Properties("Max") {
       refineMV[Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]('Z')
   }
 
+  property("Max[Int Refined Even]") = secure {
+    Max[Int Refined Even].max =? refineMV[Even](2147483646)
+  }
+
+  property("Max[Int Refined Divisible[_5]]") = secure {
+    Max[Int Refined Divisible[_5]].max =? refineMV[Divisible[_5]](2147483645)
+  }
+
+  property("Max[Int Refined (Negative And Even)]") = secure {
+    Max[Int Refined (Negative And Even)].max =? refineMV[(Negative And Even)](-2)
+  }
+
   property("CompanionObject.max - Negative - Long") = secure {
     NegLong.MaxValue =? NegLong.unsafeFrom(-1)
   }

@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
-import eu.timepit.refined.numeric._
+import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 
 /** Module for numeric refined types. */
 object numeric extends NumericTypes

@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package macros
+package eu.timepit.refined.macros
 
 import eu.timepit.refined.api.{Refined, RefType}
 import macrocompat.bundle

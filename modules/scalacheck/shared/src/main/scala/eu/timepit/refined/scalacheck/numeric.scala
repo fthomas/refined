@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package scalacheck
+package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.numeric._

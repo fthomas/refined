@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
 
 /**
  * Evidence that states if the conclusion `C` can be inferred from the

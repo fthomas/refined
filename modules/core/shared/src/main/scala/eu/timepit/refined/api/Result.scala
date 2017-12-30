@@ -1,5 +1,4 @@
-package eu.timepit.refined
-package api
+package eu.timepit.refined.api
 
 sealed abstract class Result[A] extends Product with Serializable {
 

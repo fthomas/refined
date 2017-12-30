@@ -1,6 +1,6 @@
-package eu.timepit.refined
-package scalacheck
+package eu.timepit.refined.scalacheck
 
+import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.scalacheck.generic._

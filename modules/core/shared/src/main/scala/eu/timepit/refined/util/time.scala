@@ -1,6 +1,6 @@
-package eu.timepit.refined
-package util
+package eu.timepit.refined.util
 
+import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
 

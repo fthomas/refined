@@ -9,6 +9,7 @@ import eu.timepit.refined.types.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 
 class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 

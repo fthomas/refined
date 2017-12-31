@@ -130,10 +130,10 @@ private[refined] trait NumericValidate {
       to: ToInt[O],
       wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      nt: Numeric[T]
+      i: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t ⇒ nt.toDouble(t) % tn() == to(),
+      t ⇒ i.rem(t, i.fromInt(tn())) == to(),
       t ⇒ s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )

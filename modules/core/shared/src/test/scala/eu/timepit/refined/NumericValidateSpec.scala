@@ -68,6 +68,22 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     isValid[Modulo[W.`2.0`.T, W.`0.0`.T]](d) ?= (d % 2.0 == 0.0)
   }
 
+  property("Modulo.isValid - Byte") = forAll { (b: Byte) =>
+    isValid[Modulo[_2, _0]](b) ?= (b % 2 == 0)
+  }
+
+  property("Modulo.isValid - Short") = forAll { (s: Short) =>
+    isValid[Modulo[_2, _0]](s) ?= (s % 2 == 0)
+  }
+
+  property("Modulo.isValid - Int") = forAll { (i: Int) =>
+    isValid[Modulo[_2, _0]](i) ?= (i % 2 == 0)
+  }
+
+  property("Modulo.isValid - Long") = forAll { (l: Long) =>
+    isValid[Modulo[_2, _0]](l) ?= (l % 2 == 0)
+  }
+
   property("Modulo.showExpr") = secure {
     showExpr[Modulo[W.`2.0`.T, W.`0.0`.T]](4.0) ?= s"(${4.0} % ${2.0} == ${0.0})"
   }

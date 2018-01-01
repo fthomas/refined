@@ -68,20 +68,44 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     isValid[Modulo[W.`2.0`.T, W.`0.0`.T]](d) ?= (d % 2.0 == 0.0)
   }
 
-  property("Modulo.isValid - Byte") = forAll { (b: Byte) =>
+  property("Modulo.isValid - Nat - Byte") = forAll { (b: Byte) =>
     isValid[Modulo[_2, _0]](b) ?= (b % 2 == 0)
   }
 
-  property("Modulo.isValid - Short") = forAll { (s: Short) =>
+  property("Modulo.isValid - Nat - Short") = forAll { (s: Short) =>
     isValid[Modulo[_2, _0]](s) ?= (s % 2 == 0)
   }
 
-  property("Modulo.isValid - Int") = forAll { (i: Int) =>
+  property("Modulo.isValid - Nat - Int") = forAll { (i: Int) =>
     isValid[Modulo[_2, _0]](i) ?= (i % 2 == 0)
   }
 
-  property("Modulo.isValid - Long") = forAll { (l: Long) =>
+  property("Modulo.isValid - Wit - Int") = forAll { (i: Int) =>
+    isValid[Modulo[W.`2`.T, W.`0`.T]](i) ?= (i % 2 == 0)
+  }
+
+  property("Modulo.isValid - Nat - Long") = forAll { (l: Long) =>
     isValid[Modulo[_2, _0]](l) ?= (l % 2 == 0)
+  }
+
+  property("Modulo.isValid - Wit - Long") = forAll { (l: Long) =>
+    isValid[Modulo[W.`2L`.T, W.`0L`.T]](l) ?= (l % 2 == 0)
+  }
+
+  property("Modulo.isValid - Nat - Float") = forAll { (l: Float) =>
+    isValid[Modulo[_2, _0]](l) ?= (l % 2 == 0)
+  }
+
+  property("Modulo.isValid - Wit - Float") = forAll { (l: Float) =>
+    isValid[Modulo[W.`2.0f`.T, W.`0.0f`.T]](l) ?= (l % 2 == 0)
+  }
+
+  property("Modulo.isValid - Nat - Double") = forAll { (l: Double) =>
+    isValid[Modulo[_2, _0]](l) ?= (l % 2 == 0)
+  }
+
+  property("Modulo.isValid - Wit - Double") = forAll { (l: Double) =>
+    isValid[Modulo[W.`2.0d`.T, W.`0.0d`.T]](l) ?= (l % 2 == 0)
   }
 
   property("Modulo.showExpr") = secure {

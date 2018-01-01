@@ -100,13 +100,33 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
 
-  implicit def moduloValidateWit[T, N <: T, O <: T](
+  implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
       implicit wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      nt: Numeric[T]
+      nt: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t ⇒ nt.toDouble(t) % nt.toDouble(wn.value) == nt.toDouble(wo.value),
+      t ⇒ nt.rem(t, wn.value) == wo.value,
+      t ⇒ s"($t % ${wn.value} == ${wo.value})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateWitDouble[N <: Double, O <: Double](
+      implicit wn: Witness.Aux[N],
+      wo: Witness.Aux[O],
+  ): Validate.Plain[Double, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ t % wn.value == wo.value,
+      t ⇒ s"($t % ${wn.value} == ${wo.value})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateWitFloat[N <: Float, O <: Float](
+      implicit wn: Witness.Aux[N],
+      wo: Witness.Aux[O],
+  ): Validate.Plain[Float, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ t % wn.value == wo.value,
       t ⇒ s"($t % ${wn.value} == ${wo.value})",
       Modulo(wn.value, wo.value)
     )
@@ -125,7 +145,7 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
 
-  implicit def moduloValidateNat[N <: Nat, O <: Nat, T](
+  implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
       implicit tn: ToInt[N],
       to: ToInt[O],
       wn: Witness.Aux[N],
@@ -134,6 +154,28 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
       t ⇒ i.rem(t, i.fromInt(tn())) == to(),
+      t ⇒ s"($t % ${tn()} == ${to()})",
+      Modulo(wn.value, wo.value)
+    )
+  implicit def moduloValidateNatFloat[N <: Nat, O <: Nat](
+      implicit tn: ToInt[N],
+      to: ToInt[O],
+      wn: Witness.Aux[N],
+      wo: Witness.Aux[O]
+  ): Validate.Plain[Float, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ t % tn() == to(),
+      t ⇒ s"($t % ${tn()} == ${to()})",
+      Modulo(wn.value, wo.value)
+    )
+  implicit def moduloValidateNatDouble[N <: Nat, O <: Nat](
+      implicit tn: ToInt[N],
+      to: ToInt[O],
+      wn: Witness.Aux[N],
+      wo: Witness.Aux[O]
+  ): Validate.Plain[Double, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ t % tn() == to(),
       t ⇒ s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )

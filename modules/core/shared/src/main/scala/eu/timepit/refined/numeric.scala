@@ -177,10 +177,11 @@ private[refined] trait NumericValidate {
       i: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t ⇒ i.rem(t, i.fromInt(tn())) == to(),
+      t ⇒ i.rem(t, i.fromInt(tn())) == i.fromInt(to()),
       t ⇒ s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )
+
   implicit def moduloValidateNatFloat[N <: Nat, O <: Nat](
       implicit tn: ToInt[N],
       to: ToInt[O],
@@ -192,6 +193,7 @@ private[refined] trait NumericValidate {
       t ⇒ s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )
+
   implicit def moduloValidateNatDouble[N <: Nat, O <: Nat](
       implicit tn: ToInt[N],
       to: ToInt[O],

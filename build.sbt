@@ -434,7 +434,9 @@ addCommandsAlias(
   "validate",
   Seq(
     "clean",
-    "scalafmtTest",
+    "scalafmtCheck",
+    "scalafmtSbtCheck",
+    "test:scalafmtCheck",
     "scalastyle",
     "test:scalastyle",
     "mimaReportBinaryIssues",

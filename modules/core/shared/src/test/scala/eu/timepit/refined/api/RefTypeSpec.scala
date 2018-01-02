@@ -142,7 +142,7 @@ class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
     type PositiveInt = Int @@ Positive
 
     // This is expected, see https://github.com/fthomas/refined/issues/21:
-    illTyped("val x: PositiveInt = RefType[@@].refineM(5)", "could not find implicit value.*")
+    illTyped("val x: PositiveInt = RefType[@@].refineM(5)", "ambiguous implicit values.*")
     illTyped("val y: PositiveInt = 5", "type mismatch.*")
     illTyped("val z: PositiveInt = -5", "type mismatch.*")
   }

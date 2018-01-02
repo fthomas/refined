@@ -16,9 +16,9 @@ package object pureconfig {
   ): ConfigConvert[F[T, P]] = new ConfigConvert[F[T, P]] {
     override def from(config: ConfigValue): Either[ConfigReaderFailures, F[T, P]] =
       configConvert.from(config) match {
-        case Right(t) ⇒
+        case Right(t) =>
           refType.refine[P](t) match {
-            case Left(because) ⇒
+            case Left(because) =>
               Left(
                 ConfigReaderFailures(
                   CannotConvert(
@@ -29,11 +29,11 @@ package object pureconfig {
                     path = ""
                   )))
 
-            case Right(refined) ⇒
+            case Right(refined) =>
               Right(refined)
           }
 
-        case Left(configReaderFailures) ⇒
+        case Left(configReaderFailures) =>
           Left(configReaderFailures)
       }
 

@@ -4,7 +4,7 @@ import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
-import eu.timepit.refined.numeric.Greater
+import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._

@@ -271,7 +271,8 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath"),
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.StringValidate.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*")
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*")
     )
   }
 )

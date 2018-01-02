@@ -100,13 +100,24 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
 
-  implicit def moduloValidateWit[T, N <: T, O <: T](
+  def moduloValidateWit[T, N <: T, O <: T](
       implicit wn: Witness.Aux[N],
       wo: Witness.Aux[O],
       nt: Numeric[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
       t ⇒ nt.toDouble(t) % nt.toDouble(wn.value) == nt.toDouble(wo.value),
+      t ⇒ s"($t % ${wn.value} == ${wo.value})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
+      implicit wn: Witness.Aux[N],
+      wo: Witness.Aux[O],
+      nt: Integral[T]
+  ): Validate.Plain[T, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ nt.rem(t, wn.value) == wo.value,
       t ⇒ s"($t % ${wn.value} == ${wo.value})",
       Modulo(wn.value, wo.value)
     )
@@ -125,7 +136,7 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
 
-  implicit def moduloValidateNat[N <: Nat, O <: Nat, T](
+  def moduloValidateNat[N <: Nat, O <: Nat, T](
       implicit tn: ToInt[N],
       to: ToInt[O],
       wn: Witness.Aux[N],
@@ -134,6 +145,19 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
       t ⇒ nt.toDouble(t) % tn() == to(),
+      t ⇒ s"($t % ${tn()} == ${to()})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
+      implicit tn: ToInt[N],
+      to: ToInt[O],
+      wn: Witness.Aux[N],
+      wo: Witness.Aux[O],
+      i: Integral[T]
+  ): Validate.Plain[T, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t ⇒ i.rem(t, i.fromInt(tn())) == i.fromInt(to()),
       t ⇒ s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )

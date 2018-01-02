@@ -1,6 +1,14 @@
+### Bug fixes
+
+* Fix `Modulo` predicate for large `Long` values by avoiding `toDouble`
+  in its `Validate` instance. This also restricts the predicate to types
+  with a `Integral` instance.
+  Thanks to [Howy Perrin](https://github.com/howyp)! ([#398][#398])
+
 ### Updates
 
 * Update to shapeless 2.3.3. ([#399][#399])
 * Update `refined-cats` to Cats 1.0.1. ([#399][#399])
 
+[#398]: https://github.com/fthomas/refined/pull/398
 [#399]: https://github.com/fthomas/refined/pull/399

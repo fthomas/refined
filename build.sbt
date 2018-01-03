@@ -272,7 +272,9 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.StringValidate.*"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*")
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.NumericInstances.numericMaxAndMinArbitrary")
     )
   }
 )
@@ -307,7 +309,7 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-//    "-Xfatal-warnings",
+    "-Xfatal-warnings",
     "-Xfuture",
     //"-Xlog-implicits",
     "-Yno-adapted-args",

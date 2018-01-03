@@ -43,12 +43,20 @@ class GenericValidateSpec extends Properties("GenericValidate") {
     isValid[Equal[_0]](i) ?= (i == 0)
   }
 
+  property("Equal.Nat.Long.isValid") = forAll { (l: Long) =>
+    isValid[Equal[_0]](l) ?= (l == 0L)
+  }
+
   property("Equal.Nat.Double.isValid") = forAll { (d: Double) =>
     isValid[Equal[_0]](d) ?= (d == 0.0)
   }
 
-  property("Equal.Nat.showExpr") = secure {
+  property("Equal.Nat.Int.showExpr") = secure {
     showExpr[Equal[_5]](0) ?= "(0 == 5)"
+  }
+
+  property("Equal.Nat.Double.showExpr") = secure {
+    showExpr[Equal[_5]](1.0) ?= "(1.0 == 5.0)"
   }
 
   property("Equal.Nat ~= Equal.Int") = forAll { (i: Int) =>

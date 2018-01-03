@@ -3,6 +3,18 @@ package eu.timepit.refined.internal
 trait Adjacent[T] {
   def nextUp(t: T): T
   def nextDown(t: T): T
+
+  def findNextUp(from: T, p: T => Boolean): T = {
+    var result = from
+    while (!p(result)) result = nextUp(result)
+    result
+  }
+
+  def findNextDown(from: T, p: T => Boolean): T = {
+    var result = from
+    while (!p(result)) result = nextDown(result)
+    result
+  }
 }
 
 object Adjacent {

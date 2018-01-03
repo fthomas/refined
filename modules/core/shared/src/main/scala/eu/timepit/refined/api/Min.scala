@@ -62,5 +62,5 @@ trait LowPriorityMinInstances {
     Min.instance(rt.unsafeWrap(findValid(m.min)))
 
   protected def findValid[T, P](from: T)(implicit v: Validate[T, P], a: Adjacent[T]) =
-    Stream.iterate(from)(a.nextUp).filter(v.isValid).head
+    a.findNextUp(from, v.isValid)
 }

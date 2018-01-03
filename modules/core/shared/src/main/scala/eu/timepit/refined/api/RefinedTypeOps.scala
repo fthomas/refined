@@ -40,3 +40,14 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
   def unsafeFrom(t: T): FTP =
     rt.unsafeRefine(t)
 }
+object RefinedTypeOps {
+  class Numeric[FTP: Min: Max, T](implicit rt: RefinedType.AuxT[FTP, T])
+      extends RefinedTypeOps[FTP, T] {
+
+    /** The smallest valid value of this type */
+    val MinValue: FTP = Min[FTP].min
+
+    /** The largest valid value of this type */
+    val MaxValue: FTP = Max[FTP].max
+  }
+}

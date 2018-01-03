@@ -39,8 +39,10 @@ private[refined] trait GenericValidate {
       implicit tn: ToInt[N],
       wn: Witness.Aux[N],
       nt: Numeric[T]
-  ): Validate.Plain[T, Equal[N]] =
-    Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+  ): Validate.Plain[T, Equal[N]] = {
+    val n = nt.fromInt(tn())
+    Validate.fromPredicate(_ == n, t => s"($t == $n)", Equal(wn.value))
+  }
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],

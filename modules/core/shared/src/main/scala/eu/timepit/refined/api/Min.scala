@@ -14,7 +14,7 @@ object Min extends MinInstances {
   def apply[T](implicit ev: Min[T]): Min[T] = ev
   def instance[T](m: T): Min[T] = new Min[T] { def min: T = m }
 }
-trait MinInstances {
+trait MinInstances extends LowPriorityMinInstances {
   implicit val byteMin: Min[Byte] = Min.instance(Byte.MinValue)
   implicit val shortMin: Min[Short] = Min.instance(Short.MinValue)
   implicit val intMin: Min[Int] = Min.instance(Int.MinValue)
@@ -48,7 +48,19 @@ trait MinInstances {
   implicit def andMin[F[_, _], T, L, R](implicit rt: RefType[F],
                                         leftMin: Min[F[T, L]],
                                         rightMin: Min[F[T, R]],
+                                        validate: Validate[T, (L And R)],
                                         numeric: Numeric[T]): Min[F[T, (L And R)]] =
     Min.instance(
-      rt.unsafeWrap[T, (L And R)](numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min))))
+      rt.unsafeWrap[T, (L And R)](
+        findValid(numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min)))))
+}
+trait LowPriorityMinInstances {
+  implicit def validateMin[F[_, _], T, P](implicit rt: RefType[F],
+                                          m: Min[T],
+                                          a: Adjacent[T],
+                                          v: Validate[T, P]): Min[F[T, P]] =
+    Min.instance(rt.unsafeWrap(findValid(m.min)))
+
+  protected def findValid[T, P](from: T)(implicit v: Validate[T, P], a: Adjacent[T]) =
+    Stream.iterate(from)(a.nextUp).filter(v.isValid).head
 }

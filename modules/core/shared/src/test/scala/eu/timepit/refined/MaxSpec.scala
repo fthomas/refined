@@ -12,77 +12,75 @@ import shapeless.tag.@@
 class MaxSpec extends Properties("Max") {
 
   property("Max[Int Refined Less[W.`1`.T]]") = secure {
-    Max[Int Refined Less[W.`1`.T]].max =? refineMV(0)
+    Max[Int Refined Less[W.`1`.T]].max =? Refined.unsafeApply(0)
   }
 
   property("Max[Int Refined Less[_0]]") = secure {
-    Max[Int Refined Less[_0]].max =? refineMV(-1)
+    Max[Int Refined Less[_0]].max =? Refined.unsafeApply(-1)
   }
 
   property("Max[Long Refined Less[_5]]") = secure {
-    Max[Long Refined Less[_5]].max =? refineMV(4L)
+    Max[Long Refined Less[_5]].max =? Refined.unsafeApply(4L)
   }
 
   property("Max[Float Refined Less[_5]]") = secure {
-    Max[Float Refined Less[_5]].max =? refineMV(4.9999995f)
+    Max[Float Refined Less[_5]].max =? Refined.unsafeApply(4.9999995f)
   }
 
   property("Max[Byte Refined Greater[_0]]") = secure {
-    Max[Byte Refined Greater[_0]].max =? refineMV(Byte.MaxValue)
+    Max[Byte Refined Greater[_0]].max =? Refined.unsafeApply(Byte.MaxValue)
   }
 
   property("Max[Short Refined Greater[_0]]") = secure {
-    Max[Short Refined Greater[_0]].max =? refineMV(Short.MaxValue)
+    Max[Short Refined Greater[_0]].max =? Refined.unsafeApply(Short.MaxValue)
   }
 
   property("Max[Int Refined Greater[_0]]") = secure {
-    Max[Int Refined Greater[_0]].max =? refineMV(Int.MaxValue)
+    Max[Int Refined Greater[_0]].max =? Refined.unsafeApply(Int.MaxValue)
   }
 
   property("Max[Long Refined Greater[_0]]") = secure {
-    Max[Long Refined Greater[_0]].max =? refineMV(Long.MaxValue)
+    Max[Long Refined Greater[_0]].max =? Refined.unsafeApply(Long.MaxValue)
   }
 
   property("Max[Float Refined Greater[_0]]") = secure {
-    Max[Float Refined Greater[_0]].max =? refineMV(Float.MaxValue)
+    Max[Float Refined Greater[_0]].max =? Refined.unsafeApply(Float.MaxValue)
   }
 
   property("Max[Double Refined Greater[_0]]") = secure {
-    Max[Double Refined Greater[_0]].max =? refineMV(Double.MaxValue)
+    Max[Double Refined Greater[_0]].max =? Refined.unsafeApply(Double.MaxValue)
   }
 
   property("Max[Int Refined NonNegative]") = secure {
-    Max[Int Refined NonNegative].max =? refineMV(Int.MaxValue)
+    Max[Int Refined NonNegative].max =? Refined.unsafeApply(Int.MaxValue)
   }
 
   property("Max[Int Refined NonPositive]") = secure {
-    Max[Int Refined NonPositive].max =? refineMV(0)
+    Max[Int Refined NonPositive].max =? Refined.unsafeApply(0)
   }
 
   property("Max[Float Refined NonPositive]") = secure {
-    Max[Float Refined NonPositive].max =? refineMV(0f)
+    Max[Float Refined NonPositive].max =? Refined.unsafeApply(0f)
   }
 
   property("Max[Double Refined NonPositive]") = secure {
-    Max[Double Refined NonPositive].max =? refineMV(0d)
+    Max[Double Refined NonPositive].max =? Refined.unsafeApply(0d)
   }
 
   property("Max[Int Refined Not[Greater[W.`-5`.T]]]") = secure {
-    Max[Int Refined Not[Greater[W.`-5`.T]]].max =? refineMV(-5)
+    Max[Int Refined Not[Greater[W.`-5`.T]]].max =? Refined.unsafeApply(-5)
   }
 
   property("Max[Int Refined Interval.Open[_10, _20]]") = secure {
-    Max[Int Refined Interval.Open[_10, _20]].max =? refineMV[Interval.Open[_10, _20]](19)
+    Max[Int Refined Interval.Open[_10, _20]].max =? Refined.unsafeApply(19)
   }
 
   property("Max[Double Refined Interval.Open[_10, _20]]") = secure {
-    Max[Double Refined Interval.Open[_10, _20]].max =? refineMV[Interval.Open[_10, _20]](
-      19.999999999999996d)
+    Max[Double Refined Interval.Open[_10, _20]].max =? Refined.unsafeApply(19.999999999999996d)
   }
 
   property("Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
-    Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].max =?
-      refineMV[Interval.Closed[W.`-20`.T, W.`10`.T]](10)
+    Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].max =? Refined.unsafeApply(10)
   }
 
   property("Max[Int @@ Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
@@ -92,24 +90,23 @@ class MaxSpec extends Properties("Max") {
 
   property("Max[Double Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
     Max[Double Refined Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]].max =?
-      refineMV[Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]](10.99991d)
+      Refined.unsafeApply(10.99991d)
   }
 
   property("Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]") = secure {
-    Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].max =?
-      refineMV[Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]('Z')
+    Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].max =? Refined.unsafeApply('Z')
   }
 
   property("Max[Int Refined Even]") = secure {
-    Max[Int Refined Even].max =? refineMV[Even](2147483646)
+    Max[Int Refined Even].max =? Refined.unsafeApply(2147483646)
   }
 
   property("Max[Int Refined Divisible[_5]]") = secure {
-    Max[Int Refined Divisible[_5]].max =? refineMV[Divisible[_5]](2147483645)
+    Max[Int Refined Divisible[_5]].max =? Refined.unsafeApply(2147483645)
   }
 
   property("Max[Int Refined (Negative And Even)]") = secure {
-    Max[Int Refined (Negative And Even)].max =? refineMV[(Negative And Even)](-2)
+    Max[Int Refined (Negative And Even)].max =? Refined.unsafeApply(-2)
   }
 
   property("CompanionObject.max - Negative - Long") = secure {

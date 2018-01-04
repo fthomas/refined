@@ -1,20 +1,12 @@
 package eu.timepit.refined.internal
 
+/**
+ * Auxiliary type class that provides the next greater or next smaller
+ * value for a given argument.
+ */
 trait Adjacent[T] {
   def nextUp(t: T): T
   def nextDown(t: T): T
-
-  def findNextUp(from: T, p: T => Boolean): T = {
-    var result = from
-    while (!p(result)) result = nextUp(result)
-    result
-  }
-
-  def findNextDown(from: T, p: T => Boolean): T = {
-    var result = from
-    while (!p(result)) result = nextDown(result)
-    result
-  }
 }
 
 object Adjacent {
@@ -43,4 +35,16 @@ object Adjacent {
       t => nt.plus(t, nt.one),
       t => nt.minus(t, nt.one)
     )
+
+  def findNextUp[T](from: T, p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+    var result = from
+    while (!p(result)) result = ev.nextUp(result)
+    result
+  }
+
+  def findNextDown[T](from: T, p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+    var result = from
+    while (!p(result)) result = ev.nextDown(result)
+    result
+  }
 }

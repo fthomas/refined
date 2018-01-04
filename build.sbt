@@ -164,6 +164,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    scalacOptions -= "-Xfatal-warnings",
     libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
       import org.scalacheck.Arbitrary

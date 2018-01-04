@@ -32,8 +32,8 @@ object Adjacent {
 
   implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =
     instance(
-      t => nt.plus(t, nt.one),
-      t => nt.minus(t, nt.one)
+      t => nt.max(nt.plus(t, nt.one), t),
+      t => nt.min(nt.minus(t, nt.one), t)
     )
 
   def findNextUp[T](from: T, p: T => Boolean)(implicit ev: Adjacent[T]): T = {

@@ -16,7 +16,16 @@ trait NumericTypes {
   /** An `Int` in the range from 0 to `Int.MaxValue`. */
   type NonNegInt = Int Refined NonNegative
 
-  object NonNegInt extends RefinedTypeOps.Numeric[NonNegInt, Int]
+  object NonNegInt extends RefinedTypeOps.Numeric[NonNegInt, Int] {
+
+    def plus(x: NonNegInt, y: NonNegInt): NonNegInt =
+      Refined.unsafeApply(unsign(x.value + y.value))
+
+    def minus(x: NonNegInt, y: NonNegInt): NonNegInt =
+      Refined.unsafeApply(unsign(x.value - y.value))
+
+    private def unsign(i: Int): Int = (i << 1) >>> 1
+  }
 
   /** An `Int` in the range from `Int.MinValue` to -1. */
   type NegInt = Int Refined Negative

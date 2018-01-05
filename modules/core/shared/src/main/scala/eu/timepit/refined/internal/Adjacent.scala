@@ -36,13 +36,13 @@ object Adjacent {
       t => nt.min(nt.minus(t, nt.one), t)
     )
 
-  def findNextUp[T](from: T, p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+  def findNextUp[T](from: T)(p: T => Boolean)(implicit ev: Adjacent[T]): T = {
     var result = from
     while (!p(result)) result = ev.nextUp(result)
     result
   }
 
-  def findNextDown[T](from: T, p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+  def findNextDown[T](from: T)(p: T => Boolean)(implicit ev: Adjacent[T]): T = {
     var result = from
     while (!p(result)) result = ev.nextDown(result)
     result

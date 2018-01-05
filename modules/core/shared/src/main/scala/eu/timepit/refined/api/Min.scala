@@ -49,7 +49,8 @@ trait MinInstances extends LowPriorityMinInstances {
                                         leftMin: Min[F[T, L]],
                                         rightMin: Min[F[T, R]],
                                         validate: Validate[T, (L And R)],
-                                        numeric: Numeric[T]): Min[F[T, (L And R)]] =
+                                        numeric: Numeric[T],
+                                        adjacent: Adjacent[T]): Min[F[T, (L And R)]] =
     Min.instance(
       rt.unsafeWrap[T, (L And R)](
         findValid(numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min)))))

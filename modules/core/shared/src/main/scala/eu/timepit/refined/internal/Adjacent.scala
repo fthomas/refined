@@ -30,10 +30,10 @@ object Adjacent {
       t => Math.nextDown(t)
     )
 
-  implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =
+  implicit def integralAdjacent[T](implicit it: Integral[T]): Adjacent[T] =
     instance(
-      t => nt.max(nt.plus(t, nt.one), t),
-      t => nt.min(nt.minus(t, nt.one), t)
+      t => it.max(it.plus(t, it.one), t),
+      t => it.min(it.minus(t, it.one), t)
     )
 
   def findNextUp[T](from: T)(p: T => Boolean)(implicit ev: Adjacent[T]): T = {

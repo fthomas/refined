@@ -20,14 +20,14 @@ object Adjacent {
 
   implicit val doubleAdjacent: Adjacent[Double] =
     instance(
-      t => Math.nextAfter(t, Double.PositiveInfinity),
-      t => Math.nextAfter(t, Double.NegativeInfinity)
+      t => Math.nextUp(t),
+      t => Math.nextDown(t)
     )
 
   implicit val floatAdjacent: Adjacent[Float] =
     instance(
-      t => Math.nextAfter(t, Float.PositiveInfinity),
-      t => Math.nextAfter(t, Float.NegativeInfinity)
+      t => Math.nextUp(t),
+      t => Math.nextDown(t)
     )
 
   implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =

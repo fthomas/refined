@@ -36,7 +36,6 @@ trait MinInstances extends LowPriorityMinInstances {
 
   implicit def notLessMinNat[F[_, _], T, N <: Nat](implicit rt: RefType[F],
                                                    toInt: ToInt[N],
-                                                   w: Witness.Aux[N],
                                                    numeric: Numeric[T]): Min[F[T, Not[Less[N]]]] =
     Min.instance(rt.unsafeWrap[T, Not[Less[N]]](numeric.fromInt(toInt.apply())))
 

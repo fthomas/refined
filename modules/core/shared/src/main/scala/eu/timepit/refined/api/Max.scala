@@ -39,7 +39,6 @@ trait MaxInstances extends LowPriorityMaxInstances {
       implicit
       rt: RefType[F],
       toInt: ToInt[N],
-      w: Witness.Aux[N],
       numeric: Numeric[T]): Max[F[T, Not[Greater[N]]]] =
     Max.instance(rt.unsafeWrap[T, Not[Greater[N]]](numeric.fromInt(toInt.apply())))
 

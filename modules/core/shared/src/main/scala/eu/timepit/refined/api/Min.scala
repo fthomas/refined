@@ -24,25 +24,25 @@ trait MinInstances extends LowPriorityMinInstances {
   implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
 
   implicit def lessMin[F[_, _], T, N](implicit rt: RefType[F], m: Min[T]): Min[F[T, Less[N]]] =
-    Min.instance(rt.unsafeWrap[T, Less[N]](m.min))
+    Min.instance(rt.unsafeWrap(m.min))
 
   implicit def notGreaterMin[F[_, _], T, N](implicit rt: RefType[F],
                                             m: Min[T]): Min[F[T, Not[Greater[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Greater[N]]](m.min))
+    Min.instance(rt.unsafeWrap(m.min))
 
   implicit def notLessMinWit[F[_, _], T, N <: T](implicit rt: RefType[F],
                                                  w: Witness.Aux[N]): Min[F[T, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](w.value))
+    Min.instance(rt.unsafeWrap(w.value))
 
   implicit def notLessMinNat[F[_, _], T, N <: Nat](implicit rt: RefType[F],
                                                    toInt: ToInt[N],
                                                    numeric: Numeric[T]): Min[F[T, Not[Less[N]]]] =
-    Min.instance(rt.unsafeWrap[T, Not[Less[N]]](numeric.fromInt(toInt.apply())))
+    Min.instance(rt.unsafeWrap(numeric.fromInt(toInt.apply())))
 
   implicit def greaterMin[F[_, _], T, N](implicit rt: RefType[F],
                                          notLessMin: Min[F[T, Not[Less[N]]]],
                                          adj: Adjacent[T]): Min[F[T, Greater[N]]] =
-    Min.instance(rt.unsafeWrap[T, Greater[N]](adj.nextUp(rt.unwrap(notLessMin.min))))
+    Min.instance(rt.unsafeWrap(adj.nextUp(rt.unwrap(notLessMin.min))))
 
   implicit def andMin[F[_, _], T, L, R](implicit rt: RefType[F],
                                         leftMin: Min[F[T, L]],
@@ -50,8 +50,7 @@ trait MinInstances extends LowPriorityMinInstances {
                                         validate: Validate[T, (L And R)],
                                         numeric: Numeric[T]): Min[F[T, (L And R)]] =
     Min.instance(
-      rt.unsafeWrap[T, (L And R)](
-        findValid(numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min)))))
+      rt.unsafeWrap(findValid(numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min)))))
 }
 trait LowPriorityMinInstances {
   implicit def validateMin[F[_, _], T, P](implicit rt: RefType[F],

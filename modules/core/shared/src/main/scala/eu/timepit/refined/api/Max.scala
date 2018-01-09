@@ -51,9 +51,10 @@ trait MaxInstances extends LowPriorityMaxInstances {
                                         leftMax: Max[F[T, L]],
                                         rightMax: Max[F[T, R]],
                                         validate: Validate[T, (L And R)],
-                                        numeric: Numeric[T]): Max[F[T, (L And R)]] =
+                                        ordering: Ordering[T],
+                                        adjacent: Adjacent[T]): Max[F[T, (L And R)]] =
     Max.instance(
-      rt.unsafeWrap(findValid(numeric.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max)))))
+      rt.unsafeWrap(findValid(ordering.min(rt.unwrap(leftMax.max), rt.unwrap(rightMax.max)))))
 }
 trait LowPriorityMaxInstances {
   implicit def validateMax[F[_, _], T, P](implicit rt: RefType[F],

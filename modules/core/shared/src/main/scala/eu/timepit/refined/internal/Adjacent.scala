@@ -1,7 +1,21 @@
 package eu.timepit.refined.internal
 
+/**
+ * Type class that provides the next greater or next smaller value for
+ * a given argument.
+ */
 trait Adjacent[T] {
+
+  /**
+   * Returns the next greater value adjacent to `t` or `t` if there is
+   * no greater value.
+   */
   def nextUp(t: T): T
+
+  /**
+   * Returns the next smaller value adjacent to `t` or `t` if there is
+   * no smaller value.
+   */
   def nextDown(t: T): T
 }
 

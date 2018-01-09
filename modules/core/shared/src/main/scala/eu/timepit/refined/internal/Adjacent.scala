@@ -15,16 +15,10 @@ object Adjacent {
     }
 
   implicit val doubleAdjacent: Adjacent[Double] =
-    instance(
-      t => Math.nextAfter(t, Double.PositiveInfinity),
-      t => Math.nextAfter(t, Double.NegativeInfinity)
-    )
+    instance(Math.nextUp, Math.nextDown)
 
   implicit val floatAdjacent: Adjacent[Float] =
-    instance(
-      t => Math.nextAfter(t, Float.PositiveInfinity),
-      t => Math.nextAfter(t, Float.NegativeInfinity)
-    )
+    instance(Math.nextUp, Math.nextDown)
 
   implicit def integralAdjacent[T](implicit it: Integral[T]): Adjacent[T] =
     instance(

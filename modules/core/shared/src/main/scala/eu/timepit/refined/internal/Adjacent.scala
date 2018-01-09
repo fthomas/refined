@@ -26,9 +26,9 @@ object Adjacent {
       t => Math.nextAfter(t, Float.NegativeInfinity)
     )
 
-  implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =
+  implicit def integralAdjacent[T](implicit it: Integral[T]): Adjacent[T] =
     instance(
-      t => nt.plus(t, nt.one),
-      t => nt.minus(t, nt.one)
+      t => it.max(it.plus(t, it.one), t),
+      t => it.min(it.minus(t, it.one), t)
     )
 }

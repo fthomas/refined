@@ -1,7 +1,21 @@
 package eu.timepit.refined.internal
 
+/**
+ * Type class that provides the next greater or next smaller value for
+ * a given argument.
+ */
 trait Adjacent[T] {
+
+  /**
+   * Returns the next greater value adjacent to `t` or `t` if there is
+   * no greater value.
+   */
   def nextUp(t: T): T
+
+  /**
+   * Returns the next smaller value adjacent to `t` or `t` if there is
+   * no smaller value.
+   */
   def nextDown(t: T): T
 }
 
@@ -15,16 +29,10 @@ object Adjacent {
     }
 
   implicit val doubleAdjacent: Adjacent[Double] =
-    instance(
-      t => Math.nextAfter(t, Double.PositiveInfinity),
-      t => Math.nextAfter(t, Double.NegativeInfinity)
-    )
+    instance(Math.nextUp, Math.nextDown)
 
   implicit val floatAdjacent: Adjacent[Float] =
-    instance(
-      t => Math.nextAfter(t, Float.PositiveInfinity),
-      t => Math.nextAfter(t, Float.NegativeInfinity)
-    )
+    instance(Math.nextUp, Math.nextDown)
 
   implicit def integralAdjacent[T](implicit it: Integral[T]): Adjacent[T] =
     instance(

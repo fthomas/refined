@@ -1,5 +1,9 @@
 package eu.timepit.refined.internal
 
+/**
+ * Auxiliary type class that provides the next greater or next smaller
+ * value for a given argument.
+ */
 trait Adjacent[T] {
   def nextUp(t: T): T
   def nextDown(t: T): T
@@ -16,19 +20,31 @@ object Adjacent {
 
   implicit val doubleAdjacent: Adjacent[Double] =
     instance(
-      t => Math.nextAfter(t, Double.PositiveInfinity),
-      t => Math.nextAfter(t, Double.NegativeInfinity)
+      t => Math.nextUp(t),
+      t => Math.nextDown(t)
     )
 
   implicit val floatAdjacent: Adjacent[Float] =
     instance(
-      t => Math.nextAfter(t, Float.PositiveInfinity),
-      t => Math.nextAfter(t, Float.NegativeInfinity)
+      t => Math.nextUp(t),
+      t => Math.nextDown(t)
     )
 
-  implicit def numericAdjacent[T](implicit nt: Numeric[T]): Adjacent[T] =
+  implicit def integralAdjacent[T](implicit it: Integral[T]): Adjacent[T] =
     instance(
-      t => nt.plus(t, nt.one),
-      t => nt.minus(t, nt.one)
+      t => it.max(it.plus(t, it.one), t),
+      t => it.min(it.minus(t, it.one), t)
     )
+
+  def findNextUp[T](from: T)(p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+    var result = from
+    while (!p(result)) result = ev.nextUp(result)
+    result
+  }
+
+  def findNextDown[T](from: T)(p: T => Boolean)(implicit ev: Adjacent[T]): T = {
+    var result = from
+    while (!p(result)) result = ev.nextDown(result)
+    result
+  }
 }

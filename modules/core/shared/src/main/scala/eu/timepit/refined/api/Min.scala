@@ -48,7 +48,8 @@ trait MinInstances extends LowPriorityMinInstances {
                                         leftMin: Min[F[T, L]],
                                         rightMin: Min[F[T, R]],
                                         validate: Validate[T, (L And R)],
-                                        numeric: Numeric[T]): Min[F[T, (L And R)]] =
+                                        numeric: Numeric[T],
+                                        adjacent: Adjacent[T]): Min[F[T, (L And R)]] =
     Min.instance(
       rt.unsafeWrap(findValid(numeric.max(rt.unwrap(leftMin.min), rt.unwrap(rightMin.min)))))
 }
@@ -60,5 +61,5 @@ trait LowPriorityMinInstances {
     Min.instance(rt.unsafeWrap(findValid(m.min)))
 
   protected def findValid[T, P](from: T)(implicit v: Validate[T, P], a: Adjacent[T]) =
-    Stream.iterate(from)(a.nextUp).filter(v.isValid).head
+    Adjacent.findNextUp(from)(v.isValid)
 }

@@ -1,8 +1,8 @@
 package eu.timepit.refined.api
 
-import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.boolean.And
 import eu.timepit.refined.internal.Adjacent
-import eu.timepit.refined.numeric.{Greater, Less}
+import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
 import shapeless.{Nat, Witness}
 import shapeless.ops.nat.ToInt
 
@@ -26,23 +26,25 @@ trait MinInstances extends LowPriorityMinInstances {
   implicit def lessMin[F[_, _], T, N](implicit rt: RefType[F], m: Min[T]): Min[F[T, Less[N]]] =
     Min.instance(rt.unsafeWrap(m.min))
 
-  implicit def notGreaterMin[F[_, _], T, N](implicit rt: RefType[F],
-                                            m: Min[T]): Min[F[T, Not[Greater[N]]]] =
+  implicit def lessEqualMin[F[_, _], T, N](implicit rt: RefType[F],
+                                           m: Min[T]): Min[F[T, LessEqual[N]]] =
     Min.instance(rt.unsafeWrap(m.min))
 
-  implicit def notLessMinWit[F[_, _], T, N <: T](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Min[F[T, Not[Less[N]]]] =
+  implicit def greaterEqualMinWit[F[_, _], T, N <: T](
+      implicit rt: RefType[F],
+      w: Witness.Aux[N]): Min[F[T, GreaterEqual[N]]] =
     Min.instance(rt.unsafeWrap(w.value))
 
-  implicit def notLessMinNat[F[_, _], T, N <: Nat](implicit rt: RefType[F],
-                                                   toInt: ToInt[N],
-                                                   numeric: Numeric[T]): Min[F[T, Not[Less[N]]]] =
+  implicit def greaterEqualMinNat[F[_, _], T, N <: Nat](
+      implicit rt: RefType[F],
+      toInt: ToInt[N],
+      numeric: Numeric[T]): Min[F[T, GreaterEqual[N]]] =
     Min.instance(rt.unsafeWrap(numeric.fromInt(toInt.apply())))
 
   implicit def greaterMin[F[_, _], T, N](implicit rt: RefType[F],
-                                         notLessMin: Min[F[T, Not[Less[N]]]],
+                                         greaterEqualMin: Min[F[T, GreaterEqual[N]]],
                                          adj: Adjacent[T]): Min[F[T, Greater[N]]] =
-    Min.instance(rt.unsafeWrap(adj.nextUp(rt.unwrap(notLessMin.min))))
+    Min.instance(rt.unsafeWrap(adj.nextUp(rt.unwrap(greaterEqualMin.min))))
 
   implicit def andMin[F[_, _], T, L, R](implicit rt: RefType[F],
                                         leftMin: Min[F[T, L]],

@@ -1,8 +1,8 @@
 package eu.timepit.refined.api
 
-import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.boolean.And
 import eu.timepit.refined.internal.Adjacent
-import eu.timepit.refined.numeric.{Greater, Less}
+import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
 import shapeless.{Nat, Witness}
 import shapeless.ops.nat.ToInt
 
@@ -27,25 +27,24 @@ trait MaxInstances extends LowPriorityMaxInstances {
                                          m: Max[T]): Max[F[T, Greater[N]]] =
     Max.instance(rt.unsafeWrap(m.max))
 
-  implicit def notLessMax[F[_, _], T, N](implicit rt: RefType[F],
-                                         m: Max[T]): Max[F[T, Not[Less[N]]]] =
+  implicit def greaterEqualMax[F[_, _], T, N](implicit rt: RefType[F],
+                                              m: Max[T]): Max[F[T, GreaterEqual[N]]] =
     Max.instance(rt.unsafeWrap(m.max))
 
-  implicit def notGreaterWit[F[_, _], T, N <: T](implicit rt: RefType[F],
-                                                 w: Witness.Aux[N]): Max[F[T, Not[Greater[N]]]] =
+  implicit def lessEqualMaxWit[F[_, _], T, N <: T](implicit rt: RefType[F],
+                                                   w: Witness.Aux[N]): Max[F[T, LessEqual[N]]] =
     Max.instance(rt.unsafeWrap(w.value))
 
-  implicit def notGreaterNat[F[_, _], T, N <: Nat](
-      implicit
-      rt: RefType[F],
-      toInt: ToInt[N],
-      numeric: Numeric[T]): Max[F[T, Not[Greater[N]]]] =
+  implicit def lessEqualMaxNat[F[_, _], T, N <: Nat](implicit
+                                                     rt: RefType[F],
+                                                     toInt: ToInt[N],
+                                                     numeric: Numeric[T]): Max[F[T, LessEqual[N]]] =
     Max.instance(rt.unsafeWrap(numeric.fromInt(toInt.apply())))
 
   implicit def lessMax[F[_, _], T, N](implicit rt: RefType[F],
-                                      notGreater: Max[F[T, Not[Greater[N]]]],
+                                      lessEqualMax: Max[F[T, LessEqual[N]]],
                                       adj: Adjacent[T]): Max[F[T, Less[N]]] =
-    Max.instance(rt.unsafeWrap(adj.nextDown(rt.unwrap(notGreater.max))))
+    Max.instance(rt.unsafeWrap(adj.nextDown(rt.unwrap(lessEqualMax.max))))
 
   implicit def andMax[F[_, _], T, L, R](implicit rt: RefType[F],
                                         leftMax: Max[F[T, L]],

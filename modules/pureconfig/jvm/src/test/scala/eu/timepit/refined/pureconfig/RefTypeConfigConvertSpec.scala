@@ -7,7 +7,7 @@ import eu.timepit.refined.numeric.Positive
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import pureconfig._
-import pureconfig.error.{CannotConvert, ConfigReaderFailures}
+import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure}
 
 class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
@@ -22,10 +22,12 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   property("load failure (predicate)") = secure {
     loadConfigWithValue("0") =?
       Left(
-        ConfigReaderFailures(CannotConvert(
-          value = "0",
-          toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
-          because = "Predicate failed: (0 > 0).",
+        ConfigReaderFailures(ConvertFailure(
+          reason = CannotConvert(
+            value = "0",
+            toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+            because = "Predicate failed: (0 > 0)."
+          ),
           location = None,
           path = "value"
         )))
@@ -35,10 +37,12 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
     loadConfigWithValue("abc") =?
       Left(
         ConfigReaderFailures(
-          CannotConvert(
-            value = "abc",
-            toType = "Int",
-            because = "java.lang.NumberFormatException: For input string: \"abc\"",
+          ConvertFailure(
+            reason = CannotConvert(
+              value = "abc",
+              toType = "Int",
+              because = "java.lang.NumberFormatException: For input string: \"abc\""
+            ),
             location = None,
             path = "value"
           )))

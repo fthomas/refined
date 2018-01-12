@@ -16,22 +16,23 @@ package object pureconfig {
   ): ConfigConvert[F[T, P]] = new ConfigConvert[F[T, P]] {
     override def from(cur: ConfigCursor): Either[ConfigReaderFailures, F[T, P]] =
       configConvert.from(cur) match {
-        case Right(t) => refType.refine[P](t) match {
-          case Left(because) =>
-            Left(
-              ConfigReaderFailures(
-                ConvertFailure(
-                  reason = CannotConvert(
-                    value = cur.value.render(),
-                    toType = typeTag.tpe.toString,
-                    because = because
-                  ),
-                  cur = cur
-                )))
+        case Right(t) =>
+          refType.refine[P](t) match {
+            case Left(because) =>
+              Left(
+                ConfigReaderFailures(
+                  ConvertFailure(
+                    reason = CannotConvert(
+                      value = cur.value.render(),
+                      toType = typeTag.tpe.toString,
+                      because = because
+                    ),
+                    cur = cur
+                  )))
 
-          case Right(refined) =>
-            Right(refined)
-        }
+            case Right(refined) =>
+              Right(refined)
+          }
 
         case Left(configReaderFailures) =>
           Left(configReaderFailures)

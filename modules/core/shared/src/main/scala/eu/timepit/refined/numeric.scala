@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, Result, Show, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.numeric._
@@ -161,6 +161,21 @@ private[refined] trait NumericValidate {
       t => s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )
+
+  implicit def greaterEqualShowWit[N <: Nat, T](
+      implicit nt: Numeric[T]): Show.Aux[T, GreaterEqual[N], Not[Result[Less[N]]]] =
+    new Show[T, GreaterEqual[N]] {
+      override type R = Not[Result[Less[N]]]
+
+      override def show(t: T): String = ""
+
+      override def withPlaceholder(x: String): String = ""
+
+      override def showExpr(t: T): String = ""
+
+      override def showResult(t: T, r: Res): String =
+        s"Predicate $t blabla failed"
+    }
 }
 
 private[refined] trait NumericInference {

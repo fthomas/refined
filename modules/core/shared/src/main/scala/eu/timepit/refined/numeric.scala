@@ -29,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericValidate with NumericShow with NumericInference {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -161,21 +161,19 @@ private[refined] trait NumericValidate {
       t => s"($t % ${tn()} == ${to()})",
       Modulo(wn.value, wo.value)
     )
+}
 
-  implicit def greaterEqualShowWit[N <: Nat, T](
-      implicit nt: Numeric[T]): Show.Aux[T, GreaterEqual[N], Not[Result[Less[N]]]] =
-    new Show[T, GreaterEqual[N]] {
-      override type R = Not[Result[Less[N]]]
+private[refined] trait NumericShow {
 
-      override def show(t: T): String = ""
+  implicit def lessEqualShowNat[N <: Nat, T](
+      implicit tn: ToInt[N]
+  ): Show.Aux[T, LessEqual[N], Not[Result[Greater[N]]]] =
+    Show.instance(t => s"($t <= ${tn()})")
 
-      override def withPlaceholder(x: String): String = ""
-
-      override def showExpr(t: T): String = ""
-
-      override def showResult(t: T, r: Res): String =
-        s"Predicate $t blabla failed"
-    }
+  implicit def greaterEqualShowNat[N <: Nat, T](
+      implicit tn: ToInt[N]
+  ): Show.Aux[T, GreaterEqual[N], Not[Result[Less[N]]]] =
+    Show.instance(t => s"($t >= ${tn()})")
 }
 
 private[refined] trait NumericInference {

@@ -9,6 +9,7 @@ import eu.timepit.refined.types.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.nat._
+import shapeless.tag.@@
 
 class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
@@ -29,6 +30,8 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
   property("Greater.negative") = checkArbitraryRefType[Refined, Int, Greater[W.`-100`.T]]
 
   property("Greater.Nat") = checkArbitraryRefType[Refined, Long, Greater[_10]]
+
+  property("Greater.Nat - Tag") = checkArbitraryRefType[@@, Long, Greater[_10]]
 
   property("GreaterEqual.positive") =
     checkArbitraryRefType[Refined, Int, GreaterEqual[W.`123456`.T]]

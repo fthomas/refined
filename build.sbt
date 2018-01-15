@@ -164,6 +164,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    scalacOptions -= "-Xfatal-warnings",
     libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
@@ -272,7 +273,9 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.StringValidate.*"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*")
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.NumericInstances.numericMaxAndMinArbitrary")
     )
   }
 )

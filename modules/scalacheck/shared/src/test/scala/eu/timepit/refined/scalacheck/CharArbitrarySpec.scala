@@ -4,7 +4,7 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.boolean.Or
 import eu.timepit.refined.char._
-import eu.timepit.refined.numeric.Interval
+import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalacheck.boolean._
 import eu.timepit.refined.scalacheck.char._
 import eu.timepit.refined.scalacheck.numeric._

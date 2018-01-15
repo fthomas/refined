@@ -37,7 +37,7 @@ object numeric extends NumericValidate with NumericInference {
   /** Predicate that checks if a numeric value is greater than `N`. */
   final case class Greater[N](n: N)
 
-  /** Predicate that checks if a numeric value modulo `N` is `O`. */
+  /** Predicate that checks if an integral value modulo `N` is `O`. */
   final case class Modulo[N, O](n: N, o: O)
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
@@ -58,16 +58,16 @@ object numeric extends NumericValidate with NumericInference {
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
-  /** Predicate that checks if a numeric value is evenly divisible by `N`. */
+  /** Predicate that checks if an integral value is evenly divisible by `N`. */
   type Divisible[N] = Modulo[N, _0]
 
-  /** Predicate that checks if a numeric value is not evenly divisible by `N`. */
+  /** Predicate that checks if an integral value is not evenly divisible by `N`. */
   type NonDivisible[N] = Not[Divisible[N]]
 
-  /** Predicate that checks if a numeric value is evenly divisible by 2. */
+  /** Predicate that checks if an integral value is evenly divisible by 2. */
   type Even = Divisible[_2]
 
-  /** Predicate that checks if a numeric value is not evenly divisible by 2. */
+  /** Predicate that checks if an integral value is not evenly divisible by 2. */
   type Odd = Not[Even]
 
   object Interval {

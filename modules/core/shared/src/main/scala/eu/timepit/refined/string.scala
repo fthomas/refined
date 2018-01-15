@@ -1,7 +1,9 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, Result, Show, Validate}
 import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.boolean.Not
+import eu.timepit.refined.collection.{Empty, NonEmpty}
 import eu.timepit.refined.string._
 import shapeless.Witness
 
@@ -10,7 +12,7 @@ import shapeless.Witness
  * in `[[collection]]` also work for `String`s by treating them as sequences
  * of `Char`s.
  */
-object string extends StringValidate with StringInference {
+object string extends StringValidate with StringShow with StringInference {
 
   /** Predicate that checks if a `String` ends with the suffix `S`. */
   final case class EndsWith[S](s: S)
@@ -130,6 +132,19 @@ private[refined] trait StringValidate {
   implicit def xpathValidate: Validate.Plain[String, XPath] =
     Validate
       .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile, "XPath", XPath())
+}
+
+private[refined] trait StringShow {
+
+  implicit def nonEmptyShow: Show.Aux[String, NonEmpty, Not[Result[Empty]]] =
+    new Show[String, NonEmpty] {
+      override type R = Not[Result[Empty]]
+
+      override def showExpr(t: String): String = s"isEmpty($t)"
+
+      override def showResult(t: String, r: Res): String =
+        "Cannot create a NonEmptyString with the empty string"
+    }
 }
 
 private[refined] trait StringInference {

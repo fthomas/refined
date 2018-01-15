@@ -114,10 +114,10 @@ private[refined] trait NumericValidate {
   implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
       implicit wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      nt: Integral[T]
+      it: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t => nt.rem(t, wn.value) == wo.value,
+      t => it.rem(t, wn.value) == wo.value,
       t => s"($t % ${wn.value} == ${wo.value})",
       Modulo(wn.value, wo.value)
     )
@@ -154,11 +154,23 @@ private[refined] trait NumericValidate {
       to: ToInt[O],
       wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      i: Integral[T]
+      it: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t => i.rem(t, i.fromInt(tn())) == i.fromInt(to()),
+      t => it.rem(t, it.fromInt(tn())) == it.fromInt(to()),
       t => s"($t % ${tn()} == ${to()})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateWitNatIntegral[T, N <: T, O <: Nat](
+      implicit wn: Witness.Aux[N],
+      to: ToInt[O],
+      wo: Witness.Aux[O],
+      it: Integral[T]
+  ): Validate.Plain[T, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t => it.rem(t, wn.value) == it.fromInt(to()),
+      t => s"($t % ${wn.value} == ${to()})",
       Modulo(wn.value, wo.value)
     )
 }

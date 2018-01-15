@@ -116,6 +116,10 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showExpr[Divisible[_2]](4) ?= "(4 % 2 == 0)"
   }
 
+  property("Divisible.Int.showExpr") = secure {
+    showExpr[Divisible[W.`2`.T]](4) ?= "(4 % 2 == 0)"
+  }
+
   property("NonDivisible.isValid") = forAll { (i: Int) =>
     isValid[NonDivisible[_2]](i) ?= (i % 2 != 0)
   }

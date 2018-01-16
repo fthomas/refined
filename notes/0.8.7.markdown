@@ -14,6 +14,7 @@
 * Add floating-point refined types like `PosDouble`, `NegDouble`, and more
   to the `eu.timepit.refined.types.numeric` module.
   Thanks to [Yuki Ishikawa](https://github.com/rider-yi)! ([#414][#414])
+* Add `Arbitrary` instance for `NonEmptyString`. ([#415][#415])
 
 ### Bug fixes
 
@@ -35,3 +36,4 @@
 [#410]: https://github.com/fthomas/refined/pull/410
 [#413]: https://github.com/fthomas/refined/pull/413
 [#414]: https://github.com/fthomas/refined/pull/414
+[#415]: https://github.com/fthomas/refined/pull/415

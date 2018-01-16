@@ -10,12 +10,13 @@
   res1: eu.timepit.refined.types.all.PosInt = 2147483647
   ```
   Thanks to [Howy Perrin](https://github.com/howyp)! ([#383][#383])
+* Support `Divisible[N]` if `N` is a literal integral type. ([#413][#413])
 
 ### Bug fixes
 
 * Fix `Modulo` predicate for large `Long` values by avoiding `toDouble`
   in its `Validate` instance. This also restricts the predicate to types
-  with a `Integral` instance.
+  with an `Integral` instance.
   Thanks to [Howy Perrin](https://github.com/howyp)! ([#398][#398])
 
 ### Updates
@@ -29,3 +30,4 @@
 [#398]: https://github.com/fthomas/refined/pull/398
 [#399]: https://github.com/fthomas/refined/pull/399
 [#410]: https://github.com/fthomas/refined/pull/410
+[#413]: https://github.com/fthomas/refined/pull/413

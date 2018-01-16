@@ -47,4 +47,44 @@ trait NumericTypes {
   type NonPosLong = Long Refined NonPositive
 
   object NonPosLong extends RefinedTypeOps.Numeric[NonPosLong, Long]
+
+  /** A `Float` greater than 0. */
+  type PosFloat = Float Refined Positive
+
+  object PosFloat extends RefinedTypeOps.Numeric[PosFloat, Float]
+
+  /** A `Float` greater than or equal to 0. */
+  type NonNegFloat = Float Refined NonNegative
+
+  object NonNegFloat extends RefinedTypeOps.Numeric[NonNegFloat, Float]
+
+  /** A `Float` less than 0. */
+  type NegFloat = Float Refined Negative
+
+  object NegFloat extends RefinedTypeOps.Numeric[NegFloat, Float]
+
+  /** A `Float` less than or equal to 0. */
+  type NonPosFloat = Float Refined NonPositive
+
+  object NonPosFloat extends RefinedTypeOps.Numeric[NonPosFloat, Float]
+
+  /** A `Double` greater than 0. */
+  type PosDouble = Double Refined Positive
+
+  object PosDouble extends RefinedTypeOps.Numeric[PosDouble, Double]
+
+  /** A `Double` greater than or equal to 0. */
+  type NonNegDouble = Double Refined NonNegative
+
+  object NonNegDouble extends RefinedTypeOps.Numeric[NonNegDouble, Double]
+
+  /** A `Double` less than 0. */
+  type NegDouble = Double Refined Negative
+
+  object NegDouble extends RefinedTypeOps.Numeric[NegDouble, Double]
+
+  /** A `Double` less than or equal to 0. */
+  type NonPosDouble = Double Refined NonPositive
+
+  object NonPosDouble extends RefinedTypeOps.Numeric[NonPosDouble, Double]
 }

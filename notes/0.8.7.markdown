@@ -11,6 +11,9 @@
   ```
   Thanks to [Howy Perrin](https://github.com/howyp)! ([#383][#383])
 * Support `Divisible[N]` if `N` is a literal integral type. ([#413][#413])
+* Add floating-point refined types like `PosDouble`, `NegDouble`, and more
+  to the `eu.timepit.refined.types.numeric` module.
+  Thanks to [Yuki Ishikawa](https://github.com/rider-yi)! ([#414][#414])
 
 ### Bug fixes
 
@@ -31,3 +34,4 @@
 [#399]: https://github.com/fthomas/refined/pull/399
 [#410]: https://github.com/fthomas/refined/pull/410
 [#413]: https://github.com/fthomas/refined/pull/413
+[#414]: https://github.com/fthomas/refined/pull/414

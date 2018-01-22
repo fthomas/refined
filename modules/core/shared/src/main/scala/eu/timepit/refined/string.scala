@@ -33,6 +33,44 @@ object string extends StringValidate with StringInference {
     }
   }
 
+  /** Predicate that checks if a `String` is a valid IPv6 */
+  final case class IPv6()
+  object IPv6 {
+    val ipv4Chars = "(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])"
+    val ipv4 = s"(${ipv4Chars}\\.){3,3}${ipv4Chars}"
+    val ipv6Chars = "[0-9a-fA-F]{1,4}"
+
+    val ipv6Full = s"(${ipv6Chars}:){7,7}${ipv6Chars}" // 1:2:3:4:5:6:7:8
+
+    val ipv6Compact = List(
+      s"(${ipv6Chars}:){1,7}:", // 1:: .. 1:2:3:4:5:6:7::
+      s"(${ipv6Chars}:){1,6}:${ipv6Chars}", // 1::8 .. 1:2:3:4:5:6::8
+      s"(${ipv6Chars}:){1,5}(:${ipv6Chars}){1,2}", // 1::7:8 .. 1:2:3:4:5::8
+      s"(${ipv6Chars}:){1,4}(:${ipv6Chars}){1,3}", // 1::6:7:8 .. 1:2:3:4::8
+      s"(${ipv6Chars}:){1,3}(:${ipv6Chars}){1,4}", // 1::5:6:7:8 .. 1:2:3::8
+      s"(${ipv6Chars}:){1,2}(:${ipv6Chars}){1,5}", // 1::4:5:6:7:8 .. 1:2::8
+      s"(${ipv6Chars}:)(:${ipv6Chars}){1,6}", // 1::3:4:5:6:7:8 .. 1::8
+      s":((:${ipv6Chars}){1,7}|:)" // ::2:3:4:5:6:7:8 .. ::
+    )
+
+    val interface = "[0-9a-zA-Z]{1,}"
+    val ipv6LinkLocal = s"fe80:(:${ipv6Chars}){0,4}%${interface}"
+
+    val mappedIpv6 = s"::(ffff(:0{1,4}){0,1}:){0,1}${ipv4}"
+
+    val embeddedIpv4 = s"(${ipv6Chars}:){1,4}:${ipv4}"
+
+    val formats = List(
+      ipv6Full,
+      ipv6LinkLocal,
+      mappedIpv6,
+      embeddedIpv4
+    ) ++ ipv6Compact
+
+    val regex = formats.map(regex => s"(^${regex}$$)").mkString("|").r.pattern
+    val predicate: String => Boolean = s => regex.matcher(s).matches
+  }
+
   /** Predicate that checks if a `String` matches the regular expression `S`. */
   final case class MatchesRegex[S](s: S)
 
@@ -82,6 +120,9 @@ private[refined] trait StringValidate {
 
   implicit def ipv4Validate[S <: String]: Validate.Plain[String, IPv4] =
     Validate.fromPredicate(IPv4.predicate, t => s"${t} is a valid IPv4", IPv4())
+
+  implicit def ipv6Validate[S <: String]: Validate.Plain[String, IPv6] =
+    Validate.fromPredicate(IPv6.predicate, t => s"${t} is a valid IPv6", IPv6())
 
   implicit def matchesRegexValidate[S <: String](
       implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =

@@ -14,6 +14,8 @@
 * Add floating-point refined types like `PosDouble`, `NegDouble`, and more
   to the `eu.timepit.refined.types.numeric` module.
   Thanks to [Yuki Ishikawa](https://github.com/rider-yi)! ([#414][#414])
+* Add `IPv6` predicate for `String`s.
+  Thanks to [Tim Steinbach](https://github.com/NeQuissimus)! ([#357][#357])
 
 ### Bug fixes
 
@@ -29,6 +31,7 @@
 * Update `refined-pureconfig` to PureConfig 0.9.0.
   Thanks to [Olli Helenius](https://github.com/liff)! ([#410][#410])
 
+[#357]: https://github.com/fthomas/refined/pull/357
 [#383]: https://github.com/fthomas/refined/pull/383
 [#398]: https://github.com/fthomas/refined/pull/398
 [#399]: https://github.com/fthomas/refined/pull/399

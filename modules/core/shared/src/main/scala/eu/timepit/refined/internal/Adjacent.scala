@@ -40,26 +40,25 @@ trait Adjacent[T] extends Ordering[T] {
 object Adjacent {
   def apply[T](implicit at: Adjacent[T]): Adjacent[T] = at
 
-  def instance[T](nextUpF: T => T, nextDownF: T => T)(
-      implicit ot: Ordering[T]
-  ): Adjacent[T] =
+  def instance[T](compareF: (T, T) => Int, nextUpF: T => T, nextDownF: T => T): Adjacent[T] =
     new Adjacent[T] {
-      override def compare(x: T, y: T): Int = ot.compare(x, y)
+      override def compare(x: T, y: T): Int = compareF(x, y)
       override def nextUp(t: T): T = nextUpF(t)
       override def nextDown(t: T): T = nextDownF(t)
     }
 
   implicit val doubleAdjacent: Adjacent[Double] =
-    instance(Math.nextUp, Math.nextDown)
+    instance(Ordering.Double.compare, Math.nextUp, Math.nextDown)
 
   implicit val floatAdjacent: Adjacent[Float] =
-    instance(Math.nextUp, Math.nextDown)
+    instance(Ordering.Float.compare, Math.nextUp, Math.nextDown)
 
   implicit def integralAdjacent[T](
       implicit it: Integral[T]
   ): Adjacent[T] =
-    instance[T](
+    instance(
+      it.compare,
       t => it.max(it.plus(t, it.one), t),
       t => it.min(it.minus(t, it.one), t)
-    )(it)
+    )
 }

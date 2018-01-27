@@ -58,8 +58,8 @@ object Adjacent {
   implicit def integralAdjacent[T](
       implicit it: Integral[T]
   ): Adjacent[T] =
-    instance(
+    instance[T](
       t => it.max(it.plus(t, it.one), t),
       t => it.min(it.minus(t, it.one), t)
-    )
+    )(it)
 }

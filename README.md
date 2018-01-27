@@ -244,6 +244,7 @@ list it here:
 * [slick-refined](https://github.com/kwark/slick-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)
 * [validated-config](https://github.com/carlpulley/validated-config)
+* [vectos-refined](https://github.com/vectos/formulation)
 * [xml-names-core](https://github.com/slamdata/scala-xml-names)
 
 ### Projects using refined

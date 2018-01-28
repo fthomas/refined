@@ -40,3 +40,5 @@
 [#413]: https://github.com/fthomas/refined/pull/413
 [#414]: https://github.com/fthomas/refined/pull/414
 [#417]: https://github.com/fthomas/refined/pull/417
+
+Released on 2018-01-28

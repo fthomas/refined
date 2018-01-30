@@ -1,8 +1,9 @@
 package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.RefType
+import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.string.{EndsWith, StartsWith}
-import org.scalacheck.Arbitrary
+import org.scalacheck.{Arbitrary, Gen}
 import shapeless.Witness
 
 /**
@@ -24,4 +25,9 @@ trait StringInstances {
       ws: Witness.Aux[S]
   ): Arbitrary[F[String, StartsWith[S]]] =
     arbitraryRefType(Arbitrary.arbString.arbitrary.map(ws.value + _))
+
+  implicit def nonEmptyStringArbitrary[F[_, _], S <: String](
+      implicit rt: RefType[F],
+  ): Arbitrary[F[String, NonEmpty]] =
+    arbitraryRefType(Gen.nonEmptyListOf[Char](Arbitrary.arbChar.arbitrary).map(_.mkString))
 }

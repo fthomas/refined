@@ -1,0 +1,11 @@
+### New features
+
+* Add `Arbitrary` instance for `NonEmptyString`. ([#415][#415])
+
+### Changes
+
+### Bug fixes
+
+### Updates
+
+[#415]: https://github.com/fthomas/refined/pull/415

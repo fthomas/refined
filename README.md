@@ -231,6 +231,7 @@ list it here:
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
 * [extruder-refined](https://github.com/janstenpickle/extruder)
+* [formulation-refined](https://github.com/vectos/formulation)
 * [kantan.csv-refined](http://nrinaudo.github.io/kantan.csv/tut/refined.html)
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/tut/refined.html)
 * [kantan.xpath-refined](http://nrinaudo.github.io/kantan.xpath/tut/refined.html)
@@ -244,7 +245,6 @@ list it here:
 * [slick-refined](https://github.com/kwark/slick-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)
 * [validated-config](https://github.com/carlpulley/validated-config)
-* [vectos-refined](https://github.com/vectos/formulation)
 * [xml-names-core](https://github.com/slamdata/scala-xml-names)
 
 ### Projects using refined

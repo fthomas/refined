@@ -4,8 +4,15 @@
 
 ### Changes
 
+* Removed deprecated `util.time` module which has been replaced by
+  the `types.time` module. ([#425][#425])
+* Removed deprecated `Refined#get` method which has been replaced by
+  `Refined#value`. ([#426][#426])
+
 ### Bug fixes
 
 ### Updates
 
 [#415]: https://github.com/fthomas/refined/pull/415
+[#425]: https://github.com/fthomas/refined/pull/425
+[#426]: https://github.com/fthomas/refined/pull/426

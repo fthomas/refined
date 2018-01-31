@@ -7,9 +7,6 @@ package eu.timepit.refined.api
  */
 final class Refined[T, P] private (val value: T) extends Serializable {
 
-  @deprecated("`get` has been renamed to `value` to avoid confusion with `Option#get`", "0.6.1")
-  def get: T = value
-
   override def hashCode: Int =
     value.hashCode
 

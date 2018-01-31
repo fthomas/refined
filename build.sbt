@@ -262,6 +262,9 @@ lazy val moduleJvmSettings = Def.settings(
     Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.get"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.Refined.get$extension"),
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time$"),
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time")
     )

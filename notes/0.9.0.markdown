@@ -1,5 +1,7 @@
 ### New features
 
+* Add `Arbitrary` instance for `NonEmptyString`. ([#415][#415])
+
 ### Changes
 
 * Removed deprecated `util.time` module which has been replaced by
@@ -10,3 +12,4 @@
 ### Updates
 
 [425]: https://github.com/fthomas/refined/pull/425
+[#415]: https://github.com/fthomas/refined/pull/415

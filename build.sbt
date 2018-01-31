@@ -260,7 +260,9 @@ lazy val moduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      )
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary")
+    )
   }
 )
 

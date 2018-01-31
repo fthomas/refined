@@ -261,7 +261,9 @@ lazy val moduleJvmSettings = Def.settings(
     import com.typesafe.tools.mima.core._
     Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary")
+        "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time$"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time")
     )
   }
 )

@@ -5,11 +5,11 @@
 ### Changes
 
 * Removed deprecated `util.time` module which has been replaced by
-  the `types.time` module. ([425][425])
+  the `types.time` module. ([#425][#425])
 
 ### Bug fixes
 
 ### Updates
 
-[425]: https://github.com/fthomas/refined/pull/425
 [#415]: https://github.com/fthomas/refined/pull/415
+[#425]: https://github.com/fthomas/refined/pull/425

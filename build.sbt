@@ -299,6 +299,7 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
+  crossScalaVersions += "2.13.0-M3",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

@@ -266,7 +266,15 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.api.Refined.get$extension"),
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time$"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time")
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.moduloValidateNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.moduloValidateWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.NumericValidate.moduloValidateNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.NumericValidate.moduloValidateWit")
     )
   }
 )

@@ -4,9 +4,11 @@
 
 ### Changes
 
-* Removed deprecated `util.time` module which has been replaced by
+* Change layout of the `types` package to create fewer instances and to
+  support "auto import" in IntelliJ. ([#416][#416], [#431][#431])
+* Remove deprecated `util.time` module which has been replaced by
   the `types.time` module. ([#425][#425])
-* Removed deprecated `Refined#get` method which has been replaced by
+* Remove deprecated `Refined#get` method which has been replaced by
   `Refined#value`. ([#426][#426])
 
 ### Bug fixes
@@ -14,5 +16,7 @@
 ### Updates
 
 [#415]: https://github.com/fthomas/refined/pull/415
+[#416]: https://github.com/fthomas/refined/issues/416
 [#425]: https://github.com/fthomas/refined/pull/425
 [#426]: https://github.com/fthomas/refined/pull/426
+[#431]: https://github.com/fthomas/refined/pull/431

@@ -274,7 +274,12 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateNat"),
       ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.NumericValidate.moduloValidateWit")
+        "eu.timepit.refined.NumericValidate.moduloValidateWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*")
     )
   }
 )

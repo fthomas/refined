@@ -1,7 +1,6 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.collection.Contains
 import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -56,34 +55,5 @@ class GenericValidateSpec extends Properties("GenericValidate") {
 
   property("Equal.Nat ~= Equal.Int") = forAll { (i: Int) =>
     showResult[Equal[_1]](i) ?= showResult[Equal[W.`1`.T]](i)
-  }
-
-  property("ConstructorNames.isValid") = secure {
-    isValid[ConstructorNames[Contains[W.`"Some"`.T]]](Option(0))
-  }
-
-  property("ConstructorNames.notValid") = secure {
-    notValid[ConstructorNames[Contains[W.`"Just"`.T]]](Option(0))
-  }
-
-  property("ConstructorNames.showExpr") = secure {
-    showExpr[ConstructorNames[Contains[W.`"Just"`.T]]](Option(0)) ?=
-      "!(!(None == Just) && !(Some == Just))"
-  }
-
-  property("FieldNames.isValid") = secure {
-    case class A(fst: Any = 1, snd: Any = 2)
-    isValid[FieldNames[Contains[W.`"snd"`.T]]](A())
-  }
-
-  property("FieldNames.notValid") = secure {
-    case class A(fst: Any = 1, snd: Any = 2)
-    notValid[FieldNames[Contains[W.`"first"`.T]]](A())
-  }
-
-  property("FieldNames.showExpr") = secure {
-    case class A(fst: Any = 1, snd: Any = 2)
-    showExpr[FieldNames[Contains[W.`"third"`.T]]](A()) ?=
-      "!(!(fst == third) && !(snd == third))"
   }
 }

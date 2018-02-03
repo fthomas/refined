@@ -9,14 +9,21 @@
 
 * Change layout of the `types` package to create fewer instances and to
   support "auto import" in IntelliJ. ([#416][#416], [#431][#431])
+
+### Bug fixes
+
+### Deprecations and removals
+
 * Deprecate `Subtype` and `Supertype` predicates because they lack
   practical relevance. ([#432][#432])
+* Deprecate `ConstructorNames` and `FieldNames` predicates because they
+  operate on types instead of values (i.e. the result of a validation
+  only depends on the type of a value) and the library focuses on
+  refining values.
 * Remove deprecated `util.time` module which has been replaced by
   the `types.time` module. ([#425][#425])
 * Remove deprecated `Refined#get` method which has been replaced by
   `Refined#value`. ([#426][#426])
-
-### Bug fixes
 
 ### Updates
 

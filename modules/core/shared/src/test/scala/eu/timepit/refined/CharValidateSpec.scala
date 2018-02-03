@@ -15,6 +15,10 @@ class CharValidateSpec extends Properties("CharValidate") {
     showExpr[Digit]('c') ?= "isDigit('c')"
   }
 
+  property("Digit()") = wellTyped {
+    Digit()
+  }
+
   property("Letter.isValid") = forAll { (c: Char) =>
     isValid[Letter](c) ?= c.isLetter
   }

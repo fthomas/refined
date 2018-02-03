@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.char._
+import eu.timepit.refined.predicates.all._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 

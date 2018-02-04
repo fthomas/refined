@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
-import _root_.pureconfig.ConfigConvert
-import _root_.pureconfig.error.{CannotConvert, ConfigReaderFailures, ConfigValueLocation}
+import _root_.pureconfig.{ConfigConvert, ConfigCursor}
+import _root_.pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure}
 import com.typesafe.config.ConfigValue
 import eu.timepit.refined.api.{RefType, Validate}
 import scala.reflect.runtime.universe.WeakTypeTag
@@ -14,19 +14,20 @@ package object pureconfig {
       validate: Validate[T, P],
       typeTag: WeakTypeTag[F[T, P]]
   ): ConfigConvert[F[T, P]] = new ConfigConvert[F[T, P]] {
-    override def from(config: ConfigValue): Either[ConfigReaderFailures, F[T, P]] =
-      configConvert.from(config) match {
+    override def from(cur: ConfigCursor): Either[ConfigReaderFailures, F[T, P]] =
+      configConvert.from(cur) match {
         case Right(t) =>
           refType.refine[P](t) match {
             case Left(because) =>
               Left(
                 ConfigReaderFailures(
-                  CannotConvert(
-                    value = config.render(),
-                    toType = typeTag.tpe.toString,
-                    because = because,
-                    location = ConfigValueLocation(config),
-                    path = ""
+                  ConvertFailure(
+                    reason = CannotConvert(
+                      value = cur.value.render(),
+                      toType = typeTag.tpe.toString,
+                      because = because
+                    ),
+                    cur = cur
                   )))
 
             case Right(refined) =>

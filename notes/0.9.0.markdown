@@ -1,0 +1,32 @@
+### New features
+
+* Add `Arbitrary` instance for `NonEmptyString`. ([#415][#415])
+* Add `predicates` package which allows to import all predicates
+  with a single `import eu.timepit.refined.predicates.all._`.
+  ([#433][#433])
+
+### Changes
+
+* Change layout of the `types` package to create fewer instances and to
+  support "auto import" in IntelliJ. ([#416][#416], [#431][#431])
+* Deprecate `Subtype` and `Supertype` predicates because they lack
+  practical relevance. ([#432][#432])
+* Remove deprecated `util.time` module which has been replaced by
+  the `types.time` module. ([#425][#425])
+* Remove deprecated `Refined#get` method which has been replaced by
+  `Refined#value`. ([#426][#426])
+
+### Bug fixes
+
+### Updates
+
+* Update `refined-scalaz` to Scalaz 7.2.19. ([#434][#434])
+
+[#415]: https://github.com/fthomas/refined/pull/415
+[#416]: https://github.com/fthomas/refined/issues/416
+[#425]: https://github.com/fthomas/refined/pull/425
+[#426]: https://github.com/fthomas/refined/pull/426
+[#431]: https://github.com/fthomas/refined/pull/431
+[#432]: https://github.com/fthomas/refined/pull/432
+[#433]: https://github.com/fthomas/refined/pull/433
+[#434]: https://github.com/fthomas/refined/pull/434

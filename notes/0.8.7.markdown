@@ -1,14 +1,44 @@
+### New features
+
+* Add `MinValue` and `MaxValue` to companions of numeric refined types
+  via the new `Min` and `Max` type classes:
+  ```scala
+  scala> PosInt.MinValue
+  res0: eu.timepit.refined.types.all.PosInt = 1
+
+  scala> PosInt.MaxValue
+  res1: eu.timepit.refined.types.all.PosInt = 2147483647
+  ```
+  Thanks to [Howy Perrin](https://github.com/howyp)! ([#383][#383])
+* Support `Divisible[N]` if `N` is a literal integral type. ([#413][#413])
+* Add floating-point refined types like `PosDouble`, `NegDouble`, and more
+  to the `eu.timepit.refined.types.numeric` module.
+  Thanks to [Yuki Ishikawa](https://github.com/rider-yi)! ([#414][#414])
+* Add `IPv6` predicate for `String`s.
+  Thanks to [Tim Steinbach](https://github.com/NeQuissimus)! ([#357][#357])
+
 ### Bug fixes
 
 * Fix `Modulo` predicate for large `Long` values by avoiding `toDouble`
   in its `Validate` instance. This also restricts the predicate to types
-  with a `Integral` instance.
+  with an `Integral` instance.
   Thanks to [Howy Perrin](https://github.com/howyp)! ([#398][#398])
 
 ### Updates
 
 * Update to shapeless 2.3.3. ([#399][#399])
 * Update `refined-cats` to Cats 1.0.1. ([#399][#399])
+* Update `refined-pureconfig` to PureConfig 0.9.0.
+  Thanks to [Olli Helenius](https://github.com/liff)! ([#410][#410])
+* Update to Scala.js 0.6.22. ([#417][#417])
 
+[#357]: https://github.com/fthomas/refined/pull/357
+[#383]: https://github.com/fthomas/refined/pull/383
 [#398]: https://github.com/fthomas/refined/pull/398
 [#399]: https://github.com/fthomas/refined/pull/399
+[#410]: https://github.com/fthomas/refined/pull/410
+[#413]: https://github.com/fthomas/refined/pull/413
+[#414]: https://github.com/fthomas/refined/pull/414
+[#417]: https://github.com/fthomas/refined/pull/417
+
+Released on 2018-01-28

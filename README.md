@@ -3,7 +3,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.8.6)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.8.7)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.8.6/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.8.7/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -172,21 +172,21 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.8.6, which is available for Scala and
+The latest version of the library is 0.8.7, which is available for Scala and
 [Scala.js][scala.js] version 2.10, 2.11, and 2.12.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"            % "0.8.6",
-  "eu.timepit" %% "refined-cats"       % "0.8.6", // optional
-  "eu.timepit" %% "refined-eval"       % "0.8.6", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"   % "0.8.6", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig" % "0.8.6", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck" % "0.8.6", // optional
-  "eu.timepit" %% "refined-scalaz"     % "0.8.6", // optional
-  "eu.timepit" %% "refined-scodec"     % "0.8.6"  // optional
+  "eu.timepit" %% "refined"            % "0.8.7",
+  "eu.timepit" %% "refined-cats"       % "0.8.7", // optional
+  "eu.timepit" %% "refined-eval"       % "0.8.7", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"   % "0.8.7", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig" % "0.8.7", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck" % "0.8.7", // optional
+  "eu.timepit" %% "refined-scalaz"     % "0.8.7", // optional
+  "eu.timepit" %% "refined-scodec"     % "0.8.7"  // optional
 )
 ```
 
@@ -195,7 +195,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.8.6.markdown](https://github.com/fthomas/refined/blob/master/notes/0.8.6.markdown).
+[0.8.7.markdown](https://github.com/fthomas/refined/blob/master/notes/0.8.7.markdown).
 
 ## Community
 
@@ -231,6 +231,7 @@ list it here:
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
 * [extruder-refined](https://github.com/janstenpickle/extruder)
+* [formulation-refined](https://github.com/vectos/formulation)
 * [kantan.csv-refined](http://nrinaudo.github.io/kantan.csv/tut/refined.html)
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/tut/refined.html)
 * [kantan.xpath-refined](http://nrinaudo.github.io/kantan.xpath/tut/refined.html)
@@ -269,7 +270,7 @@ opening a pull request to list it here:
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.8.6/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.8.7/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
@@ -335,8 +336,6 @@ The library comes with these predefined predicates:
 * `Equal[U]`: checks if a value is equal to `U`
 * `ConstructorNames[P]`: checks if the constructor names of a sum type satisfy `P`
 * `FieldNames[P]`: checks if the field names of a product type satisfy `P`
-* `Subtype[U]`: witnesses that the type of a value is a subtype of `U`
-* `Supertype[U]`: witnesses that the type of a value is a supertype of `U`
 
 [`numeric`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/numeric.scala)
 
@@ -352,11 +351,11 @@ The library comes with these predefined predicates:
 * `Interval.OpenClosed[L, H]`: checks if a numeric value is in the interval (`L`, `H`]
 * `Interval.ClosedOpen[L, H]`: checks if a numeric value is in the interval [`L`, `H`)
 * `Interval.Closed[L, H]`: checks if a numeric value is in the interval [`L`, `H`]
-* `Modulo[N, O]`: checks if a numeric value modulo `N` is `O`
-* `Divisible[N]`: checks if a numeric value is evenly divisible by `N`
-* `NonDivisible[N]`: checks if a numeric value is not evenly divisible by `N`
-* `Even`: checks if a numeric value is evenly divisible by 2
-* `Odd`: checks if a numeric value is not evenly divisible by 2
+* `Modulo[N, O]`: checks if an integral value modulo `N` is `O`
+* `Divisible[N]`: checks if an integral value is evenly divisible by `N`
+* `NonDivisible[N]`: checks if an integral value is not evenly divisible by `N`
+* `Even`: checks if an integral value is evenly divisible by 2
+* `Odd`: checks if an integral value is not evenly divisible by 2
 
 [`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 
@@ -391,6 +390,7 @@ The library comes with these predefined predicates:
 * [Leif Wickland](https://github.com/leifwickland)
 * [Naoki Aoyama](https://github.com/aoiroaoino) ([@AoiroAoino](https://twitter.com/AoiroAoino))
 * [Nicolas Rinaudo](https://github.com/nrinaudo) ([@NicolasRinaudo](https://twitter.com/NicolasRinaudo))
+* [Olli Helenius](https://github.com/liff)
 * [Richard Gomes](https://github.com/frgomes)
 * [ronanM](https://github.com/ronanM)
 * [Shohei Shimomura](https://github.com/sh0hei) ([@sm0kym0nkey](https://twitter.com/sm0kym0nkey))

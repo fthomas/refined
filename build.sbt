@@ -14,11 +14,11 @@ val catsVersion = "1.0.1"
 val jsonpathVersion = "2.4.0"
 val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.8.0"
+val pureconfigVersion = "0.9.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
-val scalazVersion = "7.2.17"
+val scalazVersion = "7.2.19"
 val scodecVersion = "1.10.3"
 
 val macroParadise =
@@ -218,12 +218,7 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.api.Inference.==>
     import $rootPkg.api.RefType.ops._
     import $rootPkg.auto._
-    import $rootPkg.boolean._
-    import $rootPkg.char._
-    import $rootPkg.collection._
-    import $rootPkg.generic._
-    import $rootPkg.numeric._
-    import $rootPkg.string._
+    import $rootPkg.predicates.all._
     import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
@@ -262,18 +257,25 @@ lazy val moduleJvmSettings = Def.settings(
     import com.typesafe.tools.mima.core._
     Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.macros.MacroUtils.refTypeInstance"),
+        "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.get"),
       ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.macros.RefineMacro.implApplyRef"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.NumericValidate.moduloValidateWit"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.api.Refined.get$extension"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time$"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.moduloValidateNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.moduloValidateWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.NumericValidate.moduloValidateNat"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.scalacheck.util.OurMath$"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.StringValidate.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.NumericValidate.*")
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.NumericValidate.moduloValidateWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.types.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*")
     )
   }
 )
@@ -298,6 +300,7 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
+  crossScalaVersions += "2.13.0-M3",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

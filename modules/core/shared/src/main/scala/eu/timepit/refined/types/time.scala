@@ -5,9 +5,7 @@ import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.Interval
 
 /** Module for date and time related refined types. */
-object time extends TimeTypes
-
-trait TimeTypes {
+object time {
 
   /** An `Int` in the range from 1 to 12 representing the month-of-year. */
   type Month = Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
@@ -41,4 +39,24 @@ trait TimeTypes {
   type Millis = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 
   object Millis extends RefinedTypeOps[Millis, Int]
+}
+
+trait TimeTypes {
+  final type Month = time.Month
+  final val Month = time.Month
+
+  final type Day = time.Day
+  final val Day = time.Day
+
+  final type Hour = time.Hour
+  final val Hour = time.Hour
+
+  final type Minute = time.Minute
+  final val Minute = time.Minute
+
+  final type Second = time.Second
+  final val Second = time.Second
+
+  final type Millis = time.Millis
+  final val Millis = time.Millis
 }

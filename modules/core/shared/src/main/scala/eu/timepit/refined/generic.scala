@@ -21,10 +21,14 @@ object generic extends GenericValidate with GenericInference {
   /** Predicate that checks if the field names of a product type satisfy `P`. */
   final case class FieldNames[P](p: P)
 
-  /** Predicate that witnesses that the type of a value is a subtype of `U`. */
+  @deprecated(
+    "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   final case class Subtype[U]()
 
-  /** Predicate that witnesses that the type of a value is a supertype of `U`. */
+  @deprecated(
+    "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   final case class Supertype[U]()
 }
 
@@ -39,8 +43,10 @@ private[refined] trait GenericValidate {
       implicit tn: ToInt[N],
       wn: Witness.Aux[N],
       nt: Numeric[T]
-  ): Validate.Plain[T, Equal[N]] =
-    Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+  ): Validate.Plain[T, Equal[N]] = {
+    val n = nt.fromInt(tn())
+    Validate.fromPredicate(_ == n, t => s"($t == $n)", Equal(wn.value))
+  }
 
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],
@@ -67,9 +73,15 @@ private[refined] trait GenericValidate {
     Validate.constant(rn.as(FieldNames(rn)), v.showExpr(fieldNames))
   }
 
+  @deprecated(
+    "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   implicit def subtypeValidate[T, U >: T]: Validate.Plain[T, Subtype[U]] =
     Validate.alwaysPassed(Subtype())
 
+  @deprecated(
+    "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   implicit def supertypeValidate[T, U <: T]: Validate.Plain[T, Supertype[U]] =
     Validate.alwaysPassed(Supertype())
 }

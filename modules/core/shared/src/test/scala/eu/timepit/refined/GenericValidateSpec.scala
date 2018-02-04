@@ -6,7 +6,6 @@ import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.Nat._
-import shapeless.test.illTyped
 
 class GenericValidateSpec extends Properties("GenericValidate") {
 
@@ -41,6 +40,10 @@ class GenericValidateSpec extends Properties("GenericValidate") {
 
   property("Equal.Nat.Int.isValid") = forAll { (i: Int) =>
     isValid[Equal[_0]](i) ?= (i == 0)
+  }
+
+  property("Equal.Nat.Long.isValid") = forAll { (l: Long) =>
+    isValid[Equal[_0]](l) ?= (l == 0L)
   }
 
   property("Equal.Nat.Double.isValid") = forAll { (d: Double) =>
@@ -82,21 +85,5 @@ class GenericValidateSpec extends Properties("GenericValidate") {
     case class A(fst: Any = 1, snd: Any = 2)
     showExpr[FieldNames[Contains[W.`"third"`.T]]](A()) ?=
       "!(!(fst == third) && !(snd == third))"
-  }
-
-  property("Subtype.isValid") = secure {
-    isValid[Subtype[AnyVal]](0)
-  }
-
-  property("Subtype.noInstance") = wellTyped {
-    illTyped("isValid[Subtype[Int]](0: AnyVal)", ".*could not find implicit value.*")
-  }
-
-  property("Supertype.isValid") = secure {
-    isValid[Supertype[List[Int]]](Seq(0))
-  }
-
-  property("Supertype.noInstance") = wellTyped {
-    illTyped("isValid[Supertype[Seq[Int]]](List(0))", ".*could not find implicit value.*")
   }
 }

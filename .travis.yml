@@ -5,7 +5,6 @@ scala:
 - 2.12.4
 jdk:
 - oraclejdk8
-- oraclejdk9
 dist: trusty
 sudo: false
 addons:
@@ -37,4 +36,4 @@ matrix:
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.6/bin/travis_setup.sh | bash -x
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile validate
+    - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile

@@ -5,7 +5,6 @@ scala:
 - 2.12.4
 jdk:
 - oraclejdk8
-dist: trusty
 sudo: false
 addons:
   apt:

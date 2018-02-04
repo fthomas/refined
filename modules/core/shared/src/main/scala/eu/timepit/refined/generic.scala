@@ -15,10 +15,14 @@ object generic extends GenericValidate with GenericInference {
   /** Predicate that checks if a value is equal to `U`. */
   final case class Equal[U](u: U)
 
-  /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
+  @deprecated(
+    "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   final case class ConstructorNames[P](p: P)
 
-  /** Predicate that checks if the field names of a product type satisfy `P`. */
+  @deprecated(
+    "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   final case class FieldNames[P](p: P)
 
   @deprecated(
@@ -48,6 +52,9 @@ private[refined] trait GenericValidate {
     Validate.fromPredicate(_ == n, t => s"($t == $n)", Equal(wn.value))
   }
 
+  @deprecated(
+    "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],
       cthl: ToHList.Aux[R0, R1],
@@ -61,6 +68,9 @@ private[refined] trait GenericValidate {
     Validate.constant(rn.as(ConstructorNames(rn)), v.showExpr(ctorNames))
   }
 
+  @deprecated(
+    "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R],
       keys: Keys.Aux[R, K],

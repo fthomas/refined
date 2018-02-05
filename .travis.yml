@@ -1,8 +1,4 @@
 language: scala
-scala:
-- 2.10.7
-- 2.11.12
-- 2.12.4
 jdk:
 - oraclejdk8
 sudo: false
@@ -27,12 +23,13 @@ notifications:
     on_success: change
     on_failure: always
     on_start: false
-
 matrix:
   include:
+  - scala: 2.10.7
   - scala: 2.11.12
     sudo: required
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.6/bin/travis_setup.sh | bash -x
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile
+    - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile validate
+  - scala: 2.12.4

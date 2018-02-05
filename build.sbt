@@ -23,6 +23,8 @@ val scodecVersion = "1.10.3"
 
 val macroParadise =
   "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
+val scalaCheckDep =
+  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
@@ -31,6 +33,8 @@ val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
+
+val Scala211 = Def.setting(crossScalaVersions.value.find(_.startsWith("2.11")).get)
 
 /// projects
 
@@ -82,7 +86,7 @@ lazy val cats = crossProject(JSPlatform, JVMPlatform)
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
 
-lazy val core = crossProject(JSPlatform, JVMPlatform)
+lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
@@ -91,9 +95,9 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
       compilerPlugin(macroParadise),
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      "org.typelevel" %%% "macro-compat" % macroCompatVersion,
+      "org.typelevel" %% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
+      scalaCheckDep.value % Test
     ),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
@@ -108,9 +112,17 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
+  .nativeSettings(
+    libraryDependencies -= scalaCheckDep.value % Test,
+    // Disable Scaladoc generation because of:
+    // [error] dropping dependency on node with no phase object: mixin
+    publishArtifact in packageDoc := false,
+    sources in (Compile, doc) := Seq.empty
+  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
+lazy val coreNative = core.native
 
 lazy val docs = project
   .configure(moduleConfig("docs"))
@@ -164,7 +176,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
+    libraryDependencies += scalaCheckDep.value,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -416,6 +428,8 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepCommand(s"++${Scala211.value}"),
+      releaseStepCommand("coreNative/publishSigned"),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,

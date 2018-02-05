@@ -34,6 +34,8 @@ val allSubprojectsJS = {
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 
+val Scala211 = Def.setting(crossScalaVersions.value.find(_.startsWith("2.11")).get)
+
 /// projects
 
 lazy val root = project
@@ -110,7 +112,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
+  .nativeSettings(
+    libraryDependencies -= scalaCheckDep.value % Test,
+    // Disable Scaladoc generation because of:
+    // [error] dropping dependency on node with no phase object: mixin
+    publishArtifact in packageDoc := false,
+    sources in (Compile,doc) := Seq.empty
+  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -420,6 +428,8 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepCommand(s"++${Scala211.value}"),
+      releaseStepCommand("coreNative/publishSigned"),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,

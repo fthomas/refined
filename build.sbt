@@ -24,7 +24,7 @@ val scodecVersion = "1.10.3"
 val macroParadise =
   "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
 val scalaCheckDep =
-  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test)
+  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val allSubprojects =
   Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
@@ -94,7 +94,8 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "org.typelevel" %% "macro-compat" % macroCompatVersion,
-      "com.chuusai" %%% "shapeless" % shapelessVersion
+      "com.chuusai" %%% "shapeless" % shapelessVersion,
+      scalaCheckDep.value % Test
     ),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
@@ -109,8 +110,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .jvmSettings(libraryDependencies += scalaCheckDep.value)
-  .jsSettings(libraryDependencies += scalaCheckDep.value)
+  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -168,7 +168,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
+    libraryDependencies += scalaCheckDep.value,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """

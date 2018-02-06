@@ -35,6 +35,7 @@ val allSubprojectsJS = {
 }
 
 val Scala211 = Def.setting(crossScalaVersions.value.find(_.startsWith("2.11")).get)
+val Scala213 = "2.13.0-M3"
 
 /// projects
 
@@ -91,6 +92,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
+    crossScalaVersions += Scala213,
     libraryDependencies ++= Seq(
       compilerPlugin(macroParadise),
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
@@ -311,6 +313,7 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
+  crossScalaVersions -= Scala213,
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

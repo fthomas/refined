@@ -6,9 +6,7 @@ import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.string.MatchesRegex
 
 /** Module for `String` refined types. */
-object string extends StringTypes
-
-trait StringTypes {
+object string {
 
   /** A `String` that is not empty. */
   type NonEmptyString = String Refined NonEmpty
@@ -19,4 +17,12 @@ trait StringTypes {
   type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
 
   object TrimmedString extends RefinedTypeOps[TrimmedString, String]
+}
+
+trait StringTypes {
+  final type NonEmptyString = string.NonEmptyString
+  final val NonEmptyString = string.NonEmptyString
+
+  final type TrimmedString = string.TrimmedString
+  final val TrimmedString = string.TrimmedString
 }

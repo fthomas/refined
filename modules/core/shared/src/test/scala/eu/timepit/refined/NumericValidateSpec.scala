@@ -104,12 +104,20 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showResult[Modulo[_5, _2]](i) ?= showResult[Modulo[W.`5`.T, W.`2`.T]](i)
   }
 
-  property("Divisible.isValid") = forAll { (i: Int) =>
+  property("Divisible.Nat.isValid") = forAll { (i: Int) =>
     isValid[Divisible[_2]](i) ?= (i % 2 == 0)
   }
 
-  property("Divisible.showExpr") = secure {
+  property("Divisible.Int.isValid") = forAll { (i: Int) =>
+    isValid[Divisible[W.`2`.T]](i) ?= (i % 2 == 0)
+  }
+
+  property("Divisible.Nat.showExpr") = secure {
     showExpr[Divisible[_2]](4) ?= "(4 % 2 == 0)"
+  }
+
+  property("Divisible.Int.showExpr") = secure {
+    showExpr[Divisible[W.`2`.T]](4) ?= "(4 % 2 == 0)"
   }
 
   property("NonDivisible.isValid") = forAll { (i: Int) =>

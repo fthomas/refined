@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.char._
+import eu.timepit.refined.predicates.all._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
@@ -13,6 +13,10 @@ class CharValidateSpec extends Properties("CharValidate") {
 
   property("Digit.showExpr") = secure {
     showExpr[Digit]('c') ?= "isDigit('c')"
+  }
+
+  property("Digit()") = wellTyped {
+    Digit()
   }
 
   property("Letter.isValid") = forAll { (c: Char) =>

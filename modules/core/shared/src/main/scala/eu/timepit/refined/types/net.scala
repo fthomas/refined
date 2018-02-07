@@ -7,9 +7,7 @@ import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.string.{IPv4, MatchesRegex, StartsWith}
 
 /** Module for refined types that are related to the Internet protocol suite. */
-object net extends NetTypes
-
-trait NetTypes {
+object net {
 
   /** An `Int` in the range from 0 to 65535 representing a port number. */
   type PortNumber = Int Refined Interval.Closed[W.`0`.T, W.`65535`.T]
@@ -69,24 +67,78 @@ trait NetTypes {
   type Rfc2544Benchmark = String Refined Rfc2544BenchmarkSpec
 
   /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544  */
-  type PrivateNetwork = String Refined (Rfc1918PrivateSpec Or
-    Rfc5737TestnetSpec Or
-    Rfc3927LocalLinkSpec Or
-    Rfc2544BenchmarkSpec)
+  type PrivateNetwork =
+    String Refined (Rfc1918PrivateSpec Or Rfc5737TestnetSpec Or Rfc3927LocalLinkSpec Or Rfc2544BenchmarkSpec)
 
   object PrivateNetworks {
-    type Rfc1918ClassAPrivateSpec = IPv4 And StartsWith[W.`"10."`.T]
+
+    type Rfc1918ClassAPrivateSpec =
+      IPv4 And StartsWith[W.`"10."`.T]
+
     type Rfc1918ClassBPrivateSpec =
       IPv4 And MatchesRegex[W.`"^172\\\\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+"`.T]
-    type Rfc1918ClassCPrivateSpec = IPv4 And StartsWith[W.`"192.168."`.T]
+
+    type Rfc1918ClassCPrivateSpec =
+      IPv4 And StartsWith[W.`"192.168."`.T]
+
     type Rfc1918PrivateSpec =
       Rfc1918ClassAPrivateSpec Or Rfc1918ClassBPrivateSpec Or Rfc1918ClassCPrivateSpec
-    type Rfc5737Testnet1Spec = IPv4 And StartsWith[W.`"192.0.2."`.T]
-    type Rfc5737Testnet2Spec = IPv4 And StartsWith[W.`"198.51.100."`.T]
-    type Rfc5737Testnet3Spec = IPv4 And StartsWith[W.`"203.0.113."`.T]
-    type Rfc5737TestnetSpec = Rfc5737Testnet1Spec Or Rfc5737Testnet2Spec Or Rfc5737Testnet3Spec
-    type Rfc3927LocalLinkSpec = IPv4 And StartsWith[W.`"169.254."`.T]
+
+    type Rfc5737Testnet1Spec =
+      IPv4 And StartsWith[W.`"192.0.2."`.T]
+
+    type Rfc5737Testnet2Spec =
+      IPv4 And StartsWith[W.`"198.51.100."`.T]
+
+    type Rfc5737Testnet3Spec =
+      IPv4 And StartsWith[W.`"203.0.113."`.T]
+
+    type Rfc5737TestnetSpec =
+      Rfc5737Testnet1Spec Or Rfc5737Testnet2Spec Or Rfc5737Testnet3Spec
+
+    type Rfc3927LocalLinkSpec =
+      IPv4 And StartsWith[W.`"169.254."`.T]
+
     type Rfc2544BenchmarkSpec =
       IPv4 And Or[StartsWith[W.`"198.18."`.T], StartsWith[W.`"198.19."`.T]]
   }
+}
+
+trait NetTypes {
+  final type PortNumber = net.PortNumber
+  final val PortNumber = net.PortNumber
+
+  final type SystemPortNumber = net.SystemPortNumber
+  final val SystemPortNumber = net.SystemPortNumber
+
+  final type UserPortNumber = net.UserPortNumber
+  final val UserPortNumber = net.UserPortNumber
+
+  final type DynamicPortNumber = net.DynamicPortNumber
+  final val DynamicPortNumber = net.DynamicPortNumber
+
+  final type NonSystemPortNumber = net.NonSystemPortNumber
+  final val NonSystemPortNumber = net.NonSystemPortNumber
+
+  final type Rfc1918ClassAPrivate = net.Rfc1918ClassAPrivate
+
+  final type Rfc1918ClassBPrivate = net.Rfc1918ClassBPrivate
+
+  final type Rfc1918ClassCPrivate = net.Rfc1918ClassCPrivate
+
+  final type Rfc1918Private = net.Rfc1918Private
+
+  final type Rfc5737Testnet1 = net.Rfc5737Testnet1
+
+  final type Rfc5737Testnet2 = net.Rfc5737Testnet2
+
+  final type Rfc5737Testnet3 = net.Rfc5737Testnet3
+
+  final type Rfc5737Testnet = net.Rfc5737Testnet
+
+  final type Rfc3927LocalLink = net.Rfc3927LocalLink
+
+  final type Rfc2544Benchmark = net.Rfc2544Benchmark
+
+  final type PrivateNetwork = net.PrivateNetwork
 }

@@ -15,16 +15,24 @@ object generic extends GenericValidate with GenericInference {
   /** Predicate that checks if a value is equal to `U`. */
   final case class Equal[U](u: U)
 
-  /** Predicate that checks if the constructor names of a sum type satisfy `P`. */
+  @deprecated(
+    "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   final case class ConstructorNames[P](p: P)
 
-  /** Predicate that checks if the field names of a product type satisfy `P`. */
+  @deprecated(
+    "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   final case class FieldNames[P](p: P)
 
-  /** Predicate that witnesses that the type of a value is a subtype of `U`. */
+  @deprecated(
+    "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   final case class Subtype[U]()
 
-  /** Predicate that witnesses that the type of a value is a supertype of `U`. */
+  @deprecated(
+    "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   final case class Supertype[U]()
 }
 
@@ -39,9 +47,14 @@ private[refined] trait GenericValidate {
       implicit tn: ToInt[N],
       wn: Witness.Aux[N],
       nt: Numeric[T]
-  ): Validate.Plain[T, Equal[N]] =
-    Validate.fromPredicate(t => nt.toDouble(t) == tn(), t => s"($t == ${tn()})", Equal(wn.value))
+  ): Validate.Plain[T, Equal[N]] = {
+    val n = nt.fromInt(tn())
+    Validate.fromPredicate(_ == n, t => s"($t == $n)", Equal(wn.value))
+  }
 
+  @deprecated(
+    "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R0],
       cthl: ToHList.Aux[R0, R1],
@@ -55,6 +68,9 @@ private[refined] trait GenericValidate {
     Validate.constant(rn.as(ConstructorNames(rn)), v.showExpr(ctorNames))
   }
 
+  @deprecated(
+    "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0")
   implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
       implicit lg: LabelledGeneric.Aux[T, R],
       keys: Keys.Aux[R, K],
@@ -67,9 +83,15 @@ private[refined] trait GenericValidate {
     Validate.constant(rn.as(FieldNames(rn)), v.showExpr(fieldNames))
   }
 
+  @deprecated(
+    "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   implicit def subtypeValidate[T, U >: T]: Validate.Plain[T, Subtype[U]] =
     Validate.alwaysPassed(Subtype())
 
+  @deprecated(
+    "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0")
   implicit def supertypeValidate[T, U <: T]: Validate.Plain[T, Supertype[U]] =
     Validate.alwaysPassed(Supertype())
 }

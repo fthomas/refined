@@ -25,10 +25,12 @@ trait RefType[F[_, _]] extends Serializable {
   def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
 
   def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](c: blackbox.Context)(
-      t: c.Expr[T]): c.Expr[F[T, P]]
+      t: c.Expr[T]): c.Expr[F[T, P]] =
+    c.universe.reify(unsafeWrap(t.splice))
 
   def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](c: blackbox.Context)(
-      ta: c.Expr[F[T, A]]): c.Expr[F[T, B]]
+      ta: c.Expr[F[T, A]]): c.Expr[F[T, B]] =
+    c.universe.reify(unsafeRewrap(ta.splice))
 
   /**
    * Returns a value of type `T` refined as `F[T, P]` on the right if

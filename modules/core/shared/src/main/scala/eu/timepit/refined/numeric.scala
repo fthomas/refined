@@ -37,7 +37,7 @@ object numeric extends NumericValidate with NumericInference {
   /** Predicate that checks if a numeric value is greater than `N`. */
   final case class Greater[N](n: N)
 
-  /** Predicate that checks if a numeric value modulo `N` is `O`. */
+  /** Predicate that checks if an integral value modulo `N` is `O`. */
   final case class Modulo[N, O](n: N, o: O)
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
@@ -58,16 +58,16 @@ object numeric extends NumericValidate with NumericInference {
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
-  /** Predicate that checks if a numeric value is evenly divisible by `N`. */
+  /** Predicate that checks if an integral value is evenly divisible by `N`. */
   type Divisible[N] = Modulo[N, _0]
 
-  /** Predicate that checks if a numeric value is not evenly divisible by `N`. */
+  /** Predicate that checks if an integral value is not evenly divisible by `N`. */
   type NonDivisible[N] = Not[Divisible[N]]
 
-  /** Predicate that checks if a numeric value is evenly divisible by 2. */
+  /** Predicate that checks if an integral value is evenly divisible by 2. */
   type Even = Divisible[_2]
 
-  /** Predicate that checks if a numeric value is not evenly divisible by 2. */
+  /** Predicate that checks if an integral value is not evenly divisible by 2. */
   type Odd = Not[Even]
 
   object Interval {
@@ -100,24 +100,13 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
 
-  def moduloValidateWit[T, N <: T, O <: T](
-      implicit wn: Witness.Aux[N],
-      wo: Witness.Aux[O],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Modulo[N, O]] =
-    Validate.fromPredicate(
-      t => nt.toDouble(t) % nt.toDouble(wn.value) == nt.toDouble(wo.value),
-      t => s"($t % ${wn.value} == ${wo.value})",
-      Modulo(wn.value, wo.value)
-    )
-
   implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
       implicit wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      nt: Integral[T]
+      it: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t => nt.rem(t, wn.value) == wo.value,
+      t => it.rem(t, wn.value) == wo.value,
       t => s"($t % ${wn.value} == ${wo.value})",
       Modulo(wn.value, wo.value)
     )
@@ -136,29 +125,28 @@ private[refined] trait NumericValidate {
   ): Validate.Plain[T, Greater[N]] =
     Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
 
-  def moduloValidateNat[N <: Nat, O <: Nat, T](
-      implicit tn: ToInt[N],
-      to: ToInt[O],
-      wn: Witness.Aux[N],
-      wo: Witness.Aux[O],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Modulo[N, O]] =
-    Validate.fromPredicate(
-      t => nt.toDouble(t) % tn() == to(),
-      t => s"($t % ${tn()} == ${to()})",
-      Modulo(wn.value, wo.value)
-    )
-
   implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
       implicit tn: ToInt[N],
       to: ToInt[O],
       wn: Witness.Aux[N],
       wo: Witness.Aux[O],
-      i: Integral[T]
+      it: Integral[T]
   ): Validate.Plain[T, Modulo[N, O]] =
     Validate.fromPredicate(
-      t => i.rem(t, i.fromInt(tn())) == i.fromInt(to()),
+      t => it.rem(t, it.fromInt(tn())) == it.fromInt(to()),
       t => s"($t % ${tn()} == ${to()})",
+      Modulo(wn.value, wo.value)
+    )
+
+  implicit def moduloValidateWitNatIntegral[T, N <: T, O <: Nat](
+      implicit wn: Witness.Aux[N],
+      to: ToInt[O],
+      wo: Witness.Aux[O],
+      it: Integral[T]
+  ): Validate.Plain[T, Modulo[N, O]] =
+    Validate.fromPredicate(
+      t => it.rem(t, wn.value) == it.fromInt(to()),
+      t => s"($t % ${wn.value} == ${to()})",
       Modulo(wn.value, wo.value)
     )
 }

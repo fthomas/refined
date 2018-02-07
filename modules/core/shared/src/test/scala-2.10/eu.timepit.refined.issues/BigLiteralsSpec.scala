@@ -25,6 +25,10 @@ class BigLiteralsSpec extends Properties("BigLiterals") {
     illTyped("val err: BigInt Refined Positive = BigInt(a.value.toInt)",
              "compile-time refinement.*")
     illTyped("val err: BigInt Refined Positive = BigInt(\"0.1\")", "compile-time refinement.*")
+    illTyped("val err: BigInt Refined Positive = BigInt(java.math.BigInteger.ZERO)",
+             "compile-time refinement.*")
+    illTyped("val err: BigDecimal Refined Positive = BigDecimal(java.math.BigDecimal.ZERO)",
+             "compile-time refinement.*")
 
     (a.value ?= BigInt(1)) &&
     (b.value ?= BigInt(Long.MaxValue)) &&

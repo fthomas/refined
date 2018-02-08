@@ -295,7 +295,10 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.boolean$*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.generic.*"),
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.GenericValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.generic$*")
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.generic$*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.numeric.*"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.NumericValidate"),
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.numeric*")
     )
   }
 )

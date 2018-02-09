@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, Result, Show, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.numeric._
@@ -29,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericValidate with NumericShow with NumericInference {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -149,6 +149,19 @@ private[refined] trait NumericValidate {
       t => s"($t % ${wn.value} == ${to()})",
       Modulo(wn.value, wo.value)
     )
+}
+
+private[refined] trait NumericShow {
+
+  implicit def lessEqualShowNat[N <: Nat, T](
+      implicit tn: ToInt[N]
+  ): Show.Aux[T, LessEqual[N], Not[Result[Greater[N]]]] =
+    Show.instance(t => s"($t <= ${tn()})")
+
+  implicit def greaterEqualShowNat[N <: Nat, T](
+      implicit tn: ToInt[N]
+  ): Show.Aux[T, GreaterEqual[N], Not[Result[Less[N]]]] =
+    Show.instance(t => s"($t >= ${tn()})")
 }
 
 private[refined] trait NumericInference {

@@ -9,7 +9,11 @@
 ### Changes
 
 * Change layout of the `types` package to create fewer instances and to
-  support "auto import" in IntelliJ. ([#416][#416], [#431][#431])
+  support "auto import" in IntelliJ. ([#416][#416], [#431][#431]) 
+* Move `Validate` instances into the companions of their respective
+  predicate instead of a prefix because in a future Scala version
+  prefixes might not be searched for implicits, see
+  [scala-dev/#446][scala-dev/#446]. ([#438][#438])
 
 ### Bug fixes
 
@@ -39,3 +43,5 @@
 [#432]: https://github.com/fthomas/refined/pull/432
 [#433]: https://github.com/fthomas/refined/pull/433
 [#434]: https://github.com/fthomas/refined/pull/434
+[#438]: https://github.com/fthomas/refined/pull/438
+[scala-dev/#446]: https://github.com/scala/scala-dev/issues/446

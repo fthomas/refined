@@ -8,7 +8,7 @@ import shapeless.{::, HList, HNil}
 import shapeless.ops.hlist.ToList
 
 /** Module for logical predicates. */
-object boolean extends BooleanValidate with BooleanInference0 {
+object boolean extends BooleanInference0 {
 
   /** Constant predicate that is always `true`. */
   final case class True()
@@ -42,202 +42,218 @@ object boolean extends BooleanValidate with BooleanInference0 {
 
   /** Negated disjunction of the predicates `A` and `B`. */
   type Nor[A, B] = Not[A Or B]
-}
 
-private[refined] trait BooleanValidate {
+  object True {
+    implicit def trueValidate[T]: Validate.Plain[T, True] =
+      Validate.alwaysPassed(True())
+  }
 
-  implicit def trueValidate[T]: Validate.Plain[T, True] =
-    Validate.alwaysPassed(True())
+  object False {
+    implicit def falseValidate[T]: Validate.Plain[T, False] =
+      Validate.alwaysFailed(False())
+  }
 
-  implicit def falseValidate[T]: Validate.Plain[T, False] =
-    Validate.alwaysFailed(False())
+  object Not {
+    implicit def notValidate[T, P, R](
+        implicit v: Validate.Aux[T, P, R]
+    ): Validate.Aux[T, Not[P], Not[v.Res]] =
+      new Validate[T, Not[P]] {
+        override type R = Not[v.Res]
 
-  implicit def notValidate[T, P, R](
-      implicit v: Validate.Aux[T, P, R]): Validate.Aux[T, Not[P], Not[v.Res]] =
-    new Validate[T, Not[P]] {
-      override type R = Not[v.Res]
+        override def validate(t: T): Res = {
+          val r = v.validate(t)
+          Result.fromBoolean(r.isFailed, Not(r))
+        }
 
-      override def validate(t: T): Res = {
-        val r = v.validate(t)
-        Result.fromBoolean(r.isFailed, Not(r))
-      }
+        override def showExpr(t: T): String =
+          s"!${v.showExpr(t)}"
 
-      override def showExpr(t: T): String =
-        s"!${v.showExpr(t)}"
-
-      override def showResult(t: T, r: Res): String = {
-        val expr = v.showExpr(t)
-        val rp = r.detail.p
-        rp match {
-          case Passed(_) => Resources.showResultNotInnerPassed(expr)
-          case Failed(_) => Resources.showResultNotInnerFailed(expr)
+        override def showResult(t: T, r: Res): String = {
+          val expr = v.showExpr(t)
+          val rp = r.detail.p
+          rp match {
+            case Passed(_) => Resources.showResultNotInnerPassed(expr)
+            case Failed(_) => Resources.showResultNotInnerFailed(expr)
+          }
         }
       }
-    }
+  }
 
-  implicit def andValidate[T, A, RA, B, RB](
-      implicit va: Validate.Aux[T, A, RA],
-      vb: Validate.Aux[T, B, RB]
-  ): Validate.Aux[T, A And B, va.Res And vb.Res] =
-    new Validate[T, A And B] {
-      override type R = va.Res And vb.Res
+  object And {
+    implicit def andValidate[T, A, RA, B, RB](
+        implicit va: Validate.Aux[T, A, RA],
+        vb: Validate.Aux[T, B, RB]
+    ): Validate.Aux[T, A And B, va.Res And vb.Res] =
+      new Validate[T, A And B] {
+        override type R = va.Res And vb.Res
 
-      override def validate(t: T): Res = {
-        val (ra, rb) = (va.validate(t), vb.validate(t))
-        Result.fromBoolean(ra.isPassed && rb.isPassed, And(ra, rb))
-      }
+        override def validate(t: T): Res = {
+          val (ra, rb) = (va.validate(t), vb.validate(t))
+          Result.fromBoolean(ra.isPassed && rb.isPassed, And(ra, rb))
+        }
 
-      override def showExpr(t: T): String =
-        s"(${va.showExpr(t)} && ${vb.showExpr(t)})"
+        override def showExpr(t: T): String =
+          s"(${va.showExpr(t)} && ${vb.showExpr(t)})"
 
-      override def showResult(t: T, r: Res): String = {
-        val expr = showExpr(t)
-        val (ra, rb) = (r.detail.a, r.detail.b)
-        (ra, rb) match {
-          case (Passed(_), Passed(_)) =>
-            Resources.showResultAndBothPassed(expr)
-          case (Passed(_), Failed(_)) =>
-            Resources.showResultAndRightFailed(expr, vb.showResult(t, rb))
-          case (Failed(_), Passed(_)) =>
-            Resources.showResultAndLeftFailed(expr, va.showResult(t, ra))
-          case (Failed(_), Failed(_)) =>
-            Resources.showResultAndBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+        override def showResult(t: T, r: Res): String = {
+          val expr = showExpr(t)
+          val (ra, rb) = (r.detail.a, r.detail.b)
+          (ra, rb) match {
+            case (Passed(_), Passed(_)) =>
+              Resources.showResultAndBothPassed(expr)
+            case (Passed(_), Failed(_)) =>
+              Resources.showResultAndRightFailed(expr, vb.showResult(t, rb))
+            case (Failed(_), Passed(_)) =>
+              Resources.showResultAndLeftFailed(expr, va.showResult(t, ra))
+            case (Failed(_), Failed(_)) =>
+              Resources.showResultAndBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+          }
         }
       }
-    }
+  }
 
-  implicit def orValidate[T, A, RA, B, RB](
-      implicit va: Validate.Aux[T, A, RA],
-      vb: Validate.Aux[T, B, RB]
-  ): Validate.Aux[T, A Or B, va.Res Or vb.Res] =
-    new Validate[T, A Or B] {
-      override type R = va.Res Or vb.Res
+  object Or {
+    implicit def orValidate[T, A, RA, B, RB](
+        implicit va: Validate.Aux[T, A, RA],
+        vb: Validate.Aux[T, B, RB]
+    ): Validate.Aux[T, A Or B, va.Res Or vb.Res] =
+      new Validate[T, A Or B] {
+        override type R = va.Res Or vb.Res
 
-      override def validate(t: T): Res = {
-        val (ra, rb) = (va.validate(t), vb.validate(t))
-        Result.fromBoolean(ra.isPassed || rb.isPassed, Or(ra, rb))
-      }
+        override def validate(t: T): Res = {
+          val (ra, rb) = (va.validate(t), vb.validate(t))
+          Result.fromBoolean(ra.isPassed || rb.isPassed, Or(ra, rb))
+        }
 
-      override def showExpr(t: T): String =
-        s"(${va.showExpr(t)} || ${vb.showExpr(t)})"
+        override def showExpr(t: T): String =
+          s"(${va.showExpr(t)} || ${vb.showExpr(t)})"
 
-      override def showResult(t: T, r: Res): String = {
-        val expr = showExpr(t)
-        val (ra, rb) = (r.detail.a, r.detail.b)
-        (ra, rb) match {
-          case (Passed(_), Passed(_)) =>
-            Resources.showResultOrBothPassed(expr)
-          case (Passed(_), Failed(_)) =>
-            Resources.showResultOrLeftPassed(expr)
-          case (Failed(_), Passed(_)) =>
-            Resources.showResultOrRightPassed(expr)
-          case (Failed(_), Failed(_)) =>
-            Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+        override def showResult(t: T, r: Res): String = {
+          val expr = showExpr(t)
+          val (ra, rb) = (r.detail.a, r.detail.b)
+          (ra, rb) match {
+            case (Passed(_), Passed(_)) =>
+              Resources.showResultOrBothPassed(expr)
+            case (Passed(_), Failed(_)) =>
+              Resources.showResultOrLeftPassed(expr)
+            case (Failed(_), Passed(_)) =>
+              Resources.showResultOrRightPassed(expr)
+            case (Failed(_), Failed(_)) =>
+              Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+          }
         }
       }
-    }
+  }
 
-  implicit def xorValidate[T, A, RA, B, RB](
-      implicit va: Validate.Aux[T, A, RA],
-      vb: Validate.Aux[T, B, RB]
-  ): Validate.Aux[T, A Xor B, va.Res Xor vb.Res] =
-    new Validate[T, A Xor B] {
-      override type R = va.Res Xor vb.Res
+  object Xor {
+    implicit def xorValidate[T, A, RA, B, RB](
+        implicit va: Validate.Aux[T, A, RA],
+        vb: Validate.Aux[T, B, RB]
+    ): Validate.Aux[T, A Xor B, va.Res Xor vb.Res] =
+      new Validate[T, A Xor B] {
+        override type R = va.Res Xor vb.Res
 
-      override def validate(t: T): Res = {
-        val (ra, rb) = (va.validate(t), vb.validate(t))
-        Result.fromBoolean(ra.isPassed ^ rb.isPassed, Xor(ra, rb))
-      }
+        override def validate(t: T): Res = {
+          val (ra, rb) = (va.validate(t), vb.validate(t))
+          Result.fromBoolean(ra.isPassed ^ rb.isPassed, Xor(ra, rb))
+        }
 
-      override def showExpr(t: T): String =
-        s"(${va.showExpr(t)} ^ ${vb.showExpr(t)})"
+        override def showExpr(t: T): String =
+          s"(${va.showExpr(t)} ^ ${vb.showExpr(t)})"
 
-      override def showResult(t: T, r: Res): String = {
-        val expr = showExpr(t)
-        val (ra, rb) = (r.detail.a, r.detail.b)
-        (ra, rb) match {
-          case (Passed(_), Passed(_)) =>
-            Resources.showResultOrBothPassed(expr)
-          case (Passed(_), Failed(_)) =>
-            Resources.showResultOrLeftPassed(expr)
-          case (Failed(_), Passed(_)) =>
-            Resources.showResultOrRightPassed(expr)
-          case (Failed(_), Failed(_)) =>
-            Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+        override def showResult(t: T, r: Res): String = {
+          val expr = showExpr(t)
+          val (ra, rb) = (r.detail.a, r.detail.b)
+          (ra, rb) match {
+            case (Passed(_), Passed(_)) =>
+              Resources.showResultOrBothPassed(expr)
+            case (Passed(_), Failed(_)) =>
+              Resources.showResultOrLeftPassed(expr)
+            case (Failed(_), Passed(_)) =>
+              Resources.showResultOrRightPassed(expr)
+            case (Failed(_), Failed(_)) =>
+              Resources.showResultOrBothFailed(expr, va.showResult(t, ra), vb.showResult(t, rb))
+          }
         }
       }
-    }
+  }
 
-  implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
-    Validate.alwaysPassed(AllOf(HList()))
+  object AllOf {
+    implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
+      Validate.alwaysPassed(AllOf(HList()))
 
-  implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-      implicit vh: Validate.Aux[T, PH, RH],
-      vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
-  ): Validate.Aux[T, AllOf[PH :: PT], AllOf[vh.Res :: RT]] =
-    new Validate[T, AllOf[PH :: PT]] {
-      override type R = AllOf[vh.Res :: RT]
+    implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
+        implicit vh: Validate.Aux[T, PH, RH],
+        vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
+    ): Validate.Aux[T, AllOf[PH :: PT], AllOf[vh.Res :: RT]] =
+      new Validate[T, AllOf[PH :: PT]] {
+        override type R = AllOf[vh.Res :: RT]
 
-      override def validate(t: T): Res = {
-        val rh = vh.validate(t)
-        val rt = vt.validate(t)
-        Result.fromBoolean(rh.isPassed && rt.isPassed, AllOf(rh :: rt.detail.ps))
+        override def validate(t: T): Res = {
+          val rh = vh.validate(t)
+          val rt = vt.validate(t)
+          Result.fromBoolean(rh.isPassed && rt.isPassed, AllOf(rh :: rt.detail.ps))
+        }
+
+        override def showExpr(t: T): String =
+          accumulateShowExpr(t).mkString("(", " && ", ")")
+
+        override def accumulateShowExpr(t: T): List[String] =
+          vh.showExpr(t) :: vt.accumulateShowExpr(t)
       }
+  }
 
-      override def showExpr(t: T): String =
-        accumulateShowExpr(t).mkString("(", " && ", ")")
+  object AnyOf {
+    implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
+      Validate.alwaysFailed(AnyOf(HList()))
 
-      override def accumulateShowExpr(t: T): List[String] =
-        vh.showExpr(t) :: vt.accumulateShowExpr(t)
-    }
+    implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
+        implicit vh: Validate.Aux[T, PH, RH],
+        vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
+    ): Validate.Aux[T, AnyOf[PH :: PT], AnyOf[vh.Res :: RT]] =
+      new Validate[T, AnyOf[PH :: PT]] {
+        override type R = AnyOf[vh.Res :: RT]
 
-  implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
-    Validate.alwaysFailed(AnyOf(HList()))
+        override def validate(t: T): Res = {
+          val rh = vh.validate(t)
+          val rt = vt.validate(t)
+          Result.fromBoolean(rh.isPassed || rt.isPassed, AnyOf(rh :: rt.detail.ps))
+        }
 
-  implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-      implicit vh: Validate.Aux[T, PH, RH],
-      vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
-  ): Validate.Aux[T, AnyOf[PH :: PT], AnyOf[vh.Res :: RT]] =
-    new Validate[T, AnyOf[PH :: PT]] {
-      override type R = AnyOf[vh.Res :: RT]
+        override def showExpr(t: T): String =
+          accumulateShowExpr(t).mkString("(", " || ", ")")
 
-      override def validate(t: T): Res = {
-        val rh = vh.validate(t)
-        val rt = vt.validate(t)
-        Result.fromBoolean(rh.isPassed || rt.isPassed, AnyOf(rh :: rt.detail.ps))
+        override def accumulateShowExpr(t: T): List[String] =
+          vh.showExpr(t) :: vt.accumulateShowExpr(t)
       }
+  }
 
-      override def showExpr(t: T): String =
-        accumulateShowExpr(t).mkString("(", " || ", ")")
+  object OneOf {
+    implicit def oneOfHNilValidate[T]: Validate.Plain[T, OneOf[HNil]] =
+      Validate.alwaysFailed(OneOf(HList()))
 
-      override def accumulateShowExpr(t: T): List[String] =
-        vh.showExpr(t) :: vt.accumulateShowExpr(t)
-    }
+    implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
+        implicit vh: Validate.Aux[T, PH, RH],
+        vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
+        toList: ToList[RT, Result[_]]
+    ): Validate.Aux[T, OneOf[PH :: PT], OneOf[vh.Res :: RT]] =
+      new Validate[T, OneOf[PH :: PT]] {
+        override type R = OneOf[vh.Res :: RT]
 
-  implicit def oneOfHNilValidate[T]: Validate.Plain[T, OneOf[HNil]] =
-    Validate.alwaysFailed(OneOf(HList()))
+        override def validate(t: T): Res = {
+          val rh = vh.validate(t)
+          val rt = vt.validate(t).detail.ps
+          val passed = (rh :: toList(rt)).count(_.isPassed) == 1
+          Result.fromBoolean(passed, OneOf(rh :: rt))
+        }
 
-  implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-      implicit vh: Validate.Aux[T, PH, RH],
-      vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
-      toList: ToList[RT, Result[_]]
-  ): Validate.Aux[T, OneOf[PH :: PT], OneOf[vh.Res :: RT]] =
-    new Validate[T, OneOf[PH :: PT]] {
-      override type R = OneOf[vh.Res :: RT]
+        override def showExpr(t: T): String =
+          accumulateShowExpr(t).mkString("oneOf(", ", ", ")")
 
-      override def validate(t: T): Res = {
-        val rh = vh.validate(t)
-        val rt = vt.validate(t).detail.ps
-        val passed = (rh :: toList(rt)).count(_.isPassed) == 1
-        Result.fromBoolean(passed, OneOf(rh :: rt))
+        override def accumulateShowExpr(t: T): List[String] =
+          vh.showExpr(t) :: vt.accumulateShowExpr(t)
       }
-
-      override def showExpr(t: T): String =
-        accumulateShowExpr(t).mkString("oneOf(", ", ", ")")
-
-      override def accumulateShowExpr(t: T): List[String] =
-        vh.showExpr(t) :: vt.accumulateShowExpr(t)
-    }
+  }
 }
 
 private[refined] trait BooleanInference0 extends BooleanInference1 {

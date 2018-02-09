@@ -29,7 +29,7 @@ import shapeless.ops.nat.ToInt
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.
  */
-object numeric extends NumericValidate with NumericInference {
+object numeric extends NumericInference {
 
   /** Predicate that checks if a numeric value is less than `N`. */
   final case class Less[N](n: N)
@@ -84,71 +84,74 @@ object numeric extends NumericValidate with NumericInference {
     /** Predicate that checks if a numeric value is in the interval `[L, H]`. */
     type Closed[L, H] = GreaterEqual[L] And LessEqual[H]
   }
-}
 
-private[refined] trait NumericValidate {
+  object Less {
+    implicit def lessValidateWit[T, N <: T](
+        implicit wn: Witness.Aux[N],
+        nt: Numeric[T]
+    ): Validate.Plain[T, Less[N]] =
+      Validate.fromPredicate(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})", Less(wn.value))
 
-  implicit def lessValidateWit[T, N <: T](
-      implicit wn: Witness.Aux[N],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Less[N]] =
-    Validate.fromPredicate(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})", Less(wn.value))
+    implicit def lessValidateNat[N <: Nat, T](
+        implicit tn: ToInt[N],
+        wn: Witness.Aux[N],
+        nt: Numeric[T]
+    ): Validate.Plain[T, Less[N]] =
+      Validate.fromPredicate(t => nt.toDouble(t) < tn(), t => s"($t < ${tn()})", Less(wn.value))
+  }
 
-  implicit def greaterValidateWit[T, N <: T](
-      implicit wn: Witness.Aux[N],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Greater[N]] =
-    Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
+  object Greater {
+    implicit def greaterValidateWit[T, N <: T](
+        implicit wn: Witness.Aux[N],
+        nt: Numeric[T]
+    ): Validate.Plain[T, Greater[N]] =
+      Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
 
-  implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
-      implicit wn: Witness.Aux[N],
-      wo: Witness.Aux[O],
-      it: Integral[T]
-  ): Validate.Plain[T, Modulo[N, O]] =
-    Validate.fromPredicate(
-      t => it.rem(t, wn.value) == wo.value,
-      t => s"($t % ${wn.value} == ${wo.value})",
-      Modulo(wn.value, wo.value)
-    )
+    implicit def greaterValidateNat[N <: Nat, T](
+        implicit tn: ToInt[N],
+        wn: Witness.Aux[N],
+        nt: Numeric[T]
+    ): Validate.Plain[T, Greater[N]] =
+      Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
+  }
 
-  implicit def lessValidateNat[N <: Nat, T](
-      implicit tn: ToInt[N],
-      wn: Witness.Aux[N],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Less[N]] =
-    Validate.fromPredicate(t => nt.toDouble(t) < tn(), t => s"($t < ${tn()})", Less(wn.value))
+  object Modulo {
+    implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
+        implicit wn: Witness.Aux[N],
+        wo: Witness.Aux[O],
+        it: Integral[T]
+    ): Validate.Plain[T, Modulo[N, O]] =
+      Validate.fromPredicate(
+        t => it.rem(t, wn.value) == wo.value,
+        t => s"($t % ${wn.value} == ${wo.value})",
+        Modulo(wn.value, wo.value)
+      )
 
-  implicit def greaterValidateNat[N <: Nat, T](
-      implicit tn: ToInt[N],
-      wn: Witness.Aux[N],
-      nt: Numeric[T]
-  ): Validate.Plain[T, Greater[N]] =
-    Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
+    implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
+        implicit tn: ToInt[N],
+        to: ToInt[O],
+        wn: Witness.Aux[N],
+        wo: Witness.Aux[O],
+        it: Integral[T]
+    ): Validate.Plain[T, Modulo[N, O]] =
+      Validate.fromPredicate(
+        t => it.rem(t, it.fromInt(tn())) == it.fromInt(to()),
+        t => s"($t % ${tn()} == ${to()})",
+        Modulo(wn.value, wo.value)
+      )
 
-  implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
-      implicit tn: ToInt[N],
-      to: ToInt[O],
-      wn: Witness.Aux[N],
-      wo: Witness.Aux[O],
-      it: Integral[T]
-  ): Validate.Plain[T, Modulo[N, O]] =
-    Validate.fromPredicate(
-      t => it.rem(t, it.fromInt(tn())) == it.fromInt(to()),
-      t => s"($t % ${tn()} == ${to()})",
-      Modulo(wn.value, wo.value)
-    )
-
-  implicit def moduloValidateWitNatIntegral[T, N <: T, O <: Nat](
-      implicit wn: Witness.Aux[N],
-      to: ToInt[O],
-      wo: Witness.Aux[O],
-      it: Integral[T]
-  ): Validate.Plain[T, Modulo[N, O]] =
-    Validate.fromPredicate(
-      t => it.rem(t, wn.value) == it.fromInt(to()),
-      t => s"($t % ${wn.value} == ${to()})",
-      Modulo(wn.value, wo.value)
-    )
+    implicit def moduloValidateWitNatIntegral[T, N <: T, O <: Nat](
+        implicit wn: Witness.Aux[N],
+        to: ToInt[O],
+        wo: Witness.Aux[O],
+        it: Integral[T]
+    ): Validate.Plain[T, Modulo[N, O]] =
+      Validate.fromPredicate(
+        t => it.rem(t, wn.value) == it.fromInt(to()),
+        t => s"($t % ${wn.value} == ${to()})",
+        Modulo(wn.value, wo.value)
+      )
+  }
 }
 
 private[refined] trait NumericInference {

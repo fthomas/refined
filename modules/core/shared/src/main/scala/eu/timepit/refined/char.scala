@@ -2,10 +2,9 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.Validate
 import eu.timepit.refined.boolean.Or
-import eu.timepit.refined.char._
 
 /** Module for `Char` related predicates. */
-object char extends CharValidate {
+object char {
 
   /** Predicate that checks if a `Char` is a digit. */
   final case class Digit()
@@ -24,22 +23,29 @@ object char extends CharValidate {
 
   /** Predicate that checks if a `Char` is a letter or digit. */
   type LetterOrDigit = Letter Or Digit
-}
 
-private[refined] trait CharValidate {
+  object Digit {
+    implicit def digitValidate: Validate.Plain[Char, Digit] =
+      Validate.fromPredicate(_.isDigit, t => s"isDigit('$t')", Digit())
+  }
 
-  implicit def digitValidate: Validate.Plain[Char, Digit] =
-    Validate.fromPredicate(_.isDigit, t => s"isDigit('$t')", Digit())
+  object Letter {
+    implicit def letterValidate: Validate.Plain[Char, Letter] =
+      Validate.fromPredicate(_.isLetter, t => s"isLetter('$t')", Letter())
+  }
 
-  implicit def letterValidate: Validate.Plain[Char, Letter] =
-    Validate.fromPredicate(_.isLetter, t => s"isLetter('$t')", Letter())
+  object LowerCase {
+    implicit def lowerCaseValidate: Validate.Plain[Char, LowerCase] =
+      Validate.fromPredicate(_.isLower, t => s"isLower('$t')", LowerCase())
+  }
 
-  implicit def lowerCaseValidate: Validate.Plain[Char, LowerCase] =
-    Validate.fromPredicate(_.isLower, t => s"isLower('$t')", LowerCase())
+  object UpperCase {
+    implicit def upperCaseValidate: Validate.Plain[Char, UpperCase] =
+      Validate.fromPredicate(_.isUpper, t => s"isUpper('$t')", UpperCase())
+  }
 
-  implicit def upperCaseValidate: Validate.Plain[Char, UpperCase] =
-    Validate.fromPredicate(_.isUpper, t => s"isUpper('$t')", UpperCase())
-
-  implicit def whitespaceValidate: Validate.Plain[Char, Whitespace] =
-    Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
+  object Whitespace {
+    implicit def whitespaceValidate: Validate.Plain[Char, Whitespace] =
+      Validate.fromPredicate(_.isWhitespace, t => s"isWhitespace('$t')", Whitespace())
+  }
 }

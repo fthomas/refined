@@ -306,7 +306,14 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.CollectionValidate"),
       ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.collection*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string#IPv4.*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string#IPv6.*")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string#IPv6.*"),
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.eval$"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.eval.evalValidate"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.EvalValidate"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.jsonpath.string.jsonPathValidate"),
+      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.jsonpath.string$*"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.jsonpath.StringValidate")
     )
   }
 )

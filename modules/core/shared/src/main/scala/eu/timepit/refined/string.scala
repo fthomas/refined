@@ -18,66 +18,8 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a valid IPv4 */
   final case class IPv4()
 
-  object IPv4 {
-    implicit def ipv4Validate[S <: String]: Validate.Plain[String, IPv4] =
-      Validate.fromPredicate(IPv4.predicate, t => s"${t} is a valid IPv4", IPv4())
-
-    val regex = "^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$".r.pattern
-    val maxOctet = 255
-    val predicate: String => Boolean = s => {
-      val matcher = regex.matcher(s)
-      matcher.find() && matcher.matches() && {
-        val octet1 = matcher.group(1).toInt
-        val octet2 = matcher.group(2).toInt
-        val octet3 = matcher.group(3).toInt
-        val octet4 = matcher.group(4).toInt
-
-        (octet1 <= maxOctet) && (octet2 <= maxOctet) && (octet3 <= maxOctet) && (octet4 <= maxOctet)
-      }
-    }
-  }
-
   /** Predicate that checks if a `String` is a valid IPv6 */
   final case class IPv6()
-
-  object IPv6 {
-    implicit def ipv6Validate[S <: String]: Validate.Plain[String, IPv6] =
-      Validate.fromPredicate(IPv6.predicate, t => s"${t} is a valid IPv6", IPv6())
-
-    val ipv4Chars = "(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])"
-    val ipv4 = s"(${ipv4Chars}\\.){3,3}${ipv4Chars}"
-    val ipv6Chars = "[0-9a-fA-F]{1,4}"
-
-    val ipv6Full = s"(${ipv6Chars}:){7,7}${ipv6Chars}" // 1:2:3:4:5:6:7:8
-
-    val ipv6Compact = List(
-      s"(${ipv6Chars}:){1,7}:", // 1:: .. 1:2:3:4:5:6:7::
-      s"(${ipv6Chars}:){1,6}:${ipv6Chars}", // 1::8 .. 1:2:3:4:5:6::8
-      s"(${ipv6Chars}:){1,5}(:${ipv6Chars}){1,2}", // 1::7:8 .. 1:2:3:4:5::8
-      s"(${ipv6Chars}:){1,4}(:${ipv6Chars}){1,3}", // 1::6:7:8 .. 1:2:3:4::8
-      s"(${ipv6Chars}:){1,3}(:${ipv6Chars}){1,4}", // 1::5:6:7:8 .. 1:2:3::8
-      s"(${ipv6Chars}:){1,2}(:${ipv6Chars}){1,5}", // 1::4:5:6:7:8 .. 1:2::8
-      s"(${ipv6Chars}:)(:${ipv6Chars}){1,6}", // 1::3:4:5:6:7:8 .. 1::8
-      s":((:${ipv6Chars}){1,7}|:)" // ::2:3:4:5:6:7:8 .. ::
-    )
-
-    val interface = "[0-9a-zA-Z]{1,}"
-    val ipv6LinkLocal = s"fe80:(:${ipv6Chars}){0,4}%${interface}"
-
-    val mappedIpv6 = s"::(ffff(:0{1,4}){0,1}:){0,1}${ipv4}"
-
-    val embeddedIpv4 = s"(${ipv6Chars}:){1,4}:${ipv4}"
-
-    val formats = List(
-      ipv6Full,
-      ipv6LinkLocal,
-      mappedIpv6,
-      embeddedIpv4
-    ) ++ ipv6Compact
-
-    val regex = formats.map(regex => s"(^${regex}$$)").mkString("|").r.pattern
-    val predicate: String => Boolean = s => regex.matcher(s).matches
-  }
 
   /** Predicate that checks if a `String` matches the regular expression `S`. */
   final case class MatchesRegex[S](s: S)
@@ -121,17 +63,79 @@ object string extends StringInference {
   object EndsWith {
     implicit def endsWithValidate[S <: String](
         implicit ws: Witness.Aux[S]): Validate.Plain[String, EndsWith[S]] =
-      Validate.fromPredicate(_.endsWith(ws.value),
-                             t => s""""$t".endsWith("${ws.value}")""",
-                             EndsWith(ws.value))
+      Validate.fromPredicate(
+        _.endsWith(ws.value),
+        t => s""""$t".endsWith("${ws.value}")""",
+        EndsWith(ws.value)
+      )
+  }
+
+  object IPv4 {
+    implicit def ipv4Validate[S <: String]: Validate.Plain[String, IPv4] =
+      Validate.fromPredicate(predicate, t => s"$t is a valid IPv4", IPv4())
+
+    private val regex = "^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$".r.pattern
+    private val maxOctet = 255
+    private val predicate: String => Boolean = s => {
+      val matcher = regex.matcher(s)
+      matcher.find() && matcher.matches() && {
+        val octet1 = matcher.group(1).toInt
+        val octet2 = matcher.group(2).toInt
+        val octet3 = matcher.group(3).toInt
+        val octet4 = matcher.group(4).toInt
+
+        (octet1 <= maxOctet) && (octet2 <= maxOctet) && (octet3 <= maxOctet) && (octet4 <= maxOctet)
+      }
+    }
+  }
+
+  object IPv6 {
+    implicit def ipv6Validate[S <: String]: Validate.Plain[String, IPv6] =
+      Validate.fromPredicate(predicate, t => s"$t is a valid IPv6", IPv6())
+
+    private val ipv4Chars = "(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])"
+    private val ipv4 = s"($ipv4Chars\\.){3,3}$ipv4Chars"
+    private val ipv6Chars = "[0-9a-fA-F]{1,4}"
+
+    private val ipv6Full = s"($ipv6Chars:){7,7}$ipv6Chars" // 1:2:3:4:5:6:7:8
+
+    private val ipv6Compact = List(
+      s"($ipv6Chars:){1,7}:", // 1:: .. 1:2:3:4:5:6:7::
+      s"($ipv6Chars:){1,6}:$ipv6Chars", // 1::8 .. 1:2:3:4:5:6::8
+      s"($ipv6Chars:){1,5}(:$ipv6Chars){1,2}", // 1::7:8 .. 1:2:3:4:5::8
+      s"($ipv6Chars:){1,4}(:$ipv6Chars){1,3}", // 1::6:7:8 .. 1:2:3:4::8
+      s"($ipv6Chars:){1,3}(:$ipv6Chars){1,4}", // 1::5:6:7:8 .. 1:2:3::8
+      s"($ipv6Chars:){1,2}(:$ipv6Chars){1,5}", // 1::4:5:6:7:8 .. 1:2::8
+      s"($ipv6Chars:)(:$ipv6Chars){1,6}", // 1::3:4:5:6:7:8 .. 1::8
+      s":((:$ipv6Chars){1,7}|:)" // ::2:3:4:5:6:7:8 .. ::
+    )
+
+    private val interface = "[0-9a-zA-Z]{1,}"
+    private val ipv6LinkLocal = s"fe80:(:$ipv6Chars){0,4}%$interface"
+
+    private val mappedIpv6 = s"::(ffff(:0{1,4}){0,1}:){0,1}$ipv4"
+
+    private val embeddedIpv4 = s"($ipv6Chars:){1,4}:$ipv4"
+
+    private val formats = List(
+      ipv6Full,
+      ipv6LinkLocal,
+      mappedIpv6,
+      embeddedIpv4
+    ) ++ ipv6Compact
+
+    private val regex = formats.map(regex => s"(^$regex$$)").mkString("|").r.pattern
+    private val predicate: String => Boolean = s => regex.matcher(s).matches
   }
 
   object MatchesRegex {
     implicit def matchesRegexValidate[S <: String](
         implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =
-      Validate.fromPredicate(_.matches(ws.value),
-                             t => s""""$t".matches("${ws.value}")""",
-                             MatchesRegex(ws.value))
+      Validate.fromPredicate(
+        _.matches(ws.value),
+        t => s""""$t".matches("${ws.value}")""",
+        MatchesRegex(ws.value)
+      )
   }
 
   object Regex {
@@ -142,9 +146,11 @@ object string extends StringInference {
   object StartsWith {
     implicit def startsWithValidate[S <: String](
         implicit ws: Witness.Aux[S]): Validate.Plain[String, StartsWith[S]] =
-      Validate.fromPredicate(_.startsWith(ws.value),
-                             t => s""""$t".startsWith("${ws.value}")""",
-                             StartsWith(ws.value))
+      Validate.fromPredicate(
+        _.startsWith(ws.value),
+        t => s""""$t".startsWith("${ws.value}")""",
+        StartsWith(ws.value)
+      )
   }
 
   object Uri {
@@ -159,9 +165,11 @@ object string extends StringInference {
 
   object Uuid {
     implicit def uuidValidate: Validate.Plain[String, Uuid] =
-      Validate.fromPartial(s => require(java.util.UUID.fromString(s).toString == s.toLowerCase),
-                           "Uuid",
-                           Uuid())
+      Validate.fromPartial(
+        s => require(java.util.UUID.fromString(s).toString == s.toLowerCase),
+        "Uuid",
+        Uuid()
+      )
   }
 
   object ValidInt {
@@ -196,10 +204,11 @@ object string extends StringInference {
 
   object XPath {
     implicit def xpathValidate: Validate.Plain[String, XPath] =
-      Validate
-        .fromPartial(javax.xml.xpath.XPathFactory.newInstance().newXPath().compile,
-                     "XPath",
-                     XPath())
+      Validate.fromPartial(
+        javax.xml.xpath.XPathFactory.newInstance().newXPath().compile,
+        "XPath",
+        XPath()
+      )
   }
 }
 

@@ -32,4 +32,7 @@ matrix:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.6/bin/travis_setup.sh | bash -x
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile validate
+  - scala: 2.13.0-M3
+    script:
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
   - scala: 2.12.4

@@ -1,10 +1,11 @@
+// Copyright: 2015 - 2018 Frank S. Thomas and Sam Halliday
+// License: https://opensource.org/licenses/MIT
+
 package eu.timepit.refined
 
-import _root_.scalaz.Equal
-import _root_.scalaz.Show
-import _root_.scalaz.@@
+import _root_.scalaz.{@@, Contravariant, Equal, MonadError, Show}
 import _root_.scalaz.syntax.contravariant._
-import eu.timepit.refined.api.RefType
+import eu.timepit.refined.api.{RefType, Validate}
 import scala.reflect.macros.blackbox
 
 package object scalaz {
@@ -42,4 +43,33 @@ package object scalaz {
    */
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
     Show[T].contramap(rt.unwrap)
+
+  /**
+   * Instances for typeclasses with a `Contravariant`, e.g. encoders.
+   */
+  implicit def refTypeContravariant[R[_, _], F[_], A, B](
+      implicit
+      C: Contravariant[F],
+      R: RefType[R],
+      F: F[A]
+  ): F[R[A, B]] = C.contramap(F)(R.unwrap)
+
+  /**
+   * Instances for typeclasses with a `MonadError[?, String]`, i.e. a
+   * disjunction kleisli arrow applied to the typeclass. e.g. decoders.
+   */
+  implicit def refTypeMonadError[R[_, _], F[_], A, B](
+      implicit
+      M: MonadError[F, String],
+      R: RefType[R],
+      V: Validate[A, B],
+      F: F[A]
+  ): F[R[A, B]] =
+    M.bind(F) { f =>
+      R.refine(f) match {
+        case Left(s)  => M.raiseError(s)
+        case Right(v) => M.pure(v)
+      }
+    }
+
 }

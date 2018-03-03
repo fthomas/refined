@@ -3,9 +3,12 @@
 
 package eu.timepit.refined.scalaz
 
-import _root_.scalaz._, Scalaz._
+import _root_.scalaz.{@@, \/, MonadError}
+import _root_.scalaz.syntax.bind._
+import _root_.scalaz.syntax.either._
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
+import eu.timepit.refined.scalaz._
 import org.scalacheck._
 import org.scalacheck.Prop._
 
@@ -39,7 +42,7 @@ object Decoder {
 class RefTypeSpecScalazMonadError extends Properties("scalaz.Contravariant") {
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
-  import Decoder._
+  import Decoder.monad
 
   property("Refined via scalaz.MonadError[?, String]") = secure {
     val decoder = Decoder[String Refined NonEmpty]

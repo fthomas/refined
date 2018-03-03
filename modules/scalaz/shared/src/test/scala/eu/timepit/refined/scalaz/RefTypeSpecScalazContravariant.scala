@@ -14,13 +14,16 @@ trait Encoder[A] {
 }
 object Encoder {
   @inline def apply[A](implicit A: Encoder[A]): Encoder[A] = A
+  @inline def instance[A](f: A => String): Encoder[A] = new Encoder[A] {
+    override def encode(a: A): String = f(a)
+  }
 
-  implicit val string: Encoder[String] = identity
+  implicit val string: Encoder[String] = instance(identity)
 
   implicit val contravariant: Contravariant[Encoder] =
     new Contravariant[Encoder] {
       override def contramap[A, B](fa: Encoder[A])(f: B => A): Encoder[B] =
-        b => fa.encode(f(b))
+        instance(b => fa.encode(f(b)))
     }
 }
 

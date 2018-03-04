@@ -3,12 +3,11 @@
 
 package eu.timepit.refined.scalaz
 
-import _root_.scalaz.{@@, \/, MonadError}
-import _root_.scalaz.syntax.bind._
+import _root_.scalaz.{@@, \/, IsomorphismMonadError, MonadError, ReaderT}
+import _root_.scalaz.Isomorphism.{<~>, IsoFunctorTemplate}
 import _root_.scalaz.syntax.either._
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
-import eu.timepit.refined.scalaz._
 import org.scalacheck._
 import org.scalacheck.Prop._
 
@@ -24,18 +23,19 @@ object Decoder {
 
   implicit val string: Decoder[String] = instance(_.right)
 
-  implicit val monad: MonadError[Decoder, String] =
-    new MonadError[Decoder, String] {
-      def point[A](a: => A): Decoder[A] = instance(_ => a.right)
-      def raiseError[A](e: String): Decoder[A] = instance(_ => e.left)
-
-      def bind[A, B](fa: Decoder[A])(f: A => Decoder[B]): Decoder[B] =
-        instance(s => fa.decode(s) >>= (f(_).decode(s)))
-
-      // grr... https://github.com/scalaz/scalaz/issues/1657
-      // and... https://github.com/scalaz/scalaz/issues/1659
-      def handleError[A](fa: Decoder[A])(f: String => Decoder[A]): Decoder[A] =
-        instance(a => (fa.decode(a).swap >>= (f(_).decode(a).swap)).swap)
+  type Out[a] = String \/ a
+  type MT[a] = ReaderT[Out, String, a]
+  implicit val isoReaderT: Decoder <~> MT =
+    new IsoFunctorTemplate[Decoder, MT] {
+      def from[A](fa: MT[A]) = instance(fa.run(_))
+      def to[A](fa: Decoder[A]) = ReaderT[Out, String, A](fa.decode)
+    }
+  // will be cleaner after https://github.com/scalaz/scalaz/pull/1661
+  private[this] val ME = MonadError[MT, String]
+  implicit def monad: MonadError[Decoder, String] =
+    new IsomorphismMonadError[Decoder, MT, String] {
+      override implicit val G: MonadError[MT, String] = ME
+      override val iso: Decoder <~> MT = isoReaderT
     }
 }
 

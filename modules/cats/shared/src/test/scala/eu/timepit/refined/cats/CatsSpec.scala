@@ -1,8 +1,6 @@
 package eu.timepit.refined.cats
 
-import _root_.cats.instances.int._
-import _root_.cats.syntax.order._
-import _root_.cats.syntax.show._
+import _root_.cats.implicits._
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties

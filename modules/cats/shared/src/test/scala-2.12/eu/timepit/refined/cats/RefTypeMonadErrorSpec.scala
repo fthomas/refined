@@ -4,6 +4,7 @@ import _root_.cats.MonadError
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 

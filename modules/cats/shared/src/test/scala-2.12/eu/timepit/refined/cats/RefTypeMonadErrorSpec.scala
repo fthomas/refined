@@ -22,12 +22,11 @@ object Decoder {
   implicit val decoderMonadError: MonadError[Decoder, String] =
     new MonadError[Decoder, String] {
       override def flatMap[A, B](fa: Decoder[A])(f: A => Decoder[B]): Decoder[B] =
-        new Decoder[B] {
-          override def decode(s: String): Either[String, B] =
-            fa.decode(s) match {
-              case Right(a) => f(a).decode(s)
-              case Left(s)  => Left(s)
-            }
+        instance { s =>
+          fa.decode(s) match {
+            case Right(a)  => f(a).decode(s)
+            case Left(err) => Left(err)
+          }
         }
 
       override def tailRecM[A, B](a: A)(f: A => Decoder[Either[A, B]]): Decoder[B] = {
@@ -46,12 +45,11 @@ object Decoder {
         instance(_ => Left(e))
 
       override def handleErrorWith[A](fa: Decoder[A])(f: String => Decoder[A]): Decoder[A] =
-        new Decoder[A] {
-          override def decode(s: String): Either[String, A] =
-            fa.decode(s) match {
-              case Right(a)  => Right(a)
-              case Left(err) => f(err).decode(s)
-            }
+        instance { s =>
+          fa.decode(s) match {
+            case Right(a)  => Right(a)
+            case Left(err) => f(err).decode(s)
+          }
         }
 
       override def pure[A](x: A): Decoder[A] =

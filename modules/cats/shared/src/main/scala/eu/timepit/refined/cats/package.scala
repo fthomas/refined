@@ -15,21 +15,21 @@ package object cats {
    * instance of the base type.
    */
   implicit def refTypeEq[F[_, _], T: Eq, P](implicit rt: RefType[F]): Eq[F[T, P]] =
-    refTypeContravariant[F, Eq, T, P]
+    refTypeViaContravariant[F, Eq, T, P]
 
   /**
    * `Order` instance for refined types that delegates to the `Order`
    * instance of the base type.
    */
   implicit def refTypeOrder[F[_, _], T: Order, P](implicit rt: RefType[F]): Order[F[T, P]] =
-    refTypeContravariant[F, Order, T, P]
+    refTypeViaContravariant[F, Order, T, P]
 
   /**
    * `Show` instance for refined types that delegates to the `Show`
    * instance of the base type.
    */
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
-    refTypeContravariant[F, Show, T, P]
+    refTypeViaContravariant[F, Show, T, P]
 
   /**
    * `G` instance for refined types derived via `Contravariant[G]`
@@ -37,7 +37,7 @@ package object cats {
    *
    * Typical examples for `G` are encoders.
    */
-  implicit def refTypeContravariant[F[_, _], G[_], T, P](
+  implicit def refTypeViaContravariant[F[_, _], G[_], T, P](
       implicit c: Contravariant[G],
       rt: RefType[F],
       gt: G[T]
@@ -49,7 +49,7 @@ package object cats {
    *
    * Typical examples for `G` are decoders.
    */
-  implicit def refTypeMonadError[F[_, _], G[_], T, P](
+  implicit def refTypeViaMonadError[F[_, _], G[_], T, P](
       implicit m: MonadError[G, String],
       rt: RefType[F],
       v: Validate[T, P],

@@ -42,6 +42,9 @@ trait DigestTypes {
   final type SHA256 = digests.SHA256
   final val SHA256 = digests.SHA256
 
+  final type SHA384 = digests.SHA384
+  final val SHA384 = digests.SHA384
+
   final type SHA512 = digests.SHA512
   final val SHA512 = digests.SHA512
 }

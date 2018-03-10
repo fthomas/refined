@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 import eu.timepit.refined.W
-import eu.timepit.refined.api.{ Refined, RefinedTypeOps }
+import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean.And
 import eu.timepit.refined.collection.Size
 import eu.timepit.refined.generic.Equal
@@ -22,7 +22,10 @@ object digests {
   type SHA256 = String Refined (HexStringSpec And Size[Equal[W.`64`.T]])
   object SHA256 extends RefinedTypeOps[SHA256, String]
 
-  type SHA512 = String Refined (HexStringSpec And Size[Equal[W.`96`.T]])
+  type SHA384 = String Refined (HexStringSpec And Size[Equal[W.`96`.T]])
+  object SHA384 extends RefinedTypeOps[SHA384, String]
+
+  type SHA512 = String Refined (HexStringSpec And Size[Equal[W.`128`.T]])
   object SHA512 extends RefinedTypeOps[SHA512, String]
 }
 

@@ -91,6 +91,10 @@ class NumericInferenceSpec extends Properties("NumericInference") {
     Inference[Interval.Closed[_5, _10], LessEqual[_11]].isValid
   }
 
+  property("Greater[A] ==> Not[Less[A]]") = secure {
+    Inference[Greater[W.`0`.T], Not[Less[W.`0`.T]]].isValid
+  }
+
   /*
   property("Interval.Closed[Nat] ==> GreaterEqual[Nat]") = secure {
     Inference[Interval.Closed[_5, _10], GreaterEqual[_4]].isValid

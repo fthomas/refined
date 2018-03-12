@@ -315,7 +315,11 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.jsonpath.string.jsonPathValidate"),
       ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.jsonpath.string$*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.jsonpath.StringValidate")
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.jsonpath.StringValidate"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.greaterEqualInference"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.numeric.lessEqualInference")
     )
   }
 )

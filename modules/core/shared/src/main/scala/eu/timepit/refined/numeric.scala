@@ -196,6 +196,9 @@ private[refined] trait NumericInference {
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
 
-  implicit def greaterNotLessThanInference[A]: Greater[A] ==> Not[Less[A]] =
-    Inference(true, s"greaterNotLessThanInference")
+  implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
+    Inference(true, "greaterEqualInference")
+
+  implicit def lessEqualInference[A]: Less[A] ==> LessEqual[A] =
+    Inference(true, "lessEqualInference")
 }

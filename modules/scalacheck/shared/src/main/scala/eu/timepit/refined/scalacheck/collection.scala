@@ -1,23 +1,21 @@
 package eu.timepit.refined.scalacheck
 
-import eu.timepit.refined.api.RefType
-import eu.timepit.refined.collection.MaxSize
+import eu.timepit.refined.api.{Refined, RefType}
+import eu.timepit.refined.collection.Size
 import org.scalacheck.{Arbitrary, Gen}
-import shapeless.Nat
-import shapeless.ops.nat.ToInt
 
 /** Module that provides `Arbitrary` instances for collection predicates. */
 object collection extends CollectionInstances
 
 trait CollectionInstances {
 
-  implicit def listMaxSizeArbitraryNat[T: Arbitrary, F[_, _]: RefType, N <: Nat](
-      implicit tn: ToInt[N]
-  ): Arbitrary[F[List[T], MaxSize[N]]] =
-    arbitraryRefType[F, List[T], MaxSize[N]](
+  implicit def listSizeArbitrary[T: Arbitrary, F[_, _]: RefType, P](
+      implicit arb: Arbitrary[Int Refined P]
+  ): Arbitrary[F[List[T], Size[P]]] =
+    arbitraryRefType[F, List[T], Size[P]](
       for {
-        numElems <- Gen.chooseNum(0, tn())
-        elems <- Gen.listOfN(numElems, Arbitrary.arbitrary[T])
+        numElems <- arb.arbitrary
+        elems <- Gen.listOfN(Math.min(numElems.value, 999), Arbitrary.arbitrary[T])
       } yield elems
     )
 }

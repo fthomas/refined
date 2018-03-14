@@ -2,8 +2,8 @@ package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.collection.{MaxSize, MinSize}
-import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.scalacheck.collection._
+import eu.timepit.refined.scalacheck.numeric._
 import org.scalacheck.Properties
 import shapeless.nat._
 

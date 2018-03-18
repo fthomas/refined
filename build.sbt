@@ -20,6 +20,7 @@ val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.20"
 val scodecVersion = "1.10.3"
+val scoptVersion = "3.7.0"
 
 val macroParadise =
   "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
@@ -27,7 +28,7 @@ val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
+  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec", "scopt")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
@@ -57,7 +58,9 @@ lazy val root = project
     scalazJVM,
     scalazJS,
     scodecJVM,
-    scodecJS
+    scodecJS,
+    scoptJVM,
+    scoptJS
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
@@ -218,6 +221,22 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
 
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
+
+lazy val scopt = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("scopt"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.github.scopt" %%% "scopt" % scoptVersion,
+      compilerPlugin(macroParadise % Test)
+    )
+  )
+  // This is required by scopt (which uses the 'os' modue), although I'm not 100% sure what other potential side effects
+  // this might have.
+  .jsSettings(scalaJSModuleKind := ModuleKind.CommonJSModule)
+
+lazy val scoptJVM = scopt.jvm
+lazy val scoptJS = scopt.js
 
 /// settings
 

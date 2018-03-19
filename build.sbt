@@ -34,7 +34,8 @@ val allSubprojectsJS = {
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 
-val Scala211 = Def.setting(crossScalaVersions.value.find(_.startsWith("2.11")).get)
+// Remember to update these in .travis.yml, too.
+val Scala211 = "2.11.12"
 val Scala213 = "2.13.0-M3"
 
 /// projects

@@ -462,7 +462,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepCommand(s"++${Scala211.value}"),
+      releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
       setLatestVersion,
       setNextVersion,

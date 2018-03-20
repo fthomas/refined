@@ -5,11 +5,10 @@ import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean.And
 import eu.timepit.refined.collection.Size
 import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.types.string.HexStringSpec
 
 /** Module for type representing message digests. */
 object digests {
-  import string.HexStringSpec
-
   type MD5 = String Refined (HexStringSpec And Size[Equal[W.`32`.T]])
   object MD5 extends RefinedTypeOps[MD5, String]
 

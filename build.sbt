@@ -27,7 +27,15 @@ val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec")
+  Seq("cats",
+      "core",
+      "eval",
+      "jsonpath",
+      "pureconfig",
+      "scalacheck",
+      "scalaz",
+      "scodec",
+      "shapeless")
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
@@ -58,7 +66,9 @@ lazy val root = project
     scalazJVM,
     scalazJS,
     scodecJVM,
-    scodecJS
+    scodecJS,
+    shapelessJVM,
+    shapelessJS
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
@@ -219,6 +229,18 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
 
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
+
+lazy val shapeless = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("shapeless"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    initialCommands += s"""
+      import $rootPkg.shapeless._
+    """
+  )
+
+lazy val shapelessJVM = shapeless.jvm
+lazy val shapelessJS = shapeless.js
 
 /// settings
 

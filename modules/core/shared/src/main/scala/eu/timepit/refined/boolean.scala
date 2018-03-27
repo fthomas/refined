@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api._
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.{===>, ==>}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
 import shapeless.{::, HList, HNil}
@@ -258,7 +258,7 @@ object boolean extends BooleanInference0 {
 
 private[refined] trait BooleanInference0 extends BooleanInference1 {
 
-  implicit def minimalTautology[A]: A ==> A =
+  implicit def minimalTautology[A]: A ===> A =
     Inference.alwaysValid("minimalTautology")
 
   implicit def doubleNegationElimination[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
@@ -267,40 +267,40 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def doubleNegationIntroduction[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
     p1.adapt("doubleNegationIntroduction(%s)")
 
-  implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ==> (A And (B And C)) =
+  implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ===> (A And (B And C)) =
     Inference.alwaysValid("conjunctionAssociativity")
 
-  implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
+  implicit def conjunctionCommutativity[A, B]: (A And B) ===> (B And A) =
     Inference.alwaysValid("conjunctionCommutativity")
 
   implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationR(%s)")
 
-  implicit def disjunctionAssociativity[A, B, C]: ((A Or B) Or C) ==> (A Or (B Or C)) =
+  implicit def disjunctionAssociativity[A, B, C]: ((A Or B) Or C) ===> (A Or (B Or C)) =
     Inference.alwaysValid("disjunctionAssociativity")
 
-  implicit def disjunctionCommutativity[A, B]: (A Or B) ==> (B Or A) =
+  implicit def disjunctionCommutativity[A, B]: (A Or B) ===> (B Or A) =
     Inference.alwaysValid("disjunctionCommutativity")
 
-  implicit def disjunctionIntroductionL[A, B]: A ==> (A Or B) =
+  implicit def disjunctionIntroductionL[A, B]: A ===> (A Or B) =
     Inference.alwaysValid("disjunctionIntroductionL")
 
-  implicit def disjunctionIntroductionR[A, B]: B ==> (A Or B) =
+  implicit def disjunctionIntroductionR[A, B]: B ===> (A Or B) =
     Inference.alwaysValid("disjunctionIntroductionR")
 
-  implicit def deMorgansLaw1[A, B]: Not[A And B] ==> (Not[A] Or Not[B]) =
+  implicit def deMorgansLaw1[A, B]: Not[A And B] ===> (Not[A] Or Not[B]) =
     Inference.alwaysValid("deMorgansLaw1")
 
-  implicit def deMorgansLaw2[A, B]: Not[A Or B] ==> (Not[A] And Not[B]) =
+  implicit def deMorgansLaw2[A, B]: Not[A Or B] ===> (Not[A] And Not[B]) =
     Inference.alwaysValid("deMorgansLaw2")
 
-  implicit def xorCommutativity[A, B]: (A Xor B) ==> (B Xor A) =
+  implicit def xorCommutativity[A, B]: (A Xor B) ===> (B Xor A) =
     Inference.alwaysValid("xorCommutativity")
 
-  implicit def nandCommutativity[A, B]: (A Nand B) ==> (B Nand A) =
+  implicit def nandCommutativity[A, B]: (A Nand B) ===> (B Nand A) =
     Inference.alwaysValid("nandCommutativity")
 
-  implicit def norCommutativity[A, B]: (A Nor B) ==> (B Nor A) =
+  implicit def norCommutativity[A, B]: (A Nor B) ===> (B Nor A) =
     Inference.alwaysValid("norCommutativity")
 }
 

@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Inference, Result, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.{===>, ==>}
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
@@ -314,25 +314,25 @@ private[refined] trait CollectionInference {
   implicit def existsInference[A, B](implicit p1: A ==> B): Exists[A] ==> Exists[B] =
     p1.adapt("existsInference(%s)")
 
-  implicit def existsNonEmptyInference[P]: Exists[P] ==> NonEmpty =
+  implicit def existsNonEmptyInference[P]: Exists[P] ===> NonEmpty =
     Inference.alwaysValid("existsNonEmptyInference")
 
   implicit def headInference[A, B](implicit p1: A ==> B): Head[A] ==> Head[B] =
     p1.adapt("headInference(%s)")
 
-  implicit def headExistsInference[P]: Head[P] ==> Exists[P] =
+  implicit def headExistsInference[P]: Head[P] ===> Exists[P] =
     Inference.alwaysValid("headExistsInference")
 
   implicit def indexInference[N, A, B](implicit p1: A ==> B): Index[N, A] ==> Index[N, B] =
     p1.adapt("indexInference(%s)")
 
-  implicit def indexExistsInference[N, P]: Index[N, P] ==> Exists[P] =
+  implicit def indexExistsInference[N, P]: Index[N, P] ===> Exists[P] =
     Inference.alwaysValid("indexExistsInference")
 
   implicit def lastInference[A, B](implicit p1: A ==> B): Last[A] ==> Last[B] =
     p1.adapt("lastInference(%s)")
 
-  implicit def lastExistsInference[P]: Last[P] ==> Exists[P] =
+  implicit def lastExistsInference[P]: Last[P] ===> Exists[P] =
     Inference.alwaysValid("lastExistsInference")
 
   implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =

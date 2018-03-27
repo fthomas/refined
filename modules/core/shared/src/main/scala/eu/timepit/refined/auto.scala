@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Refined, RefType, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.{===>, ==>}
 import eu.timepit.refined.macros.{InferMacro, RefineMacro}
 import shapeless.tag.@@
 
@@ -9,28 +9,16 @@ import shapeless.tag.@@
  * Module that provides automatic refinements and automatic conversions
  * between refined types (refinement subtyping) at compile-time.
  */
-object auto {
+object auto extends LowPriorityInferece {
 
   /**
    * Implicitly converts (at compile-time) a value of type `F[T, A]` to
-   * `F[T, B]` if there is a valid inference `A ==> B`. If the
-   * inference is invalid, compilation fails.
-   *
-   * Example: {{{
-   * scala> import eu.timepit.refined.api.Refined
-   *      | import eu.timepit.refined.auto.{ autoInfer, autoRefineV }
-   *      | import eu.timepit.refined.numeric.Greater
-   *
-   * scala> val x: Int Refined Greater[W.`5`.T] = 100
-   *
-   * scala> x: Int Refined Greater[W.`0`.T]
-   * res0: Int Refined Greater[W.`0`.T] = 100
-   * }}}
+   * `F[T, B]` if there is an implicit inference `A ===> B`.
    */
-  implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
+  implicit def autoInferOnAlways[F[_, _], T, A, B](ta: F[T, A])(
       implicit rt: RefType[F],
-      ir: A ==> B
-  ): F[T, B] = macro InferMacro.impl[F, T, A, B]
+      ir: A ===> B
+  ): F[T, B] = macro InferMacro.implAlways[F, T, A, B]
 
   /**
    * Implicitly unwraps the `T` from a value of type `F[T, P]` using the
@@ -79,4 +67,29 @@ object auto {
       implicit rt: RefType[@@],
       v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
+}
+
+trait LowPriorityInferece {
+
+  /**
+   * Implicitly converts (at compile-time) a value of type `F[T, A]` to
+   * `F[T, B]` if there is a valid inference `A ==> B`. If the
+   * inference is invalid, compilation fails.
+   * This implicit has lower priority than the ''autoInferOnAlways''.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api.Refined
+   *      | import eu.timepit.refined.auto.{ autoInfer, autoRefineV }
+   *      | import eu.timepit.refined.numeric.Greater
+   *
+   * scala> val x: Int Refined Greater[W.`5`.T] = 100
+   *
+   * scala> x: Int Refined Greater[W.`0`.T]
+   * res0: Int Refined Greater[W.`0`.T] = 100
+   * }}}
+   */
+  implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
+      implicit rt: RefType[F],
+      ir: A ==> B
+  ): F[T, B] = macro InferMacro.impl[F, T, A, B]
 }

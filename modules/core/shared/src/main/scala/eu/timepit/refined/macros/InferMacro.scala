@@ -1,5 +1,6 @@
 package eu.timepit.refined.macros
 
+import eu.timepit.refined.api.Inference.===>
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.RefType
 import eu.timepit.refined.internal.Resources
@@ -22,4 +23,11 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
 
     refTypeInstance(rt).unsafeRewrapM(c)(ta)
   }
+
+  def implAlways[F[_, _], T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
+      ta: c.Expr[F[T, A]])(
+      rt: c.Expr[RefType[F]],
+      ir: c.Expr[A ===> B]
+  ): c.Expr[F[T, B]] =
+    refTypeInstance(rt).unsafeRewrapM(c)(ta)
 }

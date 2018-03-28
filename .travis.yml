@@ -26,13 +26,13 @@ notifications:
 matrix:
   include:
   - scala: 2.10.7
-  - scala: 2.11.12
+  - scala: 2.11.12 # Remember to update this in build.sbt, too.
     sudo: required
     before_install:
-    - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.6/bin/travis_setup.sh | bash -x
+    - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreNative/compile validate
-  - scala: 2.13.0-M3
+  - scala: 2.13.0-M3 # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
   - scala: 2.12.4

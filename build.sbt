@@ -28,14 +28,25 @@ val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val allSubprojects =
-  Seq("cats", "core", "eval", "jsonpath", "pureconfig", "scalacheck", "scalaz", "scodec", "scopt")
+  Seq("cats",
+      "core",
+      "eval",
+      "jsonpath",
+      "pureconfig",
+      "scalacheck",
+      "scalaz",
+      "scodec",
+      "scopt",
+      "shapeless")
+
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 
-val Scala211 = Def.setting(crossScalaVersions.value.find(_.startsWith("2.11")).get)
+// Remember to update these in .travis.yml, too.
+val Scala211 = "2.11.12"
 val Scala213 = "2.13.0-M3"
 
 /// projects
@@ -60,7 +71,9 @@ lazy val root = project
     scodecJVM,
     scodecJS,
     scoptJVM,
-    scoptJS
+    scoptJS,
+    shapelessJVM,
+    shapelessJS
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
@@ -237,6 +250,18 @@ lazy val scopt = crossProject(JSPlatform, JVMPlatform)
 
 lazy val scoptJVM = scopt.jvm
 lazy val scoptJS = scopt.js
+
+lazy val shapeless = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("shapeless"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    initialCommands += s"""
+      import $rootPkg.shapeless._
+    """
+  )
+
+lazy val shapelessJVM = shapeless.jvm
+lazy val shapelessJS = shapeless.js
 
 /// settings
 
@@ -480,7 +505,7 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
-      releaseStepCommand(s"++${Scala211.value}"),
+      releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
       setLatestVersion,
       setNextVersion,

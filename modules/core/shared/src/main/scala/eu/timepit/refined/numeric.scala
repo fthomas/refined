@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Inference, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.?=>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.numeric._
 import shapeless.{Nat, Witness}
@@ -160,45 +160,45 @@ private[refined] trait NumericInference {
       implicit wa: Witness.Aux[A],
       wb: Witness.Aux[B],
       nc: Numeric[C]
-  ): Less[A] ==> Less[B] =
+  ): Less[A] ?=> Less[B] =
     Inference(nc.lt(wa.value, wb.value), s"lessInferenceWit(${wa.value}, ${wb.value})")
 
   implicit def greaterInferenceWit[C, A <: C, B <: C](
       implicit wa: Witness.Aux[A],
       wb: Witness.Aux[B],
       nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
+  ): Greater[A] ?=> Greater[B] =
     Inference(nc.gt(wa.value, wb.value), s"greaterInferenceWit(${wa.value}, ${wb.value})")
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](
       implicit ta: ToInt[A],
       tb: ToInt[B]
-  ): Less[A] ==> Less[B] =
+  ): Less[A] ?=> Less[B] =
     Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
 
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](
       implicit ta: ToInt[A],
       tb: ToInt[B]
-  ): Greater[A] ==> Greater[B] =
+  ): Greater[A] ?=> Greater[B] =
     Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
 
   implicit def lessInferenceWitNat[C, A <: C, B <: Nat](
       implicit wa: Witness.Aux[A],
       tb: ToInt[B],
       nc: Numeric[C]
-  ): Less[A] ==> Less[B] =
+  ): Less[A] ?=> Less[B] =
     Inference(nc.lt(wa.value, nc.fromInt(tb())), s"lessInferenceWitNat(${wa.value}, ${tb()})")
 
   implicit def greaterInferenceWitNat[C, A <: C, B <: Nat](
       implicit wa: Witness.Aux[A],
       tb: ToInt[B],
       nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
+  ): Greater[A] ?=> Greater[B] =
     Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
 
-  implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
+  implicit def greaterEqualInference[A]: Greater[A] ?=> GreaterEqual[A] =
     Inference(true, "greaterEqualInference")
 
-  implicit def lessEqualInference[A]: Less[A] ==> LessEqual[A] =
+  implicit def lessEqualInference[A]: Less[A] ?=> LessEqual[A] =
     Inference(true, "lessEqualInference")
 }

@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Refined, RefType, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.{==>, ?=>}
 import eu.timepit.refined.macros.{InferMacro, RefineMacro}
 import shapeless.tag.@@
 
@@ -10,6 +10,16 @@ import shapeless.tag.@@
  * between refined types (refinement subtyping) at compile-time.
  */
 object auto {
+
+  /**
+   * Implicitly converts (at compile-time) a value of type `F[T, A]` to
+   * `F[T, B]`.
+   *
+   */
+  implicit def autoInferAlways[F[_, _], T, A, B](ta: F[T, A])(
+      implicit rt: RefType[F],
+      ir: A ==> B
+  ): F[T, B] = macro InferMacro.always[F, T, A, B]
 
   /**
    * Implicitly converts (at compile-time) a value of type `F[T, A]` to
@@ -29,7 +39,7 @@ object auto {
    */
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
       implicit rt: RefType[F],
-      ir: A ==> B
+      ir: A ?=> B
   ): F[T, B] = macro InferMacro.impl[F, T, A, B]
 
   /**

@@ -145,7 +145,8 @@ lazy val docs = project
   .settings(
     scalacOptions in Tut := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
     tutSourceDirectory := baseDirectory.value / "src",
-    tutTargetDirectory := baseDirectory.value
+    tutTargetDirectory := baseDirectory.value,
+    fork in (Tut, run) := true
   )
 
 lazy val eval = crossProject(JSPlatform, JVMPlatform)

@@ -20,17 +20,33 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   }
 
   property("load failure (predicate)") = secure {
-    loadConfigWithValue("0") =?
-      Left(
-        ConfigReaderFailures(ConvertFailure(
-          reason = CannotConvert(
-            value = "0",
-            toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
-            because = "Predicate failed: (0 > 0)."
-          ),
-          location = None,
-          path = "value"
-        )))
+    val expected1 = Left(
+      ConfigReaderFailures(ConvertFailure(
+        reason = CannotConvert(
+          value = "0",
+          toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+          because = "Predicate failed: (0 > 0)."
+        ),
+        location = None,
+        path = "value"
+      )))
+
+    // Allow "scala.Int" instead of just "Int" in the toType parameter.
+    // For some reason Scala 2.12 with sbt 1.1.2 uses the former.
+    val expected2 = Left(
+      ConfigReaderFailures(ConvertFailure(
+        reason = CannotConvert(
+          value = "0",
+          toType = "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+          because = "Predicate failed: (0 > 0)."
+        ),
+        location = None,
+        path = "value"
+      )))
+
+    val actual = loadConfigWithValue("0")
+    (actual ?= expected1) ||
+    (actual ?= expected2)
   }
 
   property("load failure (wrong type)") = secure {

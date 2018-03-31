@@ -20,6 +20,7 @@ val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
 val scalazVersion = "7.2.20"
 val scodecVersion = "1.10.3"
+val scoptVersion = "3.7.0"
 
 val macroParadise =
   "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
@@ -35,7 +36,9 @@ val allSubprojects =
       "scalacheck",
       "scalaz",
       "scodec",
+      "scopt",
       "shapeless")
+
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
@@ -67,6 +70,8 @@ lazy val root = project
     scalazJS,
     scodecJVM,
     scodecJS,
+    scoptJVM,
+    scoptJS,
     shapelessJVM,
     shapelessJS
   )
@@ -230,6 +235,22 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
 
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
+
+lazy val scopt = crossProject(JSPlatform, JVMPlatform)
+  .configureCross(moduleCrossConfig("scopt"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.github.scopt" %%% "scopt" % scoptVersion,
+      compilerPlugin(macroParadise % Test)
+    )
+  )
+  // This is required by scopt (which uses the 'os' modue), although I'm not 100% sure what other potential side effects
+  // this might have.
+  .jsSettings(scalaJSModuleKind := ModuleKind.CommonJSModule)
+
+lazy val scoptJVM = scopt.jvm
+lazy val scoptJS = scopt.js
 
 lazy val shapeless = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("shapeless"))

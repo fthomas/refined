@@ -7,3 +7,4 @@ object all
     with NumericInstances
     with RefTypeInstances
     with StringInstances
+    with CollectionInstances

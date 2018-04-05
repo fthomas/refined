@@ -11,7 +11,11 @@ import shapeless.nat._
 
 class CollectionArbitrarySpec extends Properties("CollectionArbitrary") {
 
-  property("MaxSize.positive") = checkArbitraryRefType[Refined, List[String], MaxSize[W.`42`.T]]
+  property("List with MaxSize[42]") =
+    checkArbitraryRefType[Refined, List[String], MaxSize[W.`42`.T]]
+
+  property("Vector with MaxSize[23]") =
+    checkArbitraryRefType[Refined, Vector[Int], MaxSize[W.`23`.T]]
 
   property("MaxSize.Nat") = checkArbitraryRefType[Refined, List[String], MaxSize[_13]]
 

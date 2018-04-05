@@ -380,6 +380,7 @@ The library comes with these predefined predicates:
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Chris Hodapp](https://github.com/clhodapp) ([@clhodapp](https://twitter.com/clhodapp))
 * [Dale Wijnand](https://github.com/dwijnand) ([@dwijnand](https://twitter.com/dwijnand))
+* [Denys Shabalin](https://github.com/densh)
 * [Derek Morr](https://github.com/derekmorr) ([@derekmorr](https://twitter.com/derekmorr))
 * [Didac](https://github.com/umbreak)
 * [Frank S. Thomas](https://github.com/fthomas) ([@fst9000](https://twitter.com/fst9000))

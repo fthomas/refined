@@ -3,7 +3,7 @@
 
 package eu.timepit.refined.scalaz
 
-import _root_.scalaz.{@@, \/, IsomorphismMonadError, MonadError, ReaderT}
+import _root_.scalaz.{@@, \/, MonadError, ReaderT}
 import _root_.scalaz.Isomorphism.{<~>, IsoFunctorTemplate}
 import _root_.scalaz.syntax.either._
 import eu.timepit.refined.api._
@@ -30,13 +30,8 @@ object Decoder {
       def from[A](fa: MT[A]) = instance(fa.run(_))
       def to[A](fa: Decoder[A]) = ReaderT[Out, String, A](fa.decode)
     }
-  // will be cleaner after https://github.com/scalaz/scalaz/pull/1661
-  private[this] val ME = MonadError[MT, String]
   implicit def monad: MonadError[Decoder, String] =
-    new IsomorphismMonadError[Decoder, MT, String] {
-      override implicit val G: MonadError[MT, String] = ME
-      override val iso: Decoder <~> MT = isoReaderT
-    }
+    MonadError.fromIso(isoReaderT)
 }
 
 class RefTypeSpecScalazMonadError extends Properties("scalaz.Contravariant") {

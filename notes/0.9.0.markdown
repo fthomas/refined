@@ -32,6 +32,7 @@
 
 ### Updates
 
+* Update `refined-cats` to Cats 1.1.0. ([#467][#467])
 * Update `refined-scalaz` to Scalaz 7.2.19. ([#434][#434])
 
 [#301]: https://github.com/fthomas/refined/pull/301
@@ -44,4 +45,5 @@
 [#433]: https://github.com/fthomas/refined/pull/433
 [#434]: https://github.com/fthomas/refined/pull/434
 [#438]: https://github.com/fthomas/refined/pull/438
+[#467]: https://github.com/fthomas/refined/pull/467
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446

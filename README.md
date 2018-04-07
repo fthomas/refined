@@ -244,6 +244,7 @@ list it here:
 * [play-json-refined](https://github.com/btlines/play-json-refined)
 * [refined-anorm](https://github.com/derekmorr/refined-anorm)
 * [refined-guava](https://github.com/derekmorr/refined-guava)
+* [scanamo-refined](https://github.com/scanamo/scanamo)
 * [seals-refined](https://github.com/durban/seals)
 * [slick-refined](https://github.com/kwark/slick-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)

@@ -32,7 +32,7 @@ trait StringInstances {
     val nonEmptyStringGen = for {
       s <- Arbitrary.arbString.arbitrary
       c <- Arbitrary.arbChar.arbitrary
-    } yield s + c
+    } yield s + c.toString
     arbitraryRefType(nonEmptyStringGen)
   }
 }

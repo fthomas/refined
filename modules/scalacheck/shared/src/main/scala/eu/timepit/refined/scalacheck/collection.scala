@@ -29,7 +29,7 @@ trait CollectionInstances {
   //
   // scala> buildableSizeArbitrary[Refined, Set[Boolean], Boolean, Equal[3]].arbitrary.sample
   // res0: Option[Refined[Set[Boolean], Size[Equal[3]]]] = Some(Set(false, true))
-  private def buildableSizeArbitrary[F[_, _]: RefType, C, T, P](
+  private[scalacheck] def buildableSizeArbitrary[F[_, _]: RefType, C, T, P](
       implicit
       arbT: Arbitrary[T],
       arbN: Arbitrary[Int Refined P],

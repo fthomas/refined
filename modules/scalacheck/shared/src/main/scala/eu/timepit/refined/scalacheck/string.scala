@@ -1,6 +1,6 @@
 package eu.timepit.refined.scalacheck
 
-import eu.timepit.refined.api.{RefType, Refined}
+import eu.timepit.refined.api.{Refined, RefType}
 import eu.timepit.refined.collection.{NonEmpty, Size}
 import eu.timepit.refined.string.{EndsWith, StartsWith}
 import org.scalacheck.Arbitrary

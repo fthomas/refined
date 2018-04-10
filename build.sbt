@@ -150,8 +150,7 @@ lazy val docs = project
   .settings(
     scalacOptions in Tut := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
     tutSourceDirectory := baseDirectory.value / "src",
-    tutTargetDirectory := baseDirectory.value,
-    fork in (Tut, run) := true
+    tutTargetDirectory := baseDirectory.value
   )
 
 lazy val eval = crossProject(JSPlatform, JVMPlatform)
@@ -302,6 +301,7 @@ lazy val moduleCrossSettings = Def.settings(
 )
 
 lazy val moduleJvmSettings = Def.settings(
+  fork in Test := true,
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
     latestVersionInSeries.value match {

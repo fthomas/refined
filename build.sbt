@@ -364,7 +364,9 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.NumericInference.greaterEqualInference"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.NumericInference.lessEqualInference")
+        "eu.timepit.refined.NumericInference.lessEqualInference"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.StringInstances.stringSizeArbitrary")
     )
   }
 )

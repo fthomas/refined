@@ -5,10 +5,8 @@ import eu.timepit.refined.char.{Digit, Letter, LowerCase, UpperCase, Whitespace}
 import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.internal.Resources
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
-import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
-@bundle
 class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatchers {
 
   import c.universe._

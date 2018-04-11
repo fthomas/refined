@@ -227,6 +227,7 @@ for **refined**. If your library is missing, please open a pull request to
 list it here:
 
 * [argonaut-refined](https://github.com/alexarchambault/argonaut-shapeless)
+* [atto-refined](https://github.com/tpolecat/atto)
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
 * [decline-refined](http://ben.kirw.in/decline/refined.html)

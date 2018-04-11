@@ -10,17 +10,13 @@ object collection extends CollectionInstances
 
 trait CollectionInstances {
 
-  implicit def listSizeArbitrary[F[_, _]: RefType, T, P](
-      implicit
-      arbT: Arbitrary[T],
-      arbSize: Arbitrary[Int Refined P]
+  implicit def listSizeArbitrary[F[_, _]: RefType, T: Arbitrary, P](
+      implicit arbSize: Arbitrary[Int Refined P]
   ): Arbitrary[F[List[T], Size[P]]] =
     buildableSizeArbitrary[F, List[T], T, P]
 
-  implicit def vectorSizeArbitrary[F[_, _]: RefType, T, P](
-      implicit
-      arbT: Arbitrary[T],
-      arbSize: Arbitrary[Int Refined P]
+  implicit def vectorSizeArbitrary[F[_, _]: RefType, T: Arbitrary, P](
+      implicit arbSize: Arbitrary[Int Refined P]
   ): Arbitrary[F[Vector[T], Size[P]]] =
     buildableSizeArbitrary[F, Vector[T], T, P]
 
@@ -32,11 +28,11 @@ trait CollectionInstances {
   private[scalacheck] def buildableSizeArbitrary[F[_, _]: RefType, C, T, P](
       implicit
       arbT: Arbitrary[T],
-      arbN: Arbitrary[Int Refined P],
+      arbSize: Arbitrary[Int Refined P],
       ev1: Buildable[T, C],
       ev2: C => Traversable[T]
   ): Arbitrary[F[C, Size[P]]] =
-    arbitraryRefType(arbN.arbitrary.flatMap { n =>
+    arbitraryRefType(arbSize.arbitrary.flatMap { n =>
       Gen.buildableOfN[C, T](n.value, arbT.arbitrary)
     })
 }

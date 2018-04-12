@@ -371,7 +371,11 @@ lazy val moduleJvmSettings = Def.settings(
         "eu.timepit.refined.scalacheck.numeric.*"),
       ProblemFilters.exclude[IncompatibleMethTypeProblem](
         "eu.timepit.refined.scalacheck.NumericInstances.*"),
-      ProblemFilters.exclude[IncompatibleMethTypeProblem]("eu.timepit.refined.scalacheck.all.*")
+      ProblemFilters.exclude[IncompatibleMethTypeProblem]("eu.timepit.refined.scalacheck.all.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.NumericInstances.*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.scalacheck.NumericInstances.*")
     )
   }
 )

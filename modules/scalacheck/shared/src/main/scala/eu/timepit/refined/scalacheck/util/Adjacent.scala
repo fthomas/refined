@@ -1,10 +1,8 @@
 package eu.timepit.refined.scalacheck.util
 
-/**
- * Auxiliary type class that provides the next smaller or next greater
- * value for a given argument. This is needed for the `Arbitrary`
- * instances of numeric refined types.
- */
+@deprecated(
+  "This type class has been replaced by eu.timepit.refined.internal.Adjacent in the core module",
+  "0.9.0")
 trait Adjacent[T] {
   def nextUp(t: T): Option[T]
 

@@ -29,6 +29,8 @@
   the `types.time` module. ([#425][#425])
 * Remove deprecated `Refined#get` method which has been replaced by
   `Refined#value`. ([#426][#426])
+* Deprecate `scalacheck.util.Adjacent` in favor of `internal.Adjacent`
+  in the core module. ([#475][#475])
 
 ### Updates
 
@@ -46,4 +48,5 @@
 [#434]: https://github.com/fthomas/refined/pull/434
 [#438]: https://github.com/fthomas/refined/pull/438
 [#467]: https://github.com/fthomas/refined/pull/467
+[#475]: https://github.com/fthomas/refined/pull/475
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446

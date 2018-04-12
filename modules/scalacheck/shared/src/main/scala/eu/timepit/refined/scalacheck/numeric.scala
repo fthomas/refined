@@ -1,8 +1,9 @@
 package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{RefType, Validate}
+import eu.timepit.refined.internal.Adjacent
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.scalacheck.util.{Adjacent, Bounded}
+import eu.timepit.refined.scalacheck.util.Bounded
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Gen.Choose
 import shapeless.{Nat, Witness}
@@ -124,17 +125,17 @@ trait NumericInstances {
   private def rangeOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(
       implicit at: Adjacent[T]
   ): Arbitrary[F[T, P]] =
-    arbitraryRefType(Gen.chooseNum(at.nextUpOrSelf(min), at.nextDownOrSelf(max)))
+    arbitraryRefType(Gen.chooseNum(at.nextUp(min), at.nextDown(max)))
 
   private def rangeOpenClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(
       implicit at: Adjacent[T]
   ): Arbitrary[F[T, P]] =
-    arbitraryRefType(Gen.chooseNum(at.nextUpOrSelf(min), max))
+    arbitraryRefType(Gen.chooseNum(at.nextUp(min), max))
 
   private def rangeClosedOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(
       implicit at: Adjacent[T]
   ): Arbitrary[F[T, P]] =
-    arbitraryRefType(Gen.chooseNum(min, at.nextDownOrSelf(max)))
+    arbitraryRefType(Gen.chooseNum(min, at.nextDown(max)))
 
   private def rangeClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](
       min: T,

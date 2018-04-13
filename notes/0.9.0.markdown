@@ -1,5 +1,11 @@
 ### New features
 
+* Type class derivation for refined types via `Contravariant` or
+  `MonadError` instances of the respective type class. This allows,
+  for example, to derive encoders and decoders for refined types
+  via encoders and decoders of the base types.
+  ([#447][#447] by [@fommil][@fommil] for Scalaz and
+  [#449][#449] by [@fthomas][@fthomas] for Cats)
 * Add `Arbitrary` instances for `List`, `Vector`, and `String` refined
   with any `Size[P]`. ([#455][#455], [#471][#471]
   by [@matthedude][@matthedude] and [@fthomas][@fthomas])
@@ -52,8 +58,10 @@
 [#432]: https://github.com/fthomas/refined/pull/432
 [#433]: https://github.com/fthomas/refined/pull/433
 [#434]: https://github.com/fthomas/refined/pull/434
-[#435] :https://github.com/fthomas/refined/pull/435
+[#435]: https://github.com/fthomas/refined/pull/435
 [#438]: https://github.com/fthomas/refined/pull/438
+[#447]: https://github.com/fthomas/refined/pull/447
+[#449]: https://github.com/fthomas/refined/pull/449
 [#452]: https://github.com/fthomas/refined/pull/452
 [#455]: https://github.com/fthomas/refined/pull/455
 [#467]: https://github.com/fthomas/refined/pull/467

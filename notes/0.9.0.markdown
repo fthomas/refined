@@ -1,5 +1,8 @@
 ### New features
 
+* Add `Arbitrary` instances for `List`, `Vector`, and `String` refined
+  with any `Size[P]`. ([#455][#455], [#471][#471]
+  by [@matthedude][@matthedude] and [@fthomas][@fthomas])
 * Add `Arbitrary` instance for `NonEmptyString`. ([#415][#415])
 * Add `predicates` package which allows to import all predicates
   with a single `import eu.timepit.refined.predicates.all._`.
@@ -26,7 +29,7 @@
 * Deprecate `ConstructorNames` and `FieldNames` predicates because they
   operate on types instead of values (i.e. the result of a validation
   only depends on the type of a value) and the library focuses on
-  refining values.
+  refining values. ([#435][#435])
 * Remove deprecated `util.time` module which has been replaced by
   the `types.time` module. ([#425][#425])
 * Remove deprecated `Refined#get` method which has been replaced by
@@ -49,13 +52,17 @@
 [#432]: https://github.com/fthomas/refined/pull/432
 [#433]: https://github.com/fthomas/refined/pull/433
 [#434]: https://github.com/fthomas/refined/pull/434
+[#435] :https://github.com/fthomas/refined/pull/435
 [#438]: https://github.com/fthomas/refined/pull/438
 [#452]: https://github.com/fthomas/refined/pull/452
+[#455]: https://github.com/fthomas/refined/pull/455
 [#467]: https://github.com/fthomas/refined/pull/467
 [#468]: https://github.com/fthomas/refined/pull/468
+[#471]: https://github.com/fthomas/refined/pull/471
 [#475]: https://github.com/fthomas/refined/pull/475
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@fthomas]: https://github.com/fthomas
 [@fommil]: https://github.com/fommil
+[@matthedude]: https://github.com/matthedude
 [@zainab-ali]: https://github.com/zainab-ali

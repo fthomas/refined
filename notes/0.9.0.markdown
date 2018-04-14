@@ -3,7 +3,7 @@
 * Type class derivation for refined types via `Contravariant` or
   `MonadError` instances of the respective type class. This allows,
   for example, to derive encoders and decoders for refined types
-  via encoders and decoders of the base types.
+  via encoders and decoders of their base types.
   ([#447][#447] by [@fommil][@fommil] for Scalaz and
   [#449][#449] by [@fthomas][@fthomas] for Cats)
 * Add `Arbitrary` instances for `List`, `Vector`, and `String` refined
@@ -16,6 +16,8 @@
 * Cross build the core module for Scala Native. ([#301][#301])
 * Add inference rules for `Greater[N] ==> GreaterEqual[N]` and
   `Less[N] ==> LessEqual[N]`. ([#452][#452] by [@zainab-ali][@zainab-ali])
+* Add new `refined-shapeless` module that provides `Typeable` instances
+  for refined types. ([#456][#456] by [@umbreak][@umbreak])
 
 ### Changes
 
@@ -25,6 +27,8 @@
   predicate instead of a prefix because in a future Scala version
   prefixes might not be searched for implicits, see
   [scala-dev/#446][scala-dev/#446]. ([#438][#438])
+* Update documentation to solve "exception during macro expansion" errors.
+  ([#451][#451] by [@umbreak][@umbreak])
 
 ### Bug fixes
 
@@ -49,6 +53,11 @@
 * Update `refined-scalaz` to Scalaz 7.2.21. ([#434][#434], [#468][#468]
   by [@fthomas][@fthomas] and [@fommil][@fommil])
 
+### Build
+
+* Update to the latest travis_setup.sh for Scala Native.
+  ([#458][#458] by [@densh][@densh])
+
 [#301]: https://github.com/fthomas/refined/pull/301
 [#415]: https://github.com/fthomas/refined/pull/415
 [#416]: https://github.com/fthomas/refined/issues/416
@@ -62,15 +71,20 @@
 [#438]: https://github.com/fthomas/refined/pull/438
 [#447]: https://github.com/fthomas/refined/pull/447
 [#449]: https://github.com/fthomas/refined/pull/449
+[#451]: https://github.com/fthomas/refined/pull/451
 [#452]: https://github.com/fthomas/refined/pull/452
 [#455]: https://github.com/fthomas/refined/pull/455
+[#456]: https://github.com/fthomas/refined/pull/456
+[#458]: https://github.com/fthomas/refined/pull/458
 [#467]: https://github.com/fthomas/refined/pull/467
 [#468]: https://github.com/fthomas/refined/pull/468
 [#471]: https://github.com/fthomas/refined/pull/471
 [#475]: https://github.com/fthomas/refined/pull/475
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
+[@densh]: https://github.com/densh
 [@fthomas]: https://github.com/fthomas
 [@fommil]: https://github.com/fommil
 [@matthedude]: https://github.com/matthedude
+[@umbreak]: https://github.com/umbreak
 [@zainab-ali]: https://github.com/zainab-ali

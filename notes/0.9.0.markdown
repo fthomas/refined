@@ -18,6 +18,9 @@
   `Less[N] ==> LessEqual[N]`. ([#452][#452] by [@zainab-ali][@zainab-ali])
 * Add new `refined-shapeless` module that provides `Typeable` instances
   for refined types. ([#456][#456] by [@umbreak][@umbreak])
+* Add new `refined-scopt` module for integration of refined types
+  with [scopt](https://github.com/scopt/scopt).
+  ([#457][#457] by [@nrinaudo][@nrinaudo])
 
 ### Changes
 
@@ -47,15 +50,12 @@
 * Deprecate `scalacheck.util.Adjacent` in favor of `internal.Adjacent`
   in the core module. ([#475][#475])
 
-### Updates
+### Updates and build
 
 * Update `refined-cats` to Cats 1.1.0. ([#467][#467])
 * Update `refined-scalaz` to Scalaz 7.2.21. ([#434][#434], [#468][#468]
   by [@fthomas][@fthomas] and [@fommil][@fommil])
-
-### Build
-
-* Update to the latest travis_setup.sh for Scala Native.
+* Update to the latest `travis_setup.sh` for Scala Native.
   ([#458][#458] by [@densh][@densh])
 
 [#301]: https://github.com/fthomas/refined/pull/301
@@ -75,6 +75,7 @@
 [#452]: https://github.com/fthomas/refined/pull/452
 [#455]: https://github.com/fthomas/refined/pull/455
 [#456]: https://github.com/fthomas/refined/pull/456
+[#457]: https://github.com/fthomas/refined/pull/457
 [#458]: https://github.com/fthomas/refined/pull/458
 [#467]: https://github.com/fthomas/refined/pull/467
 [#468]: https://github.com/fthomas/refined/pull/468
@@ -86,5 +87,6 @@
 [@fthomas]: https://github.com/fthomas
 [@fommil]: https://github.com/fommil
 [@matthedude]: https://github.com/matthedude
+[@nrinaudo]: https://github.com/nrinaudo
 [@umbreak]: https://github.com/umbreak
 [@zainab-ali]: https://github.com/zainab-ali

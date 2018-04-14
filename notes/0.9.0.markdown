@@ -86,8 +86,8 @@
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@densh]: https://github.com/densh
-[@fthomas]: https://github.com/fthomas
 [@fommil]: https://github.com/fommil
+[@fthomas]: https://github.com/fthomas
 [@matthedude]: https://github.com/matthedude
 [@nrinaudo]: https://github.com/nrinaudo
 [@umbreak]: https://github.com/umbreak

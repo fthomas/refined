@@ -44,7 +44,7 @@ val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
-val allSubprojectsNative = Seq("coreNative", "shapelessNative")
+val allSubprojectsNative = Seq("core", "scalaz", "shapeless").map(_ + "Native")
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
@@ -204,7 +204,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = crossProject(JSPlatform, JVMPlatform)
+lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("scalaz"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -218,6 +218,7 @@ lazy val scalaz = crossProject(JSPlatform, JVMPlatform)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
+lazy val scalazNative = scalaz.native
 
 lazy val scodec = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scodec"))
@@ -521,6 +522,7 @@ lazy val releaseSettings = {
       publishArtifacts,
       releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
+      releaseStepCommand("scalazNative/publishSigned"),
       releaseStepCommand("shapelessNative/publishSigned"),
       setLatestVersion,
       setNextVersion,

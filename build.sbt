@@ -44,6 +44,7 @@ val allSubprojectsJS = {
   val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
+val allSubprojectsNative = Seq("coreNative", "shapelessNative")
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
@@ -251,7 +252,7 @@ lazy val scopt = crossProject(JSPlatform, JVMPlatform)
 lazy val scoptJVM = scopt.jvm
 lazy val scoptJS = scopt.js
 
-lazy val shapeless = crossProject(JSPlatform, JVMPlatform)
+lazy val shapeless = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("shapeless"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
@@ -262,6 +263,7 @@ lazy val shapeless = crossProject(JSPlatform, JVMPlatform)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
+lazy val shapelessNative = shapeless.native
 
 /// settings
 
@@ -519,6 +521,7 @@ lazy val releaseSettings = {
       publishArtifacts,
       releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
+      releaseStepCommand("shapelessNative/publishSigned"),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,
@@ -534,6 +537,7 @@ def addCommandsAlias(name: String, cmds: Seq[String]) =
 
 addCommandsAlias("syncMavenCentral", allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral"))
 
+addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 

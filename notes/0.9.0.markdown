@@ -13,7 +13,8 @@
 * Add `predicates` package which allows to import all predicates
   with a single `import eu.timepit.refined.predicates.all._`.
   ([#433][#433])
-* Cross build the core module for Scala Native. ([#301][#301])
+* Cross build the `refined`, `refined-scalaz`, and `refined-shapeless`
+  modules for Scala Native. ([#301][#301], [#478][#478])
 * Add inference rules for `Greater[N] ==> GreaterEqual[N]` and
   `Less[N] ==> LessEqual[N]`. ([#452][#452] by [@zainab-ali][@zainab-ali])
 * Add new `refined-shapeless` module that provides `Typeable` instances
@@ -81,6 +82,7 @@
 [#468]: https://github.com/fthomas/refined/pull/468
 [#471]: https://github.com/fthomas/refined/pull/471
 [#475]: https://github.com/fthomas/refined/pull/475
+[#478]: https://github.com/fthomas/refined/pull/478
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@densh]: https://github.com/densh

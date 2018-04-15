@@ -19,7 +19,7 @@ object string {
   object TrimmedString extends RefinedTypeOps[TrimmedString, String]
 
   /** A `String` representing a hexadecimal number */
-  type HexStringSpec = MatchesRegex[W.`"""[0-9a-f]+"""`.T]
+  type HexStringSpec = MatchesRegex[W.`"""([0-9a-f]+)|([0-9A-F]+)"""`.T]
   type HexString = String Refined HexStringSpec
   object HexString extends RefinedTypeOps[HexString, String]
 }

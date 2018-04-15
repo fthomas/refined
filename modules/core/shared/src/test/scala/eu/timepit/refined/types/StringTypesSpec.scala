@@ -17,6 +17,23 @@ class StringTypesSpec extends Properties("StringTypes") {
       "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e"
   }
 
+  property("lower-case hexadecimal number") = forAll { i: Int =>
+    val hex = Integer.toHexString(i)
+    HexString.from(hex).isRight
+  }
+
+  property("upper-case hexadecimal number") = forAll { i: Int =>
+    val hex = Integer.toHexString(i).toUpperCase
+    HexString.from(hex).isRight
+  }
+
+  property("mixed-case hexadecimal") = forAll { (i: Int, j: Int) =>
+    val hex1 = Integer.toHexString(i).toUpperCase + "A"
+    val hex2 = Integer.toHexString(j) + "a"
+
+    HexString.from(hex1 + hex2).isLeft
+  }
+
   property(s"MD5.from(${EmptyString.md5})") = secure {
     MD5.from(EmptyString.md5).isRight
   }

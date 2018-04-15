@@ -1,9 +1,7 @@
 package eu.timepit.refined.macros
 
-import macrocompat.bundle
 import scala.reflect.macros.blackbox
 
-@bundle
 trait LiteralMatchers {
   val c: blackbox.Context
   import c.universe._

@@ -12,7 +12,6 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val catsVersion = "1.1.0"
 val jsonpathVersion = "2.4.0"
-val macroCompatVersion = "1.1.1"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.9.0"
 val shapelessVersion = "2.3.3"
@@ -114,17 +113,10 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       compilerPlugin(macroParadise),
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      "org.typelevel" %% "macro-compat" % macroCompatVersion,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
+      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       scalaCheckDep.value % Test
     ),
-    libraryDependencies ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 10)) => Seq.empty
-        case _ =>
-          Seq("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
-      }
-    },
     initialCommands += s"""
       import shapeless.tag.@@
     """,

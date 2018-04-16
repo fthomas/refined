@@ -8,6 +8,10 @@ import org.scalacheck.Properties
 class StringTypesSpec extends Properties("StringTypes") {
   final val FString3 = FiniteString[W.`3`.T]
 
+  property("FString3.from(str)") = forAll { (str: String) =>
+    FString3.from(str).isRight ?= (str.length <= 3)
+  }
+
   property("""FString3.from("")""") = secure {
     val str = ""
     FString3.from(str).right.map(_.value) ?= Right(str)

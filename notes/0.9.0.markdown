@@ -24,6 +24,8 @@
   ([#457][#457] by [@nrinaudo][@nrinaudo])
 * Add `HexString`, `MD5`, `SHA1`, `SHA224`, `SHA256`, `SHA384`,
   and `SHA512` types ([#453][#453] by [@NeQuissimus][@NeQuissimus])
+* Add `FiniteString[N]` type for `String`s with length less than or
+  equal to `N`. ([#437][#437], [#479][#479])
 
 ### Changes
 
@@ -71,6 +73,7 @@
 [#433]: https://github.com/fthomas/refined/pull/433
 [#434]: https://github.com/fthomas/refined/pull/434
 [#435]: https://github.com/fthomas/refined/pull/435
+[#437]: https://github.com/fthomas/refined/issues/437
 [#438]: https://github.com/fthomas/refined/pull/438
 [#447]: https://github.com/fthomas/refined/pull/447
 [#449]: https://github.com/fthomas/refined/pull/449
@@ -86,6 +89,7 @@
 [#471]: https://github.com/fthomas/refined/pull/471
 [#475]: https://github.com/fthomas/refined/pull/475
 [#478]: https://github.com/fthomas/refined/pull/478
+[#479]: https://github.com/fthomas/refined/pull/479
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@densh]: https://github.com/densh

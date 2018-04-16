@@ -22,11 +22,13 @@
 * Add new `refined-scopt` module for integration of refined types
   with [scopt](https://github.com/scopt/scopt).
   ([#457][#457] by [@nrinaudo][@nrinaudo])
+* Add `HexString`, `MD5`, `SHA1`, `SHA224`, `SHA256`, `SHA384`,
+  and `SHA512` types ([#453][#453] by [@NeQuissimus][@NeQuissimus])
 
 ### Changes
 
 * Change layout of the `types` package to create fewer instances and to
-  support "auto import" in IntelliJ. ([#416][#416], [#431][#431]) 
+  support "auto import" in IntelliJ. ([#416][#416], [#431][#431])
 * Move `Validate` instances into the companions of their respective
   predicate instead of a prefix because in a future Scala version
   prefixes might not be searched for implicits, see
@@ -74,6 +76,7 @@
 [#449]: https://github.com/fthomas/refined/pull/449
 [#451]: https://github.com/fthomas/refined/pull/451
 [#452]: https://github.com/fthomas/refined/pull/452
+[#453]: https://github.com/fthomas/refined/pull/453
 [#455]: https://github.com/fthomas/refined/pull/455
 [#456]: https://github.com/fthomas/refined/pull/456
 [#457]: https://github.com/fthomas/refined/pull/457
@@ -92,3 +95,4 @@
 [@nrinaudo]: https://github.com/nrinaudo
 [@umbreak]: https://github.com/umbreak
 [@zainab-ali]: https://github.com/zainab-ali
+[@NeQuissimus]: https://github.com/NeQuissimus

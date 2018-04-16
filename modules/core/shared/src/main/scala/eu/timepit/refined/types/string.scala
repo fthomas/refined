@@ -29,6 +29,11 @@ object string {
   type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
 
   object TrimmedString extends RefinedTypeOps[TrimmedString, String]
+
+  /** A `String` representing a hexadecimal number */
+  type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
+  type HexString = String Refined HexStringSpec
+  object HexString extends RefinedTypeOps[HexString, String]
 }
 
 trait StringTypes {
@@ -40,4 +45,7 @@ trait StringTypes {
 
   final type TrimmedString = string.TrimmedString
   final val TrimmedString = string.TrimmedString
+
+  final type HexString = string.HexString
+  final val HexString = string.HexString
 }

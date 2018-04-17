@@ -1,6 +1,6 @@
 package eu.timepit.refined.scalacheck
 
-import eu.timepit.refined.api.{RefType, Validate}
+import eu.timepit.refined.api.{RefinedType, RefType, Validate}
 import org.scalacheck.{Arbitrary, Cogen, Gen, Prop}
 
 object reftype extends RefTypeInstances
@@ -14,6 +14,9 @@ trait RefTypeInstances {
                                            rt: RefType[F],
                                            v: Validate[T, P]): Prop =
     Prop.forAll((tp: F[T, P]) => v.isValid(rt.unwrap(tp)))
+
+  def checkArbitraryRefinedType[FTP](implicit arb: Arbitrary[FTP], rt: RefinedType[FTP]): Prop =
+    Prop.forAll((tp: FTP) => rt.validate.isValid(rt.refType.unwrap(rt.dealias(tp))))
 
   implicit def refTypeCogen[F[_, _], T: Cogen, P](implicit rt: RefType[F]): Cogen[F[T, P]] =
     Cogen[T].contramap(tp => rt.unwrap(tp))

@@ -18,6 +18,8 @@ trait RefinedType[FTP] extends Serializable {
 
   val alias: F[T, P] =:= FTP
 
+  val dealias: FTP =:= F[T, P]
+
   final def refine(t: T): Either[String, FTP] = {
     val res = validate.validate(t)
     if (res.isPassed) Right(alias(refType.unsafeWrap(t)))
@@ -55,5 +57,6 @@ object RefinedType {
       override val refType: RefType[F] = rt
       override val validate: Validate[T, P] = v
       override val alias: F[T, P] =:= F0[T0, P0] = implicitly
+      override val dealias: F0[T0, P0] =:= F[T, P] = implicitly
     }
 }

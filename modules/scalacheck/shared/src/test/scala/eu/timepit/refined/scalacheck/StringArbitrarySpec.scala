@@ -8,6 +8,7 @@ import eu.timepit.refined.scalacheck.generic._
 import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.scalacheck.string._
 import eu.timepit.refined.string._
+import eu.timepit.refined.types.string.FiniteString
 import org.scalacheck.Properties
 
 class StringArbitrarySpec extends Properties("StringArbitrary") {
@@ -19,6 +20,8 @@ class StringArbitrarySpec extends Properties("StringArbitrary") {
   property("NonEmpty") = checkArbitraryRefType[Refined, String, NonEmpty]
 
   property("MaxSize") = checkArbitraryRefType[Refined, String, MaxSize[W.`16`.T]]
+
+  property("FiniteString[N]") = checkArbitraryRefinedType[FiniteString[W.`10`.T]]
 
   property("Size[Equal]") = checkArbitraryRefType[Refined, String, Size[Equal[W.`8`.T]]]
 }

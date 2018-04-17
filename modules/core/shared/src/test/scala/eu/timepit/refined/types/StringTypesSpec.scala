@@ -10,7 +10,7 @@ class StringTypesSpec extends Properties("StringTypes") {
   final val FString3 = FiniteString[W.`3`.T]
 
   property("FString3.from(str)") = forAll { (str: String) =>
-    FString3.from(str).isRight ?= (str.length <= 3)
+    FString3.from(str).isRight ?= (str.length <= FString3.maxLength)
   }
 
   property("""FString3.from("")""") = secure {
@@ -27,6 +27,12 @@ class StringTypesSpec extends Properties("StringTypes") {
     val str = "abcd"
     FString3.from(str) ?= Left(
       "Predicate taking size(abcd) = 4 failed: Predicate (4 > 3) did not fail.")
+  }
+
+  property("""FString3.truncate(str)""") = forAll { (str: String) =>
+    val truncated = FString3.truncate(str)
+    truncated.value.length <= FString3.maxLength &&
+    (truncated.value ?= str.take(FString3.maxLength))
   }
 
   // Hashes for ""

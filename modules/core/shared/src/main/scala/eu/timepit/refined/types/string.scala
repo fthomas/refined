@@ -4,6 +4,7 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
 import eu.timepit.refined.string.MatchesRegex
+import shapeless.Witness
 
 /** Module for `String` refined types. */
 object string {
@@ -12,12 +13,30 @@ object string {
   type FiniteString[N] = String Refined MaxSize[N]
 
   object FiniteString {
+    class FiniteStringOps[N <: Int](
+        implicit
+        rt: RefinedType.AuxT[FiniteString[N], String],
+        wn: Witness.Aux[N]
+    ) extends RefinedTypeOps[FiniteString[N], String] {
 
-    /** Creates a companion object for `FiniteString[N]` with a fixed `N`. */
-    def apply[N](
-        implicit rt: RefinedType.AuxT[FiniteString[N], String]
-    ): RefinedTypeOps[FiniteString[N], String] =
-      new RefinedTypeOps[FiniteString[N], String]
+      /** The maximum length of a `FiniteString[N]`. */
+      final val maxLength: N =
+        wn.value
+
+      /**
+       * Creates a `FiniteString[N]` from `t` by truncating it
+       * if it is longer than `N`.
+       */
+      def truncate(t: String): FiniteString[N] =
+        Refined.unsafeApply(t.substring(0, math.min(t.length, maxLength)))
+    }
+
+    /** Creates a "companion object" for `FiniteString[N]` with a fixed `N`. */
+    def apply[N <: Int](
+        implicit
+        rt: RefinedType.AuxT[FiniteString[N], String],
+        wn: Witness.Aux[N]
+    ): FiniteStringOps[N] = new FiniteStringOps[N]
   }
 
   /** A `String` that is not empty. */

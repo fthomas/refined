@@ -15,6 +15,9 @@ trait Adjacent[T] {
     nextDown(t).getOrElse(t)
 }
 
+@deprecated(
+  "This type class has been replaced by eu.timepit.refined.internal.Adjacent in the core module",
+  "0.9.0")
 object Adjacent {
   def apply[T](implicit a: Adjacent[T]): Adjacent[T] = a
 

@@ -1,15 +1,12 @@
 package eu.timepit.refined.scalacheck.util
 
-/**
- * Auxiliary type class that provides the upper and lower bounds of a
- * type `T`. This is needed for the `Arbitrary` instances of numeric
- * refined types.
- */
+@deprecated("Bounded has been replaced by eu.timepit.refined.api.Min/Max", "0.9.0")
 trait Bounded[T] {
   def minValue: T
   def maxValue: T
 }
 
+@deprecated("Bounded has been replaced by eu.timepit.refined.api.Min/Max", "0.9.0")
 object Bounded {
   def apply[T](implicit b: Bounded[T]): Bounded[T] = b
 

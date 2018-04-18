@@ -1,9 +1,8 @@
 package eu.timepit.refined.scalacheck
 
-import eu.timepit.refined.api.{RefType, Validate}
+import eu.timepit.refined.api.{Max, Min, RefType, Validate}
 import eu.timepit.refined.internal.Adjacent
 import eu.timepit.refined.numeric._
-import eu.timepit.refined.scalacheck.util.Bounded
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Gen.Choose
 import shapeless.{Nat, Witness}
@@ -33,56 +32,56 @@ trait NumericInstances {
   ///
 
   implicit def lessArbitraryWit[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N <: T](
-      implicit bounded: Bounded[T],
+      implicit min: Min[T],
       wn: Witness.Aux[N]
   ): Arbitrary[F[T, Less[N]]] =
-    rangeClosedOpenArbitrary(bounded.minValue, wn.value)
+    rangeClosedOpenArbitrary(min.min, wn.value)
 
   implicit def lessArbitraryNat[F[_, _]: RefType, T: Choose: Adjacent, N <: Nat](
-      implicit bounded: Bounded[T],
+      implicit min: Min[T],
       nt: Numeric[T],
       tn: ToInt[N]
   ): Arbitrary[F[T, Less[N]]] =
-    rangeClosedOpenArbitrary(bounded.minValue, nt.fromInt(tn()))
+    rangeClosedOpenArbitrary(min.min, nt.fromInt(tn()))
 
   implicit def lessEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N <: T](
-      implicit bounded: Bounded[T],
+      implicit min: Min[T],
       wn: Witness.Aux[N]
   ): Arbitrary[F[T, LessEqual[N]]] =
-    rangeClosedArbitrary(bounded.minValue, wn.value)
+    rangeClosedArbitrary(min.min, wn.value)
 
   implicit def lessEqualArbitraryNat[F[_, _]: RefType, T: Choose, N <: Nat](
-      implicit bounded: Bounded[T],
+      implicit min: Min[T],
       nt: Numeric[T],
       tn: ToInt[N]
   ): Arbitrary[F[T, LessEqual[N]]] =
-    rangeClosedArbitrary(bounded.minValue, nt.fromInt(tn()))
+    rangeClosedArbitrary(min.min, nt.fromInt(tn()))
 
   implicit def greaterArbitraryWit[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N <: T](
-      implicit bounded: Bounded[T],
+      implicit max: Max[T],
       wn: Witness.Aux[N]
   ): Arbitrary[F[T, Greater[N]]] =
-    rangeOpenClosedArbitrary(wn.value, bounded.maxValue)
+    rangeOpenClosedArbitrary(wn.value, max.max)
 
   implicit def greaterArbitraryNat[F[_, _]: RefType, T: Choose: Adjacent, N <: Nat](
-      implicit bounded: Bounded[T],
+      implicit max: Max[T],
       nt: Numeric[T],
       tn: ToInt[N]
   ): Arbitrary[F[T, Greater[N]]] =
-    rangeOpenClosedArbitrary(nt.fromInt(tn()), bounded.maxValue)
+    rangeOpenClosedArbitrary(nt.fromInt(tn()), max.max)
 
   implicit def greaterEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N <: T](
-      implicit bounded: Bounded[T],
+      implicit max: Max[T],
       wn: Witness.Aux[N]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
-    rangeClosedArbitrary(wn.value, bounded.maxValue)
+    rangeClosedArbitrary(wn.value, max.max)
 
   implicit def greaterEqualArbitraryNat[F[_, _]: RefType, T: Choose, N <: Nat](
-      implicit bounded: Bounded[T],
+      implicit max: Max[T],
       nt: Numeric[T],
       tn: ToInt[N]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
-    rangeClosedArbitrary(nt.fromInt(tn()), bounded.maxValue)
+    rangeClosedArbitrary(nt.fromInt(tn()), max.max)
 
   ///
 

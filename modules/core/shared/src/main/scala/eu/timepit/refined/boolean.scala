@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api._
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.{==>, ?=>}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
 import shapeless.{::, HList, HNil}
@@ -261,10 +261,10 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def minimalTautology[A]: A ==> A =
     Inference.alwaysValid("minimalTautology")
 
-  implicit def doubleNegationElimination[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
+  implicit def doubleNegationEliminationAlways[A, B](implicit p1: A ==> B): Not[Not[A]] ==> B =
     p1.adapt("doubleNegationElimination(%s)")
 
-  implicit def doubleNegationIntroduction[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
+  implicit def doubleNegationIntroductionAlways[A, B](implicit p1: A ==> B): A ==> Not[Not[B]] =
     p1.adapt("doubleNegationIntroduction(%s)")
 
   implicit def conjunctionAssociativity[A, B, C]: ((A And B) And C) ==> (A And (B And C)) =
@@ -273,7 +273,7 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     Inference.alwaysValid("conjunctionCommutativity")
 
-  implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
+  implicit def conjunctionEliminationRAlways[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationR(%s)")
 
   implicit def disjunctionAssociativity[A, B, C]: ((A Or B) Or C) ==> (A Or (B Or C)) =
@@ -306,15 +306,39 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
 
 private[refined] trait BooleanInference1 extends BooleanInference2 {
 
-  implicit def modusTollens[A, B](implicit p1: A ==> B): Not[B] ==> Not[A] =
+  implicit def modusTollensAlways[A, B](implicit p1: A ==> B): Not[B] ==> Not[A] =
     p1.adapt("modusTollens(%s)")
 }
 
-private[refined] trait BooleanInference2 {
+private[refined] trait BooleanInference2 extends BooleanInference3 {
 
-  implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
+  implicit def conjunctionEliminationLAlways[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")
 
-  implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
+  implicit def hypotheticalSyllogismAlways[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
+    Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
+}
+
+private[refined] trait BooleanInference3 extends BooleanInference4 {
+  implicit def doubleNegationElimination[A, B](implicit p1: A ?=> B): Not[Not[A]] ?=> B =
+    p1.adapt("doubleNegationElimination(%s)")
+
+  implicit def doubleNegationIntroduction[A, B](implicit p1: A ?=> B): A ?=> Not[Not[B]] =
+    p1.adapt("doubleNegationIntroduction(%s)")
+
+  implicit def conjunctionEliminationR[A, B, C](implicit p1: B ?=> C): (A And B) ?=> C =
+    p1.adapt("conjunctionEliminationR(%s)")
+}
+
+private[refined] trait BooleanInference4 {
+
+  implicit def conjunctionEliminationL[A, B, C](implicit p1: A ?=> C): (A And B) ?=> C =
+    p1.adapt("conjunctionEliminationL(%s)")
+
+  implicit def modusTollens[A, B](implicit p1: A ?=> B): Not[B] ?=> Not[A] =
+    p1.adapt("modusTollens(%s)")
+
+  implicit def hypotheticalSyllogism[A, B, C](implicit p1: Inference[A, B],
+                                              p2: Inference[B, C]): A ?=> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
 }

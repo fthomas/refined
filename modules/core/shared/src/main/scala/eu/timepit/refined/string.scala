@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Inference, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.?=>
 import eu.timepit.refined.string._
 import shapeless.Witness
 
@@ -217,12 +217,12 @@ private[refined] trait StringInference {
   implicit def endsWithInference[A <: String, B <: String](
       implicit wa: Witness.Aux[A],
       wb: Witness.Aux[B]
-  ): EndsWith[A] ==> EndsWith[B] =
+  ): EndsWith[A] ?=> EndsWith[B] =
     Inference(wa.value.endsWith(wb.value), s"endsWithInference(${wa.value}, ${wb.value})")
 
   implicit def startsWithInference[A <: String, B <: String](
       implicit wa: Witness.Aux[A],
       wb: Witness.Aux[B]
-  ): StartsWith[A] ==> StartsWith[B] =
+  ): StartsWith[A] ?=> StartsWith[B] =
     Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")
 }

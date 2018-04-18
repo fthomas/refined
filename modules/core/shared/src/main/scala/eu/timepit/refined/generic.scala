@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.{Inference, Validate}
-import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.api.Inference.?=>
 import eu.timepit.refined.generic._
 import shapeless._
 import shapeless.ops.coproduct.ToHList
@@ -108,14 +108,14 @@ private[refined] trait GenericInference {
   implicit def equalValidateInferenceWit[T, U <: T, P](
       implicit v: Validate[T, P],
       wu: Witness.Aux[U]
-  ): Equal[U] ==> P =
+  ): Equal[U] ?=> P =
     Inference(v.isValid(wu.value), s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
 
   implicit def equalValidateInferenceNat[T, N <: Nat, P](
       implicit v: Validate[T, P],
       nt: Numeric[T],
       tn: ToInt[N]
-  ): Equal[N] ==> P =
+  ): Equal[N] ?=> P =
     Inference(v.isValid(nt.fromInt(tn())),
               s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
 }

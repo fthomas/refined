@@ -8,24 +8,25 @@ import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.scalacheck.boolean._
 import eu.timepit.refined.scalacheck.char._
 import eu.timepit.refined.scalacheck.numeric._
+import eu.timepit.refined.types.char.{LowerCaseChar, UpperCaseChar}
 import org.scalacheck.Properties
 
-class CharArbitrarySpec extends Properties("CharArbitrarySpec") {
+class CharArbitrarySpec extends Properties("CharArbitrary") {
 
-  property("Digit") = checkArbitraryRefType[Refined, Char, Digit]
+  property("Digit") = checkArbitraryRefinedType[Char Refined Digit]
 
-  property("Letter") = checkArbitraryRefType[Refined, Char, Letter]
+  property("Letter") = checkArbitraryRefinedType[Char Refined Letter]
 
-  property("LowerCase") = checkArbitraryRefType[Refined, Char, LowerCase]
+  property("LowerCaseChar") = checkArbitraryRefinedType[LowerCaseChar]
 
-  property("UpperCase") = checkArbitraryRefType[Refined, Char, UpperCase]
+  property("UpperCaseChar") = checkArbitraryRefinedType[UpperCaseChar]
 
-  property("Whitespace") = checkArbitraryRefType[Refined, Char, Whitespace]
+  property("Whitespace") = checkArbitraryRefinedType[Char Refined Whitespace]
 
-  property("LetterOrDigit") = checkArbitraryRefType[Refined, Char, LetterOrDigit]
+  property("LetterOrDigit") = checkArbitraryRefinedType[Char Refined LetterOrDigit]
 
   property("HexDigit") = {
     type HexDigit = Digit Or Interval.Closed[W.`'a'`.T, W.`'f'`.T]
-    checkArbitraryRefType[Refined, Char, HexDigit]
+    checkArbitraryRefinedType[Char Refined HexDigit]
   }
 }

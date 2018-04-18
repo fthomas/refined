@@ -8,5 +8,5 @@ import org.scalacheck.Properties
 
 class GenericArbitrarySpec extends Properties("GenericArbitrary") {
 
-  property("Equal") = checkArbitraryRefType[Refined, Int, Equal[W.`100`.T]]
+  property("Equal[100]") = checkArbitraryRefinedType[Int Refined Equal[W.`100`.T]]
 }

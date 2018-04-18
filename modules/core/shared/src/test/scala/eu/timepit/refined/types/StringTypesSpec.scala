@@ -1,10 +1,40 @@
 package eu.timepit.refined.types
 
+import eu.timepit.refined.W
 import eu.timepit.refined.types.all._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class StringTypesSpec extends Properties("StringTypes") {
+
+  final val FString3 = FiniteString[W.`3`.T]
+
+  property("FString3.from(str)") = forAll { (str: String) =>
+    FString3.from(str).isRight ?= (str.length <= FString3.maxLength)
+  }
+
+  property("""FString3.from("")""") = secure {
+    val str = ""
+    FString3.from(str).right.map(_.value) ?= Right(str)
+  }
+
+  property("""FString3.from("abc")""") = secure {
+    val str = "abc"
+    FString3.from(str).right.map(_.value) ?= Right(str)
+  }
+
+  property("""FString3.from("abcd")""") = secure {
+    val str = "abcd"
+    FString3.from(str) ?= Left(
+      "Predicate taking size(abcd) = 4 failed: Predicate (4 > 3) did not fail.")
+  }
+
+  property("""FString3.truncate(str)""") = forAll { (str: String) =>
+    val truncated = FString3.truncate(str)
+    truncated.value.length <= FString3.maxLength &&
+    (truncated.value ?= str.take(FString3.maxLength))
+  }
+
   // Hashes for ""
   object EmptyString {
     val md5 = "d41d8cd98f00b204e9800998ecf8427e"

@@ -9,7 +9,8 @@ import org.scalacheck.Properties
 
 class AnyArbitrarySpec extends Properties("AnyArbitrary") {
 
-  property("MatchesRegex") = checkArbitraryRefType[Refined, String, MatchesRegex[W.`".{2,}"`.T]]
+  property("MatchesRegex[S]") =
+    checkArbitraryRefinedType[String Refined MatchesRegex[W.`".{2,}"`.T]]
 
-  property("NonEmpty") = checkArbitraryRefType[Refined, List[Int], NonEmpty]
+  property("NonEmpty") = checkArbitraryRefinedType[List[Int] Refined NonEmpty]
 }

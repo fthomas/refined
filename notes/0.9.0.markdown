@@ -23,7 +23,7 @@
   with [scopt](https://github.com/scopt/scopt).
   ([#457][#457] by [@nrinaudo][@nrinaudo])
 * Add `HexString`, `MD5`, `SHA1`, `SHA224`, `SHA256`, `SHA384`,
-  and `SHA512` types ([#453][#453] by [@NeQuissimus][@NeQuissimus])
+  and `SHA512` types. ([#453][#453] by [@NeQuissimus][@NeQuissimus])
 * Add `FiniteString[N]` type for `String`s with length less than or
   equal to `N`. ([#437][#437], [#479][#479])
 
@@ -37,8 +37,6 @@
   [scala-dev/#446][scala-dev/#446]. ([#438][#438])
 * Update documentation to solve "exception during macro expansion" errors.
   ([#451][#451] by [@umbreak][@umbreak])
-
-### Bug fixes
 
 ### Deprecations and removals
 
@@ -54,6 +52,8 @@
   `Refined#value`. ([#426][#426])
 * Deprecate `scalacheck.util.Adjacent` in favor of `internal.Adjacent`
   in the core module. ([#475][#475])
+* Deprecate `scalacheck.util.Bounded` in favor of `api.{Min, Max}`
+  in the core module. ([#482][#482])
 
 ### Updates and build
 
@@ -90,13 +90,14 @@
 [#475]: https://github.com/fthomas/refined/pull/475
 [#478]: https://github.com/fthomas/refined/pull/478
 [#479]: https://github.com/fthomas/refined/pull/479
+[#482]: https://github.com/fthomas/refined/pull/482
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@densh]: https://github.com/densh
 [@fommil]: https://github.com/fommil
 [@fthomas]: https://github.com/fthomas
 [@matthedude]: https://github.com/matthedude
+[@NeQuissimus]: https://github.com/NeQuissimus
 [@nrinaudo]: https://github.com/nrinaudo
 [@umbreak]: https://github.com/umbreak
 [@zainab-ali]: https://github.com/zainab-ali
-[@NeQuissimus]: https://github.com/NeQuissimus

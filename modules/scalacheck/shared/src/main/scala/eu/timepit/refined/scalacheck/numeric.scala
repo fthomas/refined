@@ -34,28 +34,28 @@ trait NumericInstances {
       min: Min[T],
       vn: AsValueOf[N, T]
   ): Arbitrary[F[T, Less[N]]] =
-    rangeClosedOpenArbitrary(min.min, vn.value)
+    rangeClosedOpenArbitrary(min.min, vn.snd)
 
   implicit def lessEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](
       implicit
       min: Min[T],
       vn: AsValueOf[N, T]
   ): Arbitrary[F[T, LessEqual[N]]] =
-    rangeClosedArbitrary(min.min, vn.value)
+    rangeClosedArbitrary(min.min, vn.snd)
 
   implicit def greaterArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](
       implicit
       max: Max[T],
       vn: AsValueOf[N, T]
   ): Arbitrary[F[T, Greater[N]]] =
-    rangeOpenClosedArbitrary(vn.value, max.max)
+    rangeOpenClosedArbitrary(vn.snd, max.max)
 
-  implicit def greaterEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N](
+  implicit def greaterEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](
       implicit
       max: Max[T],
       vn: AsValueOf[N, T]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
-    rangeClosedArbitrary(vn.value, max.max)
+    rangeClosedArbitrary(vn.snd, max.max)
 
   ///
 
@@ -64,28 +64,28 @@ trait NumericInstances {
       vl: AsValueOf[L, T],
       vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.Open[L, H]]] =
-    rangeOpenArbitrary(vl.value, vh.value)
+    rangeOpenArbitrary(vl.snd, vh.snd)
 
   implicit def intervalOpenClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
       implicit
       vl: AsValueOf[L, T],
       vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.OpenClosed[L, H]]] =
-    rangeOpenClosedArbitrary(vl.value, vh.value)
+    rangeOpenClosedArbitrary(vl.snd, vh.snd)
 
   implicit def intervalClosedOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
       implicit
       vl: AsValueOf[L, T],
       vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.ClosedOpen[L, H]]] =
-    rangeClosedOpenArbitrary(vl.value, vh.value)
+    rangeClosedOpenArbitrary(vl.snd, vh.snd)
 
   implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L, H](
       implicit
       vl: AsValueOf[L, T],
       vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.Closed[L, H]]] =
-    rangeClosedArbitrary(vl.value, vh.value)
+    rangeClosedArbitrary(vl.snd, vh.snd)
 
   /// The following functions are private because it is not guaranteed
   /// that they produce valid values according to the predicate `P`.

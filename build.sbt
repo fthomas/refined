@@ -384,7 +384,13 @@ lazy val moduleJvmSettings = Def.settings(
         "eu.timepit.refined.api.RefinedType.dealias"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "eu.timepit.refined.scalacheck.RefTypeInstances.checkArbitraryRefinedType"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.scalacheck.*")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.scalacheck.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.GenericInference.equalValidateInferenceWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.GenericInference.equalValidateInferenceNat"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.GenericInference.equalValidateInference")
     )
   }
 )

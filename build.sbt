@@ -406,7 +406,11 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.api.Min.greaterEqualMinWit"),
       ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.api.Min.greaterEqualMinNat")
+        "eu.timepit.refined.api.Min.greaterEqualMinNat"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.api.MinInstances.greaterEqualMin"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.api.MaxInstances.lessEqualMax")
     )
   }
 )

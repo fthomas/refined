@@ -1,7 +1,7 @@
 package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{Max, Min, RefType, Validate}
-import eu.timepit.refined.internal.Adjacent
+import eu.timepit.refined.internal.{Adjacent, AsValueOf}
 import eu.timepit.refined.numeric._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Gen.Choose
@@ -112,11 +112,12 @@ trait NumericInstances {
   ): Arbitrary[F[T, Interval.ClosedOpen[L, H]]] =
     rangeClosedOpenArbitrary(wl.value, wh.value)
 
-  implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L <: T, H <: T](
-      implicit wl: Witness.Aux[L],
-      wh: Witness.Aux[H]
+  implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L, H](
+      implicit
+      vl: AsValueOf[L, T],
+      vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.Closed[L, H]]] =
-    rangeClosedArbitrary(wl.value, wh.value)
+    rangeClosedArbitrary(vl.value, vh.value)
 
   /// The following functions are private because it is not guaranteed
   /// that they produce valid values according to the predicate `P`.

@@ -9,6 +9,8 @@ trait AsValueOf[A, B] {
 }
 
 object AsValueOf {
+  def apply[A, B](implicit a: AsValueOf[A, B]): AsValueOf[A, B] = a
+
   def instance[A, B](a: A, b: B): AsValueOf[A, B] =
     new AsValueOf[A, B] {
       override def fst: A = a

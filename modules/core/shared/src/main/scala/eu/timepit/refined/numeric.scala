@@ -5,7 +5,7 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.internal.AsValueOf
 import eu.timepit.refined.numeric._
-import shapeless.{Nat, Witness}
+import shapeless.Nat
 import shapeless.nat.{_0, _2}
 import shapeless.ops.nat.ToInt
 
@@ -121,45 +121,35 @@ object numeric extends NumericInference {
 
 private[refined] trait NumericInference {
 
-  implicit def lessInferenceWit[C, A <: C, B <: C](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B],
+  implicit def lessInference[C, A, B](
+      implicit
+      wa: AsValueOf[A, C],
+      wb: AsValueOf[B, C],
       nc: Numeric[C]
   ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.value, wb.value), s"lessInferenceWit(${wa.value}, ${wb.value})")
-
-  implicit def greaterInferenceWit[C, A <: C, B <: C](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B],
-      nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.value, wb.value), s"greaterInferenceWit(${wa.value}, ${wb.value})")
+    Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](
-      implicit ta: ToInt[A],
+      implicit
+      ta: ToInt[A],
       tb: ToInt[B]
   ): Less[A] ==> Less[B] =
     Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
 
+  implicit def greaterInference[C, A, B](
+      implicit
+      wa: AsValueOf[A, C],
+      wb: AsValueOf[B, C],
+      nc: Numeric[C]
+  ): Greater[A] ==> Greater[B] =
+    Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
+
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](
-      implicit ta: ToInt[A],
+      implicit
+      ta: ToInt[A],
       tb: ToInt[B]
   ): Greater[A] ==> Greater[B] =
     Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
-
-  implicit def lessInferenceWitNat[C, A <: C, B <: Nat](
-      implicit wa: Witness.Aux[A],
-      tb: ToInt[B],
-      nc: Numeric[C]
-  ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.value, nc.fromInt(tb())), s"lessInferenceWitNat(${wa.value}, ${tb()})")
-
-  implicit def greaterInferenceWitNat[C, A <: C, B <: Nat](
-      implicit wa: Witness.Aux[A],
-      tb: ToInt[B],
-      nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
     Inference(true, "greaterEqualInference")

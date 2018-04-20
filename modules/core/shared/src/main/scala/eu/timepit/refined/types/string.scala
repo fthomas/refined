@@ -3,7 +3,7 @@ package eu.timepit.refined.types
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
-import eu.timepit.refined.internal.AsValueOf
+import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.string.MatchesRegex
 
 /** Module for `String` refined types. */
@@ -16,12 +16,12 @@ object string {
     class FiniteStringOps[N](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        vn: AsValueOf[N, Int]
+        wn: WitnessAs[N, Int]
     ) extends RefinedTypeOps[FiniteString[N], String] {
 
       /** The maximum length of a `FiniteString[N]`. */
       final val maxLength: Int =
-        vn.snd
+        wn.snd
 
       /**
        * Creates a `FiniteString[N]` from `t` by truncating it
@@ -35,7 +35,7 @@ object string {
     def apply[N](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        vn: AsValueOf[N, Int]
+        wn: WitnessAs[N, Int]
     ): FiniteStringOps[N] = new FiniteStringOps[N]
   }
 

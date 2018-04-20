@@ -3,7 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
-import eu.timepit.refined.internal.AsValueOf
+import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
 import shapeless.Nat
 import shapeless.nat.{_0, _2}
@@ -89,32 +89,32 @@ object numeric extends NumericInference {
   object Less {
     implicit def lessValidate[T, N](
         implicit
-        vn: AsValueOf[N, T],
+        wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Less[N]] =
-      Validate.fromPredicate(t => nt.lt(t, vn.snd), t => s"($t < ${vn.snd})", Less(vn.fst))
+      Validate.fromPredicate(t => nt.lt(t, wn.snd), t => s"($t < ${wn.snd})", Less(wn.fst))
   }
 
   object Greater {
     implicit def greaterValidate[T, N](
         implicit
-        vn: AsValueOf[N, T],
+        wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Greater[N]] =
-      Validate.fromPredicate(t => nt.gt(t, vn.snd), t => s"($t > ${vn.snd})", Greater(vn.fst))
+      Validate.fromPredicate(t => nt.gt(t, wn.snd), t => s"($t > ${wn.snd})", Greater(wn.fst))
   }
 
   object Modulo {
     implicit def moduloValidate[T, N, O](
         implicit
-        vn: AsValueOf[N, T],
-        vo: AsValueOf[O, T],
+        wn: WitnessAs[N, T],
+        wo: WitnessAs[O, T],
         it: Integral[T]
     ): Validate.Plain[T, Modulo[N, O]] =
       Validate.fromPredicate(
-        t => it.rem(t, vn.snd) == vo.snd,
-        t => s"($t % ${vn.snd} == ${vo.snd})",
-        Modulo(vn.fst, vo.fst)
+        t => it.rem(t, wn.snd) == wo.snd,
+        t => s"($t % ${wn.snd} == ${wo.snd})",
+        Modulo(wn.fst, wo.fst)
       )
   }
 }
@@ -123,8 +123,8 @@ private[refined] trait NumericInference {
 
   implicit def lessInference[C, A, B](
       implicit
-      wa: AsValueOf[A, C],
-      wb: AsValueOf[B, C],
+      wa: WitnessAs[A, C],
+      wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Less[A] ==> Less[B] =
     Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
@@ -138,8 +138,8 @@ private[refined] trait NumericInference {
 
   implicit def greaterInference[C, A, B](
       implicit
-      wa: AsValueOf[A, C],
-      wb: AsValueOf[B, C],
+      wa: WitnessAs[A, C],
+      wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")

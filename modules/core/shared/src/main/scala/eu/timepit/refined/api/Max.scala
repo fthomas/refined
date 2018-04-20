@@ -1,7 +1,7 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.internal.{Adjacent, AsValueOf}
+import eu.timepit.refined.internal.{Adjacent, WitnessAs}
 import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
 
 /**
@@ -38,9 +38,9 @@ trait MaxInstances extends LowPriorityMaxInstances {
   implicit def lessEqualMax[F[_, _], T, N](
       implicit
       rt: RefType[F],
-      vn: AsValueOf[N, T]
+      wn: WitnessAs[N, T]
   ): Max[F[T, LessEqual[N]]] =
-    Max.instance(rt.unsafeWrap(vn.snd))
+    Max.instance(rt.unsafeWrap(wn.snd))
 
   implicit def lessMax[F[_, _], T, N](
       implicit rt: RefType[F],

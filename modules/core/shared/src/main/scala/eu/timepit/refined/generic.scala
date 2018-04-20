@@ -3,7 +3,7 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
-import eu.timepit.refined.internal.AsValueOf
+import eu.timepit.refined.internal.WitnessAs
 import shapeless._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
@@ -37,9 +37,9 @@ object generic extends GenericInference {
 
   object Equal {
     implicit def equalValidate[T, U](
-        implicit vu: AsValueOf[U, T]
+        implicit wu: WitnessAs[U, T]
     ): Validate.Plain[T, Equal[U]] =
-      Validate.fromPredicate(_ == vu.snd, t => s"($t == ${vu.snd})", Equal(vu.fst))
+      Validate.fromPredicate(_ == wu.snd, t => s"($t == ${wu.snd})", Equal(wu.fst))
   }
 
   object ConstructorNames {
@@ -99,7 +99,7 @@ private[refined] trait GenericInference {
   implicit def equalValidateInference[T, U, P](
       implicit
       v: Validate[T, P],
-      wu: AsValueOf[U, T]
+      wu: WitnessAs[U, T]
   ): Equal[U] ==> P =
     Inference(v.isValid(wu.snd), s"equalValidateInference(${v.showExpr(wu.snd)})")
 }

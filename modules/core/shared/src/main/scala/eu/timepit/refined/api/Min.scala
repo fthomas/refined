@@ -1,7 +1,7 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.internal.{Adjacent, AsValueOf}
+import eu.timepit.refined.internal.{Adjacent, WitnessAs}
 import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
 
 /**
@@ -38,9 +38,9 @@ trait MinInstances extends LowPriorityMinInstances {
   implicit def greaterEqualMin[F[_, _], T, N](
       implicit
       rt: RefType[F],
-      vn: AsValueOf[N, T]
+      wn: WitnessAs[N, T]
   ): Min[F[T, GreaterEqual[N]]] =
-    Min.instance(rt.unsafeWrap(vn.snd))
+    Min.instance(rt.unsafeWrap(wn.snd))
 
   implicit def greaterMin[F[_, _], T, N](
       implicit rt: RefType[F],

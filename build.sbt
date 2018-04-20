@@ -304,7 +304,6 @@ lazy val moduleCrossSettings = Def.settings(
 )
 
 lazy val moduleJvmSettings = Def.settings(
-  fork in Test := true,
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
     latestVersionInSeries.value match {

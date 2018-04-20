@@ -390,7 +390,23 @@ lazy val moduleJvmSettings = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "eu.timepit.refined.GenericInference.equalValidateInferenceNat"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.GenericInference.equalValidateInference")
+        "eu.timepit.refined.GenericInference.equalValidateInference"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.Max.lessEqualMaxWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.Max.lessEqualMaxNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.MaxInstances.lessEqualMaxWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.MaxInstances.lessEqualMaxNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.MinInstances.greaterEqualMinWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.MinInstances.greaterEqualMinNat"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.Min.greaterEqualMinWit"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.api.Min.greaterEqualMinNat")
     )
   }
 )

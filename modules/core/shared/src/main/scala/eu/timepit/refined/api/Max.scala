@@ -1,10 +1,8 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.internal.Adjacent
+import eu.timepit.refined.internal.{Adjacent, AsValueOf}
 import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
-import shapeless.{Nat, Witness}
-import shapeless.ops.nat.ToInt
 
 /**
  * Type class defining the maximum value of a given type
@@ -37,18 +35,12 @@ trait MaxInstances extends LowPriorityMaxInstances {
   ): Max[F[T, GreaterEqual[N]]] =
     Max.instance(rt.unsafeWrap(mt.max))
 
-  implicit def lessEqualMaxWit[F[_, _], T, N <: T](
-      implicit rt: RefType[F],
-      wn: Witness.Aux[N]
+  implicit def lessEqualMax[F[_, _], T, N](
+      implicit
+      rt: RefType[F],
+      vn: AsValueOf[N, T]
   ): Max[F[T, LessEqual[N]]] =
-    Max.instance(rt.unsafeWrap(wn.value))
-
-  implicit def lessEqualMaxNat[F[_, _], T, N <: Nat](
-      implicit rt: RefType[F],
-      tn: ToInt[N],
-      nt: Numeric[T]
-  ): Max[F[T, LessEqual[N]]] =
-    Max.instance(rt.unsafeWrap(nt.fromInt(tn())))
+    Max.instance(rt.unsafeWrap(vn.snd))
 
   implicit def lessMax[F[_, _], T, N](
       implicit rt: RefType[F],

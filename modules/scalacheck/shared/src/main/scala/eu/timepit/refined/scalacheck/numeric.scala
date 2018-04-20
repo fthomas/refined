@@ -5,8 +5,6 @@ import eu.timepit.refined.internal.{Adjacent, AsValueOf}
 import eu.timepit.refined.numeric._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Gen.Choose
-import shapeless.{Nat, Witness}
-import shapeless.ops.nat.ToInt
 
 /**
  * Module that provides `Arbitrary` instances and generators for
@@ -31,86 +29,56 @@ trait NumericInstances {
 
   ///
 
-  implicit def lessArbitraryWit[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N <: T](
-      implicit min: Min[T],
-      wn: Witness.Aux[N]
+  implicit def lessArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](
+      implicit
+      min: Min[T],
+      vn: AsValueOf[N, T]
   ): Arbitrary[F[T, Less[N]]] =
-    rangeClosedOpenArbitrary(min.min, wn.value)
+    rangeClosedOpenArbitrary(min.min, vn.value)
 
-  implicit def lessArbitraryNat[F[_, _]: RefType, T: Choose: Adjacent, N <: Nat](
-      implicit min: Min[T],
-      nt: Numeric[T],
-      tn: ToInt[N]
-  ): Arbitrary[F[T, Less[N]]] =
-    rangeClosedOpenArbitrary(min.min, nt.fromInt(tn()))
-
-  implicit def lessEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N <: T](
-      implicit min: Min[T],
-      wn: Witness.Aux[N]
+  implicit def lessEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](
+      implicit
+      min: Min[T],
+      vn: AsValueOf[N, T]
   ): Arbitrary[F[T, LessEqual[N]]] =
-    rangeClosedArbitrary(min.min, wn.value)
+    rangeClosedArbitrary(min.min, vn.value)
 
-  implicit def lessEqualArbitraryNat[F[_, _]: RefType, T: Choose, N <: Nat](
-      implicit min: Min[T],
-      nt: Numeric[T],
-      tn: ToInt[N]
-  ): Arbitrary[F[T, LessEqual[N]]] =
-    rangeClosedArbitrary(min.min, nt.fromInt(tn()))
-
-  implicit def greaterArbitraryWit[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N <: T](
-      implicit max: Max[T],
-      wn: Witness.Aux[N]
+  implicit def greaterArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](
+      implicit
+      max: Max[T],
+      vn: AsValueOf[N, T]
   ): Arbitrary[F[T, Greater[N]]] =
-    rangeOpenClosedArbitrary(wn.value, max.max)
+    rangeOpenClosedArbitrary(vn.value, max.max)
 
-  implicit def greaterArbitraryNat[F[_, _]: RefType, T: Choose: Adjacent, N <: Nat](
-      implicit max: Max[T],
-      nt: Numeric[T],
-      tn: ToInt[N]
-  ): Arbitrary[F[T, Greater[N]]] =
-    rangeOpenClosedArbitrary(nt.fromInt(tn()), max.max)
-
-  implicit def greaterEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N <: T](
-      implicit max: Max[T],
-      wn: Witness.Aux[N]
+  implicit def greaterEqualArbitraryWit[F[_, _]: RefType, T: Numeric: Choose, N](
+      implicit
+      max: Max[T],
+      vn: AsValueOf[N, T]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
-    rangeClosedArbitrary(wn.value, max.max)
-
-  implicit def greaterEqualArbitraryNat[F[_, _]: RefType, T: Choose, N <: Nat](
-      implicit max: Max[T],
-      nt: Numeric[T],
-      tn: ToInt[N]
-  ): Arbitrary[F[T, GreaterEqual[N]]] =
-    rangeClosedArbitrary(nt.fromInt(tn()), max.max)
+    rangeClosedArbitrary(vn.value, max.max)
 
   ///
 
-  implicit def intervalOpenArbitrary[F[_, _]: RefType,
-                                     T: Numeric: Choose: Adjacent,
-                                     L <: T,
-                                     H <: T](
-      implicit wl: Witness.Aux[L],
-      wh: Witness.Aux[H]
+  implicit def intervalOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
+      implicit
+      vl: AsValueOf[L, T],
+      vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.Open[L, H]]] =
-    rangeOpenArbitrary(wl.value, wh.value)
+    rangeOpenArbitrary(vl.value, vh.value)
 
-  implicit def intervalOpenClosedArbitrary[F[_, _]: RefType,
-                                           T: Numeric: Choose: Adjacent,
-                                           L <: T,
-                                           H <: T](
-      implicit wl: Witness.Aux[L],
-      wh: Witness.Aux[H]
+  implicit def intervalOpenClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
+      implicit
+      vl: AsValueOf[L, T],
+      vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.OpenClosed[L, H]]] =
-    rangeOpenClosedArbitrary(wl.value, wh.value)
+    rangeOpenClosedArbitrary(vl.value, vh.value)
 
-  implicit def intervalClosedOpenArbitrary[F[_, _]: RefType,
-                                           T: Numeric: Choose: Adjacent,
-                                           L <: T,
-                                           H <: T](
-      implicit wl: Witness.Aux[L],
-      wh: Witness.Aux[H]
+  implicit def intervalClosedOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
+      implicit
+      vl: AsValueOf[L, T],
+      vh: AsValueOf[H, T]
   ): Arbitrary[F[T, Interval.ClosedOpen[L, H]]] =
-    rangeClosedOpenArbitrary(wl.value, wh.value)
+    rangeClosedOpenArbitrary(vl.value, vh.value)
 
   implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L, H](
       implicit

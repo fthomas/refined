@@ -304,7 +304,6 @@ lazy val moduleCrossSettings = Def.settings(
 )
 
 lazy val moduleJvmSettings = Def.settings(
-  fork in Test := true,
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
     latestVersionInSeries.value match {
@@ -317,74 +316,7 @@ lazy val moduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.StringInstances.nonEmptyStringArbitrary"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Refined.get"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.api.Refined.get$extension"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time$"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.util.time"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.numeric.moduloValidateNat"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.numeric.moduloValidateWit"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.NumericValidate.moduloValidateNat"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.NumericValidate.moduloValidateWit"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.char.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.CharValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.char$*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.boolean.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.BooleanValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.boolean$*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.generic.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.GenericValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.generic$*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.numeric.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.NumericValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.numeric*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.StringValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.string*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.collection.*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.CollectionValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.collection*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string#IPv4.*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.string#IPv6.*"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.eval$"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.eval.evalValidate"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.EvalValidate"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.jsonpath.string.jsonPathValidate"),
-      ProblemFilters.exclude[MissingTypesProblem]("eu.timepit.refined.jsonpath.string$*"),
-      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.jsonpath.StringValidate"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.NumericInference.greaterEqualInference"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.NumericInference.lessEqualInference"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.StringInstances.stringSizeArbitrary"),
-      ProblemFilters.exclude[IncompatibleMethTypeProblem](
-        "eu.timepit.refined.scalacheck.numeric.*"),
-      ProblemFilters.exclude[IncompatibleMethTypeProblem](
-        "eu.timepit.refined.scalacheck.NumericInstances.*"),
-      ProblemFilters.exclude[IncompatibleMethTypeProblem]("eu.timepit.refined.scalacheck.all.*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.NumericInstances.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.NumericInstances.*"),
-      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("eu.timepit.refined.types.*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.api.RefinedType.dealias"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "eu.timepit.refined.scalacheck.RefTypeInstances.checkArbitraryRefinedType")
-    )
+      )
   }
 )
 
@@ -549,7 +481,7 @@ addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
 addCommandsAlias(
-  "validate",
+  "validateJVM",
   Seq(
     "clean",
     "scalafmtCheck",
@@ -558,7 +490,6 @@ addCommandsAlias(
     "scalastyle",
     "test:scalastyle",
     "mimaReportBinaryIssues",
-    "testJS",
     "coverage",
     "testJVM",
     "coverageReport",
@@ -567,5 +498,12 @@ addCommandsAlias(
     "docs/tut",
     "package",
     "packageSrc"
+  )
+)
+
+addCommandsAlias(
+  "validateJS",
+  Seq(
+    "testJS"
   )
 )

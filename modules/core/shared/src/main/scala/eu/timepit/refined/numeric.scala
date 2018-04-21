@@ -3,8 +3,9 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
-import shapeless.{Nat, Witness}
+import shapeless.Nat
 import shapeless.nat.{_0, _2}
 import shapeless.ops.nat.ToInt
 
@@ -86,115 +87,69 @@ object numeric extends NumericInference {
   }
 
   object Less {
-    implicit def lessValidateWit[T, N <: T](
-        implicit wn: Witness.Aux[N],
+    implicit def lessValidate[T, N](
+        implicit
+        wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Less[N]] =
-      Validate.fromPredicate(t => nt.lt(t, wn.value), t => s"($t < ${wn.value})", Less(wn.value))
-
-    implicit def lessValidateNat[N <: Nat, T](
-        implicit tn: ToInt[N],
-        wn: Witness.Aux[N],
-        nt: Numeric[T]
-    ): Validate.Plain[T, Less[N]] =
-      Validate.fromPredicate(t => nt.toDouble(t) < tn(), t => s"($t < ${tn()})", Less(wn.value))
+      Validate.fromPredicate(t => nt.lt(t, wn.snd), t => s"($t < ${wn.snd})", Less(wn.fst))
   }
 
   object Greater {
-    implicit def greaterValidateWit[T, N <: T](
-        implicit wn: Witness.Aux[N],
+    implicit def greaterValidate[T, N](
+        implicit
+        wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Greater[N]] =
-      Validate.fromPredicate(t => nt.gt(t, wn.value), t => s"($t > ${wn.value})", Greater(wn.value))
-
-    implicit def greaterValidateNat[N <: Nat, T](
-        implicit tn: ToInt[N],
-        wn: Witness.Aux[N],
-        nt: Numeric[T]
-    ): Validate.Plain[T, Greater[N]] =
-      Validate.fromPredicate(t => nt.toDouble(t) > tn(), t => s"($t > ${tn()})", Greater(wn.value))
+      Validate.fromPredicate(t => nt.gt(t, wn.snd), t => s"($t > ${wn.snd})", Greater(wn.fst))
   }
 
   object Modulo {
-    implicit def moduloValidateWitIntegral[T, N <: T, O <: T](
-        implicit wn: Witness.Aux[N],
-        wo: Witness.Aux[O],
+    implicit def moduloValidate[T, N, O](
+        implicit
+        wn: WitnessAs[N, T],
+        wo: WitnessAs[O, T],
         it: Integral[T]
     ): Validate.Plain[T, Modulo[N, O]] =
       Validate.fromPredicate(
-        t => it.rem(t, wn.value) == wo.value,
-        t => s"($t % ${wn.value} == ${wo.value})",
-        Modulo(wn.value, wo.value)
-      )
-
-    implicit def moduloValidateNatIntegral[N <: Nat, O <: Nat, T](
-        implicit tn: ToInt[N],
-        to: ToInt[O],
-        wn: Witness.Aux[N],
-        wo: Witness.Aux[O],
-        it: Integral[T]
-    ): Validate.Plain[T, Modulo[N, O]] =
-      Validate.fromPredicate(
-        t => it.rem(t, it.fromInt(tn())) == it.fromInt(to()),
-        t => s"($t % ${tn()} == ${to()})",
-        Modulo(wn.value, wo.value)
-      )
-
-    implicit def moduloValidateWitNatIntegral[T, N <: T, O <: Nat](
-        implicit wn: Witness.Aux[N],
-        to: ToInt[O],
-        wo: Witness.Aux[O],
-        it: Integral[T]
-    ): Validate.Plain[T, Modulo[N, O]] =
-      Validate.fromPredicate(
-        t => it.rem(t, wn.value) == it.fromInt(to()),
-        t => s"($t % ${wn.value} == ${to()})",
-        Modulo(wn.value, wo.value)
+        t => it.rem(t, wn.snd) == wo.snd,
+        t => s"($t % ${wn.snd} == ${wo.snd})",
+        Modulo(wn.fst, wo.fst)
       )
   }
 }
 
 private[refined] trait NumericInference {
 
-  implicit def lessInferenceWit[C, A <: C, B <: C](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B],
+  implicit def lessInference[C, A, B](
+      implicit
+      wa: WitnessAs[A, C],
+      wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.value, wb.value), s"lessInferenceWit(${wa.value}, ${wb.value})")
-
-  implicit def greaterInferenceWit[C, A <: C, B <: C](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B],
-      nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.value, wb.value), s"greaterInferenceWit(${wa.value}, ${wb.value})")
+    Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](
-      implicit ta: ToInt[A],
+      implicit
+      ta: ToInt[A],
       tb: ToInt[B]
   ): Less[A] ==> Less[B] =
     Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
 
+  implicit def greaterInference[C, A, B](
+      implicit
+      wa: WitnessAs[A, C],
+      wb: WitnessAs[B, C],
+      nc: Numeric[C]
+  ): Greater[A] ==> Greater[B] =
+    Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
+
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](
-      implicit ta: ToInt[A],
+      implicit
+      ta: ToInt[A],
       tb: ToInt[B]
   ): Greater[A] ==> Greater[B] =
     Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
-
-  implicit def lessInferenceWitNat[C, A <: C, B <: Nat](
-      implicit wa: Witness.Aux[A],
-      tb: ToInt[B],
-      nc: Numeric[C]
-  ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.value, nc.fromInt(tb())), s"lessInferenceWitNat(${wa.value}, ${tb()})")
-
-  implicit def greaterInferenceWitNat[C, A <: C, B <: Nat](
-      implicit wa: Witness.Aux[A],
-      tb: ToInt[B],
-      nc: Numeric[C]
-  ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.value, nc.fromInt(tb())), s"greaterInferenceWitNat(${wa.value}, ${tb()})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
     Inference(true, "greaterEqualInference")

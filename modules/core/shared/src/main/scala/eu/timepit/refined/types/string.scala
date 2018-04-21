@@ -3,8 +3,8 @@ package eu.timepit.refined.types
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
+import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.string.MatchesRegex
-import shapeless.Witness
 
 /** Module for `String` refined types. */
 object string {
@@ -13,15 +13,15 @@ object string {
   type FiniteString[N] = String Refined MaxSize[N]
 
   object FiniteString {
-    class FiniteStringOps[N <: Int](
+    class FiniteStringOps[N](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: WitnessAs[N, Int]
     ) extends RefinedTypeOps[FiniteString[N], String] {
 
       /** The maximum length of a `FiniteString[N]`. */
-      final val maxLength: N =
-        wn.value
+      final val maxLength: Int =
+        wn.snd
 
       /**
        * Creates a `FiniteString[N]` from `t` by truncating it
@@ -32,10 +32,10 @@ object string {
     }
 
     /** Creates a "companion object" for `FiniteString[N]` with a fixed `N`. */
-    def apply[N <: Int](
+    def apply[N](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: WitnessAs[N, Int]
     ): FiniteStringOps[N] = new FiniteStringOps[N]
   }
 

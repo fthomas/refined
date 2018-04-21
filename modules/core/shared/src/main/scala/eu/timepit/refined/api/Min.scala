@@ -1,10 +1,8 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.boolean.And
-import eu.timepit.refined.internal.Adjacent
+import eu.timepit.refined.internal.{Adjacent, WitnessAs}
 import eu.timepit.refined.numeric.{Greater, GreaterEqual, Less, LessEqual}
-import shapeless.{Nat, Witness}
-import shapeless.ops.nat.ToInt
 
 /**
  * Type class defining the minimum value of a given type
@@ -37,18 +35,12 @@ trait MinInstances extends LowPriorityMinInstances {
   ): Min[F[T, LessEqual[N]]] =
     Min.instance(rt.unsafeWrap(mt.min))
 
-  implicit def greaterEqualMinWit[F[_, _], T, N <: T](
-      implicit rt: RefType[F],
-      wn: Witness.Aux[N]
+  implicit def greaterEqualMin[F[_, _], T, N](
+      implicit
+      rt: RefType[F],
+      wn: WitnessAs[N, T]
   ): Min[F[T, GreaterEqual[N]]] =
-    Min.instance(rt.unsafeWrap(wn.value))
-
-  implicit def greaterEqualMinNat[F[_, _], T, N <: Nat](
-      implicit rt: RefType[F],
-      tn: ToInt[N],
-      nt: Numeric[T]
-  ): Min[F[T, GreaterEqual[N]]] =
-    Min.instance(rt.unsafeWrap(nt.fromInt(tn())))
+    Min.instance(rt.unsafeWrap(wn.snd))
 
   implicit def greaterMin[F[_, _], T, N](
       implicit rt: RefType[F],

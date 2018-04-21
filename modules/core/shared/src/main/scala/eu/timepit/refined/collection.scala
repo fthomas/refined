@@ -6,8 +6,9 @@ import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
 import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.Resources
-import eu.timepit.refined.numeric.{GreaterEqual, LessEqual}
+import eu.timepit.refined.numeric.{GreaterEqual, Interval}
 import shapeless.Witness
+import shapeless.nat._0
 
 /** Module for collection predicates. */
 object collection extends CollectionInference {
@@ -86,7 +87,7 @@ object collection extends CollectionInference {
    * Predicate that checks if the size of a `Traversable` is less than
    * or equal to `N`.
    */
-  type MaxSize[N] = Size[LessEqual[N]]
+  type MaxSize[N] = Size[Interval.Closed[_0, N]]
 
   /** Predicate that checks if a `Traversable` is not empty. */
   type NonEmpty = Not[Empty]

@@ -3,10 +3,10 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
+import eu.timepit.refined.internal.WitnessAs
 import shapeless._
 import shapeless.ops.coproduct.ToHList
 import shapeless.ops.hlist.ToList
-import shapeless.ops.nat.ToInt
 import shapeless.ops.record.Keys
 
 /** Module for generic predicates. */
@@ -36,19 +36,10 @@ object generic extends GenericInference {
   final case class Supertype[U]()
 
   object Equal {
-    implicit def equalValidateWit[T, U <: T](
-        implicit wu: Witness.Aux[U]
+    implicit def equalValidate[T, U](
+        implicit wu: WitnessAs[U, T]
     ): Validate.Plain[T, Equal[U]] =
-      Validate.fromPredicate(_ == wu.value, t => s"($t == ${wu.value})", Equal(wu.value))
-
-    implicit def equalValidateNat[N <: Nat, T](
-        implicit tn: ToInt[N],
-        wn: Witness.Aux[N],
-        nt: Numeric[T]
-    ): Validate.Plain[T, Equal[N]] = {
-      val n = nt.fromInt(tn())
-      Validate.fromPredicate(_ == n, t => s"($t == $n)", Equal(wn.value))
-    }
+      Validate.fromPredicate(_ == wu.snd, t => s"($t == ${wu.snd})", Equal(wu.fst))
   }
 
   object ConstructorNames {
@@ -105,17 +96,10 @@ object generic extends GenericInference {
 
 private[refined] trait GenericInference {
 
-  implicit def equalValidateInferenceWit[T, U <: T, P](
-      implicit v: Validate[T, P],
-      wu: Witness.Aux[U]
+  implicit def equalValidateInference[T, U, P](
+      implicit
+      v: Validate[T, P],
+      wu: WitnessAs[U, T]
   ): Equal[U] ==> P =
-    Inference(v.isValid(wu.value), s"equalValidateInferenceWit(${v.showExpr(wu.value)})")
-
-  implicit def equalValidateInferenceNat[T, N <: Nat, P](
-      implicit v: Validate[T, P],
-      nt: Numeric[T],
-      tn: ToInt[N]
-  ): Equal[N] ==> P =
-    Inference(v.isValid(nt.fromInt(tn())),
-              s"equalValidateInferenceNat(${v.showExpr(nt.fromInt(tn()))})")
+    Inference(v.isValid(wu.snd), s"equalValidateInference(${v.showExpr(wu.snd)})")
 }

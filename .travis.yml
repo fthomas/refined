@@ -13,7 +13,8 @@ cache:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
 script:
-- sbt ++$TRAVIS_SCALA_VERSION validate
+- sbt ++$TRAVIS_SCALA_VERSION validateJVM
+- sbt ++$TRAVIS_SCALA_VERSION validateJS
 after_success:
 - codecov
 notifications:
@@ -31,7 +32,8 @@ matrix:
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION compileNative validate
+    - sbt ++$TRAVIS_SCALA_VERSION compileNative validateJVM
+    - sbt ++$TRAVIS_SCALA_VERSION validateJS
   - scala: 2.13.0-M3 # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile

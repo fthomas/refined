@@ -37,6 +37,11 @@
   [scala-dev/#446][scala-dev/#446]. ([#438][#438])
 * Update documentation to solve "exception during macro expansion" errors.
   ([#451][#451] by [@umbreak][@umbreak])
+* Change the definition of `MaxSize[N]` from `Size[LessEqual[N]]` to
+  `Size[Interval.Closed[_0, N]]` and introduce the `WitnessAs` type class
+  which unifies numeric type class instances that were split to work with
+  literal singleton types and `shapeless.Nat`.
+  ([#473][#473], [#483][#483])
 
 ### Deprecations and removals
 
@@ -87,10 +92,12 @@
 [#467]: https://github.com/fthomas/refined/pull/467
 [#468]: https://github.com/fthomas/refined/pull/468
 [#471]: https://github.com/fthomas/refined/pull/471
+[#473]: https://github.com/fthomas/refined/issues/473
 [#475]: https://github.com/fthomas/refined/pull/475
 [#478]: https://github.com/fthomas/refined/pull/478
 [#479]: https://github.com/fthomas/refined/pull/479
 [#482]: https://github.com/fthomas/refined/pull/482
+[#483]: https://github.com/fthomas/refined/pull/483
 [scala-dev/#446]: https://github.com/scala/scala-dev/issues/446
 
 [@densh]: https://github.com/densh

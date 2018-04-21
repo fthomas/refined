@@ -504,7 +504,6 @@ addCommandsAlias(
 addCommandsAlias(
   "validateJS",
   Seq(
-    "clean",
     "testJS"
   )
 )

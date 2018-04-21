@@ -481,7 +481,7 @@ addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
 addCommandsAlias(
-  "validate",
+  "validateJVM",
   Seq(
     "clean",
     "scalafmtCheck",
@@ -490,7 +490,6 @@ addCommandsAlias(
     "scalastyle",
     "test:scalastyle",
     "mimaReportBinaryIssues",
-    "testJS",
     "coverage",
     "testJVM",
     "coverageReport",
@@ -499,5 +498,13 @@ addCommandsAlias(
     "docs/tut",
     "package",
     "packageSrc"
+  )
+)
+
+addCommandsAlias(
+  "validateJS",
+  Seq(
+    "clean",
+    "testJS"
   )
 )

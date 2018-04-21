@@ -10,7 +10,6 @@ import eu.timepit.refined.scalacheck.string._
 import eu.timepit.refined.string._
 import eu.timepit.refined.types.string.{FiniteString, NonEmptyString}
 import org.scalacheck.Properties
-import shapeless.nat._5
 
 class StringArbitrarySpec extends Properties("StringArbitrary") {
 
@@ -23,8 +22,6 @@ class StringArbitrarySpec extends Properties("StringArbitrary") {
   property("MaxSize[16]") = checkArbitraryRefinedType[String Refined MaxSize[W.`16`.T]]
 
   property("FiniteString[10]") = checkArbitraryRefinedType[FiniteString[W.`10`.T]]
-
-  property("FiniteString[_5]") = checkArbitraryRefinedType[FiniteString[_5]]
 
   property("Size[Equal[8]]") = checkArbitraryRefinedType[String Refined Size[Equal[W.`8`.T]]]
 }

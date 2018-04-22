@@ -326,7 +326,6 @@ lazy val moduleJsSettings = Def.settings(
 lazy val moduleNativeSettings = Def.settings(
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
-  publishArtifact in packageDoc := false,
   sources in (Compile, doc) := Seq.empty
 )
 

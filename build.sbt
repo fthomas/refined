@@ -133,10 +133,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .nativeSettings(
     libraryDependencies -= scalaCheckDep.value % Test,
-    // Disable Scaladoc generation because of:
-    // [error] dropping dependency on node with no phase object: mixin
-    publishArtifact in packageDoc := false,
-    sources in (Compile, doc) := Seq.empty
+    moduleNativeSettings
   )
 
 lazy val coreJVM = core.jvm
@@ -215,6 +212,7 @@ lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       import _root_.scalaz.@@
     """
   )
+  .nativeSettings(moduleNativeSettings)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
@@ -261,6 +259,7 @@ lazy val shapeless = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       import $rootPkg.shapeless._
     """
   )
+  .nativeSettings(moduleNativeSettings)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
@@ -322,6 +321,13 @@ lazy val moduleJvmSettings = Def.settings(
 
 lazy val moduleJsSettings = Def.settings(
   doctestGenTests := Seq.empty
+)
+
+lazy val moduleNativeSettings = Def.settings(
+  // Disable Scaladoc generation because of:
+  // [error] dropping dependency on node with no phase object: mixin
+  publishArtifact in packageDoc := false,
+  sources in (Compile, doc) := Seq.empty
 )
 
 lazy val metadataSettings = Def.settings(

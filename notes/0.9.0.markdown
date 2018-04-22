@@ -108,3 +108,5 @@
 [@nrinaudo]: https://github.com/nrinaudo
 [@umbreak]: https://github.com/umbreak
 [@zainab-ali]: https://github.com/zainab-ali
+
+Released on 2018-04-22

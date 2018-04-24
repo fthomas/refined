@@ -186,7 +186,9 @@ libraryDependencies ++= Seq(
   "eu.timepit" %% "refined-pureconfig" % "0.9.0", // optional, JVM-only
   "eu.timepit" %% "refined-scalacheck" % "0.9.0", // optional
   "eu.timepit" %% "refined-scalaz"     % "0.9.0", // optional
-  "eu.timepit" %% "refined-scodec"     % "0.9.0"  // optional
+  "eu.timepit" %% "refined-scodec"     % "0.9.0", // optional
+  "eu.timepit" %% "refined-scopt"      % "0.9.0", // optional
+  "eu.timepit" %% "refined-shapeless"  % "0.9.0"  // optional
 )
 ```
 
@@ -219,6 +221,7 @@ The project provides these optional extensions and library integrations:
   [scodec](http://scodec.org/) and allows refining `scodec.bits.ByteVector`
 * `refined-scopt` allows to read command line options with refined types
   using [scopt](https://github.com/scopt/scopt)
+* `refined-shapeless`
 
 ### External modules
 

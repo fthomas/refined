@@ -28,13 +28,8 @@ trait StringInstances {
 
   implicit def nonEmptyStringArbitrary[F[_, _]](
       implicit rt: RefType[F]
-  ): Arbitrary[F[String, NonEmpty]] = {
-    val nonEmptyStringGen = for {
-      s <- Arbitrary.arbString.arbitrary
-      c <- Arbitrary.arbChar.arbitrary
-    } yield s + c.toString
-    arbitraryRefType(nonEmptyStringGen)
-  }
+  ): Arbitrary[F[String, NonEmpty]] =
+    collection.buildableNonEmptyArbitrary[F, String, Char]
 
   implicit def stringSizeArbitrary[F[_, _]: RefType, P](
       implicit

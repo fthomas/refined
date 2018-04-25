@@ -1,12 +1,12 @@
 package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{Refined, RefType}
-import eu.timepit.refined.collection.Size
+import eu.timepit.refined.collection.{NonEmpty, Size}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.util.Buildable
 
 /** Module that provides `Arbitrary` instances for collection predicates. */
-object collection extends CollectionInstances
+object collection extends CollectionInstances with CollectionInstancesBinCompat1
 
 trait CollectionInstances {
 
@@ -35,4 +35,23 @@ trait CollectionInstances {
     arbitraryRefType(arbSize.arbitrary.flatMap { n =>
       Gen.buildableOfN[C, T](n.value, arbT.arbitrary)
     })
+}
+
+trait CollectionInstancesBinCompat1 {
+
+  implicit def listNonEmptyArbitrary[F[_, _]: RefType, T: Arbitrary]
+    : Arbitrary[F[List[T], NonEmpty]] =
+    buildableNonEmptyArbitrary[F, List[T], T]
+
+  implicit def vectorNonEmptyArbitrary[F[_, _]: RefType, T: Arbitrary]
+    : Arbitrary[F[Vector[T], NonEmpty]] =
+    buildableNonEmptyArbitrary[F, Vector[T], T]
+
+  private[scalacheck] def buildableNonEmptyArbitrary[F[_, _]: RefType, C, T](
+      implicit
+      arbT: Arbitrary[T],
+      ev1: Buildable[T, C],
+      ev2: C => Traversable[T]
+  ): Arbitrary[F[C, NonEmpty]] =
+    arbitraryRefType(Gen.nonEmptyBuildableOf(arbT.arbitrary))
 }

@@ -46,7 +46,30 @@ object string {
   /** A `String` that contains no leading or trailing whitespace. */
   type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
 
-  object TrimmedString extends RefinedTypeOps[TrimmedString, String]
+  object TrimmedString extends RefinedTypeOps[TrimmedString, String] {
+
+    /**
+     * Trim a string into a TrimmedString by removing leading and trailing
+     * whitespace.
+     *
+     * Example: {{{
+     * scala> import eu.timepit.refined.types.string._
+     *
+     * scala> TrimmedString.trim(" \n a b c ")
+     * res0: TrimmedString = a b c
+     *
+     * Note that there are some strings can inhabit `TrimmedString` but will
+     * still be trimmed when passed into this method:
+     *
+     * scala> TrimmedString("\u0000a")
+     * res1: TrimmedString = \u000a
+     *
+     * scala> TrimmedString.trim("\u0000a")
+     * res2: TrimmedString = a
+     * }}}
+     */
+    def trim(s: String): TrimmedString = Refined.unsafeApply(s.trim)
+  }
 
   /** A `String` representing a hexadecimal number */
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]

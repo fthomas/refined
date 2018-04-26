@@ -71,7 +71,7 @@ object string extends StringInference {
   }
 
   object IPv4 {
-    implicit def ipv4Validate[S <: String]: Validate.Plain[String, IPv4] =
+    implicit def ipv4Validate: Validate.Plain[String, IPv4] =
       Validate.fromPredicate(predicate, t => s"$t is a valid IPv4", IPv4())
 
     private val regex = "^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$".r.pattern
@@ -90,7 +90,7 @@ object string extends StringInference {
   }
 
   object IPv6 {
-    implicit def ipv6Validate[S <: String]: Validate.Plain[String, IPv6] =
+    implicit def ipv6Validate: Validate.Plain[String, IPv6] =
       Validate.fromPredicate(predicate, t => s"$t is a valid IPv6", IPv6())
 
     private val ipv4Chars = "(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])"

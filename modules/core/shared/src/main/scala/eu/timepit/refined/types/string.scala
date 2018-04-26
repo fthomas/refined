@@ -25,6 +25,14 @@ object string {
       /**
        * Creates a `FiniteString[N]` from `t` by truncating it
        * if it is longer than `N`.
+       *
+       * Example: {{{
+       * scala> import eu.timepit.refined.W
+       *      | import eu.timepit.refined.types.string.FiniteString
+       *
+       * scala> FiniteString[W.`3`.T].truncate("abcde")
+       * res1: FiniteString[W.`3`.T] = abc
+       * }}}
        */
       def truncate(t: String): FiniteString[N] =
         Refined.unsafeApply(t.substring(0, math.min(t.length, maxLength)))

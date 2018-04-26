@@ -43,8 +43,16 @@ object string {
 
   object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
-  /** A `String` that contains no leading or trailing whitespace. */
-  type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
+  // scalastyle:off no.whitespace.after.left.bracket
+  /**
+   * A `String` that contains no leading or trailing whitespace.
+   *
+   * Note that a line separator (`\u2028') is not considered whitespace for the
+   * purposes of trimming.
+   */
+  type TrimmedString = String Refined MatchesRegex[
+    W.`"""^(?![\\x{0000}-\\x{0020}])(?s:.*)(?<![\\x{0000}-\\x{0020}])"""`.T]
+  // scalastyle:on no.whitespace.after.left.bracket
 
   object TrimmedString extends RefinedTypeOps[TrimmedString, String] {
 
@@ -57,15 +65,6 @@ object string {
      *
      * scala> TrimmedString.trim(" \n a b c ")
      * res0: TrimmedString = a b c
-     *
-     * Note that there are some strings can inhabit `TrimmedString` but will
-     * still be trimmed when passed into this method:
-     *
-     * scala> TrimmedString("\u0000a")
-     * res1: TrimmedString = \u000a
-     *
-     * scala> TrimmedString.trim("\u0000a")
-     * res2: TrimmedString = a
      * }}}
      */
     def trim(s: String): TrimmedString = Refined.unsafeApply(s.trim)

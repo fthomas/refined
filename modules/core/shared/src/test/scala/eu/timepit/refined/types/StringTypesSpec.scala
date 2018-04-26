@@ -35,6 +35,10 @@ class StringTypesSpec extends Properties("StringTypes") {
     (truncated.value ?= str.take(FString3.maxLength))
   }
 
+  property("""TrimmedString.from(str)""") = forAll { (str: String) =>
+    TrimmedString.from(str).isRight ?= (TrimmedString.trim(str).value == str)
+  }
+
   property("""TrimmedString.trim(str)""") = forAll { (str: String) =>
     val trimmed = TrimmedString.trim(str)
     TrimmedString.from(trimmed.value) ?= Right(trimmed)

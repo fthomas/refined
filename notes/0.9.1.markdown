@@ -1,0 +1,8 @@
+### New features
+
+* Add `Arbitrary` instances for `NonEmpty` `List`s and `Vector`s.
+  ([#486][#486] by [@fthomas][@fthomas])
+
+[#486]: https://github.com/fthomas/refined/pull/486
+
+[@fthomas]: https://github.com/fthomas

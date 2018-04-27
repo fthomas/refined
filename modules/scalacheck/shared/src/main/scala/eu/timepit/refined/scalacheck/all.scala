@@ -8,3 +8,4 @@ object all
     with RefTypeInstances
     with StringInstances
     with CollectionInstances
+    with CollectionInstancesBinCompat1

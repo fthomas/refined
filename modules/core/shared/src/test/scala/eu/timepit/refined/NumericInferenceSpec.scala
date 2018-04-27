@@ -10,49 +10,49 @@ import shapeless.nat._
 class NumericInferenceSpec extends Properties("NumericInference") {
 
   property("Less[A] ==> Less[B]") = secure {
-    Inference[Less[W.`7.2`.T], Less[W.`7.5`.T]].isValid
+    Inference[Less[7.2], Less[7.5]].isValid
   }
 
   property("Less[A] =!> Less[B]") = secure {
-    Inference[Less[W.`7.5`.T], Less[W.`7.2`.T]].notValid
+    Inference[Less[7.5], Less[7.2]].notValid
   }
 
   property("LessEqual[A] ==> LessEqual[B]") = secure {
-    Inference[LessEqual[W.`7.2`.T], LessEqual[W.`7.5`.T]].isValid
+    Inference[LessEqual[7.2], LessEqual[7.5]].isValid
   }
 
   // Does not compile on 2.10 without a warning.
   /*
   property("LessEqual[A] ==> LessEqual[A]") = secure {
-    Inference[LessEqual[W.`1`.T], LessEqual[W.`1`.T]].isValid
+    Inference[LessEqual[1], LessEqual[1]].isValid
   }
    */
 
   property("LessEqual[A] =!> LessEqual[B]") = secure {
-    Inference[LessEqual[W.`7.5`.T], LessEqual[W.`7.2`.T]].notValid
+    Inference[LessEqual[7.5], LessEqual[7.2]].notValid
   }
 
   property("Greater[A] ==> Greater[B]") = secure {
-    Inference[Greater[W.`7.5`.T], Greater[W.`7.2`.T]].isValid
+    Inference[Greater[7.5], Greater[7.2]].isValid
   }
 
   property("Greater[A] =!> Greater[B]") = secure {
-    Inference[Greater[W.`7.2`.T], Greater[W.`7.5`.T]].notValid
+    Inference[Greater[7.2], Greater[7.5]].notValid
   }
 
   property("GreaterEqual[A] ==> GreaterEqual[B]") = secure {
-    Inference[GreaterEqual[W.`7.5`.T], GreaterEqual[W.`7.2`.T]].isValid
+    Inference[GreaterEqual[7.5], GreaterEqual[7.2]].isValid
   }
 
   // Does not compile on 2.10 without a warning.
   /*
   property("GreaterEqual[A] ==> GreaterEqual[A]") = secure {
-    Inference[GreaterEqual[W.`1`.T], GreaterEqual[W.`1`.T]].isValid
+    Inference[GreaterEqual[1], GreaterEqual[1]].isValid
   }
    */
 
   property("GreaterEqual[A] =!> GreaterEqual[B]") = secure {
-    Inference[GreaterEqual[W.`7.2`.T], GreaterEqual[W.`7.5`.T]].notValid
+    Inference[GreaterEqual[7.2], GreaterEqual[7.5]].notValid
   }
 
   property("Less[Nat] ==> Less[Nat]") = secure {
@@ -64,11 +64,11 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("Less[A] ==> Less[Nat]") = secure {
-    Inference[Less[W.`5`.T], Less[_10]].isValid
+    Inference[Less[5], Less[_10]].isValid
   }
 
   property("Less[A] =!> Less[Nat]") = secure {
-    Inference[Less[W.`10`.T], Less[_5]].notValid
+    Inference[Less[10], Less[_5]].notValid
   }
 
   property("Greater[Nat] ==> Greater[Nat]") = secure {
@@ -80,11 +80,11 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("Greater[A] ==> Greater[Nat]") = secure {
-    Inference[Greater[W.`10`.T], Greater[_5]].isValid
+    Inference[Greater[10], Greater[_5]].isValid
   }
 
   property("Greater[A] =!> Greater[Nat]") = secure {
-    Inference[Greater[W.`5`.T], Greater[_10]].notValid
+    Inference[Greater[5], Greater[_10]].notValid
   }
 
   property("Interval[Nat] ==> LessEqual[Nat]") = secure {
@@ -92,11 +92,11 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("Greater[A] ==> GreaterEqual[A]") = secure {
-    Inference[Greater[W.`0`.T], GreaterEqual[W.`0`.T]].isValid
+    Inference[Greater[0], GreaterEqual[0]].isValid
   }
 
   property("Less[A] ==> LessEqual[A]") = secure {
-    Inference[Less[W.`0`.T], LessEqual[W.`0`.T]].isValid
+    Inference[Less[0], LessEqual[0]].isValid
   }
 
   /*
@@ -105,11 +105,11 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   }
 
   property("Equal[Nat] ==> Greater[A]") = secure {
-    Inference[Equal[_10], Greater[W.`5`.T]].isValid
+    Inference[Equal[_10], Greater[5]].isValid
   }
 
   property("Equal[Nat] =!> Greater[A]") = secure {
-    Inference[Equal[_5], Greater[W.`10`.T]].notValid
+    Inference[Equal[_5], Greater[10]].notValid
   }
  */
 }

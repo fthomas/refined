@@ -13,11 +13,11 @@ import shapeless.test.illTyped
 class AutoSpec extends Properties("auto") {
 
   property("autoInfer") = secure {
-    val a: Char Refined Equal[W.`'0'`.T] = '0'
+    val a: Char Refined Equal['0'] = '0'
     val b: Char Refined Digit = a
     illTyped(
       "val c: Char Refined Letter = a",
-      """type mismatch \(invalid inference\):\s*eu.timepit.refined.generic.Equal\[Char\('0'\)\] does not imply\s*eu.timepit.refined.char.Letter"""
+      """type mismatch \(invalid inference\):\s*eu.timepit.refined.generic.Equal\['0'\] does not imply\s*eu.timepit.refined.char.Letter"""
     )
     a == b
   }
@@ -29,14 +29,14 @@ class AutoSpec extends Properties("auto") {
   }
 
   property("autoRefineV") = secure {
-    val a: Char Refined Equal[W.`'0'`.T] = '0'
-    illTyped("val b: Char Refined Equal[W.`'0'`.T] = '1'", """Predicate failed: \(1 == 0\).""")
+    val a: Char Refined Equal['0'] = '0'
+    illTyped("val b: Char Refined Equal['0'] = '1'", """Predicate failed: \(1 == 0\).""")
     a.value == '0'
   }
 
   property("autoRefineT") = secure {
-    val a: Char @@ Equal[W.`'0'`.T] = '0'
-    illTyped("val b: Char @@ Equal[W.`'0'`.T] = '1'", """Predicate failed: \(1 == 0\).""")
+    val a: Char @@ Equal['0'] = '0'
+    illTyped("val b: Char @@ Equal['0'] = '1'", """Predicate failed: \(1 == 0\).""")
     a == '0'
   }
 

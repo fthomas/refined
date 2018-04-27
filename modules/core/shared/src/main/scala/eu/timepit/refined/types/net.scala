@@ -1,6 +1,5 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean.{And, Or}
 import eu.timepit.refined.numeric.Interval
@@ -10,27 +9,27 @@ import eu.timepit.refined.string.{IPv4, MatchesRegex, StartsWith}
 object net {
 
   /** An `Int` in the range from 0 to 65535 representing a port number. */
-  type PortNumber = Int Refined Interval.Closed[W.`0`.T, W.`65535`.T]
+  type PortNumber = Int Refined Interval.Closed[0, 65535]
 
   object PortNumber extends RefinedTypeOps[PortNumber, Int]
 
   /** An `Int` in the range from 0 to 1023 representing a port number. */
-  type SystemPortNumber = Int Refined Interval.Closed[W.`0`.T, W.`1023`.T]
+  type SystemPortNumber = Int Refined Interval.Closed[0, 1023]
 
   object SystemPortNumber extends RefinedTypeOps[SystemPortNumber, Int]
 
   /** An `Int` in the range from 1024 to 49151 representing a port number. */
-  type UserPortNumber = Int Refined Interval.Closed[W.`1024`.T, W.`49151`.T]
+  type UserPortNumber = Int Refined Interval.Closed[1024, 49151]
 
   object UserPortNumber extends RefinedTypeOps[UserPortNumber, Int]
 
   /** An `Int` in the range from 49152 to 65535 representing a port number. */
-  type DynamicPortNumber = Int Refined Interval.Closed[W.`49152`.T, W.`65535`.T]
+  type DynamicPortNumber = Int Refined Interval.Closed[49152, 65535]
 
   object DynamicPortNumber extends RefinedTypeOps[DynamicPortNumber, Int]
 
   /** An `Int` in the range from 1024 to 65535 representing a port number. */
-  type NonSystemPortNumber = Int Refined Interval.Closed[W.`1024`.T, W.`65535`.T]
+  type NonSystemPortNumber = Int Refined Interval.Closed[1024, 65535]
 
   object NonSystemPortNumber extends RefinedTypeOps[NonSystemPortNumber, Int]
 
@@ -73,34 +72,34 @@ object net {
   object PrivateNetworks {
 
     type Rfc1918ClassAPrivateSpec =
-      IPv4 And StartsWith[W.`"10."`.T]
+      IPv4 And StartsWith["10."]
 
     type Rfc1918ClassBPrivateSpec =
-      IPv4 And MatchesRegex[W.`"^172\\\\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+"`.T]
+      IPv4 And MatchesRegex["^172\\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+"]
 
     type Rfc1918ClassCPrivateSpec =
-      IPv4 And StartsWith[W.`"192.168."`.T]
+      IPv4 And StartsWith["192.168."]
 
     type Rfc1918PrivateSpec =
       Rfc1918ClassAPrivateSpec Or Rfc1918ClassBPrivateSpec Or Rfc1918ClassCPrivateSpec
 
     type Rfc5737Testnet1Spec =
-      IPv4 And StartsWith[W.`"192.0.2."`.T]
+      IPv4 And StartsWith["192.0.2."]
 
     type Rfc5737Testnet2Spec =
-      IPv4 And StartsWith[W.`"198.51.100."`.T]
+      IPv4 And StartsWith["198.51.100."]
 
     type Rfc5737Testnet3Spec =
-      IPv4 And StartsWith[W.`"203.0.113."`.T]
+      IPv4 And StartsWith["203.0.113."]
 
     type Rfc5737TestnetSpec =
       Rfc5737Testnet1Spec Or Rfc5737Testnet2Spec Or Rfc5737Testnet3Spec
 
     type Rfc3927LocalLinkSpec =
-      IPv4 And StartsWith[W.`"169.254."`.T]
+      IPv4 And StartsWith["169.254."]
 
     type Rfc2544BenchmarkSpec =
-      IPv4 And Or[StartsWith[W.`"198.18."`.T], StartsWith[W.`"198.19."`.T]]
+      IPv4 And Or[StartsWith["198.18."], StartsWith["198.19."]]
   }
 }
 

@@ -24,7 +24,7 @@ class ImplicitScopeSpec extends Properties("implicit scope") {
   }
 
   property("Validate[Int, Interval.Closed[0, 10]]") = wellTyped {
-    Validate[Int, numeric.Interval.Closed[W.`0`.T, W.`10`.T]]
+    Validate[Int, numeric.Interval.Closed[0, 10]]
   }
 
   property("Inference[And[UpperCase, Letter], And[Letter, UpperCase]]") = wellTyped {
@@ -32,6 +32,6 @@ class ImplicitScopeSpec extends Properties("implicit scope") {
   }
 
   property("Inference[Greater[1], Greater[0]]") = wellTyped {
-    Inference[numeric.Greater[W.`1`.T], numeric.Greater[W.`0`.T]]
+    Inference[numeric.Greater[1], numeric.Greater[0]]
   }
 }

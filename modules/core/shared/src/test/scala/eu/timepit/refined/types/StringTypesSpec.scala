@@ -1,13 +1,12 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.W
 import eu.timepit.refined.types.all._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class StringTypesSpec extends Properties("StringTypes") {
 
-  final val FString3 = FiniteString[W.`3`.T]
+  final val FString3 = FiniteString[3]
 
   property("FString3.from(str)") = forAll { (str: String) =>
     FString3.from(str).isRight ?= (str.length <= FString3.maxLength)

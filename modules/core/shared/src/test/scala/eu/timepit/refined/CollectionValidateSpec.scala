@@ -12,19 +12,19 @@ import shapeless.nat._
 class CollectionValidateSpec extends Properties("CollectionValidate") {
 
   property("Contains.isValid") = forAll { (l: List[Int]) =>
-    isValid[Contains[W.`0`.T]](l) ?= l.contains(0)
+    isValid[Contains[0]](l) ?= l.contains(0)
   }
 
   property("Contains.showExpr") = secure {
-    showExpr[Contains[W.`0`.T]](List(1, 2, 3)) ?= "!(!(1 == 0) && !(2 == 0) && !(3 == 0))"
+    showExpr[Contains[0]](List(1, 2, 3)) ?= "!(!(1 == 0) && !(2 == 0) && !(3 == 0))"
   }
 
   property("Contains.String.isValid") = forAll { (s: String) =>
-    isValid[Contains[W.`'0'`.T]](s) ?= s.contains('0')
+    isValid[Contains['0']](s) ?= s.contains('0')
   }
 
   property("Contains.String.showExpr") = secure {
-    showExpr[Contains[W.`'0'`.T]]("012") ?= "!(!(0 == 0) && !(1 == 0) && !(2 == 0))"
+    showExpr[Contains['0']]("012") ?= "!(!(0 == 0) && !(1 == 0) && !(2 == 0))"
   }
 
   property("Count.isValid") = forAll { (l: List[Char]) =>
@@ -106,19 +106,19 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Index.isValid") = forAll { (l: List[Char]) =>
-    isValid[Index[W.`2`.T, Digit]](l) ?= l.lift(2).fold(false)(_.isDigit)
+    isValid[Index[2, Digit]](l) ?= l.lift(2).fold(false)(_.isDigit)
   }
 
   property("Index.showExpr") = secure {
-    showExpr[Index[W.`1`.T, Digit]](List('a', 'b')) ?= "isDigit('b')"
+    showExpr[Index[1, Digit]](List('a', 'b')) ?= "isDigit('b')"
   }
 
   property("Index.showResult.empty") = secure {
-    showResult[Index[W.`2`.T, Digit]](List.empty[Char]) ?= "Predicate failed: empty collection."
+    showResult[Index[2, Digit]](List.empty[Char]) ?= "Predicate failed: empty collection."
   }
 
   property("Index.showResult.nonEmpty") = secure {
-    showResult[Index[W.`2`.T, Digit]](List('a', 'b', 'c')) ?=
+    showResult[Index[2, Digit]](List('a', 'b', 'c')) ?=
       "Predicate taking index(List(a, b, c), 2) = c failed: Predicate failed: isDigit('c')."
   }
 

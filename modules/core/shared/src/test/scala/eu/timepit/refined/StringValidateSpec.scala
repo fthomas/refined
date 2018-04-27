@@ -5,26 +5,25 @@ import eu.timepit.refined.api.Validate
 import eu.timepit.refined.string._
 import org.scalacheck.{Arbitrary, Properties}
 import org.scalacheck.Prop._
-import shapeless.Witness
 
 class StringValidateSpec extends Properties("StringValidate") {
 
   property("EndsWith.isValid") = secure {
     val s = "abcd"
-    val suffix = Witness("cd")
-    isValid[EndsWith[suffix.T]](s) ?= s.endsWith(suffix.value)
+    val suffix: "cd" = "cd"
+    isValid[EndsWith[suffix.type]](s) ?= s.endsWith(suffix)
   }
 
   property("EndsWith.showExpr") = secure {
-    showExpr[EndsWith[W.`"cd"`.T]]("abcd") ?= """"abcd".endsWith("cd")"""
+    showExpr[EndsWith["cd"]]("abcd") ?= """"abcd".endsWith("cd")"""
   }
 
   property("MatchesRegex.isValid") = forAll { (s: String) =>
-    isValid[MatchesRegex[W.`".{2,10}"`.T]](s) ?= s.matches(".{2,10}")
+    isValid[MatchesRegex[".{2,10}"]](s) ?= s.matches(".{2,10}")
   }
 
   property("MatchesRegex.showExpr") = secure {
-    showExpr[MatchesRegex[W.`".{2,10}"`.T]]("Hello") ?= """"Hello".matches(".{2,10}")"""
+    showExpr[MatchesRegex[".{2,10}"]]("Hello") ?= """"Hello".matches(".{2,10}")"""
   }
 
   property("Regex.isValid") = secure {
@@ -37,12 +36,12 @@ class StringValidateSpec extends Properties("StringValidate") {
 
   property("StartsWith.isValid") = secure {
     val s = "abcd"
-    val prefix = Witness("ab")
-    isValid[StartsWith[prefix.T]](s) ?= s.startsWith(prefix.value)
+    val prefix: "ab" = "ab"
+    isValid[StartsWith[prefix.type]](s) ?= s.startsWith(prefix)
   }
 
   property("StartsWith.showExpr") = secure {
-    showExpr[StartsWith[W.`"ab"`.T]]("abcd") ?= """"abcd".startsWith("ab")"""
+    showExpr[StartsWith["ab"]]("abcd") ?= """"abcd".startsWith("ab")"""
   }
 
   property("Uri.isValid") = secure {

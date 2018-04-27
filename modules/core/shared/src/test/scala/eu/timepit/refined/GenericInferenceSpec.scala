@@ -11,18 +11,18 @@ import shapeless.Nat
 class GenericInferenceSpec extends Properties("GenericInference") {
 
   property("Equal[S1] ==> StartsWith[S2]") = secure {
-    Inference[Equal[W.`"abcd"`.T], StartsWith[W.`"ab"`.T]].isValid
+    Inference[Equal["abcd"], StartsWith["ab"]].isValid
   }
 
   property("Equal[S1] =!> StartsWith[S2]") = secure {
-    Inference[Equal[W.`"abcd"`.T], StartsWith[W.`"cd"`.T]].notValid
+    Inference[Equal["abcd"], StartsWith["cd"]].notValid
   }
 
   property("Equal[Nat] ==> Greater[I]") = secure {
-    Inference[Equal[Nat._10], Greater[W.`5`.T]].isValid
+    Inference[Equal[Nat._10], Greater[5]].isValid
   }
 
   property("Equal[Nat] =!> Greater[I]") = secure {
-    Inference[Equal[Nat._5], Greater[W.`10`.T]].notValid
+    Inference[Equal[Nat._5], Greater[10]].notValid
   }
 }

@@ -8,18 +8,18 @@ import org.scalacheck.Properties
 class StringInferenceSpec extends Properties("StringInference") {
 
   property("EndsWith ==> EndsWith") = secure {
-    Inference[EndsWith[W.`"cde"`.T], EndsWith[W.`"de"`.T]].isValid
+    Inference[EndsWith["cde"], EndsWith["de"]].isValid
   }
 
   property("EndsWith =!> EndsWith") = secure {
-    Inference[EndsWith[W.`"de"`.T], EndsWith[W.`"cde"`.T]].notValid
+    Inference[EndsWith["de"], EndsWith["cde"]].notValid
   }
 
   property("StartsWith ==> StartsWith") = secure {
-    Inference[StartsWith[W.`"cde"`.T], StartsWith[W.`"cd"`.T]].isValid
+    Inference[StartsWith["cde"], StartsWith["cd"]].isValid
   }
 
   property("StartsWith =!> StartsWith") = secure {
-    Inference[StartsWith[W.`"cde"`.T], StartsWith[W.`"de"`.T]].notValid
+    Inference[StartsWith["cde"], StartsWith["de"]].notValid
   }
 }

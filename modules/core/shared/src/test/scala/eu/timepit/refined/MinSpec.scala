@@ -11,8 +11,8 @@ import shapeless.tag.@@
 
 class MinSpec extends Properties("Min") {
 
-  property("Min[Int Refined Greater[W.`1`.T]]") = secure {
-    Min[Int Refined Greater[W.`1`.T]].min =? Refined.unsafeApply(2)
+  property("Min[Int Refined Greater[1]]") = secure {
+    Min[Int Refined Greater[1]].min =? Refined.unsafeApply(2)
   }
 
   property("Min[Int Refined Greater[_0]]") = secure {
@@ -24,7 +24,7 @@ class MinSpec extends Properties("Min") {
   }
 
   property("Min[Float Refined Greater[_0]]") = secure {
-    Min[Float Refined Greater[W.`0f`.T]].min =? Refined.unsafeApply("1.4E-45".toFloat)
+    Min[Float Refined Greater[0f]].min =? Refined.unsafeApply("1.4E-45".toFloat)
   }
 
   property("Min[Byte Refined Less[_0]]") = secure {
@@ -67,8 +67,8 @@ class MinSpec extends Properties("Min") {
     Min[Double Refined NonNegative].min =? Refined.unsafeApply(0f)
   }
 
-  property("Min[Int Refined Not[Less[W.`-5`.T]]]") = secure {
-    Min[Int Refined Not[Less[W.`-5`.T]]].min =? Refined.unsafeApply(-5)
+  property("Min[Int Refined Not[Less[-5]]]") = secure {
+    Min[Int Refined Not[Less[-5]]].min =? Refined.unsafeApply(-5)
   }
 
   property("Min[Int Refined Interval.Open[_10, _20]]") = secure {
@@ -83,17 +83,17 @@ class MinSpec extends Properties("Min") {
     Min[Double Refined Interval.Open[_10, _20]].min =? Refined.unsafeApply(10.000000000000002d)
   }
 
-  property("Min[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
-    Min[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].min =? Refined.unsafeApply(-20)
+  property("Min[Int Refined Interval.Closed[-20, 10]]") = secure {
+    Min[Int Refined Interval.Closed[-20, 10]].min =? Refined.unsafeApply(-20)
   }
 
-  property("Min[Double Refined Interval.Closed[W.`-20.001d`.T, W.`0d`.T]]") = secure {
-    Min[Double Refined Interval.Closed[W.`-20.001d`.T, W.`0d`.T]].min =? Refined.unsafeApply(
+  property("Min[Double Refined Interval.Closed[-20.001d, 0d]]") = secure {
+    Min[Double Refined Interval.Closed[-20.001d, 0d]].min =? Refined.unsafeApply(
       -20.001d)
   }
 
-  property("Min[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]") = secure {
-    Min[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].min =? Refined.unsafeApply('A')
+  property("Min[Char Refined Interval.Closed['A', 'Z']]") = secure {
+    Min[Char Refined Interval.Closed['A', 'Z']].min =? Refined.unsafeApply('A')
   }
 
   property("Min[Int Refined Even]") = secure {

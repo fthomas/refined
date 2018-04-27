@@ -1,10 +1,8 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
 import eu.timepit.refined.string.MatchesRegex
-import shapeless.Witness
 
 /** Module for `String` refined types. */
 object string {
@@ -16,7 +14,7 @@ object string {
     class FiniteStringOps[N <: Int](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ) extends RefinedTypeOps[FiniteString[N], String] {
 
       /** The maximum length of a `FiniteString[N]`. */
@@ -27,11 +25,10 @@ object string {
        * if it is longer than `N`.
        *
        * Example: {{{
-       * scala> import eu.timepit.refined.W
-       *      | import eu.timepit.refined.types.string.FiniteString
+       * scala> import eu.timepit.refined.types.string.FiniteString
        *
-       * scala> FiniteString[W.`3`.T].truncate("abcde")
-       * res1: FiniteString[W.`3`.T] = abc
+       * scala> FiniteString[3].truncate("abcde")
+       * res1: FiniteString[3] = abc
        * }}}
        */
       def truncate(t: String): FiniteString[N] =
@@ -42,7 +39,7 @@ object string {
     def apply[N <: Int](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ): FiniteStringOps[N] = new FiniteStringOps[N]
   }
 
@@ -52,12 +49,12 @@ object string {
   object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
   /** A `String` that contains no leading or trailing whitespace. */
-  type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
+  type TrimmedString = String Refined MatchesRegex["""^(?!\\s).*(?<!\\s)"""]
 
   object TrimmedString extends RefinedTypeOps[TrimmedString, String]
 
   /** A `String` representing a hexadecimal number */
-  type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
+  type HexStringSpec = MatchesRegex["""^(([0-9a-f]+)|([0-9A-F]+))$"""]
   type HexString = String Refined HexStringSpec
   object HexString extends RefinedTypeOps[HexString, String]
 }

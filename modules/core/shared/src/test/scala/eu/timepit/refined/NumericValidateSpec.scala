@@ -9,11 +9,11 @@ import shapeless.nat._
 class NumericValidateSpec extends Properties("NumericValidate") {
 
   property("Less.isValid") = forAll { (d: Double) =>
-    isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0)
+    isValid[Less[1.0]](d) ?= (d < 1.0)
   }
 
   property("Less.showExpr") = secure {
-    showExpr[Less[W.`1.1`.T]](0.1) ?= "(0.1 < 1.1)"
+    showExpr[Less[1.1]](0.1) ?= "(0.1 < 1.1)"
   }
 
   property("Less.Nat.isValid") = forAll { (i: Int) =>
@@ -33,15 +33,15 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Less.Nat ~= Less.Int") = forAll { (i: Int) =>
-    showResult[Less[_5]](i) ?= showResult[Less[W.`5`.T]](i)
+    showResult[Less[_5]](i) ?= showResult[Less[5]](i)
   }
 
   property("Greater.isValid") = forAll { (d: Double) =>
-    isValid[Greater[W.`1.0`.T]](d) ?= (d > 1.0)
+    isValid[Greater[1.0]](d) ?= (d > 1.0)
   }
 
   property("Greater.showExpr") = secure {
-    showExpr[Greater[W.`1.1`.T]](0.1) ?= "(0.1 > 1.1)"
+    showExpr[Greater[1.1]](0.1) ?= "(0.1 > 1.1)"
   }
 
   property("Greater.Nat.isValid") = forAll { (i: Int) =>
@@ -61,7 +61,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Greater.Nat ~= Greater.Int") = forAll { (i: Int) =>
-    showResult[Greater[_5]](i) ?= showResult[Greater[W.`5`.T]](i)
+    showResult[Greater[_5]](i) ?= showResult[Greater[5]](i)
   }
 
   property("Modulo.isValid - Nat - Byte") = forAll { (b: Byte) =>
@@ -77,7 +77,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Modulo.isValid - Wit - Int") = forAll { (i: Int) =>
-    isValid[Modulo[W.`2`.T, W.`0`.T]](i) ?= (i % 2 == 0)
+    isValid[Modulo[2, 0]](i) ?= (i % 2 == 0)
   }
 
   property("Modulo.isValid - Nat - Long") = forAll { (l: Long) =>
@@ -85,11 +85,11 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Modulo.isValid - Wit - Long") = forAll { (l: Long) =>
-    isValid[Modulo[W.`2L`.T, W.`0L`.T]](l) ?= (l % 2 == 0)
+    isValid[Modulo[2L, 0L]](l) ?= (l % 2 == 0)
   }
 
   property("Modulo.showExpr") = secure {
-    showExpr[Modulo[W.`2`.T, W.`0`.T]](4) ?= s"(${4} % ${2} == ${0})"
+    showExpr[Modulo[2, 0]](4) ?= s"(${4} % ${2} == ${0})"
   }
 
   property("Modulo.Nat.isValid") = forAll { (i: Int) =>
@@ -101,7 +101,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Modulo.Nat ~= Modulo.Int") = forAll { (i: Int) =>
-    showResult[Modulo[_5, _2]](i) ?= showResult[Modulo[W.`5`.T, W.`2`.T]](i)
+    showResult[Modulo[_5, _2]](i) ?= showResult[Modulo[5, 2]](i)
   }
 
   property("Divisible.Nat.isValid") = forAll { (i: Int) =>
@@ -109,7 +109,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Divisible.Int.isValid") = forAll { (i: Int) =>
-    isValid[Divisible[W.`2`.T]](i) ?= (i % 2 == 0)
+    isValid[Divisible[2]](i) ?= (i % 2 == 0)
   }
 
   property("Divisible.Nat.showExpr") = secure {
@@ -117,7 +117,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   }
 
   property("Divisible.Int.showExpr") = secure {
-    showExpr[Divisible[W.`2`.T]](4) ?= "(4 % 2 == 0)"
+    showExpr[Divisible[2]](4) ?= "(4 % 2 == 0)"
   }
 
   property("NonDivisible.isValid") = forAll { (i: Int) =>

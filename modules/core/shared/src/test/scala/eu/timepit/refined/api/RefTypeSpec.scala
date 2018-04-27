@@ -1,7 +1,6 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.W
 import eu.timepit.refined.api.RefType.ops._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{Digit, LowerCase}
@@ -37,7 +36,7 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
   }
 
   property("refine success with Less") = secure {
-    rt.refine[Less[W.`100`.T]](-100).isRight
+    rt.refine[Less[100]](-100).isRight
   }
 
   property("refine success with Greater") = secure {
@@ -45,7 +44,7 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
   }
 
   property("refine failure with Interval.Closed") = secure {
-    rt.refine[Interval.Closed[W.`-0.5`.T, W.`0.5`.T]](0.6).isLeft
+    rt.refine[Interval.Closed[-0.5, 0.5]](0.6).isLeft
   }
 
   property("refine failure with Forall") = secure {
@@ -53,7 +52,7 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
   }
 
   property("refine success with MatchesRegex") = secure {
-    type DigitsOnly = MatchesRegex[W.`"[0-9]+"`.T]
+    type DigitsOnly = MatchesRegex["[0-9]+"]
     rt.refine[DigitsOnly]("123").isRight
   }
 

@@ -13,7 +13,7 @@ import shapeless.test.illTyped
 class CollectionInferenceSpec extends Properties("CollectionInference") {
 
   property("Exists[A] ==> Exists[B]") = secure {
-    Inference[Contains[W.`'5'`.T], Exists[Digit]].isValid
+    Inference[Contains['5'], Exists[Digit]].isValid
   }
 
   property("Exists ==> NonEmpty") = secure {
@@ -42,7 +42,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Index ==> Exists") = secure {
-    Inference[Index[W.`1`.T, LowerCase], Exists[LowerCase]].isValid
+    Inference[Index[1, LowerCase], Exists[LowerCase]].isValid
   }
 
   property("Last[A] ==> Last[B]") = secure {

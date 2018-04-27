@@ -50,24 +50,24 @@ class RefineMSpec extends Properties("refineM") {
   }
 
   property("refineM with MatchesRegex") = wellTyped {
-    def ignore1: String Refined MatchesRegex[W.`"[0-9]+"`.T] = refineMV("123")
-    def ignore2: String @@ MatchesRegex[W.`"[0-9]+"`.T] = refineMT("123")
-    illTyped("""refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
-    illTyped("""refineMT[MatchesRegex[W.`"[0-9]+"`.T]]("abc")""", "Predicate.*fail.*")
+    def ignore1: String Refined MatchesRegex["[0-9]+"] = refineMV("123")
+    def ignore2: String @@ MatchesRegex["[0-9]+"] = refineMT("123")
+    illTyped("""refineMV[MatchesRegex["[0-9]+"]]("abc")""", "Predicate.*fail.*")
+    illTyped("""refineMT[MatchesRegex["[0-9]+"]]("abc")""", "Predicate.*fail.*")
   }
 
   property("refineM with Contains") = wellTyped {
-    def ignore1: String Refined Contains[W.`'c'`.T] = refineMV("abcd")
-    def ignore2: String @@ Contains[W.`'c'`.T] = refineMT("abcd")
-    illTyped("""refineMV[Contains[W.`'c'`.T]]("abde")""", "Predicate.*fail.*")
-    illTyped("""refineMT[Contains[W.`'c'`.T]]("abde")""", "Predicate.*fail.*")
+    def ignore1: String Refined Contains['c'] = refineMV("abcd")
+    def ignore2: String @@ Contains['c'] = refineMT("abcd")
+    illTyped("""refineMV[Contains['c']]("abde")""", "Predicate.*fail.*")
+    illTyped("""refineMT[Contains['c']]("abde")""", "Predicate.*fail.*")
   }
 
   property("refineM with Double Witness") = wellTyped {
-    def ignore1: Double Refined Greater[W.`2.3`.T] = refineMV(2.4)
-    def ignore2: Double @@ Greater[W.`2.3`.T] = refineMT(2.4)
-    illTyped("refineMT[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
-    illTyped("refineMV[Greater[W.`2.3`.T]](2.2)", "Predicate.*fail.*")
+    def ignore1: Double Refined Greater[2.3] = refineMV(2.4)
+    def ignore2: Double @@ Greater[2.3] = refineMT(2.4)
+    illTyped("refineMT[Greater[2.3]](2.2)", "Predicate.*fail.*")
+    illTyped("refineMV[Greater[2.3]](2.2)", "Predicate.*fail.*")
   }
 
   property("refineM failure with non-literals") = wellTyped {

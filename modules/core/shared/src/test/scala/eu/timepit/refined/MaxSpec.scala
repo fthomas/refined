@@ -11,8 +11,8 @@ import shapeless.tag.@@
 
 class MaxSpec extends Properties("Max") {
 
-  property("Max[Int Refined Less[W.`1`.T]]") = secure {
-    Max[Int Refined Less[W.`1`.T]].max =? Refined.unsafeApply(0)
+  property("Max[Int Refined Less[1]]") = secure {
+    Max[Int Refined Less[1]].max =? Refined.unsafeApply(0)
   }
 
   property("Max[Int Refined Less[_0]]") = secure {
@@ -67,8 +67,8 @@ class MaxSpec extends Properties("Max") {
     Max[Double Refined NonPositive].max =? Refined.unsafeApply(0d)
   }
 
-  property("Max[Int Refined Not[Greater[W.`-5`.T]]]") = secure {
-    Max[Int Refined Not[Greater[W.`-5`.T]]].max =? Refined.unsafeApply(-5)
+  property("Max[Int Refined Not[Greater[-5]]]") = secure {
+    Max[Int Refined Not[Greater[-5]]].max =? Refined.unsafeApply(-5)
   }
 
   property("Max[Int Refined Interval.Open[_10, _20]]") = secure {
@@ -79,22 +79,22 @@ class MaxSpec extends Properties("Max") {
     Max[Double Refined Interval.Open[_10, _20]].max =? Refined.unsafeApply(19.999999999999996d)
   }
 
-  property("Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
-    Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]].max =? Refined.unsafeApply(10)
+  property("Max[Int Refined Interval.Closed[-20, 10]]") = secure {
+    Max[Int Refined Interval.Closed[-20, 10]].max =? Refined.unsafeApply(10)
   }
 
-  property("Max[Int @@ Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
-    Max[Int @@ Interval.Closed[W.`-20`.T, W.`10`.T]].max =?
-      refineMT[Interval.Closed[W.`-20`.T, W.`10`.T]](10)
+  property("Max[Int @@ Interval.Closed[-20, 10]]") = secure {
+    Max[Int @@ Interval.Closed[-20, 10]].max =?
+      refineMT[Interval.Closed[-20, 10]](10)
   }
 
-  property("Max[Double Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {
-    Max[Double Refined Interval.Closed[W.`-20d`.T, W.`10.99991d`.T]].max =?
+  property("Max[Double Refined Interval.Closed[-20, 10]]") = secure {
+    Max[Double Refined Interval.Closed[-20d, 10.99991d]].max =?
       Refined.unsafeApply(10.99991d)
   }
 
-  property("Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]]") = secure {
-    Max[Char Refined Interval.Closed[W.`'A'`.T, W.`'Z'`.T]].max =? Refined.unsafeApply('Z')
+  property("Max[Char Refined Interval.Closed['A', 'Z']]") = secure {
+    Max[Char Refined Interval.Closed['A', 'Z']].max =? Refined.unsafeApply('Z')
   }
 
   property("Max[Int Refined Even]") = secure {

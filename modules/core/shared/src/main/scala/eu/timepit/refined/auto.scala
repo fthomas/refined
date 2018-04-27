@@ -21,10 +21,10 @@ object auto {
    *      | import eu.timepit.refined.auto.{ autoInfer, autoRefineV }
    *      | import eu.timepit.refined.numeric.Greater
    *
-   * scala> val x: Int Refined Greater[W.`5`.T] = 100
+   * scala> val x: Int Refined Greater[5] = 100
    *
-   * scala> x: Int Refined Greater[W.`0`.T]
-   * res0: Int Refined Greater[W.`0`.T] = 100
+   * scala> x: Int Refined Greater[0]
+   * res0: Int Refined Greater[0] = 100
    * }}}
    */
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(

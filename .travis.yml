@@ -37,4 +37,4 @@ matrix:
   - scala: 2.13.0-M3 # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
-  - scala: 2.12.4
+  - scala: 2.12.6

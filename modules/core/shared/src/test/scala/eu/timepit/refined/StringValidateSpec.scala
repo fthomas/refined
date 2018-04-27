@@ -131,6 +131,7 @@ class StringValidateSpec extends Properties("StringValidate") {
     }
   }
 
+  validNumber[Byte, ValidByte]("ValidByte", Short.MaxValue.toString)
   validNumber[Short, ValidShort]("ValidShort", Int.MaxValue.toString)
   validNumber[Int, ValidInt]("ValidInt", Long.MaxValue.toString)
   validNumber[Long, ValidLong]("ValidLong", "1.0")

@@ -39,6 +39,9 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a valid UUID. */
   final case class Uuid()
 
+  /** Predicate that checks if a `String` is a parsable `Byte`. */
+  final case class ValidByte()
+
   /** Predicate that checks if a `String` is a parsable `Short`. */
   final case class ValidShort()
 
@@ -173,6 +176,11 @@ object string extends StringInference {
         "Uuid",
         Uuid()
       )
+  }
+
+  object ValidByte {
+    implicit def validByteValidate: Validate.Plain[String, ValidByte] =
+      Validate.fromPartial(_.toByte, "ValidByte", ValidByte())
   }
 
   object ValidShort {

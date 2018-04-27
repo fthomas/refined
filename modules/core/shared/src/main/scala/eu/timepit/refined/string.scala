@@ -51,6 +51,9 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a parsable `Long`. */
   final case class ValidLong()
 
+  /** Predicate that checks if a `String` is a parsable `Float`. */
+  final case class ValidFloat()
+
   /** Predicate that checks if a `String` is a parsable `Double`. */
   final case class ValidDouble()
 
@@ -196,6 +199,11 @@ object string extends StringInference {
   object ValidLong {
     implicit def validLongValidate: Validate.Plain[String, ValidLong] =
       Validate.fromPartial(_.toLong, "ValidLong", ValidLong())
+  }
+
+  object ValidFloat {
+    implicit def validFloatValidate: Validate.Plain[String, ValidFloat] =
+      Validate.fromPartial(_.toFloat, "ValidFloat", ValidFloat())
   }
 
   object ValidDouble {

@@ -51,10 +51,32 @@ object string {
 
   object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
-  /** A `String` that contains no leading or trailing whitespace. */
-  type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
+  // scalastyle:off no.whitespace.after.left.bracket
+  /**
+   * A `String` that contains no leading or trailing whitespace.
+   *
+   * Note that a line separator (`\u2028') is not considered whitespace for the
+   * purposes of trimming.
+   */
+  type TrimmedString = String Refined MatchesRegex[
+    W.`"""^(?![\\x{0000}-\\x{0020}])(?s:.*)(?<![\\x{0000}-\\x{0020}])"""`.T]
+  // scalastyle:on no.whitespace.after.left.bracket
 
-  object TrimmedString extends RefinedTypeOps[TrimmedString, String]
+  object TrimmedString extends RefinedTypeOps[TrimmedString, String] {
+
+    /**
+     * Trim a string into a TrimmedString by removing leading and trailing
+     * whitespace.
+     *
+     * Example: {{{
+     * scala> import eu.timepit.refined.types.string._
+     *
+     * scala> TrimmedString.trim(" \n a b c ")
+     * res0: TrimmedString = a b c
+     * }}}
+     */
+    def trim(s: String): TrimmedString = Refined.unsafeApply(s.trim)
+  }
 
   /** A `String` representing a hexadecimal number */
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]

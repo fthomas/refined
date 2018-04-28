@@ -371,8 +371,11 @@ The library comes with these predefined predicates:
 * `Uri`: checks if a `String` is a valid URI
 * `Url`: checks if a `String` is a valid URL
 * `Uuid`: checks if a `String` is a valid UUID
+* `ValidByte`: checks if a `String` is a parsable `Byte`
+* `ValidShort`: checks if a `String` is a parsable `Short`
 * `ValidInt`: checks if a `String` is a parsable `Int`
 * `ValidLong`: checks if a `String` is a parsable `Long`
+* `ValidFloat`: checks if a `String` is a parsable `Float`
 * `ValidDouble`: checks if a `String` is a parsable `Double`
 * `ValidBigInt`: checks if a `String` is a parsable `BigInt`
 * `ValidBigDecimal`: checks if a `String` is a parsable `BigDecimal`

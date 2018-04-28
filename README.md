@@ -381,8 +381,11 @@ The library comes with these predefined predicates:
 
 ## Contributors and participation
 
+The following people have helped making **refined** great:
+
 * [Alexandre Archambault](https://github.com/alexarchambault) ([@alxarchambault](https://twitter.com/alxarchambault))
 * [Chris Hodapp](https://github.com/clhodapp) ([@clhodapp](https://twitter.com/clhodapp))
+* [Cody Allen](https://github.com/ceedubs)
 * [Dale Wijnand](https://github.com/dwijnand) ([@dwijnand](https://twitter.com/dwijnand))
 * [Denys Shabalin](https://github.com/densh)
 * [Derek Morr](https://github.com/derekmorr) ([@derekmorr](https://twitter.com/derekmorr))

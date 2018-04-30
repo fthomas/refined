@@ -39,11 +39,20 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a valid UUID. */
   final case class Uuid()
 
+  /** Predicate that checks if a `String` is a parsable `Byte`. */
+  final case class ValidByte()
+
+  /** Predicate that checks if a `String` is a parsable `Short`. */
+  final case class ValidShort()
+
   /** Predicate that checks if a `String` is a parsable `Int`. */
   final case class ValidInt()
 
   /** Predicate that checks if a `String` is a parsable `Long`. */
   final case class ValidLong()
+
+  /** Predicate that checks if a `String` is a parsable `Float`. */
+  final case class ValidFloat()
 
   /** Predicate that checks if a `String` is a parsable `Double`. */
   final case class ValidDouble()
@@ -172,6 +181,16 @@ object string extends StringInference {
       )
   }
 
+  object ValidByte {
+    implicit def validByteValidate: Validate.Plain[String, ValidByte] =
+      Validate.fromPartial(_.toByte, "ValidByte", ValidByte())
+  }
+
+  object ValidShort {
+    implicit def validShortValidate: Validate.Plain[String, ValidShort] =
+      Validate.fromPartial(_.toShort, "ValidShort", ValidShort())
+  }
+
   object ValidInt {
     implicit def validIntValidate: Validate.Plain[String, ValidInt] =
       Validate.fromPartial(_.toInt, "ValidInt", ValidInt())
@@ -180,6 +199,11 @@ object string extends StringInference {
   object ValidLong {
     implicit def validLongValidate: Validate.Plain[String, ValidLong] =
       Validate.fromPartial(_.toLong, "ValidLong", ValidLong())
+  }
+
+  object ValidFloat {
+    implicit def validFloatValidate: Validate.Plain[String, ValidFloat] =
+      Validate.fromPartial(_.toFloat, "ValidFloat", ValidFloat())
   }
 
   object ValidDouble {

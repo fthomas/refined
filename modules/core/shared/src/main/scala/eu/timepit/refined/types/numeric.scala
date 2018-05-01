@@ -26,6 +26,26 @@ object numeric {
 
   object NonPosByte extends RefinedTypeOps.Numeric[NonPosByte, Byte]
 
+  /** An `Short` in the range from 1 to `Short.MaxValue`. */
+  type PosShort = Short Refined Positive
+
+  object PosShort extends RefinedTypeOps.Numeric[PosShort, Short]
+
+  /** An `Short` in the range from 0 to `Short.MaxValue`. */
+  type NonNegShort = Short Refined NonNegative
+
+  object NonNegShort extends RefinedTypeOps.Numeric[NonNegShort, Short]
+
+  /** An `Short` in the range from `Short.MinValue` to -1. */
+  type NegShort = Short Refined Negative
+
+  object NegShort extends RefinedTypeOps.Numeric[NegShort, Short]
+
+  /** An `Short` in the range from `Short.MinValue` to 0. */
+  type NonPosShort = Short Refined NonPositive
+
+  object NonPosShort extends RefinedTypeOps.Numeric[NonPosShort, Short]
+
   /** An `Int` in the range from 1 to `Int.MaxValue`. */
   type PosInt = Int Refined Positive
 
@@ -119,6 +139,18 @@ trait NumericTypes {
 
   final type NonPosByte = numeric.NonPosByte
   final val NonPosByte = numeric.NonPosByte
+
+  final type PosShort = numeric.PosShort
+  final val PosShort = numeric.PosShort
+
+  final type NonNegShort = numeric.NonNegShort
+  final val NonNegShort = numeric.NonNegShort
+
+  final type NegShort = numeric.NegShort
+  final val NegShort = numeric.NegShort
+
+  final type NonPosShort = numeric.NonPosShort
+  final val NonPosShort = numeric.NonPosShort
 
   final type PosInt = numeric.PosInt
   final val PosInt = numeric.PosInt

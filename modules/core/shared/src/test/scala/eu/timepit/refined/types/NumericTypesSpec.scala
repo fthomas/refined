@@ -6,6 +6,39 @@ import org.scalacheck.Properties
 
 class NumericTypesSpec extends Properties("NumericTypes") {
 
+  property("PosByte.from(1: Byte)") = secure {
+    PosByte.from(1: Byte).isRight
+  }
+
+  property("PosByte.from(-1: Byte)") = secure {
+    PosByte.from(-1: Byte) ?= Left("Predicate failed: (-1 > 0).")
+  }
+
+  property("PosByte.unapply(1: Byte)") = secure {
+    val PosByte(x) = 1: Byte
+    x ?= PosByte.unsafeFrom(1: Byte)
+  }
+
+  property("PosByte.unsafeFrom(1: Byte)") = wellTyped {
+    PosByte.unsafeFrom(1: Byte)
+  }
+
+  property("PosByte.unsafeFrom(-1: Byte)") = secure {
+    throws(classOf[IllegalArgumentException])(PosByte.unsafeFrom(-1: Byte))
+  }
+
+  property("NonNegByte.from(0: Byte)") = secure {
+    NonNegByte.from(0: Byte).isRight
+  }
+
+  property("NegByte.from(-1: Byte)") = secure {
+    NegByte.from(-1: Byte).isRight
+  }
+
+  property("NonPosByte.from(0: Byte)") = secure {
+    NonPosByte.from(0: Byte).isRight
+  }
+
   property("PosInt.from(1)") = secure {
     PosInt.from(1).isRight
   }

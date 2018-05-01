@@ -6,6 +6,26 @@ import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 /** Module for numeric refined types. */
 object numeric {
 
+  /** An `Byte` in the range from 1 to `Byte.MaxValue`. */
+  type PosByte = Byte Refined Positive
+
+  object PosByte extends RefinedTypeOps.Numeric[PosByte, Byte]
+
+  /** An `Byte` in the range from 0 to `Byte.MaxValue`. */
+  type NonNegByte = Byte Refined NonNegative
+
+  object NonNegByte extends RefinedTypeOps.Numeric[NonNegByte, Byte]
+
+  /** An `Byte` in the range from `Byte.MinValue` to -1. */
+  type NegByte = Byte Refined Negative
+
+  object NegByte extends RefinedTypeOps.Numeric[NegByte, Byte]
+
+  /** An `Byte` in the range from `Byte.MinValue` to 0. */
+  type NonPosByte = Byte Refined NonPositive
+
+  object NonPosByte extends RefinedTypeOps.Numeric[NonPosByte, Byte]
+
   /** An `Int` in the range from 1 to `Int.MaxValue`. */
   type PosInt = Int Refined Positive
 
@@ -88,6 +108,18 @@ object numeric {
 }
 
 trait NumericTypes {
+  final type PosByte = numeric.PosByte
+  final val PosByte = numeric.PosByte
+
+  final type NonNegByte = numeric.NonNegByte
+  final val NonNegByte = numeric.NonNegByte
+
+  final type NegByte = numeric.NegByte
+  final val NegByte = numeric.NegByte
+
+  final type NonPosByte = numeric.NonPosByte
+  final val NonPosByte = numeric.NonPosByte
+
   final type PosInt = numeric.PosInt
   final val PosInt = numeric.PosInt
 

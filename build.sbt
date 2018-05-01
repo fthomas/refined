@@ -345,7 +345,6 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  resolvers += "staging" at "https://oss.sonatype.org/content/repositories/staging/",
   crossScalaVersions -= Scala213,
   scalacOptions ++= Seq(
     "-deprecation",

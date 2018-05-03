@@ -2,21 +2,12 @@
 
 * Add `Arbitrary` instances for `NonEmpty` `List`s and `Vector`s.
   ([#486][#486] by [@fthomas][@fthomas])
+* New predicates `ValidByte`, `ValidShort`, and `ValidFloat` that check
+  if a `String` is a parsable `Byte`, `Short`, or `Float`.
+  ([#492][#492] by [@sh0hei][@sh0hei])
 
 [#486]: https://github.com/fthomas/refined/pull/486
-
-[@fthomas]: https://github.com/fthomas
-
-* `ValidByte`: Predicate that checks if a `String` is a parsable `Byte`.
-  ([#492][#492] by [@sh0hei][@sh0hei])
-
-* `ValidShort`: Predicate that checks if a `String` is a parsable `Short`.
-  ([#492][#492] by [@sh0hei][@sh0hei])
-  
-* `ValidFloat`: Predicate that checks if a `String` is a parsable `Float`.
-  ([#492][#492] by [@sh0hei][@sh0hei])
-
 [#492]: https://github.com/fthomas/refined/pull/492
 
+[@fthomas]: https://github.com/fthomas
 [@sh0hei]: https://github.com/sh0hei
-  

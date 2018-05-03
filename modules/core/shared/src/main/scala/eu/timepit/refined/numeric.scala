@@ -152,8 +152,8 @@ private[refined] trait NumericInference {
     Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
-    Inference(true, "greaterEqualInference")
+    Inference.alwaysValid("greaterEqualInference")
 
   implicit def lessEqualInference[A]: Less[A] ==> LessEqual[A] =
-    Inference(true, "lessEqualInference")
+    Inference.alwaysValid("lessEqualInference")
 }

@@ -26,8 +26,11 @@ trait RefinedType[FTP] extends Serializable {
     else Left(validate.showResult(t, res))
   }
 
-  final def unsafeRefine(t: T): FTP =
-    refine(t).fold(err => throw new IllegalArgumentException(err), identity)
+  final def unsafeRefine(t: T): FTP = {
+    val res = validate.validate(t)
+    if (res.isPassed) alias(refType.unsafeWrap(t))
+    else throw new IllegalArgumentException(validate.showResult(t, res))
+  }
 }
 
 object RefinedType {

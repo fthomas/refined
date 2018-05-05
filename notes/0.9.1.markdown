@@ -6,8 +6,14 @@
   if a `String` is a parsable `Byte`, `Short`, or `Float`.
   ([#492][#492] by [@sh0hei][@sh0hei])
 
+### Changes
+
+* Improve performance of `RefinedType#unsafeFrom`.
+  ([#499][#499] by [@fthomas][@fthomas])
+
 [#486]: https://github.com/fthomas/refined/pull/486
 [#492]: https://github.com/fthomas/refined/pull/492
+[#499]: https://github.com/fthomas/refined/pull/499
 
 [@fthomas]: https://github.com/fthomas
 [@sh0hei]: https://github.com/sh0hei

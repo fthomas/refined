@@ -18,7 +18,7 @@ val pureconfigVersion = "0.9.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.13.5"
 val scalaXmlVersion = "1.0.6"
-val scalazVersion = "7.2.21"
+val scalazVersion = "7.2.22"
 val scodecVersion = "1.10.3"
 val scoptVersion = "3.7.0"
 

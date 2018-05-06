@@ -11,9 +11,15 @@
 * Improve performance of `RefinedType#unsafeFrom`.
   ([#499][#499] by [@fthomas][@fthomas])
 
+### Updates
+
+* Update `refined-scalaz` to Scalaz 7.2.22.
+  ([#500][#500] by [@fthomas][@fthomas])
+
 [#486]: https://github.com/fthomas/refined/pull/486
 [#492]: https://github.com/fthomas/refined/pull/492
 [#499]: https://github.com/fthomas/refined/pull/499
+[#500]: https://github.com/fthomas/refined/pull/500
 
 [@fthomas]: https://github.com/fthomas
 [@sh0hei]: https://github.com/sh0hei

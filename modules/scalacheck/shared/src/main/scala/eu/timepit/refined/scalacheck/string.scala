@@ -2,7 +2,8 @@ package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{Refined, RefType}
 import eu.timepit.refined.collection.{NonEmpty, Size}
-import eu.timepit.refined.string.{EndsWith, StartsWith}
+import eu.timepit.refined.string.{EndsWith, StartsWith, Trimmed}
+import eu.timepit.refined.types.string.TrimmedString
 import org.scalacheck.Arbitrary
 import shapeless.Witness
 
@@ -30,6 +31,11 @@ trait StringInstances {
       implicit rt: RefType[F]
   ): Arbitrary[F[String, NonEmpty]] =
     collection.buildableNonEmptyArbitrary[F, String, Char]
+
+  implicit def trimmedStringArbitrary[F[_, _]](
+      implicit rt: RefType[F]
+  ): Arbitrary[F[String, Trimmed]] =
+    arbitraryRefType(Arbitrary.arbString.arbitrary.map(TrimmedString.trim(_).value))
 
   implicit def stringSizeArbitrary[F[_, _]: RefType, P](
       implicit

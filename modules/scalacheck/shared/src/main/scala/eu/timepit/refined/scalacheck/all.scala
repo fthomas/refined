@@ -7,5 +7,6 @@ object all
     with NumericInstances
     with RefTypeInstances
     with StringInstances
+    with StringInstancesBinCompat1
     with CollectionInstances
     with CollectionInstancesBinCompat1

@@ -3,7 +3,7 @@ package eu.timepit.refined.types
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
-import eu.timepit.refined.string.MatchesRegex
+import eu.timepit.refined.string.{MatchesRegex, Trimmed}
 import shapeless.Witness
 
 /** Module for `String` refined types. */
@@ -52,9 +52,13 @@ object string {
   object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
   /** A `String` that contains no leading or trailing whitespace. */
-  type TrimmedString = String Refined MatchesRegex[W.`"""^(?!\\s).*(?<!\\s)"""`.T]
+  type TrimmedString = String Refined Trimmed
 
-  object TrimmedString extends RefinedTypeOps[TrimmedString, String]
+  object TrimmedString extends RefinedTypeOps[TrimmedString, String] {
+
+    /** Creates a `TrimmedString` from `s` by trimming it. */
+    def trim(s: String): TrimmedString = Refined.unsafeApply(s.trim)
+  }
 
   /** A `String` representing a hexadecimal number */
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]

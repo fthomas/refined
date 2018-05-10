@@ -8,7 +8,7 @@ import eu.timepit.refined.scalacheck.generic._
 import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.scalacheck.string._
 import eu.timepit.refined.string._
-import eu.timepit.refined.types.string.{FiniteString, NonEmptyString}
+import eu.timepit.refined.types.string.{FiniteString, NonEmptyString, TrimmedString}
 import org.scalacheck.Properties
 
 class StringArbitrarySpec extends Properties("StringArbitrary") {
@@ -18,6 +18,8 @@ class StringArbitrarySpec extends Properties("StringArbitrary") {
   property("StartsWith[S]") = checkArbitraryRefinedType[String Refined StartsWith[W.`"abc"`.T]]
 
   property("NonEmptyString") = checkArbitraryRefinedType[NonEmptyString]
+
+  property("TrimmedString") = checkArbitraryRefinedType[TrimmedString]
 
   property("MaxSize[16]") = checkArbitraryRefinedType[String Refined MaxSize[W.`16`.T]]
 

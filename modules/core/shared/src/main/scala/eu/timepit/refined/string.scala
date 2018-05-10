@@ -69,6 +69,9 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a valid XPath expression. */
   final case class XPath()
 
+  /** Predicate that checks if a `String` has no leading or trailing whitespace. */
+  final case class Trimmed()
+
   object EndsWith {
     implicit def endsWithValidate[S <: String](
         implicit ws: Witness.Aux[S]): Validate.Plain[String, EndsWith[S]] =
@@ -233,6 +236,11 @@ object string extends StringInference {
         "XPath",
         XPath()
       )
+  }
+
+  object Trimmed {
+    implicit def trimmedValidate: Validate.Plain[String, Trimmed] =
+      Validate.fromPredicate(s => s.trim == s, t => s"$t is trimmed", Trimmed())
   }
 }
 

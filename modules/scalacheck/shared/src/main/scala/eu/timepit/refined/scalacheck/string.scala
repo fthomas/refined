@@ -2,7 +2,8 @@ package eu.timepit.refined.scalacheck
 
 import eu.timepit.refined.api.{Refined, RefType}
 import eu.timepit.refined.collection.{NonEmpty, Size}
-import eu.timepit.refined.string.{EndsWith, StartsWith}
+import eu.timepit.refined.string.{EndsWith, StartsWith, Trimmed}
+import eu.timepit.refined.types.string.TrimmedString
 import org.scalacheck.Arbitrary
 import shapeless.Witness
 
@@ -10,7 +11,7 @@ import shapeless.Witness
  * Module that provides `Arbitrary` instances for `String` related
  * predicates.
  */
-object string extends StringInstances
+object string extends StringInstances with StringInstancesBinCompat1
 
 trait StringInstances {
 
@@ -37,4 +38,11 @@ trait StringInstances {
       arbSize: Arbitrary[Int Refined P]
   ): Arbitrary[F[String, Size[P]]] =
     collection.buildableSizeArbitrary[F, String, Char, P]
+}
+
+trait StringInstancesBinCompat1 {
+  implicit def trimmedStringArbitrary[F[_, _]](
+      implicit rt: RefType[F]
+  ): Arbitrary[F[String, Trimmed]] =
+    arbitraryRefType(Arbitrary.arbString.arbitrary.map(TrimmedString.trim(_).value))
 }

@@ -1,6 +1,6 @@
 package eu.timepit.refined.predicates
 
-object all extends AllPredicates
+object all extends AllPredicates with AllPredicatesBinCompat1
 
 trait AllPredicates
     extends BooleanPredicates
@@ -9,3 +9,5 @@ trait AllPredicates
     with GenericPredicates
     with NumericPredicates
     with StringPredicates
+
+trait AllPredicatesBinCompat1 extends StringPredicatesBinCompat1

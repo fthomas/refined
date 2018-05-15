@@ -2,7 +2,7 @@ package eu.timepit.refined.predicates
 
 import eu.timepit.refined
 
-object string extends StringPredicates
+object string extends StringPredicates with StringPredicatesBinCompat1
 
 trait StringPredicates {
   final type EndsWith[S] = refined.string.EndsWith[S]
@@ -23,9 +23,6 @@ trait StringPredicates {
   final type StartsWith[S] = refined.string.StartsWith[S]
   final val StartsWith = refined.string.StartsWith
 
-  final type Trimmed = refined.string.Trimmed
-  final val Trimmed = refined.string.Trimmed
-
   final type Uri = refined.string.Uri
   final val Uri = refined.string.Uri
 
@@ -35,20 +32,11 @@ trait StringPredicates {
   final type Uuid = refined.string.Uuid
   final val Uuid = refined.string.Uuid
 
-  final type ValidByte = refined.string.ValidByte
-  final val ValidByte = refined.string.ValidByte
-
-  final type ValidShort = refined.string.ValidShort
-  final val ValidShort = refined.string.ValidShort
-
   final type ValidInt = refined.string.ValidInt
   final val ValidInt = refined.string.ValidInt
 
   final type ValidLong = refined.string.ValidLong
   final val ValidLong = refined.string.ValidLong
-
-  final type ValidFloat = refined.string.ValidFloat
-  final val ValidFloat = refined.string.ValidFloat
 
   final type ValidDouble = refined.string.ValidDouble
   final val ValidDouble = refined.string.ValidDouble
@@ -64,4 +52,18 @@ trait StringPredicates {
 
   final type XPath = refined.string.XPath
   final val XPath = refined.string.XPath
+}
+
+trait StringPredicatesBinCompat1 {
+  final type Trimmed = refined.string.Trimmed
+  final val Trimmed = refined.string.Trimmed
+
+  final type ValidByte = refined.string.ValidByte
+  final val ValidByte = refined.string.ValidByte
+
+  final type ValidShort = refined.string.ValidShort
+  final val ValidShort = refined.string.ValidShort
+
+  final type ValidFloat = refined.string.ValidFloat
+  final val ValidFloat = refined.string.ValidFloat
 }

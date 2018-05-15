@@ -37,7 +37,7 @@ class StringTypesSpec extends Properties("StringTypes") {
 
   property("""TrimmedString.trim(str)""") = forAll { (str: String) =>
     val trimmed = TrimmedString.trim(str)
-    TrimmedString.from(str) ?= Right(trimmed)
+    TrimmedString.from(trimmed.value) ?= Right(trimmed)
   }
 
   // Hashes for ""

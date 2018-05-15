@@ -1,5 +1,9 @@
 ### New features
 
+* Add new `Trimmed` predicate and use it to implement `TrimmedString`.
+  This also adds `TrimmedString.trim` to create a `TrimmedString` from
+  an arbitrary `String` and an `Arbitrary` instance for `TrimmedString`.
+  ([#504][#504] by [@ceedubs][@ceedubs])
 * Add `Arbitrary` instances for `NonEmpty` `List`s and `Vector`s.
   ([#486][#486] by [@fthomas][@fthomas])
 * New predicates `ValidByte`, `ValidShort`, and `ValidFloat` that check
@@ -15,11 +19,17 @@
 
 * Update `refined-scalaz` to Scalaz 7.2.22.
   ([#500][#500] by [@fthomas][@fthomas])
+* Update `refined-scalacheck` to ScalaCheck 1.14.0.
+  ([#501][#501] by [@xuwei-k][@xuwei-k])
 
 [#486]: https://github.com/fthomas/refined/pull/486
 [#492]: https://github.com/fthomas/refined/pull/492
 [#499]: https://github.com/fthomas/refined/pull/499
 [#500]: https://github.com/fthomas/refined/pull/500
+[#501]: https://github.com/fthomas/refined/pull/501
+[#504]: https://github.com/fthomas/refined/pull/504
 
+[@ceedubs]: https://github.com/ceedubs
 [@fthomas]: https://github.com/fthomas
 [@sh0hei]: https://github.com/sh0hei
+[@xuwei-k]: https://github.com/xuwei-k

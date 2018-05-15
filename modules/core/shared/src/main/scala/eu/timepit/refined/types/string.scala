@@ -38,7 +38,18 @@ object string {
         Refined.unsafeApply(t.substring(0, math.min(t.length, maxLength)))
     }
 
-    /** Creates a "companion object" for `FiniteString[N]` with a fixed `N`. */
+    /**
+     * Creates a "companion object" for `FiniteString[N]` with a fixed `N`.
+     *
+     * Example: {{{
+     * scala> import eu.timepit.refined.W
+     *      | import eu.timepit.refined.types.string.FiniteString
+     *
+     * scala> val FString4 = FiniteString[W.`4`.T]
+     * scala> FString4.from("abcd")
+     * res1: Either[String, FiniteString[W.`4`.T]] = Right(abcd)
+     * }}}
+     */
     def apply[N <: Int](
         implicit
         rt: RefinedType.AuxT[FiniteString[N], String],

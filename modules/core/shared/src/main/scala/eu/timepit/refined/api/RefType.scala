@@ -73,25 +73,11 @@ trait RefType[F[_, _]] extends Serializable {
   def refineM[P]: RefineMPartiallyApplied[F, P] =
     new RefineMPartiallyApplied
 
-  /**
-   * Macro that returns a value of type `T` refined as `F[T, P]` if
-   * it satisfies the predicate `P`, or fails to compile otherwise.
-   *
-   * Example: {{{
-   * scala> import eu.timepit.refined.api.{ Refined, RefType }
-   *      | import eu.timepit.refined.numeric.Positive
-   *
-   * scala> RefType[Refined].refineMF[Long, Positive](10)
-   * res0: Refined[Long, Positive] = 10
-   * }}}
-   *
-   * Note: `M` stands for '''m'''acro and `F` for '''f'''ully applied.
-   *
-   * Note: The return type is `[[internal.RefineMFullyApplied]][F, T, P]`,
-   * which has an `apply` method on it, allowing `refineMF` to be called
-   * like in the given example. In contrast to `[[refineM]]`, the type
-   * `T` needs to be specified before `apply` can be called.
-   */
+  @deprecated(
+    "refineMF has been replaced in favor or RefinedTypeOps. " +
+      "Replace 'RefType[F].refineMF[T, P]' with 'new RefinedTypeOps[F[T, P], T]'.",
+    "0.9.1"
+  )
   def refineMF[T, P]: RefineMFullyApplied[F, T, P] =
     new RefineMFullyApplied
 

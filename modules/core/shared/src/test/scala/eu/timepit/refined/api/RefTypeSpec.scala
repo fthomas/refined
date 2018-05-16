@@ -107,18 +107,6 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
     x == y && y == z
   }
 
-  property("refineMF alias") = secure {
-    type Natural = Long Refined NonNegative
-    val Natural = RefType[Refined].refineMF[Long, NonNegative]
-
-    val x: Natural = Natural(1L)
-    val y: Natural = 1L
-    val z = 1L: Natural
-    illTyped("Natural(-1L)", "Predicate.*fail.*")
-    illTyped("Natural(1.3)", "type mismatch.*")
-    x == y && y == z
-  }
-
   property("applyRefM alias") = secure {
     type Natural = Long Refined NonNegative
     val Natural = RefType.applyRefM[Natural]
@@ -145,17 +133,6 @@ class RefTypeSpecTag extends RefTypeSpec[@@]("@@") {
     illTyped("val x: PositiveInt = RefType[@@].refineM(5)", "could not find implicit value.*")
     illTyped("val y: PositiveInt = 5", "type mismatch.*")
     illTyped("val z: PositiveInt = -5", "type mismatch.*")
-  }
-
-  property("refineMF alias") = secure {
-    val Natural = RefType[@@].refineMF[Long, NonNegative]
-
-    val x: Long @@ NonNegative = Natural(1L)
-    val y: Long @@ NonNegative = 1L
-    val z = 1L: Long @@ NonNegative
-    illTyped("Natural(-1L)", "Predicate.*fail.*")
-    illTyped("Natural(1.3)", "type mismatch.*")
-    (x: Long) == (y: Long) && (y: Long) == (z: Long)
   }
 
   property("(T @@ P) <: T") = wellTyped {

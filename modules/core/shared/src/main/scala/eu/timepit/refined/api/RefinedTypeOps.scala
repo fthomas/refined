@@ -40,6 +40,7 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
   def unsafeFrom(t: T): FTP =
     rt.unsafeRefine(t)
 }
+
 object RefinedTypeOps {
   class Numeric[FTP: Min: Max, T](implicit rt: RefinedType.AuxT[FTP, T])
       extends RefinedTypeOps[FTP, T] {

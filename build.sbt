@@ -48,7 +48,7 @@ val allSubprojectsNative = Seq("core", "scalaz", "shapeless").map(_ + "Native")
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala213 = "2.13.0-M3"
+val Scala213 = "2.13.0-M4"
 
 /// projects
 

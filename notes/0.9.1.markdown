@@ -15,6 +15,11 @@
 * Improve performance of `RefinedType#unsafeFrom`.
   ([#499][#499] by [@fthomas][@fthomas])
 
+### Deprecations
+
+* Deprecate `RefType#refineMF` in favor of `RefinedTypeOps`.
+  ([#514][#514] by [@fthomas][@fthomas])
+
 ### Updates
 
 * Update `refined-scalaz` to Scalaz 7.2.22.
@@ -28,6 +33,7 @@
 [#500]: https://github.com/fthomas/refined/pull/500
 [#501]: https://github.com/fthomas/refined/pull/501
 [#504]: https://github.com/fthomas/refined/pull/504
+[#514]: https://github.com/fthomas/refined/pull/514
 
 [@ceedubs]: https://github.com/ceedubs
 [@fthomas]: https://github.com/fthomas

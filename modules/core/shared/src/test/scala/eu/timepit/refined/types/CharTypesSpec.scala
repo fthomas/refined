@@ -10,7 +10,15 @@ class CharTypesSpec extends Properties("CharTypes") {
     LowerCaseChar.from('a').isRight
   }
 
+  property("LowerCaseChar.from('A')") = secure {
+    LowerCaseChar.from('A') ?= Left("Predicate failed: isLower('A').")
+  }
+
   property("UpperCaseChar.from('A')") = secure {
     UpperCaseChar.from('A').isRight
+  }
+
+  property("UpperCaseChar.from('a')") = secure {
+    UpperCaseChar.from('a') ?= Left("Predicate failed: isUpper('a').")
   }
 }

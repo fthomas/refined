@@ -71,16 +71,16 @@ class MinSpec extends Properties("Min") {
     Min[Int Refined Not[Less[W.`-5`.T]]].min =? Refined.unsafeApply(-5)
   }
 
-  property("Min[Int Refined Interval.Open[_10, _20]]") = secure {
-    Min[Int Refined Interval.Open[_10, _20]].min =? Refined.unsafeApply(11)
+  property("Min[Int Refined Interval.Open[_1, _4]]") = secure {
+    Min[Int Refined Interval.Open[_1, _4]].min =? Refined.unsafeApply(2)
   }
 
-  property("Min[Int @@ Interval.Open[_10, _20]]") = secure {
-    Min[Int @@ Interval.Open[_10, _20]].min =? refineMT[Interval.Open[_10, _20]](11)
+  property("Min[Int @@ Interval.Open[_1, _4]]") = secure {
+    Min[Int @@ Interval.Open[_1, _4]].min.asInstanceOf[Int] =? 2
   }
 
-  property("Min[Double Refined Interval.Open[_10, _20]]") = secure {
-    Min[Double Refined Interval.Open[_10, _20]].min =? Refined.unsafeApply(10.000000000000002d)
+  property("Min[Double Refined Interval.Open[_1, _4]]") = secure {
+    Min[Double Refined Interval.Open[_1, _4]].min =? Refined.unsafeApply(1.0000000000000002)
   }
 
   property("Min[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {

@@ -71,12 +71,12 @@ class MaxSpec extends Properties("Max") {
     Max[Int Refined Not[Greater[W.`-5`.T]]].max =? Refined.unsafeApply(-5)
   }
 
-  property("Max[Int Refined Interval.Open[_10, _20]]") = secure {
-    Max[Int Refined Interval.Open[_10, _20]].max =? Refined.unsafeApply(19)
+  property("Max[Int Refined Interval.Open[_1, _4]]") = secure {
+    Max[Int Refined Interval.Open[_1, _4]].max =? Refined.unsafeApply(3)
   }
 
-  property("Max[Double Refined Interval.Open[_10, _20]]") = secure {
-    Max[Double Refined Interval.Open[_10, _20]].max =? Refined.unsafeApply(19.999999999999996d)
+  property("Max[Double Refined Interval.Open[_1, _4]]") = secure {
+    Max[Double Refined Interval.Open[_1, _4]].max =? Refined.unsafeApply(3.9999999999999996)
   }
 
   property("Max[Int Refined Interval.Closed[W.`-20`.T, W.`10`.T]]") = secure {

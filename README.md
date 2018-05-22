@@ -273,6 +273,7 @@ opening a pull request to list it here:
 
 * [Besedo](https://besedo.com/)
 * [Zalando](https://tech.zalando.de/)
+* [HolidayCheck](https://www.holidaycheck.de/)
 
 ## Documentation
 

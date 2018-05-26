@@ -12,6 +12,8 @@
 
 ### Changes
 
+* Add tests for refined types.
+  ([#493][#493] by [@rider-yi][@rider-yi])
 * Improve performance of `RefinedType#unsafeFrom`.
   ([#499][#499] by [@fthomas][@fthomas])
 
@@ -26,16 +28,21 @@
   ([#500][#500] by [@fthomas][@fthomas])
 * Update `refined-scalacheck` to ScalaCheck 1.14.0.
   ([#501][#501] by [@xuwei-k][@xuwei-k])
+* Update Scala.js to 0.6.23.
+  ([#520][#520] by [@fthomas][@fthomas])
 
 [#486]: https://github.com/fthomas/refined/pull/486
 [#492]: https://github.com/fthomas/refined/pull/492
+[#493]: https://github.com/fthomas/refined/pull/493
 [#499]: https://github.com/fthomas/refined/pull/499
 [#500]: https://github.com/fthomas/refined/pull/500
 [#501]: https://github.com/fthomas/refined/pull/501
 [#504]: https://github.com/fthomas/refined/pull/504
 [#514]: https://github.com/fthomas/refined/pull/514
+[#520]: https://github.com/fthomas/refined/pull/520
 
 [@ceedubs]: https://github.com/ceedubs
 [@fthomas]: https://github.com/fthomas
+[@rider-yi]: https://github.com/rider-yi
 [@sh0hei]: https://github.com/sh0hei
 [@xuwei-k]: https://github.com/xuwei-k

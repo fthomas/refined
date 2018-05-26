@@ -3,7 +3,7 @@ package eu.timepit.refined.api
 import eu.timepit.refined.types.numeric.NonNegInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 class RefinedTypeOpsSpec extends Properties("RefinedTypeOps") {
 
@@ -12,6 +12,10 @@ class RefinedTypeOpsSpec extends Properties("RefinedTypeOps") {
   }
 
   property("from ~= unsafeFrom") = forAll { i: Int =>
-    NonNegInt.from(i) ?= Try(NonNegInt.unsafeFrom(i)).toEither.left.map(_.getMessage)
+    val stringOrNonNegInt = Try(NonNegInt.unsafeFrom(i)) match {
+      case Success(n) => Right(n)
+      case Failure(t) => Left(t.getMessage)
+    }
+    NonNegInt.from(i) ?= stringOrNonNegInt
   }
 }

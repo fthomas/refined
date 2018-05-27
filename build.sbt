@@ -28,7 +28,7 @@ def macroParadise(configuration: Configuration) = Def.setting {
       Seq(compilerPlugin(
         ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration))
     case _ =>
-      Nil // https://github.com/scala/scala/pull/6606
+      Seq.empty // https://github.com/scala/scala/pull/6606
   }
 }
 

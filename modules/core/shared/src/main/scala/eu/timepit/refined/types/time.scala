@@ -3,6 +3,7 @@ package eu.timepit.refined.types
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.Interval
+import eu.timepit.refined.string.MatchesRegex
 
 /** Module for date and time related refined types. */
 object time {
@@ -39,6 +40,12 @@ object time {
   type Millis = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 
   object Millis extends RefinedTypeOps[Millis, Int]
+
+  /** A `String` representing an ISO-8601 formatted date */
+  type ISO8601 = String Refined MatchesRegex[
+    W.`"^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\\\.[0-9]+)?(Z)?$"`.T]
+
+  object ISO8601 extends RefinedTypeOps[ISO8601, String]
 }
 
 trait TimeTypes {
@@ -59,4 +66,7 @@ trait TimeTypes {
 
   final type Millis = time.Millis
   final val Millis = time.Millis
+
+  final type ISO8601 = time.ISO8601
+  final val ISO8601 = time.ISO8601
 }

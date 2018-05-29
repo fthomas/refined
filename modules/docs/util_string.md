@@ -15,12 +15,12 @@ scala> "(a|b".r // fails at runtime
 java.util.regex.PatternSyntaxException: Unclosed group near index 4
 (a|b
     ^
-  at java.util.regex.Pattern.error(Pattern.java:1955)
-  at java.util.regex.Pattern.accept(Pattern.java:1813)
-  at java.util.regex.Pattern.group0(Pattern.java:2908)
-  at java.util.regex.Pattern.sequence(Pattern.java:2051)
-  at java.util.regex.Pattern.expr(Pattern.java:1996)
-  at java.util.regex.Pattern.compile(Pattern.java:1696)
+  at java.util.regex.Pattern.error(Pattern.java:1957)
+  at java.util.regex.Pattern.accept(Pattern.java:1815)
+  at java.util.regex.Pattern.group0(Pattern.java:2910)
+  at java.util.regex.Pattern.sequence(Pattern.java:2053)
+  at java.util.regex.Pattern.expr(Pattern.java:1998)
+  at java.util.regex.Pattern.compile(Pattern.java:1698)
   at java.util.regex.Pattern.<init>(Pattern.java:1351)
   at java.util.regex.Pattern.compile(Pattern.java:1028)
   at scala.util.matching.Regex.<init>(Regex.scala:223)
@@ -30,7 +30,7 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at scala.collection.immutable.StringLike.r(StringLike.scala:270)
   at scala.collection.immutable.StringLike.r$(StringLike.scala:270)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  ... 118 elided
+  ... 43 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`

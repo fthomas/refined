@@ -315,7 +315,11 @@ lazy val moduleJvmSettings = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      )
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.types.TimeTypes.ISO8601"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "eu.timepit.refined.types.TimeTypes.eu$timepit$refined$types$TimeTypes$_setter_$ISO8601_=")
+    )
   }
 )
 

@@ -13,7 +13,7 @@ i1: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive] = 5
 scala> val i2: Int Refined Positive = -5
 <console>:22: error: Predicate failed: (-5 > 0).
        val i2: Int Refined Positive = -5
-                                       ^
+                                      ^
 
 scala> refineMV[Positive](5)
 res0: eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive] = 5

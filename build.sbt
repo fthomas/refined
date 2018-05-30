@@ -80,9 +80,9 @@ lazy val root = project
   .settings(noPublishSettings)
   .settings(releaseSettings)
   .settings(
-    console := console.in(coreJVM, Compile).value,
-    console.in(Test) := console.in(coreJVM, Test).value,
-    parallelExecution in Test in ThisBuild := false
+    console := (coreJVM / Compile / console).value,
+    Test / console := (coreJVM / Test / console).value,
+    ThisBuild / Test / parallelExecution := false
   )
 
 lazy val benchmark = project
@@ -146,7 +146,7 @@ lazy val docs = project
   .enablePlugins(TutPlugin)
   .settings(noPublishSettings)
   .settings(
-    scalacOptions in Tut := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
+    Tut / scalacOptions := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
     tutSourceDirectory := baseDirectory.value / "src",
     tutTargetDirectory := baseDirectory.value
   )
@@ -326,7 +326,7 @@ lazy val moduleJsSettings = Def.settings(
 lazy val moduleNativeSettings = Def.settings(
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
-  sources in (Compile, doc) := Seq.empty
+  Compile / doc / sources := Seq.empty
 )
 
 lazy val metadataSettings = Def.settings(
@@ -378,12 +378,12 @@ lazy val compileSettings = Def.settings(
       case _ => Seq("-Xlint")
     }
   },
-  scalacOptions in (Compile, console) -= "-Ywarn-unused:imports",
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
+  Compile / console / scalacOptions -= "-Ywarn-unused:imports",
+  Test / console / scalacOptions := (Compile / console / scalacOptions).value
 )
 
 lazy val scaladocSettings = Def.settings(
-  scalacOptions in (Compile, doc) ++= {
+  Compile / doc / scalacOptions ++= {
     val tag = s"v${version.value}"
     val tree = if (isSnapshot.value) "master" else tag
     Seq(
@@ -392,7 +392,7 @@ lazy val scaladocSettings = Def.settings(
       "-doc-source-url",
       s"${scmInfo.value.get.browseUrl}/blob/${tree}€{FILE_PATH}.scala",
       "-sourcepath",
-      baseDirectory.in(LocalRootProject).value.getAbsolutePath
+      (LocalRootProject / baseDirectory).value.getAbsolutePath
     )
   },
   autoAPIMappings := true,

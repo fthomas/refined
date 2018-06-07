@@ -324,6 +324,8 @@ lazy val moduleJsSettings = Def.settings(
 )
 
 lazy val moduleNativeSettings = Def.settings(
+  scalaVersion := Scala211,
+  crossScalaVersions := Seq(Scala211),
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
   Compile / doc / sources := Seq.empty

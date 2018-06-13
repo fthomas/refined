@@ -237,6 +237,7 @@ list it here:
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
 * [extruder-refined](https://github.com/janstenpickle/extruder)
+* [finch-refined](https://github.com/finagle/finch)
 * [formulation-refined](https://github.com/vectos/formulation)
 * [kantan.csv-refined](https://nrinaudo.github.io/kantan.csv/refined.html)
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/refined.html)

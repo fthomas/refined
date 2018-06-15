@@ -14,19 +14,6 @@ class NumericTypesSpec extends Properties("NumericTypes") {
     PosByte.from(-1: Byte) ?= Left("Predicate failed: (-1 > 0).")
   }
 
-  property("PosByte.unapply(1: Byte)") = secure {
-    val PosByte(x) = 1: Byte
-    x ?= PosByte.unsafeFrom(1: Byte)
-  }
-
-  property("PosByte.unsafeFrom(1: Byte)") = wellTyped {
-    PosByte.unsafeFrom(1: Byte)
-  }
-
-  property("PosByte.unsafeFrom(-1: Byte)") = secure {
-    throws(classOf[IllegalArgumentException])(PosByte.unsafeFrom(-1: Byte))
-  }
-
   property("NonNegByte.from(0: Byte)") = secure {
     NonNegByte.from(0: Byte).isRight
   }
@@ -45,19 +32,6 @@ class NumericTypesSpec extends Properties("NumericTypes") {
 
   property("PosShort.from(-1: Short)") = secure {
     PosShort.from(-1: Short) ?= Left("Predicate failed: (-1 > 0).")
-  }
-
-  property("PosShort.unapply(1: Short)") = secure {
-    val PosShort(x) = 1: Short
-    x ?= PosShort.unsafeFrom(1: Short)
-  }
-
-  property("PosShort.unsafeFrom(1: Short)") = wellTyped {
-    PosShort.unsafeFrom(1: Short)
-  }
-
-  property("PosShort.unsafeFrom(-1: Short)") = secure {
-    throws(classOf[IllegalArgumentException])(PosShort.unsafeFrom(-1: Short))
   }
 
   property("NonNegShort.from(0: Short)") = secure {

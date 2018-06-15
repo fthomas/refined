@@ -1,5 +1,6 @@
 package eu.timepit.refined.types
 
+import eu.timepit.refined
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 
@@ -128,30 +129,6 @@ object numeric {
 }
 
 trait NumericTypes {
-  final type PosByte = numeric.PosByte
-  final val PosByte = numeric.PosByte
-
-  final type NonNegByte = numeric.NonNegByte
-  final val NonNegByte = numeric.NonNegByte
-
-  final type NegByte = numeric.NegByte
-  final val NegByte = numeric.NegByte
-
-  final type NonPosByte = numeric.NonPosByte
-  final val NonPosByte = numeric.NonPosByte
-
-  final type PosShort = numeric.PosShort
-  final val PosShort = numeric.PosShort
-
-  final type NonNegShort = numeric.NonNegShort
-  final val NonNegShort = numeric.NonNegShort
-
-  final type NegShort = numeric.NegShort
-  final val NegShort = numeric.NegShort
-
-  final type NonPosShort = numeric.NonPosShort
-  final val NonPosShort = numeric.NonPosShort
-
   final type PosInt = numeric.PosInt
   final val PosInt = numeric.PosInt
 
@@ -199,4 +176,30 @@ trait NumericTypes {
 
   final type NonPosDouble = numeric.NonPosDouble
   final val NonPosDouble = numeric.NonPosDouble
+}
+
+trait NumericTypesBinCompat1 {
+  final type PosByte = numeric.PosByte
+  final val PosByte = numeric.PosByte
+
+  final type NonNegByte = numeric.NonNegByte
+  final val NonNegByte = refined.types.numeric.NonNegByte
+
+  final type NegByte = numeric.NegByte
+  final val NegByte = numeric.NegByte
+
+  final type NonPosByte = numeric.NonPosByte
+  final val NonPosByte = refined.types.numeric.NonPosByte
+
+  final type PosShort = numeric.PosShort
+  final val PosShort = numeric.PosShort
+
+  final type NonNegShort = numeric.NonNegShort
+  final val NonNegShort = numeric.NonNegShort
+
+  final type NegShort = numeric.NegShort
+  final val NegShort = numeric.NegShort
+
+  final type NonPosShort = numeric.NonPosShort
+  final val NonPosShort = numeric.NonPosShort
 }

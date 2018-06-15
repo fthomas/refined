@@ -1,6 +1,5 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 
@@ -183,13 +182,13 @@ trait NumericTypesBinCompat1 {
   final val PosByte = numeric.PosByte
 
   final type NonNegByte = numeric.NonNegByte
-  final val NonNegByte = refined.types.numeric.NonNegByte
+  final val NonNegByte = numeric.NonNegByte
 
   final type NegByte = numeric.NegByte
   final val NegByte = numeric.NegByte
 
   final type NonPosByte = numeric.NonPosByte
-  final val NonPosByte = refined.types.numeric.NonPosByte
+  final val NonPosByte = numeric.NonPosByte
 
   final type PosShort = numeric.PosShort
   final val PosShort = numeric.PosShort

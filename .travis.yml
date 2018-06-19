@@ -36,5 +36,5 @@ matrix:
       sbt ++$TRAVIS_SCALA_VERSION validateJS
   - scala: 2.13.0-M4 # Remember to update this in build.sbt, too.
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test
   - scala: 2.12.6

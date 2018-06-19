@@ -52,12 +52,13 @@ val Scala213 = "2.13.0-M3"
 
 /// global settings
 
-inThisBuild(List(
-  // settings for sbt-release-early
-  pgpPublicRing := file("/keys/.gnupg/pubring.asc"),
-  pgpSecretRing := file("/keys/.gnupg/secring.asc"),
-  releaseEarlyWith := SonatypePublisher
-))
+inThisBuild(
+  List(
+    // settings for sbt-release-early
+    pgpPublicRing := file("./data/travis/local.pubring.asc"),
+    pgpSecretRing := file("./data/travis/local.secring.asc"),
+    releaseEarlyWith := SonatypePublisher
+  ))
 
 /// projects
 

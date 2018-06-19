@@ -17,6 +17,9 @@ script:
   sbt ++$TRAVIS_SCALA_VERSION validateJS
 after_success:
 - codecov
+- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then
+    sbt ++$TRAVIS_SCALA_VERSION releaseEarly;
+  fi
 notifications:
   webhooks:
     urls:
@@ -38,3 +41,13 @@ matrix:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
   - scala: 2.12.6
+before_install:
+- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then
+    openssl aes-256-cbc -K $encrypted_3291539979de_key -iv $encrypted_3291539979de_iv -in data/travis/secrets.tar.enc -out data/travis/secrets.tar -d;
+    tar xv -C data/travis -f data/travis/secrets.tar;
+  fi
+env:
+  global:
+  - secure: X7tp+1s4GylukcC5aaDmP7K+CMK0ko1dI6N9Ycxug+aN5MFq7ab+qXR9rwlpoVyHmLX5SbNHnibR4FfYbFP1KzhfGW1RfWoMqRl7q/odSbQA0kuXR27Yxs5cxBcg2wyLcD9K+yGNbHig2iQFN0ijh+ObBnd4se6I18TY3fqoZvRwX6U7TEuI5wE0ADHEODVFMyWoe1XCQHwjdAKNedZLz/RrYwTIVa6nDKVE+fX9PgtcvAec0YSsvq9iX8yEUYLoPXr2eQ44XWKt8Ly8GDtobFHD8acunPh9+ycbGGz8c5lEp++JFmC9WiG1C5jdFr7iJ8cvPfVME2UswlZo25nbhEmWPeyllzNoO5t1didGNj9RPtzmbShdBQQSRNn/uH1Txs/TB8jfoAOK71+yX959Efm5Zv6ijjRsaf/KX5LL7p56Dp7fFG/gh4PWN6fyhG0Gyr/26lCDI+YuAvdiSPgqdb5tw0sqVPwJZUfWZp7ZT+RsPoSja9tCeEYrn5VyD5GiWB6Y6jNDdQqpvnsv4Cn74mtIqDleFdVSUYntXMMycBj7QX+vaChIZ6MPmX3cF6iN0rvqLTj5R8vTAbQWRhtQNMPQzBb04/FnecskE/GxBQ6oNVzvjN9MwczF7Vf2tMBmdJfSAr2ugPL2xphE4i0nJ6M9fHM34b8YJAKJLMAoe+Q=
+  - secure: YwmZztipRKp8dBAUrPtpM9UcQkHm1lYbpIbij2BfHS//7BS/kPk89MVdgapCbO50DK9paK9c3pUgVMo5pCtfpuTVLcpHFulGR2WggDrrX78xIu9AW4HmWdFrqxTyXMnseQzcscASw+Uup9AwLOk9qQaB9/MUqHnHumZq2Cp8W2r355awZ6S81T5s1l4U2A2L/oTrTyfCsnQObyhX6qgCFV1ub0xe+ARSSJ+DPZjEW1otsRWmhUuDvj1pYl7QsaSGMMC6cs+CLwJxYHXWF0NWFXMxCmZXJ/IXNM/oUwiO24G0ABcGjBWmXoML1POpKuGFFmgbQIz53EqeZNlMcWFnjCRqmWYM9SfXQ9dskAepPb1J/dey0wonS+2HsNMK1yuHrWnjNFG9q8cPPqnGndjzkxUI/xkUzLV2j00GuTAoyOgpMLVS7FM0n4YYPK0vEA6dVNHJpHaaxQsVmRASboxT36ZH4JmiBB+8mt7e8o7B9lkOXyEIayRELC9db3s+20xZh3AyOiYRWtFvLsfRzJSzlOQqJ2Mqo0xUjTmI85e9GSSSReCP2P468MgNWEZmHBtn7RPoXn+DcC42tfFf0EGe0f+Plp7jx7a5NjuNZuy598XylrJeoHufsO30Y0qlPd6n8o6LwEsWvG6dgkd2WlEV/snPnuuDX8bQ4IFveW0YHM0=
+  - secure: MK4Mz9w63r39Sa6TVo0xaT0DYwP0wUXCRFqVMjxNQ/O0wQOEJ0vPfyUl9xTlXadUthPE3S4Aq/xE57NDViRKpkH5eVour9b2ukjFVS6kwO8aQVdgKgISu25CJmTSc+T0ILB2nnsOearowna4N5QH/HV48TVZ6XRiQZ3VSkp+ksQ0wOyztNdX6Wotc05Z8kdFjv96IvtKA6Bb4Jw41H/qfoCijXOm+Fz61NEItVVPnGA8kT6p0tO3TfyEUqOQFVZ5rQ8dGIPvkFrnJz8nshyKQnGhWvADyZOulaSlGuQOIPBgnfCwt6n6/3+/2aNlD9Hy7PeDtHYOZxHYWSB+a3P0MeSukeCu8U5GQbfd/sEaA1N2uJmTf7Ai7FLEJBV+UCJvTD7kGm+GtW5f00/rr64mNivnXdtx+Rjn38QRoLTFv2TUmBzHkDPcmQOdZ3XBtE/wO78OhNXG/CPcpH58JRLljVjdtKKJWi5hD/XLIFuHdqFDUnLoZ0x8VDwYmGacuHBwROwyzmr58UnZtTDVLP+Jmg5wpE9G9jc448ejhTYQjIucC1qVTASjnmfiQKMyioZ2oddeT6WKdX/pARDDzvE7eV8/ihwrbaGPwBadHfakq3M8HTb88MQEeiPGnNAcKHjf5DjH3LuE4ODnfWZvQjPySb3EiLDANbXA1mLgn8Bc8XY=

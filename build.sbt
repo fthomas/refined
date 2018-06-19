@@ -362,7 +362,6 @@ lazy val compileSettings = Def.settings(
     "-Xfatal-warnings",
     "-Xfuture",
     //"-Xlog-implicits",
-    "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   ),

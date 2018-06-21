@@ -22,8 +22,16 @@ val scalazVersion = "7.2.22"
 val scodecVersion = "1.10.3"
 val scoptVersion = "3.7.0"
 
-val macroParadise =
-  "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch
+def macroParadise(configuration: Configuration) = Def.setting {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 12 =>
+      Seq(compilerPlugin(
+        ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration))
+    case _ =>
+      Seq.empty // https://github.com/scala/scala/pull/6606
+  }
+}
+
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
@@ -48,7 +56,7 @@ val allSubprojectsNative = Seq("core", "scalaz", "shapeless").map(_ + "Native")
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala213 = "2.13.0-M3"
+val Scala213 = "2.13.0-M4"
 
 /// projects
 
@@ -110,8 +118,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(moduleName := projectName)
   .settings(
     crossScalaVersions += Scala213,
-    libraryDependencies ++= Seq(
-      compilerPlugin(macroParadise),
+    libraryDependencies ++= macroParadise(Compile).value ++ Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "org.typelevel" %% "macro-compat" % macroCompatVersion,
@@ -168,9 +175,8 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("jsonpath"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies ++= Seq(
-      "com.jayway.jsonpath" % "json-path" % jsonpathVersion,
-      compilerPlugin(macroParadise % Test)
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "com.jayway.jsonpath" % "json-path" % jsonpathVersion
     )
   )
 
@@ -180,9 +186,8 @@ lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies ++= Seq(
-      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion,
-      compilerPlugin(macroParadise % Test)
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion
     )
   )
 
@@ -222,9 +227,8 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scodec"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies ++= Seq(
-      "org.scodec" %%% "scodec-core" % scodecVersion,
-      compilerPlugin(macroParadise % Test)
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "org.scodec" %%% "scodec-core" % scodecVersion
     ),
     initialCommands += s"""
       import $rootPkg.scodec.predicates.byteVector._
@@ -239,9 +243,8 @@ lazy val scopt = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scopt"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies ++= Seq(
-      "com.github.scopt" %%% "scopt" % scoptVersion,
-      compilerPlugin(macroParadise % Test)
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
   // This is required by scopt (which uses the 'os' modue), although I'm not 100% sure what other potential side effects
@@ -358,10 +361,9 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-Xfuture",
     //"-Xlog-implicits",
-    "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   ),

@@ -1,4 +1,5 @@
-import sbtcrossproject.{crossProject, CrossProject, CrossType}
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
+import sbtcrossproject.CrossProject
 import scala.sys.process._
 
 /// variables
@@ -331,7 +332,8 @@ lazy val moduleNativeSettings = Def.settings(
   crossScalaVersions := Seq(Scala211),
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
-  Compile / doc / sources := Seq.empty
+  Compile / doc / sources := Seq.empty,
+  doctestGenTests := Seq.empty
 )
 
 lazy val metadataSettings = Def.settings(

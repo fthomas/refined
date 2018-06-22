@@ -10,8 +10,9 @@ object LatestVersion extends AutoPlugin {
     lazy val latestVersion: SettingKey[String] =
       settingKey[String]("latest released version")
 
-    lazy val latestVersionInSeries: SettingKey[Option[String]] =
-      settingKey[Option[String]]("latest released version in this binary-compatible series")
+    lazy val bincompatVersions: SettingKey[Set[String]] =
+      settingKey[Set[String]](
+        "set of versions that are checked for binary compatibility with the current HEAD")
 
     lazy val unreleasedModules: SettingKey[Set[String]] =
       settingKey[Set[String]]("the names of modules which are new in the upcoming release")
@@ -19,12 +20,15 @@ object LatestVersion extends AutoPlugin {
     lazy val setLatestVersion: ReleaseStep = { state: State =>
       val extracted = Project.extract(state)
       val newVersion = extracted.get(version)
+      val newBincompatVersions = extracted.get(bincompatVersions) + newVersion
 
       val latestVersionSbt = "latestVersion.sbt"
       val content = Seq(
         s"""|latestVersion in ThisBuild := "$newVersion"
             |
-            |latestVersionInSeries in ThisBuild := Some("$newVersion")
+            |bincompatVersions in ThisBuild := Set(
+            |  ${newBincompatVersions.map(v => "\"" + v + "\"").mkString(",\n  ")}
+            |)
             |
             |unreleasedModules in ThisBuild := Set(
             |  // Example:
@@ -40,7 +44,7 @@ object LatestVersion extends AutoPlugin {
       reapply(
         Seq(
           latestVersion in ThisBuild := newVersion,
-          latestVersionInSeries in ThisBuild := Some(newVersion)
+          bincompatVersions in ThisBuild := newBincompatVersions
         ),
         state
       )

@@ -50,7 +50,7 @@ val allSubprojects =
 
 val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
 val allSubprojectsJS = {
-  val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
+  val jvmOnlySubprojects = Seq("eval", "jsonpath", "pureconfig")
   (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
 }
 val allSubprojectsNative = Seq("core", "scalaz", "shapeless").map(_ + "Native")
@@ -71,7 +71,6 @@ lazy val root = project
     coreJS,
     docs,
     evalJVM,
-    evalJS,
     jsonpathJVM,
     pureconfigJVM,
     scalacheckJVM,
@@ -161,10 +160,9 @@ lazy val docs = project
     tutTargetDirectory := baseDirectory.value
   )
 
-lazy val eval = crossProject(JSPlatform, JVMPlatform)
+lazy val eval = crossProject(JVMPlatform)
   .configureCross(moduleCrossConfig("eval"))
   .dependsOn(core % "compile->compile;test->test")
-  .jsSettings(moduleJsSettings)
   .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
@@ -174,7 +172,6 @@ lazy val eval = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val evalJVM = eval.jvm
-lazy val evalJS = eval.js
 
 lazy val jsonpath = crossProject(JVMPlatform)
   .configureCross(moduleCrossConfig("jsonpath"))

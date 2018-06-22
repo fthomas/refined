@@ -103,6 +103,8 @@ lazy val benchmark = project
 lazy val cats = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("cats"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
     initialCommands += s"""
@@ -117,6 +119,9 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("core"))
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
+  .nativeSettings(moduleNativeSettings)
   .settings(
     crossScalaVersions += Scala213,
     libraryDependencies ++= macroParadise(Compile).value ++ Seq(
@@ -139,10 +144,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .nativeSettings(
-    libraryDependencies -= scalaCheckDep.value % Test,
-    moduleNativeSettings
-  )
+  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -162,6 +164,8 @@ lazy val docs = project
 lazy val eval = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("eval"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
     initialCommands += s"""
@@ -172,9 +176,10 @@ lazy val eval = crossProject(JSPlatform, JVMPlatform)
 lazy val evalJVM = eval.jvm
 lazy val evalJS = eval.js
 
-lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
+lazy val jsonpath = crossProject(JVMPlatform)
   .configureCross(moduleCrossConfig("jsonpath"))
   .dependsOn(core % "compile->compile;test->test")
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.jayway.jsonpath" % "json-path" % jsonpathVersion
@@ -183,9 +188,10 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
 
 lazy val jsonpathJVM = jsonpath.jvm
 
-lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
+lazy val pureconfig = crossProject(JVMPlatform)
   .configureCross(moduleCrossConfig("pureconfig"))
   .dependsOn(core % "compile->compile;test->test")
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.pureconfig" %% "pureconfig" % pureconfigVersion
@@ -197,6 +203,8 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scalacheck"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies += scalaCheckDep.value,
     initialCommands += s"""
@@ -210,6 +218,9 @@ lazy val scalacheckJS = scalacheck.js
 lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("scalaz"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
+  .nativeSettings(moduleNativeSettings)
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
@@ -218,7 +229,6 @@ lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       import _root_.scalaz.@@
     """
   )
-  .nativeSettings(moduleNativeSettings)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
@@ -227,6 +237,8 @@ lazy val scalazNative = scalaz.native
 lazy val scodec = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scodec"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion
@@ -243,6 +255,8 @@ lazy val scodecJS = scodec.js
 lazy val scopt = crossProject(JSPlatform, JVMPlatform)
   .configureCross(moduleCrossConfig("scopt"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.scopt" %%% "scopt" % scoptVersion
@@ -258,12 +272,14 @@ lazy val scoptJS = scopt.js
 lazy val shapeless = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .configureCross(moduleCrossConfig("shapeless"))
   .dependsOn(core % "compile->compile;test->test")
+  .jsSettings(moduleJsSettings)
+  .jvmSettings(moduleJvmSettings)
+  .nativeSettings(moduleNativeSettings)
   .settings(
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
   )
-  .nativeSettings(moduleNativeSettings)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
@@ -297,8 +313,6 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject =
   _.in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
     .settings(moduleCrossSettings)
-    .jvmSettings(moduleJvmSettings)
-    .jsSettings(moduleJsSettings)
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,

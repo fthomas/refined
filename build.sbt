@@ -63,27 +63,9 @@ val Scala213 = "2.13.0-M4"
 
 lazy val root = project
   .in(file("."))
-  .aggregate(
-    benchmark,
-    catsJVM,
-    catsJS,
-    coreJVM,
-    coreJS,
-    docs,
-    evalJVM,
-    jsonpathJVM,
-    pureconfigJVM,
-    scalacheckJVM,
-    scalacheckJS,
-    scalazJVM,
-    scalazJS,
-    scodecJVM,
-    scodecJS,
-    scoptJVM,
-    scoptJS,
-    shapelessJVM,
-    shapelessJS
-  )
+  .aggregate(benchmark, docs)
+  .aggregate(allSubprojectsJVM.map(LocalProject): _*)
+  .aggregate(allSubprojectsJS.map(LocalProject): _*)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)

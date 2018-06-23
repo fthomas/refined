@@ -82,8 +82,7 @@ lazy val benchmark = project
   .enablePlugins(JmhPlugin)
   .settings(noPublishSettings)
 
-lazy val cats = crossProject(moduleCrossPlatformMatrix("cats"): _*)
-  .configureCross(moduleCrossConfig("cats"))
+lazy val cats = myCrossProject("cats")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
@@ -95,8 +94,7 @@ lazy val cats = crossProject(moduleCrossPlatformMatrix("cats"): _*)
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
 
-lazy val core = crossProject(moduleCrossPlatformMatrix("core"): _*)
-  .configureCross(moduleCrossConfig("core"))
+lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
@@ -138,8 +136,7 @@ lazy val docs = project
     tutTargetDirectory := baseDirectory.value
   )
 
-lazy val eval = crossProject(moduleCrossPlatformMatrix("eval"): _*)
-  .configureCross(moduleCrossConfig("eval"))
+lazy val eval = myCrossProject("eval")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
@@ -150,8 +147,7 @@ lazy val eval = crossProject(moduleCrossPlatformMatrix("eval"): _*)
 
 lazy val evalJVM = eval.jvm
 
-lazy val jsonpath = crossProject(moduleCrossPlatformMatrix("jsonpath"): _*)
-  .configureCross(moduleCrossConfig("jsonpath"))
+lazy val jsonpath = myCrossProject("jsonpath")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -161,8 +157,7 @@ lazy val jsonpath = crossProject(moduleCrossPlatformMatrix("jsonpath"): _*)
 
 lazy val jsonpathJVM = jsonpath.jvm
 
-lazy val pureconfig = crossProject(moduleCrossPlatformMatrix("pureconfig"): _*)
-  .configureCross(moduleCrossConfig("pureconfig"))
+lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -172,8 +167,7 @@ lazy val pureconfig = crossProject(moduleCrossPlatformMatrix("pureconfig"): _*)
 
 lazy val pureconfigJVM = pureconfig.jvm
 
-lazy val scalacheck = crossProject(moduleCrossPlatformMatrix("scalacheck"): _*)
-  .configureCross(moduleCrossConfig("scalacheck"))
+lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += scalaCheckDep.value,
@@ -185,8 +179,7 @@ lazy val scalacheck = crossProject(moduleCrossPlatformMatrix("scalacheck"): _*)
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = crossProject(moduleCrossPlatformMatrix("scalaz"): _*)
-  .configureCross(moduleCrossConfig("scalaz"))
+lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
@@ -201,8 +194,7 @@ lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 lazy val scalazNative = scalaz.native
 
-lazy val scodec = crossProject(moduleCrossPlatformMatrix("scodec"): _*)
-  .configureCross(moduleCrossConfig("scodec"))
+lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -217,8 +209,7 @@ lazy val scodec = crossProject(moduleCrossPlatformMatrix("scodec"): _*)
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val scopt = crossProject(moduleCrossPlatformMatrix("scopt"): _*)
-  .configureCross(moduleCrossConfig("scopt"))
+lazy val scopt = myCrossProject("scopt")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -232,8 +223,7 @@ lazy val scopt = crossProject(moduleCrossPlatformMatrix("scopt"): _*)
 lazy val scoptJVM = scopt.jvm
 lazy val scoptJS = scopt.js
 
-lazy val shapeless = crossProject(moduleCrossPlatformMatrix("shapeless"): _*)
-  .configureCross(moduleCrossConfig("shapeless"))
+lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     initialCommands += s"""
@@ -263,6 +253,10 @@ lazy val commonSettings = Def.settings(
     import shapeless.nat._
   """
 )
+
+def myCrossProject(name: String): CrossProject =
+  CrossProject(name, file(name))(moduleCrossPlatformMatrix(name): _*)
+    .configureCross(moduleCrossConfig(name))
 
 def moduleConfig(name: String): Project => Project =
   _.in(file(s"modules/$name"))

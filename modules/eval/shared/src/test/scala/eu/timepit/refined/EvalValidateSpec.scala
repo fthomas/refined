@@ -8,7 +8,7 @@ import org.scalacheck.Properties
 import scala.tools.reflect.ToolBoxError
 import shapeless.test.illTyped
 
-class EvalValidateSpecJvm extends Properties("EvalValidate") {
+class EvalValidateSpec extends Properties("EvalValidate") {
 
   type IsEven = Eval[W.`"(x: Int) => x % 2 == 0"`.T]
 

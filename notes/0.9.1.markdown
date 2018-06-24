@@ -30,6 +30,8 @@
   ([#501][#501] by [@xuwei-k][@xuwei-k])
 * Update Scala.js to 0.6.23.
   ([#520][#520] by [@fthomas][@fthomas])
+* Update Scala 2.13 to 2.13.0-M4.
+  ([#512][#512] by [@fthomas][@fthomas])
 
 [#486]: https://github.com/fthomas/refined/pull/486
 [#492]: https://github.com/fthomas/refined/pull/492
@@ -38,6 +40,7 @@
 [#500]: https://github.com/fthomas/refined/pull/500
 [#501]: https://github.com/fthomas/refined/pull/501
 [#504]: https://github.com/fthomas/refined/pull/504
+[#512]: https://github.com/fthomas/refined/pull/512
 [#514]: https://github.com/fthomas/refined/pull/514
 [#520]: https://github.com/fthomas/refined/pull/520
 

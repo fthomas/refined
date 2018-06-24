@@ -36,24 +36,25 @@ def macroParadise(configuration: Configuration) = Def.setting {
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
-val allSubprojects =
-  Seq("cats",
-      "core",
-      "eval",
-      "jsonpath",
-      "pureconfig",
-      "scalacheck",
-      "scalaz",
-      "scodec",
-      "scopt",
-      "shapeless")
+val moduleCrossPlatformMatrix = Map(
+  "cats" -> List(JVMPlatform, JSPlatform),
+  "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "eval" -> List(JVMPlatform),
+  "jsonpath" -> List(JVMPlatform),
+  "pureconfig" -> List(JVMPlatform),
+  "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "scodec" -> List(JVMPlatform, JSPlatform),
+  "scopt" -> List(JVMPlatform, JSPlatform),
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+)
 
-val allSubprojectsJVM = allSubprojects.map(_ + "JVM")
-val allSubprojectsJS = {
-  val jvmOnlySubprojects = Seq("jsonpath", "pureconfig")
-  (allSubprojects diff jvmOnlySubprojects).map(_ + "JS")
-}
-val allSubprojectsNative = Seq("core", "scalaz", "shapeless").map(_ + "Native")
+def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
+  moduleCrossPlatformMatrix.toList.filter(_._2.contains(platform)).map(_._1 + platform.sbtSuffix)
+
+val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
+val allSubprojectsJS = allSubprojectsOf(JSPlatform)
+val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
@@ -63,28 +64,9 @@ val Scala213 = "2.13.0-M4"
 
 lazy val root = project
   .in(file("."))
-  .aggregate(
-    benchmark,
-    catsJVM,
-    catsJS,
-    coreJVM,
-    coreJS,
-    docs,
-    evalJVM,
-    evalJS,
-    jsonpathJVM,
-    pureconfigJVM,
-    scalacheckJVM,
-    scalacheckJS,
-    scalazJVM,
-    scalazJS,
-    scodecJVM,
-    scodecJS,
-    scoptJVM,
-    scoptJS,
-    shapelessJVM,
-    shapelessJS
-  )
+  .aggregate(benchmark, docs)
+  .aggregate(allSubprojectsJVM.map(LocalProject): _*)
+  .aggregate(allSubprojectsJS.map(LocalProject): _*)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -100,8 +82,7 @@ lazy val benchmark = project
   .enablePlugins(JmhPlugin)
   .settings(noPublishSettings)
 
-lazy val cats = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("cats"))
+lazy val cats = myCrossProject("cats")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
@@ -113,8 +94,7 @@ lazy val cats = crossProject(JSPlatform, JVMPlatform)
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
 
-lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .configureCross(moduleCrossConfig("core"))
+lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
@@ -139,10 +119,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .nativeSettings(
-    libraryDependencies -= scalaCheckDep.value % Test,
-    moduleNativeSettings
-  )
+  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -159,8 +136,7 @@ lazy val docs = project
     tutTargetDirectory := baseDirectory.value
   )
 
-lazy val eval = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("eval"))
+lazy val eval = myCrossProject("eval")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
@@ -170,10 +146,8 @@ lazy val eval = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val evalJVM = eval.jvm
-lazy val evalJS = eval.js
 
-lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("jsonpath"))
+lazy val jsonpath = myCrossProject("jsonpath")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -183,8 +157,7 @@ lazy val jsonpath = crossProject(JSPlatform, JVMPlatform)
 
 lazy val jsonpathJVM = jsonpath.jvm
 
-lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("pureconfig"))
+lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -194,8 +167,7 @@ lazy val pureconfig = crossProject(JSPlatform, JVMPlatform)
 
 lazy val pureconfigJVM = pureconfig.jvm
 
-lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("scalacheck"))
+lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += scalaCheckDep.value,
@@ -207,8 +179,7 @@ lazy val scalacheck = crossProject(JSPlatform, JVMPlatform)
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .configureCross(moduleCrossConfig("scalaz"))
+lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
@@ -218,14 +189,12 @@ lazy val scalaz = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       import _root_.scalaz.@@
     """
   )
-  .nativeSettings(moduleNativeSettings)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
 lazy val scalazNative = scalaz.native
 
-lazy val scodec = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("scodec"))
+lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -240,8 +209,7 @@ lazy val scodec = crossProject(JSPlatform, JVMPlatform)
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val scopt = crossProject(JSPlatform, JVMPlatform)
-  .configureCross(moduleCrossConfig("scopt"))
+lazy val scopt = myCrossProject("scopt")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
@@ -255,15 +223,13 @@ lazy val scopt = crossProject(JSPlatform, JVMPlatform)
 lazy val scoptJVM = scopt.jvm
 lazy val scoptJS = scopt.js
 
-lazy val shapeless = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .configureCross(moduleCrossConfig("shapeless"))
+lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
   )
-  .nativeSettings(moduleNativeSettings)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
@@ -288,17 +254,30 @@ lazy val commonSettings = Def.settings(
   """
 )
 
+def myCrossProject(name: String): CrossProject =
+  CrossProject(name, file(name))(moduleCrossPlatformMatrix(name): _*)
+    .configureCross(moduleCrossConfig(name))
+
 def moduleConfig(name: String): Project => Project =
   _.in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
 
-def moduleCrossConfig(name: String): CrossProject => CrossProject =
-  _.in(file(s"modules/$name"))
+def moduleCrossConfig(name: String): CrossProject => CrossProject = {
+  val transform = (_: CrossProject)
+    .in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
     .settings(moduleCrossSettings)
-    .jvmSettings(moduleJvmSettings)
-    .jsSettings(moduleJsSettings)
+
+  moduleCrossPlatformMatrix(name).foldRight(transform) {
+    case (platform, t) =>
+      platform match {
+        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings))
+        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings))
+        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings))
+      }
+  }
+}
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,

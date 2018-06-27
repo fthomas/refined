@@ -49,3 +49,5 @@
 [@rider-yi]: https://github.com/rider-yi
 [@sh0hei]: https://github.com/sh0hei
 [@xuwei-k]: https://github.com/xuwei-k
+
+Released on 2018-06-27

@@ -37,6 +37,6 @@ matrix:
       sbt ++$TRAVIS_SCALA_VERSION validateNative
   - scala: 2.13.0-M4 # Remember to update this in build.sbt, too.
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test shapelessJVM/test &&
-      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  shapelessJS/test
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
+      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
   - scala: 2.12.6

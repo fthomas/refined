@@ -19,7 +19,7 @@ val pureconfigVersion = "0.9.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
 val scalaXmlVersion = "1.1.0"
-val scalazVersion = "7.2.22"
+val scalazVersion = "7.2.25"
 val scodecVersion = "1.10.3"
 val scoptVersion = "3.7.0"
 
@@ -183,6 +183,7 @@ lazy val scalacheckJS = scalacheck.js
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    crossScalaVersions += Scala213,
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
       import $rootPkg.scalaz._
@@ -452,6 +453,8 @@ lazy val releaseSettings = {
       releaseStepCommand("coreJS/publishSigned"),
       releaseStepCommand("scalacheckJVM/publishSigned"),
       releaseStepCommand("scalacheckJS/publishSigned"),
+      releaseStepCommand("scalazJVM/publishSigned"),
+      releaseStepCommand("scalazJS/publishSigned"),
       releaseStepCommand("shapelessJVM/publishSigned"),
       releaseStepCommand("shapelessJS/publishSigned"),
       releaseStepCommand(s"++$Scala211"),

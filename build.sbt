@@ -170,6 +170,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
@@ -226,6 +227,7 @@ lazy val scoptJS = scopt.js
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    crossScalaVersions += Scala213,
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
@@ -445,6 +447,13 @@ lazy val releaseSettings = {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepCommand(s"++$Scala213"),
+      releaseStepCommand("coreJVM/publishSigned"),
+      releaseStepCommand("coreJS/publishSigned"),
+      releaseStepCommand("scalacheckJVM/publishSigned"),
+      releaseStepCommand("scalacheckJS/publishSigned"),
+      releaseStepCommand("shapelessJVM/publishSigned"),
+      releaseStepCommand("shapelessJS/publishSigned"),
       releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
       releaseStepCommand("scalazNative/publishSigned"),
@@ -493,5 +502,12 @@ addCommandsAlias(
   "validateJS",
   Seq(
     "testJS"
+  )
+)
+
+addCommandsAlias(
+  "validateNative",
+  Seq(
+    "compileNative"
   )
 )

@@ -1,0 +1,8 @@
+### Updates
+
+* Update `refined-scalaz` to Scalaz 7.2.25.
+  ([#536][#536] by [@fthomas][@fthomas])
+
+[#536]: https://github.com/fthomas/refined/pull/536
+
+[@fthomas]: https://github.com/fthomas

@@ -6,3 +6,5 @@
 [#536]: https://github.com/fthomas/refined/pull/536
 
 [@fthomas]: https://github.com/fthomas
+
+Released on 2018-07-04

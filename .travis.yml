@@ -26,7 +26,6 @@ notifications:
     on_start: false
 matrix:
   include:
-  - scala: 2.10.7
   - scala: 2.11.12 # Remember to update this in build.sbt, too.
     sudo: required
     before_install:

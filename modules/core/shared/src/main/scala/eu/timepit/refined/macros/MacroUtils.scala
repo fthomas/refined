@@ -1,12 +1,10 @@
 package eu.timepit.refined.macros
 
 import eu.timepit.refined.api.{Refined, RefType}
-import macrocompat.bundle
 import scala.reflect.macros.blackbox
 import scala.util.{Success, Try}
 import shapeless.tag.@@
 
-@bundle
 trait MacroUtils {
   val c: blackbox.Context
   import c.universe.weakTypeOf

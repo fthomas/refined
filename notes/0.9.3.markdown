@@ -1,8 +1,12 @@
+### Changes
+
+* Drop support for Scala 2.10. ([#537][#537] by [@fthomas][@fthomas])
+
 ### Updates
 
-* Update Scala.js to 0.6.24.
-  ([#538][#538] by [@fthomas][@fthomas])
+* Update Scala.js to 0.6.24. ([#538][#538] by [@fthomas][@fthomas])
 
+[#537]: https://github.com/fthomas/refined/pull/537
 [#538]: https://github.com/fthomas/refined/pull/538
 
 [@fthomas]: https://github.com/fthomas

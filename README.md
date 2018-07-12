@@ -272,10 +272,10 @@ a pull request to list it here:
 Are you using **refined** in your organization or company? Please consider
 opening a pull request to list it here:
 
+* [AutoScout24](http://techblog.scout24.com/)
 * [Besedo](https://besedo.com/)
-* [Zalando](https://tech.zalando.de/)
 * [HolidayCheck](http://techblog.holidaycheck.com/)
-* [AutoScout24](http://techblog.scout24.com//)
+* [Zalando](https://tech.zalando.de/)
 
 ## Documentation
 

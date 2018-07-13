@@ -1,3 +1,9 @@
+### New features
+
+* Add `refinedSize` as extension method to `cats.data.NonEmptyList`
+  that returns the size of the `NonEmptyList` as a `PosInt`.
+  ([#539][#539] by [@cb372][@cb372])
+
 ### Changes
 
 * Drop support for Scala 2.10. ([#537][#537] by [@fthomas][@fthomas])
@@ -8,5 +14,7 @@
 
 [#537]: https://github.com/fthomas/refined/pull/537
 [#538]: https://github.com/fthomas/refined/pull/538
+[#539]: https://github.com/fthomas/refined/pull/539
 
+[@cb372]: https://github.com/cb372
 [@fthomas]: https://github.com/fthomas

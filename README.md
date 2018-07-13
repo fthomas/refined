@@ -390,6 +390,7 @@ The library comes with these predefined predicates:
 The following people have helped making **refined** great:
 
 * [Alexandre Archambault](https://github.com/alexarchambault)
+* [Chris Birchall](https://github.com/cb372)
 * [Chris Hodapp](https://github.com/clhodapp)
 * [Cody Allen](https://github.com/ceedubs)
 * [Dale Wijnand](https://github.com/dwijnand)

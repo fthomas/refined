@@ -485,7 +485,6 @@ addCommandsAlias(
     "mimaReportBinaryIssues",
     "testJVM",
     "coverageReport",
-    "coverageOff",
     "doc",
     "docs/tut",
     "package",

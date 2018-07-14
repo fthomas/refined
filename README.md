@@ -233,6 +233,7 @@ list it here:
 * [atto-refined](https://github.com/tpolecat/atto)
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
+* [cormorant-refined](https://github.com/ChristopherDavenport/cormorant)
 * [decline-refined](http://ben.kirw.in/decline/refined.html)
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)

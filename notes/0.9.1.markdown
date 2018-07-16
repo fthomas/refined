@@ -16,6 +16,8 @@
   ([#493][#493] by [@rider-yi][@rider-yi])
 * Improve performance of `RefinedType#unsafeFrom`.
   ([#499][#499] by [@fthomas][@fthomas])
+* A `String` containing line terminators is a valid `TrimmedString`.
+  ([#504][#504] by [@ceedubs][@ceedubs])
 
 ### Deprecations
 

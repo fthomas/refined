@@ -103,3 +103,22 @@ scala> xpath("A//B/*[1")
        xpath("A//B/*[1")
              ^
 ```
+
+Manage interoperability with impure code to safely handle `null`. `NonNull[P]` wraps a predicate `P` and validates if the value is defined.
+
+```scala
+import java.net.URL                          
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.impure._
+import eu.timepit.refined.refineV
+import eu.timepit.refined.collection.NonEmpty
+
+scala> val url = new URL("https://www.google.com")
+<console>url: java.net.URL = https://www.google.com
+scala> val unsafe = url.getUserInfo
+<console>unsafe: String = null
+scala> val refined = refineV[NonNull[NonEmpty]](unsafe).toOption
+<console>refined: Option[Refined[String,NonNull[NonEmpty]]] = None
+
+```
+

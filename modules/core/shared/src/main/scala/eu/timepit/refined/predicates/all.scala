@@ -7,6 +7,7 @@ trait AllPredicates
     with CharPredicates
     with CollectionPredicates
     with GenericPredicates
+    with ImpurePredicates
     with NumericPredicates
     with StringPredicates
 

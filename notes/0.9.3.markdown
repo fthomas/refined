@@ -11,10 +11,12 @@
 ### Updates
 
 * Update Scala.js to 0.6.24. ([#538][#538] by [@fthomas][@fthomas])
+* Update Scala Native to 0.3.8. ([#546][#546] by [@fthomas][@fthomas])
 
 [#537]: https://github.com/fthomas/refined/pull/537
 [#538]: https://github.com/fthomas/refined/pull/538
 [#539]: https://github.com/fthomas/refined/pull/539
+[#546]: https://github.com/fthomas/refined/pull/546
 
 [@cb372]: https://github.com/cb372
 [@fthomas]: https://github.com/fthomas

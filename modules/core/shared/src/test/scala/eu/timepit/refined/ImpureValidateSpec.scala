@@ -1,6 +1,5 @@
 package eu.timepit.refined
 
-
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.collection._

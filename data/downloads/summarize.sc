@@ -33,11 +33,11 @@ def formatMonth(year: String, month: String, module: String, aggregated: List[Da
   s"""$year-$month $module
      |$lines
      |  total\t${aggregated.map(_.totalDownloads).sum}
-  """.stripMargin
+     |""".stripMargin
 }
 
 val out = grouped.map { case ((year, month, module), aggregated) =>
   formatMonth(year, month, module, aggregated)
-}.mkString("\n")
+}.mkString("", "\n", "\n")
 
 write.over(pwd/"summary.txt" , out)

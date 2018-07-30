@@ -8,10 +8,9 @@ import org.scalacheck.Properties
 class StringValidateSpecJvm extends Properties("StringValidate") {
 
   property("Regex.showResult") = secure {
-    showResult[Regex]("(a|b") ?=
+    showResult[Regex]("(a|b").take(56) ?=
       """Regex predicate failed: Unclosed group near index 4
-        |(a|b
-        |    ^""".stripMargin
+        |(a|b""".stripMargin
   }
 
   property("Url.isValid") = secure {

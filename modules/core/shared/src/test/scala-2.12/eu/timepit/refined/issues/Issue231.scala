@@ -18,12 +18,16 @@ object CrashOnTypeTag {
 class Issue231 extends Properties("issue/231") {
 
   property("CrashOnTypeTag[String]") = wellTyped {
-    illTyped(""" val crash: String @@ CrashOnTypeTag[String] = "function" """,
-             ".*java.lang.ClassNotFoundException.*")
+    illTyped(
+      """ val crash: String @@ CrashOnTypeTag[String] = "function" """,
+      ".*java.lang.ClassNotFoundException.*"
+    )
   }
 
   property("CrashOnTypeTag[Int => String]") = wellTyped {
-    illTyped(""" val crash: String @@ CrashOnTypeTag[Int => String] = "function" """,
-             ".*java.lang.ClassNotFoundException.*")
+    illTyped(
+      """ val crash: String @@ CrashOnTypeTag[Int => String] = "function" """,
+      ".*java.lang.ClassNotFoundException.*"
+    )
   }
 }

@@ -119,7 +119,8 @@ class StringValidateSpec extends Properties("StringValidate") {
   }
 
   private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(
-      implicit v: Validate[String, P]) = {
+      implicit v: Validate[String, P]
+  ) = {
     property(name) = secure {
       forAll { (n: N) =>
         isValid[P](n.toString) &&

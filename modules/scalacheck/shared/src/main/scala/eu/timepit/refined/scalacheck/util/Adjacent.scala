@@ -2,7 +2,8 @@ package eu.timepit.refined.scalacheck.util
 
 @deprecated(
   "This type class has been replaced by eu.timepit.refined.internal.Adjacent in the core module",
-  "0.9.0")
+  "0.9.0"
+)
 trait Adjacent[T] {
   def nextUp(t: T): Option[T]
 
@@ -17,7 +18,8 @@ trait Adjacent[T] {
 
 @deprecated(
   "This type class has been replaced by eu.timepit.refined.internal.Adjacent in the core module",
-  "0.9.0")
+  "0.9.0"
+)
 object Adjacent {
   def apply[T](implicit a: Adjacent[T]): Adjacent[T] = a
 

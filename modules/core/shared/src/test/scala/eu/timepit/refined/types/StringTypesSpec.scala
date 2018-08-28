@@ -26,7 +26,8 @@ class StringTypesSpec extends Properties("StringTypes") {
   property("""FString3.from("abcd")""") = secure {
     val str = "abcd"
     FString3.from(str) ?= Left(
-      "Predicate taking size(abcd) = 4 failed: Right predicate of (!(4 < 0) && !(4 > 3)) failed: Predicate (4 > 3) did not fail.")
+      "Predicate taking size(abcd) = 4 failed: Right predicate of (!(4 < 0) && !(4 > 3)) failed: Predicate (4 > 3) did not fail."
+    )
   }
 
   property("""FString3.truncate(str)""") = forAll { (str: String) =>

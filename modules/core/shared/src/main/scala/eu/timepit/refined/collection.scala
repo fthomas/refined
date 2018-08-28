@@ -193,10 +193,12 @@ object collection extends CollectionInference {
           optElemShowExpr(t.lift(wn.value), v.showExpr)
 
         override def showResult(t: T, r: Res): String =
-          optElemShowResult(t.lift(wn.value),
-                            r.detail.p,
-                            (a: A) => s"index($t, ${wn.value}) = $a",
-                            v.showResult)
+          optElemShowResult(
+            t.lift(wn.value),
+            r.detail.p,
+            (a: A) => s"index($t, ${wn.value}) = $a",
+            v.showResult
+          )
       }
   }
 
@@ -299,10 +301,12 @@ object collection extends CollectionInference {
   private def optElemShowExpr[A](elem: Option[A], f: A => String): String =
     elem.fold(Resources.showExprEmptyCollection)(f)
 
-  private def optElemShowResult[A, R](elem: Option[A],
-                                      res: Option[Result[R]],
-                                      f: A => String,
-                                      g: (A, Result[R]) => String): String =
+  private def optElemShowResult[A, R](
+      elem: Option[A],
+      res: Option[Result[R]],
+      f: A => String,
+      g: (A, Result[R]) => String
+  ): String =
     (elem, res) match {
       case (Some(a), Some(r)) =>
         Resources.predicateTakingResultDetail(f(a), r, g(a, r))

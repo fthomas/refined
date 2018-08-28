@@ -33,8 +33,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Exists[A] =!> Head[A]") = wellTyped {
-    illTyped("Inference[Exists[Digit], Head[Digit]]",
-             "diverging implicit expansion for.*Inference.*")
+    illTyped(
+      "Inference[Exists[Digit], Head[Digit]]",
+      "diverging implicit expansion for.*Inference.*"
+    )
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {

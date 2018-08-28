@@ -71,35 +71,35 @@ class NumericTypesSpec extends Properties("NumericTypes") {
   }
 
   property("PosFloat.from(0.1F)") = secure {
-    PosFloat.from(0.1F).isRight
+    PosFloat.from(0.1f).isRight
   }
 
   property("PosFloat.from(0.0F)") = secure {
-    PosFloat.from(0.0F).isLeft
+    PosFloat.from(0.0f).isLeft
   }
 
   property("NonNegFloat.from(0.0F)") = secure {
-    NonNegFloat.from(0.0F).isRight
+    NonNegFloat.from(0.0f).isRight
   }
 
   property("NonNegFloat.from(-0.1F)") = secure {
-    NonNegFloat.from(-0.1F).isLeft
+    NonNegFloat.from(-0.1f).isLeft
   }
 
   property("NegFloat.from(-0.1F)") = secure {
-    NegFloat.from(-0.1F).isRight
+    NegFloat.from(-0.1f).isRight
   }
 
   property("NegFloat.from(0.0F)") = secure {
-    NegFloat.from(0.0F).isLeft
+    NegFloat.from(0.0f).isLeft
   }
 
   property("NonPosFloat.from(0.0F)") = secure {
-    NonPosFloat.from(0.0F).isRight
+    NonPosFloat.from(0.0f).isRight
   }
 
   property("NonPosFloat.from(0.1F)") = secure {
-    NonPosFloat.from(0.1F).isLeft
+    NonPosFloat.from(0.1f).isLeft
   }
 
   property("PosDouble.from(0.1)") = secure {

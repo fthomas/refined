@@ -11,7 +11,7 @@ class BigLiteralsSpec extends Properties("BigLiterals") {
 
   property("autoRefineV") = secure {
     val ii: BigInt Refined Positive = BigInt(1)
-    val il: BigInt Refined Positive = BigInt(0x7fffffffffffffffL)
+    val il: BigInt Refined Positive = BigInt(0X7FFFFFFFFFFFFFFFL)
     val is: BigInt Refined Positive = BigInt("1")
 
     val dd: BigDecimal Refined Positive = BigDecimal(1.0)
@@ -33,13 +33,19 @@ class BigLiteralsSpec extends Properties("BigLiterals") {
     illTyped("val err: BigDecimal Refined Equal[W.`0.0`.T] = BigDecimal.exact(\"0.0\")")
 
     illTyped("val err: BigInt Refined Positive = BigInt(0)", """Predicate failed: \(0 > 0\).""")
-    illTyped("val err: BigInt Refined Positive = BigInt(ii.value.toInt)",
-             "compile-time refinement.*")
+    illTyped(
+      "val err: BigInt Refined Positive = BigInt(ii.value.toInt)",
+      "compile-time refinement.*"
+    )
     illTyped("val err: BigInt Refined Positive = BigInt(\"0.1\")", "compile-time refinement.*")
-    illTyped("val err: BigInt Refined Positive = BigInt(java.math.BigInteger.ZERO)",
-             "compile-time refinement.*")
-    illTyped("val err: BigDecimal Refined Positive = BigDecimal(java.math.BigDecimal.ZERO)",
-             "compile-time refinement.*")
+    illTyped(
+      "val err: BigInt Refined Positive = BigInt(java.math.BigInteger.ZERO)",
+      "compile-time refinement.*"
+    )
+    illTyped(
+      "val err: BigDecimal Refined Positive = BigDecimal(java.math.BigDecimal.ZERO)",
+      "compile-time refinement.*"
+    )
 
     (ii.value ?= BigInt(1)) &&
     (il.value ?= BigInt(Long.MaxValue)) &&

@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 import eu.timepit.refined.W
-import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
+import eu.timepit.refined.api.{RefType, Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
 import eu.timepit.refined.string.{MatchesRegex, Trimmed}
 import shapeless.Witness
@@ -60,7 +60,14 @@ object string {
   /** A `String` that is not empty. */
   type NonEmptyString = String Refined NonEmpty
 
-  object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
+  object NonEmptyString extends RefinedTypeOps[NonEmptyString, String] {
+
+    /*
+    implicit class NonEmptyStringOps[F[_, _]](nes: F[String, NonEmpty])(implicit rt: RefType[F]) {
+      def append(s: String): F[String, NonEmpty] =
+        rt.unsafeWrap(rt.unwrap(nes) + s)
+    }*/
+  }
 
   /** A `String` that contains no leading or trailing whitespace. */
   type TrimmedString = String Refined Trimmed

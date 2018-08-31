@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Result, Validate}
+import eu.timepit.refined.api.{Inference, RefType, Result, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.Not
 import eu.timepit.refined.collection._
@@ -124,6 +124,11 @@ object collection extends CollectionInference {
   object Empty {
     implicit def emptyValidate[T](implicit ev: T => Traversable[_]): Validate.Plain[T, Empty] =
       Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
+
+    implicit class NonEmptyStringOps[F[_, _]](nes: F[String, NonEmpty])(implicit rt: RefType[F]) {
+      def append(s: String): F[String, NonEmpty] =
+        rt.unsafeWrap(rt.unwrap(nes) + s)
+    }
   }
 
   object Forall {

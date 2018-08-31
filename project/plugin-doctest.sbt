@@ -1,1 +1,1 @@
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.8.0")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.2")

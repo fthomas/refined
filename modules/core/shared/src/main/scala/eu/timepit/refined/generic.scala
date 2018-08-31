@@ -17,22 +17,26 @@ object generic extends GenericInference {
 
   @deprecated(
     "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
-    "0.9.0")
+    "0.9.0"
+  )
   final case class ConstructorNames[P](p: P)
 
   @deprecated(
     "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
-    "0.9.0")
+    "0.9.0"
+  )
   final case class FieldNames[P](p: P)
 
   @deprecated(
     "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
-    "0.9.0")
+    "0.9.0"
+  )
   final case class Subtype[U]()
 
   @deprecated(
     "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
-    "0.9.0")
+    "0.9.0"
+  )
   final case class Supertype[U]()
 
   object Equal {
@@ -45,7 +49,8 @@ object generic extends GenericInference {
   object ConstructorNames {
     @deprecated(
       "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
-      "0.9.0")
+      "0.9.0"
+    )
     implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
         implicit lg: LabelledGeneric.Aux[T, R0],
         cthl: ToHList.Aux[R0, R1],
@@ -63,7 +68,8 @@ object generic extends GenericInference {
   object FieldNames {
     @deprecated(
       "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
-      "0.9.0")
+      "0.9.0"
+    )
     implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
         implicit lg: LabelledGeneric.Aux[T, R],
         keys: Keys.Aux[R, K],
@@ -80,7 +86,8 @@ object generic extends GenericInference {
   object Subtype {
     @deprecated(
       "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
-      "0.9.0")
+      "0.9.0"
+    )
     implicit def subtypeValidate[T, U >: T]: Validate.Plain[T, Subtype[U]] =
       Validate.alwaysPassed(Subtype())
   }
@@ -88,7 +95,8 @@ object generic extends GenericInference {
   object Supertype {
     @deprecated(
       "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
-      "0.9.0")
+      "0.9.0"
+    )
     implicit def supertypeValidate[T, U <: T]: Validate.Plain[T, Supertype[U]] =
       Validate.alwaysPassed(Supertype())
   }

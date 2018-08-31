@@ -107,6 +107,7 @@ trait NumericInstances {
 
   private def rangeClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](
       min: T,
-      max: T): Arbitrary[F[T, P]] =
+      max: T
+  ): Arbitrary[F[T, P]] =
     arbitraryRefType(Gen.chooseNum(min, max))
 }

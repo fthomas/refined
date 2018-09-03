@@ -28,7 +28,9 @@ package object pureconfig {
                       because = because
                     ),
                     cur = cur
-                  )))
+                  )
+                )
+              )
 
             case Right(refined) =>
               Right(refined)

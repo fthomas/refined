@@ -44,7 +44,7 @@ scala> Square('k', -1)
               ^
 <console>:22: error: Left predicate of (!(-1 < 1) && !(-1 > 8)) failed: Predicate (-1 < 1) did not fail.
        Square('k', -1)
-                    ^
+                   ^
 ```
 
 ```scala

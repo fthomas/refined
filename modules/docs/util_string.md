@@ -30,7 +30,7 @@ java.util.regex.PatternSyntaxException: Unclosed group near index 4
   at scala.collection.immutable.StringLike.r(StringLike.scala:270)
   at scala.collection.immutable.StringLike.r$(StringLike.scala:270)
   at scala.collection.immutable.StringOps.r(StringOps.scala:29)
-  ... 118 elided
+  ... 43 elided
 ```
 
 The library provides its own constructor for regexes in the `util.string`

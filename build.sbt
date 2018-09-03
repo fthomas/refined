@@ -11,10 +11,10 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val catsVersion = "1.1.0"
+val catsVersion = "1.2.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.9.0"
+val pureconfigVersion = "0.9.1"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
 val scalaXmlVersion = "1.1.0"
@@ -25,8 +25,11 @@ val scoptVersion = "3.7.0"
 def macroParadise(configuration: Configuration) = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, v)) if v <= 12 =>
-      Seq(compilerPlugin(
-        ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration))
+      Seq(
+        compilerPlugin(
+          ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+        )
+      )
     case _ =>
       Seq.empty // https://github.com/scala/scala/pull/6606
   }
@@ -317,10 +320,13 @@ lazy val metadataSettings = Def.settings(
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl"))),
   developers := List(
-    Developer(id = "fthomas",
-              name = "Frank S. Thomas",
-              email = "",
-              url("https://github.com/fthomas")))
+    Developer(
+      id = "fthomas",
+      name = "Frank S. Thomas",
+      email = "",
+      url("https://github.com/fthomas")
+    )
+  )
 )
 
 lazy val compileSettings = Def.settings(
@@ -347,7 +353,7 @@ lazy val compileSettings = Def.settings(
         Seq(
           "-Xlint:-unused,_",
           //"-Ywarn-unused:implicits",
-          "-Ywarn-unused:imports",
+          "-Ywarn-unused:imports"
           //"-Ywarn-unused:locals",
           //"-Ywarn-unused:params",
           //"-Ywarn-unused:patvars"
@@ -378,8 +384,11 @@ lazy val scaladocSettings = Def.settings(
     val binaryScalaVersion = CrossVersion.binaryScalaVersion(scalaVersion.value)
     val refinedVersion = if (isSnapshot.value) latestVersion.value else version.value
     val indexHtml = rootPkg.replace('.', '/') + "/index.html"
-    Some(url(
-      s"https://static.javadoc.io/$groupId/${moduleName.value}_$binaryScalaVersion/$refinedVersion/$indexHtml"))
+    Some(
+      url(
+        s"https://static.javadoc.io/$groupId/${moduleName.value}_$binaryScalaVersion/$refinedVersion/$indexHtml"
+      )
+    )
   }
 )
 

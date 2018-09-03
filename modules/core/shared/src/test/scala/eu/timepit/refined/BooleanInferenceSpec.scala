@@ -46,8 +46,9 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("conjunction associativity") = secure {
-    Inference[(UpperCase And Letter) And Not[Whitespace],
-              UpperCase And (Letter And Not[Whitespace])].isValid
+    Inference[(UpperCase And Letter) And Not[Whitespace], UpperCase And (Letter And Not[
+      Whitespace
+    ])].isValid
   }
 
   property("conjunction commutativity") = secure {

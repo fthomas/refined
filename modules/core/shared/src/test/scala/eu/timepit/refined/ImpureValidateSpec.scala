@@ -19,8 +19,6 @@ class ImpureValidateSpec extends Properties("ImpureValidate") {
   }
 
   property("NonNull.showResult - String - invalid") = secure {
-    import eu.timepit.refined.collection.NonEmpty
-
     val string: String = null
     showResult[NonNull[NonEmpty]](string) ?= "Predicate failed: source is null."
   }

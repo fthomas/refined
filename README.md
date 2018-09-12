@@ -369,6 +369,8 @@ The library comes with these predefined predicates:
 [`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
+* `IPv4`: checks if a `String` is a valid IPv4
+* `IPv6`: checks if a `String` is a valid IPv6
 * `MatchesRegex[S]`: checks if a `String` matches the regular expression `S`
 * `Regex`: checks if a `String` is a valid regular expression
 * `StartsWith[S]`: checks if a `String` starts with the prefix `S`
@@ -385,6 +387,7 @@ The library comes with these predefined predicates:
 * `ValidBigDecimal`: checks if a `String` is a parsable `BigDecimal`
 * `Xml`: checks if a `String` is well-formed XML
 * `XPath`: checks if a `String` is a valid XPath expression
+* `Trimmed`: checks if a `String` has no leading or trailing whitespace
 
 ## Contributors and participation
 

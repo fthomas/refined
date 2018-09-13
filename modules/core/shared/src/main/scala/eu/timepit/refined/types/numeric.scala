@@ -6,42 +6,42 @@ import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 /** Module for numeric refined types. */
 object numeric {
 
-  /** An `Byte` in the range from 1 to `Byte.MaxValue`. */
+  /** A `Byte` in the range from 1 to `Byte.MaxValue`. */
   type PosByte = Byte Refined Positive
 
   object PosByte extends RefinedTypeOps.Numeric[PosByte, Byte]
 
-  /** An `Byte` in the range from 0 to `Byte.MaxValue`. */
+  /** A `Byte` in the range from 0 to `Byte.MaxValue`. */
   type NonNegByte = Byte Refined NonNegative
 
   object NonNegByte extends RefinedTypeOps.Numeric[NonNegByte, Byte]
 
-  /** An `Byte` in the range from `Byte.MinValue` to -1. */
+  /** A `Byte` in the range from `Byte.MinValue` to -1. */
   type NegByte = Byte Refined Negative
 
   object NegByte extends RefinedTypeOps.Numeric[NegByte, Byte]
 
-  /** An `Byte` in the range from `Byte.MinValue` to 0. */
+  /** A `Byte` in the range from `Byte.MinValue` to 0. */
   type NonPosByte = Byte Refined NonPositive
 
   object NonPosByte extends RefinedTypeOps.Numeric[NonPosByte, Byte]
 
-  /** An `Short` in the range from 1 to `Short.MaxValue`. */
+  /** A `Short` in the range from 1 to `Short.MaxValue`. */
   type PosShort = Short Refined Positive
 
   object PosShort extends RefinedTypeOps.Numeric[PosShort, Short]
 
-  /** An `Short` in the range from 0 to `Short.MaxValue`. */
+  /** A `Short` in the range from 0 to `Short.MaxValue`. */
   type NonNegShort = Short Refined NonNegative
 
   object NonNegShort extends RefinedTypeOps.Numeric[NonNegShort, Short]
 
-  /** An `Short` in the range from `Short.MinValue` to -1. */
+  /** A `Short` in the range from `Short.MinValue` to -1. */
   type NegShort = Short Refined Negative
 
   object NegShort extends RefinedTypeOps.Numeric[NegShort, Short]
 
-  /** An `Short` in the range from `Short.MinValue` to 0. */
+  /** A `Short` in the range from `Short.MinValue` to 0. */
   type NonPosShort = Short Refined NonPositive
 
   object NonPosShort extends RefinedTypeOps.Numeric[NonPosShort, Short]

@@ -167,7 +167,7 @@ object numeric {
   object NonPosBigDecimal extends RefinedTypeOps[NonPosBigDecimal, BigDecimal]
 }
 
-trait NumericTypes {
+trait NumericTypes extends NumericTypesBinCompat1 {
   final type PosByte = numeric.PosByte
   final val PosByte = numeric.PosByte
 
@@ -215,7 +215,9 @@ trait NumericTypes {
 
   final type NegBigInt = numeric.NegBigInt
   final val NegBigInt = numeric.NegBigInt
+}
 
+trait NumericTypesBinCompat1 {
   final type NonPosBigInt = numeric.NonPosBigInt
   final val NonPosBigInt = numeric.NonPosBigInt
 

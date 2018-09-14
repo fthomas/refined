@@ -167,31 +167,7 @@ object numeric {
   object NonPosBigDecimal extends RefinedTypeOps[NonPosBigDecimal, BigDecimal]
 }
 
-trait NumericTypes extends NumericTypesBinCompat1 {
-  final type PosByte = numeric.PosByte
-  final val PosByte = numeric.PosByte
-
-  final type NonNegByte = numeric.NonNegByte
-  final val NonNegByte = numeric.NonNegByte
-
-  final type NegByte = numeric.NegByte
-  final val NegByte = numeric.NegByte
-
-  final type NonPosByte = numeric.NonPosByte
-  final val NonPosByte = numeric.NonPosByte
-
-  final type PosShort = numeric.PosShort
-  final val PosShort = numeric.PosShort
-
-  final type NonNegShort = numeric.NonNegShort
-  final val NonNegShort = numeric.NonNegShort
-
-  final type NegShort = numeric.NegShort
-  final val NegShort = numeric.NegShort
-
-  final type NonPosShort = numeric.NonPosShort
-  final val NonPosShort = numeric.NonPosShort
-
+trait NumericTypes {
   final type PosInt = numeric.PosInt
   final val PosInt = numeric.PosInt
 
@@ -206,20 +182,6 @@ trait NumericTypes extends NumericTypesBinCompat1 {
 
   final type PosLong = numeric.PosLong
   final val PosLong = numeric.PosLong
-
-  final type PosBigInt = numeric.PosBigInt
-  final val PosBigInt = numeric.PosBigInt
-
-  final type NonNegBigInt = numeric.NonNegBigInt
-  final val NonNegBigInt = numeric.NonNegBigInt
-
-  final type NegBigInt = numeric.NegBigInt
-  final val NegBigInt = numeric.NegBigInt
-}
-
-trait NumericTypesBinCompat1 {
-  final type NonPosBigInt = numeric.NonPosBigInt
-  final val NonPosBigInt = numeric.NonPosBigInt
 
   final type NonNegLong = numeric.NonNegLong
   final val NonNegLong = numeric.NonNegLong
@@ -253,6 +215,44 @@ trait NumericTypesBinCompat1 {
 
   final type NonPosDouble = numeric.NonPosDouble
   final val NonPosDouble = numeric.NonPosDouble
+}
+
+trait NumericTypesBinCompat1 {
+  final type PosByte = numeric.PosByte
+  final val PosByte = numeric.PosByte
+
+  final type NonNegByte = numeric.NonNegByte
+  final val NonNegByte = numeric.NonNegByte
+
+  final type NegByte = numeric.NegByte
+  final val NegByte = numeric.NegByte
+
+  final type NonPosByte = numeric.NonPosByte
+  final val NonPosByte = numeric.NonPosByte
+
+  final type PosShort = numeric.PosShort
+  final val PosShort = numeric.PosShort
+
+  final type NonNegShort = numeric.NonNegShort
+  final val NonNegShort = numeric.NonNegShort
+
+  final type NegShort = numeric.NegShort
+  final val NegShort = numeric.NegShort
+
+  final type NonPosShort = numeric.NonPosShort
+  final val NonPosShort = numeric.NonPosShort
+
+  final type PosBigInt = numeric.PosBigInt
+  final val PosBigInt = numeric.PosBigInt
+
+  final type NonNegBigInt = numeric.NonNegBigInt
+  final val NonNegBigInt = numeric.NonNegBigInt
+
+  final type NegBigInt = numeric.NegBigInt
+  final val NegBigInt = numeric.NegBigInt
+
+  final type NonPosBigInt = numeric.NonPosBigInt
+  final val NonPosBigInt = numeric.NonPosBigInt
 
   final type PosBigDecimal = numeric.PosBigDecimal
   final val PosBigDecimal = numeric.PosBigDecimal

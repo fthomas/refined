@@ -1,6 +1,5 @@
 package eu.timepit.refined.types
 
-import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
 import eu.timepit.refined.string.{HexStringSpec, Trimmed}

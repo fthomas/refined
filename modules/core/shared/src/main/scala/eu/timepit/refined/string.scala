@@ -75,7 +75,6 @@ object string extends StringInference {
   /** Predicate that checks if a `String` represents a hexadecimal number. */
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
 
-
   object EndsWith {
     implicit def endsWithValidate[S <: String](
         implicit ws: Witness.Aux[S]

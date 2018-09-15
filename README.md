@@ -388,6 +388,7 @@ The library comes with these predefined predicates:
 * `Xml`: checks if a `String` is well-formed XML
 * `XPath`: checks if a `String` is a valid XPath expression
 * `Trimmed`: checks if a `String` has no leading or trailing whitespace
+* `HexStringSpec`: checks if a `String` represents a hexadecimal number
 
 ## Contributors and participation
 
@@ -424,6 +425,7 @@ The following people have helped making **refined** great:
 * [Vladimir Koshelev](https://github.com/koshelev)
 * [Yuki Ishikawa](https://github.com/rider-yi)
 * [Zainab Ali](https://github.com/zainab-ali)
+* [Michael Thomas](https://github.com/Michaelt293)
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

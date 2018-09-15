@@ -3,7 +3,7 @@ package eu.timepit.refined.types
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty}
-import eu.timepit.refined.string.{MatchesRegex, Trimmed}
+import eu.timepit.refined.string.{HexStringSpec, Trimmed}
 import shapeless.Witness
 
 /** Module for `String` refined types. */
@@ -71,9 +71,9 @@ object string {
     def trim(s: String): TrimmedString = Refined.unsafeApply(s.trim)
   }
 
-  /** A `String` representing a hexadecimal number */
-  type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
+  /** A `String` representing a hexadecimal number. */
   type HexString = String Refined HexStringSpec
+
   object HexString extends RefinedTypeOps[HexString, String]
 }
 

@@ -66,4 +66,6 @@ trait StringPredicatesBinCompat1 {
 
   final type ValidFloat = refined.string.ValidFloat
   final val ValidFloat = refined.string.ValidFloat
+
+  final type HexStringSpec = refined.string.HexStringSpec
 }

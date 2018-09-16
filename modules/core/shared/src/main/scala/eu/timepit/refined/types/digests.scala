@@ -5,7 +5,7 @@ import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.boolean.And
 import eu.timepit.refined.collection.Size
 import eu.timepit.refined.generic.Equal
-import eu.timepit.refined.types.string.HexStringSpec
+import eu.timepit.refined.string.HexStringSpec
 
 /** Module for type representing message digests. */
 object digests {

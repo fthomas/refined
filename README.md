@@ -412,6 +412,7 @@ The following people have helped making **refined** great:
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
 * [Matt Pickering](https://github.com/matthedude)
+* [Michael Thomas](https://github.com/Michaelt293)
 * [Naoki Aoyama](https://github.com/aoiroaoino)
 * [Nicolas Rinaudo](https://github.com/nrinaudo)
 * [Olli Helenius](https://github.com/liff)
@@ -425,7 +426,6 @@ The following people have helped making **refined** great:
 * [Vladimir Koshelev](https://github.com/koshelev)
 * [Yuki Ishikawa](https://github.com/rider-yi)
 * [Zainab Ali](https://github.com/zainab-ali)
-* [Michael Thomas](https://github.com/Michaelt293)
 * Your name here :-)
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,

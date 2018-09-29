@@ -60,7 +60,7 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala213 = "2.13.0-M4"
+val Scala213 = "2.13.0-M5"
 
 /// projects
 

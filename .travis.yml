@@ -38,4 +38,4 @@ matrix:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
       sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
-  - scala: 2.12.6
+  - scala: 2.12.7

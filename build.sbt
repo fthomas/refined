@@ -60,7 +60,7 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala213 = "2.13.0-M4"
+val Scala213 = "2.13.0-M5"
 
 /// projects
 
@@ -105,9 +105,8 @@ lazy val core = myCrossProject("core")
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-      scalaCheckDep.value % Test
-    ),
+      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+    ) ++ (if (scalaVersion.value != Scala213) Seq(scalaCheckDep.value % Test) else Seq()),
     initialCommands += s"""
       import shapeless.tag.@@
     """,
@@ -165,7 +164,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    crossScalaVersions += Scala213,
+    //crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
@@ -452,8 +451,8 @@ lazy val releaseSettings = {
       releaseStepCommand(s"++$Scala213"),
       releaseStepCommand("coreJVM/publishSigned"),
       releaseStepCommand("coreJS/publishSigned"),
-      releaseStepCommand("scalacheckJVM/publishSigned"),
-      releaseStepCommand("scalacheckJS/publishSigned"),
+      //releaseStepCommand("scalacheckJVM/publishSigned"),
+      //releaseStepCommand("scalacheckJS/publishSigned"),
       releaseStepCommand("scalazJVM/publishSigned"),
       releaseStepCommand("scalazJS/publishSigned"),
       releaseStepCommand("shapelessJVM/publishSigned"),

@@ -42,22 +42,22 @@ class RefineJavapSpec extends Properties("RefineJavap") {
         |public class eu.timepit.refined.scalaz.RefineAnyValTest {
         |  public int Refined();
         |    Code:
-        |       0: getstatic     #16                 // Field eu/timepit/refined/api/Refined$.MODULE$:Leu/timepit/refined/api/Refined$;
+        |       0: getstatic     #17                 // Field eu/timepit/refined/api/Refined$.MODULE$:Leu/timepit/refined/api/Refined$;
         |       3: iconst_2
-        |       4: invokestatic  #22                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
-        |       7: invokevirtual #26                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
-        |      10: checkcast     #28                 // class java/lang/Integer
+        |       4: invokestatic  #23                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+        |       7: invokevirtual #27                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
+        |      10: checkcast     #29                 // class java/lang/Integer
         |      13: areturn
         |  public int shapeless_tag();
         |    Code:
         |       0: iconst_2
-        |       1: invokestatic  #22                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+        |       1: invokestatic  #23                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
         |       4: invokestatic  #36                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
         |       7: ireturn
         |  public java.lang.Object scalaz_tag();
         |    Code:
         |       0: iconst_2
-        |       1: invokestatic  #22                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+        |       1: invokestatic  #23                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
         |       4: areturn
         |  public int unrefined();
         |    Code:

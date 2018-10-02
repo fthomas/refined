@@ -49,17 +49,17 @@ class InferJavapSpec extends Properties("InferJavapTest") {
         |       4: areturn
         |  public int Refined();
         |    Code:
-        |       0: getstatic     #23                 // Field eu/timepit/refined/api/Refined$.MODULE$:Leu/timepit/refined/api/Refined$;
+        |       0: getstatic     #24                 // Field eu/timepit/refined/api/Refined$.MODULE$:Leu/timepit/refined/api/Refined$;
         |       3: aload_0
-        |       4: invokevirtual #25                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
-        |       7: invokevirtual #29                 // Method eu/timepit/refined/scalaz/RefineAnyValTest.Refined:()Ljava/lang/Integer;
-        |      10: invokevirtual #33                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
-        |      13: checkcast     #35                 // class java/lang/Integer
+        |       4: invokevirtual #26                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
+        |       7: invokevirtual #30                 // Method eu/timepit/refined/scalaz/RefineAnyValTest.Refined:()Ljava/lang/Integer;
+        |      10: invokevirtual #34                 // Method eu/timepit/refined/api/Refined$.unsafeApply:(Ljava/lang/Object;)Ljava/lang/Object;
+        |      13: checkcast     #36                 // class java/lang/Integer
         |      16: areturn
         |  public int shapeless_tag();
         |    Code:
         |       0: aload_0
-        |       1: invokevirtual #25                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
+        |       1: invokevirtual #26                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
         |       4: invokevirtual #39                 // Method eu/timepit/refined/scalaz/RefineAnyValTest.shapeless_tag:()I
         |       7: invokestatic  #45                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
         |      10: invokestatic  #49                 // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
@@ -67,13 +67,13 @@ class InferJavapSpec extends Properties("InferJavapTest") {
         |  public java.lang.Object scalaz_tag();
         |    Code:
         |       0: aload_0
-        |       1: invokevirtual #25                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
+        |       1: invokevirtual #26                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
         |       4: invokevirtual #53                 // Method eu/timepit/refined/scalaz/RefineAnyValTest.scalaz_tag:()Ljava/lang/Object;
         |       7: areturn
         |  public int unrefined();
         |    Code:
         |       0: aload_0
-        |       1: invokevirtual #25                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
+        |       1: invokevirtual #26                 // Method r:()Leu/timepit/refined/scalaz/RefineAnyValTest;
         |       4: invokevirtual #56                 // Method eu/timepit/refined/scalaz/RefineAnyValTest.unrefined:()I
         |       7: ireturn
         |  public eu.timepit.refined.scalaz.InferAnyValTest();
@@ -81,7 +81,7 @@ class InferJavapSpec extends Properties("InferJavapTest") {
         |       0: aload_0
         |       1: invokespecial #60                 // Method java/lang/Object."<init>":()V
         |       4: aload_0
-        |       5: new           #27                 // class eu/timepit/refined/scalaz/RefineAnyValTest
+        |       5: new           #28                 // class eu/timepit/refined/scalaz/RefineAnyValTest
         |       8: dup
         |       9: invokespecial #61                 // Method eu/timepit/refined/scalaz/RefineAnyValTest."<init>":()V
         |      12: putfield      #13                 // Field r:Leu/timepit/refined/scalaz/RefineAnyValTest;

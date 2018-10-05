@@ -17,6 +17,7 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.9.2"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
+val scalaCheckVersion_1_13 = "1.13.5"
 val scalaXmlVersion = "1.1.0"
 val scalazVersion = "7.2.26"
 val scodecVersion = "1.10.3"
@@ -38,6 +39,9 @@ def macroParadise(configuration: Configuration) = Def.setting {
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
+val scalaCheckDep_1_13 =
+  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion_1_13)
+
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
@@ -45,6 +49,7 @@ val moduleCrossPlatformMatrix = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalacheck_1_13" -> List(JVMPlatform, JSPlatform),
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
@@ -166,6 +171,7 @@ lazy val scalacheck = myCrossProject("scalacheck")
   .settings(
     //crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
+    target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -173,6 +179,22 @@ lazy val scalacheck = myCrossProject("scalacheck")
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
+
+lazy val scalacheck_1_13 =
+  CrossProject("scalacheck_1_13", file("scalacheck"))(
+    moduleCrossPlatformMatrix("scalacheck_1_13"): _*
+  ).configureCross(moduleCrossConfig("scalacheck", "scalacheck_1.13"))
+    .dependsOn(core % "compile->compile;test->test")
+    .settings(
+      libraryDependencies += scalaCheckDep_1_13.value,
+      target ~= (_ / "scalacheck-1.13"),
+      initialCommands += s"""
+      import org.scalacheck.Arbitrary
+    """
+    )
+
+lazy val scalacheck_1_13JVM = scalacheck_1_13.jvm
+lazy val scalacheck_1_13JS = scalacheck_1_13.js
 
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
@@ -260,10 +282,10 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
 
-def moduleCrossConfig(name: String): CrossProject => CrossProject = {
+def moduleCrossConfig(name: String, module: String): CrossProject => CrossProject = {
   val transform = (_: CrossProject)
     .in(file(s"modules/$name"))
-    .settings(moduleName := s"$projectName-$name")
+    .settings(moduleName := s"$projectName-$module")
     .settings(moduleCrossSettings)
 
   moduleCrossPlatformMatrix(name).foldRight(transform) {
@@ -275,6 +297,9 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject = {
       }
   }
 }
+
+def moduleCrossConfig(name: String): CrossProject => CrossProject =
+  moduleCrossConfig(name, name)
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,

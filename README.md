@@ -179,16 +179,17 @@ If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"            % "0.9.2",
-  "eu.timepit" %% "refined-cats"       % "0.9.2", // optional
-  "eu.timepit" %% "refined-eval"       % "0.9.2", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"   % "0.9.2", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig" % "0.9.2", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck" % "0.9.2", // optional
-  "eu.timepit" %% "refined-scalaz"     % "0.9.2", // optional
-  "eu.timepit" %% "refined-scodec"     % "0.9.2", // optional
-  "eu.timepit" %% "refined-scopt"      % "0.9.2", // optional
-  "eu.timepit" %% "refined-shapeless"  % "0.9.2"  // optional
+  "eu.timepit" %% "refined"                 % "0.9.2",
+  "eu.timepit" %% "refined-cats"            % "0.9.2", // optional
+  "eu.timepit" %% "refined-eval"            % "0.9.2", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.9.2", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.9.2", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.2", // optional, scalacheck 1.14
+  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.2", // optional, alternative to above with scalacheck 1.13
+  "eu.timepit" %% "refined-scalaz"          % "0.9.2", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.9.2", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.9.2", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.9.2"  // optional
 )
 ```
 
@@ -214,7 +215,9 @@ The project provides these optional extensions and library integrations:
 * `refined-pureconfig` allows to read configuration with refined types
   using [PureConfig](https://github.com/pureconfig/pureconfig)
 * `refined-scalacheck` allows to generate arbitrary values of refined types
-  with [ScalaCheck](http://scalacheck.org/)
+  with [ScalaCheck](http://scalacheck.org/).
+  Use `refined-scalacheck_1.13` instead if your other dependencies
+  use scalacheck version 1.13
 * `refined-scalaz` provides [Scalaz](https://github.com/scalaz/scalaz)
   type class instances for refined types and support for `scalaz.@@`
 * `refined-scodec` allows binary decoding and encoding of refined types with

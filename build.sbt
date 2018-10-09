@@ -167,7 +167,7 @@ lazy val pureconfig = myCrossProject("pureconfig")
 lazy val pureconfigJVM = pureconfig.jvm
 
 lazy val scalacheck = myCrossProject("scalacheck")
-  .dependsOn(core % "compile->compile;test->test")
+  .dependsOn(core)
   .settings(
     //crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
@@ -184,7 +184,7 @@ lazy val scalacheck_1_13 =
   CrossProject("scalacheck_1_13", file("scalacheck"))(
     moduleCrossPlatformMatrix("scalacheck_1_13"): _*
   ).configureCross(moduleCrossConfig("scalacheck", "scalacheck_1.13"))
-    .dependsOn(core % "compile->compile;test->test")
+    .dependsOn(core)
     .settings(
       libraryDependencies += scalaCheckDep_1_13.value,
       target ~= (_ / "scalacheck-1.13"),

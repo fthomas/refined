@@ -9,4 +9,5 @@ bincompatVersions in ThisBuild := Set(
 unreleasedModules in ThisBuild := Set(
   // Example:
   // "refined-eval"
+  "refined-scalacheck_1.13"
 )

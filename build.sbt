@@ -110,8 +110,9 @@ lazy val core = myCrossProject("core")
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
-    ) ++ (if (scalaVersion.value != Scala213) Seq(scalaCheckDep.value % Test) else Seq()),
+      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+      scalaCheckDep.value % Test
+    ),
     initialCommands += s"""
       import shapeless.tag.@@
     """,
@@ -169,7 +170,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    //crossScalaVersions += Scala213,
+    crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
     target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
@@ -476,8 +477,8 @@ lazy val releaseSettings = {
       releaseStepCommand(s"++$Scala213"),
       releaseStepCommand("coreJVM/publishSigned"),
       releaseStepCommand("coreJS/publishSigned"),
-      //releaseStepCommand("scalacheckJVM/publishSigned"),
-      //releaseStepCommand("scalacheckJS/publishSigned"),
+      releaseStepCommand("scalacheckJVM/publishSigned"),
+      releaseStepCommand("scalacheckJS/publishSigned"),
       releaseStepCommand("scalazJVM/publishSigned"),
       releaseStepCommand("scalazJS/publishSigned"),
       releaseStepCommand("shapelessJVM/publishSigned"),

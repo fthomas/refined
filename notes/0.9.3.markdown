@@ -5,7 +5,7 @@
   ([#539][#539] by [@cb372][@cb372])
 * Add refined types for `Byte`, `Short`, `BigInt`, and `BigDecimal`,
   like `PosByte`, `NonNegByte`, `NegByte`, etc.
-  ([#567][#567] by [Michaelt293][Michaelt293])
+  ([#567][#567] by [@Michaelt293][@Michaelt293])
 * Add new `refined-scalacheck_1.13` module which depends on ScalaCheck
   1.13 instead of ScalaCheck 1.14 which is used by `refined-scalacheck`.
   ([#573][#573] by [@liff][@liff])
@@ -14,7 +14,7 @@
 
 * Drop support for Scala 2.10. ([#537][#537] by [@fthomas][@fthomas])
 * Move `HexStringSpec` into the module for `String` predicates.
-  ([#568][#568] by [Michaelt293][Michaelt293])
+  ([#568][#568] by [@Michaelt293][@Michaelt293])
 
 ### Updates
 
@@ -27,7 +27,7 @@
 ### Documentation
 
 * Document missing `String` predicates in the README.
-  ([#565][#565] by [Michaelt293][Michaelt293])
+  ([#565][#565] by [@Michaelt293][@Michaelt293])
 
 [#537]: https://github.com/fthomas/refined/pull/537
 [#538]: https://github.com/fthomas/refined/pull/538
@@ -45,5 +45,5 @@
 [@cb372]: https://github.com/cb372
 [@fthomas]: https://github.com/fthomas
 [@liff]: https://github.com/liff
-[Michaelt293]: https://github.com/Michaelt293
+[@Michaelt293]: https://github.com/Michaelt293
 [@sh0hei]: https://github.com/sh0hei

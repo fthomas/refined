@@ -49,3 +49,5 @@
 [@liff]: https://github.com/liff
 [@Michaelt293]: https://github.com/Michaelt293
 [@sh0hei]: https://github.com/sh0hei
+
+Released on 2018-11-01

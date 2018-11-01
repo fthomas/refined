@@ -1,13 +1,14 @@
 package eu.timepit.refined.pureconfig
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{ConfigFactory, ConfigValueType}
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import pureconfig._
-import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure}
+import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure, WrongType}
+import pureconfig.generic.auto._
 
 class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
@@ -62,10 +63,9 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       Left(
         ConfigReaderFailures(
           ConvertFailure(
-            reason = CannotConvert(
-              value = "abc",
-              toType = "Int",
-              because = "java.lang.NumberFormatException: For input string: \"abc\""
+            reason = WrongType(
+              foundType = ConfigValueType.STRING,
+              expectedTypes = Set(ConfigValueType.NUMBER)
             ),
             location = None,
             path = "value"

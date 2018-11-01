@@ -14,7 +14,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 val catsVersion = "1.4.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.9.2"
+val pureconfigVersion = "0.10.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
 val scalaCheckVersion_1_13 = "1.13.5"
@@ -161,7 +161,8 @@ lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
-      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion
+      "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion,
+      "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
     )
   )
 

@@ -21,7 +21,8 @@
 * Update Scala.js to 0.6.24. ([#538][#538] by [@fthomas][@fthomas])
 * Update Scala Native to 0.3.8. ([#546][#546] by [@fthomas][@fthomas])
 * Update Cats, PureConfig, Scalaz, sbt, and various plugins.
-  ([#552][#552], [#555][#555], and [#562][#562] by [@sh0hei][@sh0hei])
+  ([#552][#552], [#555][#555], [#562][#562] and [#586][#586]
+  by [@sh0hei][@sh0hei], [@liff][@liff])
 * Update Scala 2.13 to 2.13.0-M5. ([#571][#571] by [@fthomas][@fthomas])
 
 ### Documentation
@@ -41,6 +42,7 @@
 [#568]: https://github.com/fthomas/refined/pull/568
 [#571]: https://github.com/fthomas/refined/pull/571
 [#573]: https://github.com/fthomas/refined/pull/573
+[#586]: https://github.com/fthomas/refined/pull/586
 
 [@cb372]: https://github.com/cb372
 [@fthomas]: https://github.com/fthomas

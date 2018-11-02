@@ -1,13 +1,14 @@
 package eu.timepit.refined.pureconfig
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{ConfigFactory, ConfigValueType}
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import pureconfig._
-import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure}
+import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure, WrongType}
+import pureconfig.generic.auto._
 
 class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
@@ -21,28 +22,36 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
   property("load failure (predicate)") = secure {
     val expected1 = Left(
-      ConfigReaderFailures(ConvertFailure(
-        reason = CannotConvert(
-          value = "0",
-          toType = "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
-          because = "Predicate failed: (0 > 0)."
-        ),
-        location = None,
-        path = "value"
-      )))
+      ConfigReaderFailures(
+        ConvertFailure(
+          reason = CannotConvert(
+            value = "0",
+            toType =
+              "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+            because = "Predicate failed: (0 > 0)."
+          ),
+          location = None,
+          path = "value"
+        )
+      )
+    )
 
     // Allow "scala.Int" instead of just "Int" in the toType parameter.
     // For some reason Scala 2.12 with sbt 1.1.2 uses the former.
     val expected2 = Left(
-      ConfigReaderFailures(ConvertFailure(
-        reason = CannotConvert(
-          value = "0",
-          toType = "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
-          because = "Predicate failed: (0 > 0)."
-        ),
-        location = None,
-        path = "value"
-      )))
+      ConfigReaderFailures(
+        ConvertFailure(
+          reason = CannotConvert(
+            value = "0",
+            toType =
+              "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+            because = "Predicate failed: (0 > 0)."
+          ),
+          location = None,
+          path = "value"
+        )
+      )
+    )
 
     val actual = loadConfigWithValue("0")
     (actual ?= expected1) ||
@@ -54,14 +63,15 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       Left(
         ConfigReaderFailures(
           ConvertFailure(
-            reason = CannotConvert(
-              value = "abc",
-              toType = "Int",
-              because = "java.lang.NumberFormatException: For input string: \"abc\""
+            reason = WrongType(
+              foundType = ConfigValueType.STRING,
+              expectedTypes = Set(ConfigValueType.NUMBER)
             ),
             location = None,
             path = "value"
-          )))
+          )
+        )
+      )
   }
 
   property("roundtrip success") = secure {

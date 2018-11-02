@@ -3,20 +3,51 @@
 * Add `refinedSize` as extension method to `cats.data.NonEmptyList`
   that returns the size of the `NonEmptyList` as a `PosInt`.
   ([#539][#539] by [@cb372][@cb372])
+* Add refined types for `Byte`, `Short`, `BigInt`, and `BigDecimal`,
+  like `PosByte`, `NonNegByte`, `NegByte`, etc.
+  ([#567][#567] by [@Michaelt293][@Michaelt293])
+* Add new `refined-scalacheck_1.13` module which depends on ScalaCheck
+  1.13 instead of ScalaCheck 1.14 which is used by `refined-scalacheck`.
+  ([#573][#573] by [@liff][@liff])
 
 ### Changes
 
 * Drop support for Scala 2.10. ([#537][#537] by [@fthomas][@fthomas])
+* Move `HexStringSpec` into the module for `String` predicates.
+  ([#568][#568] by [@Michaelt293][@Michaelt293])
 
 ### Updates
 
 * Update Scala.js to 0.6.24. ([#538][#538] by [@fthomas][@fthomas])
 * Update Scala Native to 0.3.8. ([#546][#546] by [@fthomas][@fthomas])
+* Update Cats, PureConfig, Scalaz, sbt, and various plugins.
+  ([#552][#552], [#555][#555], [#562][#562] and [#586][#586]
+  by [@sh0hei][@sh0hei], [@liff][@liff])
+* Update Scala 2.13 to 2.13.0-M5. ([#571][#571] by [@fthomas][@fthomas])
+
+### Documentation
+
+* Document missing `String` predicates in the README.
+  ([#565][#565] by [@Michaelt293][@Michaelt293])
 
 [#537]: https://github.com/fthomas/refined/pull/537
 [#538]: https://github.com/fthomas/refined/pull/538
 [#539]: https://github.com/fthomas/refined/pull/539
 [#546]: https://github.com/fthomas/refined/pull/546
+[#552]: https://github.com/fthomas/refined/pull/552
+[#555]: https://github.com/fthomas/refined/pull/555
+[#562]: https://github.com/fthomas/refined/pull/562
+[#565]: https://github.com/fthomas/refined/pull/565
+[#567]: https://github.com/fthomas/refined/pull/567
+[#568]: https://github.com/fthomas/refined/pull/568
+[#571]: https://github.com/fthomas/refined/pull/571
+[#573]: https://github.com/fthomas/refined/pull/573
+[#586]: https://github.com/fthomas/refined/pull/586
 
 [@cb372]: https://github.com/cb372
 [@fthomas]: https://github.com/fthomas
+[@liff]: https://github.com/liff
+[@Michaelt293]: https://github.com/Michaelt293
+[@sh0hei]: https://github.com/sh0hei
+
+Released on 2018-11-01

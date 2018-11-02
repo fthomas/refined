@@ -6,6 +6,46 @@ import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 /** Module for numeric refined types. */
 object numeric {
 
+  /** A `Byte` in the range from 1 to `Byte.MaxValue`. */
+  type PosByte = Byte Refined Positive
+
+  object PosByte extends RefinedTypeOps.Numeric[PosByte, Byte]
+
+  /** A `Byte` in the range from 0 to `Byte.MaxValue`. */
+  type NonNegByte = Byte Refined NonNegative
+
+  object NonNegByte extends RefinedTypeOps.Numeric[NonNegByte, Byte]
+
+  /** A `Byte` in the range from `Byte.MinValue` to -1. */
+  type NegByte = Byte Refined Negative
+
+  object NegByte extends RefinedTypeOps.Numeric[NegByte, Byte]
+
+  /** A `Byte` in the range from `Byte.MinValue` to 0. */
+  type NonPosByte = Byte Refined NonPositive
+
+  object NonPosByte extends RefinedTypeOps.Numeric[NonPosByte, Byte]
+
+  /** A `Short` in the range from 1 to `Short.MaxValue`. */
+  type PosShort = Short Refined Positive
+
+  object PosShort extends RefinedTypeOps.Numeric[PosShort, Short]
+
+  /** A `Short` in the range from 0 to `Short.MaxValue`. */
+  type NonNegShort = Short Refined NonNegative
+
+  object NonNegShort extends RefinedTypeOps.Numeric[NonNegShort, Short]
+
+  /** A `Short` in the range from `Short.MinValue` to -1. */
+  type NegShort = Short Refined Negative
+
+  object NegShort extends RefinedTypeOps.Numeric[NegShort, Short]
+
+  /** A `Short` in the range from `Short.MinValue` to 0. */
+  type NonPosShort = Short Refined NonPositive
+
+  object NonPosShort extends RefinedTypeOps.Numeric[NonPosShort, Short]
+
   /** An `Int` in the range from 1 to `Int.MaxValue`. */
   type PosInt = Int Refined Positive
 
@@ -46,6 +86,26 @@ object numeric {
 
   object NonPosLong extends RefinedTypeOps.Numeric[NonPosLong, Long]
 
+  /** A `BigInt` greater than 0. */
+  type PosBigInt = BigInt Refined Positive
+
+  object PosBigInt extends RefinedTypeOps[PosBigInt, BigInt]
+
+  /** A `BigInt` greater than or equal to 0. */
+  type NonNegBigInt = BigInt Refined NonNegative
+
+  object NonNegBigInt extends RefinedTypeOps[NonNegBigInt, BigInt]
+
+  /** A `BigInt` less than or equal to 0. */
+  type NegBigInt = BigInt Refined Negative
+
+  object NegBigInt extends RefinedTypeOps[NegBigInt, BigInt]
+
+  /** A `BigInt` less than or equal to 0. */
+  type NonPosBigInt = BigInt Refined NonPositive
+
+  object NonPosBigInt extends RefinedTypeOps[NonPosBigInt, BigInt]
+
   /** A `Float` greater than 0. */
   type PosFloat = Float Refined Positive
 
@@ -85,6 +145,26 @@ object numeric {
   type NonPosDouble = Double Refined NonPositive
 
   object NonPosDouble extends RefinedTypeOps.Numeric[NonPosDouble, Double]
+
+  /** A `BigDecimal` greater than 0. */
+  type PosBigDecimal = BigDecimal Refined Positive
+
+  object PosBigDecimal extends RefinedTypeOps[PosBigDecimal, BigDecimal]
+
+  /** A `BigDecimal` greater than or equal to 0. */
+  type NonNegBigDecimal = BigDecimal Refined NonNegative
+
+  object NonNegBigDecimal extends RefinedTypeOps[NonNegBigDecimal, BigDecimal]
+
+  /** A `BigDecimal` less than 0. */
+  type NegBigDecimal = BigDecimal Refined Negative
+
+  object NegBigDecimal extends RefinedTypeOps[NegBigDecimal, BigDecimal]
+
+  /** A `BigDecimal` less than or equal to 0. */
+  type NonPosBigDecimal = BigDecimal Refined NonPositive
+
+  object NonPosBigDecimal extends RefinedTypeOps[NonPosBigDecimal, BigDecimal]
 }
 
 trait NumericTypes {
@@ -135,4 +215,54 @@ trait NumericTypes {
 
   final type NonPosDouble = numeric.NonPosDouble
   final val NonPosDouble = numeric.NonPosDouble
+}
+
+trait NumericTypesBinCompat1 {
+  final type PosByte = numeric.PosByte
+  final val PosByte = numeric.PosByte
+
+  final type NonNegByte = numeric.NonNegByte
+  final val NonNegByte = numeric.NonNegByte
+
+  final type NegByte = numeric.NegByte
+  final val NegByte = numeric.NegByte
+
+  final type NonPosByte = numeric.NonPosByte
+  final val NonPosByte = numeric.NonPosByte
+
+  final type PosShort = numeric.PosShort
+  final val PosShort = numeric.PosShort
+
+  final type NonNegShort = numeric.NonNegShort
+  final val NonNegShort = numeric.NonNegShort
+
+  final type NegShort = numeric.NegShort
+  final val NegShort = numeric.NegShort
+
+  final type NonPosShort = numeric.NonPosShort
+  final val NonPosShort = numeric.NonPosShort
+
+  final type PosBigInt = numeric.PosBigInt
+  final val PosBigInt = numeric.PosBigInt
+
+  final type NonNegBigInt = numeric.NonNegBigInt
+  final val NonNegBigInt = numeric.NonNegBigInt
+
+  final type NegBigInt = numeric.NegBigInt
+  final val NegBigInt = numeric.NegBigInt
+
+  final type NonPosBigInt = numeric.NonPosBigInt
+  final val NonPosBigInt = numeric.NonPosBigInt
+
+  final type PosBigDecimal = numeric.PosBigDecimal
+  final val PosBigDecimal = numeric.PosBigDecimal
+
+  final type NonNegBigDecimal = numeric.NonNegBigDecimal
+  final val NonNegBigDecimal = numeric.NonNegBigDecimal
+
+  final type NegBigDecimal = numeric.NegBigDecimal
+  final val NegBigDecimal = numeric.NegBigDecimal
+
+  final type NonPosBigDecimal = numeric.NonPosBigDecimal
+  final val NonPosBigDecimal = numeric.NonPosBigDecimal
 }

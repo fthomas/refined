@@ -72,9 +72,13 @@ object string extends StringInference {
   /** Predicate that checks if a `String` has no leading or trailing whitespace. */
   final case class Trimmed()
 
+  /** Predicate that checks if a `String` represents a hexadecimal number. */
+  type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
+
   object EndsWith {
     implicit def endsWithValidate[S <: String](
-        implicit ws: Witness.Aux[S]): Validate.Plain[String, EndsWith[S]] =
+        implicit ws: Witness.Aux[S]
+    ): Validate.Plain[String, EndsWith[S]] =
       Validate.fromPredicate(
         _.endsWith(ws.value),
         t => s""""$t".endsWith("${ws.value}")""",
@@ -142,7 +146,8 @@ object string extends StringInference {
 
   object MatchesRegex {
     implicit def matchesRegexValidate[S <: String](
-        implicit ws: Witness.Aux[S]): Validate.Plain[String, MatchesRegex[S]] =
+        implicit ws: Witness.Aux[S]
+    ): Validate.Plain[String, MatchesRegex[S]] =
       Validate.fromPredicate(
         _.matches(ws.value),
         t => s""""$t".matches("${ws.value}")""",
@@ -157,7 +162,8 @@ object string extends StringInference {
 
   object StartsWith {
     implicit def startsWithValidate[S <: String](
-        implicit ws: Witness.Aux[S]): Validate.Plain[String, StartsWith[S]] =
+        implicit ws: Witness.Aux[S]
+    ): Validate.Plain[String, StartsWith[S]] =
       Validate.fromPredicate(
         _.startsWith(ws.value),
         t => s""""$t".startsWith("${ws.value}")""",

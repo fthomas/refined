@@ -11,22 +11,26 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val catsVersion = "1.2.0"
+val catsVersion = "1.4.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.9.1"
+val pureconfigVersion = "0.10.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
-val scalaXmlVersion = "1.1.0"
-val scalazVersion = "7.2.25"
+val scalaCheckVersion_1_13 = "1.13.5"
+val scalaXmlVersion = "1.1.1"
+val scalazVersion = "7.2.26"
 val scodecVersion = "1.10.3"
 val scoptVersion = "3.7.0"
 
 def macroParadise(configuration: Configuration) = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, v)) if v <= 12 =>
-      Seq(compilerPlugin(
-        ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration))
+      Seq(
+        compilerPlugin(
+          ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+        )
+      )
     case _ =>
       Seq.empty // https://github.com/scala/scala/pull/6606
   }
@@ -35,6 +39,9 @@ def macroParadise(configuration: Configuration) = Def.setting {
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
+val scalaCheckDep_1_13 =
+  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion_1_13)
+
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
@@ -42,6 +49,7 @@ val moduleCrossPlatformMatrix = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalacheck_1_13" -> List(JVMPlatform, JSPlatform),
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
@@ -57,7 +65,7 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala213 = "2.13.0-M4"
+val Scala213 = "2.13.0-M5"
 
 /// projects
 
@@ -153,17 +161,19 @@ lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
-      "com.github.pureconfig" %% "pureconfig" % pureconfigVersion
+      "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion,
+      "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
     )
   )
 
 lazy val pureconfigJVM = pureconfig.jvm
 
 lazy val scalacheck = myCrossProject("scalacheck")
-  .dependsOn(core % "compile->compile;test->test")
+  .dependsOn(core)
   .settings(
     crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
+    target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -171,6 +181,22 @@ lazy val scalacheck = myCrossProject("scalacheck")
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
+
+lazy val scalacheck_1_13 =
+  CrossProject("scalacheck_1_13", file("scalacheck"))(
+    moduleCrossPlatformMatrix("scalacheck_1_13"): _*
+  ).configureCross(moduleCrossConfig("scalacheck", "scalacheck_1.13"))
+    .dependsOn(core)
+    .settings(
+      libraryDependencies += scalaCheckDep_1_13.value,
+      target ~= (_ / "scalacheck-1.13"),
+      initialCommands += s"""
+      import org.scalacheck.Arbitrary
+    """
+    )
+
+lazy val scalacheck_1_13JVM = scalacheck_1_13.jvm
+lazy val scalacheck_1_13JS = scalacheck_1_13.js
 
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
@@ -258,10 +284,10 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
 
-def moduleCrossConfig(name: String): CrossProject => CrossProject = {
+def moduleCrossConfig(name: String, module: String): CrossProject => CrossProject = {
   val transform = (_: CrossProject)
     .in(file(s"modules/$name"))
-    .settings(moduleName := s"$projectName-$name")
+    .settings(moduleName := s"$projectName-$module")
     .settings(moduleCrossSettings)
 
   moduleCrossPlatformMatrix(name).foldRight(transform) {
@@ -273,6 +299,9 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject = {
       }
   }
 }
+
+def moduleCrossConfig(name: String): CrossProject => CrossProject =
+  moduleCrossConfig(name, name)
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,
@@ -317,10 +346,13 @@ lazy val metadataSettings = Def.settings(
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl"))),
   developers := List(
-    Developer(id = "fthomas",
-              name = "Frank S. Thomas",
-              email = "",
-              url("https://github.com/fthomas")))
+    Developer(
+      id = "fthomas",
+      name = "Frank S. Thomas",
+      email = "",
+      url("https://github.com/fthomas")
+    )
+  )
 )
 
 lazy val compileSettings = Def.settings(
@@ -347,7 +379,7 @@ lazy val compileSettings = Def.settings(
         Seq(
           "-Xlint:-unused,_",
           //"-Ywarn-unused:implicits",
-          "-Ywarn-unused:imports",
+          "-Ywarn-unused:imports"
           //"-Ywarn-unused:locals",
           //"-Ywarn-unused:params",
           //"-Ywarn-unused:patvars"
@@ -378,8 +410,11 @@ lazy val scaladocSettings = Def.settings(
     val binaryScalaVersion = CrossVersion.binaryScalaVersion(scalaVersion.value)
     val refinedVersion = if (isSnapshot.value) latestVersion.value else version.value
     val indexHtml = rootPkg.replace('.', '/') + "/index.html"
-    Some(url(
-      s"https://static.javadoc.io/$groupId/${moduleName.value}_$binaryScalaVersion/$refinedVersion/$indexHtml"))
+    Some(
+      url(
+        s"https://static.javadoc.io/$groupId/${moduleName.value}_$binaryScalaVersion/$refinedVersion/$indexHtml"
+      )
+    )
   }
 )
 

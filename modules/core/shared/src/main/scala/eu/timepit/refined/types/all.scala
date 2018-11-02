@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 /** Module for all predefined refined types. */
-object all extends AllTypes
+object all extends AllTypes with AllTypesBinCompat1
 
 trait AllTypes
     extends CharTypes
@@ -10,3 +10,5 @@ trait AllTypes
     with NumericTypes
     with StringTypes
     with TimeTypes
+
+trait AllTypesBinCompat1 extends NumericTypesBinCompat1

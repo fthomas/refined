@@ -12,7 +12,8 @@ object generic {
    * Typical examples for `G` are encoders.
    */
   implicit def refTypeViaContravariant[F[_, _], G[_], T, P](
-      implicit c: Contravariant[G],
+      implicit
+      c: Contravariant[G],
       rt: RefType[F],
       gt: G[T]
   ): G[F[T, P]] = c.contramap(gt)(rt.unwrap)
@@ -24,7 +25,8 @@ object generic {
    * Typical examples for `G` are decoders.
    */
   implicit def refTypeViaMonadError[F[_, _], G[_], T, P](
-      implicit m: MonadError[G, String],
+      implicit
+      m: MonadError[G, String],
       rt: RefType[F],
       v: Validate[T, P],
       gt: G[T]

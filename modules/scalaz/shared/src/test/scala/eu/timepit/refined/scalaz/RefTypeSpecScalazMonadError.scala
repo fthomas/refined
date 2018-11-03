@@ -3,13 +3,13 @@
 
 package eu.timepit.refined.scalaz
 
-import _root_.scalaz.{@@, \/, MonadError, ReaderT}
 import _root_.scalaz.Isomorphism.{<~>, IsoFunctorTemplate}
 import _root_.scalaz.syntax.either._
+import _root_.scalaz.{@@, MonadError, ReaderT, \/}
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
-import org.scalacheck._
 import org.scalacheck.Prop._
+import org.scalacheck.Properties
 
 trait Decoder[A] {
   def decode(s: String): String \/ A
@@ -38,6 +38,7 @@ class RefTypeSpecScalazMonadError extends Properties("scalaz.Contravariant") {
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
   import Decoder.monad
+  import eu.timepit.refined.scalaz.generic._
 
   property("Refined via scalaz.MonadError[?, String]") = secure {
     val decoder = Decoder[String Refined NonEmpty]

@@ -33,7 +33,7 @@ class RefTypeContravariantSpec extends Properties("Contravariant") {
   }
 
   property("derive Encoder[PosInt] via Contravariant[Encoder]") = secure {
-    // These imports are needed because of https://github.com/scala/bug/issues/10753
+    // This import is needed because of https://github.com/scala/bug/issues/10753
     import Encoder.encoderContravariant
     import eu.timepit.refined.cats.generic._
 

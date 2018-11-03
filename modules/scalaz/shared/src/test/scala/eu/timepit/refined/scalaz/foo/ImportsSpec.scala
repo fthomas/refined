@@ -1,14 +1,14 @@
-package eu.timepit.refined.cats.foo
+package eu.timepit.refined.scalaz.foo
 
-import _root_.cats.implicits._
-import eu.timepit.refined.cats._
+import eu.timepit.refined.scalaz._
 import eu.timepit.refined.types.string.NonEmptyString
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
+import scalaz.Scalaz._
 
 class ImportsSpec extends Properties("imports") {
 
   property("NonEmptyString.show") = secure {
-    NonEmptyString.unsafeFrom("abc").show ?= "abc"
+    NonEmptyString.unsafeFrom("abc").shows ?= "\"abc\""
   }
 }

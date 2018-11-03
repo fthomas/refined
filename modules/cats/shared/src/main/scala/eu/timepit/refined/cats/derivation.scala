@@ -3,7 +3,9 @@ package eu.timepit.refined.cats
 import cats.{Contravariant, MonadError}
 import eu.timepit.refined.api.{RefType, Validate}
 
-object generic {
+object derivation extends DerivationInstances
+
+trait DerivationInstances {
 
   /**
    * `G` instance for refined types derived via `Contravariant[G]`

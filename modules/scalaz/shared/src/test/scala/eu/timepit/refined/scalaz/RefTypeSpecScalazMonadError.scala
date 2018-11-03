@@ -38,7 +38,7 @@ class RefTypeSpecScalazMonadError extends Properties("scalaz.Contravariant") {
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
   import Decoder.monad
-  import eu.timepit.refined.scalaz.generic._
+  import eu.timepit.refined.scalaz.derivation._
 
   property("Refined via scalaz.MonadError[?, String]") = secure {
     val decoder = Decoder[String Refined NonEmpty]

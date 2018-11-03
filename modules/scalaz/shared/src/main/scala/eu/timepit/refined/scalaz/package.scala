@@ -33,14 +33,14 @@ package object scalaz {
    * instance of the base type.
    */
   implicit def refTypeEqual[F[_, _], T: Equal, P](implicit rt: RefType[F]): Equal[F[T, P]] =
-    scalaz.generic.refTypeContravariant[F, Equal, T, P]
+    scalaz.derivation.refTypeContravariant[F, Equal, T, P]
 
   /**
    * `Show` instance for refined types that delegates to the `Show`
    * instance of the base type.
    */
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
-    scalaz.generic.refTypeContravariant[F, Show, T, P]
+    scalaz.derivation.refTypeContravariant[F, Show, T, P]
 
   @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
   def refTypeContravariant[R[_, _], F[_], A, B](
@@ -49,7 +49,7 @@ package object scalaz {
       R: RefType[R],
       F: F[A]
   ): F[R[A, B]] =
-    scalaz.generic.refTypeContravariant[R, F, A, B]
+    scalaz.derivation.refTypeContravariant[R, F, A, B]
 
   @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
   def refTypeMonadError[R[_, _], F[_], A, B](
@@ -59,5 +59,5 @@ package object scalaz {
       V: Validate[A, B],
       F: F[A]
   ): F[R[A, B]] =
-    scalaz.generic.refTypeMonadError[R, F, A, B]
+    scalaz.derivation.refTypeMonadError[R, F, A, B]
 }

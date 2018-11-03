@@ -1,8 +1,8 @@
 ### Bug fixes
 
-* Move generic instances for `RefType` into new `cats.generic` and
-  `scalaz.generic` modules to fix "diverging implicit expansion" errors
-  with wildcard imports of `cats._` and `scalaz._`.
+* Move derivation instances for `RefType` into new `cats.derivation`
+  and `scalaz.derivation` modules to fix "diverging implicit expansion"
+  errors with wildcard imports of `cats._` and `scalaz._`.
   ([#554][#554] by [@fthomas][@fthomas])
 
 [#554]: https://github.com/fthomas/refined/pull/554

@@ -75,7 +75,7 @@ class RefTypeMonadErrorSpec extends Properties("MonadError") {
   property("derive Decoder[PosInt] via MonadError[Decoder, String]") = {
     // This import is needed because of https://github.com/scala/bug/issues/10753
     import Decoder.decoderMonadError
-    import eu.timepit.refined.cats.generic._
+    import eu.timepit.refined.cats.derivation._
 
     val decoder = Decoder[PosInt]
     (decoder.decode("1") ?= Right(PosInt.unsafeFrom(1))) &&

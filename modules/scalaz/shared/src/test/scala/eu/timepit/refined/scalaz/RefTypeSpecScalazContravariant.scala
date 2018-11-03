@@ -31,7 +31,7 @@ class RefTypeSpecScalazContravariant extends Properties("scalaz.Contravariant") 
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
   import Encoder._
-  import eu.timepit.refined.scalaz.generic._
+  import eu.timepit.refined.scalaz.derivation._
 
   property("Refined via scalaz.Contravariant") = secure {
     import eu.timepit.refined.auto._

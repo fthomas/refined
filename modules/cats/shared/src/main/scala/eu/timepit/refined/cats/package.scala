@@ -12,21 +12,21 @@ package object cats {
    * instance of the base type.
    */
   implicit def refTypeEq[F[_, _], T: Eq, P](implicit rt: RefType[F]): Eq[F[T, P]] =
-    cats.generic.refTypeViaContravariant[F, Eq, T, P]
+    cats.derivation.refTypeViaContravariant[F, Eq, T, P]
 
   /**
    * `Order` instance for refined types that delegates to the `Order`
    * instance of the base type.
    */
   implicit def refTypeOrder[F[_, _], T: Order, P](implicit rt: RefType[F]): Order[F[T, P]] =
-    cats.generic.refTypeViaContravariant[F, Order, T, P]
+    cats.derivation.refTypeViaContravariant[F, Order, T, P]
 
   /**
    * `Show` instance for refined types that delegates to the `Show`
    * instance of the base type.
    */
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
-    cats.generic.refTypeViaContravariant[F, Show, T, P]
+    cats.derivation.refTypeViaContravariant[F, Show, T, P]
 
   @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
   def refTypeViaContravariant[F[_, _], G[_], T, P](
@@ -34,7 +34,7 @@ package object cats {
       rt: RefType[F],
       gt: G[T]
   ): G[F[T, P]] =
-    cats.generic.refTypeViaContravariant[F, G, T, P]
+    cats.derivation.refTypeViaContravariant[F, G, T, P]
 
   @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
   def refTypeViaMonadError[F[_, _], G[_], T, P](
@@ -43,5 +43,5 @@ package object cats {
       v: Validate[T, P],
       gt: G[T]
   ): G[F[T, P]] =
-    cats.generic.refTypeViaMonadError[F, G, T, P]
+    cats.derivation.refTypeViaMonadError[F, G, T, P]
 }

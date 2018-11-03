@@ -6,7 +6,9 @@ package eu.timepit.refined.scalaz
 import eu.timepit.refined.api.{RefType, Validate}
 import scalaz.{Contravariant, MonadError}
 
-object generic {
+object derivation extends DerivationInstances
+
+trait DerivationInstances {
 
   /**
    * Instances for typeclasses with a `Contravariant`, e.g. encoders.

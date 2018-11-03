@@ -28,7 +28,7 @@ package object cats {
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
     cats.derivation.refTypeViaContravariant[F, Show, T, P]
 
-  @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
+  @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
   def refTypeViaContravariant[F[_, _], G[_], T, P](
       implicit c: Contravariant[G],
       rt: RefType[F],
@@ -36,7 +36,7 @@ package object cats {
   ): G[F[T, P]] =
     cats.derivation.refTypeViaContravariant[F, G, T, P]
 
-  @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
+  @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
   def refTypeViaMonadError[F[_, _], G[_], T, P](
       implicit m: MonadError[G, String],
       rt: RefType[F],

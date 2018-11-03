@@ -42,7 +42,7 @@ package object scalaz {
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
     scalaz.derivation.refTypeViaContravariant[F, Show, T, P]
 
-  @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
+  @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
   def refTypeContravariant[R[_, _], F[_], A, B](
       implicit
       C: Contravariant[F],
@@ -51,7 +51,7 @@ package object scalaz {
   ): F[R[A, B]] =
     scalaz.derivation.refTypeViaContravariant[R, F, A, B]
 
-  @deprecated("Generic instances have been moved into the `generic` object", "0.9.4")
+  @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
   def refTypeMonadError[R[_, _], F[_], A, B](
       implicit
       M: MonadError[F, String],

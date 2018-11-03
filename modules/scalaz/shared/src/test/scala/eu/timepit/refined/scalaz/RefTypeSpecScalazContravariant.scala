@@ -6,8 +6,8 @@ package eu.timepit.refined.scalaz
 import _root_.scalaz.{@@, Contravariant}
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
-import org.scalacheck._
 import org.scalacheck.Prop._
+import org.scalacheck.Properties
 
 trait Encoder[A] {
   def encode(a: A): String
@@ -31,6 +31,7 @@ class RefTypeSpecScalazContravariant extends Properties("scalaz.Contravariant") 
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
   import Encoder._
+  import eu.timepit.refined.scalaz.derivation._
 
   property("Refined via scalaz.Contravariant") = secure {
     import eu.timepit.refined.auto._

@@ -8,8 +8,8 @@ import _root_.scalaz.Isomorphism.{<~>, IsoFunctorTemplate}
 import _root_.scalaz.syntax.either._
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
-import org.scalacheck._
 import org.scalacheck.Prop._
+import org.scalacheck.Properties
 
 trait Decoder[A] {
   def decode(s: String): String \/ A
@@ -38,6 +38,7 @@ class RefTypeSpecScalazMonadError extends Properties("scalaz.Contravariant") {
   // annoying that this import is needed!
   // https://github.com/scala/bug/issues/10753#issuecomment-369592913
   import Decoder.monad
+  import eu.timepit.refined.scalaz.derivation._
 
   property("Refined via scalaz.MonadError[?, String]") = secure {
     val decoder = Decoder[String Refined NonEmpty]

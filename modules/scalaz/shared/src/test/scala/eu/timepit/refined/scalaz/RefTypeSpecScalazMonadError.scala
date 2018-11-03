@@ -3,9 +3,9 @@
 
 package eu.timepit.refined.scalaz
 
+import _root_.scalaz.{@@, \/, MonadError, ReaderT}
 import _root_.scalaz.Isomorphism.{<~>, IsoFunctorTemplate}
 import _root_.scalaz.syntax.either._
-import _root_.scalaz.{@@, MonadError, ReaderT, \/}
 import eu.timepit.refined.api._
 import eu.timepit.refined.collection._
 import org.scalacheck.Prop._

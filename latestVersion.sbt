@@ -7,4 +7,5 @@ bincompatVersions in ThisBuild := Set(
 unreleasedModules in ThisBuild := Set(
   // Example:
   // "refined-eval"
+  "refined-syntax"
 )

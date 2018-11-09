@@ -12,6 +12,7 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val catsVersion = "1.4.0"
+val contextualVersion = "1.1.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.10.0"
@@ -53,7 +54,8 @@ val moduleCrossPlatformMatrix = Map(
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "syntax" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
 def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
@@ -255,6 +257,18 @@ lazy val shapeless = myCrossProject("shapeless")
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
 lazy val shapelessNative = shapeless.native
+
+lazy val syntax = myCrossProject("syntax")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "com.propensive" %% "contextual" % contextualVersion,
+    crossScalaVersions += Scala213,
+    initialCommands += s"""
+      import $rootPkg.syntax._
+    """
+  )
+
+lazy val syntaxJVM = syntax.jvm
 
 /// settings
 
@@ -484,6 +498,7 @@ lazy val releaseSettings = {
       releaseStepCommand("scalazJS/publishSigned"),
       releaseStepCommand("shapelessJVM/publishSigned"),
       releaseStepCommand("shapelessJS/publishSigned"),
+      releaseStepCommand("syntaxJVM/publishSigned"),
       releaseStepCommand(s"++$Scala211"),
       releaseStepCommand("coreNative/publishSigned"),
       releaseStepCommand("scalazNative/publishSigned"),

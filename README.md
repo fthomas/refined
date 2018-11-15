@@ -278,6 +278,7 @@ opening a pull request to list it here:
 
 * [AutoScout24](http://techblog.scout24.com/)
 * [Besedo](https://besedo.com/)
+* [Colisweb](https://www.colisweb.com/fr/)
 * [HolidayCheck](http://techblog.holidaycheck.com/)
 * [Zalando](https://tech.zalando.de/)
 

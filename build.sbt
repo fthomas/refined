@@ -88,6 +88,9 @@ lazy val benchmark = project
   .dependsOn(coreJVM)
   .enablePlugins(JmhPlugin)
   .settings(noPublishSettings)
+  .settings(
+    libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value
+  )
 
 lazy val cats = myCrossProject("cats")
   .dependsOn(core % "compile->compile;test->test")
@@ -108,7 +111,6 @@ lazy val core = myCrossProject("core")
     crossScalaVersions += Scala213,
     libraryDependencies ++= macroParadise(Compile).value ++ Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-      scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       scalaCheckDep.value % Test

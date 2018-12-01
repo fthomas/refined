@@ -11,7 +11,7 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val catsVersion = "1.4.0"
+val catsVersion = "1.5.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.10.1"

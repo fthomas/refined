@@ -5,7 +5,7 @@
   crashes like [#260][#260].
 * Remove "provided" from the dependency on the Scala compiler again.
   This means that you do not need to add a dependency on the compiler if
-  you are using refined's macros. ([#268][#268]) See [#256][#256] for more
+  you are using refined's macros. ([#269][#269]) See [#256][#256] for more
   details.
 
 ### Updates
@@ -22,6 +22,6 @@
 [#262]: https://github.com/fthomas/refined/pull/262
 [#264]: https://github.com/fthomas/refined/pull/264
 [#267]: https://github.com/fthomas/refined/pull/267
-[#268]: https://github.com/fthomas/refined/pull/268
+[#269]: https://github.com/fthomas/refined/pull/269
 
 Released on 2017-03-17

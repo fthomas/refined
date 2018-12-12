@@ -1,7 +1,7 @@
 package eu.timepit.refined.types
 
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
-import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
+import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, NotNaN, Positive}
 
 /** Module for numeric refined types. */
 object numeric {
@@ -165,6 +165,16 @@ object numeric {
   type NonPosBigDecimal = BigDecimal Refined NonPositive
 
   object NonPosBigDecimal extends RefinedTypeOps[NonPosBigDecimal, BigDecimal]
+
+  /** A `Float` that is not NaN. */
+  type FloatNotNaN = Float Refined NotNaN
+
+  object FloatNotNaN extends RefinedTypeOps[FloatNotNaN, Float]
+
+  /** A `Double` that is not NaN. */
+  type DoubleNotNaN = Double Refined NotNaN
+
+  object DoubleNotNaN extends RefinedTypeOps[DoubleNotNaN, Double]
 }
 
 trait NumericTypes {
@@ -215,6 +225,12 @@ trait NumericTypes {
 
   final type NonPosDouble = numeric.NonPosDouble
   final val NonPosDouble = numeric.NonPosDouble
+
+  final type FloatNotNaN = numeric.FloatNotNaN
+  final val FloatNotNaN = numeric.FloatNotNaN
+
+  final type DoubleNotNaN = numeric.DoubleNotNaN
+  final val DoubleNotNaN = numeric.DoubleNotNaN
 }
 
 trait NumericTypesBinCompat1 {

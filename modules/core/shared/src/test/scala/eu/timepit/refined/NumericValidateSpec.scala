@@ -2,8 +2,8 @@ package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.numeric._
+import org.scalacheck.{Arbitrary, Gen, Properties}
 import org.scalacheck.Prop._
-import org.scalacheck.Properties
 import shapeless.nat._
 
 class NumericValidateSpec extends Properties("NumericValidate") {
@@ -179,4 +179,24 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     val s = showExpr[Interval.Closed[_0, _1]](0.5)
     (s ?= "(!(0.5 < 0) && !(0.5 > 1))") || (s ?= "(!(0.5 < 0.0) && !(0.5 > 1.0))")
   }
+
+  val floatWithNaN: Gen[Float] = Gen.frequency(8 -> Arbitrary.arbitrary[Float], 2 -> Float.NaN)
+  val doubleWithNaN: Gen[Double] = Gen.frequency(8 -> Arbitrary.arbitrary[Double], 2 -> Double.NaN)
+
+  property("NotNaN.Float.isValid") = forAll(floatWithNaN) { (d: Float) =>
+    isValid[NotNaN](d) ?= !d.isNaN
+  }
+
+  property("NotNaN.Float.showExpr") = secure {
+    showExpr[NotNaN](Float.NaN) ?= "NaN != NaN"
+  }
+
+  property("NotNaN.Double.isValid") = forAll(doubleWithNaN) { (d: Double) =>
+    isValid[NotNaN](d) ?= !d.isNaN
+  }
+
+  property("NotNaN.Double.showExpr") = secure {
+    showExpr[NotNaN](Double.NaN) ?= "NaN != NaN"
+  }
+
 }

@@ -57,6 +57,16 @@ trait NumericInstances {
   ): Arbitrary[F[T, GreaterEqual[N]]] =
     rangeClosedArbitrary(wn.snd, max.max)
 
+  implicit def floatNotNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Float]
+  ): Arbitrary[F[Float, NotNaN]] =
+    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
+
+  implicit def doubleNotNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Double]
+  ): Arbitrary[F[Double, NotNaN]] =
+    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
+
   ///
 
   implicit def intervalOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](

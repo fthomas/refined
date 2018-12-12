@@ -41,6 +41,9 @@ object numeric extends NumericInference {
   /** Predicate that checks if an integral value modulo `N` is `O`. */
   final case class Modulo[N, O](n: N, o: O)
 
+  /** Predicate that checks if a floating-point number value is not NaN. */
+  case class NotNaN()
+
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
   type LessEqual[N] = Not[Greater[N]]
 
@@ -116,6 +119,14 @@ object numeric extends NumericInference {
         t => s"($t % ${wn.snd} == ${wo.snd})",
         Modulo(wn.fst, wo.fst)
       )
+  }
+
+  object NotNaN {
+    implicit def floatNotNaNValidate: Validate.Plain[Float, NotNaN] = fromIsNaN(_.isNaN)
+    implicit def doubleNotNaNValidate: Validate.Plain[Double, NotNaN] = fromIsNaN(_.isNaN)
+
+    def fromIsNaN[A](isNaN: A => Boolean): Validate.Plain[A, NotNaN] =
+      Validate.fromPredicate(x => !isNaN(x), x => s"$x != NaN", NotNaN())
   }
 }
 

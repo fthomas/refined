@@ -14,6 +14,9 @@ trait NumericPredicates {
   final type Modulo[N, O] = refined.numeric.Modulo[N, O]
   final val Modulo = refined.numeric.Modulo
 
+  final type NotNaN = refined.numeric.NotNaN
+  final val NotNaN = refined.numeric.NotNaN
+
   final type LessEqual[N] = refined.numeric.LessEqual[N]
 
   final type GreaterEqual[N] = refined.numeric.GreaterEqual[N]

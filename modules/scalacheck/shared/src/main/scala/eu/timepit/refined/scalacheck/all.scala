@@ -5,6 +5,7 @@ object all
     with CharInstances
     with GenericInstances
     with NumericInstances
+    with NumericInstancesBinCompat1
     with RefTypeInstances
     with StringInstances
     with StringInstancesBinCompat1

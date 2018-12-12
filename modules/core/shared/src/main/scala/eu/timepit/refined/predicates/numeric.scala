@@ -2,7 +2,7 @@ package eu.timepit.refined.predicates
 
 import eu.timepit.refined
 
-object numeric extends NumericPredicates
+object numeric extends NumericPredicates with NumericPredicatesBinCompat1
 
 trait NumericPredicates {
   final type Less[N] = refined.numeric.Less[N]
@@ -13,9 +13,6 @@ trait NumericPredicates {
 
   final type Modulo[N, O] = refined.numeric.Modulo[N, O]
   final val Modulo = refined.numeric.Modulo
-
-  final type NotNaN = refined.numeric.NotNaN
-  final val NotNaN = refined.numeric.NotNaN
 
   final type LessEqual[N] = refined.numeric.LessEqual[N]
 
@@ -38,4 +35,9 @@ trait NumericPredicates {
   final type Odd = refined.numeric.Odd
 
   final val Interval = refined.numeric.Interval
+}
+
+trait NumericPredicatesBinCompat1 {
+  final type NotNaN = refined.numeric.NotNaN
+  final val NotNaN = refined.numeric.NotNaN
 }

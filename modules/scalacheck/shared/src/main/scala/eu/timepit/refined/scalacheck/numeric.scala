@@ -10,7 +10,7 @@ import org.scalacheck.Gen.Choose
  * Module that provides `Arbitrary` instances and generators for
  * numeric predicates.
  */
-object numeric extends NumericInstances
+object numeric extends NumericInstances with NumericInstancesBinCompat1
 
 trait NumericInstances {
 
@@ -56,16 +56,6 @@ trait NumericInstances {
       wn: WitnessAs[N, T]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
     rangeClosedArbitrary(wn.snd, max.max)
-
-  implicit def floatNotNaNArbitrary[F[_, _]: RefType](
-      implicit arb: Arbitrary[Float]
-  ): Arbitrary[F[Float, NotNaN]] =
-    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
-
-  implicit def doubleNotNaNArbitrary[F[_, _]: RefType](
-      implicit arb: Arbitrary[Double]
-  ): Arbitrary[F[Double, NotNaN]] =
-    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
 
   ///
 
@@ -120,4 +110,16 @@ trait NumericInstances {
       max: T
   ): Arbitrary[F[T, P]] =
     arbitraryRefType(Gen.chooseNum(min, max))
+}
+
+trait NumericInstancesBinCompat1 {
+  implicit def floatNotNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Float]
+  ): Arbitrary[F[Float, NotNaN]] =
+    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
+
+  implicit def doubleNotNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Double]
+  ): Arbitrary[F[Double, NotNaN]] =
+    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
 }

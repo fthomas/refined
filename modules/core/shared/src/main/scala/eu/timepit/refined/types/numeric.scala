@@ -225,12 +225,6 @@ trait NumericTypes {
 
   final type NonPosDouble = numeric.NonPosDouble
   final val NonPosDouble = numeric.NonPosDouble
-
-  final type FloatNotNaN = numeric.FloatNotNaN
-  final val FloatNotNaN = numeric.FloatNotNaN
-
-  final type DoubleNotNaN = numeric.DoubleNotNaN
-  final val DoubleNotNaN = numeric.DoubleNotNaN
 }
 
 trait NumericTypesBinCompat1 {
@@ -281,4 +275,12 @@ trait NumericTypesBinCompat1 {
 
   final type NonPosBigDecimal = numeric.NonPosBigDecimal
   final val NonPosBigDecimal = numeric.NonPosBigDecimal
+}
+
+trait NumericTypesBinCompat2 {
+  final type FloatNotNaN = numeric.FloatNotNaN
+  final val FloatNotNaN = numeric.FloatNotNaN
+
+  final type DoubleNotNaN = numeric.DoubleNotNaN
+  final val DoubleNotNaN = numeric.DoubleNotNaN
 }

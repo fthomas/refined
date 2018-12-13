@@ -1,3 +1,8 @@
+### New features
+
+* Add `NonNaN` predicate that checks if a floating-point is not NaN.
+  ([#596][#596] by [@dcastro][@dcastro])
+
 ### Bug fixes
 
 * Move derivation instances for `RefType` into new `cats.derivation`
@@ -5,6 +10,14 @@
   errors with wildcard imports of `cats._` and `scalaz._`.
   ([#554][#554] by [@fthomas][@fthomas])
 
-[#554]: https://github.com/fthomas/refined/pull/554
+### Updates
 
+* Update scopt to 3.7.1. ([#597][#597] by [@scala-steward][@scala-steward])
+
+[#554]: https://github.com/fthomas/refined/pull/554
+[#596]: https://github.com/fthomas/refined/pull/596
+[#597]: https://github.com/fthomas/refined/pull/597
+
+[@dcastro]: https://github.com/dcastro
 [@fthomas]: https://github.com/fthomas
+[@scala-steward]: https://github.com/scala-steward

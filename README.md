@@ -407,6 +407,7 @@ The following people have helped making **refined** great:
 * [Denys Shabalin](https://github.com/densh)
 * [Derek Morr](https://github.com/derekmorr)
 * [Didac](https://github.com/umbreak)
+* [Diogo Castro](https://github.com/dcastro)
 * [Frank S. Thomas](https://github.com/fthomas)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)

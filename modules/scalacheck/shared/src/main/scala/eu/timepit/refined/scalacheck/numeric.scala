@@ -10,7 +10,7 @@ import org.scalacheck.Gen.Choose
  * Module that provides `Arbitrary` instances and generators for
  * numeric predicates.
  */
-object numeric extends NumericInstances
+object numeric extends NumericInstances with NumericInstancesBinCompat1
 
 trait NumericInstances {
 
@@ -110,4 +110,16 @@ trait NumericInstances {
       max: T
   ): Arbitrary[F[T, P]] =
     arbitraryRefType(Gen.chooseNum(min, max))
+}
+
+trait NumericInstancesBinCompat1 {
+  implicit def floatNonNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Float]
+  ): Arbitrary[F[Float, NonNaN]] =
+    arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0f else x))
+
+  implicit def doubleNonNaNArbitrary[F[_, _]: RefType](
+      implicit arb: Arbitrary[Double]
+  ): Arbitrary[F[Double, NonNaN]] =
+    arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0d else x))
 }

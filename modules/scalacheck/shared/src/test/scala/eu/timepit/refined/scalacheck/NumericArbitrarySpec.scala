@@ -4,7 +4,7 @@ import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.scalacheck.numeric._
-import eu.timepit.refined.types.numeric.{NegDouble, NonNegInt, NonNegLong, PosFloat}
+import eu.timepit.refined.types.numeric._
 import eu.timepit.refined.types.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -35,6 +35,10 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
   property("GreaterEqual[123]") = checkArbitraryRefinedType[Int Refined GreaterEqual[W.`-123`.T]]
 
   property("GreaterEqual[_10]") = checkArbitraryRefinedType[Int Refined GreaterEqual[_10]]
+
+  property("NonNaNFloat") = checkArbitraryRefinedType[NonNaNFloat]
+
+  property("NonNaNDouble") = checkArbitraryRefinedType[NonNaNDouble]
 
   property("PosFloat") = checkArbitraryRefinedType[PosFloat]
 

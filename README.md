@@ -369,7 +369,7 @@ The library comes with these predefined predicates:
 * `NonDivisible[N]`: checks if an integral value is not evenly divisible by `N`
 * `Even`: checks if an integral value is evenly divisible by 2
 * `Odd`: checks if an integral value is not evenly divisible by 2
-* `NotNaN`: checks if a floating-point number is not NaN
+* `NonNaN`: checks if a floating-point number is not NaN
 
 [`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/string.scala)
 

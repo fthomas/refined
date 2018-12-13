@@ -183,20 +183,20 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   val floatWithNaN: Gen[Float] = Gen.frequency(8 -> Arbitrary.arbitrary[Float], 2 -> Float.NaN)
   val doubleWithNaN: Gen[Double] = Gen.frequency(8 -> Arbitrary.arbitrary[Double], 2 -> Double.NaN)
 
-  property("NotNaN.Float.isValid") = forAll(floatWithNaN) { (d: Float) =>
-    isValid[NotNaN](d) ?= !d.isNaN
+  property("NonNaN.Float.isValid") = forAll(floatWithNaN) { (d: Float) =>
+    isValid[NonNaN](d) ?= !d.isNaN
   }
 
-  property("NotNaN.Float.showExpr") = secure {
-    showExpr[NotNaN](Float.NaN) ?= "NaN != NaN"
+  property("NonNaN.Float.showExpr") = secure {
+    showExpr[NonNaN](Float.NaN) ?= "(NaN != NaN)"
   }
 
-  property("NotNaN.Double.isValid") = forAll(doubleWithNaN) { (d: Double) =>
-    isValid[NotNaN](d) ?= !d.isNaN
+  property("NonNaN.Double.isValid") = forAll(doubleWithNaN) { (d: Double) =>
+    isValid[NonNaN](d) ?= !d.isNaN
   }
 
-  property("NotNaN.Double.showExpr") = secure {
-    showExpr[NotNaN](Double.NaN) ?= "NaN != NaN"
+  property("NonNaN.Double.showExpr") = secure {
+    showExpr[NonNaN](Double.NaN) ?= "(NaN != NaN)"
   }
 
 }

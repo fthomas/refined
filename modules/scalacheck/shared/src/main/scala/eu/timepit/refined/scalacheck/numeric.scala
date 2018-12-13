@@ -113,13 +113,13 @@ trait NumericInstances {
 }
 
 trait NumericInstancesBinCompat1 {
-  implicit def floatNotNaNArbitrary[F[_, _]: RefType](
+  implicit def floatNonNaNArbitrary[F[_, _]: RefType](
       implicit arb: Arbitrary[Float]
-  ): Arbitrary[F[Float, NotNaN]] =
-    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
+  ): Arbitrary[F[Float, NonNaN]] =
+    arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0f else x))
 
-  implicit def doubleNotNaNArbitrary[F[_, _]: RefType](
+  implicit def doubleNonNaNArbitrary[F[_, _]: RefType](
       implicit arb: Arbitrary[Double]
-  ): Arbitrary[F[Double, NotNaN]] =
-    arbitraryRefType(arb.arbitrary.suchThat(x => !x.isNaN))
+  ): Arbitrary[F[Double, NonNaN]] =
+    arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0d else x))
 }

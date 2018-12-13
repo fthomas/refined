@@ -38,6 +38,6 @@ trait NumericPredicates {
 }
 
 trait NumericPredicatesBinCompat1 {
-  final type NotNaN = refined.numeric.NotNaN
-  final val NotNaN = refined.numeric.NotNaN
+  final type NonNaN = refined.numeric.NonNaN
+  final val NonNaN = refined.numeric.NonNaN
 }

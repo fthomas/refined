@@ -42,7 +42,7 @@ object numeric extends NumericInference {
   final case class Modulo[N, O](n: N, o: O)
 
   /** Predicate that checks if a floating-point number value is not NaN. */
-  case class NotNaN()
+  final case class NonNaN()
 
   /** Predicate that checks if a numeric value is less than or equal to `N`. */
   type LessEqual[N] = Not[Greater[N]]
@@ -121,12 +121,12 @@ object numeric extends NumericInference {
       )
   }
 
-  object NotNaN {
-    implicit def floatNotNaNValidate: Validate.Plain[Float, NotNaN] = fromIsNaN(_.isNaN)
-    implicit def doubleNotNaNValidate: Validate.Plain[Double, NotNaN] = fromIsNaN(_.isNaN)
+  object NonNaN {
+    implicit def floatNonNaNValidate: Validate.Plain[Float, NonNaN] = fromIsNaN(_.isNaN)
+    implicit def doubleNonNaNValidate: Validate.Plain[Double, NonNaN] = fromIsNaN(_.isNaN)
 
-    def fromIsNaN[A](isNaN: A => Boolean): Validate.Plain[A, NotNaN] =
-      Validate.fromPredicate(x => !isNaN(x), x => s"$x != NaN", NotNaN())
+    def fromIsNaN[A](isNaN: A => Boolean): Validate.Plain[A, NonNaN] =
+      Validate.fromPredicate(x => !isNaN(x), x => s"($x != NaN)", NonNaN())
   }
 }
 

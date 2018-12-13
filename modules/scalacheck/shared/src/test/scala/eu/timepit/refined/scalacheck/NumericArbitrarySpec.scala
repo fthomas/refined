@@ -36,9 +36,9 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("GreaterEqual[_10]") = checkArbitraryRefinedType[Int Refined GreaterEqual[_10]]
 
-  property("FloatNotNaN") = checkArbitraryRefinedType[FloatNotNaN]
+  property("NonNaNFloat") = checkArbitraryRefinedType[NonNaNFloat]
 
-  property("DoubleNotNaN") = checkArbitraryRefinedType[DoubleNotNaN]
+  property("NonNaNDouble") = checkArbitraryRefinedType[NonNaNDouble]
 
   property("PosFloat") = checkArbitraryRefinedType[PosFloat]
 

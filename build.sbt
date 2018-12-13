@@ -21,7 +21,7 @@ val scalaCheckVersion_1_13 = "1.13.5"
 val scalaXmlVersion = "1.1.1"
 val scalazVersion = "7.2.27"
 val scodecVersion = "1.10.3"
-val scoptVersion = "3.7.0"
+val scoptVersion = "3.7.1"
 
 def macroParadise(configuration: Configuration) = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {

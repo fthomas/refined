@@ -234,6 +234,7 @@ list it here:
 
 * [argonaut-refined](https://github.com/alexarchambault/argonaut-shapeless)
 * [atto-refined](https://github.com/tpolecat/atto)
+* [case-app-refined](https://github.com/alexarchambault/case-app)
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
 * [cormorant-refined](https://github.com/ChristopherDavenport/cormorant)

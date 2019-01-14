@@ -14,6 +14,16 @@ final case class Data(
   totalDownloads: Int
 )
 
+final case class RowData(
+  year: String,
+  month: String,
+  module: String,
+  downloadsTotal: Int,
+  downloads_2_12: Option[Int],
+  downloads_2_11: Option[Int],
+  downloads_2_10: Option[Int]
+)
+
 val allData = files.map { p =>
   val regex(year, month, module, scalaVersion) = p.name
   val data = read.lines! p
@@ -21,23 +31,28 @@ val allData = files.map { p =>
   Data(year, month, module, scalaVersion, totalDownloads)
 }
 
-val grouped = allData
+val allRowData = allData
   .groupBy(d => (d.year, d.month, d.module))
-  .mapValues(_.sortBy(_.scalaVersion).reverse)
   .toList
   .sortBy(_._1)
   .reverse
+  .map { case ((year, month, module), ds) =>
+    RowData(
+      year,
+      month,
+      module,
+      ds.map(_.totalDownloads).sum,
+      downloads_2_12 = ds.find(_.scalaVersion == "2.12").map(_.totalDownloads),
+      downloads_2_11 = ds.find(_.scalaVersion == "2.11").map(_.totalDownloads),
+      downloads_2_10 = ds.find(_.scalaVersion == "2.10").map(_.totalDownloads)
+    )
+  }
 
-def formatMonth(year: String, month: String, module: String, aggregated: List[Data]): String = {
-  val lines = aggregated.map(d => s"  ${d.scalaVersion}\t${d.totalDownloads}").mkString("\n")
-  s"""$year-$month $module
-     |$lines
-     |  total\t${aggregated.map(_.totalDownloads).sum}
-     |""".stripMargin
-}
-
-val out = grouped.map { case ((year, month, module), aggregated) =>
-  formatMonth(year, month, module, aggregated)
+val out = allRowData.map { row =>
+  s""""${row.year}-${row.month}","${row.module}","${row.downloadsTotal}"""" +
+    s""","${row.downloads_2_12.fold("")(_.toString)}"""" +
+    s""","${row.downloads_2_11.fold("")(_.toString)}"""" +
+    s""","${row.downloads_2_10.fold("")(_.toString)}""""
 }.mkString("", "\n", "\n")
 
-write.over(pwd/"summary.txt" , out)
+write.over(pwd/"summary.csv" , out)

@@ -75,6 +75,7 @@ lazy val root = project
   .aggregate(benchmark, docs)
   .aggregate(allSubprojectsJVM.map(LocalProject): _*)
   .aggregate(allSubprojectsJS.map(LocalProject): _*)
+  .aggregate(allSubprojectsNative.map(LocalProject): _*)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)

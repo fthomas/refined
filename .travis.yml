@@ -18,20 +18,7 @@ stages:
 - name: release
   if: (branch = master AND type = push) OR (tag IS present)
 
-
 jobs:
-  include:
-  - stage: release
-    script: sbt ci-release
-
-install:
-- pip install --user codecov
-script:
-- sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
-  sbt ++$TRAVIS_SCALA_VERSION validateJS
-after_success:
-- codecov
-matrix:
   include:
   - scala: 2.11.12 # Remember to update this in build.sbt, too.
     sudo: required
@@ -46,6 +33,15 @@ matrix:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
       sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
   - scala: 2.12.8
+    install:
+    - pip install --user codecov
+    script:
+    - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
+      sbt ++$TRAVIS_SCALA_VERSION validateJS
+    after_success:
+    - codecov
+  - stage: release
+    script: sbt ci-release
 
 notifications:
   webhooks:

@@ -32,7 +32,7 @@ jobs:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
       sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
-  - scala: 2.12.8
+  - scala: 2.12.8 # Remember to update this in build.sbt, too.
     install:
     - pip install --user codecov
     script:
@@ -49,4 +49,4 @@ notifications:
     - https://webhooks.gitter.im/e/a22ea519223977cc7fc9
     on_success: change
     on_failure: always
-    on_start: false
+    on_start: never

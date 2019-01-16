@@ -28,10 +28,7 @@ jobs:
     - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
       sbt ++$TRAVIS_SCALA_VERSION validateJS &&
       sbt ++$TRAVIS_SCALA_VERSION validateNative
-  - scala: 2.13.0-M5 # Remember to update this in build.sbt, too.
-    script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
-      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
+
   - scala: 2.12.8 # Remember to update this in build.sbt, too.
     install:
     - pip install --user codecov
@@ -40,6 +37,12 @@ jobs:
       sbt ++$TRAVIS_SCALA_VERSION validateJS
     after_success:
     - codecov
+
+  - scala: 2.13.0-M5 # Remember to update this in build.sbt, too.
+    script:
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
+      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
+
   - stage: release
     script: sbt ci-release
 

@@ -305,7 +305,6 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject =
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,
-  publishSettings,
   releaseSettings
 )
 
@@ -418,13 +417,6 @@ lazy val scaladocSettings = Def.settings(
   }
 )
 
-lazy val publishSettings = Def.settings(
-  publishMavenStyle := true,
-  pomIncludeRepository := { _ =>
-    false
-  }
-)
-
 lazy val noPublishSettings = Def.settings(
   publish := {},
   publishLocal := {},
@@ -462,8 +454,6 @@ lazy val releaseSettings = {
   }
 
   Def.settings(
-    releaseCrossBuild := true,
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseVcsSign := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -474,20 +464,6 @@ lazy val releaseSettings = {
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
-      releaseStepCommand(s"++$Scala213"),
-      releaseStepCommand("coreJVM/publishSigned"),
-      releaseStepCommand("coreJS/publishSigned"),
-      releaseStepCommand("scalacheckJVM/publishSigned"),
-      releaseStepCommand("scalacheckJS/publishSigned"),
-      releaseStepCommand("scalazJVM/publishSigned"),
-      releaseStepCommand("scalazJS/publishSigned"),
-      releaseStepCommand("shapelessJVM/publishSigned"),
-      releaseStepCommand("shapelessJS/publishSigned"),
-      releaseStepCommand(s"++$Scala211"),
-      releaseStepCommand("coreNative/publishSigned"),
-      releaseStepCommand("scalazNative/publishSigned"),
-      releaseStepCommand("shapelessNative/publishSigned"),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,
@@ -500,8 +476,6 @@ lazy val releaseSettings = {
 
 def addCommandsAlias(name: String, cmds: Seq[String]) =
   addCommandAlias(name, cmds.mkString(";", ";", ""))
-
-addCommandsAlias("syncMavenCentral", allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral"))
 
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))

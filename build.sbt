@@ -107,7 +107,6 @@ lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies ++= macroParadise(Compile).value ++ Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
@@ -162,6 +161,7 @@ lazy val jsonpathJVM = jsonpath.jvm
 lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    crossScalaVersions -= Scala213,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion,
       "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
@@ -173,7 +173,6 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
     target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
@@ -190,6 +189,7 @@ lazy val scalacheck_1_13 =
   ).configureCross(moduleCrossConfig("scalacheck", "scalacheck_1.13"))
     .dependsOn(core)
     .settings(
+      crossScalaVersions -= Scala213,
       libraryDependencies += scalaCheckDep_1_13.value,
       target ~= (_ / "scalacheck-1.13"),
       initialCommands += s"""
@@ -203,7 +203,6 @@ lazy val scalacheck_1_13JS = scalacheck_1_13.js
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
       import $rootPkg.scalaz._
@@ -219,6 +218,7 @@ lazy val scalazNative = scalaz.native
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    crossScalaVersions -= Scala213,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion
     ),
@@ -248,7 +248,6 @@ lazy val scoptJS = scopt.js
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    crossScalaVersions += Scala213,
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
@@ -358,7 +357,7 @@ lazy val metadataSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalaVersion := Scala212,
-  crossScalaVersions := Seq(Scala211, Scala212),
+  crossScalaVersions := Seq(Scala211, Scala212, Scala213),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

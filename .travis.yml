@@ -6,25 +6,19 @@ addons:
   apt:
     packages:
     - graphviz
-install:
-- pip install --user codecov
+before_install:
+- git fetch --tags
 cache:
   directories:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
-script:
-- sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
-  sbt ++$TRAVIS_SCALA_VERSION validateJS
-after_success:
-- codecov
-notifications:
-  webhooks:
-    urls:
-    - https://webhooks.gitter.im/e/a22ea519223977cc7fc9
-    on_success: change
-    on_failure: always
-    on_start: false
-matrix:
+
+stages:
+- name: test
+- name: release
+  if: (branch = master AND type = push) OR (tag IS present)
+
+jobs:
   include:
   - scala: 2.11.12 # Remember to update this in build.sbt, too.
     sudo: required
@@ -34,8 +28,28 @@ matrix:
     - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
       sbt ++$TRAVIS_SCALA_VERSION validateJS &&
       sbt ++$TRAVIS_SCALA_VERSION validateNative
+
+  - scala: 2.12.8 # Remember to update this in build.sbt, too.
+    install:
+    - pip install --user codecov
+    script:
+    - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
+      sbt ++$TRAVIS_SCALA_VERSION validateJS
+    after_success:
+    - codecov
+
   - scala: 2.13.0-M5 # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
       sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
-  - scala: 2.12.8
+
+  - stage: release
+    script: sbt ci-release
+
+notifications:
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/a22ea519223977cc7fc9
+    on_success: change
+    on_failure: always
+    on_start: never

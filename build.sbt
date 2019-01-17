@@ -65,6 +65,7 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
+val Scala212 = "2.12.8"
 val Scala213 = "2.13.0-M5"
 
 /// projects
@@ -74,6 +75,7 @@ lazy val root = project
   .aggregate(benchmark, docs)
   .aggregate(allSubprojectsJVM.map(LocalProject): _*)
   .aggregate(allSubprojectsJS.map(LocalProject): _*)
+  .aggregate(allSubprojectsNative.map(LocalProject): _*)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
@@ -97,6 +99,8 @@ lazy val cats = myCrossProject("cats")
       import $rootPkg.cats._
     """
   )
+  .jvmSettings(crossScalaVersions += Scala213)
+  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
@@ -105,7 +109,6 @@ lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies ++= macroParadise(Compile).value ++ Seq(
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
@@ -119,6 +122,8 @@ lazy val core = myCrossProject("core")
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
+  .jvmSettings(crossScalaVersions += Scala213)
+  .jsSettings(crossScalaVersions += Scala213)
   .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
@@ -171,13 +176,14 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies += scalaCheckDep.value,
     target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
   )
+  .jvmSettings(crossScalaVersions += Scala213)
+  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
@@ -201,7 +207,6 @@ lazy val scalacheck_1_13JS = scalacheck_1_13.js
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    crossScalaVersions += Scala213,
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
       import $rootPkg.scalaz._
@@ -209,6 +214,8 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
+  .jvmSettings(crossScalaVersions += Scala213)
+  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
@@ -246,11 +253,12 @@ lazy val scoptJS = scopt.js
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    crossScalaVersions += Scala213,
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
   )
+  .jvmSettings(crossScalaVersions += Scala213)
+  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
@@ -305,7 +313,6 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject =
 
 lazy val moduleCrossSettings = Def.settings(
   commonSettings,
-  publishSettings,
   releaseSettings
 )
 
@@ -356,7 +363,8 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  crossScalaVersions -= Scala213,
+  scalaVersion := Scala212,
+  crossScalaVersions := Seq(Scala211, Scala212),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",
@@ -418,13 +426,6 @@ lazy val scaladocSettings = Def.settings(
   }
 )
 
-lazy val publishSettings = Def.settings(
-  publishMavenStyle := true,
-  pomIncludeRepository := { _ =>
-    false
-  }
-)
-
 lazy val noPublishSettings = Def.settings(
   publish := {},
   publishLocal := {},
@@ -462,8 +463,6 @@ lazy val releaseSettings = {
   }
 
   Def.settings(
-    releaseCrossBuild := true,
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseVcsSign := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -474,20 +473,6 @@ lazy val releaseSettings = {
       updateVersionInReadme,
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
-      releaseStepCommand(s"++$Scala213"),
-      releaseStepCommand("coreJVM/publishSigned"),
-      releaseStepCommand("coreJS/publishSigned"),
-      releaseStepCommand("scalacheckJVM/publishSigned"),
-      releaseStepCommand("scalacheckJS/publishSigned"),
-      releaseStepCommand("scalazJVM/publishSigned"),
-      releaseStepCommand("scalazJS/publishSigned"),
-      releaseStepCommand("shapelessJVM/publishSigned"),
-      releaseStepCommand("shapelessJS/publishSigned"),
-      releaseStepCommand(s"++$Scala211"),
-      releaseStepCommand("coreNative/publishSigned"),
-      releaseStepCommand("scalazNative/publishSigned"),
-      releaseStepCommand("shapelessNative/publishSigned"),
       setLatestVersion,
       setNextVersion,
       commitNextVersion,
@@ -500,8 +485,6 @@ lazy val releaseSettings = {
 
 def addCommandsAlias(name: String, cmds: Seq[String]) =
   addCommandAlias(name, cmds.mkString(";", ";", ""))
-
-addCommandsAlias("syncMavenCentral", allSubprojectsJVM.map(_ + "/bintraySyncMavenCentral"))
 
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))

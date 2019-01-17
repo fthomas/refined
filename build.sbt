@@ -1,4 +1,3 @@
-import sbt.Def
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform

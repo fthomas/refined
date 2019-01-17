@@ -291,6 +291,10 @@ def moduleConfig(name: String): Project => Project =
   _.in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
+    .settings(
+      scalaVersion := Scala212,
+      crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
+    )
 
 def moduleCrossConfig(name: String, module: String): CrossProject => CrossProject = {
   val transform = (_: CrossProject)

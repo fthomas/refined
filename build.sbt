@@ -305,9 +305,9 @@ def moduleCrossConfig(name: String, module: String): CrossProject => CrossProjec
   moduleCrossPlatformMatrix(name).foldRight(transform) {
     case (platform, t) =>
       platform match {
-        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(name)))
-        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(name)))
-        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(name)))
+        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(module)))
+        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(module)))
+        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(module)))
       }
   }
 }

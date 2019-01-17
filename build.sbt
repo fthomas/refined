@@ -2,7 +2,6 @@ import sbt.Def
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
-
 import scala.sys.process._
 
 /// variables

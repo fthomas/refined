@@ -317,6 +317,7 @@ lazy val moduleCrossSettings = Def.settings(
 )
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
+  scalaVersion := Scala212,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
@@ -333,6 +334,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
 )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
+  scalaVersion := Scala212,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
   doctestGenTests := Seq.empty
 )
@@ -365,7 +367,6 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalaVersion := Scala212,
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",

@@ -1,5 +1,6 @@
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
+import sbtcrossproject.Platform
 import scala.sys.process._
 
 /// variables
@@ -23,7 +24,7 @@ val scalazVersion = "7.2.27"
 val scodecVersion = "1.10.3"
 val scoptVersion = "3.7.1"
 
-def macroParadise(configuration: Configuration) = Def.setting {
+def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, v)) if v <= 12 =>
       Seq(
@@ -68,6 +69,15 @@ val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
 val Scala213 = "2.13.0-M5"
 
+val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
+  case (_, NativePlatform) =>
+    List(Scala211)
+  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+    List(Scala211, Scala212, Scala213)
+  case _ =>
+    List(Scala211, Scala212)
+}
+
 /// projects
 
 lazy val root = project
@@ -99,8 +109,6 @@ lazy val cats = myCrossProject("cats")
       import $rootPkg.cats._
     """
   )
-  .jvmSettings(crossScalaVersions += Scala213)
-  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
@@ -122,8 +130,6 @@ lazy val core = myCrossProject("core")
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .jvmSettings(crossScalaVersions += Scala213)
-  .jsSettings(crossScalaVersions += Scala213)
   .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
@@ -182,8 +188,6 @@ lazy val scalacheck = myCrossProject("scalacheck")
       import org.scalacheck.Arbitrary
     """
   )
-  .jvmSettings(crossScalaVersions += Scala213)
-  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
@@ -214,8 +218,6 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
-  .jvmSettings(crossScalaVersions += Scala213)
-  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
@@ -257,8 +259,6 @@ lazy val shapeless = myCrossProject("shapeless")
       import $rootPkg.shapeless._
     """
   )
-  .jvmSettings(crossScalaVersions += Scala213)
-  .jsSettings(crossScalaVersions += Scala213)
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
@@ -291,6 +291,10 @@ def moduleConfig(name: String): Project => Project =
   _.in(file(s"modules/$name"))
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
+    .settings(
+      scalaVersion := Scala212,
+      crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
+    )
 
 def moduleCrossConfig(name: String, module: String): CrossProject => CrossProject = {
   val transform = (_: CrossProject)
@@ -301,9 +305,9 @@ def moduleCrossConfig(name: String, module: String): CrossProject => CrossProjec
   moduleCrossPlatformMatrix(name).foldRight(transform) {
     case (platform, t) =>
       platform match {
-        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings))
-        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings))
-        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings))
+        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(name)))
+        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(name)))
+        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(name)))
       }
   }
 }
@@ -316,7 +320,9 @@ lazy val moduleCrossSettings = Def.settings(
   releaseSettings
 )
 
-lazy val moduleJvmSettings = Def.settings(
+def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
+  scalaVersion := Scala212,
+  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
     if (hasPredecessor && publishArtifact.value)
@@ -331,13 +337,15 @@ lazy val moduleJvmSettings = Def.settings(
   }
 )
 
-lazy val moduleJsSettings = Def.settings(
+def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
+  scalaVersion := Scala212,
+  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
   doctestGenTests := Seq.empty
 )
 
-lazy val moduleNativeSettings = Def.settings(
+def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   scalaVersion := Scala211,
-  crossScalaVersions := Seq(Scala211),
+  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
   Compile / doc / sources := Seq.empty,
@@ -363,8 +371,6 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalaVersion := Scala212,
-  crossScalaVersions := Seq(Scala211, Scala212),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",
@@ -483,7 +489,7 @@ lazy val releaseSettings = {
 
 /// commands
 
-def addCommandsAlias(name: String, cmds: Seq[String]) =
+def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => State]] =
   addCommandAlias(name, cmds.mkString(";", ";", ""))
 
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))

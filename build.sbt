@@ -1,7 +1,6 @@
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
-import scala.sys.process._
 
 /// variables
 
@@ -88,7 +87,6 @@ lazy val root = project
   .aggregate(allSubprojectsNative.map(LocalProject): _*)
   .settings(commonSettings)
   .settings(noPublishSettings)
-  .settings(releaseSettings)
   .settings(
     console := (coreJVM / Compile / console).value,
     Test / console := (coreJVM / Test / console).value,
@@ -316,8 +314,7 @@ def moduleCrossConfig(name: String): CrossProject => CrossProject =
   moduleCrossConfig(name, name)
 
 lazy val moduleCrossSettings = Def.settings(
-  commonSettings,
-  releaseSettings
+  commonSettings
 )
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
@@ -437,55 +434,6 @@ lazy val noPublishSettings = Def.settings(
   publishLocal := {},
   publishArtifact := false
 )
-
-lazy val releaseSettings = {
-  import ReleaseTransformations._
-
-  lazy val addReleaseDateToReleaseNotes: ReleaseStep = { st: State =>
-    val extracted = Project.extract(st)
-    val newVersion = extracted.get(version)
-    val date = "date +%Y-%m-%d".!!.trim
-    val footer = s"\nReleased on $date\n"
-
-    val notes = s"notes/$newVersion.markdown"
-    IO.append(file(notes), footer)
-    s"git add $notes" !! st.log
-
-    st
-  }
-
-  lazy val updateVersionInReadme: ReleaseStep = { st: State =>
-    val extracted = Project.extract(st)
-    val newVersion = extracted.get(version)
-    val oldVersion = extracted.get(latestVersion)
-
-    val readme = "README.md"
-    val oldContent = IO.read(file(readme))
-    val newContent = oldContent.replaceAll(oldVersion, newVersion)
-    IO.write(file(readme), newContent)
-    s"git add $readme" !! st.log
-
-    st
-  }
-
-  Def.settings(
-    releaseVcsSign := true,
-    releaseProcess := Seq[ReleaseStep](
-      checkSnapshotDependencies,
-      inquireVersions,
-      runClean,
-      setReleaseVersion,
-      addReleaseDateToReleaseNotes,
-      updateVersionInReadme,
-      commitReleaseVersion,
-      tagRelease,
-      setLatestVersion,
-      setNextVersion,
-      commitNextVersion,
-      pushChanges
-    )
-  )
-}
 
 /// commands
 

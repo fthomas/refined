@@ -12,9 +12,17 @@
 
 ### Updates
 
+* Update Scalaz to 7.2.27. ([#588][#588] by [@scala-steward][@scala-steward])
+* Update Scala.js to 0.6.26. ([#591][#591] by [@scala-steward][@scala-steward])
+* Update PureConfig to 0.10.1. ([#593][#593] by [@scala-steward][@scala-steward])
+* Update Cats to 1.5.0. ([#594][#594] by [@scala-steward][@scala-steward])
 * Update scopt to 3.7.1. ([#597][#597] by [@scala-steward][@scala-steward])
 
 [#554]: https://github.com/fthomas/refined/pull/554
+[#588]: https://github.com/fthomas/refined/pull/588
+[#591]: https://github.com/fthomas/refined/pull/591
+[#593]: https://github.com/fthomas/refined/pull/593
+[#594]: https://github.com/fthomas/refined/pull/594
 [#596]: https://github.com/fthomas/refined/pull/596
 [#597]: https://github.com/fthomas/refined/pull/597
 

@@ -15,7 +15,7 @@ git add "$NOTES"
 
 README="README.md"
 echo "Replace $OLD_VERSION with $VERSION in $README"
-sed -i -e "s/$OLD_VERSION/$VERSION/" "$README"
+sed -i -e "s/$OLD_VERSION/$VERSION/g" "$README"
 git add "$README"
 
 git commit -a -m "Setting version to $VERSION"

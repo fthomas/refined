@@ -10,7 +10,7 @@ fi
 NOTES="notes/$VERSION.markdown"
 echo "Add release date to $NOTES"
 NOW=$(date +%Y-%m-%d)
-echo "\nReleased on $NOW" >> "$NOTES"
+printf "\nReleased on %s" "$NOW" >> "$NOTES"
 git add "$NOTES"
 
 README="README.md"
@@ -19,7 +19,7 @@ sed -i -e "s/$OLD_VERSION/$VERSION/g" "$README"
 git add "$README"
 
 git commit -a -m "Setting version to $VERSION"
-git tag -a -s v$VERSION -m "Releasing $VERSION"
+git tag -a -s "v$VERSION" -m "Releasing $VERSION"
 
 LATEST_VERSION_SBT="latestVersion.sbt"
 echo "Update $LATEST_VERSION_SBT"

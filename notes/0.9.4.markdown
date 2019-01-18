@@ -29,3 +29,5 @@
 [@dcastro]: https://github.com/dcastro
 [@fthomas]: https://github.com/fthomas
 [@scala-steward]: https://github.com/scala-steward
+
+Released on 2019-01-18

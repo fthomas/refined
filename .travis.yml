@@ -20,6 +20,9 @@ stages:
 
 jobs:
   include:
+  - script:
+    - bash -c 'shopt -s globstar; shellcheck **/*.sh'
+
   - scala: 2.11.12 # Remember to update this in build.sbt, too.
     sudo: required
     before_install:

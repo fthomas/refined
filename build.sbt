@@ -72,7 +72,7 @@ val Scala213 = "2.13.0-M5"
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless" | "scalaxml", _) =>
     List(Scala211, Scala212, Scala213)
   case _ =>
     List(Scala211, Scala212)

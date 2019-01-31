@@ -340,7 +340,15 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      )
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.predicates.StringPredicates.Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "eu.timepit.refined.predicates.string.Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml")
+    )
   }
 )
 

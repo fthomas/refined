@@ -53,7 +53,8 @@ val moduleCrossPlatformMatrix = Map(
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "scalaxml" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
 def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
@@ -119,7 +120,6 @@ lazy val core = myCrossProject("core")
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       scalaCheckDep.value % Test
     ),
     initialCommands += s"""
@@ -261,6 +261,16 @@ lazy val shapeless = myCrossProject("shapeless")
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
 lazy val shapelessNative = shapeless.native
+
+lazy val scalaxml = myCrossProject("scalaxml")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+  )
+
+lazy val scalaxmlJVM = scalaxml.jvm
+lazy val scalaxmlJS = scalaxml.js
+lazy val scalaxmlNative = scalaxml.native
 
 /// settings
 

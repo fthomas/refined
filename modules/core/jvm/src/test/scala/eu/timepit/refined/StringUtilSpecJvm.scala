@@ -17,15 +17,6 @@ class StringUtilSpecJvm extends Properties("util.string") {
     true
   }
 
-  property("xml success") = secure {
-    xml("<root></root>") == scala.xml.XML.loadString("<root></root>")
-  }
-
-  property("xml failure") = secure {
-    illTyped("""xml("<root>")""", "Xml predicate failed.*")
-    true
-  }
-
   property("xpath success") = secure {
     xpath("A//B/*[1]")
     true

@@ -3,6 +3,7 @@ package eu.timepit.refined.scalaxml
 import eu.timepit.refined.api.Validate
 
 object string {
+
   /** Predicate that checks if a `String` is well-formed XML. */
   final case class Xml()
 

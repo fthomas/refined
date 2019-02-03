@@ -1,0 +1,18 @@
+### Bug fixes
+
+* Add type parameter for the predicate type to `auto.autoUnwrap` in
+  order to improve type inference.
+  ([#608][#608], [#612][#612] by [@fthomas][@fthomas])
+
+### Updates
+
+* Update Cats to 1.6.0. ([#609][#609] by [@scala-steward][@scala-steward])
+* Update scodec to 1.11.2. ([#611][#611] by [@scala-steward][@scala-steward])
+
+[#608]: https://github.com/fthomas/refined/issues/608
+[#609]: https://github.com/fthomas/refined/pull/609
+[#611]: https://github.com/fthomas/refined/pull/611
+[#612]: https://github.com/fthomas/refined/pull/612
+
+[@fthomas]: https://github.com/fthomas
+[@scala-steward]: https://github.com/scala-steward

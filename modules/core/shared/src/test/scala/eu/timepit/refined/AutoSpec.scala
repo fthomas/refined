@@ -22,10 +22,16 @@ class AutoSpec extends Properties("auto") {
     a == b
   }
 
-  property("autoUnwrap") = secure {
-    val a: Char Refined Letter = 'A'
-    val b: Char = a
+  property("autoUnwrap: PosInt: Int") = secure {
+    val a: PosInt = PosInt.unsafeFrom(1)
+    val b: Int = a
     a.value == b
+  }
+
+  property("autoUnwrap: PosInt + PosInt") = secure {
+    val a = PosInt.unsafeFrom(1)
+    val b = PosInt.unsafeFrom(2)
+    (a + b) == 3
   }
 
   property("autoRefineV") = secure {

@@ -53,7 +53,8 @@ val moduleCrossPlatformMatrix = Map(
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "scalaxml" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
 def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
@@ -71,7 +72,7 @@ val Scala213 = "2.13.0-M5"
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless" | "scalaxml", _) =>
     List(Scala211, Scala212, Scala213)
   case _ =>
     List(Scala211, Scala212)
@@ -119,7 +120,6 @@ lazy val core = myCrossProject("core")
       scalaOrganization.value % "scala-reflect" % scalaVersion.value,
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
       scalaCheckDep.value % Test
     ),
     initialCommands += s"""
@@ -262,6 +262,16 @@ lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
 lazy val shapelessNative = shapeless.native
 
+lazy val scalaxml = myCrossProject("scalaxml")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+  )
+
+lazy val scalaxmlJVM = scalaxml.jvm
+lazy val scalaxmlJS = scalaxml.js
+lazy val scalaxmlNative = scalaxml.native
+
 /// settings
 
 lazy val commonSettings = Def.settings(
@@ -330,7 +340,15 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      )
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+      ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.StringPredicates.Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml")
+    )
   }
 )
 

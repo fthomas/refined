@@ -54,7 +54,7 @@ val moduleCrossPlatformMatrix = Map(
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform),
-  "scalaxml" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "scalaxml" -> List(JVMPlatform)
 )
 
 def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
@@ -269,8 +269,6 @@ lazy val scalaxml = myCrossProject("scalaxml")
   )
 
 lazy val scalaxmlJVM = scalaxml.jvm
-lazy val scalaxmlJS = scalaxml.js
-lazy val scalaxmlNative = scalaxml.native
 
 /// settings
 

@@ -6,7 +6,7 @@ import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
 
-class XmlUtilSpecJvm extends Properties("scalaxml.util.string") {
+class XmlUtilSpec extends Properties("scalaxml.util") {
 
   property("xml success") = secure {
     xml("<root></root>") == scala.xml.XML.loadString("<root></root>")

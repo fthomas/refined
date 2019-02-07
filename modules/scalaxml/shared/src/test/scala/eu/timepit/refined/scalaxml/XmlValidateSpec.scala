@@ -5,7 +5,7 @@ import eu.timepit.refined.scalaxml.string._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
-class XmlValidateSpecJvm extends Properties("XmlValidate") {
+class XmlValidateSpec extends Properties("XmlValidate") {
   property("Xml.isValid") = secure {
     isValid[Xml]("<root></root>")
   }

@@ -68,7 +68,7 @@ object Decoder {
 
 class RefTypeMonadErrorSpec extends Properties("MonadError") {
 
-  property("Deocder[Int]") = secure {
+  property("Decoder[Int]") = secure {
     Decoder[Int].decode("1") ?= Right(1)
   }
 

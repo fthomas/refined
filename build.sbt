@@ -18,7 +18,7 @@ val pureconfigVersion = "0.10.2"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
 val scalaCheckVersion_1_13 = "1.13.5"
-val scalaXmlVersion = "1.1.1"
+val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.27"
 val scodecVersion = "1.11.3"
 val scoptVersion = "3.7.1"
@@ -66,12 +66,12 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
-val Scala213 = "2.13.0-M5"
+val Scala213 = "2.13.0-RC1"
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("cats" | "core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+  case ("core" | "scalacheck" | "scalaz" | "shapeless", _) =>
     List(Scala211, Scala212, Scala213)
   case _ =>
     List(Scala211, Scala212)
@@ -379,7 +379,6 @@ lazy val compileSettings = Def.settings(
     "-language:implicitConversions",
     "-unchecked",
     //"-Xfatal-warnings",
-    "-Xfuture",
     //"-Xlog-implicits",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"

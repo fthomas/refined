@@ -7,12 +7,19 @@
 ### Updates
 
 * Update Cats to 1.6.0. ([#609][#609] by [@scala-steward][@scala-steward])
-* Update scodec to 1.11.2. ([#611][#611] by [@scala-steward][@scala-steward])
+* Update scodec to 1.11.3. ([#611][#611] and [#617][#617] by [@scala-steward][@scala-steward])
+* Update PureConfig to 0.10.2. ([#615][#615] by [@scala-steward][@scala-steward])
+* Update Scala.js to 0.6.27. ([#625][#625] by [@scala-steward][@scala-steward])
+* Update Scala 2.13 to 2.13.0-RC1. ([#627][#627] by [@fthomas][@fthomas])
 
 [#608]: https://github.com/fthomas/refined/issues/608
 [#609]: https://github.com/fthomas/refined/pull/609
 [#611]: https://github.com/fthomas/refined/pull/611
 [#612]: https://github.com/fthomas/refined/pull/612
+[#615]: https://github.com/fthomas/refined/pull/615
+[#617]: https://github.com/fthomas/refined/pull/617
+[#625]: https://github.com/fthomas/refined/pull/625
+[#627]: https://github.com/fthomas/refined/pull/627
 
 [@fthomas]: https://github.com/fthomas
 [@scala-steward]: https://github.com/scala-steward

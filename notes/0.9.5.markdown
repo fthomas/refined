@@ -23,3 +23,5 @@
 
 [@fthomas]: https://github.com/fthomas
 [@scala-steward]: https://github.com/scala-steward
+
+Released on 2019-04-16

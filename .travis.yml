@@ -44,8 +44,8 @@ jobs:
 
   - scala: 2.13.0-RC1 # Remember to update this in build.sbt, too.
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
-      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test catsJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
+      sbt ++$TRAVIS_SCALA_VERSION coreJS/test  catsJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test
 
   - stage: release
     script: sbt ci-release

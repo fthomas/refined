@@ -11,7 +11,7 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val catsVersion = "1.6.0"
+val catsVersion = "2.0.0-M1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.10.2"
@@ -71,7 +71,7 @@ val Scala213 = "2.13.0-RC1"
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+  case ("core" | "cats" | "scalacheck" | "scalaz" | "shapeless", _) =>
     List(Scala211, Scala212, Scala213)
   case _ =>
     List(Scala211, Scala212)

@@ -437,8 +437,8 @@ The following people have helped making **refined** great:
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,
 typeful, functional programming, and provide a safe and friendly environment
-for teaching, learning, and contributing as described in the Typelevel
-[code of conduct][code-of-conduct].
+for teaching, learning, and contributing as described in the
+[Scala Code of Conduct](http://scala-lang.org/conduct.html).
 
 ## Performance concerns
 
@@ -468,7 +468,6 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
-[code-of-conduct]: http://typelevel.org/conduct.html
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

@@ -3,7 +3,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.5)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.6)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.5/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.6/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -172,24 +172,24 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.9.5, which is available for Scala and
+The latest version of the library is 0.9.6, which is available for Scala and
 [Scala.js][scala.js] version 2.10, 2.11, and 2.12.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"                 % "0.9.5",
-  "eu.timepit" %% "refined-cats"            % "0.9.5", // optional
-  "eu.timepit" %% "refined-eval"            % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"        % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig"      % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.9.5", // optional, scalacheck 1.14
-  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.5", // optional, alternative to above with scalacheck 1.13
-  "eu.timepit" %% "refined-scalaz"          % "0.9.5", // optional
-  "eu.timepit" %% "refined-scodec"          % "0.9.5", // optional
-  "eu.timepit" %% "refined-scopt"           % "0.9.5", // optional
-  "eu.timepit" %% "refined-shapeless"       % "0.9.5"  // optional
+  "eu.timepit" %% "refined"                 % "0.9.6",
+  "eu.timepit" %% "refined-cats"            % "0.9.6", // optional
+  "eu.timepit" %% "refined-eval"            % "0.9.6", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.9.6", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.9.6", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.6", // optional, scalacheck 1.14
+  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.6", // optional, alternative to above with scalacheck 1.13
+  "eu.timepit" %% "refined-scalaz"          % "0.9.6", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.9.6", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.9.6", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.9.6"  // optional
 )
 ```
 
@@ -198,7 +198,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.9.5.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.5.markdown).
+[0.9.6.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.6.markdown).
 
 ## Community
 
@@ -286,7 +286,7 @@ opening a pull request to list it here:
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.5/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.6/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]

@@ -11,6 +11,11 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
+// Remember to update these in .travis.yml, too.
+val Scala211 = "2.11.12"
+val Scala212 = "2.12.8"
+val Scala213 = "2.13.0-RC2"
+
 val catsVersion = "1.6.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
@@ -62,11 +67,6 @@ def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
-
-// Remember to update these in .travis.yml, too.
-val Scala211 = "2.11.12"
-val Scala212 = "2.12.8"
-val Scala213 = "2.13.0-RC1"
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>

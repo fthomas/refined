@@ -42,7 +42,7 @@ jobs:
     after_success:
     - codecov
 
-  - scala: 2.13.0-RC2 # Remember to update this in build.sbt, too.
+  - scala: 2.13.0-RC3 # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test scalacheckJVM/test scalazJVM/test shapelessJVM/test &&
       sbt ++$TRAVIS_SCALA_VERSION coreJS/test  scalacheckJS/test  scalazJS/test  shapelessJS/test

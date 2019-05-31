@@ -5,3 +5,5 @@
 [#639]: https://github.com/fthomas/refined/pull/639
 
 [@fthomas]: https://github.com/fthomas
+
+Released on 2019-05-31

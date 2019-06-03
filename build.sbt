@@ -16,7 +16,7 @@ val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
 val Scala213 = "2.13.0-RC3"
 
-val catsVersion = "1.6.0"
+val catsVersion = "1.6.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.10.2"

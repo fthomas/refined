@@ -26,7 +26,7 @@ class SyntaxSpec extends Properties("syntax") {
     object OneToTen extends RefinedTypeOps[OneToTen, Int] with CatsRefinedTypeOpsSyntax
     OneToTen.validateNel(5) ?= Validated.valid(OneToTen.unsafeFrom(5))
   }
-  
+
   property("ValidateNec when Valid") = secure {
     import syntax._
     PosInt.validateNec(5) ?= Validated.Valid(PosInt.unsafeFrom(5))

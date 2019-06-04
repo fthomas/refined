@@ -9,6 +9,9 @@ object syntax extends CatsRefinedTypeOpsSyntax with CatsNonEmptyListSyntax
 
 trait CatsRefinedTypeOpsSyntax {
   implicit class CatsRefinedTypeOps[FTP, T](rtOps: RefinedTypeOps[FTP, T]) {
+    def validate(t: T): ValidatedNel[String, FTP] =
+      validateNel(t)
+
     def validateNec(t: T): ValidatedNec[String, FTP] =
       rtOps.from(t).toValidatedNec
 

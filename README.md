@@ -419,6 +419,7 @@ The following people have helped making **refined** great:
 * [kenji yoshida](https://github.com/xuwei-k)
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
+* [Luis Miguel Mejía Suárez](https://github.com/BalmungSan)
 * [Matt Pickering](https://github.com/matthedude)
 * [Michael Thomas](https://github.com/Michaelt293)
 * [Naoki Aoyama](https://github.com/aoiroaoino)

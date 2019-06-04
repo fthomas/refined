@@ -1,0 +1,8 @@
+### New features
+
+* Add `validateNec` and `validateNel` to `cats.syntax`.
+  ([#642][#642] by [@BalmungSan][@BalmungSan])
+
+[#642]: https://github.com/fthomas/refined/pull/642
+
+[@BalmungSan]: https://github.com/BalmungSan

@@ -1,6 +1,6 @@
 package eu.timepit.refined.cats
 
-import cats.data.{NonEmptyList, ValidatedNel}
+import cats.data.{NonEmptyList, ValidatedNel, ValidatedNec}
 import cats.syntax.either._
 import eu.timepit.refined.api.RefinedTypeOps
 import eu.timepit.refined.types.numeric.PosInt
@@ -9,8 +9,11 @@ object syntax extends CatsRefinedTypeOpsSyntax with CatsNonEmptyListSyntax
 
 trait CatsRefinedTypeOpsSyntax {
   implicit class CatsRefinedTypeOps[FTP, T](rtOps: RefinedTypeOps[FTP, T]) {
-    def validate(t: T): ValidatedNel[String, FTP] =
+    def validateNel(t: T): ValidatedNel[String, FTP] =
       rtOps.from(t).toValidatedNel
+    
+    def validateNec(t: T): ValidatedNec[String, FTP] =
+      rtOps.from(t).toValidatedNec
   }
 }
 

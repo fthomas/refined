@@ -14,7 +14,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
-val Scala213 = "2.13.0-RC3"
+val Scala213 = "2.13.0"
 
 val catsVersion = "1.6.1"
 val jsonpathVersion = "2.4.0"

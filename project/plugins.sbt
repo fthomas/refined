@@ -4,7 +4,7 @@ addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.2.6")
 
 addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.6.0-RC4")
 
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.2")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.5")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
 

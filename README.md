@@ -410,6 +410,7 @@ The following people have helped making **refined** great:
 * [Derek Morr](https://github.com/derekmorr)
 * [Didac](https://github.com/umbreak)
 * [Diogo Castro](https://github.com/dcastro)
+* [dm-tran](https://github.com/dm-tran)
 * [Frank S. Thomas](https://github.com/fthomas)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)

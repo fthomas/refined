@@ -100,9 +100,12 @@ lazy val benchmark = project
   .settings(noPublishSettings)
 
 lazy val cats = myCrossProject("cats")
-  .dependsOn(core % "compile->compile;test->test")
+  .dependsOn(core % "compile->compile;test->test", scalacheck_1_13 % Test)
   .settings(
-    libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion,
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-core" % catsVersion,
+      "org.typelevel" %% "cats-testkit" % catsVersion % Test
+    ),
     initialCommands += s"""
       import $rootPkg.cats._
     """

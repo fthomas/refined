@@ -85,6 +85,7 @@ lazy val root = project
   .aggregate(allSubprojectsJVM.map(LocalProject): _*)
   .aggregate(allSubprojectsJS.map(LocalProject): _*)
   .aggregate(allSubprojectsNative.map(LocalProject): _*)
+  .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(
@@ -97,6 +98,7 @@ lazy val benchmark = project
   .configure(moduleConfig("benchmark"))
   .dependsOn(coreJVM)
   .enablePlugins(JmhPlugin)
+  .disablePlugins(MimaPlugin)
   .settings(noPublishSettings)
 
 lazy val cats = myCrossProject("cats")
@@ -141,6 +143,7 @@ lazy val docs = project
   .configure(moduleConfig("docs"))
   .dependsOn(coreJVM)
   .enablePlugins(TutPlugin)
+  .disablePlugins(MimaPlugin)
   .settings(noPublishSettings)
   .settings(
     Tut / scalacOptions := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
@@ -202,8 +205,9 @@ lazy val scalacheck_1_13 =
       libraryDependencies += scalaCheckDep_1_13.value,
       target ~= (_ / "scalacheck-1.13"),
       initialCommands += s"""
-      import org.scalacheck.Arbitrary
-    """
+        import org.scalacheck.Arbitrary
+      """,
+      mimaPreviousArtifacts := Set.empty
     )
 
 lazy val scalacheck_1_13JVM = scalacheck_1_13.jvm
@@ -333,14 +337,18 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      )
+      ProblemFilters.exclude[IncompatibleSignatureProblem]("eu.timepit.refined.auto.autoUnwrap"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+    )
   }
 )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   scalaVersion := Scala212,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
-  doctestGenTests := Seq.empty
+  doctestGenTests := Seq.empty,
+  mimaFailOnNoPrevious := false
 )
 
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
@@ -349,7 +357,8 @@ def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin
   Compile / doc / sources := Seq.empty,
-  doctestGenTests := Seq.empty
+  doctestGenTests := Seq.empty,
+  mimaFailOnNoPrevious := false
 )
 
 lazy val metadataSettings = Def.settings(

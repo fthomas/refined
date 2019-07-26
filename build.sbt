@@ -71,7 +71,7 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("core" | "scalacheck" | "scalaz" | "shapeless", _) =>
+  case ("core" | "pureconfig" | "scalacheck" | "scalaz" | "shapeless", _) =>
     List(Scala211, Scala212, Scala213)
   case _ =>
     List(Scala211, Scala212)

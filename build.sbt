@@ -1,4 +1,3 @@
-import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
 
@@ -47,7 +46,7 @@ val scalaCheckDep =
 val scalaCheckDep_1_13 =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion_1_13)
 
-val moduleCrossPlatformMatrix = Map(
+val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "eval" -> List(JVMPlatform),
@@ -61,21 +60,31 @@ val moduleCrossPlatformMatrix = Map(
   "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
-def allSubprojectsOf(platform: sbtcrossproject.Platform): List[String] =
-  moduleCrossPlatformMatrix.toList.filter(_._2.contains(platform)).map(_._1 + platform.sbtSuffix)
-
-val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsNative = allSubprojectsOf(NativePlatform)
-
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("core" | "pureconfig" | "scalacheck" | "scalaz" | "shapeless", _) =>
-    List(Scala211, Scala212, Scala213)
-  case _ =>
+  case ("cats" | "scalacheck_1_13", _) =>
     List(Scala211, Scala212)
+  case _ =>
+    List(Scala211, Scala212, Scala213)
 }
+
+def allSubprojectsOf(
+    platform: sbtcrossproject.Platform,
+    scalaVersions: Set[String] = Set.empty
+): List[String] =
+  moduleCrossPlatformMatrix
+    .collect { case (prj, platforms) if platforms.contains(platform) => prj }
+    .filter(prj => scalaVersions.subsetOf(moduleCrossScalaVersionsMatrix(prj, platform).toSet))
+    .map(_ + platform.sbtSuffix)
+    .toList
+    .sorted
+
+val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
+val allSubprojectsJVM213 = allSubprojectsOf(JVMPlatform, Set(Scala213))
+val allSubprojectsJS = allSubprojectsOf(JSPlatform)
+val allSubprojectsJS213 = allSubprojectsOf(JSPlatform, Set(Scala213))
+val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// projects
 
@@ -451,19 +460,37 @@ lazy val noPublishSettings = Def.settings(
 def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => State]] =
   addCommandAlias(name, cmds.mkString(";", ";", ""))
 
+addCommandsAlias(
+  "fmt",
+  Seq(
+    "scalafmt",
+    "test:scalafmt",
+    "scalafmtSbt"
+  )
+)
+
+addCommandsAlias(
+  "fmtCheck",
+  Seq(
+    "scalafmtCheck",
+    "test:scalafmtCheck",
+    "scalafmtSbtCheck",
+    "scalastyle",
+    "test:scalastyle"
+  )
+)
+
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
+addCommandsAlias("testJS213", allSubprojectsJS213.map(_ + "/test"))
+addCommandsAlias("testJVM213", allSubprojectsJVM213.map(_ + "/test"))
 
 addCommandsAlias(
   "validateJVM",
   Seq(
     "clean",
-    "scalafmtCheck",
-    "scalafmtSbtCheck",
-    "test:scalafmtCheck",
-    "scalastyle",
-    "test:scalastyle",
+    "fmtCheck",
     "coverage",
     "mimaReportBinaryIssues",
     "testJVM",

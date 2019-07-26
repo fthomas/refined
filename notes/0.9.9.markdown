@@ -1,0 +1,18 @@
+### New features
+
+* Add `Semigroup` and `Monoid` instances for refined numeric types.
+  ([#618][#618] by [@dm-tran][@dm-tran])
+
+### Updates
+
+* Update scodec-core to 1.11.4. ([#645][#645] by [@scala-steward][@scala-steward])
+* Update PureConfig to 0.11.1. ([#646][#646] by [@scala-steward][@scala-steward])
+* Update scalaz-core to 7.2.28. ([#653][#653] by [@scala-steward][@scala-steward])
+
+[#618]: https://github.com/fthomas/refined/pull/618
+[#645]: https://github.com/fthomas/refined/pull/645
+[#646]: https://github.com/fthomas/refined/pull/646
+[#653]: https://github.com/fthomas/refined/pull/653
+
+[@dm-tran]: https://github.com/dm-tran
+[@scala-steward]: https://github.com/scala-steward

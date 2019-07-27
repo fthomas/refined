@@ -24,3 +24,5 @@
 [@dm-tran]: https://github.com/dm-tran
 [@fthomas]: https://github.com/fthomas
 [@scala-steward]: https://github.com/scala-steward
+
+Released on 2019-07-27

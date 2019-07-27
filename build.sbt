@@ -218,6 +218,12 @@ lazy val scalacheck_1_13 =
       """,
       mimaPreviousArtifacts := Set.empty
     )
+    .jvmSettings(
+      crossScalaVersions := moduleCrossScalaVersionsMatrix("scalacheck_1_13", JVMPlatform)
+    )
+    .jsSettings(
+      crossScalaVersions := moduleCrossScalaVersionsMatrix("scalacheck_1_13", JSPlatform)
+    )
 
 lazy val scalacheck_1_13JVM = scalacheck_1_13.jvm
 lazy val scalacheck_1_13JS = scalacheck_1_13.js

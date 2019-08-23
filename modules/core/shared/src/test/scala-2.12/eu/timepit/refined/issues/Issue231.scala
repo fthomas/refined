@@ -11,7 +11,7 @@ final case class CrashOnTypeTag[A]()
 
 object CrashOnTypeTag {
   implicit def crashValidate[A: reflect.runtime.universe.TypeTag]
-    : Validate.Plain[String, CrashOnTypeTag[A]] =
+      : Validate.Plain[String, CrashOnTypeTag[A]] =
     Validate.fromPredicate(_ => true, _ => "check failed", CrashOnTypeTag[A]())
 }
 

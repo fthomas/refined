@@ -3,7 +3,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.5)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.9)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type. It started
@@ -76,7 +76,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.5/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.9/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -172,24 +172,24 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.9.5, which is available for Scala and
-[Scala.js][scala.js] version 2.10, 2.11, and 2.12.
+The latest version of the library is 0.9.9, which is available for Scala and
+[Scala.js][scala.js] version 2.11, 2.12, and 2.13.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"                 % "0.9.5",
-  "eu.timepit" %% "refined-cats"            % "0.9.5", // optional
-  "eu.timepit" %% "refined-eval"            % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"        % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig"      % "0.9.5", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.9.5", // optional, scalacheck 1.14
-  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.5", // optional, alternative to above with scalacheck 1.13
-  "eu.timepit" %% "refined-scalaz"          % "0.9.5", // optional
-  "eu.timepit" %% "refined-scodec"          % "0.9.5", // optional
-  "eu.timepit" %% "refined-scopt"           % "0.9.5", // optional
-  "eu.timepit" %% "refined-shapeless"       % "0.9.5"  // optional
+  "eu.timepit" %% "refined"                 % "0.9.9",
+  "eu.timepit" %% "refined-cats"            % "0.9.9", // optional
+  "eu.timepit" %% "refined-eval"            % "0.9.9", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.9.9", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.9.9", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.9", // optional, scalacheck 1.14
+  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.9", // optional, alternative to above with scalacheck 1.13
+  "eu.timepit" %% "refined-scalaz"          % "0.9.9", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.9.9", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.9.9", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.9.9"  // optional
 )
 ```
 
@@ -198,7 +198,7 @@ For Scala.js just replace `%%` with `%%%` above.
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
 Release notes for the latest version are available in
-[0.9.5.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.5.markdown).
+[0.9.9.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.9.markdown).
 
 ## Community
 
@@ -258,6 +258,7 @@ list it here:
 * [slick-refined](https://github.com/kwark/slick-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)
 * [validated-config](https://github.com/carlpulley/validated-config)
+* [vulcan-refined](https://github.com/ovotech/vulcan)
 * [xml-names-core](https://github.com/slamdata/scala-xml-names)
 
 ### Projects using refined
@@ -280,13 +281,14 @@ opening a pull request to list it here:
 * [AutoScout24](http://techblog.scout24.com/)
 * [Besedo](https://besedo.com/)
 * [Colisweb](https://www.colisweb.com/fr/)
+* [FOLIO](https://folio-sec.com/)
 * [HolidayCheck](http://techblog.holidaycheck.com/)
 * [Zalando](https://tech.zalando.de/)
 
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.5/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.9/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
@@ -409,6 +411,7 @@ The following people have helped making **refined** great:
 * [Derek Morr](https://github.com/derekmorr)
 * [Didac](https://github.com/umbreak)
 * [Diogo Castro](https://github.com/dcastro)
+* [dm-tran](https://github.com/dm-tran)
 * [Frank S. Thomas](https://github.com/fthomas)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)
@@ -418,6 +421,7 @@ The following people have helped making **refined** great:
 * [kenji yoshida](https://github.com/xuwei-k)
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
+* [Luis Miguel Mejía Suárez](https://github.com/BalmungSan)
 * [Matt Pickering](https://github.com/matthedude)
 * [Michael Thomas](https://github.com/Michaelt293)
 * [Naoki Aoyama](https://github.com/aoiroaoino)
@@ -437,8 +441,8 @@ The following people have helped making **refined** great:
 
 **refined** is a [Typelevel][typelevel] project. This means we embrace pure,
 typeful, functional programming, and provide a safe and friendly environment
-for teaching, learning, and contributing as described in the Typelevel
-[code of conduct][code-of-conduct].
+for teaching, learning, and contributing as described in the
+[Scala Code of Conduct](http://scala-lang.org/conduct.html).
 
 ## Performance concerns
 
@@ -468,7 +472,6 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
-[code-of-conduct]: http://typelevel.org/conduct.html
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

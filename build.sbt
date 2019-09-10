@@ -15,7 +15,7 @@ val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
 val Scala213 = "2.13.0"
 
-val catsVersion = "2.0.0-M1"
+val catsVersion = "2.0.0-M2"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.11.1"
@@ -111,7 +111,7 @@ lazy val benchmark = project
   .settings(noPublishSettings)
 
 lazy val cats = myCrossProject("cats")
-  .dependsOn(core % "compile->compile;test->test", scalacheck_1_13 % Test)
+  .dependsOn(core % "compile->compile;test->test", scalacheck % Test)
   .settings(
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,

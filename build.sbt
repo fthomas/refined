@@ -15,7 +15,7 @@ val Scala211 = "2.11.12"
 val Scala212 = "2.12.8"
 val Scala213 = "2.13.0"
 
-val catsVersion = "1.6.1"
+val catsVersion = "2.0.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.11.1"
@@ -63,7 +63,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("cats" | "scalacheck_1_13", _) =>
+  case ("scalacheck_1_13", _) =>
     List(Scala211, Scala212)
   case _ =>
     List(Scala211, Scala212, Scala213)
@@ -111,11 +111,12 @@ lazy val benchmark = project
   .settings(noPublishSettings)
 
 lazy val cats = myCrossProject("cats")
-  .dependsOn(core % "compile->compile;test->test", scalacheck_1_13 % Test)
+  .dependsOn(core % "compile->compile;test->test", scalacheck % Test)
   .settings(
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
-      "org.typelevel" %% "cats-testkit" % catsVersion % Test
+      "org.typelevel" %%% "cats-laws" % catsVersion % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "1.0.0-M1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._

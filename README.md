@@ -184,8 +184,7 @@ libraryDependencies ++= Seq(
   "eu.timepit" %% "refined-eval"            % "0.9.10", // optional, JVM-only
   "eu.timepit" %% "refined-jsonpath"        % "0.9.10", // optional, JVM-only
   "eu.timepit" %% "refined-pureconfig"      % "0.9.10", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.9.10", // optional, scalacheck 1.14
-  "eu.timepit" %% "refined-scalacheck_1.13" % "0.9.10", // optional, alternative to above with scalacheck 1.13
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.10", // optional
   "eu.timepit" %% "refined-scalaz"          % "0.9.10", // optional
   "eu.timepit" %% "refined-scodec"          % "0.9.10", // optional
   "eu.timepit" %% "refined-scopt"           % "0.9.10", // optional

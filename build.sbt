@@ -15,13 +15,12 @@ val Scala211 = "2.11.12"
 val Scala212 = "2.12.10"
 val Scala213 = "2.13.0"
 
-val catsVersion = "1.6.1"
+val catsVersion = "2.0.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.11.1"
+val pureconfigVersion = "0.12.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.0"
-val scalaCheckVersion_1_13 = "1.13.5"
 val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.28"
 val scodecVersion = "1.11.4"
@@ -43,9 +42,6 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
-val scalaCheckDep_1_13 =
-  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion_1_13)
-
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
@@ -53,7 +49,6 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalacheck_1_13" -> List(JVMPlatform, JSPlatform),
   "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
@@ -63,8 +58,6 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
   case (_, NativePlatform) =>
     List(Scala211)
-  case ("cats" | "scalacheck_1_13", _) =>
-    List(Scala211, Scala212)
   case _ =>
     List(Scala211, Scala212, Scala213)
 }
@@ -111,11 +104,12 @@ lazy val benchmark = project
   .settings(noPublishSettings)
 
 lazy val cats = myCrossProject("cats")
-  .dependsOn(core % "compile->compile;test->test", scalacheck_1_13 % Test)
+  .dependsOn(core % "compile->compile;test->test", scalacheck % Test)
   .settings(
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
-      "org.typelevel" %% "cats-testkit" % catsVersion % Test
+      "org.typelevel" %%% "cats-laws" % catsVersion % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "1.0.0-M1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -196,7 +190,6 @@ lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
     libraryDependencies += scalaCheckDep.value,
-    target ~= (_ / "scalacheck-1.14"),
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -204,29 +197,6 @@ lazy val scalacheck = myCrossProject("scalacheck")
 
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
-
-lazy val scalacheck_1_13 =
-  CrossProject("scalacheck_1_13", file("scalacheck"))(
-    moduleCrossPlatformMatrix("scalacheck_1_13"): _*
-  ).configureCross(moduleCrossConfig("scalacheck", "scalacheck_1.13"))
-    .dependsOn(core)
-    .settings(
-      libraryDependencies += scalaCheckDep_1_13.value,
-      target ~= (_ / "scalacheck-1.13"),
-      initialCommands += s"""
-        import org.scalacheck.Arbitrary
-      """,
-      mimaPreviousArtifacts := Set.empty
-    )
-    .jvmSettings(
-      crossScalaVersions := moduleCrossScalaVersionsMatrix("scalacheck_1_13", JVMPlatform)
-    )
-    .jsSettings(
-      crossScalaVersions := moduleCrossScalaVersionsMatrix("scalacheck_1_13", JSPlatform)
-    )
-
-lazy val scalacheck_1_13JVM = scalacheck_1_13.jvm
-lazy val scalacheck_1_13JS = scalacheck_1_13.js
 
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")

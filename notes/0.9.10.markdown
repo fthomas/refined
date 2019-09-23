@@ -1,0 +1,12 @@
+### Updates
+
+* Update Cats to 2.0.0. ([#632][#632] by [@fthomas][@fthomas])
+* Update PureConfig to 0.12.0. ([#672][#672] by [@scala-steward][@scala-steward])
+
+[#632]: https://github.com/fthomas/refined/pull/632
+[#672]: https://github.com/fthomas/refined/pull/672
+
+[@fthomas]: https://github.com/fthomas
+[@scala-steward]: https://github.com/scala-steward
+
+Released on 2019-09-16

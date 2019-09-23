@@ -1,12 +1,14 @@
 package eu.timepit.refined.cats
 
+import cats.implicits._
 import cats.kernel.{Monoid, Semigroup}
 import cats.kernel.laws.discipline.{MonoidTests, SemigroupTests, SerializableTests}
-import cats.tests.CatsSuite
 import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.types.numeric._
+import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.Discipline
 
-class SemigroupAndMonoidLawTests extends CatsSuite {
+class SemigroupAndMonoidLawTests extends AnyFunSuite with Discipline {
   // Positive semigroups
   checkAll("Semigroup[PosByte]", SemigroupTests[PosByte].semigroup)
   checkAll("Semigroup[PosByte]", SerializableTests.serializable(Semigroup[PosByte]))

@@ -20,7 +20,7 @@ val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.12.0"
 val shapelessVersion = "2.3.3"
-val scalaCheckVersion = "1.14.0"
+val scalaCheckVersion = "1.14.1-RC1"
 val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.28"
 val scodecVersion = "1.11.4"
@@ -136,7 +136,6 @@ lazy val core = myCrossProject("core")
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js

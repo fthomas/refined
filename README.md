@@ -401,6 +401,7 @@ The library comes with these predefined predicates:
 
 The following people have helped making **refined** great:
 
+* [Alex](https://github.com/jhnsmth)
 * [Alexandre Archambault](https://github.com/alexarchambault)
 * [Chris Birchall](https://github.com/cb372)
 * [Chris Hodapp](https://github.com/clhodapp)

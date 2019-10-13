@@ -26,15 +26,15 @@ class GenericValidateSpec extends Properties("GenericValidate") {
   }
 
   property("Equal.Symbol.isValid") = secure {
-    isValid[Equal[W.`'foo`.T]]('foo)
+    isValid[Equal[W.`'foo`.T]](Symbol("foo"))
   }
 
   property("Equal.Symbol.notValid") = secure {
-    notValid[Equal[W.`'foo`.T]]('bar)
+    notValid[Equal[W.`'foo`.T]](Symbol("bar"))
   }
 
   property("Equal.Symbol.showExpr") = secure {
-    showExpr[Equal[W.`'foo`.T]]('bar) ?= "('bar == 'foo)"
+    showExpr[Equal[W.`'foo`.T]](Symbol("bar")) ?= "('bar == 'foo)"
   }
 
   property("Equal.Nat.Int.isValid") = forAll { (i: Int) =>

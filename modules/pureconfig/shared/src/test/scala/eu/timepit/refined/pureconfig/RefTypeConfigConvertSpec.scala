@@ -1,6 +1,6 @@
 package eu.timepit.refined.pureconfig
 
-import com.typesafe.config.{ConfigFactory, ConfigValueType}
+import com.typesafe.config.ConfigValueType
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
@@ -82,5 +82,5 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   }
 
   def loadConfigWithValue(value: String): Either[ConfigReaderFailures, Config] =
-    loadConfig[Config](ConfigFactory.parseString(s"value = $value"))
+    ConfigSource.string(s"value = $value").load[Config]
 }

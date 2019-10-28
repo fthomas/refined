@@ -2,7 +2,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.9.0")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.4.31")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.7")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.2.1")
 
 addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.5")
 

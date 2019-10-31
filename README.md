@@ -237,7 +237,7 @@ list it here:
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
 * [cormorant-refined](https://github.com/ChristopherDavenport/cormorant)
-* [decline-refined](http://ben.kirw.in/decline/refined.html)
+* [decline-refined](http://ben.kirw.in/decline/arguments.html#refined-support)
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
 * [extruder-refined](https://github.com/janstenpickle/extruder)

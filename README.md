@@ -231,6 +231,7 @@ Below is an incomplete list of third-party extensions and library integrations
 for **refined**. If your library is missing, please open a pull request to
 list it here:
 
+* [api-refiner](https://github.com/dgouyette/play-api-refiner)
 * [argonaut-refined](https://github.com/alexarchambault/argonaut-shapeless)
 * [atto-refined](https://github.com/tpolecat/atto)
 * [case-app-refined](https://github.com/alexarchambault/case-app)

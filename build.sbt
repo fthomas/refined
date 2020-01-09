@@ -12,7 +12,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
-val Scala212 = "2.12.8"
+val Scala212 = "2.12.10"
 val Scala213 = "2.13.1"
 
 val catsVersion = "2.0.0"
@@ -337,7 +337,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
       ProblemFilters
         .exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("eu.timepit.refined.auto.autoUnwrap"),
+      ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
     )

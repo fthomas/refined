@@ -18,12 +18,11 @@ package object typeable {
     new Typeable[F[T, P]] {
       override def cast(t: Any): Option[F[T, P]] =
         T.cast(t)
-          .flatMap(
-            casted =>
-              rt.refine[P](casted) match {
-                case Right(v) => Some(v)
-                case _        => None
-              }
+          .flatMap(casted =>
+            rt.refine[P](casted) match {
+              case Right(v) => Some(v)
+              case _        => None
+            }
           )
       override def describe: String = s"Refined[${T.describe}, ${P.describe}]"
     }

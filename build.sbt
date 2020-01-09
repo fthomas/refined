@@ -13,14 +13,14 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 // Remember to update these in .travis.yml, too.
 val Scala211 = "2.11.12"
 val Scala212 = "2.12.10"
-val Scala213 = "2.13.0"
+val Scala213 = "2.13.1"
 
 val catsVersion = "2.0.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.12.0"
+val pureconfigVersion = "0.12.2"
 val shapelessVersion = "2.3.3"
-val scalaCheckVersion = "1.14.0"
+val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.28"
 val scodecVersion = "1.11.4"
@@ -109,7 +109,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.0-M1" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "1.0.0-RC2" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -136,7 +136,6 @@ lazy val core = myCrossProject("core")
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
-  .nativeSettings(libraryDependencies -= scalaCheckDep.value % Test)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -375,7 +374,6 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    //"-Xfatal-warnings",
     //"-Xlog-implicits",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
@@ -393,6 +391,12 @@ lazy val compileSettings = Def.settings(
           //"-Ywarn-unused:privates"
         )
       case _ => Seq("-Xlint")
+    }
+  },
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, 13)) => Seq.empty
+      case _             => Seq("-Xfatal-warnings")
     }
   },
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",

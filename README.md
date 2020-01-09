@@ -231,13 +231,14 @@ Below is an incomplete list of third-party extensions and library integrations
 for **refined**. If your library is missing, please open a pull request to
 list it here:
 
+* [api-refiner](https://github.com/dgouyette/play-api-refiner)
 * [argonaut-refined](https://github.com/alexarchambault/argonaut-shapeless)
 * [atto-refined](https://github.com/tpolecat/atto)
 * [case-app-refined](https://github.com/alexarchambault/case-app)
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
 * [cormorant-refined](https://github.com/ChristopherDavenport/cormorant)
-* [decline-refined](http://ben.kirw.in/decline/refined.html)
+* [decline-refined](http://ben.kirw.in/decline/arguments.html#refined-support)
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
 * [extruder-refined](https://github.com/janstenpickle/extruder)
@@ -401,6 +402,7 @@ The library comes with these predefined predicates:
 
 The following people have helped making **refined** great:
 
+* [Alex](https://github.com/jhnsmth)
 * [Alexandre Archambault](https://github.com/alexarchambault)
 * [Chris Birchall](https://github.com/cb372)
 * [Chris Hodapp](https://github.com/clhodapp)

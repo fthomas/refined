@@ -1,0 +1,13 @@
+### Updates
+
+* Update Scala Native to 0.3.9. ([#631][#631] by [@scala-steward][@scala-steward])
+* Update Scala 2.13 to 2.13.0-RC2 and Scala.js to 0.6.28.
+  ([#637][#637] by [@fthomas][@fthomas])
+
+[#631]: https://github.com/fthomas/refined/pull/631
+[#637]: https://github.com/fthomas/refined/pull/637
+
+[@fthomas]: https://github.com/fthomas
+[@scala-steward]: https://github.com/scala-steward
+
+Released on 2019-05-25

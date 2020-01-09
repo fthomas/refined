@@ -40,11 +40,11 @@ trait CollectionInstances {
 trait CollectionInstancesBinCompat1 {
 
   implicit def listNonEmptyArbitrary[F[_, _]: RefType, T: Arbitrary]
-    : Arbitrary[F[List[T], NonEmpty]] =
+      : Arbitrary[F[List[T], NonEmpty]] =
     buildableNonEmptyArbitrary[F, List[T], T]
 
   implicit def vectorNonEmptyArbitrary[F[_, _]: RefType, T: Arbitrary]
-    : Arbitrary[F[Vector[T], NonEmpty]] =
+      : Arbitrary[F[Vector[T], NonEmpty]] =
     buildableNonEmptyArbitrary[F, Vector[T], T]
 
   private[scalacheck] def buildableNonEmptyArbitrary[F[_, _]: RefType, C, T](

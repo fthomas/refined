@@ -1,0 +1,9 @@
+### Updates
+
+* Update Scala 2.13 to 2.13.0-RC3. ([#639][#639] by [@fthomas][@fthomas])
+
+[#639]: https://github.com/fthomas/refined/pull/639
+
+[@fthomas]: https://github.com/fthomas
+
+Released on 2019-05-31

@@ -2,6 +2,7 @@ package eu.timepit.refined.macros
 
 import eu.timepit.refined.api.{Refined, RefType}
 import scala.reflect.macros.blackbox
+import scala.util.{Success, Try}
 import shapeless.tag.@@
 
 trait MacroUtils {
@@ -17,6 +18,9 @@ trait MacroUtils {
     val expr = c.Expr[T](c.untypecheck(t.tree.duplicate))
     c.eval(expr)
   }
+
+  def tryN[T](n: Int, t: => T): T =
+    Stream.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
 
   protected def refTypeInstance[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =
     if (rt.tree.tpe =:= weakTypeOf[RefType[Refined]])

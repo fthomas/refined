@@ -6,9 +6,10 @@ import cats.kernel.laws.discipline.{MonoidTests, SemigroupTests, SerializableTes
 import eu.timepit.refined.scalacheck.numeric._
 import eu.timepit.refined.types.numeric._
 import org.scalatest.funsuite.AnyFunSuite
-import org.typelevel.discipline.scalatest.Discipline
+import org.scalatestplus.scalacheck.Checkers
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
 
-class SemigroupAndMonoidLawTests extends AnyFunSuite with Discipline {
+class SemigroupAndMonoidLawTests extends AnyFunSuite with FunSuiteDiscipline with Checkers {
   // Positive semigroups
   checkAll("Semigroup[PosByte]", SemigroupTests[PosByte].semigroup)
   checkAll("Semigroup[PosByte]", SerializableTests.serializable(Semigroup[PosByte]))

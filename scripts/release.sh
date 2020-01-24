@@ -7,12 +7,6 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-NOTES="notes/$VERSION.markdown"
-echo "Add release date to $NOTES"
-NOW=$(date +%Y-%m-%d)
-printf "\nReleased on %s" "$NOW" >> "$NOTES"
-git add "$NOTES"
-
 README="README.md"
 echo "Replace $OLD_VERSION with $VERSION in $README"
 sed -i -e "s/$OLD_VERSION/$VERSION/g" "$README"

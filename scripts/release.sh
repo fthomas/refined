@@ -1,6 +1,9 @@
 #!/bin/sh
 
 OLD_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v\n')
+if [ -n "$2" ]; then
+    OLD_VERSION="$2"
+fi
 
 VERSION="$1"
 if [ -z "$VERSION" ]; then

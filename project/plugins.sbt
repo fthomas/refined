@@ -6,7 +6,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.1")
 
 addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.6")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.1")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.2")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.1")
 

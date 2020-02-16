@@ -18,9 +18,7 @@ import shapeless.test.illTyped
 abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
     extends Properties(s"RefType[$name]") {
 
-  property("unsafeWrap.unwrap ~= id") = forAll { (s: String) =>
-    rt.unsafeWrap(s).unwrap == s
-  }
+  property("unsafeWrap.unwrap ~= id") = forAll((s: String) => rt.unsafeWrap(s).unwrap == s)
 
   property("unsafeRewrap.unsafeRewrap ~= id") = forAll { (c: Char) =>
     trait A

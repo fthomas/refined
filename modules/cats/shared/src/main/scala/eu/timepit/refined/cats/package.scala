@@ -84,9 +84,7 @@ package object cats {
   private def getSemigroup[A: Semigroup, P](
       implicit v: Validate[A, P]
   ): Semigroup[A Refined P] =
-    Semigroup.instance { (x, y) =>
-      refineV[P](x.value |+| y.value).right.get
-    }
+    Semigroup.instance((x, y) => refineV[P](x.value |+| y.value).right.get)
 
   private def getNonNegIntegralMonoid[A: Integral: Monoid: NonNegShift](
       implicit v: Validate[A, NonNegative]

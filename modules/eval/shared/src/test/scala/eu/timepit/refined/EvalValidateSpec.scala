@@ -14,9 +14,7 @@ class EvalValidateSpec extends Properties("EvalValidate") {
 
   property("Eval.isValid") = {
     val v = Validate[Int, IsEven]
-    forAll { (i: Int) =>
-      v.isValid(i) ?= (i % 2 == 0)
-    }
+    forAll((i: Int) => v.isValid(i) ?= (i % 2 == 0))
   }
 
   property("Eval.showExpr") = secure {
@@ -30,9 +28,7 @@ class EvalValidateSpec extends Properties("EvalValidate") {
 
   property("Eval.refineV.no parameter type") = {
     val v = Validate[List[Int], Eval[W.`"_.headOption.fold(false)(_ > 0)"`.T]]
-    forAll { (l: List[Int]) =>
-      v.isValid(l) ?= l.headOption.fold(false)(_ > 0)
-    }
+    forAll((l: List[Int]) => v.isValid(l) ?= l.headOption.fold(false)(_ > 0))
   }
 
   property("Eval.refineMV.scope") = wellTyped {

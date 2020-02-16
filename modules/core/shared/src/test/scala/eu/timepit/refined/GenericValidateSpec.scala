@@ -37,13 +37,9 @@ class GenericValidateSpec extends Properties("GenericValidate") {
     showExpr[Equal[W.`'foo`.T]](Symbol("bar")) ?= "('bar == 'foo)"
   }
 
-  property("Equal.Nat.Int.isValid") = forAll { (i: Int) =>
-    isValid[Equal[_0]](i) ?= (i == 0)
-  }
+  property("Equal.Nat.Int.isValid") = forAll((i: Int) => isValid[Equal[_0]](i) ?= (i == 0))
 
-  property("Equal.Nat.Long.isValid") = forAll { (l: Long) =>
-    isValid[Equal[_0]](l) ?= (l == 0L)
-  }
+  property("Equal.Nat.Long.isValid") = forAll((l: Long) => isValid[Equal[_0]](l) ?= (l == 0L))
 
   property("Equal.Nat.Double.isValid") = forAll { (d: Double) =>
     isValid[Equal[_0]](d) ?= (d == 0.0)

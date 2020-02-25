@@ -11,7 +11,6 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
-val Scala211 = "2.11.12"
 val Scala212 = "2.12.10"
 val Scala213 = "2.13.1"
 
@@ -44,22 +43,20 @@ val scalaCheckDep =
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
-  "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "core" -> List(JVMPlatform, JSPlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "scalaz" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case (_, NativePlatform) =>
-    List(Scala211)
   case _ =>
-    List(Scala211, Scala212, Scala213)
+    List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -139,7 +136,6 @@ lazy val core = myCrossProject("core")
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
-lazy val coreNative = core.native
 
 lazy val docs = project
   .configure(moduleConfig("docs"))
@@ -210,7 +206,6 @@ lazy val scalaz = myCrossProject("scalaz")
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
-lazy val scalazNative = scalaz.native
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -251,7 +246,6 @@ lazy val shapeless = myCrossProject("shapeless")
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
-lazy val shapelessNative = shapeless.native
 
 /// settings
 
@@ -336,7 +330,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
 )
 
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala211,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin

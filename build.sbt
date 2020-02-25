@@ -14,7 +14,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 val Scala212 = "2.12.10"
 val Scala213 = "2.13.1"
 
-val catsVersion = "2.0.0"
+val catsVersion = "2.1.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.12.2"

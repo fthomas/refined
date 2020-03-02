@@ -304,6 +304,8 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   scalaVersion := Scala212,
+  javaOptions ++= Seq("-Duser.language=en"),
+  Test / fork := true,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)

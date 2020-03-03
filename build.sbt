@@ -2,7 +2,7 @@ import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
 
 /// variables
-
+val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -316,7 +316,8 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
     )
-  }
+  },
+  skip.in(publish) := scalaJSVersion06
 )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(

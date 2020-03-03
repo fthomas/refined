@@ -17,25 +17,25 @@ class RefTypeCodecSpec extends Properties("RefTypeCodec") {
   implicit val intCodec = int8
 
   property("decode success") = secure {
-    Codec[PosInt].decode(bin"00000101") ?=
+    Codec.summon[PosInt].decode(bin"00000101") ?=
       Attempt.successful(DecodeResult(5: PosInt, BitVector.empty))
   }
 
   property("decode failure") = secure {
-    Codec[PosInt].decode(bin"10000101") ?=
+    Codec.summon[PosInt].decode(bin"10000101") ?=
       Attempt.failure(Err("Predicate failed: (-123 > 0)."))
   }
 
   property("encode success") = secure {
-    Codec[PosInt].encode(5) ?=
+    Codec.summon[PosInt].encode(5) ?=
       Attempt.successful(bin"00000101")
   }
 
   property("encode failure") = wellTyped {
-    illTyped("""Codec[PosInt].encode(-5)""", "Predicate failed.*")
+    illTyped("""Codec.summon[PosInt].encode(-5)""", "Predicate failed.*")
   }
 
   property("sizeBound") = secure {
-    Codec[PosInt].sizeBound ?= intCodec.sizeBound
+    Codec.summon[PosInt].sizeBound ?= intCodec.sizeBound
   }
 }

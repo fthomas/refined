@@ -8,25 +8,19 @@ import shapeless.nat._
 
 class NumericValidateSpec extends Properties("NumericValidate") {
 
-  property("Less.isValid") = forAll { (d: Double) =>
-    isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0)
-  }
+  property("Less.isValid") = forAll((d: Double) => isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0))
 
   property("Less.showExpr") = secure {
     showExpr[Less[W.`1.1`.T]](0.1) ?= "(0.1 < 1.1)"
   }
 
-  property("Less.Nat.isValid") = forAll { (i: Int) =>
-    isValid[Less[_5]](i) ?= (i < 5)
-  }
+  property("Less.Nat.isValid") = forAll((i: Int) => isValid[Less[_5]](i) ?= (i < 5))
 
   property("Less.Nat.showExpr") = secure {
     showExpr[Less[_5]](0) ?= "(0 < 5)"
   }
 
-  property("LessEqual.Nat.isValid") = forAll { (i: Int) =>
-    isValid[LessEqual[_5]](i) ?= (i <= 5)
-  }
+  property("LessEqual.Nat.isValid") = forAll((i: Int) => isValid[LessEqual[_5]](i) ?= (i <= 5))
 
   property("LessEqual.Nat.showExpr") = secure {
     showExpr[LessEqual[_5]](0) ?= "!(0 > 5)"
@@ -44,9 +38,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showExpr[Greater[W.`1.1`.T]](0.1) ?= "(0.1 > 1.1)"
   }
 
-  property("Greater.Nat.isValid") = forAll { (i: Int) =>
-    isValid[Greater[_5]](i) ?= (i > 5)
-  }
+  property("Greater.Nat.isValid") = forAll((i: Int) => isValid[Greater[_5]](i) ?= (i > 5))
 
   property("Greater.Nat.showExpr") = secure {
     showExpr[Greater[_5]](0) ?= "(0 > 5)"
@@ -92,9 +84,7 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showExpr[Modulo[W.`2`.T, W.`0`.T]](4) ?= s"(${4} % ${2} == ${0})"
   }
 
-  property("Modulo.Nat.isValid") = forAll { (i: Int) =>
-    isValid[Modulo[_2, _0]](i) ?= (i % 2 == 0)
-  }
+  property("Modulo.Nat.isValid") = forAll((i: Int) => isValid[Modulo[_2, _0]](i) ?= (i % 2 == 0))
 
   property("Modulo.Nat.showExpr") = secure {
     showExpr[Modulo[_2, _0]](4) ?= "(4 % 2 == 0)"
@@ -128,17 +118,13 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showExpr[NonDivisible[_2]](4) ?= "!(4 % 2 == 0)"
   }
 
-  property("Even.isValid") = forAll { (i: Int) =>
-    isValid[Even](i) ?= (i % 2 == 0)
-  }
+  property("Even.isValid") = forAll((i: Int) => isValid[Even](i) ?= (i % 2 == 0))
 
   property("Even.showExpr") = secure {
     showExpr[Even](4) ?= "(4 % 2 == 0)"
   }
 
-  property("Odd.isValid") = forAll { (i: Int) =>
-    isValid[Odd](i) ?= (i % 2 != 0)
-  }
+  property("Odd.isValid") = forAll((i: Int) => isValid[Odd](i) ?= (i % 2 != 0))
 
   property("Odd.showExpr") = secure {
     showExpr[Odd](4) ?= "!(4 % 2 == 0)"

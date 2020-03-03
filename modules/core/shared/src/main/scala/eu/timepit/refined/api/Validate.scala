@@ -9,7 +9,7 @@ import scala.util.control.NonFatal
  * predicate `P`. The semantics of `P` are defined by the instance(s) of
  * this type class for `P`.
  */
-trait Validate[T, P] extends Serializable { self =>
+trait Validate[T, P] extends Serializable {
 
   type R
 
@@ -38,7 +38,8 @@ trait Validate[T, P] extends Serializable { self =>
   def accumulateShowExpr(t: T): List[String] =
     List(showExpr(t))
 
-  private[refined] def contramap[U](f: U => T): Validate.Aux[U, P, R] =
+  private[refined] def contramap[U](f: U => T): Validate.Aux[U, P, R] = {
+    val self: Validate.Aux[T, P, R] = this
     new Validate[U, P] {
       override type R = self.R
       override def validate(u: U): Res = self.validate(f(u))
@@ -46,6 +47,7 @@ trait Validate[T, P] extends Serializable { self =>
       override def showResult(u: U, r: Res): String = self.showResult(f(u), r)
       override def accumulateShowExpr(u: U): List[String] = self.accumulateShowExpr(f(u))
     }
+  }
 }
 
 object Validate {

@@ -1,17 +1,14 @@
 #!/bin/sh
 
 OLD_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v\n')
+if [ -n "$2" ]; then
+    OLD_VERSION="$2"
+fi
 
 VERSION="$1"
 if [ -z "$VERSION" ]; then
     exit 1
 fi
-
-NOTES="notes/$VERSION.markdown"
-echo "Add release date to $NOTES"
-NOW=$(date +%Y-%m-%d)
-printf "\nReleased on %s" "$NOW" >> "$NOTES"
-git add "$NOTES"
 
 README="README.md"
 echo "Replace $OLD_VERSION with $VERSION in $README"

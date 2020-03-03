@@ -44,17 +44,13 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
     isValid[Count[LowerCase, Greater[_2]]](s) ?= (s.count(_.isLower) > 2)
   }
 
-  property("Empty.isValid") = forAll { (l: List[Int]) =>
-    isValid[Empty](l) ?= l.isEmpty
-  }
+  property("Empty.isValid") = forAll((l: List[Int]) => isValid[Empty](l) ?= l.isEmpty)
 
   property("Empty.showExpr") = secure {
     showExpr[Empty](List(1, 2)) ?= "isEmpty(List(1, 2))"
   }
 
-  property("Empty.String.isValid") = forAll { (s: String) =>
-    isValid[Empty](s) ?= s.isEmpty
-  }
+  property("Empty.String.isValid") = forAll((s: String) => isValid[Empty](s) ?= s.isEmpty)
 
   property("Empty.String.showExpr") = secure {
     showExpr[Empty]("test") ?= "isEmpty(test)"
@@ -171,9 +167,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
     isValid[MinSize[_5]](s) ?= (s.length >= 5)
   }
 
-  property("NonEmpty.String.isValid") = forAll { (s: String) =>
-    isValid[NonEmpty](s) ?= s.nonEmpty
-  }
+  property("NonEmpty.String.isValid") = forAll((s: String) => isValid[NonEmpty](s) ?= s.nonEmpty)
 
   property("NonEmpty.String.showExpr") = secure {
     showExpr[NonEmpty]("test") ?= "!isEmpty(test)"

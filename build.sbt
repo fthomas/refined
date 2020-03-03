@@ -11,19 +11,18 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
-val Scala211 = "2.11.12"
-val Scala212 = "2.12.8"
+val Scala212 = "2.12.10"
 val Scala213 = "2.13.1"
 
-val catsVersion = "2.0.0"
+val catsVersion = "2.1.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.12.1"
+val pureconfigVersion = "0.12.3"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.2.0"
-val scalazVersion = "7.2.30"
-val scodecVersion = "1.11.4"
+val scalazVersion = "7.2.28"
+val scodecVersion = "1.11.6"
 val scoptVersion = "3.7.1"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
@@ -44,22 +43,20 @@ val scalaCheckDep =
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
-  "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "core" -> List(JVMPlatform, JSPlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "scalaz" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform, JSPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case (_, NativePlatform) =>
-    List(Scala211)
   case _ =>
-    List(Scala211, Scala212, Scala213)
+    List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -109,7 +106,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.0-RC1" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -139,7 +136,6 @@ lazy val core = myCrossProject("core")
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
-lazy val coreNative = core.native
 
 lazy val docs = project
   .configure(moduleConfig("docs"))
@@ -210,7 +206,6 @@ lazy val scalaz = myCrossProject("scalaz")
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
-lazy val scalazNative = scalaz.native
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -251,7 +246,6 @@ lazy val shapeless = myCrossProject("shapeless")
 
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
-lazy val shapelessNative = shapeless.native
 
 /// settings
 
@@ -310,6 +304,8 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   scalaVersion := Scala212,
+  javaOptions ++= Seq("-Duser.language=en"),
+  Test / fork := true,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
@@ -321,7 +317,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     Seq(
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("eu.timepit.refined.auto.autoUnwrap"),
+      ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
     )
@@ -336,7 +332,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
 )
 
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala211,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
   // Disable Scaladoc generation because of:
   // [error] dropping dependency on node with no phase object: mixin

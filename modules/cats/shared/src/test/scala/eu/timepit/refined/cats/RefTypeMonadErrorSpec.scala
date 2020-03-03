@@ -57,12 +57,11 @@ object Decoder {
     }
 
   implicit val intDecoder: Decoder[Int] =
-    instance(
-      s =>
-        Try(s.toInt) match {
-          case Success(i) => Right(i)
-          case Failure(t) => Left(t.getMessage)
-        }
+    instance(s =>
+      Try(s.toInt) match {
+        case Success(i) => Right(i)
+        case Failure(t) => Left(t.getMessage)
+      }
     )
 }
 

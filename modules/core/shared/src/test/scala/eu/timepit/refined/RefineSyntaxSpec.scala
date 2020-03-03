@@ -56,14 +56,18 @@ class RefineSyntaxSpec extends Properties("refine syntax") {
 
   property("refineMV failure") = wellTyped {
     illTyped("testRefineMV(-1)", "Predicate.*fail.*")
-    illTyped("testRefineMV(refineMV(-1))", "could not find implicit value.*")
+    // We don't check the compiler error in this case because it changed with 2.13.2,
+    // see https://github.com/fthomas/refined/issues/718.
+    illTyped("testRefineMV(refineMV(-1))")
     illTyped("testRefineMV(refineMV[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMV(refineMV[Positive][Int](-1))", "Predicate.*fail.*")
   }
 
   property("refineMT failure") = wellTyped {
     illTyped("testRefineMT(-1)", "Predicate.*fail.*")
-    illTyped("testRefineMT(refineMT(-1))", "could not find implicit value.*")
+    // We don't check the compiler error in this case because it changed with 2.13.2,
+    // see https://github.com/fthomas/refined/issues/718.
+    illTyped("testRefineMT(refineMT(-1))")
     illTyped("testRefineMT(refineMT[Positive](-1))", "Predicate.*fail.*")
     illTyped("testRefineMT(refineMT[Positive][Int](-1))", "Predicate.*fail.*")
   }

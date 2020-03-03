@@ -22,7 +22,7 @@ val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.28"
-val scodecVersion = "1.11.4"
+val scodecVersion = "1.11.6"
 val scoptVersion = "3.7.1"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
@@ -48,9 +48,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform),
+  // "scalaz" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
-  "scopt" -> List(JVMPlatform, JSPlatform),
+  // "scopt" -> List(JVMPlatform, JSPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
@@ -193,19 +193,19 @@ lazy val scalacheck = myCrossProject("scalacheck")
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-lazy val scalaz = myCrossProject("scalaz")
-  .dependsOn(core % "compile->compile;test->test")
-  .settings(
-    libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
-    initialCommands += s"""
-      import $rootPkg.scalaz._
-      import $rootPkg.scalaz.auto._
-      import _root_.scalaz.@@
-    """
-  )
-
-lazy val scalazJVM = scalaz.jvm
-lazy val scalazJS = scalaz.js
+// lazy val scalaz = myCrossProject("scalaz")
+//   .dependsOn(core % "compile->compile;test->test")
+//   .settings(
+//     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
+//     initialCommands += s"""
+//       import $rootPkg.scalaz._
+//       import $rootPkg.scalaz.auto._
+//       import _root_.scalaz.@@
+//     """
+//   )
+//
+// lazy val scalazJVM = scalaz.jvm
+// lazy val scalazJS = scalaz.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -222,19 +222,16 @@ lazy val scodec = myCrossProject("scodec")
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-lazy val scopt = myCrossProject("scopt")
-  .dependsOn(core % "compile->compile;test->test")
-  .settings(
-    libraryDependencies ++= macroParadise(Test).value ++ Seq(
-      "com.github.scopt" %%% "scopt" % scoptVersion
-    )
-  )
-  // This is required by scopt (which uses the 'os' modue), although I'm not 100% sure what other potential side effects
-  // this might have.
-  .jsSettings(scalaJSModuleKind := ModuleKind.CommonJSModule)
-
-lazy val scoptJVM = scopt.jvm
-lazy val scoptJS = scopt.js
+// lazy val scopt = myCrossProject("scopt")
+//   .dependsOn(core % "compile->compile;test->test")
+//   .settings(
+//     libraryDependencies ++= macroParadise(Test).value ++ Seq(
+//       "com.github.scopt" %%% "scopt" % scoptVersion
+//     )
+//   )
+//
+// lazy val scoptJVM = scopt.jvm
+// lazy val scoptJS = scopt.js
 
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
@@ -464,10 +461,10 @@ addCommandsAlias(
   Seq(
     "clean",
     "fmtCheck",
-    "coverage",
+    // "coverage",
     "mimaReportBinaryIssues",
     "testJVM",
-    "coverageReport",
+    // "coverageReport",
     "doc",
     "docs/tut",
     "package",

@@ -22,7 +22,7 @@ val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.2.0"
 val scalazVersion = "7.2.28"
-val scodecVersion = "1.11.4"
+val scodecVersion = "1.11.6"
 val scoptVersion = "3.7.1"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {

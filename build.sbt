@@ -231,6 +231,7 @@ lazy val scopt = myCrossProject("scopt")
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
+  .jsSettings(scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
   .jsSettings(disabledWhenScalaJS10)
 
 lazy val scoptJVM = scopt.jvm

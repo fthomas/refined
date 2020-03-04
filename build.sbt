@@ -199,10 +199,10 @@ lazy val scalaz = myCrossProject("scalaz")
   .settings(
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
-       import $rootPkg.scalaz._
-       import $rootPkg.scalaz.auto._
-       import _root_.scalaz.@@
-     """
+      import $rootPkg.scalaz._
+      import $rootPkg.scalaz.auto._
+      import _root_.scalaz.@@
+    """
   )
   .jsSettings(disabledWhenScalaJS10)
 

@@ -31,6 +31,7 @@ jobs:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
       sbt ++$TRAVIS_SCALA_VERSION validateJS
+    - SCALAJS_VERSION=0.6.32 sbt ++$TRAVIS_SCALA_VERSION clean validateJS
     after_success:
     - codecov
 
@@ -38,9 +39,12 @@ jobs:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION testJVM213 &&
       sbt ++$TRAVIS_SCALA_VERSION testJS213
+    - SCALAJS_VERSION=0.6.32 sbt ++$TRAVIS_SCALA_VERSION clean validateJS
 
   - stage: release
-    script: sbt ci-release
+    script:
+    - sbt ci-release
+    - SCALAJS_VERSION=0.6.32 sbt ci-release
 
 notifications:
   webhooks:

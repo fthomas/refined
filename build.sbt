@@ -3,6 +3,7 @@ import sbtcrossproject.Platform
 
 /// variables
 
+val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -203,6 +204,7 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
+  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scalazJVM = scalaz.jvm
 lazy val scalazJS = scalaz.js
@@ -229,9 +231,8 @@ lazy val scopt = myCrossProject("scopt")
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
-  // This is required by scopt (which uses the 'os' modue), although I'm not 100% sure what other potential side effects
-  // this might have.
-  .jsSettings(scalaJSModuleKind := ModuleKind.CommonJSModule)
+  .jsSettings(scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
+  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scoptJVM = scopt.jvm
 lazy val scoptJS = scopt.js
@@ -321,7 +322,8 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
     )
-  }
+  },
+  skip.in(publish) := scalaJSVersion06
 )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
@@ -425,10 +427,19 @@ lazy val scaladocSettings = Def.settings(
 )
 
 lazy val noPublishSettings = Def.settings(
-  publish := {},
-  publishLocal := {},
-  publishArtifact := false
+  skip.in(publish) := true
 )
+
+lazy val disabledWhenScalaJS10 =
+  if (scalaJSVersion06)
+    Def.settings()
+  else
+    Def.settings(
+      Compile / unmanagedSourceDirectories := Seq(),
+      Test / unmanagedSourceDirectories := Seq(),
+      libraryDependencies := Seq(),
+      skip.in(publish) := true
+    )
 
 /// commands
 
@@ -466,10 +477,10 @@ addCommandsAlias(
   Seq(
     "clean",
     "fmtCheck",
-    "coverage",
+    // "coverage",
     "mimaReportBinaryIssues",
     "testJVM",
-    "coverageReport",
+    // "coverageReport",
     "doc",
     "docs/tut",
     "package",

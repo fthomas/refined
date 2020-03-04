@@ -2,6 +2,7 @@ import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
 
 /// variables
+
 val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
@@ -48,9 +49,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  // "scalaz" -> List(JVMPlatform, JSPlatform),
+  "scalaz" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
-  // "scopt" -> List(JVMPlatform, JSPlatform),
+  "scopt" -> List(JVMPlatform, JSPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
@@ -193,19 +194,20 @@ lazy val scalacheck = myCrossProject("scalacheck")
 lazy val scalacheckJVM = scalacheck.jvm
 lazy val scalacheckJS = scalacheck.js
 
-// lazy val scalaz = myCrossProject("scalaz")
-//   .dependsOn(core % "compile->compile;test->test")
-//   .settings(
-//     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
-//     initialCommands += s"""
-//       import $rootPkg.scalaz._
-//       import $rootPkg.scalaz.auto._
-//       import _root_.scalaz.@@
-//     """
-//   )
-//
-// lazy val scalazJVM = scalaz.jvm
-// lazy val scalazJS = scalaz.js
+lazy val scalaz = myCrossProject("scalaz")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
+    initialCommands += s"""
+       import $rootPkg.scalaz._
+       import $rootPkg.scalaz.auto._
+       import _root_.scalaz.@@
+     """
+  )
+  .jsSettings(disabledWhenScalaJS10)
+
+lazy val scalazJVM = scalaz.jvm
+lazy val scalazJS = scalaz.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -222,16 +224,17 @@ lazy val scodec = myCrossProject("scodec")
 lazy val scodecJVM = scodec.jvm
 lazy val scodecJS = scodec.js
 
-// lazy val scopt = myCrossProject("scopt")
-//   .dependsOn(core % "compile->compile;test->test")
-//   .settings(
-//     libraryDependencies ++= macroParadise(Test).value ++ Seq(
-//       "com.github.scopt" %%% "scopt" % scoptVersion
-//     )
-//   )
-//
-// lazy val scoptJVM = scopt.jvm
-// lazy val scoptJS = scopt.js
+lazy val scopt = myCrossProject("scopt")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "com.github.scopt" %%% "scopt" % scoptVersion
+    )
+  )
+  .jsSettings(disabledWhenScalaJS10)
+
+lazy val scoptJVM = scopt.jvm
+lazy val scoptJS = scopt.js
 
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
@@ -421,10 +424,19 @@ lazy val scaladocSettings = Def.settings(
 )
 
 lazy val noPublishSettings = Def.settings(
-  publish := {},
-  publishLocal := {},
-  publishArtifact := false
+  skip.in(publish) := true
 )
+
+lazy val disabledWhenScalaJS10 =
+  if (scalaJSVersion06)
+    Def.settings()
+  else
+    Def.settings(
+      Compile / unmanagedSourceDirectories := Seq(),
+      Test / unmanagedSourceDirectories := Seq(),
+      libraryDependencies := Seq(),
+      skip.in(publish) := true
+    )
 
 /// commands
 

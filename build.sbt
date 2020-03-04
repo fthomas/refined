@@ -18,7 +18,7 @@ val Scala213 = "2.13.1"
 val catsVersion = "2.1.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.12.2"
+val pureconfigVersion = "0.12.3"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.2.0"
@@ -304,6 +304,8 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
   scalaVersion := Scala212,
+  javaOptions ++= Seq("-Duser.language=en"),
+  Test / fork := true,
   crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
   mimaPreviousArtifacts := {
     val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)

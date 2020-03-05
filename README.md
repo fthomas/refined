@@ -173,7 +173,7 @@ ageEither2: Either[String,Age] = Right(55)
 ## Using refined
 
 The latest version of the library is 0.9.13, which is available for Scala and
-[Scala.js][scala.js] version 2.11, 2.12, and 2.13.
+[Scala.js][scala.js] version 2.12 and 2.13.
 
 If you're using sbt, add the following to your build:
 

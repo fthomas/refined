@@ -25,7 +25,7 @@ jobs:
     script:
     - bash -c 'shopt -s globstar; shellcheck **/*.sh'
 
-  - scala: 2.12.10 # Remember to update this in build.sbt, too.
+  - scala: 2.12.11 # Remember to update this in build.sbt, too.
     install:
     - pip install --user codecov
     script:

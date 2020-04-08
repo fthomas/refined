@@ -1,9 +1,10 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.Refined
+import eu.timepit.refined.api.{Implies, Refined}
 import eu.timepit.refined.auto._
 import eu.timepit.refined.char.{Digit, Letter}
 import eu.timepit.refined.generic._
+import eu.timepit.refined.numeric.{Greater}
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -20,6 +21,15 @@ class AutoSpec extends Properties("auto") {
       """type mismatch \(invalid inference\):\s*eu.timepit.refined.generic.Equal\[Char\('0'\)\] does not imply\s*eu.timepit.refined.char.Letter"""
     )
     a == b
+  }
+
+  property("autoImply") = secure {
+    val t = implicitly[Implies[Greater[W.`1`.T], Greater[W.`0`.T]]]
+    illTyped(
+      "implicitly[Implies[Greater[W.`-1`.T], Greater[W.`0`.T]]]",
+      """type mismatch \(invalid inference\):\s*eu.timepit.refined.numeric.Greater\[Int\(-1\)\] does not imply\s*eu.timepit.refined.numeric.Greater\[Int\(0\)\]"""
+    )
+    t.show == "greaterInference(1, 0)"
   }
 
   property("autoUnwrap: PosInt: Int") = secure {

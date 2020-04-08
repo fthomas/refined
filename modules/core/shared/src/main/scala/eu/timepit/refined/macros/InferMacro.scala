@@ -1,5 +1,6 @@
 package eu.timepit.refined.macros
 
+import eu.timepit.refined.api.Implies
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.api.RefType
 import eu.timepit.refined.internal.Resources
@@ -19,5 +20,13 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
     }
 
     refTypeInstance(rt).unsafeRewrapM(c)(ta)
+  }
+
+  def implies[A: c.WeakTypeTag, B: c.WeakTypeTag](ir: c.Expr[A ==> B]): c.Expr[Implies[A, B]] = {
+    val inference = eval(ir)
+    if (inference.notValid) {
+      abort(Resources.invalidInference(weakTypeOf[A].toString, weakTypeOf[B].toString))
+    }
+    Implies.manifest(c)(ir)
   }
 }

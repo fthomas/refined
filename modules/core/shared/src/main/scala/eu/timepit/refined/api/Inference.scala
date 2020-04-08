@@ -33,3 +33,27 @@ object Inference {
   ): Inference[P, C] =
     Inference(i1.isValid && i2.isValid, show.format(i1.show, i2.show))
 }
+
+/**
+ * Similar to `Inference[P, C]` but will not implicitly manifest if `C` cannot be
+ * inferred from `P`.
+ *
+ * It is intended to be used with chained implicit definitions that require proof that `P ==> C`
+ */
+case class Implies[P, C](show: String)
+
+object Implies {
+  import scala.reflect.macros.blackbox
+  import eu.timepit.refined.macros.InferMacro
+  import Inference.==>
+
+  implicit def autoImply[A, B](
+      implicit
+      ir: A ==> B
+  ): Implies[A, B] = macro InferMacro.implies[A, B]
+
+  def manifest[A: c.WeakTypeTag, B: c.WeakTypeTag](
+      c: blackbox.Context
+  )(ir: c.Expr[A ==> B]): c.Expr[Implies[A, B]] =
+    c.universe.reify(Implies[A, B]((ir.splice).show))
+}

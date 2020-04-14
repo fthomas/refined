@@ -22,7 +22,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Exists") = wellTyped {
-    illTyped("eu.timepit.refined.api.Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[NonEmpty, Exists[Digit]]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("Head[A] ==> Head[B]") = secure {
@@ -58,7 +61,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Last") = wellTyped {
-    illTyped("eu.timepit.refined.api.Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[NonEmpty, Last[Whitespace]]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("Size[A] ==> Size[B]") = secure {

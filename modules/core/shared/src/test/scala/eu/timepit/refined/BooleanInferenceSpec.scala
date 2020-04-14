@@ -65,7 +65,10 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("conjunction introduction") = wellTyped {
-    illTyped("eu.timepit.refined.api.Inference[UpperCase, UpperCase And Digit]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[UpperCase, UpperCase And Digit]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("disjunction associativity") = secure {
@@ -85,7 +88,10 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("disjunction elimination") = wellTyped {
-    illTyped("eu.timepit.refined.api.Inference[UpperCase Or Digit, Digit]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[UpperCase Or Digit, Digit]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("De Morgan's law 1") = secure {

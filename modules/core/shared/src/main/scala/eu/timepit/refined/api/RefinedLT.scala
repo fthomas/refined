@@ -16,7 +16,8 @@ trait RefinedLTP1 {
   implicit def refinedLTNat[L <: Nat, P](
       implicit
       w: WitnessAs[L, Int],
-      v: Validate[Int, P]): RefinedLT[L, P] =
+      v: Validate[Int, P]
+  ): RefinedLT[L, P] =
     macro RefineMacro.implRefLT[L, Int, P]
 }
 
@@ -29,6 +30,7 @@ object RefinedLT extends RefinedLTP1 {
   implicit def refinedLT[L, T, P](
       implicit
       w: WitnessAs[L, T],
-      v: Validate[T, P]): RefinedLT[L, P] =
+      v: Validate[T, P]
+  ): RefinedLT[L, P] =
     macro RefineMacro.implRefLT[L, T, P]
 }

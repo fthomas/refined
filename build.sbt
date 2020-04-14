@@ -452,7 +452,7 @@ addCommandsAlias(
   "fmt",
   Seq(
     "scalafmt",
-    "test:scalafmt",
+    //"test:scalafmt",
     "scalafmtSbt"
   )
 )
@@ -461,7 +461,7 @@ addCommandsAlias(
   "fmtCheck",
   Seq(
     "scalafmtCheck",
-    "test:scalafmtCheck",
+    //"test:scalafmtCheck",
     "scalafmtSbtCheck",
     "scalastyle",
     "test:scalastyle"

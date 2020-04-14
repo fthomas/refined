@@ -1,12 +1,12 @@
 package eu.timepit.refined.scalaz
 
-import eu.timepit.refined.TestUtils._
+//import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.StartsWith
-import org.scalacheck.Prop._
+//import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class InferAnyValTest {
@@ -36,7 +36,7 @@ class InferAnyRefTest {
 }
 
 class InferJavapSpec extends Properties("InferJavapTest") {
-
+/*
   property("javap -c InferAnyValTest") = secure {
     val actual = javapOutput(new InferAnyValTest, "-c")
     val expected =
@@ -142,4 +142,5 @@ class InferJavapSpec extends Properties("InferJavapTest") {
       """.stripMargin.trim
     actual ?= expected
   }
+*/
 }

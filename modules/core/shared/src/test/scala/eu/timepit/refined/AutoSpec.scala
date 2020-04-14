@@ -11,13 +11,12 @@ import shapeless.tag.@@
 import shapeless.test.illTyped
 
 class AutoSpec extends Properties("auto") {
-
   property("autoInfer") = secure {
     val a: Char Refined Equal[W.`'0'`.T] = '0'
     val b: Char Refined Digit = a
     illTyped(
       "val c: Char Refined Letter = a",
-      """type mismatch \(invalid inference\):\s*eu.timepit.refined.generic.Equal\[Char\('0'\)\] does not imply\s*eu.timepit.refined.char.Letter"""
+      """type mismatch.*"""
     )
     a == b
   }

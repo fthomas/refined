@@ -5,9 +5,10 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
-import shapeless.Nat
+import singleton.ops.{<, >, Id, OpAuxBoolean}
+//import shapeless.Nat
 import shapeless.nat.{_0, _2}
-import shapeless.ops.nat.ToInt
+//import shapeless.ops.nat.ToInt
 
 /**
  * Module for numeric predicates. Predicates that take type parameters
@@ -132,39 +133,25 @@ object numeric extends NumericInference {
 
 private[refined] trait NumericInference {
 
-  implicit def lessInference[C, A, B](
+  implicit def lessInference[A, B](
       implicit
-      wa: WitnessAs[A, C],
-      wb: WitnessAs[B, C],
-      nc: Numeric[C]
+      t: OpAuxBoolean[A < B, W.`true`.T],
+      va: Id[A],
+      vb: Id[B]
   ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
+    Inference(s"lessInference(${va.value}, ${vb.value})")
 
-  implicit def lessInferenceNat[A <: Nat, B <: Nat](
+  implicit def greaterInference[A, B](
       implicit
-      ta: ToInt[A],
-      tb: ToInt[B]
-  ): Less[A] ==> Less[B] =
-    Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
-
-  implicit def greaterInference[C, A, B](
-      implicit
-      wa: WitnessAs[A, C],
-      wb: WitnessAs[B, C],
-      nc: Numeric[C]
+      t: OpAuxBoolean[A > B, W.`true`.T],
+      va: Id[A],
+      vb: Id[B]
   ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
-
-  implicit def greaterInferenceNat[A <: Nat, B <: Nat](
-      implicit
-      ta: ToInt[A],
-      tb: ToInt[B]
-  ): Greater[A] ==> Greater[B] =
-    Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
+    Inference(s"greaterInference(${va.value}, ${vb.value})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
-    Inference.alwaysValid("greaterEqualInference")
+    Inference("greaterEqualInference")
 
   implicit def lessEqualInference[A]: Less[A] ==> LessEqual[A] =
-    Inference.alwaysValid("lessEqualInference")
+    Inference("lessEqualInference")
 }

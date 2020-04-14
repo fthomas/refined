@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils.wellTyped
-import eu.timepit.refined.api.Inference
+//import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
@@ -11,10 +11,11 @@ import shapeless.nat._
 import shapeless.test.illTyped
 
 class BooleanInferenceSpec extends Properties("BooleanInference") {
+  import shim.Inference
 
   property("double negation elimination with Greater") = secure {
-    Inference[Not[Not[Greater[_5]]], Greater[_4]] ?=
-      Inference(5 > 4, "doubleNegationElimination(greaterInferenceNat(5, 4))")
+    eu.timepit.refined.api.Inference[Not[Not[Greater[_5]]], Greater[_4]] ?=
+      eu.timepit.refined.api.Inference("doubleNegationElimination(greaterInference(5, 4))")
   }
 
   property("double negation elimination") = secure {
@@ -64,7 +65,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("conjunction introduction") = wellTyped {
-    illTyped("Inference[UpperCase, UpperCase And Digit]", "could not find.*Inference.*")
+    illTyped("eu.timepit.refined.api.Inference[UpperCase, UpperCase And Digit]", "could not find.*Inference.*")
   }
 
   property("disjunction associativity") = secure {
@@ -84,7 +85,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("disjunction elimination") = wellTyped {
-    illTyped("Inference[UpperCase Or Digit, Digit]", "could not find.*Inference.*")
+    illTyped("eu.timepit.refined.api.Inference[UpperCase Or Digit, Digit]", "could not find.*Inference.*")
   }
 
   property("De Morgan's law 1") = secure {
@@ -144,7 +145,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("modus tollens") = secure {
-    Inference[Not[Digit Xor Letter], Not[Letter Xor Digit]] ?=
-      Inference.alwaysValid("modusTollens(xorCommutativity)")
+    eu.timepit.refined.api.Inference[Not[Digit Xor Letter], Not[Letter Xor Digit]] ?=
+      eu.timepit.refined.api.Inference("modusTollens(xorCommutativity)")
   }
 }

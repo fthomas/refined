@@ -1,6 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Inference, RefinedLT, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.generic._
 import eu.timepit.refined.internal.WitnessAs
@@ -103,11 +103,9 @@ object generic extends GenericInference {
 }
 
 private[refined] trait GenericInference {
-
-  implicit def equalValidateInference[T, U, P](
+  implicit def equalValidateInference[U, P](
       implicit
-      v: Validate[T, P],
-      wu: WitnessAs[U, T]
+      tvp: RefinedLT[U, P]
   ): Equal[U] ==> P =
-    Inference(v.isValid(wu.snd), s"equalValidateInference(${v.showExpr(wu.snd)})")
+    Inference(s"equalValidateInference(${tvp.expr})")
 }

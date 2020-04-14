@@ -20,6 +20,7 @@ val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.12.3"
 val shapelessVersion = "2.3.3"
+val singletonopsVersion = "0.5.0+7-ca9541e6-SNAPSHOT"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.3.0"
 val scalazVersion = "7.2.28"
@@ -126,6 +127,7 @@ lazy val core = myCrossProject("core")
       scalaOrganization.value % "scala-compiler" % scalaVersion.value,
       "com.chuusai" %%% "shapeless" % shapelessVersion,
       "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+      "eu.timepit" %% "singleton-ops" % singletonopsVersion,
       scalaCheckDep.value % Test
     ),
     initialCommands += s"""

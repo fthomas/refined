@@ -1,6 +1,6 @@
 package eu.timepit.refined.macros
 
-import eu.timepit.refined.api.{RefType, RefinedLT, Validate}
+import eu.timepit.refined.api.{RefinedLT, RefType, Validate}
 import eu.timepit.refined.char.{Digit, Letter, LowerCase, UpperCase, Whitespace}
 import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.internal.{Resources, WitnessAs}

@@ -9,7 +9,7 @@ import shapeless.nat._
 object shim {
   import eu.timepit.refined.api.Inference.==>
   case class ShimInference[P, Q](isValid: Boolean) {
-    def notValid = !isValid
+    def notValid: Boolean = !isValid
   }
   trait ShimInferenceP1 {
     implicit def notValidShim[P, Q]: ShimInference[P, Q] =

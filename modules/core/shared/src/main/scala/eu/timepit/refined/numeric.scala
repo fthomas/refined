@@ -5,10 +5,10 @@ import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
-import singleton.ops.{<, >, Id, OpAuxBoolean}
 //import shapeless.Nat
 import shapeless.nat.{_0, _2}
 //import shapeless.ops.nat.ToInt
+import singleton.ops.{<, >, Id, OpAuxBoolean}
 
 /**
  * Module for numeric predicates. Predicates that take type parameters

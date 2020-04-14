@@ -1,8 +1,8 @@
 package eu.timepit.refined.api
 
-import scala.reflect.macros.blackbox
-import eu.timepit.refined.macros.RefineMacro
 import eu.timepit.refined.internal._
+import eu.timepit.refined.macros.RefineMacro
+import scala.reflect.macros.blackbox
 import shapeless.Nat
 
 /**

@@ -3,8 +3,8 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.string._
-import singleton.ops.{EndsWith => EW, Id, StartsWith => SW, OpAuxBoolean}
 import shapeless.Witness
+import singleton.ops.{EndsWith => EW, Id, OpAuxBoolean, StartsWith => SW}
 
 /**
  * Module for `String` related predicates. Note that most of the predicates

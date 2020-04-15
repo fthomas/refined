@@ -2,6 +2,7 @@ package eu.timepit.refined.types
 
 import eu.timepit.refined.W
 import eu.timepit.refined.types.all._
+import eu.timepit.refined.types.string.NonEmptyFiniteString
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
@@ -39,6 +40,31 @@ class StringTypesSpec extends Properties("StringTypes") {
   property("""TrimmedString.trim(str)""") = forAll { (str: String) =>
     val trimmed = TrimmedString.trim(str)
     TrimmedString.from(trimmed.value) ?= Right(trimmed)
+  }
+
+  final val NEFString3 = NonEmptyFiniteString[W.`3`.T]
+
+  property("NEFString3.from(str)") = forAll { (str: String) =>
+    NEFString3.from(str).isRight ?= (!str.isEmpty && str.length <= NEFString3.maxLength)
+  }
+
+  property("""NEFString3.from("")""") = secure {
+    val str = ""
+    NEFString3.from(str) ?= Left(
+      "Predicate taking size() = 0 failed: Left predicate of (!(0 < 1) && !(0 > 3)) failed: Predicate (0 < 1) did not fail."
+    )
+  }
+
+  property("""NEFString3.from("abc")""") = secure {
+    val str = "abc"
+    NEFString3.from(str).right.map(_.value) ?= Right(str)
+  }
+
+  property("""NEFString3.from("abcd")""") = secure {
+    val str = "abcd"
+    NEFString3.from(str) ?= Left(
+      "Predicate taking size(abcd) = 4 failed: Right predicate of (!(4 < 1) && !(4 > 3)) failed: Predicate (4 > 3) did not fail."
+    )
   }
 
   // Hashes for ""

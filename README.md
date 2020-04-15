@@ -248,6 +248,7 @@ list it here:
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/refined.html)
 * [kantan.xpath-refined](https://nrinaudo.github.io/kantan.xpath/refined.html)
 * [monocle-refined](https://github.com/julien-truffaut/Monocle)
+* [neotypes-refined](https://github.com/neotypes/neotypes)
 * [play-refined](https://github.com/kwark/play-refined)
 * [play-json-refined](https://github.com/lunaryorn/play-json-refined)
 * [play-json-refined](https://github.com/btlines/play-json-refined)

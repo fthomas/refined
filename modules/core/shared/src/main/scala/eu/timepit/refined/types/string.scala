@@ -118,12 +118,14 @@ trait StringTypes {
   final type NonEmptyString = string.NonEmptyString
   final val NonEmptyString = string.NonEmptyString
 
-  final type NonEmptyFiniteString[N] = string.NonEmptyFiniteString[N]
-  final val NonEmptyFiniteString = string.NonEmptyFiniteString
-
   final type TrimmedString = string.TrimmedString
   final val TrimmedString = string.TrimmedString
 
   final type HexString = string.HexString
   final val HexString = string.HexString
+}
+
+trait StringTypesBinCompat1 {
+  final type NonEmptyFiniteString[N] = string.NonEmptyFiniteString[N]
+  final val NonEmptyFiniteString = string.NonEmptyFiniteString
 }

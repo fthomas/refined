@@ -418,6 +418,7 @@ The following people have helped making **refined** great:
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)
 * [Jean-Rémi Desjardins](https://github.com/jedesah)
+* [Jente Hidskes](https://github.com/Hjdskes)
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
 * [kenji yoshida](https://github.com/xuwei-k)

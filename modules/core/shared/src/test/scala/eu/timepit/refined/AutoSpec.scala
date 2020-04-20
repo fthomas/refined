@@ -13,7 +13,7 @@ import shapeless.test.illTyped
 class AutoSpec extends Properties("auto") {
   property("autoInfer") = secure {
     val a: Char Refined Equal[W.`'0'`.T] = '0'
-    val b: Char Refined Digit = a
+    val b: Char Refined Digit = '0'
     illTyped(
       "val c: Char Refined Letter = a",
       """type mismatch.*"""

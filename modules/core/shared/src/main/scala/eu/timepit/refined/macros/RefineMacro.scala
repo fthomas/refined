@@ -1,9 +1,9 @@
 package eu.timepit.refined.macros
 
-import eu.timepit.refined.api.{RefinedLT, RefType, Validate}
+import eu.timepit.refined.api.{RefType, Validate}
 import eu.timepit.refined.char.{Digit, Letter, LowerCase, UpperCase, Whitespace}
 import eu.timepit.refined.collection.NonEmpty
-import eu.timepit.refined.internal.{Resources, WitnessAs}
+import eu.timepit.refined.internal.Resources
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 import scala.reflect.macros.blackbox
 
@@ -37,27 +37,6 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
       v: c.Expr[Validate[T, P]]
   ): c.Expr[FTP] =
     c.Expr[FTP](impl(t)(rt, v).tree)
-
-  def implRefLT[L: c.WeakTypeTag, T: c.WeakTypeTag, P: c.WeakTypeTag](
-      w: c.Expr[WitnessAs[L, T]],
-      v: c.Expr[Validate[T, P]]
-  ): c.Expr[RefinedLT[L, P]] = {
-    // doing eval(v) before eval(w) is important for... reasons.
-    val validate = eval(v)
-    val litval = w.tree match {
-      case q"$_.WitnessAs.natWitnessAs[..$_]($_, new $_.Inst[..$_]($lv).asInstanceOf[..$_], $_)" => {
-        // trying to eval the Nat witness directly confuses the typer, it is
-        // tripping on some type recursion involving _5 and Succ[_4] in same expression
-        eval(c.Expr[T](lv))
-      }
-      case _ => eval(w).snd
-    }
-    val res = validate.validate(litval)
-    if (res.isFailed) {
-      abort(validate.showResult(litval, res))
-    }
-    RefinedLT.manifest[L, T, P](c)(w, v)
-  }
 
   private def validateInstance[T, P](v: c.Expr[Validate[T, P]])(
       implicit

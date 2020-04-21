@@ -75,6 +75,22 @@ object string {
 
       /** The maximum length of a `NonEmptyFiniteString[N]`. */
       final val maxLength: N = wn.value
+
+      /**
+       * Creates a `NonEmptyFiniteString[N]` from `t` by truncating it
+       * if it is longer than `N`. Returns `None` if `t` is empty.
+       *
+       * Example: {{{
+       * scala> import eu.timepit.refined.W
+       *      | import eu.timepit.refined.types.string.NonEmptyFiniteString
+       *
+       * scala> NonEmptyFiniteString[W.`3`.T].truncate("abcde")
+       * res1: Option[NonEmptyFiniteString[W.`3`.T]] = Some(abc)
+       * }}}
+       */
+      def truncate(t: String): Option[NonEmptyFiniteString[N]] =
+        if (t.isEmpty) None
+        else Some(Refined.unsafeApply(t.substring(0, math.min(t.length, maxLength))))
     }
 
     /**

@@ -258,6 +258,7 @@ list it here:
 * [scanamo-refined](https://github.com/scanamo/scanamo)
 * [seals-refined](https://github.com/durban/seals)
 * [slick-refined](https://github.com/kwark/slick-refined)
+* [spray-json-refined](https://github.com/typeness/spray-json-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)
 * [validated-config](https://github.com/carlpulley/validated-config)
 * [vulcan-refined](https://github.com/ovotech/vulcan)

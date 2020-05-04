@@ -33,4 +33,6 @@ class StringArbitrarySpec extends Properties("StringArbitrary") {
   property("Size[Equal[8]]") = checkArbitraryRefinedType[String Refined Size[Equal[W.`8`.T]]]
 
   property("NonEmptyFiniteString[10]") = checkArbitraryRefinedType[NonEmptyFiniteString[W.`10`.T]]
+
+  property("Uuid") = checkArbitraryRefinedType[String Refined Uuid]
 }

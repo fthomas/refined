@@ -38,6 +38,11 @@ trait StringInstances {
       arbSize: Arbitrary[Int Refined P]
   ): Arbitrary[F[String, Size[P]]] =
     collection.buildableSizeArbitrary[F, String, Char, P]
+
+  implicit def uuidStringArbitrary[F[_, _]](
+      implicit rt: RefType[F]
+  ): Arbitrary[F[String, Uuid]] =
+    arbitraryRefType(Arbitrary.arbUuid.arbitrary.map(_.toString))
 }
 
 trait StringInstancesBinCompat1 {
@@ -45,10 +50,4 @@ trait StringInstancesBinCompat1 {
       implicit rt: RefType[F]
   ): Arbitrary[F[String, Trimmed]] =
     arbitraryRefType(Arbitrary.arbString.arbitrary.map(TrimmedString.trim(_).value))
-
-  implicit def uuidStringArbitrary[F[_, _]](
-      implicit rt: RefType[F]
-  ): Arbitrary[F[String, Uuid]] =
-    arbitraryRefType(Arbitrary.arbUuid.arbitrary.map(_.toString))
-
 }

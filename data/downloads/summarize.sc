@@ -1,10 +1,10 @@
 import ammonite.ops._
 
-def summarizeMonth(data: Vector[String]) =
+def summarizeMonth(data: Seq[String]) =
   data.map(_.split(",").lift(1).map(_.replace("\"", "").toInt).getOrElse(0)).sum
 
 val regex = """(\d{4})-(\d{2})-(.+)_(.+)\.csv""".r
-val files = (ls! pwd).filter(p => regex.pattern.matcher(p.name).matches).toList
+val files = (ls! pwd).filter(p => regex.pattern.matcher(p.toIO.getName).matches).toList
 
 final case class Data(
   year: String,
@@ -19,13 +19,14 @@ final case class RowData(
   month: String,
   module: String,
   downloadsTotal: Int,
+  downloads_2_13: Option[Int],
   downloads_2_12: Option[Int],
   downloads_2_11: Option[Int],
   downloads_2_10: Option[Int]
 )
 
 val allData = files.map { p =>
-  val regex(year, month, module, scalaVersion) = p.name
+  val regex(year, month, module, scalaVersion) = p.toIO.getName
   val data = read.lines! p
   val totalDownloads = summarizeMonth(data)
   Data(year, month, module, scalaVersion, totalDownloads)
@@ -42,6 +43,7 @@ val allRowData = allData
       month,
       module,
       ds.map(_.totalDownloads).sum,
+      downloads_2_13 = ds.find(_.scalaVersion == "2.13").map(_.totalDownloads),
       downloads_2_12 = ds.find(_.scalaVersion == "2.12").map(_.totalDownloads),
       downloads_2_11 = ds.find(_.scalaVersion == "2.11").map(_.totalDownloads),
       downloads_2_10 = ds.find(_.scalaVersion == "2.10").map(_.totalDownloads)
@@ -50,6 +52,7 @@ val allRowData = allData
 
 val out = allRowData.map { row =>
   s""""${row.year}-${row.month}","${row.module}","${row.downloadsTotal}"""" +
+    s""","${row.downloads_2_13.fold("")(_.toString)}"""" +
     s""","${row.downloads_2_12.fold("")(_.toString)}"""" +
     s""","${row.downloads_2_11.fold("")(_.toString)}"""" +
     s""","${row.downloads_2_10.fold("")(_.toString)}""""

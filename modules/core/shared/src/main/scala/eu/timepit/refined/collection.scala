@@ -343,6 +343,6 @@ private[refined] trait CollectionInference {
   implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =
     p1.adapt("sizeInference(%s)")
 
-  implicit def sizeNonEmpty[N]: Size[Interval.Closed[_1, N]] ==> NonEmpty =
+  implicit def sizeNonEmptyInference[N]: Size[Interval.Closed[_1, N]] ==> NonEmpty =
     Inference.alwaysValid("sizeNonEmpty")
 }

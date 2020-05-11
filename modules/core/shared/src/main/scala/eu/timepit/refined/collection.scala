@@ -8,7 +8,7 @@ import eu.timepit.refined.generic.Equal
 import eu.timepit.refined.internal.Resources
 import eu.timepit.refined.numeric.{GreaterEqual, Interval}
 import shapeless.Witness
-import shapeless.nat._0
+import shapeless.nat.{_0, _1}
 
 /** Module for collection predicates. */
 object collection extends CollectionInference {
@@ -342,4 +342,9 @@ private[refined] trait CollectionInference {
 
   implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =
     p1.adapt("sizeInference(%s)")
+
+  implicit def sizeGreaterEqual1NonEmptyInference[A](
+      implicit p1: A ==> GreaterEqual[_1]
+  ): Size[A] ==> NonEmpty =
+    p1.adapt("sizeGreaterEqual1NonEmptyInference(%s)")
 }

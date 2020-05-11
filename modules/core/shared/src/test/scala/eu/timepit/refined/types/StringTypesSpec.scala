@@ -1,5 +1,6 @@
 package eu.timepit.refined.types
 
+import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.W
 import eu.timepit.refined.types.all._
 import eu.timepit.refined.types.string.NonEmptyFiniteString
@@ -65,6 +66,12 @@ class StringTypesSpec extends Properties("StringTypes") {
     NEFString3.from(str) ?= Left(
       "Predicate taking size(abcd) = 4 failed: Right predicate of (!(4 < 1) && !(4 > 3)) failed: Predicate (4 > 3) did not fail."
     )
+  }
+
+  property("NEFString implies NEString") = wellTyped {
+    import eu.timepit.refined.auto._
+    val s1 = NEFString3.unsafeFrom("abc")
+    val s2: NonEmptyString = s1
   }
 
   // Hashes for ""

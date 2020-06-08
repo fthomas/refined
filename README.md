@@ -6,9 +6,12 @@
 [![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.14)
 
 **refined** is a Scala library for refining types with type-level predicates
-which constrain the set of values described by the refined type. It started
-as a port of the [refined][refined.hs] Haskell library (which also provides
-an excellent motivation why this kind of library is useful).
+which constrain the set of values described by the refined type.
+It started as a port of the [refined][refined.hs] Haskell library by
+[Nikita Volkov](https://github.com/nikita-volkov) (which also provides an excellent
+motivation why this kind of library is useful).
+The idea of expressing constraints at the type-level as Scala library was first
+explored by [Flavio W. Brasil](https://github.com/fwbrasil) in [bond][bond].
 
 A quick example:
 
@@ -463,7 +466,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 ## Related projects
 
 * [SMT-Based Checking of Predicate-Qualified Types for Scala](http://lara.epfl.ch/~kuncak/papers/SchmidKuncak16CheckingPredicate.pdf)
-* [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
+* [bond][bond]: Type-level validation for Scala
 * [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
 * [LiquidHaskell](https://ucsd-progsys.github.io/liquidhaskell-blog/):
   Refinement Types via SMT and Predicate Abstraction
@@ -478,6 +481,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
+[bond]: https://github.com/fwbrasil/bond
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

@@ -4,8 +4,8 @@ import eu.timepit.refined.TestUtils.wellTyped
 import eu.timepit.refined.W
 import eu.timepit.refined.types.all._
 import eu.timepit.refined.types.string.NonEmptyFiniteString
+import org.scalacheck.{Prop, Properties}
 import org.scalacheck.Prop._
-import org.scalacheck.Properties
 
 class StringTypesSpec extends Properties("StringTypes") {
 
@@ -66,6 +66,12 @@ class StringTypesSpec extends Properties("StringTypes") {
     NEFString3.from(str) ?= Left(
       "Predicate taking size(abcd) = 4 failed: Right predicate of (!(4 < 1) && !(4 > 3)) failed: Predicate (4 > 3) did not fail."
     )
+  }
+
+  property("""NEFString3.truncate(str)""") = forAll { (str: String) =>
+    val truncated = NEFString3.truncate(str)
+    truncated.fold(Prop(str.isEmpty))(nefs =>
+      nefs.value.length <= NEFString3.maxLength && (nefs.value ?= str.take(NEFString3.maxLength)))
   }
 
   property("NEFString implies NEString") = wellTyped {

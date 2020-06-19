@@ -91,6 +91,24 @@ object string {
       def truncate(t: String): Option[NonEmptyFiniteString[N]] =
         if (t.isEmpty) None
         else Some(Refined.unsafeApply(t.substring(0, math.min(t.length, maxLength))))
+
+      /**
+       * Creates a `NonEmptyFiniteString[N]` from `nes` by truncating it
+       * if it is longer than `N`.
+       *
+       * Example: {{{
+       * scala> import eu.timepit.refined.W
+       *      | import eu.timepit.refined.types.string.{NonEmptyString, NonEmptyFiniteString}
+       *
+       * scala> val nes = NonEmptyString.unsafeFrom("abcde")
+       * scala> NonEmptyFiniteString[W.`3`.T].truncate(nes)
+       * res1: NonEmptyFiniteString[W.`3`.T] = abc
+       * }}}
+       */
+      def truncateNes(nes: NonEmptyString): NonEmptyFiniteString[N] = {
+        val s = nes.value
+        Refined.unsafeApply(s.substring(0, math.min(s.length, maxLength)))
+      }
     }
 
     /**

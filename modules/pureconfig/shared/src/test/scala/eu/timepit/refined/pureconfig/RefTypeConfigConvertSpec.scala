@@ -1,6 +1,6 @@
 package eu.timepit.refined.pureconfig
 
-import com.typesafe.config.ConfigValueType
+import com.typesafe.config.{ConfigOriginFactory, ConfigValueType}
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
@@ -30,7 +30,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
             because = "Predicate failed: (0 > 0)."
           ),
-          location = None,
+          origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
           path = "value"
         )
       )
@@ -47,7 +47,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
             because = "Predicate failed: (0 > 0)."
           ),
-          location = None,
+          origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
           path = "value"
         )
       )
@@ -67,7 +67,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               foundType = ConfigValueType.STRING,
               expectedTypes = Set(ConfigValueType.NUMBER)
             ),
-            location = None,
+            origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
             path = "value"
           )
         )

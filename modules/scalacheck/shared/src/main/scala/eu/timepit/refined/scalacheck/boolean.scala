@@ -9,8 +9,8 @@ object boolean extends BooleanInstances
 
 trait BooleanInstances {
 
-  implicit def orArbitrary[F[_, _], T, A, B](
-      implicit rt: RefType[F],
+  implicit def orArbitrary[F[_, _], T, A, B](implicit
+      rt: RefType[F],
       arbA: Arbitrary[F[T, A]],
       arbB: Arbitrary[F[T, B]]
   ): Arbitrary[F[T, A Or B]] = {

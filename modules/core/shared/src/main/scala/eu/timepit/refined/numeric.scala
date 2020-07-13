@@ -90,8 +90,7 @@ object numeric extends NumericInference {
   }
 
   object Less {
-    implicit def lessValidate[T, N](
-        implicit
+    implicit def lessValidate[T, N](implicit
         wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Less[N]] =
@@ -99,8 +98,7 @@ object numeric extends NumericInference {
   }
 
   object Greater {
-    implicit def greaterValidate[T, N](
-        implicit
+    implicit def greaterValidate[T, N](implicit
         wn: WitnessAs[N, T],
         nt: Numeric[T]
     ): Validate.Plain[T, Greater[N]] =
@@ -108,8 +106,7 @@ object numeric extends NumericInference {
   }
 
   object Modulo {
-    implicit def moduloValidate[T, N, O](
-        implicit
+    implicit def moduloValidate[T, N, O](implicit
         wn: WitnessAs[N, T],
         wo: WitnessAs[O, T],
         it: Integral[T]
@@ -132,31 +129,27 @@ object numeric extends NumericInference {
 
 private[refined] trait NumericInference {
 
-  implicit def lessInference[C, A, B](
-      implicit
+  implicit def lessInference[C, A, B](implicit
       wa: WitnessAs[A, C],
       wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Less[A] ==> Less[B] =
     Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
-  implicit def lessInferenceNat[A <: Nat, B <: Nat](
-      implicit
+  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Less[A] ==> Less[B] =
     Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
 
-  implicit def greaterInference[C, A, B](
-      implicit
+  implicit def greaterInference[C, A, B](implicit
       wa: WitnessAs[A, C],
       wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
 
-  implicit def greaterInferenceNat[A <: Nat, B <: Nat](
-      implicit
+  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Greater[A] ==> Greater[B] =

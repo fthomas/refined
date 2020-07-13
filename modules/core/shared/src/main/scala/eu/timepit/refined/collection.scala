@@ -93,8 +93,8 @@ object collection extends CollectionInference {
   type NonEmpty = Not[Empty]
 
   object Count {
-    implicit def countValidate[A, PA, RA, PC, RC, T](
-        implicit va: Validate.Aux[A, PA, RA],
+    implicit def countValidate[A, PA, RA, PC, RC, T](implicit
+        va: Validate.Aux[A, PA, RA],
         vc: Validate.Aux[Int, PC, RC],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Count[PA, PC], Count[List[va.Res], vc.Res]] =
@@ -127,8 +127,8 @@ object collection extends CollectionInference {
   }
 
   object Forall {
-    implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](
-        implicit v: Validate.Aux[A, P, R]
+    implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](implicit
+        v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Forall[P], Forall[List[v.Res]]] =
       new Validate[T[A], Forall[P]] {
         override type R = Forall[List[v.Res]]
@@ -142,16 +142,16 @@ object collection extends CollectionInference {
           t.map(v.showExpr).mkString("(", " && ", ")")
       }
 
-    implicit def forallValidateView[A, P, R, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def forallValidateView[A, P, R, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Forall[P], Forall[List[v.Res]]] =
       forallValidate[A, P, R, Traversable].contramap(ev)
   }
 
   object Head {
-    implicit def headValidate[A, P, R, T[a] <: Traversable[a]](
-        implicit v: Validate.Aux[A, P, R]
+    implicit def headValidate[A, P, R, T[a] <: Traversable[a]](implicit
+        v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Head[P], Head[Option[v.Res]]] =
       new Validate[T[A], Head[P]] {
         override type R = Head[Option[v.Res]]
@@ -168,16 +168,16 @@ object collection extends CollectionInference {
           optElemShowResult(t.headOption, r.detail.p, (a: A) => s"head($t) = $a", v.showResult)
       }
 
-    implicit def headValidateView[A, P, R, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def headValidateView[A, P, R, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Head[P], Head[Option[v.Res]]] =
       headValidate[A, P, R, Traversable].contramap(ev)
   }
 
   object Index {
-    implicit def indexValidate[A, P, R, N <: Int, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def indexValidate[A, P, R, N <: Int, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => PartialFunction[Int, A],
         wn: Witness.Aux[N]
     ): Validate.Aux[T, Index[N, P], Index[N, Option[v.Res]]] =
@@ -203,8 +203,8 @@ object collection extends CollectionInference {
   }
 
   object Init {
-    implicit def initValidate[A, P, R, T[a] <: Traversable[a]](
-        implicit v: Validate.Aux[A, P, R]
+    implicit def initValidate[A, P, R, T[a] <: Traversable[a]](implicit
+        v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
       new Validate[T[A], Init[P]] {
         override type R = Init[List[v.Res]]
@@ -218,16 +218,16 @@ object collection extends CollectionInference {
           t.toList.dropRight(1).map(v.showExpr).mkString("(", " && ", ")")
       }
 
-    implicit def initValidateView[A, P, R, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def initValidateView[A, P, R, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
       initValidate[A, P, R, Traversable].contramap(ev)
   }
 
   object Last {
-    implicit def lastValidate[A, P, R, T[a] <: Traversable[a]](
-        implicit v: Validate.Aux[A, P, R]
+    implicit def lastValidate[A, P, R, T[a] <: Traversable[a]](implicit
+        v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Last[P], Last[Option[v.Res]]] =
       new Validate[T[A], Last[P]] {
         override type R = Last[Option[v.Res]]
@@ -244,16 +244,16 @@ object collection extends CollectionInference {
           optElemShowResult(t.lastOption, r.detail.p, (a: A) => s"last($t) = $a", v.showResult)
       }
 
-    implicit def lastValidateView[A, P, R, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def lastValidateView[A, P, R, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
       lastValidate[A, P, R, Traversable].contramap(ev)
   }
 
   object Size {
-    implicit def sizeValidate[T, P, RP](
-        implicit v: Validate.Aux[Int, P, RP],
+    implicit def sizeValidate[T, P, RP](implicit
+        v: Validate.Aux[Int, P, RP],
         ev: T => Traversable[_]
     ): Validate.Aux[T, Size[P], Size[v.Res]] =
       new Validate[T, Size[P]] {
@@ -276,8 +276,8 @@ object collection extends CollectionInference {
   }
 
   object Tail {
-    implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](
-        implicit v: Validate.Aux[A, P, R]
+    implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](implicit
+        v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Tail[P], Tail[List[v.Res]]] =
       new Validate[T[A], Tail[P]] {
         override type R = Tail[List[v.Res]]
@@ -291,8 +291,8 @@ object collection extends CollectionInference {
           t.toList.drop(1).map(v.showExpr).mkString("(", " && ", ")")
       }
 
-    implicit def tailValidateView[A, P, R, T](
-        implicit v: Validate.Aux[A, P, R],
+    implicit def tailValidateView[A, P, R, T](implicit
+        v: Validate.Aux[A, P, R],
         ev: T => Traversable[A]
     ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
       tailValidate[A, P, R, Traversable].contramap(ev)
@@ -343,8 +343,8 @@ private[refined] trait CollectionInference {
   implicit def sizeInference[A, B](implicit p1: A ==> B): Size[A] ==> Size[B] =
     p1.adapt("sizeInference(%s)")
 
-  implicit def sizeGreaterEqual1NonEmptyInference[A](
-      implicit p1: A ==> GreaterEqual[_1]
+  implicit def sizeGreaterEqual1NonEmptyInference[A](implicit
+      p1: A ==> GreaterEqual[_1]
   ): Size[A] ==> NonEmpty =
     p1.adapt("sizeGreaterEqual1NonEmptyInference(%s)")
 }

@@ -66,7 +66,7 @@ object net {
   /** A `String` representing a valid IPv4 in the benchmarking network 198.18.0.0/15 (RFC2544) */
   type Rfc2544Benchmark = String Refined Rfc2544BenchmarkSpec
 
-  /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544  */
+  /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544 */
   type PrivateNetwork =
     String Refined (Rfc1918PrivateSpec Or Rfc5737TestnetSpec Or Rfc3927LocalLinkSpec Or Rfc2544BenchmarkSpec)
 

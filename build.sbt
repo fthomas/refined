@@ -26,18 +26,19 @@ val scalazVersion = "7.2.28"
 val scodecVersion = "1.11.7"
 val scoptVersion = "3.7.1"
 
-def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 12 =>
-      Seq(
-        compilerPlugin(
-          ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
+  Def.setting {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v <= 12 =>
+        Seq(
+          compilerPlugin(
+            ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+          )
         )
-      )
-    case _ =>
-      Seq.empty // https://github.com/scala/scala/pull/6606
+      case _ =>
+        Seq.empty // https://github.com/scala/scala/pull/6606
+    }
   }
-}
 
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
@@ -303,44 +304,47 @@ lazy val moduleCrossSettings = Def.settings(
   commonSettings
 )
 
-def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  javaOptions ++= Seq("-Duser.language=en"),
-  Test / fork := true,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
-  mimaPreviousArtifacts := {
-    val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
-    if (hasPredecessor && publishArtifact.value)
-      bincompatVersions.value.map(v => groupId %% moduleName.value % v)
-    else
-      Set.empty
-  },
-  mimaBinaryIssueFilters ++= {
-    import com.typesafe.tools.mima.core._
-    Seq(
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
-    )
-  },
-  skip.in(publish) := scalaJSVersion06
-)
+def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala212,
+    javaOptions ++= Seq("-Duser.language=en"),
+    Test / fork := true,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
+    mimaPreviousArtifacts := {
+      val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
+      if (hasPredecessor && publishArtifact.value)
+        bincompatVersions.value.map(v => groupId %% moduleName.value % v)
+      else
+        Set.empty
+    },
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+      )
+    },
+    skip.in(publish) := scalaJSVersion06
+  )
 
-def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala212,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false
+  )
 
-def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-  // Disable Scaladoc generation because of:
-  // [error] dropping dependency on node with no phase object: mixin
-  Compile / doc / sources := Seq.empty,
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
+    // Disable Scaladoc generation because of:
+    // [error] dropping dependency on node with no phase object: mixin
+    Compile / doc / sources := Seq.empty,
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false
+  )
 
 lazy val metadataSettings = Def.settings(
   name := projectName,

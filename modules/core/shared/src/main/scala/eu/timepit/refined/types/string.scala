@@ -14,8 +14,7 @@ object string {
   type FiniteString[N] = String Refined MaxSize[N]
 
   object FiniteString {
-    class FiniteStringOps[N <: Int](
-        implicit
+    class FiniteStringOps[N <: Int](implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
         wn: Witness.Aux[N]
     ) extends RefinedTypeOps[FiniteString[N], String] {
@@ -51,8 +50,7 @@ object string {
      * res1: Either[String, FiniteString[W.`4`.T]] = Right(abcd)
      * }}}
      */
-    def apply[N <: Int](
-        implicit
+    def apply[N <: Int](implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
         wn: Witness.Aux[N]
     ): FiniteStringOps[N] = new FiniteStringOps[N]
@@ -67,8 +65,7 @@ object string {
   type NonEmptyFiniteString[N] = String Refined Size[Interval.Closed[_1, N]]
 
   object NonEmptyFiniteString {
-    class NonEmptyFiniteStringOps[N <: Int](
-        implicit
+    class NonEmptyFiniteStringOps[N <: Int](implicit
         rt: RefinedType.AuxT[NonEmptyFiniteString[N], String],
         wn: Witness.Aux[N]
     ) extends RefinedTypeOps[NonEmptyFiniteString[N], String] {
@@ -105,8 +102,7 @@ object string {
      * res1: Either[String, NonEmptyFiniteString[W.`4`.T]] = Right(abcd)
      * }}}
      */
-    def apply[N <: Int](
-        implicit
+    def apply[N <: Int](implicit
         rt: RefinedType.AuxT[NonEmptyFiniteString[N], String],
         wn: Witness.Aux[N]
     ): NonEmptyFiniteStringOps[N] = new NonEmptyFiniteStringOps[N]

@@ -58,8 +58,10 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
 
   property("And.showResult") = secure {
     (showResult[TT[And]](()) ?= "Both predicates of (true && true) passed.") &&
-    (showResult[FT[And]](()) ?= "Left predicate of (false && true) failed: Predicate failed: false.") &&
-    (showResult[TF[And]](()) ?= "Right predicate of (true && false) failed: Predicate failed: false.") &&
+    (showResult[FT[And]](()) ?=
+      "Left predicate of (false && true) failed: Predicate failed: false.") &&
+    (showResult[TF[And]](())
+      ?= "Right predicate of (true && false) failed: Predicate failed: false.") &&
     (showResult[FF[And]](()) ?= "Both predicates of (false && false) failed. " +
       "Left: Predicate failed: false. Right: Predicate failed: false.")
   }

@@ -13,8 +13,7 @@ trait DerivationInstances {
   /**
    * Instances for typeclasses with a `Contravariant`, e.g. encoders.
    */
-  implicit def refTypeViaContravariant[F[_, _], G[_], T, P](
-      implicit
+  implicit def refTypeViaContravariant[F[_, _], G[_], T, P](implicit
       c: Contravariant[G],
       rt: RefType[F],
       gt: G[T]
@@ -24,8 +23,7 @@ trait DerivationInstances {
    * Instances for typeclasses with a `MonadError[?, String]`, i.e. a
    * disjunction kleisli arrow applied to the typeclass. e.g. decoders.
    */
-  implicit def refTypeViaMonadError[F[_, _], G[_], T, P](
-      implicit
+  implicit def refTypeViaMonadError[F[_, _], G[_], T, P](implicit
       m: MonadError[G, String],
       rt: RefType[F],
       v: Validate[T, P],

@@ -14,9 +14,10 @@ trait Encoder[A] {
 }
 object Encoder {
   @inline def apply[A](implicit A: Encoder[A]): Encoder[A] = A
-  @inline def instance[A](f: A => String): Encoder[A] = new Encoder[A] {
-    override def encode(a: A): String = f(a)
-  }
+  @inline def instance[A](f: A => String): Encoder[A] =
+    new Encoder[A] {
+      override def encode(a: A): String = f(a)
+    }
 
   implicit val string: Encoder[String] = instance(identity)
 

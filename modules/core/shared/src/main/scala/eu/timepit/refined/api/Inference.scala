@@ -8,13 +8,11 @@ package eu.timepit.refined.api
  * `Inference[P, C]` exists, the type `F[T, P]` is considered a subtype
  * of `F[T, C]`.
  */
-case class Inference[P, C](isValid: Boolean, show: String) {
+case class Inference[P, C](show: String) {
 
   final def adapt[P2, C2](adaptedShow: String): Inference[P2, C2] =
     copy(show = adaptedShow.format(show))
 
-  final def notValid: Boolean =
-    !isValid
 }
 
 object Inference {
@@ -24,12 +22,12 @@ object Inference {
   def apply[P, C](implicit i: Inference[P, C]): Inference[P, C] = i
 
   def alwaysValid[P, C](show: String): Inference[P, C] =
-    Inference(isValid = true, show)
+    Inference(show)
 
   def combine[P1, P2, P, C1, C2, C](
       i1: Inference[P1, C1],
       i2: Inference[P2, C2],
       show: String
   ): Inference[P, C] =
-    Inference(i1.isValid && i2.isValid, show.format(i1.show, i2.show))
+    Inference(show.format(i1.show, i2.show))
 }

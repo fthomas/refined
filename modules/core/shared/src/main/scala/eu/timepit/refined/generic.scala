@@ -1,8 +1,6 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
-import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.generic._
+import eu.timepit.refined.api.Validate
 import eu.timepit.refined.internal.WitnessAs
 import shapeless._
 import shapeless.ops.coproduct.ToHList
@@ -10,7 +8,7 @@ import shapeless.ops.hlist.ToList
 import shapeless.ops.record.Keys
 
 /** Module for generic predicates. */
-object generic extends GenericInference {
+object generic {
 
   /** Predicate that checks if a value is equal to `U`. */
   final case class Equal[U](u: U)
@@ -100,14 +98,4 @@ object generic extends GenericInference {
     implicit def supertypeValidate[T, U <: T]: Validate.Plain[T, Supertype[U]] =
       Validate.alwaysPassed(Supertype())
   }
-}
-
-private[refined] trait GenericInference {
-
-  implicit def equalValidateInference[T, U, P](
-      implicit
-      v: Validate[T, P],
-      wu: WitnessAs[U, T]
-  ): Equal[U] ==> P =
-    Inference(v.isValid(wu.snd), s"equalValidateInference(${v.showExpr(wu.snd)})")
 }

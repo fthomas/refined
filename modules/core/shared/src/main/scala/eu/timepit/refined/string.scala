@@ -4,6 +4,7 @@ import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.string._
 import shapeless.Witness
+import singleton.ops.{EndsWith => EW, Id, OpAuxBoolean, StartsWith => SW}
 
 /**
  * Module for `String` related predicates. Note that most of the predicates
@@ -252,15 +253,19 @@ object string extends StringInference {
 
 private[refined] trait StringInference {
 
-  implicit def endsWithInference[A <: String, B <: String](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B]
+  implicit def endsWithInference[A, B](
+      implicit
+      t: OpAuxBoolean[EW[A, B], W.`true`.T],
+      va: Id[A],
+      vb: Id[B]
   ): EndsWith[A] ==> EndsWith[B] =
-    Inference(wa.value.endsWith(wb.value), s"endsWithInference(${wa.value}, ${wb.value})")
+    Inference(s"endsWithInference(${va.value}, ${vb.value})")
 
-  implicit def startsWithInference[A <: String, B <: String](
-      implicit wa: Witness.Aux[A],
-      wb: Witness.Aux[B]
+  implicit def startsWithInference[A, B](
+      implicit
+      t: OpAuxBoolean[SW[A, B], W.`true`.T],
+      va: Id[A],
+      vb: Id[B]
   ): StartsWith[A] ==> StartsWith[B] =
-    Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")
+    Inference(s"startsWithInference(${va.value}, ${vb.value})")
 }

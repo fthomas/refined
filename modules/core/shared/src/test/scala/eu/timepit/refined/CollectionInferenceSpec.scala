@@ -1,7 +1,7 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.TestUtils.wellTyped
-import eu.timepit.refined.api.Inference
+//import eu.timepit.refined.api.Inference
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric.{Greater, Interval}
@@ -11,17 +11,22 @@ import shapeless.nat._
 import shapeless.test.illTyped
 
 class CollectionInferenceSpec extends Properties("CollectionInference") {
+  import shim.Inference
 
+/*
   property("Exists[A] ==> Exists[B]") = secure {
     Inference[Contains[W.`'5'`.T], Exists[Digit]].isValid
   }
-
+*/
   property("Exists ==> NonEmpty") = secure {
     Inference[Exists[Digit], NonEmpty].isValid
   }
 
   property("NonEmpty =!> Exists") = wellTyped {
-    illTyped("Inference[NonEmpty, Exists[Digit]]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[NonEmpty, Exists[Digit]]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("Head[A] ==> Head[B]") = secure {
@@ -33,7 +38,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Exists[A] =!> Head[A]") = wellTyped {
-    illTyped("Inference[Exists[Digit], Head[Digit]]")
+    illTyped("eu.timepit.refined.api.Inference[Exists[Digit], Head[Digit]]")
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {
@@ -57,7 +62,10 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("NonEmpty =!> Last") = wellTyped {
-    illTyped("Inference[NonEmpty, Last[Whitespace]]", "could not find.*Inference.*")
+    illTyped(
+      "eu.timepit.refined.api.Inference[NonEmpty, Last[Whitespace]]",
+      "could not find.*Inference.*"
+    )
   }
 
   property("Size[A] ==> Size[B]") = secure {

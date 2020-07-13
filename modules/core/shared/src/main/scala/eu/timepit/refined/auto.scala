@@ -2,7 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.{Refined, RefType, Validate}
 import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.macros.{InferMacro, RefineMacro}
+import eu.timepit.refined.macros.RefineMacro
 import shapeless.tag.@@
 
 /**
@@ -30,7 +30,8 @@ object auto {
   implicit def autoInfer[F[_, _], T, A, B](ta: F[T, A])(
       implicit rt: RefType[F],
       ir: A ==> B
-  ): F[T, B] = macro InferMacro.impl[F, T, A, B]
+  ): F[T, B] =
+    rt.unsafeRewrap[T, A, B](ta)
 
   /**
    * Implicitly unwraps the `T` from a value of type `F[T, P]` using the

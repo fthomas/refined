@@ -40,8 +40,8 @@ object generic extends GenericInference {
   final case class Supertype[U]()
 
   object Equal {
-    implicit def equalValidate[T, U](
-        implicit wu: WitnessAs[U, T]
+    implicit def equalValidate[T, U](implicit
+        wu: WitnessAs[U, T]
     ): Validate.Plain[T, Equal[U]] =
       Validate.fromPredicate(_ == wu.snd, t => s"($t == ${wu.snd})", Equal(wu.fst))
   }
@@ -51,8 +51,8 @@ object generic extends GenericInference {
       "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
       "0.9.0"
     )
-    implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](
-        implicit lg: LabelledGeneric.Aux[T, R0],
+    implicit def ctorNamesValidate[T, R0 <: Coproduct, R1 <: HList, K <: HList, NP, NR](implicit
+        lg: LabelledGeneric.Aux[T, R0],
         cthl: ToHList.Aux[R0, R1],
         keys: Keys.Aux[R1, K],
         ktl: ToList[K, Symbol],
@@ -70,8 +70,8 @@ object generic extends GenericInference {
       "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
       "0.9.0"
     )
-    implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](
-        implicit lg: LabelledGeneric.Aux[T, R],
+    implicit def fieldNamesValidate[T, R <: HList, K <: HList, NP, NR](implicit
+        lg: LabelledGeneric.Aux[T, R],
         keys: Keys.Aux[R, K],
         ktl: ToList[K, Symbol],
         v: Validate.Aux[List[String], NP, NR]
@@ -104,8 +104,7 @@ object generic extends GenericInference {
 
 private[refined] trait GenericInference {
 
-  implicit def equalValidateInference[T, U, P](
-      implicit
+  implicit def equalValidateInference[T, U, P](implicit
       v: Validate[T, P],
       wu: WitnessAs[U, T]
   ): Equal[U] ==> P =

@@ -24,9 +24,8 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
 
     val validate = validateInstance(v)
     val res = validate.validate(tValue)
-    if (res.isFailed) {
+    if (res.isFailed)
       abort(validate.showResult(tValue, res))
-    }
 
     refTypeInstance(rt).unsafeWrapM(c)(t)
   }
@@ -38,8 +37,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
   ): c.Expr[FTP] =
     c.Expr[FTP](impl(t)(rt, v).tree)
 
-  private def validateInstance[T, P](v: c.Expr[Validate[T, P]])(
-      implicit
+  private def validateInstance[T, P](v: c.Expr[Validate[T, P]])(implicit
       T: c.WeakTypeTag[T],
       P: c.WeakTypeTag[P]
   ): Validate[T, P] =

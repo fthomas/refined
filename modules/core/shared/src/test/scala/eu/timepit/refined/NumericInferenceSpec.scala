@@ -111,5 +111,5 @@ class NumericInferenceSpec extends Properties("NumericInference") {
   property("Equal[Nat] =!> Greater[A]") = secure {
     Inference[Equal[_5], Greater[W.`10`.T]].notValid
   }
- */
+   */
 }

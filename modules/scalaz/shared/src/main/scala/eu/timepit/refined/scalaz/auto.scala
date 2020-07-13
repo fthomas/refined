@@ -11,8 +11,8 @@ object auto {
    * satisfies the predicate `P`. If it does not satisfy the predicate,
    * compilation fails.
    */
-  implicit def autoRefineScalazTag[T, P](t: T)(
-      implicit rt: RefType[@@],
+  implicit def autoRefineScalazTag[T, P](t: T)(implicit
+      rt: RefType[@@],
       v: Validate[T, P]
   ): T @@ P = macro RefineMacro.impl[@@, T, P]
 }

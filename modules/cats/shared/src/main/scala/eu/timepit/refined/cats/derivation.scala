@@ -13,8 +13,7 @@ trait DerivationInstances {
    *
    * Typical examples for `G` are encoders.
    */
-  implicit def refTypeViaContravariant[F[_, _], G[_], T, P](
-      implicit
+  implicit def refTypeViaContravariant[F[_, _], G[_], T, P](implicit
       c: Contravariant[G],
       rt: RefType[F],
       gt: G[T]
@@ -26,8 +25,7 @@ trait DerivationInstances {
    *
    * Typical examples for `G` are decoders.
    */
-  implicit def refTypeViaMonadError[F[_, _], G[_], T, P](
-      implicit
+  implicit def refTypeViaMonadError[F[_, _], G[_], T, P](implicit
       m: MonadError[G, String],
       rt: RefType[F],
       v: Validate[T, P],

@@ -7,16 +7,17 @@ trait LiteralMatchers {
   import c.universe._
 
   private[macros] object BigIntMatcher {
-    def unapply(expr: c.Tree): Option[BigInt] = expr match {
-      case q"scala.`package`.BigInt.apply(${lit: Literal})" =>
-        lit.value.value match {
-          case i: Int    => Some(BigInt(i))
-          case l: Long   => Some(BigInt(l))
-          case s: String => scala.util.Try(BigInt(s)).toOption
-          case _         => None
-        }
-      case _ => None
-    }
+    def unapply(expr: c.Tree): Option[BigInt] =
+      expr match {
+        case q"scala.`package`.BigInt.apply(${lit: Literal})" =>
+          lit.value.value match {
+            case i: Int    => Some(BigInt(i))
+            case l: Long   => Some(BigInt(l))
+            case s: String => scala.util.Try(BigInt(s)).toOption
+            case _         => None
+          }
+        case _ => None
+      }
   }
 
   private[macros] object BigDecimalMatcher {

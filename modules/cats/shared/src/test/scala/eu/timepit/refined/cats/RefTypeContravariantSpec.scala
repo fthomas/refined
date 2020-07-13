@@ -12,9 +12,10 @@ trait Encoder[A] {
 object Encoder {
   def apply[A](implicit e: Encoder[A]): Encoder[A] = e
 
-  def instance[A](f: A => String): Encoder[A] = new Encoder[A] {
-    override def encode(a: A): String = f(a)
-  }
+  def instance[A](f: A => String): Encoder[A] =
+    new Encoder[A] {
+      override def encode(a: A): String = f(a)
+    }
 
   implicit val encoderContravariant: Contravariant[Encoder] =
     new Contravariant[Encoder] {

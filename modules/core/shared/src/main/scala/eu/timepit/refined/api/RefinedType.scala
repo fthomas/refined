@@ -47,8 +47,7 @@ object RefinedType {
     type T = T0
   }
 
-  implicit def instance[F0[_, _], T0, P0](
-      implicit
+  implicit def instance[F0[_, _], T0, P0](implicit
       rt: RefType[F0],
       v: Validate[T0, P0]
   ): Aux[F0[T0, P0], F0, T0, P0] =

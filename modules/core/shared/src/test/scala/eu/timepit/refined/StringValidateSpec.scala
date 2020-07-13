@@ -118,8 +118,8 @@ class StringValidateSpec extends Properties("StringValidate") {
     showResult[IPv6]("2001::0::1234") ?= "Predicate failed: 2001::0::1234 is a valid IPv6."
   }
 
-  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(
-      implicit v: Validate[String, P]
+  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(implicit
+      v: Validate[String, P]
   ) = {
     property(name) = secure {
       forAll { (n: N) =>

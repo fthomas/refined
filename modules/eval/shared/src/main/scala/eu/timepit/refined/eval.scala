@@ -14,8 +14,8 @@ object eval {
     // Cache ToolBox for Eval Validate instances
     private lazy val toolBox = currentMirror.mkToolBox()
 
-    implicit def evalValidate[T, S <: String](
-        implicit mt: Manifest[T],
+    implicit def evalValidate[T, S <: String](implicit
+        mt: Manifest[T],
         ws: Witness.Aux[S]
     ): Validate.Plain[T, Eval[S]] = {
       // The ascription (T => Boolean) allows to omit the parameter

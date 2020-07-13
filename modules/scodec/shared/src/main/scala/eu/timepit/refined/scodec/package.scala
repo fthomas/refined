@@ -6,8 +6,8 @@ import eu.timepit.refined.api.{RefType, Validate}
 
 package object scodec {
 
-  implicit def refTypeCodec[F[_, _], T, P](
-      implicit codec: Codec[T],
+  implicit def refTypeCodec[F[_, _], T, P](implicit
+      codec: Codec[T],
       refType: RefType[F],
       validate: Validate[T, P]
   ): Codec[F[T, P]] =

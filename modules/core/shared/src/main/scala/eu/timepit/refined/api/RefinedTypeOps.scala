@@ -24,8 +24,8 @@ import eu.timepit.refined.macros.RefineMacro
  */
 class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Serializable {
 
-  def apply[F[_, _], P](t: T)(
-      implicit ev: F[T, P] =:= FTP,
+  def apply[F[_, _], P](t: T)(implicit
+      ev: F[T, P] =:= FTP,
       rt: RefType[F],
       v: Validate[T, P]
   ): FTP =

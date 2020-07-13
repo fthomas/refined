@@ -11,7 +11,7 @@ class BigLiteralsSpec extends Properties("BigLiterals") {
 
   property("autoRefineV") = secure {
     val ii: BigInt Refined Positive = BigInt(1)
-    val il: BigInt Refined Positive = BigInt(0X7FFFFFFFFFFFFFFFL)
+    val il: BigInt Refined Positive = BigInt(0x7fffffffffffffffL)
     val is: BigInt Refined Positive = BigInt("1")
 
     val dd: BigDecimal Refined Positive = BigDecimal(1.0)

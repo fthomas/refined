@@ -7,10 +7,11 @@ import org.scalacheck.{Cogen, Prop, Properties}
 
 class PackageSpec extends Properties("Package") {
   // this is just copied from core since core’s test configuration is built for scalacheck 1.14 only
-  def wellTyped[A](body: => A): Prop = Prop.secure {
-    body
-    true
-  }
+  def wellTyped[A](body: => A): Prop =
+    Prop.secure {
+      body
+      true
+    }
 
   property("Cogen[Short Refined Positive]") = wellTyped(Cogen[Short Refined Positive])
 

@@ -439,6 +439,7 @@ The following people have helped making **refined** great:
 * [Richard Gomes](https://github.com/frgomes)
 * [ronanM](https://github.com/ronanM)
 * [Sam Halliday](https://github.com/fommil)
+* [Shawn Garner](https://github.com/BusyByte)
 * [Shohei Shimomura](https://github.com/sh0hei)
 * [Tim Steinbach](https://github.com/NeQuissimus)
 * [Torsten Scholak](https://github.com/tscholak)

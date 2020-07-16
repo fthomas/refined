@@ -1,4 +1,4 @@
-latestVersion in ThisBuild := "0.9.14"
+latestVersion in ThisBuild := "0.9.15"
 
 bincompatVersions in ThisBuild := Set(
   "0.9.3",
@@ -11,7 +11,8 @@ bincompatVersions in ThisBuild := Set(
   "0.9.10",
   "0.9.12",
   "0.9.13",
-  "0.9.14"
+  "0.9.14",
+  "0.9.15"
   // NEXT_VERSION
 )
 

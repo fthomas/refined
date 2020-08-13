@@ -31,7 +31,7 @@ class NetTypesSpec extends Properties("NetTypes") {
 
   property("Rfc1918ClassBPrivateSpec.before") = secure {
     showResult[Rfc1918ClassBPrivateSpec]("172.14.255.255") ?=
-      """Right predicate of (172.14.255.255 is a valid IPv4 && "172.14.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+")) failed: Predicate failed: "172.14.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+")."""
+      """Right predicate of (172.14.255.255 is a valid IPv4 && "172.14.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")) failed: Predicate failed: "172.14.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")."""
   }
 
   property("Rfc1918ClassBPrivateSpec.isValid.first") = secure {
@@ -48,7 +48,12 @@ class NetTypesSpec extends Properties("NetTypes") {
 
   property("Rfc1918ClassBPrivateSpec.after") = secure {
     showResult[Rfc1918ClassBPrivateSpec]("172.32.0.0") ?=
-      """Right predicate of (172.32.0.0 is a valid IPv4 && "172.32.0.0".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+")) failed: Predicate failed: "172.32.0.0".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+")."""
+      """Right predicate of (172.32.0.0 is a valid IPv4 && "172.32.0.0".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")) failed: Predicate failed: "172.32.0.0".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")."""
+  }
+
+  property("Rfc1918ClassBPrivateSpec.issue795") = secure {
+    showResult[Rfc1918ClassBPrivateSpec]("172.222.255.255") ?=
+      """Right predicate of (172.222.255.255 is a valid IPv4 && "172.222.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")) failed: Predicate failed: "172.222.255.255".matches("^172\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\..+")."""
   }
 
   property("Rfc1918ClassCPrivateSpec.before") = secure {

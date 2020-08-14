@@ -3,8 +3,7 @@ package eu.timepit.refined.cats
 import _root_.cats.data.{NonEmptyList, Validated}
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
-import eu.timepit.refined.numeric.{Interval, Positive}
-import eu.timepit.refined.refineMV
+import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
@@ -45,12 +44,12 @@ class SyntaxSpec extends Properties("syntax") {
 
   property("NonEmptyList refinedSize (1)") = secure {
     import syntax._
-    NonEmptyList.of("one").refinedSize ?= refineMV[Positive](1)
+    NonEmptyList.of("one").refinedSize ?= PosInt.unsafeFrom(1)
   }
 
   property("NonEmptyList refinedSize (> 1)") = secure {
     import syntax._
-    NonEmptyList.of("one", "two", "three").refinedSize ?= refineMV[Positive](3)
+    NonEmptyList.of("one", "two", "three").refinedSize ?= PosInt.unsafeFrom(3)
   }
 
 }

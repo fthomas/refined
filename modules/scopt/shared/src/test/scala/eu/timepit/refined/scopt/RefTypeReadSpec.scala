@@ -1,15 +1,12 @@
 package eu.timepit.refined.scopt
 
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric.Positive
+import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import scopt._
 
 class RefTypeReadSpec extends Properties("RefTypeRead") {
 
-  type PosInt = Int Refined Positive
   case class Config(foo: PosInt)
 
   val parser = new OptionParser[Config]("tests") {
@@ -20,7 +17,7 @@ class RefTypeReadSpec extends Properties("RefTypeRead") {
 
   property("load success") = secure {
     loadConfigWithValue("10") =?
-      Some(Config(10))
+      Some(Config(PosInt.unsafeFrom(10)))
   }
 
   property("load failure (predicate)") = secure {
@@ -34,5 +31,5 @@ class RefTypeReadSpec extends Properties("RefTypeRead") {
   }
 
   def loadConfigWithValue(value: String): Option[Config] =
-    parser.parse(Array("-f", value), Config(1))
+    parser.parse(Array("-f", value), Config(PosInt.unsafeFrom(1)))
 }

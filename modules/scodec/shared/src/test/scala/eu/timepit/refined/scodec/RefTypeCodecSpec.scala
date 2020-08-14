@@ -1,24 +1,19 @@
 package eu.timepit.refined.scodec
 
-import eu.timepit.refined.TestUtils._
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric.Positive
+import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import scodec._
 import scodec.bits._
 import scodec.codecs.int8
-import shapeless.test.illTyped
 
 class RefTypeCodecSpec extends Properties("RefTypeCodec") {
 
-  type PosInt = Int Refined Positive
-  implicit val intCodec = int8
+  implicit val intCodec: Codec[Int] = int8
 
   property("decode success") = secure {
     Codec[PosInt].decode(bin"00000101") ?=
-      Attempt.successful(DecodeResult(5: PosInt, BitVector.empty))
+      Attempt.successful(DecodeResult(PosInt.unsafeFrom(5), BitVector.empty))
   }
 
   property("decode failure") = secure {
@@ -27,12 +22,8 @@ class RefTypeCodecSpec extends Properties("RefTypeCodec") {
   }
 
   property("encode success") = secure {
-    Codec[PosInt].encode(5) ?=
+    Codec[PosInt].encode(PosInt.unsafeFrom(5)) ?=
       Attempt.successful(bin"00000101")
-  }
-
-  property("encode failure") = wellTyped {
-    illTyped("""Codec[PosInt].encode(-5)""", "Predicate failed.*")
   }
 
   property("sizeBound") = secure {

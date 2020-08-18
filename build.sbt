@@ -3,7 +3,6 @@ import sbtcrossproject.Platform
 
 /// variables
 
-val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -50,9 +49,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform),
+  "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
-  "scopt" -> List(JVMPlatform, JSPlatform),
+  "scopt" -> List(JVMPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
@@ -205,10 +204,8 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scalazJVM = scalaz.jvm
-lazy val scalazJS = scalaz.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -232,11 +229,8 @@ lazy val scopt = myCrossProject("scopt")
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
-  .jsSettings(scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scoptJVM = scopt.jvm
-lazy val scoptJS = scopt.js
 
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
@@ -324,8 +318,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )
-    },
-    skip.in(publish) := scalaJSVersion06
+    }
   )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
@@ -433,17 +426,6 @@ lazy val scaladocSettings = Def.settings(
 lazy val noPublishSettings = Def.settings(
   skip.in(publish) := true
 )
-
-lazy val disabledWhenScalaJS10 =
-  if (scalaJSVersion06)
-    Def.settings()
-  else
-    Def.settings(
-      Compile / unmanagedSourceDirectories := Seq(),
-      Test / unmanagedSourceDirectories := Seq(),
-      libraryDependencies := Seq(),
-      skip.in(publish) := true
-    )
 
 /// commands
 

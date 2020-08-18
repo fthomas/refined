@@ -12,7 +12,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
 val Scala212 = "2.12.11"
-val Scala213 = "2.13.1"
+val Scala213 = "2.13.3"
 
 val catsVersion = "2.1.1"
 val jsonpathVersion = "2.4.0"
@@ -107,7 +107,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.0.0" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._

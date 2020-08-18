@@ -54,8 +54,8 @@ object boolean extends BooleanInference0 {
   }
 
   object Not {
-    implicit def notValidate[T, P, R](
-        implicit v: Validate.Aux[T, P, R]
+    implicit def notValidate[T, P, R](implicit
+        v: Validate.Aux[T, P, R]
     ): Validate.Aux[T, Not[P], Not[v.Res]] =
       new Validate[T, Not[P]] {
         override type R = Not[v.Res]
@@ -80,8 +80,8 @@ object boolean extends BooleanInference0 {
   }
 
   object And {
-    implicit def andValidate[T, A, RA, B, RB](
-        implicit va: Validate.Aux[T, A, RA],
+    implicit def andValidate[T, A, RA, B, RB](implicit
+        va: Validate.Aux[T, A, RA],
         vb: Validate.Aux[T, B, RB]
     ): Validate.Aux[T, A And B, va.Res And vb.Res] =
       new Validate[T, A And B] {
@@ -113,8 +113,8 @@ object boolean extends BooleanInference0 {
   }
 
   object Or {
-    implicit def orValidate[T, A, RA, B, RB](
-        implicit va: Validate.Aux[T, A, RA],
+    implicit def orValidate[T, A, RA, B, RB](implicit
+        va: Validate.Aux[T, A, RA],
         vb: Validate.Aux[T, B, RB]
     ): Validate.Aux[T, A Or B, va.Res Or vb.Res] =
       new Validate[T, A Or B] {
@@ -146,8 +146,8 @@ object boolean extends BooleanInference0 {
   }
 
   object Xor {
-    implicit def xorValidate[T, A, RA, B, RB](
-        implicit va: Validate.Aux[T, A, RA],
+    implicit def xorValidate[T, A, RA, B, RB](implicit
+        va: Validate.Aux[T, A, RA],
         vb: Validate.Aux[T, B, RB]
     ): Validate.Aux[T, A Xor B, va.Res Xor vb.Res] =
       new Validate[T, A Xor B] {
@@ -182,8 +182,8 @@ object boolean extends BooleanInference0 {
     implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
       Validate.alwaysPassed(AllOf(HList()))
 
-    implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-        implicit vh: Validate.Aux[T, PH, RH],
+    implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
+        vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
     ): Validate.Aux[T, AllOf[PH :: PT], AllOf[vh.Res :: RT]] =
       new Validate[T, AllOf[PH :: PT]] {
@@ -207,8 +207,8 @@ object boolean extends BooleanInference0 {
     implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
       Validate.alwaysFailed(AnyOf(HList()))
 
-    implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-        implicit vh: Validate.Aux[T, PH, RH],
+    implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
+        vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
     ): Validate.Aux[T, AnyOf[PH :: PT], AnyOf[vh.Res :: RT]] =
       new Validate[T, AnyOf[PH :: PT]] {
@@ -232,8 +232,8 @@ object boolean extends BooleanInference0 {
     implicit def oneOfHNilValidate[T]: Validate.Plain[T, OneOf[HNil]] =
       Validate.alwaysFailed(OneOf(HList()))
 
-    implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](
-        implicit vh: Validate.Aux[T, PH, RH],
+    implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
+        vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
         toList: ToList[RT, Result[_]]
     ): Validate.Aux[T, OneOf[PH :: PT], OneOf[vh.Res :: RT]] =

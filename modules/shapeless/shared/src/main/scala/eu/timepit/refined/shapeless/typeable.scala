@@ -9,8 +9,8 @@ package object typeable {
   /**
    * `Typeable` instance for refined types.
    */
-  implicit def refTypeTypeable[F[_, _], T, P](
-      implicit rt: RefType[F],
+  implicit def refTypeTypeable[F[_, _], T, P](implicit
+      rt: RefType[F],
       V: Validate[T, P],
       T: Typeable[T],
       P: Typeable[P]

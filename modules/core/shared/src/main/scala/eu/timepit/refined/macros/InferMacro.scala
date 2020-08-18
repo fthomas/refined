@@ -14,9 +14,8 @@ class InferMacro(val c: blackbox.Context) extends MacroUtils {
   ): c.Expr[F[T, B]] = {
 
     val inference = eval(ir)
-    if (inference.notValid) {
+    if (inference.notValid)
       abort(Resources.invalidInference(weakTypeOf[A].toString, weakTypeOf[B].toString))
-    }
 
     refTypeInstance(rt).unsafeRewrapM(c)(ta)
   }

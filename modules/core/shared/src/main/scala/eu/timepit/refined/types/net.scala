@@ -66,7 +66,7 @@ object net {
   /** A `String` representing a valid IPv4 in the benchmarking network 198.18.0.0/15 (RFC2544) */
   type Rfc2544Benchmark = String Refined Rfc2544BenchmarkSpec
 
-  /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544  */
+  /** A `String` representing a valid IPv4 in a private network according to RFC1918, RFC5737, RFC3927 or RFC2544 */
   type PrivateNetwork =
     String Refined (Rfc1918PrivateSpec Or Rfc5737TestnetSpec Or Rfc3927LocalLinkSpec Or Rfc2544BenchmarkSpec)
 
@@ -76,7 +76,9 @@ object net {
       IPv4 And StartsWith[W.`"10."`.T]
 
     type Rfc1918ClassBPrivateSpec =
-      IPv4 And MatchesRegex[W.`"^172\\\\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+"`.T]
+      IPv4 And MatchesRegex[
+        W.`"^172\\\\.(16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\\\\..+"`.T
+      ]
 
     type Rfc1918ClassCPrivateSpec =
       IPv4 And StartsWith[W.`"192.168."`.T]

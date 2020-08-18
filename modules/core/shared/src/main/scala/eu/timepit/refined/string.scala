@@ -76,8 +76,8 @@ object string extends StringInference {
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
 
   object EndsWith {
-    implicit def endsWithValidate[S <: String](
-        implicit ws: Witness.Aux[S]
+    implicit def endsWithValidate[S <: String](implicit
+        ws: Witness.Aux[S]
     ): Validate.Plain[String, EndsWith[S]] =
       Validate.fromPredicate(
         _.endsWith(ws.value),
@@ -145,8 +145,8 @@ object string extends StringInference {
   }
 
   object MatchesRegex {
-    implicit def matchesRegexValidate[S <: String](
-        implicit ws: Witness.Aux[S]
+    implicit def matchesRegexValidate[S <: String](implicit
+        ws: Witness.Aux[S]
     ): Validate.Plain[String, MatchesRegex[S]] =
       Validate.fromPredicate(
         _.matches(ws.value),
@@ -161,8 +161,8 @@ object string extends StringInference {
   }
 
   object StartsWith {
-    implicit def startsWithValidate[S <: String](
-        implicit ws: Witness.Aux[S]
+    implicit def startsWithValidate[S <: String](implicit
+        ws: Witness.Aux[S]
     ): Validate.Plain[String, StartsWith[S]] =
       Validate.fromPredicate(
         _.startsWith(ws.value),
@@ -252,14 +252,14 @@ object string extends StringInference {
 
 private[refined] trait StringInference {
 
-  implicit def endsWithInference[A <: String, B <: String](
-      implicit wa: Witness.Aux[A],
+  implicit def endsWithInference[A <: String, B <: String](implicit
+      wa: Witness.Aux[A],
       wb: Witness.Aux[B]
   ): EndsWith[A] ==> EndsWith[B] =
     Inference(wa.value.endsWith(wb.value), s"endsWithInference(${wa.value}, ${wb.value})")
 
-  implicit def startsWithInference[A <: String, B <: String](
-      implicit wa: Witness.Aux[A],
+  implicit def startsWithInference[A <: String, B <: String](implicit
+      wa: Witness.Aux[A],
       wb: Witness.Aux[B]
   ): StartsWith[A] ==> StartsWith[B] =
     Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")

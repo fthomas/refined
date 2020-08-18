@@ -12,8 +12,8 @@ import eu.timepit.refined.macros.RefineMacro
  */
 final class ApplyRefMPartiallyApplied[FTP] {
 
-  def apply[F[_, _], T, P](t: T)(
-      implicit ev: F[T, P] =:= FTP,
+  def apply[F[_, _], T, P](t: T)(implicit
+      ev: F[T, P] =:= FTP,
       rt: RefType[F],
       v: Validate[T, P]
   ): FTP = macro RefineMacro.implApplyRef[FTP, F, T, P]

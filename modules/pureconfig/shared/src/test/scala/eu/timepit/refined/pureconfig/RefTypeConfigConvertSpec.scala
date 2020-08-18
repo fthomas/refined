@@ -1,9 +1,7 @@
 package eu.timepit.refined.pureconfig
 
-import com.typesafe.config.ConfigValueType
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric.Positive
+import com.typesafe.config.{ConfigOriginFactory, ConfigValueType}
+import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import pureconfig._
@@ -12,12 +10,11 @@ import pureconfig.generic.auto._
 
 class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
-  type PosInt = Int Refined Positive
   case class Config(value: PosInt)
 
   property("load success") = secure {
     loadConfigWithValue("1") ?=
-      Right(Config(1))
+      Right(Config(PosInt.unsafeFrom(1)))
   }
 
   property("load failure (predicate)") = secure {
@@ -30,7 +27,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
             because = "Predicate failed: (0 > 0)."
           ),
-          location = None,
+          origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
           path = "value"
         )
       )
@@ -47,7 +44,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
             because = "Predicate failed: (0 > 0)."
           ),
-          location = None,
+          origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
           path = "value"
         )
       )
@@ -67,7 +64,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
               foundType = ConfigValueType.STRING,
               expectedTypes = Set(ConfigValueType.NUMBER)
             ),
-            location = None,
+            origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
             path = "value"
           )
         )
@@ -75,7 +72,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   }
 
   property("roundtrip success") = secure {
-    val config = Config(1)
+    val config = Config(PosInt.unsafeFrom(1))
     val configValue = ConfigConvert[Config].to(config)
     ConfigConvert[Config].from(configValue) ?=
       Right(config)

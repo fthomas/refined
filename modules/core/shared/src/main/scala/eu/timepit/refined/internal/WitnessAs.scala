@@ -27,16 +27,15 @@ final case class WitnessAs[A, B](fst: A, snd: B)
 object WitnessAs {
   def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
 
-  implicit def natWitnessAs[B, A <: Nat](
-      implicit
+  implicit def natWitnessAs[B, A <: Nat](implicit
       wa: Witness.Aux[A],
       ta: ToInt[A],
       nb: Numeric[B]
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  implicit def singletonWitnessAs[B, A <: B](
-      implicit wa: Witness.Aux[A]
+  implicit def singletonWitnessAs[B, A <: B](implicit
+      wa: Witness.Aux[A]
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, wa.value)
 }

@@ -23,34 +23,33 @@ trait MaxInstances extends LowPriorityMaxInstances {
   implicit val doubleMax: Max[Double] = Max.instance(Double.MaxValue)
   implicit val charMax: Max[Char] = Max.instance(Char.MaxValue)
 
-  implicit def greaterMax[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def greaterMax[F[_, _], T, N](implicit
+      rt: RefType[F],
       mt: Max[T]
   ): Max[F[T, Greater[N]]] =
     Max.instance(rt.unsafeWrap(mt.max))
 
-  implicit def greaterEqualMax[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def greaterEqualMax[F[_, _], T, N](implicit
+      rt: RefType[F],
       mt: Max[T]
   ): Max[F[T, GreaterEqual[N]]] =
     Max.instance(rt.unsafeWrap(mt.max))
 
-  implicit def lessEqualMax[F[_, _], T, N](
-      implicit
+  implicit def lessEqualMax[F[_, _], T, N](implicit
       rt: RefType[F],
       wn: WitnessAs[N, T]
   ): Max[F[T, LessEqual[N]]] =
     Max.instance(rt.unsafeWrap(wn.snd))
 
-  implicit def lessMax[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def lessMax[F[_, _], T, N](implicit
+      rt: RefType[F],
       lessEqualMax: Max[F[T, LessEqual[N]]],
       at: Adjacent[T]
   ): Max[F[T, Less[N]]] =
     Max.instance(rt.unsafeWrap(at.nextDown(rt.unwrap(lessEqualMax.max))))
 
-  implicit def andMax[F[_, _], T, L, R](
-      implicit rt: RefType[F],
+  implicit def andMax[F[_, _], T, L, R](implicit
+      rt: RefType[F],
       ml: Max[F[T, L]],
       mr: Max[F[T, R]],
       at: Adjacent[T],
@@ -60,8 +59,8 @@ trait MaxInstances extends LowPriorityMaxInstances {
 }
 
 trait LowPriorityMaxInstances {
-  implicit def validateMax[F[_, _], T, P](
-      implicit rt: RefType[F],
+  implicit def validateMax[F[_, _], T, P](implicit
+      rt: RefType[F],
       mt: Max[T],
       at: Adjacent[T],
       v: Validate[T, P]

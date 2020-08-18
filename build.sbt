@@ -3,7 +3,6 @@ import sbtcrossproject.Platform
 
 /// variables
 
-val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -12,13 +11,13 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
-val Scala212 = "2.12.10"
+val Scala212 = "2.12.11"
 val Scala213 = "2.13.1"
 
 val catsVersion = "2.1.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.12.3"
+val pureconfigVersion = "0.13.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.3.0"
@@ -26,18 +25,19 @@ val scalazVersion = "7.2.30"
 val scodecVersion = "1.11.7"
 val scoptVersion = "3.7.1"
 
-def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 12 =>
-      Seq(
-        compilerPlugin(
-          ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
+  Def.setting {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v <= 12 =>
+        Seq(
+          compilerPlugin(
+            ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+          )
         )
-      )
-    case _ =>
-      Seq.empty // https://github.com/scala/scala/pull/6606
+      case _ =>
+        Seq.empty // https://github.com/scala/scala/pull/6606
+    }
   }
-}
 
 val scalaCheckDep =
   Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
@@ -49,9 +49,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform),
+  "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
-  "scopt" -> List(JVMPlatform, JSPlatform),
+  "scopt" -> List(JVMPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
@@ -204,10 +204,8 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scalazJVM = scalaz.jvm
-lazy val scalazJS = scalaz.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -231,11 +229,8 @@ lazy val scopt = myCrossProject("scopt")
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
-  .jsSettings(scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scoptJVM = scopt.jvm
-lazy val scoptJS = scopt.js
 
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
@@ -303,44 +298,46 @@ lazy val moduleCrossSettings = Def.settings(
   commonSettings
 )
 
-def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  javaOptions ++= Seq("-Duser.language=en"),
-  Test / fork := true,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
-  mimaPreviousArtifacts := {
-    val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
-    if (hasPredecessor && publishArtifact.value)
-      bincompatVersions.value.map(v => groupId %% moduleName.value % v)
-    else
-      Set.empty
-  },
-  mimaBinaryIssueFilters ++= {
-    import com.typesafe.tools.mima.core._
-    Seq(
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
-    )
-  },
-  skip.in(publish) := scalaJSVersion06
-)
+def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala212,
+    javaOptions ++= Seq("-Duser.language=en"),
+    Test / fork := true,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
+    mimaPreviousArtifacts := {
+      val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
+      if (hasPredecessor && publishArtifact.value)
+        bincompatVersions.value.map(v => groupId %% moduleName.value % v)
+      else
+        Set.empty
+    },
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+      )
+    }
+  )
 
-def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala212,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false
+  )
 
-def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-  // Disable Scaladoc generation because of:
-  // [error] dropping dependency on node with no phase object: mixin
-  Compile / doc / sources := Seq.empty,
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
+    // Disable Scaladoc generation because of:
+    // [error] dropping dependency on node with no phase object: mixin
+    Compile / doc / sources := Seq.empty,
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false
+  )
 
 lazy val metadataSettings = Def.settings(
   name := projectName,
@@ -429,17 +426,6 @@ lazy val scaladocSettings = Def.settings(
 lazy val noPublishSettings = Def.settings(
   skip.in(publish) := true
 )
-
-lazy val disabledWhenScalaJS10 =
-  if (scalaJSVersion06)
-    Def.settings()
-  else
-    Def.settings(
-      Compile / unmanagedSourceDirectories := Seq(),
-      Test / unmanagedSourceDirectories := Seq(),
-      libraryDependencies := Seq(),
-      skip.in(publish) := true
-    )
 
 /// commands
 

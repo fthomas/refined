@@ -16,7 +16,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.1.1")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
-// addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
 addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.13")
 

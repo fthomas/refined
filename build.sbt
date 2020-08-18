@@ -326,7 +326,8 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
     scalaVersion := Scala212,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
     doctestGenTests := Seq.empty,
-    mimaFailOnNoPrevious := false
+    mimaFailOnNoPrevious := false,
+    coverageEnabled := false
   )
 
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
@@ -336,7 +337,8 @@ def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
     // [error] dropping dependency on node with no phase object: mixin
     Compile / doc / sources := Seq.empty,
     doctestGenTests := Seq.empty,
-    mimaFailOnNoPrevious := false
+    mimaFailOnNoPrevious := false,
+    coverageEnabled := false
   )
 
 lazy val metadataSettings = Def.settings(
@@ -463,10 +465,10 @@ addCommandsAlias(
   Seq(
     "clean",
     "fmtCheck",
-    // "coverage",
+    "coverage",
     "mimaReportBinaryIssues",
     "testJVM",
-    // "coverageReport",
+    "coverageReport",
     "doc",
     "docs/tut",
     "package",

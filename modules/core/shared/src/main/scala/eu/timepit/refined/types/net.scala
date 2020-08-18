@@ -76,7 +76,9 @@ object net {
       IPv4 And StartsWith[W.`"10."`.T]
 
     type Rfc1918ClassBPrivateSpec =
-      IPv4 And MatchesRegex[W.`"^172\\\\.(15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31).+"`.T]
+      IPv4 And MatchesRegex[
+        W.`"^172\\\\.(16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)\\\\..+"`.T
+      ]
 
     type Rfc1918ClassCPrivateSpec =
       IPv4 And StartsWith[W.`"192.168."`.T]

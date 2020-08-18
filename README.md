@@ -427,6 +427,7 @@ The following people have helped making **refined** great:
 * [Jente Hidskes](https://github.com/Hjdskes)
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
+* [Julien BENOIT](https://github.com/jbenoit2011)
 * [kenji yoshida](https://github.com/xuwei-k)
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)

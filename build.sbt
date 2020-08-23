@@ -107,7 +107,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.0.0" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.0.1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._

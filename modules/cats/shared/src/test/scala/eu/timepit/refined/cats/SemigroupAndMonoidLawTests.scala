@@ -1,6 +1,4 @@
 package eu.timepit.refined.cats
-
-import cats.implicits._
 import cats.kernel.{Monoid, Semigroup}
 import cats.kernel.laws.discipline.{MonoidTests, SemigroupTests, SerializableTests}
 import eu.timepit.refined.scalacheck.numeric._

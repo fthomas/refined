@@ -1,6 +1,6 @@
 package eu.timepit.refined.cats
 
-import cats.implicits._
+import cats.syntax.all._
 import eu.timepit.refined.types.numeric._
 import org.scalacheck.Prop.secure
 import org.scalacheck.Properties

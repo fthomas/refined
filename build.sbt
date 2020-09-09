@@ -55,9 +55,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
-val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case _ =>
-    List(Scala212, Scala213)
+val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = { case _ =>
+  List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -281,13 +280,12 @@ def moduleCrossConfig(name: String, module: String): CrossProject => CrossProjec
     .settings(moduleName := s"$projectName-$module")
     .settings(moduleCrossSettings)
 
-  moduleCrossPlatformMatrix(name).foldRight(transform) {
-    case (platform, t) =>
-      platform match {
-        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(module)))
-        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(module)))
-        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(module)))
-      }
+  moduleCrossPlatformMatrix(name).foldRight(transform) { case (platform, t) =>
+    platform match {
+      case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(module)))
+      case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(module)))
+      case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(module)))
+    }
   }
 }
 

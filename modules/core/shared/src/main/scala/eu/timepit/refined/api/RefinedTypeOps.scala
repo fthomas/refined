@@ -15,11 +15,11 @@ import eu.timepit.refined.macros.RefineMacro
  *
  * scala> object PosInt extends RefinedTypeOps[PosInt, Int]
  *
- * scala> PosInt(1)
- * res0: PosInt = 1
+ * scala> PosInt.from(1)
+ * res0: Either[String, PosInt] = Right(1)
  *
- * scala> PosInt.from(2)
- * res1: Either[String, PosInt] = Right(2)
+ * scala> PosInt.unsafeFrom(2)
+ * res1: PosInt = 2
  * }}}
  */
 class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Serializable {

@@ -38,12 +38,11 @@ object auto {
    * used as it were a subtype of `T`.
    *
    * Example: {{{
-   * scala> import eu.timepit.refined.api.Refined
-   *      | import eu.timepit.refined.auto.{ autoRefineV, autoUnwrap }
-   *      | import eu.timepit.refined.numeric.Positive
+   * scala> import eu.timepit.refined.auto.autoUnwrap
+   *      | import eu.timepit.refined.types.numeric.PosInt
    *
    * scala> def plusOne(i: Int): Int = i + 1
-   *      | val x: Int Refined Positive = 42
+   *      | val x = PosInt.unsafeFrom(42)
    *
    * // converts x implicitly to an Int:
    * scala> plusOne(x)

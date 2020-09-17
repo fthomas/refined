@@ -21,11 +21,11 @@ import shapeless.ops.nat.ToInt
  *      | import eu.timepit.refined.numeric.Greater
  *      | import shapeless.nat._5
  *
- * scala> refineMV[Greater[_5]](10)
- * res1: Int Refined Greater[_5] = 10
+ * scala> refineV[Greater[_5]](10)
+ * res1: Either[String, Int Refined Greater[_5]] = Right(10)
  *
- * scala> refineMV[Greater[W.`1.5`.T]](1.6)
- * res2: Double Refined Greater[W.`1.5`.T] = 1.6
+ * scala> refineV[Greater[W.`1.5`.T]](1.6)
+ * res2: Either[String, Double Refined Greater[W.`1.5`.T]] = Right(1.6)
  * }}}
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.

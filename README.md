@@ -456,16 +456,6 @@ typeful, functional programming, and provide a safe and friendly environment
 for teaching, learning, and contributing as described in the
 [Scala Code of Conduct](http://scala-lang.org/conduct.html).
 
-## Performance concerns
-
-Using **refined's** macros for compile-time refinement has zero runtime
-overhead for reference types and only causes boxing for value types.
-Refer to [RefineJavapSpec][RefineJavapSpec] and [InferJavapSpec][InferJavapSpec]
-for a detailed analysis of the runtime component of refinement types on the JVM.
-
-[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/InferJavapSpec.scala
-[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/RefineJavapSpec.scala
-
 ## Related projects
 
 * [SMT-Based Checking of Predicate-Qualified Types for Scala](http://lara.epfl.ch/~kuncak/papers/SchmidKuncak16CheckingPredicate.pdf)

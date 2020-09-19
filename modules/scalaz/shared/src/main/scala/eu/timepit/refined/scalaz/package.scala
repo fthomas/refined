@@ -2,7 +2,6 @@ package eu.timepit.refined
 
 import _root_.scalaz.{@@, Contravariant, Equal, MonadError, Show}
 import eu.timepit.refined.api.{RefType, Validate}
-import scala.reflect.macros.blackbox
 
 package object scalaz {
 
@@ -16,16 +15,6 @@ package object scalaz {
 
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
         ta.asInstanceOf[T @@ B]
-
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
-          c: blackbox.Context
-      )(t: c.Expr[T]): c.Expr[T @@ P] =
-        c.universe.reify(t.splice.asInstanceOf[T @@ P])
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
-          c: blackbox.Context
-      )(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
-        c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 
   /**

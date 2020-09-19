@@ -24,11 +24,19 @@ trait RefType[F[_, _]] extends Serializable {
 
   def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
 
+  @deprecated(
+    "unsafeWrapM has been deprecated in favor of the non-macro variant unsafeWrap",
+    "0.9.16"
+  )
   def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
       c: blackbox.Context
   )(t: c.Expr[T]): c.Expr[F[T, P]] =
     c.universe.reify(unsafeWrap(t.splice))
 
+  @deprecated(
+    "unsafeRewrapM has been deprecated in favor of the non-macro variant unsafeRewrap",
+    "0.9.16"
+  )
   def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
       c: blackbox.Context
   )(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]] =
@@ -152,16 +160,6 @@ object RefType {
 
       override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
         Refined.unsafeApply(ta.value)
-
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
-          c: blackbox.Context
-      )(t: c.Expr[T]): c.Expr[Refined[T, P]] =
-        c.universe.reify(Refined.unsafeApply(t.splice))
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
-          c: blackbox.Context
-      )(ta: c.Expr[Refined[T, A]]): c.Expr[Refined[T, B]] =
-        c.universe.reify(Refined.unsafeApply(ta.splice.value))
     }
 
   implicit val tagRefType: RefType[@@] =
@@ -174,16 +172,6 @@ object RefType {
 
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
         ta.asInstanceOf[T @@ B]
-
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
-          c: blackbox.Context
-      )(t: c.Expr[T]): c.Expr[T @@ P] =
-        c.universe.reify(t.splice.asInstanceOf[T @@ P])
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
-          c: blackbox.Context
-      )(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
-        c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 
   final class RefTypeOps[F[_, _], T, P](tp: F[T, P])(implicit F: RefType[F]) {

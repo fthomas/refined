@@ -27,7 +27,7 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
     if (res.isFailed)
       abort(validate.showResult(tValue, res))
 
-    refTypeInstance(rt).unsafeWrapM(c)(t)
+    c.universe.reify(rt.splice.unsafeWrap[T, P](t.splice))
   }
 
   def implApplyRef[FTP, F[_, _], T: c.WeakTypeTag, P: c.WeakTypeTag](t: c.Expr[T])(

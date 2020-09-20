@@ -23,7 +23,7 @@ trait MacroUtils {
   }
 
   def tryN[T](n: Int, t: => T): T =
-    Stream.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
+    Iterator.fill(n)(Try(t)).collectFirst { case Success(r) => r }.getOrElse(t)
 
   @deprecated("refTypeInstance is deprecated without replacement", "0.9.16")
   protected def refTypeInstance[F[_, _]](rt: c.Expr[RefType[F]]): RefType[F] =

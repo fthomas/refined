@@ -312,7 +312,6 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )

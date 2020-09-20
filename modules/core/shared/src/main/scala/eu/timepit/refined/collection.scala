@@ -14,24 +14,24 @@ import shapeless.nat.{_0, _1}
 object collection extends CollectionInference {
 
   /**
-   * Predicate that counts the number of elements in a `Traversable`
+   * Predicate that counts the number of elements in an `Iterable`
    * which satisfy the predicate `PA` and passes the result to the numeric
    * predicate `PC`.
    */
   final case class Count[PA, PC](pa: PA, pc: PC)
 
-  /** Predicate that checks if a `Traversable` is empty. */
+  /** Predicate that checks if an `Iterable` is empty. */
   final case class Empty()
 
   /**
-   * Predicate that checks if the predicate `P` holds for all elements of a
-   * `Traversable`.
+   * Predicate that checks if the predicate `P` holds for all elements of an
+   * `Iterable`.
    */
   final case class Forall[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for the first element
-   * of a `Traversable`.
+   * of an `Iterable`.
    */
   final case class Head[P](p: P)
 
@@ -43,60 +43,60 @@ object collection extends CollectionInference {
 
   /**
    * Predicate that checks if the predicate `P` holds for all but the last
-   * element of a `Traversable`.
+   * element of an `Iterable`.
    */
   final case class Init[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for the last element
-   * of a `Traversable`.
+   * of an `Iterable`.
    */
   final case class Last[P](p: P)
 
   /**
-   * Predicate that checks if the size of a `Traversable` satisfies the
+   * Predicate that checks if the size of an `Iterable` satisfies the
    * predicate `P`.
    */
   final case class Size[P](p: P)
 
   /**
    * Predicate that checks if the predicate `P` holds for all but the first
-   * element of a `Traversable`.
+   * element of an `Iterable`.
    */
   final case class Tail[P](p: P)
 
   /**
-   * Predicate that checks if a `Traversable` contains a value
+   * Predicate that checks if an `Iterable` contains a value
    * equal to `U`.
    */
   type Contains[U] = Exists[Equal[U]]
 
   /**
-   * Predicate that checks if the predicate `P` holds for some elements of a
-   * `Traversable`.
+   * Predicate that checks if the predicate `P` holds for some elements of an
+   * `Iterable`.
    */
   type Exists[P] = Not[Forall[Not[P]]]
 
   /**
-   * Predicate that checks if the size of a `Traversable` is greater than
+   * Predicate that checks if the size of an `Iterable` is greater than
    * or equal to `N`.
    */
   type MinSize[N] = Size[GreaterEqual[N]]
 
   /**
-   * Predicate that checks if the size of a `Traversable` is less than
+   * Predicate that checks if the size of an `Iterable` is less than
    * or equal to `N`.
    */
   type MaxSize[N] = Size[Interval.Closed[_0, N]]
 
-  /** Predicate that checks if a `Traversable` is not empty. */
+  /** Predicate that checks if an `Iterable` is not empty. */
   type NonEmpty = Not[Empty]
 
   object Count {
     implicit def countValidate[A, PA, RA, PC, RC, T](implicit
         va: Validate.Aux[A, PA, RA],
         vc: Validate.Aux[Int, PC, RC],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Count[PA, PC], Count[List[va.Res], vc.Res]] =
       new Validate[T, Count[PA, PC]] {
         override type R = Count[List[va.Res], vc.Res]
@@ -122,12 +122,12 @@ object collection extends CollectionInference {
   }
 
   object Empty {
-    implicit def emptyValidate[T](implicit ev: T => Traversable[_]): Validate.Plain[T, Empty] =
+    implicit def emptyValidate[T](implicit ev: T => Iterable[_]): Validate.Plain[T, Empty] =
       Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
   }
 
   object Forall {
-    implicit def forallValidate[A, P, R, T[a] <: Traversable[a]](implicit
+    implicit def forallValidate[A, P, R, T[a] <: Iterable[a]](implicit
         v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Forall[P], Forall[List[v.Res]]] =
       new Validate[T[A], Forall[P]] {
@@ -144,13 +144,13 @@ object collection extends CollectionInference {
 
     implicit def forallValidateView[A, P, R, T](implicit
         v: Validate.Aux[A, P, R],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Forall[P], Forall[List[v.Res]]] =
-      forallValidate[A, P, R, Traversable].contramap(ev)
+      forallValidate[A, P, R, Iterable].contramap(ev)
   }
 
   object Head {
-    implicit def headValidate[A, P, R, T[a] <: Traversable[a]](implicit
+    implicit def headValidate[A, P, R, T[a] <: Iterable[a]](implicit
         v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Head[P], Head[Option[v.Res]]] =
       new Validate[T[A], Head[P]] {
@@ -170,9 +170,9 @@ object collection extends CollectionInference {
 
     implicit def headValidateView[A, P, R, T](implicit
         v: Validate.Aux[A, P, R],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Head[P], Head[Option[v.Res]]] =
-      headValidate[A, P, R, Traversable].contramap(ev)
+      headValidate[A, P, R, Iterable].contramap(ev)
   }
 
   object Index {
@@ -203,7 +203,7 @@ object collection extends CollectionInference {
   }
 
   object Init {
-    implicit def initValidate[A, P, R, T[a] <: Traversable[a]](implicit
+    implicit def initValidate[A, P, R, T[a] <: Iterable[a]](implicit
         v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Init[P], Init[List[v.Res]]] =
       new Validate[T[A], Init[P]] {
@@ -220,13 +220,13 @@ object collection extends CollectionInference {
 
     implicit def initValidateView[A, P, R, T](implicit
         v: Validate.Aux[A, P, R],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Init[P], Init[List[v.Res]]] =
-      initValidate[A, P, R, Traversable].contramap(ev)
+      initValidate[A, P, R, Iterable].contramap(ev)
   }
 
   object Last {
-    implicit def lastValidate[A, P, R, T[a] <: Traversable[a]](implicit
+    implicit def lastValidate[A, P, R, T[a] <: Iterable[a]](implicit
         v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Last[P], Last[Option[v.Res]]] =
       new Validate[T[A], Last[P]] {
@@ -246,15 +246,15 @@ object collection extends CollectionInference {
 
     implicit def lastValidateView[A, P, R, T](implicit
         v: Validate.Aux[A, P, R],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Last[P], Last[Option[v.Res]]] =
-      lastValidate[A, P, R, Traversable].contramap(ev)
+      lastValidate[A, P, R, Iterable].contramap(ev)
   }
 
   object Size {
     implicit def sizeValidate[T, P, RP](implicit
         v: Validate.Aux[Int, P, RP],
-        ev: T => Traversable[_]
+        ev: T => Iterable[_]
     ): Validate.Aux[T, Size[P], Size[v.Res]] =
       new Validate[T, Size[P]] {
         override type R = Size[v.Res]
@@ -276,7 +276,7 @@ object collection extends CollectionInference {
   }
 
   object Tail {
-    implicit def tailValidate[A, P, R, T[a] <: Traversable[a]](implicit
+    implicit def tailValidate[A, P, R, T[a] <: Iterable[a]](implicit
         v: Validate.Aux[A, P, R]
     ): Validate.Aux[T[A], Tail[P], Tail[List[v.Res]]] =
       new Validate[T[A], Tail[P]] {
@@ -293,9 +293,9 @@ object collection extends CollectionInference {
 
     implicit def tailValidateView[A, P, R, T](implicit
         v: Validate.Aux[A, P, R],
-        ev: T => Traversable[A]
+        ev: T => Iterable[A]
     ): Validate.Aux[T, Tail[P], Tail[List[v.Res]]] =
-      tailValidate[A, P, R, Traversable].contramap(ev)
+      tailValidate[A, P, R, Iterable].contramap(ev)
   }
 
   private def optElemShowExpr[A](elem: Option[A], f: A => String): String =

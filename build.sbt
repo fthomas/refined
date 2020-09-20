@@ -11,7 +11,7 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
-val Scala212 = "2.12.11"
+val Scala212 = "2.12.12"
 val Scala213 = "2.13.3"
 
 val catsVersion = "2.2.0"

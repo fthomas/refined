@@ -338,21 +338,21 @@ The library comes with these predefined predicates:
 
 [`collection`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
-* `Contains[U]`: checks if a `Traversable` contains a value equal to `U`
-* `Count[PA, PC]`: counts the number of elements in a `Traversable` which satisfy the
+* `Contains[U]`: checks if an `Iterable` contains a value equal to `U`
+* `Count[PA, PC]`: counts the number of elements in an `Iterable` which satisfy the
   predicate `PA` and passes the result to the predicate `PC`
-* `Empty`: checks if a `Traversable` is empty
-* `NonEmpty`: checks if a `Traversable` is not empty
-* `Forall[P]`: checks if the predicate `P` holds for all elements of a `Traversable`
-* `Exists[P]`: checks if the predicate `P` holds for some elements of a `Traversable`
-* `Head[P]`: checks if the predicate `P` holds for the first element of a `Traversable`
+* `Empty`: checks if an `Iterable` is empty
+* `NonEmpty`: checks if an `Iterable` is not empty
+* `Forall[P]`: checks if the predicate `P` holds for all elements of an `Iterable`
+* `Exists[P]`: checks if the predicate `P` holds for some elements of an `Iterable`
+* `Head[P]`: checks if the predicate `P` holds for the first element of an `Iterable`
 * `Index[N, P]`: checks if the predicate `P` holds for the element at index `N` of a sequence
-* `Init[P]`: checks if the predicate `P` holds for all but the last element of a `Traversable`
-* `Last[P]`: checks if the predicate `P` holds for the last element of a `Traversable`
-* `Tail[P]`: checks if the predicate `P` holds for all but the first element of a `Traversable`
-* `Size[P]`: checks if the size of a `Traversable` satisfies the predicate `P`
-* `MinSize[N]`: checks if the size of a `Traversable` is greater than or equal to `N`
-* `MaxSize[N]`: checks if the size of a `Traversable` is less than or equal to `N`
+* `Init[P]`: checks if the predicate `P` holds for all but the last element of an `Iterable`
+* `Last[P]`: checks if the predicate `P` holds for the last element of an `Iterable`
+* `Tail[P]`: checks if the predicate `P` holds for all but the first element of an `Iterable`
+* `Size[P]`: checks if the size of an `Iterable` satisfies the predicate `P`
+* `MinSize[N]`: checks if the size of an `Iterable` is greater than or equal to `N`
+* `MaxSize[N]`: checks if the size of an `Iterable` is less than or equal to `N`
 
 [`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
 

@@ -91,9 +91,8 @@ syntax for [literal-based singleton types][sip-23].
 4. [Documentation](#documentation)
 5. [Provided predicates](#provided-predicates)
 6. [Contributors and participation](#contributors-and-participation)
-7. [Performance concerns](#performance-concerns)
-8. [Related projects](#related-projects)
-9. [License](#license)
+7. [Related projects](#related-projects)
+8. [License](#license)
 
 ## More examples
 
@@ -199,8 +198,7 @@ For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
-Release notes for the latest version are available in
-[0.9.15.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.15.markdown).
+Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.9.15).
 
 ## Community
 

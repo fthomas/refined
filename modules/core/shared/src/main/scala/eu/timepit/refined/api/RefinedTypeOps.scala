@@ -35,7 +35,7 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
     rt.refine(t)
 
   def unapply(t: T): Option[FTP] =
-    from(t).right.toOption
+    from(t).toOption
 
   def unsafeFrom(t: T): FTP =
     rt.unsafeRefine(t)

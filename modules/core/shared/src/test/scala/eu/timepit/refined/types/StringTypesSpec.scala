@@ -17,12 +17,12 @@ class StringTypesSpec extends Properties("StringTypes") {
 
   property("""FString3.from("")""") = secure {
     val str = ""
-    FString3.from(str).right.map(_.value) ?= Right(str)
+    FString3.from(str).map(_.value) ?= Right(str)
   }
 
   property("""FString3.from("abc")""") = secure {
     val str = "abc"
-    FString3.from(str).right.map(_.value) ?= Right(str)
+    FString3.from(str).map(_.value) ?= Right(str)
   }
 
   property("""FString3.from("abcd")""") = secure {
@@ -58,7 +58,7 @@ class StringTypesSpec extends Properties("StringTypes") {
 
   property("""NEFString3.from("abc")""") = secure {
     val str = "abc"
-    NEFString3.from(str).right.map(_.value) ?= Right(str)
+    NEFString3.from(str).map(_.value) ?= Right(str)
   }
 
   property("""NEFString3.from("abcd")""") = secure {

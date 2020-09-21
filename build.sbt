@@ -367,29 +367,23 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    //"-Xlog-implicits",
+    "-Xfatal-warnings",
+    "-Xlint:-unused,_",
     "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard"
+    "-Ywarn-value-discard",
+    "-Ywarn-unused:implicits",
+    "-Ywarn-unused:imports"
+    //"-Ywarn-unused:locals",
+    //"-Ywarn-unused:params",
+    //"-Ywarn-unused:patvars"
+    //"-Ywarn-unused:privates"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, minor)) if minor >= 12 =>
-        Seq(
-          "-Xlint:-unused,_",
-          //"-Ywarn-unused:implicits",
-          "-Ywarn-unused:imports"
-          //"-Ywarn-unused:locals",
-          //"-Ywarn-unused:params",
-          //"-Ywarn-unused:patvars"
-          //"-Ywarn-unused:privates"
-        )
-      case _ => Seq("-Xlint")
-    }
-  },
-  scalacOptions ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 13)) => Seq.empty
-      case _             => Seq("-Xfatal-warnings")
+      case Some((2, minor)) if minor >= 13 =>
+        Seq("-Xlint:-byname-implicit")
+      case _ =>
+        Seq.empty
     }
   },
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",

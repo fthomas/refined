@@ -8,7 +8,7 @@ import scala.util.{Failure, Success, Try}
 class RefinedTypeOpsSpec extends Properties("RefinedTypeOps") {
 
   property("from ~= unapply") = forAll { i: Int =>
-    NonNegInt.from(i).right.toOption ?= NonNegInt.unapply(i)
+    NonNegInt.from(i).toOption ?= NonNegInt.unapply(i)
   }
 
   property("from ~= unsafeFrom") = forAll { i: Int =>

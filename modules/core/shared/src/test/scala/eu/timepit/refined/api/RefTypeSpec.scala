@@ -64,19 +64,19 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
   }
 
   property("mapRefine success with Positive") = secure {
-    rt.refine[Positive](5).right.flatMap(_.mapRefine(_.toDouble)).isRight
+    rt.refine[Positive](5).flatMap(_.mapRefine(_.toDouble)).isRight
   }
 
   property("mapRefine failure with Positive") = secure {
-    rt.refine[Positive](5).right.flatMap(_.mapRefine(_ - 10)).isLeft
+    rt.refine[Positive](5).flatMap(_.mapRefine(_ - 10)).isLeft
   }
 
   property("coflatMapRefine success with Positive") = secure {
-    rt.refine[Positive](5).right.flatMap(_.coflatMapRefine(_.unwrap)).isRight
+    rt.refine[Positive](5).flatMap(_.coflatMapRefine(_.unwrap)).isRight
   }
 
   property("implicit unwrap") = secure {
-    rt.refine[Positive](5).right.map(_ + 1) == Right(6)
+    rt.refine[Positive](5).map(_ + 1) == Right(6)
   }
 
   property("refine ~= RefType.applyRef") = forAll { (i: Int) =>

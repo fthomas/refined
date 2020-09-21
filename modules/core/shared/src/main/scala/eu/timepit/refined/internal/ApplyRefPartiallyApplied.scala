@@ -16,7 +16,7 @@ final class ApplyRefPartiallyApplied[FTP] {
       rt: RefType[F],
       v: Validate[T, P]
   ): Either[String, FTP] =
-    rt.refine[P](t).right.map(ev)
+    rt.refine[P](t).map(ev)
 
   def unsafeFrom[F[_, _], T, P](t: T)(implicit
       ev: F[T, P] =:= FTP,

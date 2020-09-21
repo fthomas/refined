@@ -65,7 +65,7 @@ package object cats {
 
       refineV[Positive](combined).getOrElse {
         val result: A = Semigroup[A].combine(NonNegShift[A].shift(combined), integral.one)
-        refineV[Positive](result).right.get
+        refineV[Positive].unsafeFrom(result)
       }
     }
 
@@ -77,20 +77,20 @@ package object cats {
 
       refineV[Negative](combined).getOrElse {
         val result: A = NegShift[A].shift(combined)
-        refineV[Negative](result).right.get
+        refineV[Negative].unsafeFrom(result)
       }
     }
 
   private def getSemigroup[A: Semigroup, P](implicit
       v: Validate[A, P]
   ): Semigroup[A Refined P] =
-    Semigroup.instance((x, y) => refineV[P](x.value |+| y.value).right.get)
+    Semigroup.instance((x, y) => refineV[P].unsafeFrom(x.value |+| y.value))
 
   private def getNonNegIntegralMonoid[A: Integral: Monoid: NonNegShift](implicit
       v: Validate[A, NonNegative]
   ): Monoid[A Refined NonNegative] =
     new Monoid[A Refined NonNegative] {
-      override def empty: A Refined NonNegative = refineV[NonNegative](Monoid[A].empty).right.get
+      override def empty: A Refined NonNegative = refineV[NonNegative].unsafeFrom(Monoid[A].empty)
 
       override def combine(
           x: A Refined NonNegative,
@@ -100,7 +100,7 @@ package object cats {
 
         refineV[NonNegative](combined).getOrElse {
           val result: A = NonNegShift[A].shift(combined)
-          refineV[NonNegative](result).right.get
+          refineV[NonNegative].unsafeFrom(result)
         }
       }
     }
@@ -109,10 +109,10 @@ package object cats {
       v: Validate[A, P]
   ): Monoid[A Refined P] =
     new Monoid[A Refined P] {
-      override def empty: A Refined P = refineV[P](Monoid[A].empty).right.get
+      override def empty: A Refined P = refineV[P].unsafeFrom(Monoid[A].empty)
 
       override def combine(x: A Refined P, y: A Refined P): A Refined P =
-        refineV[P](x.value |+| y.value).right.get
+        refineV[P].unsafeFrom(x.value |+| y.value)
     }
 
   @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")

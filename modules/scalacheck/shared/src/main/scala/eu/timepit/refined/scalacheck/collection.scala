@@ -29,7 +29,7 @@ trait CollectionInstances {
       arbT: Arbitrary[T],
       arbSize: Arbitrary[Int Refined P],
       ev1: Buildable[T, C],
-      ev2: C => Traversable[T]
+      ev2: C => Iterable[T]
   ): Arbitrary[F[C, Size[P]]] =
     arbitraryRefType(arbSize.arbitrary.flatMap { n =>
       Gen.buildableOfN[C, T](n.value, arbT.arbitrary)
@@ -49,7 +49,7 @@ trait CollectionInstancesBinCompat1 {
   private[scalacheck] def buildableNonEmptyArbitrary[F[_, _]: RefType, C, T](implicit
       arbT: Arbitrary[T],
       ev1: Buildable[T, C],
-      ev2: C => Traversable[T]
+      ev2: C => Iterable[T]
   ): Arbitrary[F[C, NonEmpty]] =
     arbitraryRefType(Gen.nonEmptyBuildableOf(arbT.arbitrary))
 }

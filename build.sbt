@@ -402,7 +402,19 @@ lazy val compileSettings = Def.settings(
     }
   },
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",
-  Test / console / scalacOptions := (Compile / console / scalacOptions).value
+  Test / console / scalacOptions := (Compile / console / scalacOptions).value,
+  Seq(Compile, Test).map { config =>
+    (unmanagedSourceDirectories in config) ++= {
+      (unmanagedSourceDirectories in config).value.flatMap { dir: File =>
+        if (dir.getName != "scala") Seq(dir)
+        else
+          CrossVersion.partialVersion(scalaVersion.value) match {
+            case Some((x, y)) if !(x == 2 && y == 12) => Seq(new File(dir.getPath + "-2.13+"))
+            case _                                    => Seq(dir)
+          }
+      }
+    }
+  }
 )
 
 lazy val scaladocSettings = Def.settings(
@@ -443,8 +455,7 @@ def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => 
 addCommandsAlias(
   "fmt",
   Seq(
-    "scalafmt",
-    "test:scalafmt",
+    "scalafmtAll",
     "scalafmtSbt"
   )
 )
@@ -452,11 +463,8 @@ addCommandsAlias(
 addCommandsAlias(
   "fmtCheck",
   Seq(
-    "scalafmtCheck",
-    "test:scalafmtCheck",
-    "scalafmtSbtCheck",
-    "scalastyle",
-    "test:scalastyle"
+    "scalafmtCheckAll",
+    "scalafmtSbtCheck"
   )
 )
 

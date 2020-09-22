@@ -409,8 +409,10 @@ lazy val compileSettings = Def.settings(
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((x, y)) if !(x == 2 && y == 12) => Seq(new File(dir.getPath + "-2.13+"))
-            case _                                    => Seq(dir)
+            case Some((2, 12)) => Seq(dir)
+            case Some((2, 13)) => Seq(file(dir.getPath + "-2.13+"))
+            case Some((0, _))  => Seq(file(dir.getPath + "-2.13+"), file(dir.getPath + "-3.0+"))
+            case _             => ???
           }
       }
     }

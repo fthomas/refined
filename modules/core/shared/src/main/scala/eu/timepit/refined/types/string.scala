@@ -2,10 +2,10 @@ package eu.timepit.refined.types
 
 import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty, Size}
+import eu.timepit.refined.internal.compat.ValueOf
 import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.string.{HexStringSpec, Trimmed}
 import shapeless.Nat._1
-import shapeless.Witness
 
 /** Module for `String` refined types. */
 object string {
@@ -16,7 +16,7 @@ object string {
   object FiniteString {
     class FiniteStringOps[N <: Int](implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ) extends RefinedTypeOps[FiniteString[N], String] {
 
       /** The maximum length of a `FiniteString[N]`. */
@@ -52,7 +52,7 @@ object string {
      */
     def apply[N <: Int](implicit
         rt: RefinedType.AuxT[FiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ): FiniteStringOps[N] = new FiniteStringOps[N]
   }
 
@@ -67,7 +67,7 @@ object string {
   object NonEmptyFiniteString {
     class NonEmptyFiniteStringOps[N <: Int](implicit
         rt: RefinedType.AuxT[NonEmptyFiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ) extends RefinedTypeOps[NonEmptyFiniteString[N], String] {
 
       /** The maximum length of a `NonEmptyFiniteString[N]`. */
@@ -104,7 +104,7 @@ object string {
      */
     def apply[N <: Int](implicit
         rt: RefinedType.AuxT[NonEmptyFiniteString[N], String],
-        wn: Witness.Aux[N]
+        wn: ValueOf[N]
     ): NonEmptyFiniteStringOps[N] = new NonEmptyFiniteStringOps[N]
   }
 

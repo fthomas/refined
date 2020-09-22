@@ -1,7 +1,8 @@
 package eu.timepit.refined.internal
 
-import shapeless.{Nat, Witness}
+import eu.timepit.refined.internal.compat.ValueOf
 import shapeless.ops.nat.ToInt
+import shapeless.{Nat, Witness}
 
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`
@@ -35,7 +36,7 @@ object WitnessAs {
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
   implicit def singletonWitnessAs[B, A <: B](implicit
-      wa: Witness.Aux[A]
+      wa: ValueOf[A]
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, wa.value)
 }

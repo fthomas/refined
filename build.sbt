@@ -455,8 +455,7 @@ def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => 
 addCommandsAlias(
   "fmt",
   Seq(
-    "scalafmt",
-    "test:scalafmt",
+    "scalafmtAll",
     "scalafmtSbt"
   )
 )
@@ -464,11 +463,8 @@ addCommandsAlias(
 addCommandsAlias(
   "fmtCheck",
   Seq(
-    "scalafmtCheck",
-    "test:scalafmtCheck",
-    "scalafmtSbtCheck",
-    "scalastyle",
-    "test:scalastyle"
+    "scalafmtCheckAll",
+    "scalafmtSbtCheck"
   )
 )
 

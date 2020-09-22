@@ -35,9 +35,13 @@ jobs:
     - codecov
 
   - scala: 2.13.3 # Remember to update this in build.sbt, too.
+    install:
+    - pip install --user codecov
     script:
     - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
       sbt ++$TRAVIS_SCALA_VERSION validateJS
+    after_success:
+    - codecov
 
   - scala: 0.27.0-RC1 # Remember to update this in build.sbt, too.
     script:

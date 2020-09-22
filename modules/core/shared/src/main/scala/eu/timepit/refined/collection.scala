@@ -102,7 +102,7 @@ object collection extends CollectionInference {
         override type R = Count[List[va.Res], vc.Res]
 
         override def validate(t: T): Res = {
-          val ra = t.toList.map(va.validate)
+          val ra = ev(t).toList.map(va.validate)
           val rc = vc.validate(ra.count(_.isPassed))
           rc.as(Count(ra, rc))
         }
@@ -112,18 +112,18 @@ object collection extends CollectionInference {
 
         override def showResult(t: T, r: Res): String = {
           val c = count(t)
-          val expr = t.map(va.showExpr).mkString("count(", ", ", ")")
+          val expr = ev(t).map(va.showExpr).mkString("count(", ", ", ")")
           Resources.predicateTakingResultDetail(s"$expr = $c", r, vc.showResult(c, r.detail.pc))
         }
 
         private def count(t: T): Int =
-          t.count(va.isValid)
+          ev(t).count(va.isValid)
       }
   }
 
   object Empty {
     implicit def emptyValidate[T](implicit ev: T => Iterable[_]): Validate.Plain[T, Empty] =
-      Validate.fromPredicate(_.isEmpty, t => s"isEmpty($t)", Empty())
+      Validate.fromPredicate(t => ev(t).isEmpty, t => s"isEmpty($t)", Empty())
   }
 
   object Forall {
@@ -185,16 +185,16 @@ object collection extends CollectionInference {
         override type R = Index[N, Option[v.Res]]
 
         override def validate(t: T): Res = {
-          val ra = t.lift(wn.value).map(v.validate)
+          val ra = ev(t).lift(wn.value).map(v.validate)
           Result.fromBoolean(ra.fold(false)(_.isPassed), Index(wn.value, ra))
         }
 
         override def showExpr(t: T): String =
-          optElemShowExpr(t.lift(wn.value), v.showExpr)
+          optElemShowExpr(ev(t).lift(wn.value), v.showExpr)
 
         override def showResult(t: T, r: Res): String =
           optElemShowResult(
-            t.lift(wn.value),
+            ev(t).lift(wn.value),
             r.detail.p,
             (a: A) => s"index($t, ${wn.value}) = $a",
             v.showResult
@@ -260,15 +260,15 @@ object collection extends CollectionInference {
         override type R = Size[v.Res]
 
         override def validate(t: T): Res = {
-          val r = v.validate(t.size)
+          val r = v.validate(ev(t).size)
           r.as(Size(r))
         }
 
         override def showExpr(t: T): String =
-          v.showExpr(t.size)
+          v.showExpr(ev(t).size)
 
         override def showResult(t: T, r: Res): String = {
-          val size = t.size
+          val size = ev(t).size
           val nested = v.showResult(size, r.detail.p)
           Resources.predicateTakingResultDetail(s"size($t) = $size", r, nested)
         }

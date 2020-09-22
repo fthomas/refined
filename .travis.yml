@@ -39,7 +39,7 @@ jobs:
     - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
       sbt ++$TRAVIS_SCALA_VERSION validateJS
 
-  - scala: 0.27.0-RC1 # Remember to update this in build.sbt, too.
+  - scala: 0.27.0-bin-20200826-2e58a66-NIGHTLY # Remember to update this in build.sbt, too.
     script:
     - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile || true
 

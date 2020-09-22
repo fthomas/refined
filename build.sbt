@@ -120,13 +120,23 @@ lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
-    libraryDependencies ++= macroParadise(Compile).value ++ Seq(
-      scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-      scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-      scalaCheckDep.value % Test
-    ),
+    libraryDependencies ++= {
+      macroParadise(Compile).value ++ (
+        if (isDotty.value)
+          Seq(
+            "com.chuusai" % "shapeless_2.13" % shapelessVersion,
+            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion
+          )
+        else
+          Seq(
+            scalaOrganization.value % "scala-reflect" % scalaVersion.value,
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
+            "com.chuusai" %%% "shapeless" % shapelessVersion,
+            "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+            scalaCheckDep.value % Test
+          )
+      )
+    },
     initialCommands += s"""
       import shapeless.tag.@@
     """,
@@ -358,20 +368,19 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-encoding",
+    "UTF-8",
+    "-feature",
+    "-language:existentials,experimental.macros,higherKinds,implicitConversions",
+    "-unchecked",
+    "-Xfatal-warnings"
+  ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, minor)) if minor >= 12 =>
         Seq(
-          "-deprecation",
-          "-encoding",
-          "UTF-8",
-          "-feature",
-          "-language:existentials",
-          "-language:experimental.macros",
-          "-language:higherKinds",
-          "-language:implicitConversions",
-          "-unchecked",
-          "-Xfatal-warnings",
           "-Xlint:-unused,_",
           "-Ywarn-numeric-widen",
           "-Ywarn-value-discard",

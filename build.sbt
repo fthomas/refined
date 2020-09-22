@@ -73,9 +73,7 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM213 = allSubprojectsOf(JVMPlatform, Set(Scala213))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS213 = allSubprojectsOf(JSPlatform, Set(Scala213))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// projects
@@ -308,7 +306,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     mimaPreviousArtifacts := {
       val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
       if (hasPredecessor && publishArtifact.value)
-        bincompatVersions.value.map(v => groupId %% moduleName.value % v)
+        bincompatVersions.value(scalaBinaryVersion.value).map(v => groupId %% moduleName.value % v)
       else
         Set.empty
     },
@@ -456,8 +454,6 @@ addCommandsAlias(
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
-addCommandsAlias("testJS213", allSubprojectsJS213.map(_ + "/test"))
-addCommandsAlias("testJVM213", allSubprojectsJVM213.map(_ + "/test"))
 
 addCommandsAlias(
   "validateJVM",
@@ -469,7 +465,6 @@ addCommandsAlias(
     "testJVM",
     "coverageReport",
     "doc",
-    "docs/tut",
     "package",
     "packageSrc"
   )

@@ -13,6 +13,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 // Remember to update these in .travis.yml, too.
 val Scala212 = "2.12.12"
 val Scala213 = "2.13.3"
+val Dotty = "0.27.0-RC1"
 
 val catsVersion = "2.2.0"
 val jsonpathVersion = "2.4.0"
@@ -55,8 +56,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
-val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = { case _ =>
-  List(Scala212, Scala213)
+val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
+  case ("core", JVMPlatform) => List(Scala212, Scala213, Dotty)
+  case _                     => List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -258,7 +260,8 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
-  """
+  """,
+  skip.in(publish) := isDotty.value
 )
 
 def myCrossProject(name: String): CrossProject =
@@ -270,7 +273,7 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
     .settings(
-      scalaVersion := Scala212,
+      scalaVersion := Scala213,
       crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
     )
 
@@ -298,7 +301,7 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala212,
+    scalaVersion := Scala213,
     javaOptions ++= Seq("-Duser.language=en"),
     Test / fork := true,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
@@ -320,7 +323,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala212,
+    scalaVersion := Scala213,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
@@ -357,33 +360,38 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-encoding",
-    "UTF-8",
-    "-feature",
-    "-language:existentials",
-    "-language:experimental.macros",
-    "-language:higherKinds",
-    "-language:implicitConversions",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Xlint:-unused,_",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard",
-    "-Ywarn-unused:implicits",
-    "-Ywarn-unused:imports"
-    //"-Ywarn-unused:locals",
-    //"-Ywarn-unused:params",
-    //"-Ywarn-unused:patvars"
-    //"-Ywarn-unused:privates"
-  ),
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, minor)) if minor >= 12 =>
+        Seq(
+          "-deprecation",
+          "-encoding",
+          "UTF-8",
+          "-feature",
+          "-language:existentials",
+          "-language:experimental.macros",
+          "-language:higherKinds",
+          "-language:implicitConversions",
+          "-unchecked",
+          "-Xfatal-warnings",
+          "-Xlint:-unused,_",
+          "-Ywarn-numeric-widen",
+          "-Ywarn-value-discard",
+          "-Ywarn-unused:implicits",
+          "-Ywarn-unused:imports"
+          //"-Ywarn-unused:locals",
+          //"-Ywarn-unused:params",
+          //"-Ywarn-unused:patvars"
+          //"-Ywarn-unused:privates"
+        )
+      case _ => Seq.empty
+    }
+  },
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, minor)) if minor >= 13 =>
         Seq("-Xlint:-byname-implicit")
-      case _ =>
-        Seq.empty
+      case _ => Seq.empty
     }
   },
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",

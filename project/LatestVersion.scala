@@ -6,8 +6,8 @@ object LatestVersion extends AutoPlugin {
     lazy val latestVersion: SettingKey[String] =
       settingKey[String]("latest released version")
 
-    lazy val bincompatVersions: SettingKey[Set[String]] =
-      settingKey[Set[String]](
+    lazy val bincompatVersions: SettingKey[Map[String, Set[String]]] =
+      settingKey[Map[String, Set[String]]](
         "set of versions that are checked for binary compatibility with the current HEAD"
       )
 

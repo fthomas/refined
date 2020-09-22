@@ -46,6 +46,10 @@ object generic extends GenericInference {
       Validate.fromPredicate(_ == wu.snd, t => s"($t == ${wu.snd})", Equal(wu.fst))
   }
 
+  @deprecated(
+    "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0"
+  )
   object ConstructorNames {
     @deprecated(
       "Deprecated because ConstructorNames operates on types and not values and refined focuses on refining values.",
@@ -65,6 +69,10 @@ object generic extends GenericInference {
     }
   }
 
+  @deprecated(
+    "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
+    "0.9.0"
+  )
   object FieldNames {
     @deprecated(
       "Deprecated because FieldNames operates on types and not values and refined focuses on refining values.",
@@ -83,6 +91,10 @@ object generic extends GenericInference {
     }
   }
 
+  @deprecated(
+    "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0"
+  )
   object Subtype {
     @deprecated(
       "The Subtype predicate is deprecated without replacement because it is lacking practical relevance.",
@@ -92,6 +104,10 @@ object generic extends GenericInference {
       Validate.alwaysPassed(Subtype())
   }
 
+  @deprecated(
+    "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",
+    "0.9.0"
+  )
   object Supertype {
     @deprecated(
       "The Supertype predicate is deprecated without replacement because it is lacking practical relevance.",

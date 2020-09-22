@@ -260,7 +260,8 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.types.all._
     import shapeless.{ ::, HList, HNil }
     import shapeless.nat._
-  """
+  """,
+  skip.in(publish) := isDotty.value
 )
 
 def myCrossProject(name: String): CrossProject =

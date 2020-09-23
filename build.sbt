@@ -13,7 +13,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 // Remember to update these in .travis.yml, too.
 val Scala212 = "2.12.12"
 val Scala213 = "2.13.3"
-val Dotty = "0.27.0-RC1"
+val Scala30 = "0.27.0-RC1"
 
 val catsVersion = "2.2.0"
 val jsonpathVersion = "2.4.0"
@@ -57,7 +57,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", JVMPlatform) => List(Scala212, Scala213, Dotty)
+  case ("core", JVMPlatform) => List(Scala212, Scala213, Scala30)
   case _                     => List(Scala212, Scala213)
 }
 
@@ -409,8 +409,10 @@ lazy val compileSettings = Def.settings(
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((x, y)) if !(x == 2 && y == 12) => Seq(new File(dir.getPath + "-2.13+"))
-            case _                                    => Seq(dir)
+            case Some((2, 12)) => Seq(file(dir.getPath + "-3.0-"))
+            case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
+            case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
+            case other         => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }
     }

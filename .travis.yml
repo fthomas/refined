@@ -45,7 +45,7 @@ jobs:
 
   - scala: 0.27.0-RC1 # Remember to update this in build.sbt, too.
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile || true
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
 
   - stage: release
     script:

@@ -3,7 +3,6 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.string._
-import shapeless.Witness
 
 /**
  * Module for `String` related predicates. Note that most of the predicates
@@ -77,7 +76,7 @@ object string extends StringInference {
 
   object EndsWith {
     implicit def endsWithValidate[S <: String](implicit
-        ws: Witness.Aux[S]
+        ws: ValueOf[S]
     ): Validate.Plain[String, EndsWith[S]] =
       Validate.fromPredicate(
         _.endsWith(ws.value),
@@ -146,7 +145,7 @@ object string extends StringInference {
 
   object MatchesRegex {
     implicit def matchesRegexValidate[S <: String](implicit
-        ws: Witness.Aux[S]
+        ws: ValueOf[S]
     ): Validate.Plain[String, MatchesRegex[S]] =
       Validate.fromPredicate(
         _.matches(ws.value),
@@ -162,7 +161,7 @@ object string extends StringInference {
 
   object StartsWith {
     implicit def startsWithValidate[S <: String](implicit
-        ws: Witness.Aux[S]
+        ws: ValueOf[S]
     ): Validate.Plain[String, StartsWith[S]] =
       Validate.fromPredicate(
         _.startsWith(ws.value),
@@ -253,14 +252,14 @@ object string extends StringInference {
 private[refined] trait StringInference {
 
   implicit def endsWithInference[A <: String, B <: String](implicit
-      wa: Witness.Aux[A],
-      wb: Witness.Aux[B]
+      wa: ValueOf[A],
+      wb: ValueOf[B]
   ): EndsWith[A] ==> EndsWith[B] =
     Inference(wa.value.endsWith(wb.value), s"endsWithInference(${wa.value}, ${wb.value})")
 
   implicit def startsWithInference[A <: String, B <: String](implicit
-      wa: Witness.Aux[A],
-      wb: Witness.Aux[B]
+      wa: ValueOf[A],
+      wb: ValueOf[B]
   ): StartsWith[A] ==> StartsWith[B] =
     Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")
 }

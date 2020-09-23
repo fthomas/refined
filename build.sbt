@@ -419,6 +419,10 @@ lazy val compileSettings = Def.settings(
 )
 
 lazy val scaladocSettings = Def.settings(
+  Compile / doc / sources := {
+    val result = (Compile / doc / sources).value
+    if (isDotty.value) Seq.empty else result
+  },
   Compile / doc / scalacOptions ++= {
     val tag = s"v${version.value}"
     val tree = if (isSnapshot.value) "master" else tag

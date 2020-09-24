@@ -54,8 +54,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", JVMPlatform) => List(Scala212, Scala213, Scala30)
-  case _                     => List(Scala212, Scala213)
+  case ("core", _)       => List(Scala212, Scala213, Scala30)
+  case ("scalacheck", _) => List(Scala212, Scala213, Scala30)
+  case _                 => List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -70,7 +71,9 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala30))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala30))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// projects
@@ -192,7 +195,12 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
+    libraryDependencies += {
+      if (isDotty.value)
+        "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion
+      else
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion
+    },
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -474,6 +482,11 @@ addCommandsAlias(
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
+
+addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
+addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
+addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
+addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
 addCommandsAlias(
   "validateJVM",

@@ -30,7 +30,7 @@ class RefinedSpec extends Properties("Refined") {
     !Refined.unsafeApply(1).equals(1)
   }
 
-  property("hashCode") = forAll { i: Int => Refined.unsafeApply(i).hashCode() ?= i.hashCode }
+  property("hashCode") = forAll((i: Int) => Refined.unsafeApply(i).hashCode() ?= i.hashCode)
 
   property("unapply") = secure {
     val x: NonEmptyString = refineMV("Hi")

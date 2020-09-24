@@ -12,11 +12,10 @@ import shapeless.ops.nat.ToInt
  * `shapeless.Nat`.
  *
  * Example: {{{
- * scala> import eu.timepit.refined.W
- *      | import shapeless.nat._5
+ * scala> import shapeless.nat._5
  *
- * scala> WitnessAs[W.`5`.T, Int]
- * res1: WitnessAs[W.`5`.T, Int] = WitnessAs(5,5)
+ * scala> WitnessAs[5, Int]
+ * res1: WitnessAs[5, Int] = WitnessAs(5,5)
  *
  * scala> WitnessAs[_5, Int]
  * res2: WitnessAs[_5, Int] = WitnessAs(Succ(),5)

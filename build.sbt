@@ -40,9 +40,6 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
     }
   }
 
-val scalaCheckDep =
-  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
-
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform),
@@ -125,7 +122,8 @@ lazy val core = myCrossProject("core")
         if (isDotty.value)
           Seq(
             "com.chuusai" % "shapeless_2.13" % shapelessVersion,
-            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion
+            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion,
+            "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion % Test
           )
         else
           Seq(
@@ -133,7 +131,7 @@ lazy val core = myCrossProject("core")
             scalaOrganization.value % "scala-compiler" % scalaVersion.value,
             "com.chuusai" %%% "shapeless" % shapelessVersion,
             "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-            scalaCheckDep.value % Test
+            "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
           )
       )
     },
@@ -194,7 +192,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    libraryDependencies += scalaCheckDep.value,
+    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """

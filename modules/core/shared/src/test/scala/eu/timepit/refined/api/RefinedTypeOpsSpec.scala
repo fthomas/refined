@@ -7,11 +7,11 @@ import scala.util.{Failure, Success, Try}
 
 class RefinedTypeOpsSpec extends Properties("RefinedTypeOps") {
 
-  property("from ~= unapply") = forAll { i: Int =>
+  property("from ~= unapply") = forAll { (i: Int) =>
     NonNegInt.from(i).toOption ?= NonNegInt.unapply(i)
   }
 
-  property("from ~= unsafeFrom") = forAll { i: Int =>
+  property("from ~= unsafeFrom") = forAll { (i: Int) =>
     val stringOrNonNegInt = Try(NonNegInt.unsafeFrom(i)) match {
       case Success(n) => Right(n)
       case Failure(t) => Left(t.getMessage)

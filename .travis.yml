@@ -29,8 +29,8 @@ jobs:
     install:
     - pip install --user codecov
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
-      sbt ++$TRAVIS_SCALA_VERSION validateJS
+    - sbt ++$TRAVIS_SCALA_VERSION validateJVM
+    - sbt ++$TRAVIS_SCALA_VERSION validateJS
     after_success:
     - codecov
 
@@ -38,14 +38,15 @@ jobs:
     install:
     - pip install --user codecov
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION validateJVM &&
-      sbt ++$TRAVIS_SCALA_VERSION validateJS
+    - sbt ++$TRAVIS_SCALA_VERSION validateJVM
+    - sbt ++$TRAVIS_SCALA_VERSION validateJS
     after_success:
     - codecov
 
   - scala: 0.27.0-RC1 # Remember to update this in build.sbt, too.
     script:
-    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/compile
+    - sbt ++$TRAVIS_SCALA_VERSION clean coreJVM/compile
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test || true
 
   - stage: release
     script:

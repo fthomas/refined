@@ -7,29 +7,6 @@ import shapeless.tag.@@
 package object refined {
 
   /**
-   * Alias for `shapeless.Witness` that provides concise syntax for
-   * literal-based singleton types.
-   *
-   * Example: {{{
-   * scala> val d: W.`3.14`.T = 3.14
-   * d: Double(3.14) = 3.14
-   *
-   * scala> val s: W.`"abc"`.T = "abc"
-   * s: String("abc") = abc
-   * }}}
-   *
-   * See the [[https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals shapeless wiki]]
-   * for more information about its support for singleton types.
-   *
-   * Note that if a future version of Scala implements
-   * [[http://docs.scala-lang.org/sips/42.type.html SIP-23]],
-   * `shapeless.Witness` won't be necessary anymore to express
-   * literal-based singleton types. It will then be possible to use
-   * literals directly in a position where a type is expected.
-   */
-  val W = shapeless.Witness
-
-  /**
    * Alias for `[[api.RefType.refine]][P]` with `[[api.Refined]]` as type
    * parameter for `[[api.RefType]]`.
    *

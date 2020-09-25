@@ -47,6 +47,7 @@ jobs:
     script:
     - sbt ++$TRAVIS_SCALA_VERSION clean compileJVM30
     - sbt ++$TRAVIS_SCALA_VERSION clean compileJS30
+    - sbt ++$TRAVIS_SCALA_VERSION coreJVM/test
     - sbt ++$TRAVIS_SCALA_VERSION testJVM30 || true
 
   - stage: release

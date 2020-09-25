@@ -51,7 +51,7 @@ object numeric extends NumericInference {
   type GreaterEqual[N] = Not[Less[N]]
 
   /** Predicate that checks if a numeric value is positive (> 0). */
-  type Positive = Greater[0]
+  type Positive = Greater[_0]
 
   /** Predicate that checks if a numeric value is zero or negative (<= 0). */
   type NonPositive = Not[Positive]

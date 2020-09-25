@@ -1,7 +1,6 @@
 package eu.timepit.refined.internal
 
 import shapeless.{Nat, Witness}
-import shapeless.ops.nat.ToInt
 
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`

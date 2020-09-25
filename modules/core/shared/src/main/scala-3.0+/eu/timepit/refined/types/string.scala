@@ -26,11 +26,10 @@ object string {
        * if it is longer than `N`.
        *
        * Example: {{{
-       * scala> import eu.timepit.refined.W
-       *      | import eu.timepit.refined.types.string.FiniteString
+       * scala> import eu.timepit.refined.types.string.FiniteString
        *
-       * scala> FiniteString[W.`3`.T].truncate("abcde")
-       * res1: FiniteString[W.`3`.T] = abc
+       * scala> FiniteString[3].truncate("abcde")
+       * res1: FiniteString[3] = abc
        * }}}
        */
       def truncate(t: String): FiniteString[N] =
@@ -41,12 +40,11 @@ object string {
      * Creates a "companion object" for `FiniteString[N]` with a fixed `N`.
      *
      * Example: {{{
-     * scala> import eu.timepit.refined.W
-     *      | import eu.timepit.refined.types.string.FiniteString
+     * scala> import eu.timepit.refined.types.string.FiniteString
      *
-     * scala> val FString4 = FiniteString[W.`4`.T]
+     * scala> val FString4 = FiniteString[4]
      * scala> FString4.from("abcd")
-     * res1: Either[String, FiniteString[W.`4`.T]] = Right(abcd)
+     * res1: Either[String, FiniteString[4]] = Right(abcd)
      * }}}
      */
     def apply[N <: Int](implicit
@@ -77,11 +75,10 @@ object string {
        * if it is longer than `N`. Returns `None` if `t` is empty.
        *
        * Example: {{{
-       * scala> import eu.timepit.refined.W
-       *      | import eu.timepit.refined.types.string.NonEmptyFiniteString
+       * scala> import eu.timepit.refined.types.string.NonEmptyFiniteString
        *
-       * scala> NonEmptyFiniteString[W.`3`.T].truncate("abcde")
-       * res1: Option[NonEmptyFiniteString[W.`3`.T]] = Some(abc)
+       * scala> NonEmptyFiniteString[3].truncate("abcde")
+       * res1: Option[NonEmptyFiniteString[3]] = Some(abc)
        * }}}
        */
       def truncate(t: String): Option[NonEmptyFiniteString[N]] =
@@ -93,12 +90,11 @@ object string {
      * Creates a "companion object" for `NonEmptyFiniteString[N]` with a fixed `N`.
      *
      * Example: {{{
-     * scala> import eu.timepit.refined.W
-     *      | import eu.timepit.refined.types.string.NonEmptyFiniteString
+     * scala> import eu.timepit.refined.types.string.NonEmptyFiniteString
      *
-     * scala> val NEFString4 = NonEmptyFiniteString[W.`4`.T]
+     * scala> val NEFString4 = NonEmptyFiniteString[4]
      * scala> NEFString4.from("abcd")
-     * res1: Either[String, NonEmptyFiniteString[W.`4`.T]] = Right(abcd)
+     * res1: Either[String, NonEmptyFiniteString[4]] = Right(abcd)
      * }}}
      */
     def apply[N <: Int](implicit

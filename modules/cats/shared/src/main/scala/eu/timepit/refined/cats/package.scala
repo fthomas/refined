@@ -56,8 +56,8 @@ package object cats {
   implicit val nonPosFloatMonoid: Monoid[NonPosFloat] = getMonoid[Float, NonPositive]
   implicit val nonPosDoubleMonoid: Monoid[NonPosDouble] = getMonoid[Double, NonPositive]
 
-  private def getPosIntegralSemigroup[A: Semigroup: NonNegShift](
-      implicit integral: Integral[A],
+  private def getPosIntegralSemigroup[A: Semigroup: NonNegShift](implicit
+      integral: Integral[A],
       v: Validate[A, Positive]
   ): Semigroup[A Refined Positive] =
     Semigroup.instance { (x, y) =>
@@ -65,67 +65,67 @@ package object cats {
 
       refineV[Positive](combined).getOrElse {
         val result: A = Semigroup[A].combine(NonNegShift[A].shift(combined), integral.one)
-        refineV[Positive](result).right.get
+        refineV[Positive].unsafeFrom(result)
       }
     }
 
-  private def getNegIntegralSemigroup[A: Integral: Semigroup: NegShift](
-      implicit v: Validate[A, Negative]
+  private def getNegIntegralSemigroup[A: Integral: Semigroup: NegShift](implicit
+      v: Validate[A, Negative]
   ): Semigroup[A Refined Negative] =
     Semigroup.instance { (x, y) =>
       val combined: A = x.value |+| y.value
 
       refineV[Negative](combined).getOrElse {
         val result: A = NegShift[A].shift(combined)
-        refineV[Negative](result).right.get
+        refineV[Negative].unsafeFrom(result)
       }
     }
 
-  private def getSemigroup[A: Semigroup, P](
-      implicit v: Validate[A, P]
+  private def getSemigroup[A: Semigroup, P](implicit
+      v: Validate[A, P]
   ): Semigroup[A Refined P] =
-    Semigroup.instance { (x, y) =>
-      refineV[P](x.value |+| y.value).right.get
-    }
+    Semigroup.instance((x, y) => refineV[P].unsafeFrom(x.value |+| y.value))
 
-  private def getNonNegIntegralMonoid[A: Integral: Monoid: NonNegShift](
-      implicit v: Validate[A, NonNegative]
-  ): Monoid[A Refined NonNegative] = new Monoid[A Refined NonNegative] {
-    override def empty: A Refined NonNegative = refineV[NonNegative](Monoid[A].empty).right.get
+  private def getNonNegIntegralMonoid[A: Integral: Monoid: NonNegShift](implicit
+      v: Validate[A, NonNegative]
+  ): Monoid[A Refined NonNegative] =
+    new Monoid[A Refined NonNegative] {
+      override def empty: A Refined NonNegative = refineV[NonNegative].unsafeFrom(Monoid[A].empty)
 
-    override def combine(
-        x: A Refined NonNegative,
-        y: A Refined NonNegative
-    ): A Refined NonNegative = {
-      val combined: A = x.value |+| y.value
+      override def combine(
+          x: A Refined NonNegative,
+          y: A Refined NonNegative
+      ): A Refined NonNegative = {
+        val combined: A = x.value |+| y.value
 
-      refineV[NonNegative](combined).getOrElse {
-        val result: A = NonNegShift[A].shift(combined)
-        refineV[NonNegative](result).right.get
+        refineV[NonNegative](combined).getOrElse {
+          val result: A = NonNegShift[A].shift(combined)
+          refineV[NonNegative].unsafeFrom(result)
+        }
       }
     }
-  }
 
-  private def getMonoid[A: Monoid, P](
-      implicit v: Validate[A, P]
-  ): Monoid[A Refined P] = new Monoid[A Refined P] {
-    override def empty: A Refined P = refineV[P](Monoid[A].empty).right.get
+  private def getMonoid[A: Monoid, P](implicit
+      v: Validate[A, P]
+  ): Monoid[A Refined P] =
+    new Monoid[A Refined P] {
+      override def empty: A Refined P = refineV[P].unsafeFrom(Monoid[A].empty)
 
-    override def combine(x: A Refined P, y: A Refined P): A Refined P =
-      refineV[P](x.value |+| y.value).right.get
-  }
+      override def combine(x: A Refined P, y: A Refined P): A Refined P =
+        refineV[P].unsafeFrom(x.value |+| y.value)
+    }
 
   @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
-  def refTypeViaContravariant[F[_, _], G[_], T, P](
-      implicit c: Contravariant[G],
+  def refTypeViaContravariant[F[_, _], G[_], T, P](implicit
+      c: Contravariant[G],
       rt: RefType[F],
       gt: G[T]
   ): G[F[T, P]] =
     cats.derivation.refTypeViaContravariant[F, G, T, P]
 
   @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
-  def refTypeViaMonadError[F[_, _], G[_], T, P](
-      implicit m: MonadError[G, String],
+  def refTypeViaMonadError[F[_, _], G[_], T, P](implicit
+      m: MonadError[G, String],
       rt: RefType[F],
       v: Validate[T, P],
       gt: G[T]

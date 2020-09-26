@@ -23,34 +23,33 @@ trait MinInstances extends LowPriorityMinInstances {
   implicit val doubleMin: Min[Double] = Min.instance(Double.MinValue)
   implicit val charMin: Min[Char] = Min.instance(Char.MinValue)
 
-  implicit def lessMin[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def lessMin[F[_, _], T, N](implicit
+      rt: RefType[F],
       mt: Min[T]
   ): Min[F[T, Less[N]]] =
     Min.instance(rt.unsafeWrap(mt.min))
 
-  implicit def lessEqualMin[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def lessEqualMin[F[_, _], T, N](implicit
+      rt: RefType[F],
       mt: Min[T]
   ): Min[F[T, LessEqual[N]]] =
     Min.instance(rt.unsafeWrap(mt.min))
 
-  implicit def greaterEqualMin[F[_, _], T, N](
-      implicit
+  implicit def greaterEqualMin[F[_, _], T, N](implicit
       rt: RefType[F],
       wn: WitnessAs[N, T]
   ): Min[F[T, GreaterEqual[N]]] =
     Min.instance(rt.unsafeWrap(wn.snd))
 
-  implicit def greaterMin[F[_, _], T, N](
-      implicit rt: RefType[F],
+  implicit def greaterMin[F[_, _], T, N](implicit
+      rt: RefType[F],
       greaterEqualMin: Min[F[T, GreaterEqual[N]]],
       at: Adjacent[T]
   ): Min[F[T, Greater[N]]] =
     Min.instance(rt.unsafeWrap(at.nextUp(rt.unwrap(greaterEqualMin.min))))
 
-  implicit def andMin[F[_, _], T, L, R](
-      implicit rt: RefType[F],
+  implicit def andMin[F[_, _], T, L, R](implicit
+      rt: RefType[F],
       ml: Min[F[T, L]],
       mr: Min[F[T, R]],
       at: Adjacent[T],
@@ -60,8 +59,8 @@ trait MinInstances extends LowPriorityMinInstances {
 }
 
 trait LowPriorityMinInstances {
-  implicit def validateMin[F[_, _], T, P](
-      implicit rt: RefType[F],
+  implicit def validateMin[F[_, _], T, P](implicit
+      rt: RefType[F],
       mt: Min[T],
       at: Adjacent[T],
       v: Validate[T, P]

@@ -24,11 +24,11 @@ object Decoder {
   implicit val string: Decoder[String] = instance(_.right)
 
   type Out[a] = String \/ a
-  type MT[a] = ReaderT[Out, String, a]
+  type MT[a] = ReaderT[String, Out, a]
   implicit val isoReaderT: Decoder <~> MT =
     new IsoFunctorTemplate[Decoder, MT] {
       def from[A](fa: MT[A]) = instance(fa.run(_))
-      def to[A](fa: Decoder[A]) = ReaderT[Out, String, A](fa.decode)
+      def to[A](fa: Decoder[A]) = ReaderT[String, Out, A](fa.decode)
     }
   implicit def monad: MonadError[Decoder, String] =
     MonadError.fromIso(isoReaderT)

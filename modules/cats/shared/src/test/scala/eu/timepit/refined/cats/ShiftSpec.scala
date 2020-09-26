@@ -11,9 +11,7 @@ class NonNegShiftSpec extends Properties("NonNegShift") {
     forAll { a: A =>
       gteq(a, zero) ==> (NonNegShift[A].shift(a) == a)
     } &&
-    forAll { a: A =>
-      lt(a, zero) ==> (NonNegShift[A].shift(a) == plus(a, abs(Min[A].min)))
-    }
+    forAll { a: A => lt(a, zero) ==> (NonNegShift[A].shift(a) == plus(a, abs(Min[A].min))) }
   }
 
   property("shift Byte") = createProperty[Byte]
@@ -29,9 +27,7 @@ class NegShiftSpec extends Properties("NegShift") {
     forAll { a: A =>
       lt(a, zero) ==> (NegShift[A].shift(a) == a)
     } &&
-    forAll { a: A =>
-      gteq(a, zero) ==> (NegShift[A].shift(a) == minus(minus(a, Max[A].max), one))
-    }
+    forAll { a: A => gteq(a, zero) ==> (NegShift[A].shift(a) == minus(minus(a, Max[A].max), one)) }
   }
 
   property("shift Byte") = createProperty[Byte]

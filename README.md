@@ -3,12 +3,15 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.10)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.16)
 
 **refined** is a Scala library for refining types with type-level predicates
-which constrain the set of values described by the refined type. It started
-as a port of the [refined][refined.hs] Haskell library (which also provides
-an excellent motivation why this kind of library is useful).
+which constrain the set of values described by the refined type.
+It started as a port of the [refined][refined.hs] Haskell library by
+[Nikita Volkov](https://github.com/nikita-volkov) (which also provides an excellent
+motivation why this kind of library is useful).
+The idea of expressing constraints at the type-level as Scala library was first
+explored by [Flavio W. Brasil](https://github.com/fwbrasil) in [bond][bond].
 
 A quick example:
 
@@ -76,7 +79,7 @@ This mechanism allows to pass values of more specific types (e.g.
 ``Int Refined Greater[W.`10`.T]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.10/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.16/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -88,9 +91,8 @@ syntax for [literal-based singleton types][sip-23].
 4. [Documentation](#documentation)
 5. [Provided predicates](#provided-predicates)
 6. [Contributors and participation](#contributors-and-participation)
-7. [Performance concerns](#performance-concerns)
-8. [Related projects](#related-projects)
-9. [License](#license)
+7. [Related projects](#related-projects)
+8. [License](#license)
 
 ## More examples
 
@@ -172,23 +174,23 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.9.10, which is available for Scala and
-[Scala.js][scala.js] version 2.11, 2.12, and 2.13.
+The latest version of the library is 0.9.16, which is available for Scala and
+[Scala.js][scala.js] version 2.12 and 2.13.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"                 % "0.9.10",
-  "eu.timepit" %% "refined-cats"            % "0.9.10", // optional
-  "eu.timepit" %% "refined-eval"            % "0.9.10", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"        % "0.9.10", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig"      % "0.9.10", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.9.10", // optional
-  "eu.timepit" %% "refined-scalaz"          % "0.9.10", // optional
-  "eu.timepit" %% "refined-scodec"          % "0.9.10", // optional
-  "eu.timepit" %% "refined-scopt"           % "0.9.10", // optional
-  "eu.timepit" %% "refined-shapeless"       % "0.9.10"  // optional
+  "eu.timepit" %% "refined"                 % "0.9.16",
+  "eu.timepit" %% "refined-cats"            % "0.9.16", // optional
+  "eu.timepit" %% "refined-eval"            % "0.9.16", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.9.16", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.9.16", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.16", // optional
+  "eu.timepit" %% "refined-scalaz"          % "0.9.16", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.9.16", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.9.16", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.9.16"  // optional
 )
 ```
 
@@ -196,8 +198,7 @@ For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
-Release notes for the latest version are available in
-[0.9.10.markdown](https://github.com/fthomas/refined/blob/master/notes/0.9.10.markdown).
+Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.9.16).
 
 ## Community
 
@@ -238,6 +239,7 @@ list it here:
 * [circe-refined](https://github.com/circe/circe)
 * [ciris-refined](https://github.com/vlovgr/ciris)
 * [cormorant-refined](https://github.com/ChristopherDavenport/cormorant)
+* [coulomb-refined](https://github.com/erikerlandson/coulomb/tree/develop/coulomb-refined)
 * [decline-refined](http://ben.kirw.in/decline/arguments.html#refined-support)
 * [doobie-refined](https://github.com/tpolecat/doobie)
 * [exercises-refined](https://github.com/ysusuk/exercises-refined)
@@ -248,6 +250,7 @@ list it here:
 * [kantan.regex-refined](https://nrinaudo.github.io/kantan.regex/refined.html)
 * [kantan.xpath-refined](https://nrinaudo.github.io/kantan.xpath/refined.html)
 * [monocle-refined](https://github.com/julien-truffaut/Monocle)
+* [neotypes-refined](https://github.com/neotypes/neotypes)
 * [play-refined](https://github.com/kwark/play-refined)
 * [play-json-refined](https://github.com/lunaryorn/play-json-refined)
 * [play-json-refined](https://github.com/btlines/play-json-refined)
@@ -256,6 +259,7 @@ list it here:
 * [scanamo-refined](https://github.com/scanamo/scanamo)
 * [seals-refined](https://github.com/durban/seals)
 * [slick-refined](https://github.com/kwark/slick-refined)
+* [spray-json-refined](https://github.com/typeness/spray-json-refined)
 * [strictify-refined](https://github.com/cakesolutions/strictify)
 * [validated-config](https://github.com/carlpulley/validated-config)
 * [vulcan-refined](https://github.com/ovotech/vulcan)
@@ -280,6 +284,7 @@ opening a pull request to list it here:
 
 * [AutoScout24](http://techblog.scout24.com/)
 * [Besedo](https://besedo.com/)
+* [Chatroulette](https://chatroulette.com/)
 * [Colisweb](https://www.colisweb.com/fr/)
 * [FOLIO](https://folio-sec.com/)
 * [HolidayCheck](http://techblog.holidaycheck.com/)
@@ -288,7 +293,7 @@ opening a pull request to list it here:
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.10/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.16/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
@@ -333,21 +338,21 @@ The library comes with these predefined predicates:
 
 [`collection`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
 
-* `Contains[U]`: checks if a `Traversable` contains a value equal to `U`
-* `Count[PA, PC]`: counts the number of elements in a `Traversable` which satisfy the
+* `Contains[U]`: checks if an `Iterable` contains a value equal to `U`
+* `Count[PA, PC]`: counts the number of elements in an `Iterable` which satisfy the
   predicate `PA` and passes the result to the predicate `PC`
-* `Empty`: checks if a `Traversable` is empty
-* `NonEmpty`: checks if a `Traversable` is not empty
-* `Forall[P]`: checks if the predicate `P` holds for all elements of a `Traversable`
-* `Exists[P]`: checks if the predicate `P` holds for some elements of a `Traversable`
-* `Head[P]`: checks if the predicate `P` holds for the first element of a `Traversable`
+* `Empty`: checks if an `Iterable` is empty
+* `NonEmpty`: checks if an `Iterable` is not empty
+* `Forall[P]`: checks if the predicate `P` holds for all elements of an `Iterable`
+* `Exists[P]`: checks if the predicate `P` holds for some elements of an `Iterable`
+* `Head[P]`: checks if the predicate `P` holds for the first element of an `Iterable`
 * `Index[N, P]`: checks if the predicate `P` holds for the element at index `N` of a sequence
-* `Init[P]`: checks if the predicate `P` holds for all but the last element of a `Traversable`
-* `Last[P]`: checks if the predicate `P` holds for the last element of a `Traversable`
-* `Tail[P]`: checks if the predicate `P` holds for all but the first element of a `Traversable`
-* `Size[P]`: checks if the size of a `Traversable` satisfies the predicate `P`
-* `MinSize[N]`: checks if the size of a `Traversable` is greater than or equal to `N`
-* `MaxSize[N]`: checks if the size of a `Traversable` is less than or equal to `N`
+* `Init[P]`: checks if the predicate `P` holds for all but the last element of an `Iterable`
+* `Last[P]`: checks if the predicate `P` holds for the last element of an `Iterable`
+* `Tail[P]`: checks if the predicate `P` holds for all but the first element of an `Iterable`
+* `Size[P]`: checks if the size of an `Iterable` satisfies the predicate `P`
+* `MinSize[N]`: checks if the size of an `Iterable` is greater than or equal to `N`
+* `MaxSize[N]`: checks if the size of an `Iterable` is less than or equal to `N`
 
 [`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/generic.scala)
 
@@ -413,12 +418,15 @@ The following people have helped making **refined** great:
 * [Didac](https://github.com/umbreak)
 * [Diogo Castro](https://github.com/dcastro)
 * [dm-tran](https://github.com/dm-tran)
+* [Ender Tunç](https://github.com/endertunc)
 * [Frank S. Thomas](https://github.com/fthomas)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)
 * [Jean-Rémi Desjardins](https://github.com/jedesah)
+* [Jente Hidskes](https://github.com/Hjdskes)
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
+* [Julien BENOIT](https://github.com/jbenoit2011)
 * [kenji yoshida](https://github.com/xuwei-k)
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
@@ -431,6 +439,7 @@ The following people have helped making **refined** great:
 * [Richard Gomes](https://github.com/frgomes)
 * [ronanM](https://github.com/ronanM)
 * [Sam Halliday](https://github.com/fommil)
+* [Shawn Garner](https://github.com/BusyByte)
 * [Shohei Shimomura](https://github.com/sh0hei)
 * [Tim Steinbach](https://github.com/NeQuissimus)
 * [Torsten Scholak](https://github.com/tscholak)
@@ -445,20 +454,10 @@ typeful, functional programming, and provide a safe and friendly environment
 for teaching, learning, and contributing as described in the
 [Scala Code of Conduct](http://scala-lang.org/conduct.html).
 
-## Performance concerns
-
-Using **refined's** macros for compile-time refinement has zero runtime
-overhead for reference types and only causes boxing for value types.
-Refer to [RefineJavapSpec][RefineJavapSpec] and [InferJavapSpec][InferJavapSpec]
-for a detailed analysis of the runtime component of refinement types on the JVM.
-
-[InferJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/InferJavapSpec.scala
-[RefineJavapSpec]: https://github.com/fthomas/refined/blob/master/modules/scalaz/jvm/src/test/scala-2.12/eu/timepit/refined/scalaz/RefineJavapSpec.scala
-
 ## Related projects
 
 * [SMT-Based Checking of Predicate-Qualified Types for Scala](http://lara.epfl.ch/~kuncak/papers/SchmidKuncak16CheckingPredicate.pdf)
-* [bond](https://github.com/fwbrasil/bond): Type-level validation for Scala
+* [bond][bond]: Type-level validation for Scala
 * [F7](http://research.microsoft.com/en-us/projects/f7/): Refinement Types for F#
 * [LiquidHaskell](https://ucsd-progsys.github.io/liquidhaskell-blog/):
   Refinement Types via SMT and Predicate Abstraction
@@ -473,6 +472,7 @@ for a detailed analysis of the runtime component of refinement types on the JVM.
 **refined** is licensed under the MIT license, available at http://opensource.org/licenses/MIT
 and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE) file.
 
+[bond]: https://github.com/fwbrasil/bond
 [refined.hs]: http://nikita-volkov.github.io/refined
 [scala.js]: http://www.scala-js.org
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined

@@ -11,23 +11,7 @@ import eu.timepit.refined.string._
  */
 object string {
 
-  /**
-   * Creates a `[[scala.util.matching.Regex]]` from a validated string.
-   *
-   * Example: {{{
-   * scala> import eu.timepit.refined.auto._
-   *      | import eu.timepit.refined.util.string.regex
-   *
-   * scala> regex(".*")
-   * res1: scala.util.matching.Regex = .*
-   *
-   * scala> regex("{")
-   * <console>:47: error: Regex predicate failed: Illegal repetition
-   * {
-   *        regex("{")
-   *              ^
-   * }}}
-   */
+  /** Creates a `[[scala.util.matching.Regex]]` from a validated string. */
   def regex(s: String Refined Regex): scala.util.matching.Regex =
     new scala.util.matching.Regex(s.value)
 

@@ -10,8 +10,8 @@ object generic extends GenericInstances
 
 trait GenericInstances {
 
-  implicit def equalArbitrary[F[_, _]: RefType, T, U <: T](
-      implicit wu: Witness.Aux[U]
+  implicit def equalArbitrary[F[_, _]: RefType, T, U <: T](implicit
+      wu: Witness.Aux[U]
   ): Arbitrary[F[T, Equal[U]]] =
     arbitraryRefType(Gen.const(wu.value))
 }

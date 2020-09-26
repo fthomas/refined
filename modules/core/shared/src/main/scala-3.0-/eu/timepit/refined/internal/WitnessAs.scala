@@ -6,6 +6,22 @@ import shapeless.ops.nat.ToInt
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`
  * and `fst` converted to type `B` in `snd`.
+ *
+ * The purpose of this type class is to allow literals of other
+ * types than the base type to be used as arguments in numeric
+ * predicates.
+ *
+ * Example: {{{
+ * scala> import eu.timepit.refined.{refineV, W}
+ *      | import eu.timepit.refined.api.Refined
+ *      | import eu.timepit.refined.numeric.{Greater, Less}
+ *
+ * scala> refineV[Greater[W.`2.718`.T]](BigDecimal(3.141))
+ * res0: Either[String, BigDecimal Refined Greater[W.`2.718`.T]] = Right(3.141)
+ *
+ * scala> refineV[Less[W.`1`.T]](0.618)
+ * res1: Either[String, Double Refined Less[W.`1`.T]] = Right(0.618)
+ * }}}
  */
 final case class WitnessAs[A, B](fst: A, snd: B)
 

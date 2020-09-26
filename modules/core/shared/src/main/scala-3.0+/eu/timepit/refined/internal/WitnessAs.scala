@@ -35,10 +35,10 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  implicit def singletonWitnessAs[B, A <: B](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, B] =
-    WitnessAs(wa.value, wa.value)
+  inline implicit def singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
+    inline val a = constValue[A]
+    WitnessAs(a, a)
+  }
 }
 
 trait WitnessAs1 {

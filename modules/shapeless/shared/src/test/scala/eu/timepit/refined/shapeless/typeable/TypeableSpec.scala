@@ -20,7 +20,7 @@ class TypeableSpec extends Properties("shapeless") {
   }
 
   property("Typeable describe") = secure {
-    typeableDescribe[PosInt] ?= "Refined[Int, Greater[Int(0)]]"
+    typeableDescribe[PosInt] ?= "Refined[Int, Greater[shapeless.nat._0]]"
   }
 
   property("Typeable cast success string regex") = secure {

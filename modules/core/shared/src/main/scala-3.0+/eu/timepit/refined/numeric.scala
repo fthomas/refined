@@ -3,10 +3,11 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.internal.ToInt
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
 import shapeless.Nat
-import shapeless.ops.nat.ToInt
+import shapeless.nat.{_0, _2}
 
 /**
  * Module for numeric predicates. Predicates that take type parameters
@@ -50,25 +51,25 @@ object numeric extends NumericInference {
   type GreaterEqual[N] = Not[Less[N]]
 
   /** Predicate that checks if a numeric value is positive (> 0). */
-  type Positive = Greater[0]
+  type Positive = Greater[_0]
 
   /** Predicate that checks if a numeric value is zero or negative (<= 0). */
   type NonPositive = Not[Positive]
 
   /** Predicate that checks if a numeric value is negative (< 0). */
-  type Negative = Less[0]
+  type Negative = Less[_0]
 
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
   /** Predicate that checks if an integral value is evenly divisible by `N`. */
-  type Divisible[N] = Modulo[N, 0]
+  type Divisible[N] = Modulo[N, _0]
 
   /** Predicate that checks if an integral value is not evenly divisible by `N`. */
   type NonDivisible[N] = Not[Divisible[N]]
 
   /** Predicate that checks if an integral value is evenly divisible by 2. */
-  type Even = Divisible[2]
+  type Even = Divisible[_2]
 
   /** Predicate that checks if an integral value is not evenly divisible by 2. */
   type Odd = Not[Even]

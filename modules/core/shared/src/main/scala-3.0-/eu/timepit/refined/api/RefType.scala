@@ -1,7 +1,6 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.internal._
-import scala.reflect.macros.blackbox
 import shapeless.tag.@@
 
 /**
@@ -23,24 +22,6 @@ trait RefType[F[_, _]] extends Serializable {
   def unwrap[T, P](tp: F[T, P]): T
 
   def unsafeRewrap[T, A, B](ta: F[T, A]): F[T, B]
-
-  @deprecated(
-    "unsafeWrapM has been deprecated in favor of the non-macro variant unsafeWrap",
-    "0.9.16"
-  )
-  def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
-      c: blackbox.Context
-  )(t: c.Expr[T]): c.Expr[F[T, P]] =
-    c.universe.reify(unsafeWrap(t.splice))
-
-  @deprecated(
-    "unsafeRewrapM has been deprecated in favor of the non-macro variant unsafeRewrap",
-    "0.9.16"
-  )
-  def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
-      c: blackbox.Context
-  )(ta: c.Expr[F[T, A]]): c.Expr[F[T, B]] =
-    c.universe.reify(unsafeRewrap(ta.splice))
 
   /**
    * Returns a value of type `T` refined as `F[T, P]` on the right if
@@ -82,14 +63,6 @@ trait RefType[F[_, _]] extends Serializable {
    */
   def refineM[P]: RefineMPartiallyApplied[F, P] =
     new RefineMPartiallyApplied
-
-  @deprecated(
-    "refineMF has been replaced in favor or RefinedTypeOps. " +
-      "Replace 'RefType[F].refineMF[T, P]' with 'new RefinedTypeOps[F[T, P], T]'.",
-    "0.9.1"
-  )
-  def refineMF[T, P]: RefineMFullyApplied[F, T, P] =
-    new RefineMFullyApplied
 
   def mapRefine[T, P, U](
       tp: F[T, P]

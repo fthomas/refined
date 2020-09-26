@@ -1,5 +1,6 @@
 package eu.timepit.refined.internal
 
+import scala.compiletime.{constValue, error}
 import shapeless.{Nat, Witness}
 
 /**
@@ -41,54 +42,51 @@ object WitnessAs extends WitnessAs1 {
 }
 
 trait WitnessAs1 {
-  implicit def intWitnessAsByte[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Byte] =
-    if (wa.value >= Byte.MinValue.toInt && wa.value <= Byte.MaxValue.toInt)
-      WitnessAs(wa.value, wa.value.toByte)
-    else sys.error(s"WitnessAs: ${wa.value} is not in [Byte.MinValue, Byte.MaxValue]")
+  inline implicit def intWitnessAsByte[A <: Int]: WitnessAs[A, Byte] =
+    inline constValue[A] match {
+      case a if a >= -128 && a <= 127 => WitnessAs(a, a.toByte)
+      case a => error(s"WitnessAs: $a is not in [Byte.MinValue, Byte.MaxValue]")
+    }
 
-  implicit def intWitnessAsShort[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Short] =
-    if (wa.value >= Short.MinValue.toInt && wa.value <= Short.MaxValue.toInt)
-      WitnessAs(wa.value, wa.value.toShort)
-    else sys.error(s"WitnessAs: ${wa.value} is not in [Short.MinValue, Short.MaxValue]")
+  inline implicit def intWitnessAsShort[A <: Int]: WitnessAs[A, Short] =
+    inline constValue[A] match {
+      case a if a >= -32768 && a <= 32767 => WitnessAs(a, a.toShort)
+      case a => error(s"WitnessAs: $a is not in [Short.MinValue, Short.MaxValue]")
+    }
 
-  implicit def intWitnessAsLong[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Long] =
-    WitnessAs(wa.value, wa.value.toLong)
+  inline implicit def intWitnessAsLong[A <: Int]: WitnessAs[A, Long] = {
+    inline val a = constValue[A]
+    WitnessAs(a, a.toLong)
+  }
 
-  implicit def intWitnessAsBigInt[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, BigInt] =
-    WitnessAs(wa.value, BigInt(wa.value))
+  inline implicit def intWitnessAsBigInt[A <: Int]: WitnessAs[A, BigInt] = {
+    inline val a = constValue[A]
+    WitnessAs(a, BigInt(a))
+  }
 
-  implicit def intWitnessAsFloat[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Float] =
-    WitnessAs(wa.value, wa.value.toFloat)
+  inline implicit def intWitnessAsFloat[A <: Int]: WitnessAs[A, Float] = {
+    inline val a = constValue[A]
+    WitnessAs(a, a.toFloat)
+  }
 
-  implicit def intWitnessAsDouble[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Double] =
-    WitnessAs(wa.value, wa.value.toDouble)
+  inline implicit def intWitnessAsDouble[A <: Int]: WitnessAs[A, Double] = {
+    inline val a = constValue[A]
+    WitnessAs(a, a.toDouble)
+  }
 
-  implicit def intWitnessAsBigDecimal[A <: Int](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, BigDecimal] =
-    WitnessAs(wa.value, BigDecimal(wa.value))
+  inline implicit def intWitnessAsBigDecimal[A <: Int]: WitnessAs[A, BigDecimal] = {
+    inline val a = constValue[A]
+    WitnessAs(a, BigDecimal(a))
+  }
 
-  implicit def doubleWitnessAsFloat[A <: Double](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, Float] =
-    if (wa.value >= Float.MinValue.toDouble && wa.value <= Float.MaxValue.toDouble)
-      WitnessAs(wa.value, wa.value.toFloat)
-    else sys.error(s"WitnessAs: ${wa.value} is not in [Float.MinValue, Float.MaxValue]")
+  inline implicit def doubleWitnessAsFloat[A <: Double]: WitnessAs[A, Float] =
+    inline constValue[A] match {
+      case a if a >= -3.4028235E38 && a <= 3.4028235E38 => WitnessAs(a, a.toFloat)
+      case a => error(s"WitnessAs: $a is not in [Float.MinValue, Float.MaxValue]")
+    }
 
-  implicit def doubleWitnessAsBigDecimal[A <: Double](implicit
-      wa: ValueOf[A]
-  ): WitnessAs[A, BigDecimal] =
-    WitnessAs(wa.value, BigDecimal(wa.value))
+  inline implicit def doubleWitnessAsBigDecimal[A <: Double]: WitnessAs[A, BigDecimal] = {
+    inline val a = constValue[A]
+    WitnessAs(a, BigDecimal(a))
+  }
 }

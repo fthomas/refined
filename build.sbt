@@ -51,8 +51,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform),
-"scalaxml" -> List(JVMPlatform)
-
+  "scalaxml" -> List(JVMPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -338,11 +337,13 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
       Seq(
         ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
         ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
-        ProblemFilters
-          .exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.StringPredicates.Xml"),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.predicates.StringPredicates.Xml"
+        ),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
-        ProblemFilters
-          .exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.predicates.string.Xml"
+        ),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")

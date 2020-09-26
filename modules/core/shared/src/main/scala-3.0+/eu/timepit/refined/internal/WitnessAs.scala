@@ -8,7 +8,7 @@ import shapeless.{Nat, Witness}
  */
 final case class WitnessAs[A, B](fst: A, snd: B)
 
-object WitnessAs extends WitnessAs1 {
+object WitnessAs {
   def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
 
   implicit def natWitnessAs[B, A <: Nat](implicit
@@ -22,9 +22,7 @@ object WitnessAs extends WitnessAs1 {
       wa: ValueOf[A]
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, wa.value)
-}
 
-trait WitnessAs1 {
   implicit def intWitnessAsByte[A <: Int](implicit
       wa: ValueOf[A]
   ): WitnessAs[A, Byte] =

@@ -3,11 +3,11 @@ package eu.timepit.refined
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean.{And, Not}
+import eu.timepit.refined.internal.ToInt
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
 import shapeless.Nat
 import shapeless.nat.{_0, _2}
-import shapeless.ops.nat.ToInt
 
 /**
  * Module for numeric predicates. Predicates that take type parameters

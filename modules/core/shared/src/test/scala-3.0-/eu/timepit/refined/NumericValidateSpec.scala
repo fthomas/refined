@@ -8,9 +8,19 @@ import shapeless.nat._
 
 class NumericValidateSpec extends Properties("NumericValidate") {
 
-  property("Less.isValid") = forAll((d: Double) => isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0))
+  property("isValid[Less[1]](d: Double)") = forAll { (d: Double) =>
+    isValid[Less[W.`1`.T]](d) ?= (d < 1)
+  }
 
-  property("Less.showExpr") = secure {
+  property("isValid[Less[1.0]](d: Double)") = forAll { (d: Double) =>
+    isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0)
+  }
+
+  property("isValid[Less[1.0]](d: BigDecimal)") = forAll { (d: BigDecimal) =>
+    isValid[Less[W.`1.0`.T]](d) ?= (d < 1.0)
+  }
+
+  property("showExpr[Less[1.1]](0.1)") = secure {
     showExpr[Less[W.`1.1`.T]](0.1) ?= "(0.1 < 1.1)"
   }
 
@@ -30,7 +40,11 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showResult[Less[_5]](i) ?= showResult[Less[W.`5`.T]](i)
   }
 
-  property("Greater.isValid") = forAll { (d: Double) =>
+  property("isValid[Greater[1.0]](b: Byte)") = forAll { (b: Byte) =>
+    isValid[Greater[W.`1`.T]](b) ?= (b > 1)
+  }
+
+  property("isValid[Greater[1.0]](d: Double)") = forAll { (d: Double) =>
     isValid[Greater[W.`1.0`.T]](d) ?= (d > 1.0)
   }
 
@@ -118,13 +132,17 @@ class NumericValidateSpec extends Properties("NumericValidate") {
     showExpr[NonDivisible[_2]](4) ?= "!(4 % 2 == 0)"
   }
 
-  property("Even.isValid") = forAll((i: Int) => isValid[Even](i) ?= (i % 2 == 0))
+  property("Even.isValid") = forAll { (i: Int) =>
+    isValid[Even](i) ?= (i % 2 == 0)
+  }
 
   property("Even.showExpr") = secure {
     showExpr[Even](4) ?= "(4 % 2 == 0)"
   }
 
-  property("Odd.isValid") = forAll((i: Int) => isValid[Odd](i) ?= (i % 2 != 0))
+  property("Odd.isValid") = forAll { (i: Int) =>
+    isValid[Odd](i) ?= (i % 2 != 0)
+  }
 
   property("Odd.showExpr") = secure {
     showExpr[Odd](4) ?= "!(4 % 2 == 0)"
@@ -184,5 +202,4 @@ class NumericValidateSpec extends Properties("NumericValidate") {
   property("NonNaN.Double.showExpr") = secure {
     showExpr[NonNaN](Double.NaN) ?= "(NaN != NaN)"
   }
-
 }

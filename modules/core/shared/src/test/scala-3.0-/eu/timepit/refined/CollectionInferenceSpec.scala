@@ -64,8 +64,8 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     Inference[Size[Greater[_5]], Size[Greater[_4]]].isValid
   }
 
-  property("Size[Greater[_1]] ==> NonEmpty") = secure {
-    Inference[Size[Greater[_1]], NonEmpty].isValid
+  property("Size[Greater[1]] ==> NonEmpty") = secure {
+    Inference[Size[Greater[W.`1`.T]], NonEmpty].isValid
   }
 
   property("Size[Interval.Closed[_2, _5]] ==> NonEmpty") = secure {

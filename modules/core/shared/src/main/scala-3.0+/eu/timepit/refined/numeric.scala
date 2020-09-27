@@ -10,22 +10,21 @@ import shapeless.Nat
 import shapeless.nat.{_0, _2}
 
 /**
- * Module for numeric predicates. Predicates that take type parameters
- * support both shapeless' natural numbers (`Nat`) and numeric singleton
- * types (which are made available by shapeless' `Witness` - abbreviated
- * as `[[W]]` in refined) which include subtypes of `Int`, `Long`,
- * `Double`, `Char` etc.
+ * Module for numeric predicates.
+ *
+ * `Int` literals, `Double` literals for fractional base types, or
+ * literals of the base type can be used as arguments in predicates
+ * that have type parameters.
  *
  * Example: {{{
  * scala> import eu.timepit.refined.api.Refined
- *      | import eu.timepit.refined.numeric.Greater
- *      | import shapeless.nat._5
+ *      | import eu.timepit.refined.numeric.{Greater, LessEqual}
  *
- * scala> refineV[Greater[_5]](10)
- * res1: Either[String, Int Refined Greater[_5]] = Right(10)
+ * scala> refineV[Greater[5]](BigInt(10))
+ * res1: Either[String, BigInt Refined Greater[5]] = Right(10)
  *
- * scala> refineV[Greater[1.5]](1.6)
- * res2: Either[String, Double Refined Greater[1.5]] = Right(1.6)
+ * scala> refineV[LessEqual[1.5]](1.4)
+ * res2: Either[String, Double Refined LessEqual[1.5]] = Right(1.4)
  * }}}
  *
  * Note: `[[generic.Equal]]` can also be used for numeric types.

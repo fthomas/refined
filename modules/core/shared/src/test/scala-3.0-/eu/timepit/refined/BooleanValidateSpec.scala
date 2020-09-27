@@ -8,7 +8,6 @@ import eu.timepit.refined.numeric.{Greater, Less}
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.{::, HNil}
-import shapeless.nat._
 
 class BooleanValidateSpec extends Properties("BooleanValidate") {
 
@@ -141,11 +140,11 @@ class BooleanValidateSpec extends Properties("BooleanValidate") {
   }
 
   property("AllOf.isValid") = forAll { (i: Int) =>
-    isValid[AllOf[Greater[_0] :: Less[_10] :: HNil]](i) ?= (i > 0 && i < 10)
+    isValid[AllOf[Greater[W.`0`.T] :: Less[W.`10`.T] :: HNil]](i) ?= (i > 0 && i < 10)
   }
 
   property("AllOf.showExpr") = secure {
-    showExpr[AllOf[Greater[_0] :: Less[_10] :: HNil]](5) ?=
+    showExpr[AllOf[Greater[W.`0`.T] :: Less[W.`10`.T] :: HNil]](5) ?=
       "((5 > 0) && (5 < 10) && true)"
   }
 

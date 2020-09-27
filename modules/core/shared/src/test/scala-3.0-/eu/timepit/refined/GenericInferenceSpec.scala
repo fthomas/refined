@@ -6,23 +6,22 @@ import eu.timepit.refined.numeric.Greater
 import eu.timepit.refined.string.StartsWith
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.Nat
 
 class GenericInferenceSpec extends Properties("GenericInference") {
 
-  property("Equal[S1] ==> StartsWith[S2]") = secure {
+  property("""Equal["abcd"] ==> StartsWith["ab"]""") = secure {
     Inference[Equal[W.`"abcd"`.T], StartsWith[W.`"ab"`.T]].isValid
   }
 
-  property("Equal[S1] =!> StartsWith[S2]") = secure {
+  property("""Equal["abcd"] =!> StartsWith["cd"]""") = secure {
     Inference[Equal[W.`"abcd"`.T], StartsWith[W.`"cd"`.T]].notValid
   }
 
-  property("Equal[Nat] ==> Greater[I]") = secure {
-    Inference[Equal[Nat._10], Greater[W.`5`.T]].isValid
+  property("Equal[10] ==> Greater[5]") = secure {
+    Inference[Equal[W.`10`.T], Greater[W.`5`.T]].isValid
   }
 
-  property("Equal[Nat] =!> Greater[I]") = secure {
-    Inference[Equal[Nat._5], Greater[W.`10`.T]].notValid
+  property("Equal[5] =!> Greater[10]") = secure {
+    Inference[Equal[W.`5`.T], Greater[W.`10`.T]].notValid
   }
 }

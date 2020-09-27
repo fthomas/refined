@@ -11,7 +11,6 @@ import eu.timepit.refined.string.MatchesRegex
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.<:!<
-import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
@@ -36,10 +35,6 @@ abstract class RefTypeSpec[F[_, _]](name: String)(implicit rt: RefType[F])
 
   property("refine success with Less") = secure {
     rt.refine[Less[W.`100`.T]](-100).isRight
-  }
-
-  property("refine success with Greater") = secure {
-    rt.refine[Greater[_5]](6).isRight
   }
 
   property("refine failure with Interval.Closed") = secure {

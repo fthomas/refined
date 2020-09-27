@@ -8,7 +8,6 @@ import eu.timepit.refined.numeric._
 import eu.timepit.refined.string.MatchesRegex
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 import shapeless.tag.@@
 import shapeless.test.illTyped
 
@@ -28,14 +27,14 @@ class RefineMSpec extends Properties("refineM") {
   }
 
   property("refineM with Greater") = wellTyped {
-    def ignore1: Int Refined Greater[_10] = refineMV[Greater[_10]](15)
-    def ignore2: Int @@ Greater[_10] = refineMT[Greater[_10]](15)
-    illTyped("""refineMV[Greater[_10]](5)""", "Predicate.*fail.*")
-    illTyped("""refineMT[Greater[_10]](5)""", "Predicate.*fail.*")
+    def ignore1: Int Refined Greater[W.`10`.T] = refineMV[Greater[W.`10`.T]](15)
+    def ignore2: Int @@ Greater[W.`10`.T] = refineMT[Greater[W.`10`.T]](15)
+    illTyped("""refineMV[Greater[W.`10`.T]](5)""", "Predicate.*fail.*")
+    illTyped("""refineMT[Greater[W.`10`.T]](5)""", "Predicate.*fail.*")
   }
 
   property("refineM with Size") = wellTyped {
-    type ShortString = Size[LessEqual[_10]]
+    type ShortString = Size[LessEqual[W.`10`.T]]
     def ignore1: String Refined ShortString = refineMV[ShortString]("abc")
     def ignore2: String @@ ShortString = refineMT[ShortString]("abc")
     illTyped("""refineMV[ShortString]("abcdefghijklmnopqrstuvwxyz")""", "Predicate.*fail.*")

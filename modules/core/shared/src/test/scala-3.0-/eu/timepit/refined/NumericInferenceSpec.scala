@@ -5,111 +5,74 @@ import eu.timepit.refined.boolean._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 
 class NumericInferenceSpec extends Properties("NumericInference") {
 
-  property("Less[A] ==> Less[B]") = secure {
+  property("Less[5] ==> Less[10]") = secure {
+    Inference[Less[W.`5`.T], Less[W.`10`.T]].isValid
+  }
+
+  property("Less[10] =!> Less[5]") = secure {
+    Inference[Less[W.`10`.T], Less[W.`5`.T]].notValid
+  }
+
+  property("Less[7.2] ==> Less[7.5]") = secure {
     Inference[Less[W.`7.2`.T], Less[W.`7.5`.T]].isValid
   }
 
-  property("Less[A] =!> Less[B]") = secure {
+  property("Less[7.5] =!> Less[7.2]") = secure {
     Inference[Less[W.`7.5`.T], Less[W.`7.2`.T]].notValid
   }
 
-  property("LessEqual[A] ==> LessEqual[B]") = secure {
+  property("LessEqual[1] ==> LessEqual[1]") = secure {
+    Inference[LessEqual[W.`1`.T], LessEqual[W.`1`.T]].isValid
+  }
+
+  property("LessEqual[7.2] ==> LessEqual[7.5]") = secure {
     Inference[LessEqual[W.`7.2`.T], LessEqual[W.`7.5`.T]].isValid
   }
 
-  // Does not compile on 2.10 without a warning.
-  /*
-  property("LessEqual[A] ==> LessEqual[A]") = secure {
-    Inference[LessEqual[W.`1`.T], LessEqual[W.`1`.T]].isValid
-  }
-   */
-
-  property("LessEqual[A] =!> LessEqual[B]") = secure {
+  property("LessEqual[7.5] =!> LessEqual[7.2]") = secure {
     Inference[LessEqual[W.`7.5`.T], LessEqual[W.`7.2`.T]].notValid
   }
 
-  property("Greater[A] ==> Greater[B]") = secure {
+  property("Greater[10] ==> Greater[5]") = secure {
+    Inference[Greater[W.`10`.T], Greater[W.`5`.T]].isValid
+  }
+
+  property("Greater[5] =!> Greater[10]") = secure {
+    Inference[Greater[W.`5`.T], Greater[W.`10`.T]].notValid
+  }
+
+  property("Greater[7.5] ==> Greater[7.2]") = secure {
     Inference[Greater[W.`7.5`.T], Greater[W.`7.2`.T]].isValid
   }
 
-  property("Greater[A] =!> Greater[B]") = secure {
+  property("Greater[7.2] =!> Greater[7.5]") = secure {
     Inference[Greater[W.`7.2`.T], Greater[W.`7.5`.T]].notValid
   }
 
-  property("GreaterEqual[A] ==> GreaterEqual[B]") = secure {
+  property("GreaterEqual[1] ==> GreaterEqual[1]") = secure {
+    Inference[GreaterEqual[W.`1`.T], GreaterEqual[W.`1`.T]].isValid
+  }
+
+  property("GreaterEqual[7.5] ==> GreaterEqual[7.2]") = secure {
     Inference[GreaterEqual[W.`7.5`.T], GreaterEqual[W.`7.2`.T]].isValid
   }
 
-  // Does not compile on 2.10 without a warning.
-  /*
-  property("GreaterEqual[A] ==> GreaterEqual[A]") = secure {
-    Inference[GreaterEqual[W.`1`.T], GreaterEqual[W.`1`.T]].isValid
-  }
-   */
-
-  property("GreaterEqual[A] =!> GreaterEqual[B]") = secure {
+  property("GreaterEqual[7.2] =!> GreaterEqual[7.5]") = secure {
     Inference[GreaterEqual[W.`7.2`.T], GreaterEqual[W.`7.5`.T]].notValid
   }
 
-  property("Less[Nat] ==> Less[Nat]") = secure {
-    Inference[Less[_5], Less[_10]].isValid
-  }
-
-  property("Less[Nat] =!> Less[Nat]") = secure {
-    Inference[Less[_10], Less[_5]].notValid
-  }
-
-  property("Less[A] ==> Less[Nat]") = secure {
-    Inference[Less[W.`5`.T], Less[_10]].isValid
-  }
-
-  property("Less[A] =!> Less[Nat]") = secure {
-    Inference[Less[W.`10`.T], Less[_5]].notValid
-  }
-
-  property("Greater[Nat] ==> Greater[Nat]") = secure {
-    Inference[Greater[_10], Greater[_5]].isValid
-  }
-
-  property("Greater[Nat] =!> Greater[Nat]") = secure {
-    Inference[Greater[_5], Greater[_10]].notValid
-  }
-
-  property("Greater[A] ==> Greater[Nat]") = secure {
-    Inference[Greater[W.`10`.T], Greater[_5]].isValid
-  }
-
-  property("Greater[A] =!> Greater[Nat]") = secure {
-    Inference[Greater[W.`5`.T], Greater[_10]].notValid
-  }
-
-  property("Interval[Nat] ==> LessEqual[Nat]") = secure {
-    Inference[Interval.Closed[_5, _10], LessEqual[_11]].isValid
-  }
-
-  property("Greater[A] ==> GreaterEqual[A]") = secure {
+  property("Greater[0] ==> GreaterEqual[0]") = secure {
     Inference[Greater[W.`0`.T], GreaterEqual[W.`0`.T]].isValid
   }
 
-  property("Less[A] ==> LessEqual[A]") = secure {
+  property("Less[0] ==> LessEqual[0]") = secure {
     Inference[Less[W.`0`.T], LessEqual[W.`0`.T]].isValid
   }
 
-  /*
-  property("Interval.Closed[Nat] ==> GreaterEqual[Nat]") = secure {
-    Inference[Interval.Closed[_5, _10], GreaterEqual[_4]].isValid
+  property("Interval.Closed[5, 10] ==> LessEqual[11]") = secure {
+    Inference[Interval.Closed[W.`5`.T, W.`10`.T], LessEqual[W.`11`.T]].isValid
   }
-
-  property("Equal[Nat] ==> Greater[A]") = secure {
-    Inference[Equal[_10], Greater[W.`5`.T]].isValid
-  }
-
-  property("Equal[Nat] =!> Greater[A]") = secure {
-    Inference[Equal[_5], Greater[W.`10`.T]].notValid
-  }
-   */
 }

@@ -7,7 +7,6 @@ import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 
 class CollectionValidateSpec extends Properties("CollectionValidate") {
 
@@ -28,20 +27,20 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Count.isValid") = forAll { (l: List[Char]) =>
-    isValid[Count[LowerCase, Greater[_2]]](l) ?= (l.count(_.isLower) > 2)
+    isValid[Count[LowerCase, Greater[W.`2`.T]]](l) ?= (l.count(_.isLower) > 2)
   }
 
   property("Count.showExpr") = secure {
-    showExpr[Count[LowerCase, Greater[_2]]](List('a', 'B')) ?= "(1 > 2)"
+    showExpr[Count[LowerCase, Greater[W.`2`.T]]](List('a', 'B')) ?= "(1 > 2)"
   }
 
   property("Count.showResult") = secure {
-    showResult[Count[LowerCase, Greater[_2]]](List('a', 'B')) ?=
+    showResult[Count[LowerCase, Greater[W.`2`.T]]](List('a', 'B')) ?=
       "Predicate taking count(isLower('a'), isLower('B')) = 1 failed: Predicate failed: (1 > 2)."
   }
 
   property("Count.String.isValid") = forAll { (s: String) =>
-    isValid[Count[LowerCase, Greater[_2]]](s) ?= (s.count(_.isLower) > 2)
+    isValid[Count[LowerCase, Greater[W.`2`.T]]](s) ?= (s.count(_.isLower) > 2)
   }
 
   property("Empty.isValid") = forAll((l: List[Int]) => isValid[Empty](l) ?= l.isEmpty)
@@ -57,11 +56,11 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Exists.isValid") = forAll { (l: List[Int]) =>
-    isValid[Exists[Less[_1]]](l) ?= l.exists(_ < 1)
+    isValid[Exists[Less[W.`1`.T]]](l) ?= l.exists(_ < 1)
   }
 
   property("Exists.showExpr") = secure {
-    showExpr[Exists[Less[_1]]](List(1, 2, 3)) ?= "!(!(1 < 1) && !(2 < 1) && !(3 < 1))"
+    showExpr[Exists[Less[W.`1`.T]]](List(1, 2, 3)) ?= "!(!(1 < 1) && !(2 < 1) && !(3 < 1))"
   }
 
   property("Forall.String.isValid") = forAll { (s: String) =>
@@ -119,15 +118,15 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Last.isValid") = forAll { (l: List[Int]) =>
-    isValid[Last[Greater[_5]]](l) ?= l.lastOption.fold(false)(_ > 5)
+    isValid[Last[Greater[W.`5`.T]]](l) ?= l.lastOption.fold(false)(_ > 5)
   }
 
   property("Last.showExpr") = secure {
-    showExpr[Last[Greater[_5]]](List(1, 2, 3)) ?= "(3 > 5)"
+    showExpr[Last[Greater[W.`5`.T]]](List(1, 2, 3)) ?= "(3 > 5)"
   }
 
   property("Last.showResult") = secure {
-    showResult[Last[Greater[_5]]](List(1, 2, 3)) ?=
+    showResult[Last[Greater[W.`5`.T]]](List(1, 2, 3)) ?=
       "Predicate taking last(List(1, 2, 3)) = 3 failed: Predicate failed: (3 > 5)."
   }
 
@@ -164,7 +163,7 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("MinSize.String.isValid") = forAll { (s: String) =>
-    isValid[MinSize[_5]](s) ?= (s.length >= 5)
+    isValid[MinSize[W.`5`.T]](s) ?= (s.length >= 5)
   }
 
   property("NonEmpty.String.isValid") = forAll((s: String) => isValid[NonEmpty](s) ?= s.nonEmpty)
@@ -174,18 +173,18 @@ class CollectionValidateSpec extends Properties("CollectionValidate") {
   }
 
   property("Size.isValid") = forAll { (l: List[Int]) =>
-    isValid[Size[Greater[_5]]](l) ?= (l.size > 5)
+    isValid[Size[Greater[W.`5`.T]]](l) ?= (l.size > 5)
   }
 
   property("Size.showExpr") = secure {
-    showExpr[Size[Greater[_5]]](List(1, 2, 3)) ?= "(3 > 5)"
+    showExpr[Size[Greater[W.`5`.T]]](List(1, 2, 3)) ?= "(3 > 5)"
   }
 
   property("Size.String.isValid") = forAll { (s: String) =>
-    isValid[Size[LessEqual[_10]]](s) ?= (s.length <= 10)
+    isValid[Size[LessEqual[W.`10`.T]]](s) ?= (s.length <= 10)
   }
 
   property("Size.String.showExpr") = secure {
-    showExpr[Size[Greater[_5] And LessEqual[_10]]]("test") ?= "((4 > 5) && !(4 > 10))"
+    showExpr[Size[Greater[W.`5`.T] And LessEqual[W.`10`.T]]]("test") ?= "((4 > 5) && !(4 > 10))"
   }
 }

@@ -335,6 +335,26 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.unsafeWrapM"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.unsafeRewrapM"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.refineMF"
+        ),
+        ProblemFilters.exclude[MissingClassProblem](
+          "eu.timepit.refined.internal.RefineMFullyApplied"
+        ),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
         ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
         ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
         ProblemFilters.exclude[DirectMissingMethodProblem](

@@ -37,7 +37,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Index[N, A] ==> Index[N, B]") = secure {
-    Inference[Index[_1, Letter], Index[_1, LetterOrDigit]].isValid
+    Inference[Index[W.`1`.T, Letter], Index[W.`1`.T, LetterOrDigit]].isValid
   }
 
   property("Index ==> Exists") = secure {
@@ -61,7 +61,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
   }
 
   property("Size[A] ==> Size[B]") = secure {
-    Inference[Size[Greater[_5]], Size[Greater[_4]]].isValid
+    Inference[Size[Greater[W.`5`.T]], Size[Greater[W.`4`.T]]].isValid
   }
 
   property("Size[Greater[1]] ==> NonEmpty") = secure {

@@ -4,40 +4,39 @@ import eu.timepit.refined.TestUtils._
 import eu.timepit.refined.generic._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.Nat._
 
 class GenericValidateSpec extends Properties("GenericValidate") {
 
-  property("Equal.isValid") = secure {
+  property("isValid[Equal[1.4]](1.4)") = secure {
     isValid[Equal[W.`1.4`.T]](1.4)
   }
 
-  property("Equal.notValid") = secure {
+  property("notValid[Equal[1.4]](2.4)") = secure {
     notValid[Equal[W.`1.4`.T]](2.4)
   }
 
-  property("Equal.showExpr") = secure {
+  property("showExpr[Equal[1.4]](0.4)") = secure {
     showExpr[Equal[W.`1.4`.T]](0.4) ?= "(0.4 == 1.4)"
   }
 
-  property("Equal.object.isValid") = secure {
+  property("isValid[Equal[Foo.type]](Foo)") = secure {
     object Foo
     isValid[Equal[Foo.type]](Foo)
   }
 
-  property("Equal.Nat.Int.isValid") = forAll((i: Int) => isValid[Equal[_0]](i) ?= (i == 0))
-
-  property("Equal.Nat.Long.isValid") = forAll((l: Long) => isValid[Equal[_0]](l) ?= (l == 0L))
-
-  property("Equal.Nat.Double.isValid") = forAll { (d: Double) =>
-    isValid[Equal[_0]](d) ?= (d == 0.0)
+  property("isValid[Equal[0]](i: Int)") = forAll { (i: Int) =>
+    isValid[Equal[W.`0`.T]](i) ?= (i == 0)
   }
 
-  property("Equal.Nat.showExpr") = secure {
-    showExpr[Equal[_5]](0) ?= "(0 == 5)"
+  property("isValid[Equal[0]](l: Long)") = forAll { (l: Long) =>
+    isValid[Equal[W.`0`.T]](l) ?= (l == 0L)
   }
 
-  property("Equal.Nat ~= Equal.Int") = forAll { (i: Int) =>
-    showResult[Equal[_1]](i) ?= showResult[Equal[W.`1`.T]](i)
+  property("isValid[Equal[0]](d: Double)") = forAll { (d: Double) =>
+    isValid[Equal[W.`0`.T]](d) ?= (d == 0.0)
+  }
+
+  property("showExpr[Equal[5]](0)") = secure {
+    showExpr[Equal[W.`5`.T]](0) ?= "(0 == 5)"
   }
 }

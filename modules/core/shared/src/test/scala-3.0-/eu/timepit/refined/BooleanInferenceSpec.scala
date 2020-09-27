@@ -7,14 +7,13 @@ import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 import shapeless.test.illTyped
 
 class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("double negation elimination with Greater") = secure {
-    Inference[Not[Not[Greater[_5]]], Greater[_4]] ?=
-      Inference(5 > 4, "doubleNegationElimination(greaterInferenceNat(5, 4))")
+    Inference[Not[Not[Greater[W.`5`.T]]], Greater[W.`4`.T]] ?=
+      Inference(5 > 4, "doubleNegationElimination(greaterInference(5, 4))")
   }
 
   property("double negation elimination") = secure {
@@ -34,7 +33,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("double negation introduction with Greater") = secure {
-    Inference[Greater[_5], Not[Not[Greater[_4]]]].isValid
+    Inference[Greater[W.`5`.T], Not[Not[Greater[W.`4`.T]]]].isValid
   }
 
   property("double negation introduction") = secure {

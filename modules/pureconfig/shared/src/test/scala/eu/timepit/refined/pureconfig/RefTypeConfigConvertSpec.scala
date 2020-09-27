@@ -24,7 +24,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
           reason = CannotConvert(
             value = "0",
             toType =
-              "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+              "eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Greater[Int(0)]]",
             because = "Predicate failed: (0 > 0)."
           ),
           origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),
@@ -41,7 +41,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
           reason = CannotConvert(
             value = "0",
             toType =
-              "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[shapeless.nat._0]]",
+              "eu.timepit.refined.api.Refined[scala.Int,eu.timepit.refined.numeric.Greater[Int(0)]]",
             because = "Predicate failed: (0 > 0)."
           ),
           origin = Some(ConfigOriginFactory.newSimple("String").withLineNumber(1)),

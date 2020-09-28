@@ -16,8 +16,8 @@ object any extends AnyInstances
 
 trait AnyInstances {
 
-  implicit def arbitraryFromValidate[F[_, _], T, P](
-      implicit rt: RefType[F],
+  implicit def arbitraryFromValidate[F[_, _], T, P](implicit
+      rt: RefType[F],
       v: Validate[T, P],
       arb: Arbitrary[T]
   ): Arbitrary[F[T, P]] =

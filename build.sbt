@@ -3,7 +3,6 @@ import sbtcrossproject.Platform
 
 /// variables
 
-val scalaJSVersion06 = Option(System.getenv("SCALAJS_VERSION")).exists(_.startsWith("0.6"))
 val groupId = "eu.timepit"
 val projectName = "refined"
 val rootPkg = s"$groupId.$projectName"
@@ -12,35 +11,34 @@ val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 // Remember to update these in .travis.yml, too.
-val Scala212 = "2.12.11"
-val Scala213 = "2.13.1"
+val Scala212 = "2.12.12"
+val Scala213 = "2.13.3"
+val Scala30 = "0.27.0-RC1"
 
-val catsVersion = "2.1.1"
+val catsVersion = "2.2.0"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.12.3"
+val pureconfigVersion = "0.14.0"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.14.3"
 val scalaXmlVersion = "1.3.0"
-val scalazVersion = "7.2.28"
+val scalazVersion = "7.3.2"
 val scodecVersion = "1.11.7"
 val scoptVersion = "3.7.1"
 
-def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] = Def.setting {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 12 =>
-      Seq(
-        compilerPlugin(
-          ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
+  Def.setting {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v <= 12 =>
+        Seq(
+          compilerPlugin(
+            ("org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch) % configuration
+          )
         )
-      )
-    case _ =>
-      Seq.empty // https://github.com/scala/scala/pull/6606
+      case _ =>
+        Seq.empty // https://github.com/scala/scala/pull/6606
+    }
   }
-}
-
-val scalaCheckDep =
-  Def.setting("org.scalacheck" %%% "scalacheck" % scalaCheckVersion)
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
@@ -49,15 +47,16 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
-  "scalaz" -> List(JVMPlatform, JSPlatform),
+  "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
-  "scopt" -> List(JVMPlatform, JSPlatform),
+  "scopt" -> List(JVMPlatform),
   "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case _ =>
-    List(Scala212, Scala213)
+  case ("core", _)       => List(Scala212, Scala213, Scala30)
+  case ("scalacheck", _) => List(Scala212, Scala213, Scala30)
+  case _                 => List(Scala212, Scala213)
 }
 
 def allSubprojectsOf(
@@ -72,9 +71,9 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM213 = allSubprojectsOf(JVMPlatform, Set(Scala213))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala30))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS213 = allSubprojectsOf(JSPlatform, Set(Scala213))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala30))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// projects
@@ -107,7 +106,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.0.1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -121,13 +120,24 @@ lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
-    libraryDependencies ++= macroParadise(Compile).value ++ Seq(
-      scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-      scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-      scalaCheckDep.value % Test
-    ),
+    libraryDependencies ++= {
+      macroParadise(Compile).value ++ (
+        if (isDotty.value)
+          Seq(
+            "com.chuusai" % "shapeless_2.13" % shapelessVersion,
+            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion,
+            "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion % Test
+          )
+        else
+          Seq(
+            scalaOrganization.value % "scala-reflect" % scalaVersion.value,
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
+            "com.chuusai" %%% "shapeless" % shapelessVersion,
+            "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+            "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
+          )
+      )
+    },
     initialCommands += s"""
       import shapeless.tag.@@
     """,
@@ -185,7 +195,12 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    libraryDependencies += scalaCheckDep.value,
+    libraryDependencies += {
+      if (isDotty.value)
+        "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion
+      else
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion
+    },
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -204,10 +219,8 @@ lazy val scalaz = myCrossProject("scalaz")
       import _root_.scalaz.@@
     """
   )
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scalazJVM = scalaz.jvm
-lazy val scalazJS = scalaz.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
@@ -231,11 +244,8 @@ lazy val scopt = myCrossProject("scopt")
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
   )
-  .jsSettings(scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) })
-  .jsSettings(disabledWhenScalaJS10)
 
 lazy val scoptJVM = scopt.jvm
-lazy val scoptJS = scopt.js
 
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
@@ -276,7 +286,7 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
     .settings(
-      scalaVersion := Scala212,
+      scalaVersion := Scala213,
       crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
     )
 
@@ -286,13 +296,12 @@ def moduleCrossConfig(name: String, module: String): CrossProject => CrossProjec
     .settings(moduleName := s"$projectName-$module")
     .settings(moduleCrossSettings)
 
-  moduleCrossPlatformMatrix(name).foldRight(transform) {
-    case (platform, t) =>
-      platform match {
-        case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(module)))
-        case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(module)))
-        case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(module)))
-      }
+  moduleCrossPlatformMatrix(name).foldRight(transform) { case (platform, t) =>
+    platform match {
+      case JVMPlatform    => t.andThen(_.jvmSettings(moduleJvmSettings(module)))
+      case JSPlatform     => t.andThen(_.jsSettings(moduleJsSettings(module)))
+      case NativePlatform => t.andThen(_.nativeSettings(moduleNativeSettings(module)))
+    }
   }
 }
 
@@ -303,44 +312,47 @@ lazy val moduleCrossSettings = Def.settings(
   commonSettings
 )
 
-def moduleJvmSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  javaOptions ++= Seq("-Duser.language=en"),
-  Test / fork := true,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
-  mimaPreviousArtifacts := {
-    val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
-    if (hasPredecessor && publishArtifact.value)
-      bincompatVersions.value.map(v => groupId %% moduleName.value % v)
-    else
-      Set.empty
-  },
-  mimaBinaryIssueFilters ++= {
-    import com.typesafe.tools.mima.core._
-    Seq(
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
-    )
-  },
-  skip.in(publish) := scalaJSVersion06
-)
+def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala213,
+    javaOptions ++= Seq("-Duser.language=en"),
+    Test / fork := true,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
+    mimaPreviousArtifacts := {
+      val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
+      if (hasPredecessor && publishArtifact.value)
+        bincompatVersions.value(scalaBinaryVersion.value).map(v => groupId %% moduleName.value % v)
+      else
+        Set.empty
+    },
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+      )
+    }
+  )
 
-def moduleJsSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  scalaVersion := Scala212,
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    scalaVersion := Scala213,
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false,
+    coverageEnabled := false
+  )
 
-def moduleNativeSettings(name: String): Seq[Def.Setting[_]] = Def.settings(
-  crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-  // Disable Scaladoc generation because of:
-  // [error] dropping dependency on node with no phase object: mixin
-  Compile / doc / sources := Seq.empty,
-  doctestGenTests := Seq.empty,
-  mimaFailOnNoPrevious := false
-)
+def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
+  Def.settings(
+    crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
+    // Disable Scaladoc generation because of:
+    // [error] dropping dependency on node with no phase object: mixin
+    Compile / doc / sources := Seq.empty,
+    doctestGenTests := Seq.empty,
+    mimaFailOnNoPrevious := false,
+    coverageEnabled := false
+  )
 
 lazy val metadataSettings = Def.settings(
   name := projectName,
@@ -366,41 +378,57 @@ lazy val compileSettings = Def.settings(
     "-encoding",
     "UTF-8",
     "-feature",
-    "-language:existentials",
-    "-language:experimental.macros",
-    "-language:higherKinds",
-    "-language:implicitConversions",
+    "-language:existentials,experimental.macros,higherKinds,implicitConversions",
     "-unchecked",
-    //"-Xlog-implicits",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard"
+    "-Xfatal-warnings"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, minor)) if minor >= 12 =>
         Seq(
           "-Xlint:-unused,_",
-          //"-Ywarn-unused:implicits",
+          "-Ywarn-numeric-widen",
+          "-Ywarn-value-discard",
+          "-Ywarn-unused:implicits",
           "-Ywarn-unused:imports"
           //"-Ywarn-unused:locals",
           //"-Ywarn-unused:params",
           //"-Ywarn-unused:patvars"
           //"-Ywarn-unused:privates"
         )
-      case _ => Seq("-Xlint")
+      case _ => Seq.empty
     }
   },
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 13)) => Seq.empty
-      case _             => Seq("-Xfatal-warnings")
+      case Some((2, minor)) if minor >= 13 =>
+        Seq("-Xlint:-byname-implicit")
+      case _ => Seq.empty
     }
   },
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",
-  Test / console / scalacOptions := (Compile / console / scalacOptions).value
+  Test / console / scalacOptions := (Compile / console / scalacOptions).value,
+  Seq(Compile, Test).map { config =>
+    (unmanagedSourceDirectories in config) ++= {
+      (unmanagedSourceDirectories in config).value.flatMap { dir: File =>
+        if (dir.getName != "scala") Seq(dir)
+        else
+          CrossVersion.partialVersion(scalaVersion.value) match {
+            case Some((2, 12)) => Seq(file(dir.getPath + "-3.0-"))
+            case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
+            case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
+            case other         => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
+          }
+      }
+    }
+  }
 )
 
 lazy val scaladocSettings = Def.settings(
+  Compile / doc / sources := {
+    val result = (Compile / doc / sources).value
+    if (isDotty.value) Seq.empty else result
+  },
   Compile / doc / scalacOptions ++= {
     val tag = s"v${version.value}"
     val tree = if (isSnapshot.value) "master" else tag
@@ -430,17 +458,6 @@ lazy val noPublishSettings = Def.settings(
   skip.in(publish) := true
 )
 
-lazy val disabledWhenScalaJS10 =
-  if (scalaJSVersion06)
-    Def.settings()
-  else
-    Def.settings(
-      Compile / unmanagedSourceDirectories := Seq(),
-      Test / unmanagedSourceDirectories := Seq(),
-      libraryDependencies := Seq(),
-      skip.in(publish) := true
-    )
-
 /// commands
 
 def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => State]] =
@@ -449,8 +466,7 @@ def addCommandsAlias(name: String, cmds: Seq[String]): Seq[Def.Setting[State => 
 addCommandsAlias(
   "fmt",
   Seq(
-    "scalafmt",
-    "test:scalafmt",
+    "scalafmtAll",
     "scalafmtSbt"
   )
 )
@@ -458,31 +474,30 @@ addCommandsAlias(
 addCommandsAlias(
   "fmtCheck",
   Seq(
-    "scalafmtCheck",
-    "test:scalafmtCheck",
-    "scalafmtSbtCheck",
-    "scalastyle",
-    "test:scalastyle"
+    "scalafmtCheckAll",
+    "scalafmtSbtCheck"
   )
 )
 
 addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
-addCommandsAlias("testJS213", allSubprojectsJS213.map(_ + "/test"))
-addCommandsAlias("testJVM213", allSubprojectsJVM213.map(_ + "/test"))
+
+addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
+addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
+addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
+addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
 addCommandsAlias(
   "validateJVM",
   Seq(
     "clean",
     "fmtCheck",
-    // "coverage",
+    "coverage",
     "mimaReportBinaryIssues",
     "testJVM",
-    // "coverageReport",
+    "coverageReport",
     "doc",
-    "docs/tut",
     "package",
     "packageSrc"
   )

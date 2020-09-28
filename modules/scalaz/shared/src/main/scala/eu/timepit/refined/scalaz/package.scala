@@ -2,7 +2,6 @@ package eu.timepit.refined
 
 import _root_.scalaz.{@@, Contravariant, Equal, MonadError, Show}
 import eu.timepit.refined.api.{RefType, Validate}
-import scala.reflect.macros.blackbox
 
 package object scalaz {
 
@@ -11,21 +10,11 @@ package object scalaz {
       override def unsafeWrap[T, P](t: T): T @@ P =
         t.asInstanceOf[T @@ P]
 
-      override def unwrap[T](tp: T @@ _): T =
+      override def unwrap[T, P](tp: T @@ P): T =
         tp.asInstanceOf[T]
 
       override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
         ta.asInstanceOf[T @@ B]
-
-      override def unsafeWrapM[T: c.WeakTypeTag, P: c.WeakTypeTag](
-          c: blackbox.Context
-      )(t: c.Expr[T]): c.Expr[T @@ P] =
-        c.universe.reify(t.splice.asInstanceOf[T @@ P])
-
-      override def unsafeRewrapM[T: c.WeakTypeTag, A: c.WeakTypeTag, B: c.WeakTypeTag](
-          c: blackbox.Context
-      )(ta: c.Expr[T @@ A]): c.Expr[T @@ B] =
-        c.universe.reify(ta.splice.asInstanceOf[T @@ B])
     }
 
   /**
@@ -43,8 +32,7 @@ package object scalaz {
     scalaz.derivation.refTypeViaContravariant[F, Show, T, P]
 
   @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
-  def refTypeContravariant[R[_, _], F[_], A, B](
-      implicit
+  def refTypeContravariant[R[_, _], F[_], A, B](implicit
       C: Contravariant[F],
       R: RefType[R],
       F: F[A]
@@ -52,8 +40,7 @@ package object scalaz {
     scalaz.derivation.refTypeViaContravariant[R, F, A, B]
 
   @deprecated("Generic derivation instances have been moved into the `derivation` object", "0.9.4")
-  def refTypeMonadError[R[_, _], F[_], A, B](
-      implicit
+  def refTypeMonadError[R[_, _], F[_], A, B](implicit
       M: MonadError[F, String],
       R: RefType[R],
       V: Validate[A, B],

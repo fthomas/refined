@@ -21,37 +21,33 @@ trait NumericInstances {
    *
    * This is like ScalaCheck's `Gen.chooseNum` but for refined types.
    */
-  def chooseRefinedNum[F[_, _], T: Numeric: Choose, P](min: F[T, P], max: F[T, P])(
-      implicit rt: RefType[F],
+  def chooseRefinedNum[F[_, _], T: Numeric: Choose, P](min: F[T, P], max: F[T, P])(implicit
+      rt: RefType[F],
       v: Validate[T, P]
   ): Gen[F[T, P]] =
     Gen.chooseNum(rt.unwrap(min), rt.unwrap(max)).filter(v.isValid).map(rt.unsafeWrap)
 
   ///
 
-  implicit def lessArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](
-      implicit
+  implicit def lessArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](implicit
       min: Min[T],
       wn: WitnessAs[N, T]
   ): Arbitrary[F[T, Less[N]]] =
     rangeClosedOpenArbitrary(min.min, wn.snd)
 
-  implicit def lessEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](
-      implicit
+  implicit def lessEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](implicit
       min: Min[T],
       wn: WitnessAs[N, T]
   ): Arbitrary[F[T, LessEqual[N]]] =
     rangeClosedArbitrary(min.min, wn.snd)
 
-  implicit def greaterArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](
-      implicit
+  implicit def greaterArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](implicit
       max: Max[T],
       wn: WitnessAs[N, T]
   ): Arbitrary[F[T, Greater[N]]] =
     rangeOpenClosedArbitrary(wn.snd, max.max)
 
-  implicit def greaterEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](
-      implicit
+  implicit def greaterEqualArbitrary[F[_, _]: RefType, T: Numeric: Choose, N](implicit
       max: Max[T],
       wn: WitnessAs[N, T]
   ): Arbitrary[F[T, GreaterEqual[N]]] =
@@ -59,8 +55,7 @@ trait NumericInstances {
 
   ///
 
-  implicit def intervalOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](
-      implicit
+  implicit def intervalOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](implicit
       wl: WitnessAs[L, T],
       wh: WitnessAs[H, T]
   ): Arbitrary[F[T, Interval.Open[L, H]]] =
@@ -80,8 +75,7 @@ trait NumericInstances {
   ): Arbitrary[F[T, Interval.ClosedOpen[L, H]]] =
     rangeClosedOpenArbitrary(wl.snd, wh.snd)
 
-  implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L, H](
-      implicit
+  implicit def intervalClosedArbitrary[F[_, _]: RefType, T: Numeric: Choose, L, H](implicit
       wl: WitnessAs[L, T],
       wh: WitnessAs[H, T]
   ): Arbitrary[F[T, Interval.Closed[L, H]]] =
@@ -90,8 +84,8 @@ trait NumericInstances {
   /// The following functions are private because it is not guaranteed
   /// that they produce valid values according to the predicate `P`.
 
-  private def rangeOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(
-      implicit at: Adjacent[T]
+  private def rangeOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(implicit
+      at: Adjacent[T]
   ): Arbitrary[F[T, P]] =
     arbitraryRefType(Gen.chooseNum(at.nextUp(min), at.nextDown(max)))
 
@@ -113,13 +107,13 @@ trait NumericInstances {
 }
 
 trait NumericInstancesBinCompat1 {
-  implicit def floatNonNaNArbitrary[F[_, _]: RefType](
-      implicit arb: Arbitrary[Float]
+  implicit def floatNonNaNArbitrary[F[_, _]: RefType](implicit
+      arb: Arbitrary[Float]
   ): Arbitrary[F[Float, NonNaN]] =
     arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0f else x))
 
-  implicit def doubleNonNaNArbitrary[F[_, _]: RefType](
-      implicit arb: Arbitrary[Double]
+  implicit def doubleNonNaNArbitrary[F[_, _]: RefType](implicit
+      arb: Arbitrary[Double]
   ): Arbitrary[F[Double, NonNaN]] =
     arbitraryRefType(arb.arbitrary.map(x => if (x.isNaN) 0.0d else x))
 }

@@ -9,8 +9,8 @@ import scodec.bits.ByteVector
 object byteVector extends ByteVectorValidate
 
 private[refined] trait ByteVectorValidate {
-  implicit def byteVectorSizeValidate[P, RP](
-      implicit v: Validate.Aux[Long, P, RP]
+  implicit def byteVectorSizeValidate[P, RP](implicit
+      v: Validate.Aux[Long, P, RP]
   ): Validate.Aux[ByteVector, Size[P], Size[v.Res]] =
     new Validate[ByteVector, Size[P]] {
       override type R = Size[v.Res]

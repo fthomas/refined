@@ -53,8 +53,8 @@ object Adjacent {
   implicit val floatAdjacent: Adjacent[Float] =
     instance(java.lang.Float.compare, Math.nextUp, Math.nextDown)
 
-  implicit def integralAdjacent[T](
-      implicit it: Integral[T]
+  implicit def integralAdjacent[T](implicit
+      it: Integral[T]
   ): Adjacent[T] =
     instance(
       it.compare,

@@ -35,10 +35,11 @@ object TestUtils {
     def apply[T](t: T)(implicit v: Validate[T, P]): String = v.showResult(t, v.validate(t))
   }
 
-  def wellTyped[A](body: => A): Prop = Prop.secure {
-    body
-    true
-  }
+  def wellTyped[A](body: => A): Prop =
+    Prop.secure {
+      body
+      true
+    }
 
   def getClassFile[C](c: C): String =
     c.getClass.getCanonicalName.replace('.', '/') + ".class"

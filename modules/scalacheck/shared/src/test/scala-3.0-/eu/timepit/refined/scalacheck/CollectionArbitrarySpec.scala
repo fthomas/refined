@@ -7,15 +7,11 @@ import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.scalacheck.collection._
 import eu.timepit.refined.scalacheck.numeric._
 import org.scalacheck.Properties
-import shapeless.nat._
 
 class CollectionArbitrarySpec extends Properties("CollectionArbitrary") {
 
   property("List[String] Refined MaxSize[42]") =
     checkArbitraryRefinedType[List[String] Refined MaxSize[W.`42`.T]]
-
-  property("List[String] Refined MaxSize[_13]") =
-    checkArbitraryRefinedType[List[String] Refined MaxSize[_13]]
 
   property("List[Int] Refined NonEmpty") = checkArbitraryRefinedType[List[Int] Refined NonEmpty]
 

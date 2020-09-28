@@ -28,6 +28,11 @@ final case class WitnessAs[A, B](fst: A, snd: B)
 object WitnessAs extends WitnessAs1 {
   def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
 
+  @deprecated(
+    "Support for shapeless.Nat as arguments for predicates has been deprecated. " +
+      "Use Int literals for any base type or Double literals for fractional base types instead.",
+    "0.10.0"
+  )
   implicit def natWitnessAs[B, A <: Nat](implicit
       wa: Witness.Aux[A],
       ta: ToInt[A],

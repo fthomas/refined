@@ -7,7 +7,6 @@ import eu.timepit.refined.collection._
 import eu.timepit.refined.numeric.{Greater, Interval}
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 import shapeless.test.illTyped
 
 class CollectionInferenceSpec extends Properties("CollectionInference") {
@@ -68,7 +67,7 @@ class CollectionInferenceSpec extends Properties("CollectionInference") {
     Inference[Size[Greater[W.`1`.T]], NonEmpty].isValid
   }
 
-  property("Size[Interval.Closed[_2, _5]] ==> NonEmpty") = secure {
-    Inference[Size[Interval.Closed[_2, _5]], NonEmpty].isValid
+  property("Size[Interval.Closed[2, 5]] ==> NonEmpty") = secure {
+    Inference[Size[Interval.Closed[W.`2`.T, W.`5`.T]], NonEmpty].isValid
   }
 }

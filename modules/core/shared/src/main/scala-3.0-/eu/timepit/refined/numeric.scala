@@ -134,6 +134,11 @@ private[refined] trait NumericInference {
   ): Less[A] ==> Less[B] =
     Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
+  @deprecated(
+    "Support for shapeless.Nat as arguments for predicates has been deprecated. " +
+      "Use Int literals for any base type or Double literals for fractional base types instead.",
+    "0.10.0"
+  )
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
@@ -147,6 +152,11 @@ private[refined] trait NumericInference {
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
 
+  @deprecated(
+    "Support for shapeless.Nat as arguments for predicates has been deprecated. " +
+      "Use Int literals for any base type or Double literals for fractional base types instead.",
+    "0.10.0"
+  )
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]

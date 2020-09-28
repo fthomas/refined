@@ -8,7 +8,6 @@ import eu.timepit.refined.types.numeric._
 import eu.timepit.refined.types.time.Minute
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import shapeless.nat._
 
 class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
@@ -16,25 +15,17 @@ class NumericArbitrarySpec extends Properties("NumericArbitrary") {
 
   property("Less[-10]") = checkArbitraryRefinedType[Int Refined Less[W.`-10`.T]]
 
-  property("Less[_10]") = checkArbitraryRefinedType[Long Refined Less[_10]]
-
   property("LessEqual[42]") = checkArbitraryRefinedType[Int Refined LessEqual[W.`42`.T]]
 
   property("LessEqual[-42]") = checkArbitraryRefinedType[Int Refined LessEqual[W.`-42`.T]]
-
-  property("LessEqual[_10]") = checkArbitraryRefinedType[Long Refined LessEqual[_10]]
 
   property("Greater[10]") = checkArbitraryRefinedType[Int Refined Greater[W.`10`.T]]
 
   property("Greater[-10]") = checkArbitraryRefinedType[Int Refined Greater[W.`-10`.T]]
 
-  property("Greater[_10]") = checkArbitraryRefinedType[Long Refined Greater[_10]]
-
   property("GreaterEqual[123]") = checkArbitraryRefinedType[Int Refined GreaterEqual[W.`123`.T]]
 
   property("GreaterEqual[123]") = checkArbitraryRefinedType[Int Refined GreaterEqual[W.`-123`.T]]
-
-  property("GreaterEqual[_10]") = checkArbitraryRefinedType[Int Refined GreaterEqual[_10]]
 
   property("NonNaNFloat") = checkArbitraryRefinedType[NonNaNFloat]
 

@@ -71,7 +71,8 @@ class StringTypesSpec extends Properties("StringTypes") {
   property("""NEFString3.truncate(str)""") = forAll { (str: String) =>
     val truncated = NEFString3.truncate(str)
     truncated.fold(Prop(str.isEmpty))(nefs =>
-      nefs.value.length <= NEFString3.maxLength && (nefs.value ?= str.take(NEFString3.maxLength)))
+      nefs.value.length <= NEFString3.maxLength && (nefs.value ?= str.take(NEFString3.maxLength))
+    )
   }
 
   property("NEFString implies NEString") = wellTyped {

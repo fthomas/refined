@@ -89,8 +89,7 @@ object string {
        * if it is longer than `N`.
        *
        * Example: {{{
-       * scala> import eu.timepit.refined.W
-       *      | import eu.timepit.refined.types.string.{NonEmptyString, NonEmptyFiniteString}
+       * scala> import eu.timepit.refined.types.string.{NonEmptyString, NonEmptyFiniteString}
        *
        * scala> val nes = NonEmptyString.unsafeFrom("abcde")
        * scala> NonEmptyFiniteString[3].truncateNes(nes)

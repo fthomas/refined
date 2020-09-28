@@ -1,4 +1,4 @@
-latestVersion in ThisBuild := "0.9.16"
+latestVersion in ThisBuild := "0.9.17"
 
 bincompatVersions in ThisBuild := Map(
   "2.12" -> Set(
@@ -14,7 +14,8 @@ bincompatVersions in ThisBuild := Map(
     "0.9.13",
     "0.9.14",
     "0.9.15",
-    "0.9.16"
+    "0.9.16",
+    "0.9.17"
     // NEXT_VERSION
   ),
   "2.13" -> Set(
@@ -23,7 +24,8 @@ bincompatVersions in ThisBuild := Map(
     "0.9.13",
     "0.9.14",
     "0.9.15",
-    "0.9.16"
+    "0.9.16",
+    "0.9.17"
     // NEXT_VERSION
   ),
   "0.27" -> Set.empty

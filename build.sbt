@@ -320,10 +320,10 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
     mimaPreviousArtifacts := {
       val hasPredecessor = !unreleasedModules.value.contains(moduleName.value)
-      if (hasPredecessor && publishArtifact.value && !scalaBinaryVersion.value.contains("-bin-"))
-        bincompatVersions.value(scalaBinaryVersion.value).map(v => groupId %% moduleName.value % v)
-      else
-        Set.empty
+      bincompatVersions.value
+        .get(scalaBinaryVersion.value)
+        .filter(_ => hasPredecessor && publishArtifact.value)
+        .fold(Set.empty[ModuleID])(_.map(v => groupId %% moduleName.value % v))
     },
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._

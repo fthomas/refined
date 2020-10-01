@@ -27,8 +27,7 @@ bincompatVersions in ThisBuild := Map(
     "0.9.16",
     "0.9.17"
     // NEXT_VERSION
-  ),
-  "0.27" -> Set.empty
+  )
 )
 
 unreleasedModules in ThisBuild := Set(

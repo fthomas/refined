@@ -25,7 +25,7 @@ trait CatsNonEmptyListSyntax {
     def refinedSize: PosInt = PosInt.unsafeFrom(nel.size)
 
     def take(n: PosInt): NonEmptyList[A] =
-      NonEmptyList.fromListUnsafe(nel.toList.take(n.value))
+      NonEmptyList(nel.head, nel.tail.take(n.value - 1))
   }
 }
 

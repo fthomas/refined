@@ -5,7 +5,10 @@ import cats.syntax.either._
 import eu.timepit.refined.api.RefinedTypeOps
 import eu.timepit.refined.types.numeric.PosInt
 
-object syntax extends CatsRefinedTypeOpsSyntax with CatsNonEmptyListSyntax with CatsNonEmptyVectorSyntax
+object syntax
+    extends CatsRefinedTypeOpsSyntax
+    with CatsNonEmptyListSyntax
+    with CatsNonEmptyVectorSyntax
 
 trait CatsRefinedTypeOpsSyntax {
   implicit class CatsRefinedTypeOps[FTP, T](rtOps: RefinedTypeOps[FTP, T]) {

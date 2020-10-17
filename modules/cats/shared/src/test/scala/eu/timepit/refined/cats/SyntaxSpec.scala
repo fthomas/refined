@@ -64,7 +64,8 @@ class SyntaxSpec extends Properties("syntax") {
 
   property("NonEmptyList take (< size)") = secure {
     import syntax._
-    NonEmptyList.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?= NonEmptyList.of("one", "two")
+    NonEmptyList.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?=
+      NonEmptyList.of("one", "two")
   }
 
   property("NonEmptyVector take (== size)") = secure {
@@ -79,6 +80,7 @@ class SyntaxSpec extends Properties("syntax") {
 
   property("NonEmptyVector take (< size)") = secure {
     import syntax._
-    NonEmptyVector.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?= NonEmptyVector.of("one", "two")
+    NonEmptyVector.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?=
+      NonEmptyVector.of("one", "two")
   }
 }

@@ -362,7 +362,8 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )
-    }
+    },
+    coverageEnabled := !isDotty.value
   )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =

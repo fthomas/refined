@@ -102,7 +102,16 @@ ThisBuild / githubWorkflowPublish := Seq(
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
 ThisBuild / githubWorkflowBuild :=
   Seq(
-    WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
+    WorkflowStep.Sbt(
+      List("validateJVM", "validateJS"),
+      name = Some("Build project"),
+      cond = Some(s"matrix.scala == '$Scala212' || matrix.scala == '$Scala213'")
+    ),
+    WorkflowStep.Sbt(
+      List("clean", "testJVM30", "testJS30"),
+      name = Some("Build project"),
+      cond = Some(s"matrix.scala == '$Scala30' || matrix.scala == '${`Scala-3.0.0-M1`}'")
+    ),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
   )
 
@@ -361,8 +370,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )
-    },
-    coverageEnabled := !isDotty.value
+    }
   )
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
@@ -405,7 +413,7 @@ lazy val metadataSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalacOptions ++= Seq(
-    //"-deprecation",
+    "-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",
@@ -453,8 +461,7 @@ lazy val compileSettings = Def.settings(
           }
       }
     }
-  },
-  scalafmtCheckAll := { if (isDotty.value) () else scalafmtCheckAll.value }
+  }
 )
 
 lazy val scaladocSettings = Def.settings(
@@ -520,21 +527,6 @@ addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
 addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
-
-addCommandsAlias(
-  "validate",
-  Seq(
-    "clean",
-    "fmtCheck",
-    "coverage",
-    "mimaReportBinaryIssues",
-    "test",
-    "coverageReport",
-    "doc",
-    "package",
-    "packageSrc"
-  )
-)
 
 addCommandsAlias(
   "validateJVM",

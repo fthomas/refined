@@ -80,7 +80,12 @@ jobs:
         run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
       - name: Build project
-        run: sbt ++${{ matrix.scala }} validate
+        if: matrix.scala == '2.12.12' || matrix.scala == '2.13.3'
+        run: sbt ++${{ matrix.scala }} validateJVM validateJS
+
+      - name: Build project
+        if: matrix.scala == '0.27.0-RC1' || matrix.scala == '3.0.0-M1'
+        run: sbt ++${{ matrix.scala }} clean testJVM30 testJS30
 
       - name: Codecov
         uses: codecov/codecov-action@v1

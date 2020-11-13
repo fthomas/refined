@@ -71,9 +71,9 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_0_27_0_RC1))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_0_27_0_RC1, Scala_3_0_0_M1))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_0_27_0_RC1))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_0_27_0_RC1, Scala_3_0_0_M1))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// sbt-github-actions configuration
@@ -107,7 +107,7 @@ ThisBuild / githubWorkflowBuild :=
       cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
     ),
     WorkflowStep.Sbt(
-      List("clean", "testJVM30", "testJS30"),
+      List("validateJVM30", "validateJS30"),
       name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '$Scala_0_27_0_RC1' || matrix.scala == '$Scala_3_0_0_M1'")
     ),
@@ -137,10 +137,14 @@ lazy val benchmark = project
   .enablePlugins(JmhPlugin)
   .disablePlugins(MimaPlugin)
   .settings(noPublishSettings)
+  .settings(
+    Compile / doc / sources := Seq.empty
+  )
 
 lazy val cats = myCrossProject("cats")
   .dependsOn(core % "compile->compile;test->test", scalacheck % Test)
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
@@ -201,6 +205,7 @@ lazy val docs = project
 lazy val eval = myCrossProject("eval")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies += scalaOrganization.value % "scala-compiler" % scalaVersion.value,
     initialCommands += s"""
       import $rootPkg.eval._
@@ -212,6 +217,7 @@ lazy val evalJVM = eval.jvm
 lazy val jsonpath = myCrossProject("jsonpath")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.jayway.jsonpath" % "json-path" % jsonpathVersion
     )
@@ -222,6 +228,7 @@ lazy val jsonpathJVM = jsonpath.jvm
 lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion,
       "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
@@ -250,6 +257,7 @@ lazy val scalacheckJS = scalacheck.js
 lazy val scalaz = myCrossProject("scalaz")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies += "org.scalaz" %%% "scalaz-core" % scalazVersion,
     initialCommands += s"""
       import $rootPkg.scalaz._
@@ -263,6 +271,7 @@ lazy val scalazJVM = scalaz.jvm
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "org.scodec" %%% "scodec-core" % scodecVersion
     ),
@@ -278,6 +287,7 @@ lazy val scodecJS = scodec.js
 lazy val scopt = myCrossProject("scopt")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.scopt" %%% "scopt" % scoptVersion
     )
@@ -288,6 +298,7 @@ lazy val scoptJVM = scopt.jvm
 lazy val shapeless = myCrossProject("shapeless")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
+    Compile / doc / sources := Seq.empty,
     initialCommands += s"""
       import $rootPkg.shapeless._
     """
@@ -384,9 +395,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-    // Disable Scaladoc generation because of:
-    // [error] dropping dependency on node with no phase object: mixin
-    Compile / doc / sources := Seq.empty,
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
     coverageEnabled := false
@@ -522,8 +530,6 @@ addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
-addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
-addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
@@ -553,5 +559,21 @@ addCommandsAlias(
   "validateNative",
   Seq(
     "compileNative"
+  )
+)
+
+addCommandsAlias(
+  "validateJVM30",
+  Seq(
+    "clean",
+    "testJVM30",
+    "doc"
+  )
+)
+
+addCommandsAlias(
+  "validateJS30",
+  Seq(
+    "testJS30"
   )
 )

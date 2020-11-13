@@ -79,11 +79,8 @@ jobs:
       - name: Check that workflows are up to date
         run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
-      - name: Build project (JVM)
-        run: sbt ++${{ matrix.scala }} validateJVM
-
-      - name: Build project (JS)
-        run: sbt ++${{ matrix.scala }} validateJS
+      - name: Build project
+        run: sbt ++${{ matrix.scala }} validate
 
       - name: Codecov
         uses: codecov/codecov-action@v1

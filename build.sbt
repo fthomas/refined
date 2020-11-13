@@ -102,8 +102,7 @@ ThisBuild / githubWorkflowPublish := Seq(
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
 ThisBuild / githubWorkflowBuild :=
   Seq(
-    WorkflowStep.Sbt(List("validateJVM"), name = Some("Build project (JVM)")),
-    WorkflowStep.Sbt(List("validateJS"), name = Some("Build project (JS)")),
+    WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
   )
 
@@ -521,6 +520,21 @@ addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
 addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
+
+addCommandsAlias(
+  "validate",
+  Seq(
+    "clean",
+    "fmtCheck",
+    "coverage",
+    "mimaReportBinaryIssues",
+    "test",
+    "coverageReport",
+    "doc",
+    "package",
+    "packageSrc"
+  )
+)
 
 addCommandsAlias(
   "validateJVM",

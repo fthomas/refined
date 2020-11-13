@@ -103,12 +103,12 @@ ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(
       List("validateJVM", "validateJS"),
-      name = Some("Build project"),
+      name = Some("Build project (Scala 2)"),
       cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
     ),
     WorkflowStep.Sbt(
       List("clean", "testJVM30", "testJS30"),
-      name = Some("Build project"),
+      name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '$Scala_0_27_0_RC1' || matrix.scala == '$Scala_3_0_0_M1'")
     ),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))

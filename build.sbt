@@ -10,11 +10,10 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-// Remember to update these in .travis.yml, too.
-val Scala212 = "2.12.12"
-val Scala213 = "2.13.3"
-val Scala30 = "0.27.0-RC1"
-val `Scala-3.0.0-M1` = "3.0.0-M1"
+val Scala_2_12 = "2.12.12"
+val Scala_2_13 = "2.13.3"
+val Scala_0_27_0_RC1 = "0.27.0-RC1"
+val Scala_3_0_0_M1 = "3.0.0-M1"
 
 val catsVersion = "2.2.0"
 val jsonpathVersion = "2.4.0"
@@ -55,9 +54,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
-  case ("scalacheck", _) => List(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
-  case _                 => List(Scala212, Scala213)
+  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
+  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
+  case _                 => List(Scala_2_12, Scala_2_13)
 }
 
 def allSubprojectsOf(
@@ -72,14 +71,14 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala30))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_0_27_0_RC1))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala30))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_0_27_0_RC1))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishPreamble +=
   WorkflowStep.Use("olafurpg", "setup-gpg", "v3")
@@ -105,12 +104,12 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Sbt(
       List("validateJVM", "validateJS"),
       name = Some("Build project"),
-      cond = Some(s"matrix.scala == '$Scala212' || matrix.scala == '$Scala213'")
+      cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
     ),
     WorkflowStep.Sbt(
       List("clean", "testJVM30", "testJS30"),
       name = Some("Build project"),
-      cond = Some(s"matrix.scala == '$Scala30' || matrix.scala == '${`Scala-3.0.0-M1`}'")
+      cond = Some(s"matrix.scala == '$Scala_0_27_0_RC1' || matrix.scala == '$Scala_3_0_0_M1'")
     ),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
   )
@@ -325,7 +324,7 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
     .settings(
-      scalaVersion := Scala213,
+      scalaVersion := Scala_2_13,
       crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
     )
 
@@ -353,7 +352,7 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala213,
+    scalaVersion := Scala_2_13,
     javaOptions ++= Seq("-Duser.language=en"),
     Test / fork := true,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
@@ -375,7 +374,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala213,
+    scalaVersion := Scala_2_13,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,

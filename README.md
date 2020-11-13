@@ -1,5 +1,5 @@
 # refined: simple refinement types for Scala
-[![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/fthomas/refined/Continuous%20Integration)](https://github.com/fthomas/refined/actions?query=workflow%3A%22Continuous+Integration%22)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)

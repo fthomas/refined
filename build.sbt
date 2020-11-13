@@ -14,6 +14,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 val Scala212 = "2.12.12"
 val Scala213 = "2.13.3"
 val Scala30 = "0.27.0-RC1"
+val `Scala-3.0.0-M1` = "3.0.0-M1"
 
 val catsVersion = "2.2.0"
 val jsonpathVersion = "2.4.0"
@@ -54,8 +55,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala212, Scala213, Scala30)
-  case ("scalacheck", _) => List(Scala212, Scala213, Scala30)
+  case ("core", _)       => List(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
+  case ("scalacheck", _) => List(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
   case _                 => List(Scala212, Scala213)
 }
 
@@ -75,6 +76,35 @@ val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala30))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
 val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala30))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
+
+/// sbt-github-actions configuration
+
+ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala30, `Scala-3.0.0-M1`)
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishPreamble +=
+  WorkflowStep.Use("olafurpg", "setup-gpg", "v3")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(
+  RefPredicate.Equals(Ref.Branch("master")),
+  RefPredicate.StartsWith(Ref.Tag("v"))
+)
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Run(
+    List("sbt ci-release"),
+    name = Some("Publish JARs"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowBuild :=
+  Seq(
+    WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
+    WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
+  )
 
 /// projects
 

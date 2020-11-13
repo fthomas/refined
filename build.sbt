@@ -453,7 +453,8 @@ lazy val compileSettings = Def.settings(
           }
       }
     }
-  }
+  },
+  scalafmtCheckAll := { if (isDotty.value) () else scalafmtCheckAll.value }
 )
 
 lazy val scaladocSettings = Def.settings(

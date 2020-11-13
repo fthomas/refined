@@ -85,7 +85,7 @@ jobs:
 
       - name: Build project (Scala 3)
         if: matrix.scala == '0.27.0-RC1' || matrix.scala == '3.0.0-M1'
-        run: sbt ++${{ matrix.scala }} clean testJVM30 testJS30
+        run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
 
       - name: Codecov
         uses: codecov/codecov-action@v1

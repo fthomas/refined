@@ -413,7 +413,7 @@ lazy val metadataSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalacOptions ++= Seq(
-    "-deprecation",
+    //"-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",

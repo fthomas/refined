@@ -102,7 +102,8 @@ ThisBuild / githubWorkflowPublish := Seq(
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
 ThisBuild / githubWorkflowBuild :=
   Seq(
-    WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
+    WorkflowStep.Sbt(List("validateJVM"), name = Some("Build project (JVM)")),
+    WorkflowStep.Sbt(List("validateJS"), name = Some("Build project (JS)")),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
   )
 

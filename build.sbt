@@ -556,8 +556,7 @@ addCommandsAlias(
   "validateJVM30",
   Seq(
     "clean",
-    "testJVM30",
-    "doc"
+    "testJVM30"
   )
 )
 

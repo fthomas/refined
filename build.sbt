@@ -24,7 +24,7 @@ val scalaCheckVersion = "1.15.1"
 val scalaXmlVersion = "1.3.0"
 val scalazVersion = "7.3.2"
 val scodecVersion = "1.11.7"
-val scoptVersion = "3.7.1"
+val scoptVersion = "4.0.0"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   Def.setting {

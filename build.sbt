@@ -12,8 +12,8 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.12"
 val Scala_2_13 = "2.13.3"
-val Scala_0_27_0_RC1 = "0.27.0-RC1"
 val Scala_3_0_0_M1 = "3.0.0-M1"
+val Scala_3_0_0_M2 = "3.0.0-M2"
 
 val catsVersion = "2.3.0"
 val jsonpathVersion = "2.4.0"
@@ -54,8 +54,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
-  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
+  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_3_0_0_M1, Scala_3_0_0_M2)
+  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_3_0_0_M1, Scala_3_0_0_M2)
   case _                 => List(Scala_2_12, Scala_2_13)
 }
 
@@ -71,14 +71,14 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_0_27_0_RC1, Scala_3_0_0_M1))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3_0_0_M1, Scala_3_0_0_M2))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_0_27_0_RC1, Scala_3_0_0_M1))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3_0_0_M1, Scala_3_0_0_M2))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_0_27_0_RC1, Scala_3_0_0_M1)
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3_0_0_M1, Scala_3_0_0_M2)
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishPreamble +=
   WorkflowStep.Use("olafurpg", "setup-gpg", "v3")
@@ -109,7 +109,7 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Sbt(
       List("validateJVM30", "validateJS30"),
       name = Some("Build project (Scala 3)"),
-      cond = Some(s"matrix.scala == '$Scala_0_27_0_RC1' || matrix.scala == '$Scala_3_0_0_M1'")
+      cond = Some(s"matrix.scala == '$Scala_3_0_0_M1' || matrix.scala == '$Scala_3_0_0_M2'")
     ),
     WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
   )

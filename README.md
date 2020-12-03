@@ -80,7 +80,7 @@ type (e.g. `Int Refined Positive`) without manual intervention.
 
 ### prior Scala 2.13 without literal types
 
-Since there a no literal types prior Scala 2.13 the literals must be created with shapeless:
+Since there are no literal types prior to Scala 2.13 the literals must be created with shapeless:
 
 ```scala
 scala> val a: Int Refined Greater[W.`5`.T] = 10

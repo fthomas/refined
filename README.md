@@ -52,34 +52,44 @@ res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-42 > 0).)
 ```
 
 **refined** also contains inference rules for converting between different
-refined types. For example, ``Int Refined Greater[W.`10`.T]`` can be safely
+refined types. For example, ``Int Refined Greater[10]`` can be safely
 converted to `Int Refined Positive` because all integers greater than ten
 are also positive. The type conversion of refined types is a compile-time
 operation that is provided by the library:
 
 ```scala
-scala> val a: Int Refined Greater[W.`5`.T] = 10
+scala> val a: Int Refined Greater[5] = 10
 a: Int Refined Greater[Int(5)] = 10
 
 // Since every value greater than 5 is also greater than 4, `a` can be
-// ascribed the type Int Refined Greater[W.`4`.T]:
-scala> val b: Int Refined Greater[W.`4`.T] = a
+// ascribed the type Int Refined Greater[4]:
+scala> val b: Int Refined Greater[4] = a
 b: Int Refined Greater[Int(4)] = 10
 
 // An unsound ascription leads to a compile error:
-scala> val c: Int Refined Greater[W.`6`.T] = a
-<console>:23: error: type mismatch (invalid inference):
- Greater[Int(5)] does not imply
- Greater[Int(6)]
-       val c: Int Refined Greater[W.`6`.T] = a
-                                             ^
+scala> val c: Int Refined Greater[6] = a
+                                       ^
+       error: type mismatch (invalid inference):
+               eu.timepit.refined.numeric.Greater[5] does not imply
+               eu.timepit.refined.numeric.Greater[6]
 ```
 
 This mechanism allows to pass values of more specific types (e.g.
-``Int Refined Greater[W.`10`.T]``) to functions that take a more general
+``Int Refined Greater[10]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.19/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+### prior Scala 2.13 without literal types
+
+Since there a no literal types prior Scala 2.13 the literals must be created with shapeless:
+
+```scala
+scala> val a: Int Refined Greater[W.`5`.T] = 10
+a: Int Refined Greater[Int(5)] = 10
+scala> val b: Int Refined Greater[W.`4`.T] = a
+b: Int Refined Greater[Int(4)] = 10
+```
+
+**Note** that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.19/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -97,7 +107,10 @@ syntax for [literal-based singleton types][sip-23].
 ## More examples
 
 ```scala
-import eu.timepit.refined.api.RefType
+import eu.timepit.refined._
+import eu.timepit.refined.auto._
+import eu.timepit.refined.numeric._
+import eu.timepit.refined.api.{RefType, Refined}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
@@ -113,7 +126,7 @@ scala> refineMV[NonEmpty]("")
             refineMV[NonEmpty]("")
                               ^
 
-scala> type ZeroToOne = Not[Less[W.`0.0`.T]] And Not[Greater[W.`1.0`.T]]
+scala> type ZeroToOne = Not[Less[0.0]] And Not[Greater[1.0]]
 defined type alias ZeroToOne
 
 scala> refineMV[ZeroToOne](1.8)
@@ -124,12 +137,12 @@ scala> refineMV[ZeroToOne](1.8)
 scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char Refined AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 
-scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+scala> refineMV[MatchesRegex["[0-9]+"]]("123.")
 <console>:39: error: Predicate failed: "123.".matches("[0-9]+").
               refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-scala> val d1: Char Refined Equal[W.`'3'`.T] = '3'
+scala> val d1: Char Refined Equal['3'] = '3'
 d1: Char Refined Equal[Char('3')] = 3
 
 scala> val d2: Char Refined Digit = d1
@@ -158,7 +171,7 @@ scala> val u1: String Refined Url = "htp://example.com"
                                     ^
 
 // Here we define a refined type "Int with the predicate (7 <= value < 77)".
-scala> type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
+scala> type Age = Int Refined Interval.ClosedOpen[7, 77]
 
 scala> val userInput = 55
 

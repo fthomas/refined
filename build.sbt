@@ -161,20 +161,17 @@ lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
-        if (isDotty.value)
-          Seq(
-            "com.chuusai" % "shapeless_2.13" % shapelessVersion,
-            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion,
-            "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion % Test
-          )
+        if (isDotty.value) Seq.empty
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "com.chuusai" %%% "shapeless" % shapelessVersion,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-            "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
+      ) ++ Seq(
+        ("com.chuusai" %%% "shapeless" % shapelessVersion).withDottyCompat(scalaVersion.value),
+        ("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
+          .withDottyCompat(scalaVersion.value),
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },
     initialCommands += s"""
@@ -234,12 +231,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    libraryDependencies += {
-      if (isDotty.value)
-        "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion
-      else
-        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion
-    },
+    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """

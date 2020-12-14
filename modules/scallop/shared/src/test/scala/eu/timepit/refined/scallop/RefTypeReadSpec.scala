@@ -11,7 +11,7 @@ class RefTypeReadSpec extends Properties("RefTypeRead") {
   org.rogach.scallop.throwError.value = true
 
   class Config(args: Seq[String]) extends ScallopConf(args) {
-    val foo = trailArg[PosInt](descr = "foo is a positive integer property")
+    val foo = trailArg[PosInt]("foo", descr = "foo is a positive integer property")
     verify()
   }
 

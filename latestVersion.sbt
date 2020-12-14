@@ -37,4 +37,5 @@ bincompatVersions in ThisBuild := Map(
 unreleasedModules in ThisBuild := Set(
   // Example:
   // "refined-eval"
+  "refined-scallop"
 )

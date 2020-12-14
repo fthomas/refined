@@ -52,7 +52,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "scallop" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform),
+  "shapeless" -> List(JVMPlatform, JSPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {

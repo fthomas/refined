@@ -22,7 +22,13 @@ class RefTypeReadSpec extends Properties("RefTypeRead") {
 
   property("load failure (predicate)") = secure {
     loadConfigWithValue("0") =?
-      Failure(WrongOptionFormat("foo", "0", "java.lang.IllegalArgumentException: Predicate failed: (0 > 0)."))
+      Failure(
+        WrongOptionFormat(
+          "foo",
+          "0",
+          "java.lang.IllegalArgumentException: Predicate failed: (0 > 0)."
+        )
+      )
   }
 
   property("load failure (wrong type)") = secure {

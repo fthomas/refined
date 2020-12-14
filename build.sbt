@@ -23,6 +23,7 @@ val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.15.1"
 val scalaXmlVersion = "1.3.0"
 val scalazVersion = "7.3.2"
+val scallopVersion = "4.0.0"
 val scodecVersion = "1.11.7"
 val scoptVersion = "4.0.0"
 
@@ -48,9 +49,10 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "pureconfig" -> List(JVMPlatform),
   "scalacheck" -> List(JVMPlatform, JSPlatform),
   "scalaz" -> List(JVMPlatform),
+  "scallop" -> List(JVMPlatform, JSPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform),
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -252,6 +254,17 @@ lazy val scalaz = myCrossProject("scalaz")
   )
 
 lazy val scalazJVM = scalaz.jvm
+
+lazy val scallop = myCrossProject("scallop")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies ++= macroParadise(Test).value ++ Seq(
+      "org.rogach" %%% "scallop" % scallopVersion
+    )
+  )
+
+lazy val scallopJVM = scallop.jvm
+lazy val scallopJS = scallop.js
 
 lazy val scodec = myCrossProject("scodec")
   .dependsOn(core % "compile->compile;test->test")

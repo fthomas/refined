@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.12, 2.13.3, 3.0.0-M1, 3.0.0-M2]
+        scala: [2.12.12, 2.13.3, 3.0.0-M3]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -57,7 +57,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} validateJVM validateJS
 
       - name: Build project (Scala 3)
-        if: matrix.scala == '3.0.0-M1' || matrix.scala == '3.0.0-M2'
+        if: matrix.scala == '3.0.0-M3'
         run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
 
       - name: Codecov
@@ -125,22 +125,12 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.0.0-M1)
+      - name: Download target directories (3.0.0-M3)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-3.0.0-M1-${{ matrix.java }}
+          name: target-${{ matrix.os }}-3.0.0-M3-${{ matrix.java }}
 
-      - name: Inflate target directories (3.0.0-M1)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
-
-      - name: Download target directories (3.0.0-M2)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-3.0.0-M2-${{ matrix.java }}
-
-      - name: Inflate target directories (3.0.0-M2)
+      - name: Inflate target directories (3.0.0-M3)
         run: |
           tar xf targets.tar
           rm targets.tar

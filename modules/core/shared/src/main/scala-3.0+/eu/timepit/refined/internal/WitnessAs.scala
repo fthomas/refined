@@ -35,57 +35,57 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  inline given singletonWitnessAs[B, A <: B] as WitnessAs[A, B] = {
+  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
     inline val a = constValue[A]
     WitnessAs(a, a)
   }
 }
 
 trait WitnessAs1 {
-  inline given intWitnessAsByte[A <: Int] as WitnessAs[A, Byte] =
+  inline given intWitnessAsByte[A <: Int]: WitnessAs[A, Byte] =
     inline constValue[A] match {
       case a if a >= -128 && a <= 127 => WitnessAs(a, a.toByte)
       case a => error(s"WitnessAs: $a is not in [Byte.MinValue, Byte.MaxValue]")
     }
 
-  inline given intWitnessAsShort[A <: Int] as WitnessAs[A, Short] =
+  inline given intWitnessAsShort[A <: Int]: WitnessAs[A, Short] =
     inline constValue[A] match {
       case a if a >= -32768 && a <= 32767 => WitnessAs(a, a.toShort)
       case a => error(s"WitnessAs: $a is not in [Short.MinValue, Short.MaxValue]")
     }
 
-  inline given intWitnessAsLong[A <: Int] as WitnessAs[A, Long] = {
+  inline given intWitnessAsLong[A <: Int]: WitnessAs[A, Long] = {
     inline val a = constValue[A]
     WitnessAs(a, a.toLong)
   }
 
-  inline given intWitnessAsBigInt[A <: Int] as WitnessAs[A, BigInt] = {
+  inline given intWitnessAsBigInt[A <: Int]: WitnessAs[A, BigInt] = {
     inline val a = constValue[A]
     WitnessAs(a, BigInt(a))
   }
 
-  inline given intWitnessAsFloat[A <: Int] as WitnessAs[A, Float] = {
+  inline given intWitnessAsFloat[A <: Int]: WitnessAs[A, Float] = {
     inline val a = constValue[A]
     WitnessAs(a, a.toFloat)
   }
 
-  inline given intWitnessAsDouble[A <: Int] as WitnessAs[A, Double] = {
+  inline given intWitnessAsDouble[A <: Int]: WitnessAs[A, Double] = {
     inline val a = constValue[A]
     WitnessAs(a, a.toDouble)
   }
 
-  inline given intWitnessAsBigDecimal[A <: Int] as WitnessAs[A, BigDecimal] = {
+  inline given intWitnessAsBigDecimal[A <: Int]: WitnessAs[A, BigDecimal] = {
     inline val a = constValue[A]
     WitnessAs(a, BigDecimal(a))
   }
 
-  inline given doubleWitnessAsFloat[A <: Double] as WitnessAs[A, Float] =
+  inline given doubleWitnessAsFloat[A <: Double]: WitnessAs[A, Float] =
     inline constValue[A] match {
       case a if a >= -3.4028235E38 && a <= 3.4028235E38 => WitnessAs(a, a.toFloat)
       case a => error(s"WitnessAs: $a is not in [Float.MinValue, Float.MaxValue]")
     }
 
-  inline given doubleWitnessAsBigDecimal[A <: Double] as WitnessAs[A, BigDecimal] = {
+  inline given doubleWitnessAsBigDecimal[A <: Double]: WitnessAs[A, BigDecimal] = {
     inline val a = constValue[A]
     WitnessAs(a, BigDecimal(a))
   }

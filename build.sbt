@@ -10,21 +10,20 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-// Remember to update these in .travis.yml, too.
-val Scala212 = "2.12.12"
-val Scala213 = "2.13.3"
-val Scala30 = "0.27.0-RC1"
+val Scala_2_12 = "2.12.12"
+val Scala_2_13 = "2.13.3"
+val Scala_3_0_0_M3 = "3.0.0-M3"
 
-val catsVersion = "2.2.0"
+val catsVersion = "2.3.1"
 val jsonpathVersion = "2.4.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.14.0"
 val shapelessVersion = "2.3.3"
-val scalaCheckVersion = "1.15.1"
+val scalaCheckVersion = "1.15.2"
 val scalaXmlVersion = "1.3.0"
 val scalazVersion = "7.3.2"
 val scodecVersion = "1.11.7"
-val scoptVersion = "3.7.1"
+val scoptVersion = "4.0.0"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   Def.setting {
@@ -54,9 +53,9 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala212, Scala213, Scala30)
-  case ("scalacheck", _) => List(Scala212, Scala213, Scala30)
-  case _                 => List(Scala212, Scala213)
+  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_3_0_0_M3)
+  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_3_0_0_M3)
+  case _                 => List(Scala_2_12, Scala_2_13)
 }
 
 def allSubprojectsOf(
@@ -71,10 +70,48 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala30))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3_0_0_M3))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala30))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3_0_0_M3))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
+
+/// sbt-github-actions configuration
+
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3_0_0_M3)
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishPreamble +=
+  WorkflowStep.Use("olafurpg", "setup-gpg", "v3")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(
+  RefPredicate.Equals(Ref.Branch("master")),
+  RefPredicate.StartsWith(Ref.Tag("v"))
+)
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Run(
+    List("sbt ci-release"),
+    name = Some("Publish JARs"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowBuild :=
+  Seq(
+    WorkflowStep.Sbt(
+      List("validateJVM", "validateJS"),
+      name = Some("Build project (Scala 2)"),
+      cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
+    ),
+    WorkflowStep.Sbt(
+      List("validateJVM30", "validateJS30"),
+      name = Some("Build project (Scala 3)"),
+      cond = Some(s"matrix.scala == '$Scala_3_0_0_M3'")
+    ),
+    WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
+  )
 
 /// projects
 
@@ -88,6 +125,7 @@ lazy val root = project
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(
+    crossScalaVersions := Nil,
     console := (coreJVM / Compile / console).value,
     Test / console := (coreJVM / Test / console).value,
     ThisBuild / Test / parallelExecution := false
@@ -106,7 +144,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.0.1" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.1.1" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -122,20 +160,17 @@ lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
-        if (isDotty.value)
-          Seq(
-            "com.chuusai" % "shapeless_2.13" % shapelessVersion,
-            "org.scala-lang.modules" % "scala-xml_2.13" % scalaXmlVersion,
-            "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion % Test
-          )
+        if (isDotty.value) Seq.empty
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "com.chuusai" %%% "shapeless" % shapelessVersion,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
-            "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
+      ) ++ Seq(
+        ("com.chuusai" %%% "shapeless" % shapelessVersion).withDottyCompat(scalaVersion.value),
+        ("org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion)
+          .withDottyCompat(scalaVersion.value),
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },
     initialCommands += s"""
@@ -195,12 +230,7 @@ lazy val pureconfigJVM = pureconfig.jvm
 lazy val scalacheck = myCrossProject("scalacheck")
   .dependsOn(core)
   .settings(
-    libraryDependencies += {
-      if (isDotty.value)
-        "org.scalacheck" % "scalacheck_2.13" % scalaCheckVersion
-      else
-        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion
-    },
+    libraryDependencies += "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     initialCommands += s"""
       import org.scalacheck.Arbitrary
     """
@@ -286,7 +316,7 @@ def moduleConfig(name: String): Project => Project =
     .settings(moduleName := s"$projectName-$name")
     .settings(commonSettings)
     .settings(
-      scalaVersion := Scala213,
+      scalaVersion := Scala_2_13,
       crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform)
     )
 
@@ -314,7 +344,7 @@ lazy val moduleCrossSettings = Def.settings(
 
 def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala213,
+    scalaVersion := Scala_2_13,
     javaOptions ++= Seq("-Duser.language=en"),
     Test / fork := true,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JVMPlatform),
@@ -336,7 +366,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
 
 def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
-    scalaVersion := Scala213,
+    scalaVersion := Scala_2_13,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
@@ -346,9 +376,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
   Def.settings(
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-    // Disable Scaladoc generation because of:
-    // [error] dropping dependency on node with no phase object: mixin
-    Compile / doc / sources := Seq.empty,
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
     coverageEnabled := false
@@ -374,7 +401,7 @@ lazy val metadataSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalacOptions ++= Seq(
-    "-deprecation",
+    //"-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",
@@ -417,6 +444,7 @@ lazy val compileSettings = Def.settings(
             case Some((2, 12)) => Seq(file(dir.getPath + "-3.0-"))
             case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
             case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
+            case Some((3, 0))  => Seq(file(dir.getPath + "-3.0+"))
             case other         => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }
@@ -483,8 +511,6 @@ addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
-addCommandsAlias("compileJS30", allSubprojectsJS30.map(_ + "/compile"))
-addCommandsAlias("compileJVM30", allSubprojectsJVM30.map(_ + "/compile"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
@@ -514,5 +540,20 @@ addCommandsAlias(
   "validateNative",
   Seq(
     "compileNative"
+  )
+)
+
+addCommandsAlias(
+  "validateJVM30",
+  Seq(
+    "clean",
+    "testJVM30"
+  )
+)
+
+addCommandsAlias(
+  "validateJS30",
+  Seq(
+    "testJS30"
   )
 )

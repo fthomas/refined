@@ -1,9 +1,9 @@
 # refined: simple refinement types for Scala
-[![Build Status](https://img.shields.io/travis/fthomas/refined/master.svg)](https://travis-ci.org/fthomas/refined)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/fthomas/refined/Continuous%20Integration)](https://github.com/fthomas/refined/actions?query=workflow%3A%22Continuous+Integration%22)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.17)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.20)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type.
@@ -52,34 +52,44 @@ res2: Either[String, Int Refined Positive] = Left(Predicate failed: (-42 > 0).)
 ```
 
 **refined** also contains inference rules for converting between different
-refined types. For example, ``Int Refined Greater[W.`10`.T]`` can be safely
+refined types. For example, ``Int Refined Greater[10]`` can be safely
 converted to `Int Refined Positive` because all integers greater than ten
 are also positive. The type conversion of refined types is a compile-time
 operation that is provided by the library:
 
 ```scala
-scala> val a: Int Refined Greater[W.`5`.T] = 10
+scala> val a: Int Refined Greater[5] = 10
 a: Int Refined Greater[Int(5)] = 10
 
 // Since every value greater than 5 is also greater than 4, `a` can be
-// ascribed the type Int Refined Greater[W.`4`.T]:
-scala> val b: Int Refined Greater[W.`4`.T] = a
+// ascribed the type Int Refined Greater[4]:
+scala> val b: Int Refined Greater[4] = a
 b: Int Refined Greater[Int(4)] = 10
 
 // An unsound ascription leads to a compile error:
-scala> val c: Int Refined Greater[W.`6`.T] = a
-<console>:23: error: type mismatch (invalid inference):
- Greater[Int(5)] does not imply
- Greater[Int(6)]
-       val c: Int Refined Greater[W.`6`.T] = a
-                                             ^
+scala> val c: Int Refined Greater[6] = a
+                                       ^
+       error: type mismatch (invalid inference):
+               eu.timepit.refined.numeric.Greater[5] does not imply
+               eu.timepit.refined.numeric.Greater[6]
 ```
 
 This mechanism allows to pass values of more specific types (e.g.
-``Int Refined Greater[W.`10`.T]``) to functions that take a more general
+``Int Refined Greater[10]``) to functions that take a more general
 type (e.g. `Int Refined Positive`) without manual intervention.
 
-Note that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.17/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+### prior Scala 2.13 without literal types
+
+Since there are no literal types prior to Scala 2.13 the literals must be created with shapeless:
+
+```scala
+scala> val a: Int Refined Greater[W.`5`.T] = 10
+a: Int Refined Greater[Int(5)] = 10
+scala> val b: Int Refined Greater[W.`4`.T] = a
+b: Int Refined Greater[Int(4)] = 10
+```
+
+**Note** that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.9.20/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -97,7 +107,10 @@ syntax for [literal-based singleton types][sip-23].
 ## More examples
 
 ```scala
-import eu.timepit.refined.api.RefType
+import eu.timepit.refined._
+import eu.timepit.refined.auto._
+import eu.timepit.refined.numeric._
+import eu.timepit.refined.api.{RefType, Refined}
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char._
 import eu.timepit.refined.collection._
@@ -113,7 +126,7 @@ scala> refineMV[NonEmpty]("")
             refineMV[NonEmpty]("")
                               ^
 
-scala> type ZeroToOne = Not[Less[W.`0.0`.T]] And Not[Greater[W.`1.0`.T]]
+scala> type ZeroToOne = Not[Less[0.0]] And Not[Greater[1.0]]
 defined type alias ZeroToOne
 
 scala> refineMV[ZeroToOne](1.8)
@@ -124,12 +137,12 @@ scala> refineMV[ZeroToOne](1.8)
 scala> refineMV[AnyOf[Digit :: Letter :: Whitespace :: HNil]]('F')
 res3: Char Refined AnyOf[Digit :: Letter :: Whitespace :: HNil] = F
 
-scala> refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
+scala> refineMV[MatchesRegex["[0-9]+"]]("123.")
 <console>:39: error: Predicate failed: "123.".matches("[0-9]+").
               refineMV[MatchesRegex[W.`"[0-9]+"`.T]]("123.")
                                                     ^
 
-scala> val d1: Char Refined Equal[W.`'3'`.T] = '3'
+scala> val d1: Char Refined Equal['3'] = '3'
 d1: Char Refined Equal[Char('3')] = 3
 
 scala> val d2: Char Refined Digit = d1
@@ -158,7 +171,7 @@ scala> val u1: String Refined Url = "htp://example.com"
                                     ^
 
 // Here we define a refined type "Int with the predicate (7 <= value < 77)".
-scala> type Age = Int Refined Interval.ClosedOpen[W.`7`.T, W.`77`.T]
+scala> type Age = Int Refined Interval.ClosedOpen[7, 77]
 
 scala> val userInput = 55
 
@@ -174,23 +187,23 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.9.17, which is available for Scala and
+The latest version of the library is 0.9.20, which is available for Scala and
 [Scala.js][scala.js] version 2.12 and 2.13.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"                 % "0.9.17",
-  "eu.timepit" %% "refined-cats"            % "0.9.17", // optional
-  "eu.timepit" %% "refined-eval"            % "0.9.17", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"        % "0.9.17", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig"      % "0.9.17", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.9.17", // optional
-  "eu.timepit" %% "refined-scalaz"          % "0.9.17", // optional
-  "eu.timepit" %% "refined-scodec"          % "0.9.17", // optional
-  "eu.timepit" %% "refined-scopt"           % "0.9.17", // optional
-  "eu.timepit" %% "refined-shapeless"       % "0.9.17"  // optional
+  "eu.timepit" %% "refined"                 % "0.9.20",
+  "eu.timepit" %% "refined-cats"            % "0.9.20", // optional
+  "eu.timepit" %% "refined-eval"            % "0.9.20", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.9.20", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.9.20", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.9.20", // optional
+  "eu.timepit" %% "refined-scalaz"          % "0.9.20", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.9.20", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.9.20", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.9.20"  // optional
 )
 ```
 
@@ -198,7 +211,7 @@ For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
-Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.9.17).
+Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.9.20).
 
 ## Community
 
@@ -293,7 +306,7 @@ opening a pull request to list it here:
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.17/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.9.20/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]
@@ -427,6 +440,7 @@ The following people have helped making **refined** great:
 * [Joe Greene](https://github.com/ClydeMachine)
 * [John-Michael Reed](https://github.com/JohnReedLOL)
 * [Julien BENOIT](https://github.com/jbenoit2011)
+* [kalejami](https://github.com/kalejami)
 * [kenji yoshida](https://github.com/xuwei-k)
 * [kusamakura](https://github.com/kusamakura)
 * [Leif Wickland](https://github.com/leifwickland)
@@ -438,6 +452,7 @@ The following people have helped making **refined** great:
 * [Olli Helenius](https://github.com/liff)
 * [Richard Gomes](https://github.com/frgomes)
 * [ronanM](https://github.com/ronanM)
+* [Sam Guymer](https://github.com/guymers)
 * [Sam Halliday](https://github.com/fommil)
 * [Shawn Garner](https://github.com/BusyByte)
 * [Shohei Shimomura](https://github.com/sh0hei)

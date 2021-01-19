@@ -79,8 +79,6 @@ val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3_0_0_M3)
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
-ThisBuild / githubWorkflowPublishPreamble +=
-  WorkflowStep.Use("olafurpg", "setup-gpg", "v3")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.Equals(Ref.Branch("master")),
   RefPredicate.StartsWith(Ref.Tag("v"))

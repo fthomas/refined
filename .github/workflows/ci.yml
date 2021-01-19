@@ -135,8 +135,6 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - uses: olafurpg/setup-gpg@v3
-
       - name: Publish JARs
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}

@@ -110,7 +110,7 @@ ThisBuild / githubWorkflowBuild :=
       name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '$Scala_3_0_0_M3'")
     ),
-    WorkflowStep.Use("codecov", "codecov-action", "v1", name = Some("Codecov"))
+    WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
   )
 
 /// projects

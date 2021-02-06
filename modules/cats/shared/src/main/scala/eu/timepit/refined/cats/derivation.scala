@@ -32,4 +32,5 @@ trait DerivationInstances {
       gt: G[T]
   ): G[F[T, P]] =
     m.flatMap(gt)(t => m.fromEither(rt.refine[P](t)))
+
 }

@@ -433,6 +433,7 @@ The following people have helped making **refined** great:
 * [dm-tran](https://github.com/dm-tran)
 * [Ender Tunç](https://github.com/endertunc)
 * [Frank S. Thomas](https://github.com/fthomas)
+* [Frederick Roth](https://github.com/froth)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)
 * [Jean-Rémi Desjardins](https://github.com/jedesah)

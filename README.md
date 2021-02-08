@@ -326,7 +326,7 @@ page in the wiki.
 
 The library comes with these predefined predicates:
 
-[`boolean`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/predicates/boolean.scala)
+[`boolean`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala-3.0+/eu/timepit/refined/boolean.scala)
 
 * `True`: constant predicate that is always `true`
 * `False`: constant predicate that is always `false`
@@ -367,11 +367,11 @@ The library comes with these predefined predicates:
 * `MinSize[N]`: checks if the size of an `Iterable` is greater than or equal to `N`
 * `MaxSize[N]`: checks if the size of an `Iterable` is less than or equal to `N`
 
-[`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/predicates/generic.scala)
+[`generic`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala-3.0+/eu/timepit/refined/generic.scala)
 
 * `Equal[U]`: checks if a value is equal to `U`
 
-[`numeric`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/predicates/numeric.scala)
+[`numeric`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala-3.0+/eu/timepit/refined/numeric.scala)
 
 * `Less[N]`: checks if a numeric value is less than `N`
 * `LessEqual[N]`: checks if a numeric value is less than or equal to `N`
@@ -392,7 +392,7 @@ The library comes with these predefined predicates:
 * `Odd`: checks if an integral value is not evenly divisible by 2
 * `NonNaN`: checks if a floating-point number is not NaN
 
-[`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/predicates/string.scala)
+[`string`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala-3.0+/eu/timepit/refined/string.scala)
 
 * `EndsWith[S]`: checks if a `String` ends with the suffix `S`
 * `IPv4`: checks if a `String` is a valid IPv4

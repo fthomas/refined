@@ -10,7 +10,7 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val Scala_2_12 = "2.12.12"
+val Scala_2_12 = "2.12.13"
 val Scala_2_13 = "2.13.3"
 val Scala_3_0_0_M3 = "3.0.0-M3"
 val Scala_3_0_0_RC1 = "3.0.0-RC1"

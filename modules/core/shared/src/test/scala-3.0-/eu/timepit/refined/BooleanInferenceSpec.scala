@@ -5,6 +5,8 @@ import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
+import eu.timepit.refined.string._
+import eu.timepit.refined.collection._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
@@ -18,6 +20,14 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("double negation elimination") = secure {
     Inference[Not[Not[UpperCase]], UpperCase].isValid
+  }
+
+  property("example 1") = secure {
+    Inference[NonEmpty And ValidLong, NonEmpty And (ValidLong Or ValidDouble)].isValid
+  }
+
+  property("example 2") = secure {
+    Inference[(NonEmpty And ValidLong) Or (NonEmpty And ValidDouble), NonEmpty].isValid
   }
 
   property("double negation elimination 2x") = secure {

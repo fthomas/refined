@@ -447,6 +447,7 @@ The following people have helped making **refined** great:
 * [急須](https://github.com/kyusu)
 * [Leif Wickland](https://github.com/leifwickland)
 * [Luis Miguel Mejía Suárez](https://github.com/BalmungSan)
+* [Mateusz Wójcik](https://github.com/matwojcik)
 * [Matt Pickering](https://github.com/matthedude)
 * [Michael Thomas](https://github.com/Michaelt293)
 * [Naoki Aoyama](https://github.com/aoiroaoino)

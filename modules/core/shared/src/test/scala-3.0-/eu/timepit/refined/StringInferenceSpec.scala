@@ -67,5 +67,4 @@ class StringInferenceSpec extends Properties("StringInference") {
     Inference[ValidBigDecimal, NonEmpty].isValid
   }
 
-
 }

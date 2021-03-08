@@ -4,7 +4,7 @@ import eu.timepit.refined.api.Inference
 import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.string._
 import org.scalacheck.Prop._
-import org.scalacheck.{Arbitrary, Properties}
+import org.scalacheck.Properties
 
 class StringInferenceSpec extends Properties("StringInference") {
 

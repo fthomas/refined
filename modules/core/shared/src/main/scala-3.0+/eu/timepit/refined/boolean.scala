@@ -245,6 +245,15 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     Inference.alwaysValid("conjunctionCommutativity")
 
+  implicit def substitutionInConjunction[A, B, C](implicit p1: B ==> C): (A And B) ==> (A And C) =
+    p1.adapt("substitutionInConjunction(%s)")
+
+  implicit def disjunctionTautologyElimination[A, B, C](implicit
+                                                        p1: B ==> C,
+                                                        p2: A ==> C
+                                                       ): (A Or B) ==> C =
+    Inference.combine(p1, p2, "disjunctionElimination")
+
   implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationR(%s)")
 

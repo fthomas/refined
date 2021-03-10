@@ -22,11 +22,11 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
     Inference[Not[Not[UpperCase]], UpperCase].isValid
   }
 
-  property("example 1") = secure {
+  property("substitution in conjunction") = secure {
     Inference[NonEmpty And ValidLong, NonEmpty And (ValidLong Or ValidDouble)].isValid
   }
 
-  property("example 2") = secure {
+  property("elimination of tautology in disjunction") = secure {
     Inference[(NonEmpty And ValidLong) Or (NonEmpty And ValidDouble), NonEmpty].isValid
   }
 

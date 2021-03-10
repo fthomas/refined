@@ -369,7 +369,18 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
     doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
-    coverageEnabled := false
+    coverageEnabled := false,
+    scalacOptions ++= {
+      if (isDotty.value) Seq()
+      else {
+        val tagOrHash =
+          if (!isSnapshot.value) s"v${version.value}"
+          else git.gitHeadCommit.value.getOrElse("master")
+        val local = (baseDirectory in LocalRootProject).value.toURI.toString
+        val remote = s"https://raw.githubusercontent.com/$gitHubOwner/$projectName/$tagOrHash/"
+        Seq(s"-P:scalajs:mapSourceURI:$local->$remote")
+      }
+    }
   )
 
 def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =

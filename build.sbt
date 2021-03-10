@@ -376,9 +376,9 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
         val tagOrHash =
           if (!isSnapshot.value) s"v${version.value}"
           else git.gitHeadCommit.value.getOrElse("master")
-        val a = (baseDirectory in LocalRootProject).value.toURI.toString
-        val g = s"https://raw.githubusercontent.com/$gitHubOwner/$projectName/" + tagOrHash
-        Seq(s"-P:scalajs:mapSourceURI:$a->$g/")
+        val local = (baseDirectory in LocalRootProject).value.toURI.toString
+        val remote = s"https://raw.githubusercontent.com/$gitHubOwner/$projectName/$tagOrHash/"
+        Seq(s"-P:scalajs:mapSourceURI:$local->$remote")
       }
     }
   )

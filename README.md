@@ -283,6 +283,7 @@ list it here:
 If your open source project is using **refined**, please consider opening
 a pull request to list it here:
 
+* [calypso](https://github.com/m2-oss/calypso): BSON library for Scala
 * [Quasar](https://github.com/quasar-analytics/quasar): An open source
   NoSQL analytics engine which uses refined for natural and positive
   integer types

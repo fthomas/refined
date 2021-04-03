@@ -21,7 +21,6 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.14.1"
 val shapelessVersion = "2.3.3"
 val scalaCheckVersion = "1.15.3"
-val scalaXmlVersion = "2.0.0-RC1"
 val scalazVersion = "7.3.3"
 val scodecVersion = "1.11.7"
 val scoptVersion = "4.0.1"
@@ -159,15 +158,18 @@ lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
-        if (isDotty.value) Seq.empty
+        if (isDotty.value)
+          Seq(
+            "org.scala-lang.modules" %% "scala-xml" % "2.0.0-RC1"
+          )
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
+            "org.scala-lang.modules" %% "scala-xml" % "1.3.0"
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).withDottyCompat(scalaVersion.value),
-        "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },

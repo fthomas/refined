@@ -492,7 +492,7 @@ lazy val scaladocSettings = Def.settings(
 )
 
 lazy val noPublishSettings = Def.settings(
-  skip.in(publish) := true
+  publish / skip := true
 )
 
 /// commands

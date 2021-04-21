@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.12, 2.13.5, 3.0.0-RC1, 3.0.0-RC2]
+        scala: [2.12.12, 2.13.5, 3.0.0-RC2, 3.0.0-RC3]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -57,7 +57,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} validateJVM validateJS
 
       - name: Build project (Scala 3)
-        if: matrix.scala == '3.0.0-RC1' || matrix.scala == '3.0.0-RC2'
+        if: matrix.scala == '3.0.0-RC2' || matrix.scala == '3.0.0-RC3'
         run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
 
       - name: Codecov
@@ -125,22 +125,22 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.0.0-RC1)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-3.0.0-RC1-${{ matrix.java }}
-
-      - name: Inflate target directories (3.0.0-RC1)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
-
       - name: Download target directories (3.0.0-RC2)
         uses: actions/download-artifact@v2
         with:
           name: target-${{ matrix.os }}-3.0.0-RC2-${{ matrix.java }}
 
       - name: Inflate target directories (3.0.0-RC2)
+        run: |
+          tar xf targets.tar
+          rm targets.tar
+
+      - name: Download target directories (3.0.0-RC3)
+        uses: actions/download-artifact@v2
+        with:
+          name: target-${{ matrix.os }}-3.0.0-RC3-${{ matrix.java }}
+
+      - name: Inflate target directories (3.0.0-RC3)
         run: |
           tar xf targets.tar
           rm targets.tar

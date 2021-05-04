@@ -1,6 +1,6 @@
-latestVersion in ThisBuild := "0.9.24"
+ThisBuild / latestVersion := "0.9.24"
 
-bincompatVersions in ThisBuild := Map(
+ThisBuild / bincompatVersions := Map(
   "2.12" -> Set(
     "0.9.3",
     "0.9.4",
@@ -44,7 +44,7 @@ bincompatVersions in ThisBuild := Map(
   )
 )
 
-unreleasedModules in ThisBuild := Set(
+ThisBuild / unreleasedModules := Set(
   // Example:
   // "refined-eval"
 )

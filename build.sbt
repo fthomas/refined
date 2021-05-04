@@ -186,14 +186,8 @@ lazy val coreJS = core.js
 lazy val docs = project
   .configure(moduleConfig("docs"))
   .dependsOn(coreJVM)
-  .enablePlugins(TutPlugin)
   .disablePlugins(MimaPlugin)
   .settings(noPublishSettings)
-  .settings(
-    Tut / scalacOptions := scalacOptions.value.diff(Seq("-Ywarn-unused:imports")),
-    tutSourceDirectory := baseDirectory.value / "src",
-    tutTargetDirectory := baseDirectory.value
-  )
 
 lazy val eval = myCrossProject("eval")
   .dependsOn(core % "compile->compile;test->test")

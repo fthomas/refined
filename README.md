@@ -452,6 +452,7 @@ The following people have helped making **refined** great:
 * [Mateusz Wójcik](https://github.com/matwojcik)
 * [Matt Pickering](https://github.com/matthedude)
 * [Michael Thomas](https://github.com/Michaelt293)
+* [Michal Sitko](https://github.com/note)
 * [Naoki Aoyama](https://github.com/aoiroaoino)
 * [Nicolas Rinaudo](https://github.com/nrinaudo)
 * [Olli Helenius](https://github.com/liff)

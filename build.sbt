@@ -151,6 +151,12 @@ lazy val cats = myCrossProject("cats")
 
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
+lazy val isScala3Setting = Def.setting {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((3, _)) => true
+    case _            => false
+  }
+}
 
 lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
@@ -158,7 +164,7 @@ lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
-        if (isDotty.value)
+        if (isScala3Setting.value)
           Seq(
             "org.scala-lang.modules" %% "scala-xml" % "2.0.0-RC1"
           )
@@ -169,7 +175,7 @@ lazy val core = myCrossProject("core")
             "org.scala-lang.modules" %% "scala-xml" % "1.3.0"
           )
       ) ++ Seq(
-        ("com.chuusai" %%% "shapeless" % shapelessVersion).withDottyCompat(scalaVersion.value),
+        ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },
@@ -371,7 +377,7 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
         else git.gitHeadCommit.value.getOrElse("master")
       val local = (LocalRootProject / baseDirectory).value.toURI.toString
       val remote = s"https://raw.githubusercontent.com/$gitHubOwner/$projectName/$tagOrHash/"
-      val opt = if (isDotty.value) "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
+      val opt = if (isScala3Setting.value) "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
       s"$opt:$local->$remote"
     }
   )
@@ -458,7 +464,7 @@ lazy val compileSettings = Def.settings(
 lazy val scaladocSettings = Def.settings(
   Compile / doc / sources := {
     val result = (Compile / doc / sources).value
-    if (isDotty.value) Seq.empty else result
+    if (isScala3Setting.value) Seq.empty else result
   },
   Compile / doc / scalacOptions ++= {
     val tag = s"v${version.value}"

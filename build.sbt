@@ -154,7 +154,7 @@ lazy val catsJS = cats.js
 lazy val isScala3Setting = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((3, _)) => true
-    case _ => false
+    case _            => false
   }
 }
 

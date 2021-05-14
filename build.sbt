@@ -12,8 +12,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.13"
 val Scala_2_13 = "2.13.5"
-val Scala_3_0_0_RC2 = "3.0.0-RC2"
-val Scala_3_0_0_RC3 = "3.0.0-RC3"
+val Scala_3 = "3.0.0"
 
 val catsVersion = "2.6.1"
 val jsonpathVersion = "2.4.0"
@@ -53,8 +52,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_3_0_0_RC2, Scala_3_0_0_RC3)
-  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_3_0_0_RC2, Scala_3_0_0_RC3)
+  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_3)
+  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_3)
   case _                 => List(Scala_2_12, Scala_2_13)
 }
 
@@ -70,14 +69,14 @@ def allSubprojectsOf(
     .sorted
 
 val allSubprojectsJVM = allSubprojectsOf(JVMPlatform)
-val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3_0_0_RC2, Scala_3_0_0_RC3))
+val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
-val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3_0_0_RC2, Scala_3_0_0_RC3))
+val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3_0_0_RC2, Scala_3_0_0_RC3)
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3)
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.Equals(Ref.Branch("master")),
@@ -106,7 +105,7 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Sbt(
       List("validateJVM30", "validateJS30"),
       name = Some("Build project (Scala 3)"),
-      cond = Some(s"matrix.scala == '$Scala_3_0_0_RC2' || matrix.scala == '$Scala_3_0_0_RC3'")
+      cond = Some(s"matrix.scala == '$Scala_3'")
     ),
     WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
   )

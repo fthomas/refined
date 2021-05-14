@@ -52,9 +52,10 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("core", _)       => List(Scala_2_12, Scala_2_13, Scala_3)
-  case ("scalacheck", _) => List(Scala_2_12, Scala_2_13, Scala_3)
-  case _                 => List(Scala_2_12, Scala_2_13)
+  case ("benchmark" | "cats" | "eval" | "pureconfig" | "scalaz" | "scodec", _) =>
+    List(Scala_2_12, Scala_2_13)
+  case _ =>
+    List(Scala_2_12, Scala_2_13, Scala_3)
 }
 
 def allSubprojectsOf(

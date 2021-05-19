@@ -35,4 +35,20 @@ class StringArbitrarySpec extends Properties("StringArbitrary") {
   property("NonEmptyFiniteString[10]") = checkArbitraryRefinedType[NonEmptyFiniteString[W.`10`.T]]
 
   property("Uuid") = checkArbitraryRefinedType[String Refined Uuid]
+
+  property("ValidByte") = checkArbitraryRefinedType[String Refined ValidByte]
+
+  property("ValidShort") = checkArbitraryRefinedType[String Refined ValidShort]
+
+  property("ValidInt") = checkArbitraryRefinedType[String Refined ValidInt]
+
+  property("ValidLong") = checkArbitraryRefinedType[String Refined ValidLong]
+
+  property("ValidFloat") = checkArbitraryRefinedType[String Refined ValidFloat]
+
+  property("ValidDouble") = checkArbitraryRefinedType[String Refined ValidDouble]
+
+  property("ValidBigInt") = checkArbitraryRefinedType[String Refined ValidBigInt]
+
+  property("ValidBigDecimal") = checkArbitraryRefinedType[String Refined ValidBigDecimal]
 }

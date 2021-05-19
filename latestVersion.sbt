@@ -1,6 +1,6 @@
-latestVersion in ThisBuild := "0.9.17"
+ThisBuild / latestVersion := "0.9.24"
 
-bincompatVersions in ThisBuild := Map(
+ThisBuild / bincompatVersions := Map(
   "2.12" -> Set(
     "0.9.3",
     "0.9.4",
@@ -15,7 +15,15 @@ bincompatVersions in ThisBuild := Map(
     "0.9.14",
     "0.9.15",
     "0.9.16",
-    "0.9.17"
+    "0.9.17",
+    "0.9.18",
+    "0.9.19",
+    "0.9.20",
+    "0.9.21",
+    "0.9.22",
+    "0.9.23",
+    "0.9.24",
+    "0.9.25"
     // NEXT_VERSION
   ),
   "2.13" -> Set(
@@ -25,13 +33,20 @@ bincompatVersions in ThisBuild := Map(
     "0.9.14",
     "0.9.15",
     "0.9.16",
-    "0.9.17"
+    "0.9.17",
+    "0.9.18",
+    "0.9.19",
+    "0.9.20",
+    "0.9.21",
+    "0.9.22",
+    "0.9.23",
+    "0.9.24",
+    "0.9.25"
     // NEXT_VERSION
-  ),
-  "0.27" -> Set.empty
+  )
 )
 
-unreleasedModules in ThisBuild := Set(
+ThisBuild / unreleasedModules := Set(
   // Example:
   // "refined-eval"
   "refined-scalaxml"

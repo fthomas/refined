@@ -1,6 +1,6 @@
 package eu.timepit.refined.cats
 
-import _root_.cats.data.{NonEmptyList, Validated}
+import _root_.cats.data.{NonEmptyList, NonEmptyVector, Validated}
 import eu.timepit.refined.W
 import eu.timepit.refined.api.{Refined, RefinedTypeOps}
 import eu.timepit.refined.numeric.Interval
@@ -52,4 +52,35 @@ class SyntaxSpec extends Properties("syntax") {
     NonEmptyList.of("one", "two", "three").refinedSize ?= PosInt.unsafeFrom(3)
   }
 
+  property("NonEmptyList take (== size)") = secure {
+    import syntax._
+    NonEmptyList.of("one").take(PosInt.unsafeFrom(1)) ?= NonEmptyList.of("one")
+  }
+
+  property("NonEmptyList take (> size)") = secure {
+    import syntax._
+    NonEmptyList.of("one").take(PosInt.unsafeFrom(2)) ?= NonEmptyList.of("one")
+  }
+
+  property("NonEmptyList take (< size)") = secure {
+    import syntax._
+    NonEmptyList.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?=
+      NonEmptyList.of("one", "two")
+  }
+
+  property("NonEmptyVector take (== size)") = secure {
+    import syntax._
+    NonEmptyVector.of("one").take(PosInt.unsafeFrom(1)) ?= NonEmptyVector.of("one")
+  }
+
+  property("NonEmptyVector take (> size)") = secure {
+    import syntax._
+    NonEmptyVector.of("one").take(PosInt.unsafeFrom(2)) ?= NonEmptyVector.of("one")
+  }
+
+  property("NonEmptyVector take (< size)") = secure {
+    import syntax._
+    NonEmptyVector.of("one", "two", "three").take(PosInt.unsafeFrom(2)) ?=
+      NonEmptyVector.of("one", "two")
+  }
 }

@@ -9,9 +9,9 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: ['*']
+    branches: ['**']
   push:
-    branches: ['*']
+    branches: ['**']
     tags: [v*]
 
 env:
@@ -50,15 +50,15 @@ jobs:
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
       - name: Check that workflows are up to date
-        run: sbt ++${{ matrix.scala }} githubWorkflowCheck
+        run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
 
       - name: Build project (Scala 2)
         if: matrix.scala == '2.12.13' || matrix.scala == '2.13.6'
-        run: sbt ++${{ matrix.scala }} validateJVM validateJS
+        run: sbt --client '++${{ matrix.scala }}; validateJVM; validateJS'
 
       - name: Build project (Scala 3)
         if: matrix.scala == '3.0.0'
-        run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
+        run: sbt --client '++${{ matrix.scala }}; validateJVM30; validateJS30'
 
       - name: Codecov
         uses: codecov/codecov-action@v1

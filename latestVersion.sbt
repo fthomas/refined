@@ -23,7 +23,8 @@ ThisBuild / bincompatVersions := Map(
     "0.9.22",
     "0.9.23",
     "0.9.24",
-    "0.9.25"
+    "0.9.25",
+    "0.9.26"
     // NEXT_VERSION
   ),
   "2.13" -> Set(
@@ -41,7 +42,8 @@ ThisBuild / bincompatVersions := Map(
     "0.9.22",
     "0.9.23",
     "0.9.24",
-    "0.9.25"
+    "0.9.25",
+    "0.9.26"
     // NEXT_VERSION
   )
 )

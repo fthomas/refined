@@ -20,6 +20,7 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.16.0"
 val shapelessVersion = "2.3.7"
 val scalaCheckVersion = "1.15.4"
+val scalaXmlVersion = "2.0.0"
 val scalazVersion = "7.3.3"
 val scodecVersion = "1.11.8"
 val scoptVersion = "4.0.1"
@@ -48,7 +49,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform),
+  "scalaxml" -> List(JVMPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -165,14 +167,11 @@ lazy val core = myCrossProject("core")
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
-          Seq(
-            "org.scala-lang.modules" %% "scala-xml" % "2.0.0"
-          )
+          Seq()
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "org.scala-lang.modules" %% "scala-xml" % "1.3.0"
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
@@ -288,6 +287,14 @@ lazy val shapeless = myCrossProject("shapeless")
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
 
+lazy val scalaxml = myCrossProject("scalaxml")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+  )
+
+lazy val scalaxmlJVM = scalaxml.jvm
+
 /// settings
 
 lazy val commonSettings = Def.settings(
@@ -358,6 +365,36 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.unsafeWrapM"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.unsafeRewrapM"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.api.RefType.refineMF"
+        ),
+        ProblemFilters.exclude[MissingClassProblem](
+          "eu.timepit.refined.internal.RefineMFullyApplied"
+        ),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.predicates.StringPredicates.Xml"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "eu.timepit.refined.predicates.string.Xml"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )

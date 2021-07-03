@@ -4,7 +4,6 @@ import eu.timepit.refined.api.{Refined, RefinedType, RefinedTypeOps}
 import eu.timepit.refined.collection.{MaxSize, NonEmpty, Size}
 import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.string.{HexStringSpec, Trimmed}
-import shapeless.Nat._1
 
 /** Module for `String` refined types. */
 object string {
@@ -59,7 +58,7 @@ object string {
   object NonEmptyString extends RefinedTypeOps[NonEmptyString, String]
 
   /** A `String` that is not empty with length less than or equal to `N`. */
-  type NonEmptyFiniteString[N] = String Refined Size[Interval.Closed[_1, N]]
+  type NonEmptyFiniteString[N] = String Refined Size[Interval.Closed[1, N]]
 
   object NonEmptyFiniteString {
     class NonEmptyFiniteStringOps[N <: Int](implicit

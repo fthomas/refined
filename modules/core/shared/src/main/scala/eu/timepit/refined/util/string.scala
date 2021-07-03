@@ -27,10 +27,6 @@ object string {
   def uuid(s: String Refined Uuid): java.util.UUID =
     java.util.UUID.fromString(s.value)
 
-  /** Creates a `scala.xml.Elem` from a validated string. */
-  def xml(s: String Refined Xml): scala.xml.Elem =
-    scala.xml.XML.loadString(s.value)
-
   /** Creates a `javax.xml.xpath.XPathExpression` from a validated string. */
   def xpath(s: String Refined XPath): javax.xml.xpath.XPathExpression =
     javax.xml.xpath.XPathFactory.newInstance().newXPath().compile(s.value)

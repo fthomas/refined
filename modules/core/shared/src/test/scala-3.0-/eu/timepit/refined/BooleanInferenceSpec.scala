@@ -7,6 +7,7 @@ import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import eu.timepit.refined.collection._
+import eu.timepit.refined.predicates.all.{Equal, LetterOrDigit}
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
@@ -70,6 +71,13 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("conjunction elimination right") = secure {
     Inference[Letter And UpperCase, UpperCase].isValid
+  }
+
+  property("complex conjunction elimination") = secure {
+    type BaseRefinement = And[Size[Equal[10]], Forall[LetterOrDigit]]
+    type ConcreteRefinement = And[StartsWith[W.`"001"`.T], BaseRefinement]
+
+    Inference[ConcreteRefinement, BaseRefinement].isValid
   }
 
   property("conjunction introduction") = wellTyped {

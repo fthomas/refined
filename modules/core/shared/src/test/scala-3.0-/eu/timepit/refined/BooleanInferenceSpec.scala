@@ -7,7 +7,8 @@ import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
 import eu.timepit.refined.string._
 import eu.timepit.refined.collection._
-import eu.timepit.refined.predicates.all.{Equal, LetterOrDigit}
+import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.char.LetterOrDigit
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped

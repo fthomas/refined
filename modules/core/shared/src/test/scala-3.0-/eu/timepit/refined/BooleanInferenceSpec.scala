@@ -75,7 +75,7 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
   }
 
   property("complex conjunction elimination") = secure {
-    type BaseRefinement = And[Size[Equal[10]], Forall[LetterOrDigit]]
+    type BaseRefinement = And[Size[Equal[W.`10`.T]], Forall[LetterOrDigit]]
     type ConcreteRefinement = And[StartsWith[W.`"001"`.T], BaseRefinement]
 
     Inference[ConcreteRefinement, BaseRefinement].isValid

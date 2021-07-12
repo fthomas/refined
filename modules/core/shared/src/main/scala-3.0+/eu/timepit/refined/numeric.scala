@@ -133,26 +133,26 @@ private[refined] trait NumericInference {
       wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Less[A] ==> Less[B] =
-    Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
+    Inference(nc.lteq(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Less[A] ==> Less[B] =
-    Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
+    Inference(ta() <= tb(), s"lessInferenceNat(${ta()}, ${tb()})")
 
   implicit def greaterInference[C, A, B](implicit
       wa: WitnessAs[A, C],
       wb: WitnessAs[B, C],
       nc: Numeric[C]
   ): Greater[A] ==> Greater[B] =
-    Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
+    Inference(nc.gteq(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
 
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Greater[A] ==> Greater[B] =
-    Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
+    Inference(ta() >= tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
     Inference.alwaysValid("greaterEqualInference")

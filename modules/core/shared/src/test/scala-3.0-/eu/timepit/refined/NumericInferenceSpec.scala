@@ -1,12 +1,16 @@
 package eu.timepit.refined
 
 import eu.timepit.refined.api.Inference
-import eu.timepit.refined.boolean._
+import eu.timepit.refined.boolean.And
 import eu.timepit.refined.numeric._
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 
 class NumericInferenceSpec extends Properties("NumericInference") {
+
+  property("Less[5] ==> Less[5]") = secure {
+    Inference[Less[W.`5`.T], Less[W.`5`.T]].isValid
+  }
 
   property("Less[5] ==> Less[10]") = secure {
     Inference[Less[W.`5`.T], Less[W.`10`.T]].isValid
@@ -34,6 +38,10 @@ class NumericInferenceSpec extends Properties("NumericInference") {
 
   property("LessEqual[7.5] =!> LessEqual[7.2]") = secure {
     Inference[LessEqual[W.`7.5`.T], LessEqual[W.`7.2`.T]].notValid
+  }
+
+  property("Greater[5.0] ==> Greater[5.0]") = secure {
+    Inference[Greater[W.`5.0`.T], Greater[W.`5.0`.T]].isValid
   }
 
   property("Greater[10] ==> Greater[5]") = secure {
@@ -74,5 +82,9 @@ class NumericInferenceSpec extends Properties("NumericInference") {
 
   property("Interval.Closed[5, 10] ==> LessEqual[11]") = secure {
     Inference[Interval.Closed[W.`5`.T, W.`10`.T], LessEqual[W.`11`.T]].isValid
+  }
+
+  property("Positive And Less[10] ==> Positive") = secure {
+    Inference[Positive And Less[W.`10`.T], Positive].isValid
   }
 }

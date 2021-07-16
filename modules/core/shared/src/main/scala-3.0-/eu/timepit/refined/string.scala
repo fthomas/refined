@@ -2,6 +2,7 @@ package eu.timepit.refined
 
 import eu.timepit.refined.api.{Inference, Validate}
 import eu.timepit.refined.api.Inference.==>
+import eu.timepit.refined.collection.NonEmpty
 import eu.timepit.refined.string._
 import shapeless.Witness
 
@@ -263,4 +264,40 @@ private[refined] trait StringInference {
       wb: Witness.Aux[B]
   ): StartsWith[A] ==> StartsWith[B] =
     Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")
+
+  implicit def urlNonEmptyInference: Url ==> NonEmpty =
+    Inference.alwaysValid("urlNonEmptyInference")
+
+  implicit def uuidNonEmptyInference: Uuid ==> NonEmpty =
+    Inference.alwaysValid("uuidNonEmptyInference")
+
+  implicit def validByteNonEmptyInference: ValidByte ==> NonEmpty =
+    Inference.alwaysValid("validByteNonEmptyInference")
+
+  implicit def validShortNonEmptyInference: ValidShort ==> NonEmpty =
+    Inference.alwaysValid("validShortNonEmptyInference")
+
+  implicit def validLongNonEmptyInference: ValidLong ==> NonEmpty =
+    Inference.alwaysValid("validLongNonEmptyInference")
+
+  implicit def validFloatNonEmptyInference: ValidFloat ==> NonEmpty =
+    Inference.alwaysValid("validFloatNonEmptyInference")
+
+  implicit def validDoubleNonEmptyInference: ValidDouble ==> NonEmpty =
+    Inference.alwaysValid("validDoubleNonEmptyInference")
+
+  implicit def validIntNonEmptyInference: ValidInt ==> NonEmpty =
+    Inference.alwaysValid("validIntNonEmptyInference")
+
+  implicit def validBigIntNonEmptyInference: ValidBigInt ==> NonEmpty =
+    Inference.alwaysValid("validBigIntNonEmptyInference")
+
+  implicit def validBigDecimalNonEmptyInference: ValidBigDecimal ==> NonEmpty =
+    Inference.alwaysValid("validBigDecimalNonEmptyInference")
+
+  implicit def xmlNonEmptyInference: Xml ==> NonEmpty =
+    Inference.alwaysValid("xmlNonEmptyInference")
+
+  implicit def xPathNonEmptyInference: XPath ==> NonEmpty =
+    Inference.alwaysValid("xPathNonEmptyInference")
 }

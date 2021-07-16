@@ -19,13 +19,13 @@ object boolean extends BooleanInference0 {
   final case class Not[P](p: P)
 
   /** Conjunction of the predicates `A` and `B`. */
-  final case class And[A, B](a: A, b: B)
+  infix final case class And[A, B](a: A, b: B)
 
   /** Disjunction of the predicates `A` and `B`. */
-  final case class Or[A, B](a: A, b: B)
+  infix final case class Or[A, B](a: A, b: B)
 
   /** Exclusive disjunction of the predicates `A` and `B`. */
-  final case class Xor[A, B](a: A, b: B)
+  infix final case class Xor[A, B](a: A, b: B)
 
   /** Conjunction of all predicates in `PS`. */
   final case class AllOf[PS](ps: PS)
@@ -37,10 +37,10 @@ object boolean extends BooleanInference0 {
   final case class OneOf[PS](ps: PS)
 
   /** Negated conjunction of the predicates `A` and `B`. */
-  type Nand[A, B] = Not[A And B]
+  infix type Nand[A, B] = Not[A And B]
 
   /** Negated disjunction of the predicates `A` and `B`. */
-  type Nor[A, B] = Not[A Or B]
+  infix type Nor[A, B] = Not[A Or B]
 
   object True {
     implicit def trueValidate[T]: Validate.Plain[T, True] =

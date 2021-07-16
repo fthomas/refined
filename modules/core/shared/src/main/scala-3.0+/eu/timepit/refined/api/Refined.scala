@@ -1,6 +1,6 @@
 package eu.timepit.refined.api
 
-opaque type Refined[T, P] = T
+infix opaque type Refined[T, P] = T
 
 object Refined {
 

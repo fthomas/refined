@@ -24,6 +24,26 @@ package object refined {
       inline def isValid(inline t: Int): Boolean = t > 0
   }
 
+  class Greater1[N]
+  object Greater1 {
+    inline given [N <: Int]: Predicate[Int, Greater1[N]] with
+      inline def isValid(inline t: Int): Boolean = t > scala.compiletime.constValue[N]
+  }
+/*
+  Does not work with 3.0.0:
+  scala> refineMV[Int, Greater1[2]](5)
+1 |refineMV[Int, Greater1[2]](5)
+  |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |Cannot reduce `inline if` because its condition is not a constant value: {
+  |  val given_Predicate_Int_Greater1_this:
+  |    eu.timepit.refined.Greater1.given_Predicate_Int_Greater1[(2 : Int)]
+  |   = eu.timepit.refined.Greater1.given_Predicate_Int_Greater1[(2 : Int)]
+  |  true:Boolean
+  |}
+  | This location contains code that was inlined from package.scala:42
+ */
+
+
   class NonEmpty1
   object NonEmpty1 {
     inline given Predicate[String, NonEmpty1] with

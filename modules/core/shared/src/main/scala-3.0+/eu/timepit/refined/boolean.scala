@@ -245,15 +245,6 @@ private[refined] trait BooleanInference0 extends BooleanInference1 {
   implicit def conjunctionCommutativity[A, B]: (A And B) ==> (B And A) =
     Inference.alwaysValid("conjunctionCommutativity")
 
-  implicit def substitutionInConjunction[A, B, C](implicit p1: B ==> C): (A And B) ==> (A And C) =
-    p1.adapt("substitutionInConjunction(%s)")
-
-  implicit def disjunctionTautologyElimination[A, B, C](implicit
-      p1: A ==> C,
-      p2: B ==> C
-  ): (A Or B) ==> C =
-    Inference.combine(p1, p2, "disjunctionElimination")
-
   implicit def conjunctionEliminationR[A, B, C](implicit p1: B ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationR(%s)")
 
@@ -291,11 +282,23 @@ private[refined] trait BooleanInference1 extends BooleanInference2 {
     p1.adapt("modusTollens(%s)")
 }
 
-private[refined] trait BooleanInference2 {
+private[refined] trait BooleanInference2 extends BooleanInference3 {
 
   implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")
 
   implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
+}
+
+private[refined] trait BooleanInference3 {
+
+  implicit def substitutionInConjunction[A, B, C](implicit p1: B ==> C): (A And B) ==> (A And C) =
+    p1.adapt("substitutionInConjunction(%s)")
+
+  implicit def disjunctionTautologyElimination[A, B, C](implicit
+                                                        p1: A ==> C,
+                                                        p2: B ==> C
+                                                       ): (A Or B) ==> C =
+    Inference.combine(p1, p2, "disjunctionElimination")
 }

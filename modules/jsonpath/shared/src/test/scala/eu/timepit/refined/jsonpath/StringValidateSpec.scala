@@ -11,9 +11,9 @@ class StringValidateSpec extends Properties("JSONPathStringValidate") {
     isValid[JSONPath]("$") && isValid[JSONPath]("@")
   }
 
-  property("Illegal character at position 1 expected '.' or '[") = secure {
+  property("Illegal character at position 1 expected '.' or '['") = secure {
     showResult[JSONPath]("$X") ?=
-      "JSONPath predicate failed: Illegal character at position 1 expected '.' or '["
+      "JSONPath predicate failed: Illegal character at position 1 expected '.' or '['"
   }
 
   property("Path must not end with a '.' or '..'") = secure {

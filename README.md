@@ -2,7 +2,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/fthomas/refined/Continuous%20Integration)](https://github.com/fthomas/refined/actions?query=workflow%3A%22Continuous+Integration%22)
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Scaladex](https://index.scala-lang.org/fthomas/refined/refined/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
+[![refined Scala version support](https://index.scala-lang.org/fthomas/refined/refined/latest-by-scala-version.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
 [![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.9.27)
 
 **refined** is a Scala library for refining types with type-level predicates

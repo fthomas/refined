@@ -20,7 +20,7 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.16.0"
 val shapelessVersion = "2.3.7"
 val scalaCheckVersion = "1.15.4"
-val scalaXmlVersion = "2.0.0"
+val scalaXml2Version = "2.0.1"
 val scalazVersion = "7.3.4"
 val scodecVersion = "1.11.8"
 val scoptVersion = "4.0.1"
@@ -290,7 +290,7 @@ lazy val shapelessJS = shapeless.js
 lazy val scalaxml = myCrossProject("scalaxml")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXml2Version,
     libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always"
   )
 

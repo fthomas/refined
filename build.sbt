@@ -365,39 +365,29 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     },
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
+      import com.typesafe.tools.mima.core.ProblemFilters.exclude
       Seq(
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.unsafeWrapM"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.unsafeRewrapM"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.refineMF"
-        ),
-        ProblemFilters.exclude[MissingClassProblem](
-          "eu.timepit.refined.internal.RefineMFullyApplied"
-        ),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.predicates.StringPredicates.Xml"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.predicates.string.Xml"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeWrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeRewrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.refineMF"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.StringPredicates.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.string.xmlNonEmptyInference"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.internal.RefineMFullyApplied"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml")
       )
     }
   )

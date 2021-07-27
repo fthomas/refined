@@ -5,6 +5,10 @@ import eu.timepit.refined.api.Inference
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.char.{Digit, Letter, UpperCase, Whitespace}
 import eu.timepit.refined.numeric._
+import eu.timepit.refined.string._
+import eu.timepit.refined.collection._
+import eu.timepit.refined.generic.Equal
+import eu.timepit.refined.char.LetterOrDigit
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import shapeless.test.illTyped
@@ -18,6 +22,14 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("double negation elimination") = secure {
     Inference[Not[Not[UpperCase]], UpperCase].isValid
+  }
+
+  property("substitution in conjunction") = secure {
+    Inference[NonEmpty And ValidLong, NonEmpty And (ValidLong Or ValidDouble)].isValid
+  }
+
+  property("elimination of tautology in disjunction") = secure {
+    Inference[(NonEmpty And ValidLong) Or (NonEmpty And ValidDouble), NonEmpty].isValid
   }
 
   property("double negation elimination 2x") = secure {
@@ -60,6 +72,13 @@ class BooleanInferenceSpec extends Properties("BooleanInference") {
 
   property("conjunction elimination right") = secure {
     Inference[Letter And UpperCase, UpperCase].isValid
+  }
+
+  property("complex conjunction elimination") = secure {
+    type BaseRefinement = And[Size[Equal[W.`10`.T]], Forall[LetterOrDigit]]
+    type ConcreteRefinement = And[StartsWith[W.`"001"`.T], BaseRefinement]
+
+    Inference[ConcreteRefinement, BaseRefinement].isValid
   }
 
   property("conjunction introduction") = wellTyped {

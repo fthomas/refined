@@ -287,9 +287,6 @@ private[refined] trait StringInference {
   implicit def validBigDecimalNonEmptyInference: ValidBigDecimal ==> NonEmpty =
     Inference.alwaysValid("validBigDecimalNonEmptyInference")
 
-  implicit def xmlNonEmptyInference: Xml ==> NonEmpty =
-    Inference.alwaysValid("xmlNonEmptyInference")
-
   implicit def xPathNonEmptyInference: XPath ==> NonEmpty =
     Inference.alwaysValid("xPathNonEmptyInference")
 }

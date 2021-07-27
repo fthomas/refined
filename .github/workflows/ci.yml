@@ -9,9 +9,9 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: ['*']
+    branches: ['**']
   push:
-    branches: ['*']
+    branches: ['**']
     tags: [v*]
 
 env:
@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.13, 2.13.5, 3.0.0]
+        scala: [2.12.14, 2.13.6, 3.0.1]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v10
+        uses: olafurpg/setup-scala@v12
         with:
           java-version: ${{ matrix.java }}
 
@@ -50,21 +50,21 @@ jobs:
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
       - name: Check that workflows are up to date
-        run: sbt ++${{ matrix.scala }} githubWorkflowCheck
+        run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
 
       - name: Build project (Scala 2)
-        if: matrix.scala == '2.12.13' || matrix.scala == '2.13.5'
-        run: sbt ++${{ matrix.scala }} validateJVM validateJS
+        if: matrix.scala == '2.12.14' || matrix.scala == '2.13.6'
+        run: sbt --client '++${{ matrix.scala }}; validateJVM; validateJS'
 
       - name: Build project (Scala 3)
-        if: matrix.scala == '3.0.0'
-        run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
+        if: matrix.scala == '3.0.1'
+        run: sbt --client '++${{ matrix.scala }}; validateJVM30; validateJS30'
 
       - name: Codecov
         uses: codecov/codecov-action@v1
 
       - name: Compress target directories
-        run: tar cf targets.tar modules/jsonpath/jvm/target modules/shapeless/js/target target modules/docs/target modules/pureconfig/jvm/target modules/core/js/target modules/core/jvm/target modules/scodec/jvm/target modules/scodec/js/target modules/shapeless/jvm/target modules/cats/js/target modules/cats/jvm/target modules/eval/jvm/target modules/scopt/jvm/target modules/scalaz/jvm/target modules/scalacheck/jvm/target modules/scalacheck/js/target modules/benchmark/target project/target
+        run: tar cf targets.tar modules/jsonpath/jvm/target modules/shapeless/js/target target modules/scalaxml/jvm/target modules/docs/target modules/pureconfig/jvm/target modules/core/js/target modules/core/jvm/target modules/scodec/jvm/target modules/scodec/js/target modules/shapeless/jvm/target modules/cats/js/target modules/cats/jvm/target modules/eval/jvm/target modules/scopt/jvm/target modules/scalaz/jvm/target modules/scalacheck/jvm/target modules/scalacheck/js/target modules/benchmark/target project/target
 
       - name: Upload target directories
         uses: actions/upload-artifact@v2
@@ -79,7 +79,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.13]
+        scala: [2.12.14]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -89,7 +89,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v10
+        uses: olafurpg/setup-scala@v12
         with:
           java-version: ${{ matrix.java }}
 
@@ -105,32 +105,32 @@ jobs:
             ~/Library/Caches/Coursier/v1
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Download target directories (2.12.13)
+      - name: Download target directories (2.12.14)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-2.12.13-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.12.14-${{ matrix.java }}
 
-      - name: Inflate target directories (2.12.13)
+      - name: Inflate target directories (2.12.14)
         run: |
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (2.13.5)
+      - name: Download target directories (2.13.6)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-2.13.5-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.13.6-${{ matrix.java }}
 
-      - name: Inflate target directories (2.13.5)
+      - name: Inflate target directories (2.13.6)
         run: |
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.0.0)
+      - name: Download target directories (3.0.1)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-3.0.0-${{ matrix.java }}
+          name: target-${{ matrix.os }}-3.0.1-${{ matrix.java }}
 
-      - name: Inflate target directories (3.0.0)
+      - name: Inflate target directories (3.0.1)
         run: |
           tar xf targets.tar
           rm targets.tar

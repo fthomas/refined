@@ -10,18 +10,18 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val Scala_2_12 = "2.12.13"
-val Scala_2_13 = "2.13.5"
-val Scala_3 = "3.0.0"
+val Scala_2_12 = "2.12.14"
+val Scala_2_13 = "2.13.6"
+val Scala_3 = "3.0.1"
 
 val catsVersion = "2.6.1"
-val jsonpathVersion = "2.4.0"
+val jsonpathVersion = "2.6.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.15.0"
+val pureconfigVersion = "0.16.0"
 val shapelessVersion = "2.3.7"
 val scalaCheckVersion = "1.15.4"
 val scalaXmlVersion = "2.0.0"
-val scalazVersion = "7.3.3"
+val scalazVersion = "7.3.4"
 val scodecVersion = "1.11.8"
 val scoptVersion = "4.0.1"
 
@@ -290,7 +290,8 @@ lazy val shapelessJS = shapeless.js
 lazy val scalaxml = myCrossProject("scalaxml")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always"
   )
 
 lazy val scalaxmlJVM = scalaxml.jvm
@@ -364,39 +365,29 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     },
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
+      import com.typesafe.tools.mima.core.ProblemFilters.exclude
       Seq(
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.unsafeWrapM"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.unsafeRewrapM"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.api.RefType.refineMF"
-        ),
-        ProblemFilters.exclude[MissingClassProblem](
-          "eu.timepit.refined.internal.RefineMFullyApplied"
-        ),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
-        ProblemFilters.exclude[MissingClassProblem]("eu.timepit.refined.string$Xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.predicates.StringPredicates.Xml"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "eu.timepit.refined.predicates.string.Xml"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeWrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeRewrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.refineMF"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.StringPredicates.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.string.xmlNonEmptyInference"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.internal.RefineMFullyApplied"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml")
       )
     }
   )

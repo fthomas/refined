@@ -19,13 +19,13 @@ object boolean extends BooleanInference0 {
   final case class Not[P](p: P)
 
   /** Conjunction of the predicates `A` and `B`. */
-  final case class And[A, B](a: A, b: B)
+  infix final case class And[A, B](a: A, b: B)
 
   /** Disjunction of the predicates `A` and `B`. */
-  final case class Or[A, B](a: A, b: B)
+  infix final case class Or[A, B](a: A, b: B)
 
   /** Exclusive disjunction of the predicates `A` and `B`. */
-  final case class Xor[A, B](a: A, b: B)
+  infix final case class Xor[A, B](a: A, b: B)
 
   /** Conjunction of all predicates in `PS`. */
   final case class AllOf[PS](ps: PS)
@@ -37,10 +37,10 @@ object boolean extends BooleanInference0 {
   final case class OneOf[PS](ps: PS)
 
   /** Negated conjunction of the predicates `A` and `B`. */
-  type Nand[A, B] = Not[A And B]
+  infix type Nand[A, B] = Not[A And B]
 
   /** Negated disjunction of the predicates `A` and `B`. */
-  type Nor[A, B] = Not[A Or B]
+  infix type Nor[A, B] = Not[A Or B]
 
   object True {
     implicit def trueValidate[T]: Validate.Plain[T, True] =
@@ -282,11 +282,23 @@ private[refined] trait BooleanInference1 extends BooleanInference2 {
     p1.adapt("modusTollens(%s)")
 }
 
-private[refined] trait BooleanInference2 {
+private[refined] trait BooleanInference2 extends BooleanInference3 {
 
   implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")
 
   implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
+}
+
+private[refined] trait BooleanInference3 {
+
+  implicit def substitutionInConjunction[A, B, C](implicit p1: B ==> C): (A And B) ==> (A And C) =
+    p1.adapt("substitutionInConjunction(%s)")
+
+  implicit def disjunctionTautologyElimination[A, B, C](implicit
+                                                        p1: A ==> C,
+                                                        p2: B ==> C
+                                                       ): (A Or B) ==> C =
+    Inference.combine(p1, p2, "disjunctionElimination")
 }

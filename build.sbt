@@ -290,7 +290,8 @@ lazy val shapelessJS = shapeless.js
 lazy val scalaxml = myCrossProject("scalaxml")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXmlVersion,
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always"
   )
 
 lazy val scalaxmlJVM = scalaxml.jvm

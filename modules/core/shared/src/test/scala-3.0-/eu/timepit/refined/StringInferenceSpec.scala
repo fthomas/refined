@@ -24,6 +24,14 @@ class StringInferenceSpec extends Properties("StringInference") {
     Inference[StartsWith[W.`"cde"`.T], StartsWith[W.`"de"`.T]].notValid
   }
 
+  property("MatchesRegex ==> NonEmpty") = secure {
+    Inference[MatchesRegex[W.`".+"`.T], NonEmpty].isValid
+  }
+
+  property("MatchesRegex =!> NonEmpty") = secure {
+    Inference[MatchesRegex[W.`".*"`.T], NonEmpty].notValid
+  }
+
   property("UUID ==> NonEmpty ") = secure {
     Inference[Uuid, NonEmpty].isValid
   }

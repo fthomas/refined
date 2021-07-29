@@ -268,7 +268,7 @@ private[refined] trait StringInference {
   implicit def matchesRegexNonEmptyInference[A <: String](implicit
       wa: Witness.Aux[A]
   ): MatchesRegex[A] ==> NonEmpty =
-    Inference(!wa.value.r.matches(""), s"matchesRegexNonEmptyInference(${wa.value})")
+    Inference(wa.value.r.findFirstIn("").isEmpty, s"matchesRegexNonEmptyInference(${wa.value})")
 
   implicit def urlNonEmptyInference: Url ==> NonEmpty =
     Inference.alwaysValid("urlNonEmptyInference")

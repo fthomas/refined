@@ -265,6 +265,11 @@ private[refined] trait StringInference {
   ): StartsWith[A] ==> StartsWith[B] =
     Inference(wa.value.startsWith(wb.value), s"startsWithInference(${wa.value}, ${wb.value})")
 
+  implicit def matchesRegexNonEmptyInference[A <: String](implicit
+      wa: Witness.Aux[A]
+  ): MatchesRegex[A] ==> NonEmpty =
+    Inference(wa.value.r.findFirstIn("").isEmpty, s"matchesRegexNonEmptyInference(${wa.value})")
+
   implicit def urlNonEmptyInference: Url ==> NonEmpty =
     Inference.alwaysValid("urlNonEmptyInference")
 

@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v12
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: ${{ matrix.java }}
 
@@ -50,15 +50,15 @@ jobs:
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
       - name: Check that workflows are up to date
-        run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
+        run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
       - name: Build project (Scala 2)
         if: matrix.scala == '2.12.14' || matrix.scala == '2.13.6'
-        run: sbt --client '++${{ matrix.scala }}; validateJVM; validateJS'
+        run: sbt ++${{ matrix.scala }} validateJVM validateJS
 
       - name: Build project (Scala 3)
         if: matrix.scala == '3.0.1'
-        run: sbt --client '++${{ matrix.scala }}; validateJVM30; validateJS30'
+        run: sbt ++${{ matrix.scala }} validateJVM30 validateJS30
 
       - name: Codecov
         uses: codecov/codecov-action@v1
@@ -89,7 +89,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v12
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: ${{ matrix.java }}
 

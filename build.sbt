@@ -22,7 +22,7 @@ val shapelessVersion = "2.3.7"
 val scalaCheckVersion = "1.15.4"
 val scalaXml1Version = "1.3.0"
 val scalaXml2Version = "2.0.1"
-val scalazVersion = "7.3.4"
+val scalazVersion = "7.3.5"
 val scodecVersion = "1.11.8"
 val scoptVersion = "4.0.1"
 

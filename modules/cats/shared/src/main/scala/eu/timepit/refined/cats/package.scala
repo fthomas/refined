@@ -1,9 +1,9 @@
 package eu.timepit.refined
 
-import _root_.cats.{Contravariant, MonadError, Show}
+import _root_.cats.{Contravariant, MonadError, Semigroup, Show}
 import _root_.cats.implicits._
-import _root_.cats.kernel.{Eq, Monoid, Order, Semigroup}
-import eu.timepit.refined.api.{Refined, RefType, Validate}
+import _root_.cats.kernel.{CommutativeMonoid, CommutativeSemigroup, Eq, Monoid, Order}
+import eu.timepit.refined.api.{RefType, Refined, Validate}
 import eu.timepit.refined.numeric.{Negative, NonNegative, NonPositive, Positive}
 import eu.timepit.refined.types.numeric._
 
@@ -30,49 +30,96 @@ package object cats {
   implicit def refTypeShow[F[_, _], T: Show, P](implicit rt: RefType[F]): Show[F[T, P]] =
     cats.derivation.refTypeViaContravariant[F, Show, T, P]
 
-  // Semigroup instances
-  implicit val posByteSemigroup: Semigroup[PosByte] = getPosIntegralSemigroup[Byte]
-  implicit val posShortSemigroup: Semigroup[PosShort] = getPosIntegralSemigroup[Short]
-  implicit val posIntSemigroup: Semigroup[PosInt] = getPosIntegralSemigroup[Int]
-  implicit val posLongSemigroup: Semigroup[PosLong] = getPosIntegralSemigroup[Long]
-  implicit val posFloatSemigroup: Semigroup[PosFloat] = getSemigroup[Float, Positive]
-  implicit val posDoubleSemigroup: Semigroup[PosDouble] = getSemigroup[Double, Positive]
+  // CommutativeSemigroup instances
+  implicit val posByteCommutativeSemigroup: CommutativeSemigroup[PosByte] =
+    getPosIntegralCommutativeSemigroup[Byte]
+  implicit val posShortCommutativeSemigroup: CommutativeSemigroup[PosShort] =
+    getPosIntegralCommutativeSemigroup[Short]
+  implicit val posIntCommutativeSemigroup: CommutativeSemigroup[PosInt] =
+    getPosIntegralCommutativeSemigroup[Int]
+  implicit val posLongCommutativeSemigroup: CommutativeSemigroup[PosLong] =
+    getPosIntegralCommutativeSemigroup[Long]
+  implicit val posFloatCommutativeSemigroup: CommutativeSemigroup[PosFloat] =
+    getCommutativeSemigroup[Float, Positive]
+  implicit val posDoubleCommutativeSemigroup: CommutativeSemigroup[PosDouble] =
+    getCommutativeSemigroup[Double, Positive]
 
-  implicit val negByteSemigroup: Semigroup[NegByte] = getNegIntegralSemigroup[Byte]
-  implicit val negShortSemigroup: Semigroup[NegShort] = getNegIntegralSemigroup[Short]
-  implicit val negIntSemigroup: Semigroup[NegInt] = getNegIntegralSemigroup[Int]
-  implicit val negLongSemigroup: Semigroup[NegLong] = getNegIntegralSemigroup[Long]
-  implicit val negFloatSemigroup: Semigroup[NegFloat] = getSemigroup[Float, Negative]
-  implicit val negDoubleSemigroup: Semigroup[NegDouble] = getSemigroup[Double, Negative]
+  implicit val negByteCommutativeSemigroup: CommutativeSemigroup[NegByte] =
+    getNegIntegralCommutativeSemigroup[Byte]
+  implicit val negShortCommutativeSemigroup: CommutativeSemigroup[NegShort] =
+    getNegIntegralCommutativeSemigroup[Short]
+  implicit val negIntCommutativeSemigroup: CommutativeSemigroup[NegInt] =
+    getNegIntegralCommutativeSemigroup[Int]
+  implicit val negLongCommutativeSemigroup: CommutativeSemigroup[NegLong] =
+    getNegIntegralCommutativeSemigroup[Long]
+  implicit val negFloatCommutativeSemigroup: CommutativeSemigroup[NegFloat] =
+    getCommutativeSemigroup[Float, Negative]
+  implicit val negDoubleCommutativeSemigroup: CommutativeSemigroup[NegDouble] =
+    getCommutativeSemigroup[Double, Negative]
 
   // Monoid instances
-  implicit val nonNegByteMonoid: Monoid[NonNegByte] = getNonNegIntegralMonoid[Byte]
-  implicit val nonNegShortMonoid: Monoid[NonNegShort] = getNonNegIntegralMonoid[Short]
-  implicit val nonNegIntMonoid: Monoid[NonNegInt] = getNonNegIntegralMonoid[Int]
-  implicit val nonNegLongMonoid: Monoid[NonNegLong] = getNonNegIntegralMonoid[Long]
-  implicit val nonNegFloatMonoid: Monoid[NonNegFloat] = getMonoid[Float, NonNegative]
-  implicit val nonNegDoubleMonoid: Monoid[NonNegDouble] = getMonoid[Double, NonNegative]
+  implicit val nonNegByteCommutativeMonoid: CommutativeMonoid[NonNegByte] =
+    getNonNegIntegralCommutativeMonoid[Byte]
+  implicit val nonNegShortCommutativeMonoid: CommutativeMonoid[NonNegShort] =
+    getNonNegIntegralCommutativeMonoid[Short]
+  implicit val nonNegIntCommutativeMonoid: CommutativeMonoid[NonNegInt] =
+    getNonNegIntegralCommutativeMonoid[Int]
+  implicit val nonNegLongCommutativeMonoid: CommutativeMonoid[NonNegLong] =
+    getNonNegIntegralCommutativeMonoid[Long]
+  implicit val nonNegFloatCommutativeMonoid: CommutativeMonoid[NonNegFloat] =
+    getCommutativeMonoid[Float, NonNegative]
+  implicit val nonNegDoubleCommutativeMonoid: CommutativeMonoid[NonNegDouble] =
+    getCommutativeMonoid[Double, NonNegative]
 
-  implicit val nonPosFloatMonoid: Monoid[NonPosFloat] = getMonoid[Float, NonPositive]
-  implicit val nonPosDoubleMonoid: Monoid[NonPosDouble] = getMonoid[Double, NonPositive]
+  implicit val nonPosFloatCommutativeMonoid: CommutativeMonoid[NonPosFloat] =
+    getCommutativeMonoid[Float, NonPositive]
+  implicit val nonPosDoubleCommutativeMonoid: CommutativeMonoid[NonPosDouble] =
+    getCommutativeMonoid[Double, NonPositive]
 
-  private def getPosIntegralSemigroup[A: Semigroup: NonNegShift](implicit
+  // Semigroup instances retained for binary compatibility
+  val posByteSemigroup: Semigroup[PosByte] = posByteCommutativeSemigroup
+  val posShortSemigroup: Semigroup[PosShort] = posShortCommutativeSemigroup
+  val posIntSemigroup: Semigroup[PosInt] = posIntCommutativeSemigroup
+  val posLongSemigroup: Semigroup[PosLong] = posLongCommutativeSemigroup
+  val posFloatSemigroup: Semigroup[PosFloat] = posFloatCommutativeSemigroup
+  val posDoubleSemigroup: Semigroup[PosDouble] = posDoubleCommutativeSemigroup
+
+  val negByteSemigroup: Semigroup[NegByte] = negByteCommutativeSemigroup
+  val negShortSemigroup: Semigroup[NegShort] = negShortCommutativeSemigroup
+  val negIntSemigroup: Semigroup[NegInt] = negIntCommutativeSemigroup
+  val negLongSemigroup: Semigroup[NegLong] = negLongCommutativeSemigroup
+  val negFloatSemigroup: Semigroup[NegFloat] = negFloatCommutativeSemigroup
+  val negDoubleSemigroup: Semigroup[NegDouble] = negDoubleCommutativeSemigroup
+
+  // Monoid instances retained for binary compatibility
+  val nonNegByteMonoid: Monoid[NonNegByte] = nonNegByteCommutativeMonoid
+  val nonNegShortMonoid: Monoid[NonNegShort] = nonNegShortCommutativeMonoid
+  val nonNegIntMonoid: Monoid[NonNegInt] = nonNegIntCommutativeMonoid
+  val nonNegLongMonoid: Monoid[NonNegLong] = nonNegLongCommutativeMonoid
+  val nonNegFloatMonoid: Monoid[NonNegFloat] = nonNegFloatCommutativeMonoid
+  val nonNegDoubleMonoid: Monoid[NonNegDouble] = nonNegDoubleCommutativeMonoid
+
+  val nonPosFloatMonoid: Monoid[NonPosFloat] = nonPosFloatCommutativeMonoid
+  val nonPosDoubleMonoid: Monoid[NonPosDouble] = nonPosDoubleCommutativeMonoid
+
+  private def getPosIntegralCommutativeSemigroup[A: CommutativeSemigroup: NonNegShift](implicit
       integral: Integral[A],
       v: Validate[A, Positive]
-  ): Semigroup[A Refined Positive] =
-    Semigroup.instance { (x, y) =>
+  ): CommutativeSemigroup[A Refined Positive] =
+    CommutativeSemigroup.instance { (x, y) =>
       val combined: A = x.value |+| y.value
 
       refineV[Positive](combined).getOrElse {
-        val result: A = Semigroup[A].combine(NonNegShift[A].shift(combined), integral.one)
+        val result: A =
+          CommutativeSemigroup[A].combine(NonNegShift[A].shift(combined), integral.one)
         refineV[Positive].unsafeFrom(result)
       }
     }
 
-  private def getNegIntegralSemigroup[A: Integral: Semigroup: NegShift](implicit
-      v: Validate[A, Negative]
-  ): Semigroup[A Refined Negative] =
-    Semigroup.instance { (x, y) =>
+  private def getNegIntegralCommutativeSemigroup[A: Integral: CommutativeSemigroup: NegShift](
+      implicit v: Validate[A, Negative]
+  ): CommutativeSemigroup[A Refined Negative] =
+    CommutativeSemigroup.instance { (x, y) =>
       val combined: A = x.value |+| y.value
 
       refineV[Negative](combined).getOrElse {
@@ -81,15 +128,15 @@ package object cats {
       }
     }
 
-  private def getSemigroup[A: Semigroup, P](implicit
+  private def getCommutativeSemigroup[A: CommutativeSemigroup, P](implicit
       v: Validate[A, P]
-  ): Semigroup[A Refined P] =
-    Semigroup.instance((x, y) => refineV[P].unsafeFrom(x.value |+| y.value))
+  ): CommutativeSemigroup[A Refined P] =
+    CommutativeSemigroup.instance((x, y) => refineV[P].unsafeFrom(x.value |+| y.value))
 
-  private def getNonNegIntegralMonoid[A: Integral: Monoid: NonNegShift](implicit
-      v: Validate[A, NonNegative]
-  ): Monoid[A Refined NonNegative] =
-    new Monoid[A Refined NonNegative] {
+  private def getNonNegIntegralCommutativeMonoid[A: Integral: CommutativeMonoid: NonNegShift](
+      implicit v: Validate[A, NonNegative]
+  ): CommutativeMonoid[A Refined NonNegative] =
+    new CommutativeMonoid[A Refined NonNegative] {
       override def empty: A Refined NonNegative = refineV[NonNegative].unsafeFrom(Monoid[A].empty)
 
       override def combine(
@@ -105,10 +152,10 @@ package object cats {
       }
     }
 
-  private def getMonoid[A: Monoid, P](implicit
+  private def getCommutativeMonoid[A: CommutativeMonoid, P](implicit
       v: Validate[A, P]
-  ): Monoid[A Refined P] =
-    new Monoid[A Refined P] {
+  ): CommutativeMonoid[A Refined P] =
+    new CommutativeMonoid[A Refined P] {
       override def empty: A Refined P = refineV[P].unsafeFrom(Monoid[A].empty)
 
       override def combine(x: A Refined P, y: A Refined P): A Refined P =

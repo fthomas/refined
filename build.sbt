@@ -457,7 +457,7 @@ lazy val compileSettings = Def.settings(
             case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
             case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
             case Some((3, 0))  => Seq(file(dir.getPath + "-3.0+"))
-            case other         => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
+            case other => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }
     }
@@ -476,7 +476,7 @@ lazy val scaladocSettings = Def.settings(
       //"-diagrams",
       "-diagrams-debug",
       "-doc-source-url",
-      s"${scmInfo.value.get.browseUrl}/blob/${tree}€{FILE_PATH}.scala",
+      s"${scmInfo.value.get.browseUrl}/blob/$tree€{FILE_PATH}.scala",
       "-sourcepath",
       (LocalRootProject / baseDirectory).value.getAbsolutePath
     )

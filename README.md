@@ -351,7 +351,7 @@ The library comes with these predefined predicates:
 * `UpperCase`: checks if a `Char` is an upper case character
 * `Whitespace`: checks if a `Char` is white space
 
-[`collection`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala/eu/timepit/refined/collection.scala)
+[`collection`](https://github.com/fthomas/refined/blob/master/modules/core/shared/src/main/scala-3.0+/eu/timepit/refined/collection.scala)
 
 * `Contains[U]`: checks if an `Iterable` contains a value equal to `U`
 * `Count[PA, PC]`: counts the number of elements in an `Iterable` which satisfy the

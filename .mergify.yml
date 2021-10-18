@@ -12,7 +12,7 @@ pull_request_rules:
       - author=scala-steward
       - status-success=Build and Test (ubuntu-latest, 2.12.15, adopt@1.8)
       - status-success=Build and Test (ubuntu-latest, 2.13.6, adopt@1.8)
-      - status-success=Build and Test (ubuntu-latest, 3.0.2, adopt@1.8)
+      - status-success=Build and Test (ubuntu-latest, 3.1.0, adopt@1.8)
       - body~=labels:.*semver-patch
     actions:
       merge:

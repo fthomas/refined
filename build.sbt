@@ -12,7 +12,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.15"
 val Scala_2_13 = "2.13.6"
-val Scala_3 = "3.0.2"
+val Scala_3 = "3.1.0"
 
 val catsVersion = "2.6.1"
 val jsonpathVersion = "2.6.0"
@@ -456,7 +456,7 @@ lazy val compileSettings = Def.settings(
             case Some((2, 12)) => Seq(file(dir.getPath + "-3.0-"))
             case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
             case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
-            case Some((3, 0))  => Seq(file(dir.getPath + "-3.0+"))
+            case Some((3, _))  => Seq(file(dir.getPath + "-3.0+"))
             case other => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }

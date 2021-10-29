@@ -27,7 +27,7 @@ trait NumericInstances {
   ): Gen[F[T, P]] =
     Gen.chooseNum(rt.unwrap(min), rt.unwrap(max)).filter(v.isValid).map(rt.unsafeWrap)
 
-  ///
+  // /
 
   implicit def lessArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, N](implicit
       min: Min[T],
@@ -53,7 +53,7 @@ trait NumericInstances {
   ): Arbitrary[F[T, GreaterEqual[N]]] =
     rangeClosedArbitrary(wn.snd, max.max)
 
-  ///
+  // /
 
   implicit def intervalOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose: Adjacent, L, H](implicit
       wl: WitnessAs[L, T],
@@ -81,8 +81,8 @@ trait NumericInstances {
   ): Arbitrary[F[T, Interval.Closed[L, H]]] =
     rangeClosedArbitrary(wl.snd, wh.snd)
 
-  /// The following functions are private because it is not guaranteed
-  /// that they produce valid values according to the predicate `P`.
+  // / The following functions are private because it is not guaranteed
+  // / that they produce valid values according to the predicate `P`.
 
   private def rangeOpenArbitrary[F[_, _]: RefType, T: Numeric: Choose, P](min: T, max: T)(implicit
       at: Adjacent[T]

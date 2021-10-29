@@ -413,7 +413,7 @@ lazy val metadataSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalacOptions ++= Seq(
-    //"-deprecation",
+    // "-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",
@@ -430,10 +430,10 @@ lazy val compileSettings = Def.settings(
           "-Ywarn-value-discard",
           "-Ywarn-unused:implicits",
           "-Ywarn-unused:imports"
-          //"-Ywarn-unused:locals",
-          //"-Ywarn-unused:params",
-          //"-Ywarn-unused:patvars"
-          //"-Ywarn-unused:privates"
+          // "-Ywarn-unused:locals",
+          // "-Ywarn-unused:params",
+          // "-Ywarn-unused:patvars"
+          // "-Ywarn-unused:privates"
         )
       case _ => Seq.empty
     }
@@ -473,7 +473,7 @@ lazy val scaladocSettings = Def.settings(
     val tag = s"v${version.value}"
     val tree = if (isSnapshot.value) "master" else tag
     Seq(
-      //"-diagrams",
+      // "-diagrams",
       "-diagrams-debug",
       "-doc-source-url",
       s"${scmInfo.value.get.browseUrl}/blob/$tree€{FILE_PATH}.scala",

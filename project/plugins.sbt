@@ -1,4 +1,4 @@
-addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.1")
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")
 
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.10.0")
 

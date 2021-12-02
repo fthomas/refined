@@ -1,5 +1,6 @@
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
+import sbtghactions.JavaSpec.Distribution.Adopt
 
 /// variables
 
@@ -97,7 +98,7 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
-ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(

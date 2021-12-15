@@ -486,7 +486,7 @@ for teaching, learning, and contributing as described in the
   Refinement Types via SMT and Predicate Abstraction
 * [Refinement Types in Typed Racket](http://blog.racket-lang.org/2017/11/adding-refinement-types.html)
 * [refined][refined.hs]: Refinement types with static and runtime checking for
-  Haskell. **refined** was inspired this library and even stole its name!
+  Haskell. **refined** was inspired by this library and even stole its name!
 * [refscript](https://github.com/UCSD-PL/refscript): Refinement Types for TypeScript
 * [Subtypes in Perl 6](https://design.perl6.org/S12.html#Types_and_Subtypes)
 

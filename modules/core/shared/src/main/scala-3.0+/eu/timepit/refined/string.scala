@@ -63,6 +63,9 @@ object string extends StringInference {
   /** Predicate that checks if a `String` is a parsable `BigDecimal`. */
   final case class ValidBigDecimal()
 
+  /** Predicate that checks if a `String` is a parsable `Boolean`. */
+  final case class ValidBoolean()
+
   /** Predicate that checks if a `String` is well-formed XML. */
   final case class Xml()
 
@@ -230,6 +233,11 @@ object string extends StringInference {
       Validate.fromPartial(BigDecimal(_), "ValidBigDecimal", ValidBigDecimal())
   }
 
+  object ValidBoolean {
+    implicit def validBooleanValidate: Validate.Plain[String, ValidBoolean] =
+      Validate.fromPartial(_.toBoolean, "ValidBoolean", ValidBoolean())
+  }
+
   object Xml {
     implicit def xmlValidate: Validate.Plain[String, Xml] =
       Validate.fromPartial(scala.xml.XML.loadString, "Xml", Xml())
@@ -298,6 +306,12 @@ private[refined] trait StringInference {
 
   implicit def validBigDecimalNonEmptyInference: ValidBigDecimal ==> NonEmpty =
     Inference.alwaysValid("validBigDecimalNonEmptyInference")
+
+  implicit def validBooleanNonEmptyInference: ValidBoolean ==> NonEmpty =
+    Inference.alwaysValid("validBooleanNonEmptyInference")
+
+  implicit def validBooleanTrimmedInference: ValidBoolean ==> Trimmed =
+    Inference.alwaysValid("validBooleanTrimmedInference")
 
   implicit def xmlNonEmptyInference: Xml ==> NonEmpty =
     Inference.alwaysValid("xmlNonEmptyInference")

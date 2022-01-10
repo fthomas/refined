@@ -413,6 +413,7 @@ The library comes with these predefined predicates:
 * `ValidDouble`: checks if a `String` is a parsable `Double`
 * `ValidBigInt`: checks if a `String` is a parsable `BigInt`
 * `ValidBigDecimal`: checks if a `String` is a parsable `BigDecimal`
+* `ValidBoolean`: checks if a `String` is a parsable `Boolean`
 * `Xml`: checks if a `String` is well-formed XML
 * `XPath`: checks if a `String` is a valid XPath expression
 * `Trimmed`: checks if a `String` has no leading or trailing whitespace

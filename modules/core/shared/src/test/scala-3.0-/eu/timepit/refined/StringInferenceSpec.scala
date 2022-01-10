@@ -75,4 +75,12 @@ class StringInferenceSpec extends Properties("StringInference") {
     Inference[ValidBigDecimal, NonEmpty].isValid
   }
 
+  property("ValidBoolean ==> NonEmpty ") = secure {
+    Inference[ValidBoolean, NonEmpty].isValid
+  }
+
+  property("ValidBoolean ==> Trimmed ") = secure {
+    Inference[ValidBoolean, Trimmed].isValid
+  }
+
 }

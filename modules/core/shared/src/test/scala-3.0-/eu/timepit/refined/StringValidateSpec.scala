@@ -118,7 +118,7 @@ class StringValidateSpec extends Properties("StringValidate") {
     showResult[IPv6]("2001::0::1234") ?= "Predicate failed: 2001::0::1234 is a valid IPv6."
   }
 
-  private def validNumber[N: Arbitrary, P](name: String, invalidValue: String)(implicit
+  private def validType[N: Arbitrary, P](name: String, invalidValue: String)(implicit
       v: Validate[String, P]
   ) = {
     property(name) = secure {
@@ -132,12 +132,13 @@ class StringValidateSpec extends Properties("StringValidate") {
     }
   }
 
-  validNumber[Byte, ValidByte]("ValidByte", Short.MaxValue.toString)
-  validNumber[Short, ValidShort]("ValidShort", Int.MaxValue.toString)
-  validNumber[Int, ValidInt]("ValidInt", Long.MaxValue.toString)
-  validNumber[Long, ValidLong]("ValidLong", "1.0")
-  validNumber[Float, ValidFloat]("ValidFloat", "a")
-  validNumber[Double, ValidDouble]("ValidDouble", "a")
-  validNumber[BigInt, ValidBigInt]("ValidBigInt", "1.0")
-  validNumber[BigDecimal, ValidBigDecimal]("ValidBigDecimal", "a")
+  validType[Byte, ValidByte]("ValidByte", Short.MaxValue.toString)
+  validType[Short, ValidShort]("ValidShort", Int.MaxValue.toString)
+  validType[Int, ValidInt]("ValidInt", Long.MaxValue.toString)
+  validType[Long, ValidLong]("ValidLong", "1.0")
+  validType[Float, ValidFloat]("ValidFloat", "a")
+  validType[Double, ValidDouble]("ValidDouble", "a")
+  validType[BigInt, ValidBigInt]("ValidBigInt", "1.0")
+  validType[BigDecimal, ValidBigDecimal]("ValidBigDecimal", "a")
+  validType[Boolean, ValidBoolean]("ValidBoolean", "a")
 }

@@ -11,7 +11,7 @@ pull_request_rules:
     conditions:
       - author=scala-steward
       - status-success=Build and Test (ubuntu-latest, 2.12.15, adopt-hotspot@8)
-      - status-success=Build and Test (ubuntu-latest, 2.13.7, adopt-hotspot@8)
+      - status-success=Build and Test (ubuntu-latest, 2.13.8, adopt-hotspot@8)
       - status-success=Build and Test (ubuntu-latest, 3.1.0, adopt-hotspot@8)
       - body~=labels:.*semver-spec-patch
     actions:

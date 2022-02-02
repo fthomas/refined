@@ -23,7 +23,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.15, 2.13.7, 3.1.1]
+
+
+        scala: [2.12.15, 2.13.8, 3.1.1]
         java: [adopt-hotspot@8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -55,7 +57,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
       - name: Build project (Scala 2)
-        if: matrix.scala == '2.12.15' || matrix.scala == '2.13.7'
+        if: matrix.scala == '2.12.15' || matrix.scala == '2.13.8'
         run: sbt ++${{ matrix.scala }} validateJVM validateJS
 
       - name: Build project (Scala 3)
@@ -119,12 +121,12 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (2.13.7)
+      - name: Download target directories (2.13.8)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-2.13.7-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.13.8-${{ matrix.java }}
 
-      - name: Inflate target directories (2.13.7)
+      - name: Inflate target directories (2.13.8)
         run: |
           tar xf targets.tar
           rm targets.tar

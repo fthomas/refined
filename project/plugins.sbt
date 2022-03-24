@@ -10,9 +10,9 @@ addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.9")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.0.1")
 
-addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.1.0")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.2.0")
 
-addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.1.0")
+addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.2.0")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.9.0")
 

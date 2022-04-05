@@ -6,7 +6,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.10.0")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.9")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.0.1")
 

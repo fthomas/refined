@@ -66,7 +66,7 @@ jobs:
         uses: codecov/codecov-action@v1
 
       - name: Compress target directories
-        run: tar cf targets.tar modules/jsonpath/jvm/target modules/shapeless/js/target target modules/docs/target modules/pureconfig/jvm/target modules/core/js/target modules/core/jvm/target modules/scodec/jvm/target modules/scodec/js/target modules/shapeless/jvm/target modules/cats/js/target modules/cats/jvm/target modules/eval/jvm/target modules/scopt/jvm/target modules/scalaz/jvm/target modules/scalacheck/jvm/target modules/scalacheck/js/target modules/benchmark/target project/target
+        run: tar cf targets.tar modules/jsonpath/jvm/target modules/shapeless/js/target target modules/scalaxml/jvm/target modules/docs/target modules/pureconfig/jvm/target modules/core/js/target modules/core/jvm/target modules/scodec/jvm/target modules/scodec/js/target modules/shapeless/jvm/target modules/cats/js/target modules/cats/jvm/target modules/eval/jvm/target modules/scopt/jvm/target modules/scalaz/jvm/target modules/scalacheck/jvm/target modules/scalacheck/js/target modules/benchmark/target project/target
 
       - name: Upload target directories
         uses: actions/upload-artifact@v2

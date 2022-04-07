@@ -55,4 +55,5 @@ ThisBuild / bincompatVersions := Map(
 ThisBuild / unreleasedModules := Set(
   // Example:
   // "refined-eval"
+  "refined-scalaxml"
 )

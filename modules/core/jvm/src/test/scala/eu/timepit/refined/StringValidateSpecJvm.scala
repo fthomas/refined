@@ -21,15 +21,6 @@ class StringValidateSpecJvm extends Properties("StringValidate") {
     showResult[Url]("htp://example.com") ?= "Url predicate failed: unknown protocol: htp"
   }
 
-  property("Xml.isValid") = secure {
-    isValid[Xml]("<root></root>")
-  }
-
-  property("Xml.showResult") = secure {
-    showResult[Xml]("<root>") ?=
-      "Xml predicate failed: XML document structures must start and end within the same entity."
-  }
-
   property("XPath.isValid") = secure {
     isValid[XPath]("A//B/*[1]")
   }

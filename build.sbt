@@ -21,7 +21,6 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.17.1"
 val shapelessVersion = "2.3.9"
 val scalaCheckVersion = "1.15.4"
-val scalaXml1Version = "1.3.0"
 val scalaXml2Version = "2.0.1"
 val scalazVersion = "7.3.6"
 val scodecVersion = "1.11.9"
@@ -51,7 +50,8 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform),
+  "scalaxml" -> List(JVMPlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -168,14 +168,11 @@ lazy val core = myCrossProject("core")
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
-          Seq(
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml2Version
-          )
+          Seq()
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml1Version
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
@@ -291,6 +288,15 @@ lazy val shapeless = myCrossProject("shapeless")
 lazy val shapelessJVM = shapeless.jvm
 lazy val shapelessJS = shapeless.js
 
+lazy val scalaxml = myCrossProject("scalaxml")
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % scalaXml2Version,
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always"
+  )
+
+lazy val scalaxmlJVM = scalaxml.jvm
+
 /// settings
 
 lazy val commonSettings = Def.settings(
@@ -363,7 +369,26 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
       import com.typesafe.tools.mima.core.ProblemFilters.exclude
       Seq(
         exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeWrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.unsafeRewrapM"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.RefType.refineMF"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.StringPredicates.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.all.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.predicates.string.Xml"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.string.xmlNonEmptyInference"),
+        exclude[DirectMissingMethodProblem]("eu.timepit.refined.util.string.xml"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$ConstructorNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$FieldNames$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Subtype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype"),
+        exclude[MissingClassProblem]("eu.timepit.refined.generic$Supertype$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.internal.RefineMFullyApplied"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml$"),
+        exclude[MissingClassProblem]("eu.timepit.refined.string$Xml")
       )
     }
   )

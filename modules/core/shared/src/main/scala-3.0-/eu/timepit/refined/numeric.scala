@@ -6,7 +6,6 @@ import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
 import shapeless.Nat
-import shapeless.nat.{_0, _2}
 import shapeless.ops.nat.ToInt
 
 /**
@@ -50,25 +49,25 @@ object numeric extends NumericInference {
   type GreaterEqual[N] = Not[Less[N]]
 
   /** Predicate that checks if a numeric value is positive (> 0). */
-  type Positive = Greater[_0]
+  type Positive = Greater[W.`0`.T]
 
   /** Predicate that checks if a numeric value is zero or negative (<= 0). */
   type NonPositive = Not[Positive]
 
   /** Predicate that checks if a numeric value is negative (< 0). */
-  type Negative = Less[_0]
+  type Negative = Less[W.`0`.T]
 
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
   /** Predicate that checks if an integral value is evenly divisible by `N`. */
-  type Divisible[N] = Modulo[N, _0]
+  type Divisible[N] = Modulo[N, W.`0`.T]
 
   /** Predicate that checks if an integral value is not evenly divisible by `N`. */
   type NonDivisible[N] = Not[Divisible[N]]
 
   /** Predicate that checks if an integral value is evenly divisible by 2. */
-  type Even = Divisible[_2]
+  type Even = Divisible[W.`2`.T]
 
   /** Predicate that checks if an integral value is not evenly divisible by 2. */
   type Odd = Not[Even]
@@ -135,6 +134,11 @@ private[refined] trait NumericInference {
   ): Less[A] ==> Less[B] =
     Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
+  @deprecated(
+    "Support for shapeless.Nat as arguments for predicates has been deprecated. " +
+      "Use Int literals for any base type or Double literals for fractional base types instead.",
+    "0.10.0"
+  )
   implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]
@@ -148,6 +152,11 @@ private[refined] trait NumericInference {
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
 
+  @deprecated(
+    "Support for shapeless.Nat as arguments for predicates has been deprecated. " +
+      "Use Int literals for any base type or Double literals for fractional base types instead.",
+    "0.10.0"
+  )
   implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit
       ta: ToInt[A],
       tb: ToInt[B]

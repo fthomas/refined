@@ -46,7 +46,6 @@ package object cats {
   implicit val posBigDecimalCommutativeSemigroup: CommutativeSemigroup[PosBigDecimal] =
     getCommutativeSemigroup[BigDecimal, Positive]
 
-
   implicit val negByteCommutativeSemigroup: CommutativeSemigroup[NegByte] =
     getNegIntegralCommutativeSemigroup[Byte]
   implicit val negShortCommutativeSemigroup: CommutativeSemigroup[NegShort] =
@@ -61,7 +60,6 @@ package object cats {
     getCommutativeSemigroup[Double, Negative]
   implicit val negBigDecimalCommutativeSemigroup: CommutativeSemigroup[NegBigDecimal] =
     getCommutativeSemigroup[BigDecimal, Negative]
-
 
   // Monoid instances
   implicit val nonNegByteCommutativeMonoid: CommutativeMonoid[NonNegByte] =
@@ -78,7 +76,6 @@ package object cats {
     getCommutativeMonoid[Double, NonNegative]
   implicit val nonNegBigDecimalCommutativeMonoid: CommutativeMonoid[NonNegBigDecimal] =
     getCommutativeMonoid[BigDecimal, NonNegative]
-
 
   implicit val nonPosFloatCommutativeMonoid: CommutativeMonoid[NonPosFloat] =
     getCommutativeMonoid[Float, NonPositive]

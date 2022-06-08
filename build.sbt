@@ -55,7 +55,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("benchmark" | "eval" | "pureconfig" | "scalaz" | "scodec" | "shapeless", _) =>
+  case ("benchmark" | "eval" | "scalaz" | "scodec" | "shapeless", _) =>
     List(Scala_2_12, Scala_2_13)
   case _ =>
     List(Scala_2_12, Scala_2_13, Scala_3)

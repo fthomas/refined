@@ -1,5 +1,4 @@
-import sbtcrossproject.CrossProject
-import sbtcrossproject.Platform
+import sbtcrossproject.{CrossProject, Platform}
 import sbtghactions.JavaSpec.Distribution.Adopt
 
 /// variables
@@ -160,6 +159,12 @@ lazy val isScala3Setting = Def.setting {
     case _            => false
   }
 }
+lazy val isScala213Setting = Def.setting {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, n)) if n >= 13 => true
+    case _                       => false
+  }
+}
 
 lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
@@ -175,7 +180,8 @@ lazy val core = myCrossProject("core")
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
             scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml1Version
+            "org.scala-lang.modules" %% "scala-xml" % (if (isScala213Setting.value) scalaXml2Version
+                                                       else scalaXml1Version)
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
@@ -359,8 +365,8 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
         .fold(Set.empty[ModuleID])(_.map(v => groupId %% moduleName.value % v))
     },
     mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
       import com.typesafe.tools.mima.core.ProblemFilters.exclude
+      import com.typesafe.tools.mima.core._
       Seq(
         exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
         exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")

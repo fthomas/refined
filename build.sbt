@@ -21,8 +21,6 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.17.1"
 val shapelessVersion = "2.3.9"
 val scalaCheckVersion = "1.16.0"
-val scalaXml1Version = "1.3.0"
-val scalaXml2Version = "2.1.0"
 val scalazVersion = "7.3.6"
 val scodecVersion = "1.11.9"
 val scoptVersion = "4.0.1"
@@ -168,14 +166,11 @@ lazy val core = myCrossProject("core")
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
-          Seq(
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml2Version
-          )
+          Seq()
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml1Version
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),

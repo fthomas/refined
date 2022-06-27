@@ -40,10 +40,6 @@ class StringInferenceSpec extends Properties("StringInference") {
     Inference[Url, NonEmpty].isValid
   }
 
-  property("Xml ==> NonEmpty ") = secure {
-    Inference[Xml, NonEmpty].isValid
-  }
-
   property("ValidByte ==> NonEmpty ") = secure {
     Inference[ValidByte, NonEmpty].isValid
   }

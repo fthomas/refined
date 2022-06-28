@@ -20,7 +20,7 @@ git tag -a -s "v$VERSION" -m "Releasing $VERSION"
 
 LATEST_VERSION_SBT="latestVersion.sbt"
 echo "Update $LATEST_VERSION_SBT"
-LATEST_VERSION_DEF="latestVersion in ThisBuild :="
+LATEST_VERSION_DEF="ThisBuild \\/ latestVersion :="
 sed -i -e "s/$LATEST_VERSION_DEF \"$OLD_VERSION\"/$LATEST_VERSION_DEF \"$VERSION\"/" \
   "$LATEST_VERSION_SBT"
 sed -i -e "s/\/\/ NEXT_VERSION/, \"$VERSION\"\n  \/\/ NEXT_VERSION/" "$LATEST_VERSION_SBT"

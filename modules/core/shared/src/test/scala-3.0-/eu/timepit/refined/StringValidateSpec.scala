@@ -56,7 +56,10 @@ class StringValidateSpec extends Properties("StringValidate") {
     val jsErr = showResult[Uri](" /a/b/c") ?=
       "Uri predicate failed: Malformed URI in  /a/b/c at -1"
 
-    jvmErr || jsErr
+    val nativeErr = showResult[Uri](" /a/b/c") ?=
+      "Uri predicate failed: Illegal character in path in  /a/b/c at 1"
+
+    jvmErr || jsErr || nativeErr
   }
 
   property("Uuid.isValid") = secure {

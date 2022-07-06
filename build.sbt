@@ -40,7 +40,7 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   }
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
-  "cats" -> List(JVMPlatform, JSPlatform, NativePlatform),
+  "cats" -> List(JVMPlatform, JSPlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
@@ -144,7 +144,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.2.0" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._

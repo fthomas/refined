@@ -3,7 +3,7 @@
 [![codecov.io](https://img.shields.io/codecov/c/github/fthomas/refined.svg)](http://codecov.io/github/fthomas/refined)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fthomas/refined?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![refined Scala version support](https://index.scala-lang.org/fthomas/refined/refined/latest-by-scala-version.svg?color=blue)](https://index.scala-lang.org/fthomas/refined/refined)
-[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.10.0)
+[![Scaladoc](https://www.javadoc.io/badge/eu.timepit/refined_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/refined_2.12/0.10.1)
 
 **refined** is a Scala library for refining types with type-level predicates
 which constrain the set of values described by the refined type.
@@ -89,7 +89,7 @@ scala> val b: Int Refined Greater[W.`4`.T] = a
 b: Int Refined Greater[Int(4)] = 10
 ```
 
-**Note** that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.10.0/eu/timepit/refined/index.html#W:shapeless.Witness.type)
+**Note** that [`W`](https://static.javadoc.io/eu.timepit/refined_2.12/0.10.1/eu/timepit/refined/index.html#W:shapeless.Witness.type)
 is a shortcut for [`shapeless.Witness`][singleton-types] which provides
 syntax for [literal-based singleton types][sip-23].
 
@@ -187,23 +187,23 @@ ageEither2: Either[String,Age] = Right(55)
 
 ## Using refined
 
-The latest version of the library is 0.10.0, which is available for Scala and
+The latest version of the library is 0.10.1, which is available for Scala and
 [Scala.js][scala.js] version 2.12 and 2.13.
 
 If you're using sbt, add the following to your build:
 
 ```sbt
 libraryDependencies ++= Seq(
-  "eu.timepit" %% "refined"                 % "0.10.0",
-  "eu.timepit" %% "refined-cats"            % "0.10.0", // optional
-  "eu.timepit" %% "refined-eval"            % "0.10.0", // optional, JVM-only
-  "eu.timepit" %% "refined-jsonpath"        % "0.10.0", // optional, JVM-only
-  "eu.timepit" %% "refined-pureconfig"      % "0.10.0", // optional, JVM-only
-  "eu.timepit" %% "refined-scalacheck"      % "0.10.0", // optional
-  "eu.timepit" %% "refined-scalaz"          % "0.10.0", // optional
-  "eu.timepit" %% "refined-scodec"          % "0.10.0", // optional
-  "eu.timepit" %% "refined-scopt"           % "0.10.0", // optional
-  "eu.timepit" %% "refined-shapeless"       % "0.10.0"  // optional
+  "eu.timepit" %% "refined"                 % "0.10.1",
+  "eu.timepit" %% "refined-cats"            % "0.10.1", // optional
+  "eu.timepit" %% "refined-eval"            % "0.10.1", // optional, JVM-only
+  "eu.timepit" %% "refined-jsonpath"        % "0.10.1", // optional, JVM-only
+  "eu.timepit" %% "refined-pureconfig"      % "0.10.1", // optional, JVM-only
+  "eu.timepit" %% "refined-scalacheck"      % "0.10.1", // optional
+  "eu.timepit" %% "refined-scalaz"          % "0.10.1", // optional
+  "eu.timepit" %% "refined-scodec"          % "0.10.1", // optional
+  "eu.timepit" %% "refined-scopt"           % "0.10.1", // optional
+  "eu.timepit" %% "refined-shapeless"       % "0.10.1"  // optional
 )
 ```
 
@@ -211,7 +211,7 @@ For Scala.js just replace `%%` with `%%%` above.
 
 Instructions for Maven and other build tools are available at [search.maven.org][search.maven].
 
-Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.10.0).
+Release notes for the latest version are [here](https://github.com/fthomas/refined/releases/tag/v0.10.1).
 
 ## Community
 
@@ -308,7 +308,7 @@ opening a pull request to list it here:
 ## Documentation
 
 API documentation of the latest release is available at:
-<https://static.javadoc.io/eu.timepit/refined_2.12/0.10.0/eu/timepit/refined/index.html>
+<https://static.javadoc.io/eu.timepit/refined_2.12/0.10.1/eu/timepit/refined/index.html>
 
 There are further (type-checked) examples in the [`docs`][docs]
 directory including ones for defining [custom predicates][custom-pred]

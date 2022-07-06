@@ -424,6 +424,7 @@ The following people have helped making **refined** great:
 
 * [Alex](https://github.com/jhnsmth)
 * [Alexandre Archambault](https://github.com/alexarchambault)
+* [Arman Bilge](https://github.com/armanbilge)
 * [Brian P. Holt](https://github.com/bpholt)
 * [Chris Birchall](https://github.com/cb372)
 * [Chris Hodapp](https://github.com/clhodapp)

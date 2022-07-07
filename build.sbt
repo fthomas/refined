@@ -41,15 +41,15 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
-  "core" -> List(JVMPlatform, JSPlatform),
+  "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
-  "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalacheck" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -75,6 +75,7 @@ val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
 val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
+val allSubprojectsNative30 = allSubprojectsOf(NativePlatform, Set(Scala_3))
 
 /// sbt-github-actions configuration
 
@@ -100,12 +101,12 @@ ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(
-      List("validateJVM", "validateJS"),
+      List("validateJVM", "validateJS", "validateNative"),
       name = Some("Build project (Scala 2)"),
       cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
     ),
     WorkflowStep.Sbt(
-      List("validateJVM30", "validateJS30"),
+      List("validateJVM30", "validateJS30", "validateNative30"),
       name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '$Scala_3'")
     ),
@@ -143,7 +144,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.2.0" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -515,10 +516,11 @@ addCommandsAlias(
   )
 )
 
-addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
+addCommandsAlias("testNative", allSubprojectsNative.map(_ + "/test"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
+addCommandsAlias("testNative30", allSubprojectsNative30.map(_ + "/test"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
@@ -547,7 +549,7 @@ addCommandsAlias(
 addCommandsAlias(
   "validateNative",
   Seq(
-    "compileNative"
+    "testNative"
   )
 )
 
@@ -563,5 +565,12 @@ addCommandsAlias(
   "validateJS30",
   Seq(
     "testJS30"
+  )
+)
+
+addCommandsAlias(
+  "validateNative30",
+  Seq(
+    "testNative30"
   )
 )

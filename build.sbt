@@ -1,6 +1,6 @@
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
-import sbtghactions.JavaSpec.Distribution.Adopt
+import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 
 /// variables
 
@@ -97,7 +97,7 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "8"))
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(

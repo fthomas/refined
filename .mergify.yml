@@ -12,7 +12,7 @@ pull_request_rules:
   - body~=labels:.*early-semver-patch
   - status-success=Build and Test (ubuntu-latest, 2.12.17, temurin@8)
   - status-success=Build and Test (ubuntu-latest, 2.13.9, temurin@8)
-  - status-success=Build and Test (ubuntu-latest, 3.1.3, temurin@8)
+  - status-success=Build and Test (ubuntu-latest, 3.1.2, temurin@8)
   actions:
     merge: {}
 - name: Label benchmark PRs

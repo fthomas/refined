@@ -1,4 +1,6 @@
-scalaVersion := "2.12.17" // remove once sbt uses 2.12.17 or newer
+libraryDependencySchemes ++= Seq(
+  "org.scala-native" % "sbt-scala-native" % VersionScheme.Always
+)
 
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.11.0")
 

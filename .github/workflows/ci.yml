@@ -65,11 +65,11 @@ jobs:
 
       - name: Build project (Scala 2)
         if: matrix.scala == '2.12.17' || matrix.scala == '2.13.10'
-        run: sbt '++${{ matrix.scala }}' validateJVM validateJS validateNative
+        run: sbt '++ ${{ matrix.scala }}' validateJVM validateJS validateNative
 
       - name: Build project (Scala 3)
         if: matrix.scala == '3.1.2'
-        run: sbt '++${{ matrix.scala }}' validateJVM30 validateJS30 validateNative30
+        run: sbt '++ ${{ matrix.scala }}' validateJVM30 validateJS30 validateNative30
 
       - name: Codecov
         uses: codecov/codecov-action@v1

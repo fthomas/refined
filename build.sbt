@@ -415,7 +415,7 @@ lazy val compileSettings = Def.settings(
     "UTF-8",
     "-feature",
     "-language:existentials,experimental.macros,higherKinds,implicitConversions",
-    "-unchecked",
+    "-unchecked"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {

@@ -417,6 +417,7 @@ The library comes with these predefined predicates:
 * `XPath`: checks if a `String` is a valid XPath expression
 * `Trimmed`: checks if a `String` has no leading or trailing whitespace
 * `HexStringSpec`: checks if a `String` represents a hexadecimal number
+* `SplitAt`: split a string at an Index `N`, and then check the conjunction of the predicates `A` on the first part of the string and `B` on its second part
 
 ## Contributors and participation
 

@@ -1,6 +1,6 @@
 import sbtcrossproject.CrossProject
 import sbtcrossproject.Platform
-import sbtghactions.JavaSpec.Distribution.Adopt
+import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 
 /// variables
 
@@ -11,21 +11,19 @@ val gitHubOwner = "fthomas"
 val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
 val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
-val Scala_2_12 = "2.12.15"
-val Scala_2_13 = "2.13.8"
-val Scala_3 = "3.1.1"
+val Scala_2_12 = "2.12.17"
+val Scala_2_13 = "2.13.10"
+val Scala_3 = "3.2.2"
 
-val catsVersion = "2.7.0"
+val catsVersion = "2.9.0"
 val jsonpathVersion = "2.7.0"
 val macroParadiseVersion = "2.1.1"
-val pureconfigVersion = "0.17.1"
-val shapelessVersion = "2.3.9"
-val scalaCheckVersion = "1.16.0"
-val scalaXml1Version = "1.3.0"
-val scalaXml2Version = "2.1.0"
-val scalazVersion = "7.3.6"
-val scodecVersion = "1.11.9"
-val scoptVersion = "4.0.1"
+val pureconfigVersion = "0.17.2"
+val shapelessVersion = "2.3.10"
+val scalaCheckVersion = "1.17.0"
+val scalazVersion = "7.3.7"
+val scodecVersion = "1.11.10"
+val scoptVersion = "4.1.0"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   Def.setting {
@@ -43,15 +41,15 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "cats" -> List(JVMPlatform, JSPlatform),
-  "core" -> List(JVMPlatform, JSPlatform),
+  "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
-  "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalacheck" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),
-  "shapeless" -> List(JVMPlatform, JSPlatform)
+  "shapeless" -> List(JVMPlatform, JSPlatform, NativePlatform)
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
@@ -77,6 +75,7 @@ val allSubprojectsJVM30 = allSubprojectsOf(JVMPlatform, Set(Scala_3))
 val allSubprojectsJS = allSubprojectsOf(JSPlatform)
 val allSubprojectsJS30 = allSubprojectsOf(JSPlatform, Set(Scala_3))
 val allSubprojectsNative = allSubprojectsOf(NativePlatform)
+val allSubprojectsNative30 = allSubprojectsOf(NativePlatform, Set(Scala_3))
 
 /// sbt-github-actions configuration
 
@@ -98,16 +97,16 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "8"))
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(
-      List("validateJVM", "validateJS"),
+      List("validateJVM", "validateJS", "validateNative"),
       name = Some("Build project (Scala 2)"),
       cond = Some(s"matrix.scala == '$Scala_2_12' || matrix.scala == '$Scala_2_13'")
     ),
     WorkflowStep.Sbt(
-      List("validateJVM30", "validateJS30"),
+      List("validateJVM30", "validateJS30", "validateNative30"),
       name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '$Scala_3'")
     ),
@@ -145,7 +144,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.2.0" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._
@@ -168,14 +167,11 @@ lazy val core = myCrossProject("core")
     libraryDependencies ++= {
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
-          Seq(
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml2Version
-          )
+          Seq()
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
-            scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-            "org.scala-lang.modules" %% "scala-xml" % scalaXml1Version
+            scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
       ) ++ Seq(
         ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
@@ -419,13 +415,13 @@ lazy val compileSettings = Def.settings(
     "UTF-8",
     "-feature",
     "-language:existentials,experimental.macros,higherKinds,implicitConversions",
-    "-unchecked",
-    "-Xfatal-warnings"
+    "-unchecked"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, minor)) if minor >= 12 =>
         Seq(
+          "-Xfatal-warnings",
           "-Xlint:-unused,_",
           "-Ywarn-numeric-widen",
           "-Ywarn-value-discard",
@@ -520,10 +516,11 @@ addCommandsAlias(
   )
 )
 
-addCommandsAlias("compileNative", allSubprojectsNative.map(_ + "/compile"))
+addCommandsAlias("testNative", allSubprojectsNative.map(_ + "/test"))
 addCommandsAlias("testJS", allSubprojectsJS.map(_ + "/test"))
 addCommandsAlias("testJVM", allSubprojectsJVM.map(_ + "/test"))
 
+addCommandsAlias("testNative30", allSubprojectsNative30.map(_ + "/test"))
 addCommandsAlias("testJS30", allSubprojectsJS30.map(_ + "/test"))
 addCommandsAlias("testJVM30", allSubprojectsJVM30.map(_ + "/test"))
 
@@ -552,7 +549,7 @@ addCommandsAlias(
 addCommandsAlias(
   "validateNative",
   Seq(
-    "compileNative"
+    "testNative"
   )
 )
 
@@ -568,5 +565,12 @@ addCommandsAlias(
   "validateJS30",
   Seq(
     "testJS30"
+  )
+)
+
+addCommandsAlias(
+  "validateNative30",
+  Seq(
+    "testNative30"
   )
 )

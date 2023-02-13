@@ -47,9 +47,6 @@ trait StringPredicates {
   final type ValidBigDecimal = refined.string.ValidBigDecimal
   final val ValidBigDecimal = refined.string.ValidBigDecimal
 
-  final type Xml = refined.string.Xml
-  final val Xml = refined.string.Xml
-
   final type XPath = refined.string.XPath
   final val XPath = refined.string.XPath
 }

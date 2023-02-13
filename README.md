@@ -304,6 +304,7 @@ opening a pull request to list it here:
 * [HolidayCheck](http://techblog.holidaycheck.com/)
 * [Zalando](https://tech.zalando.de/)
 * [ContentSquare](https://contentsquare.com/)
+* [Dassault Systèmes](https://www.3ds.com/)
 
 ## Documentation
 

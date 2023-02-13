@@ -124,7 +124,7 @@ class CommutativeSemigroupAndMonoidLawTests
     "CommutativeMonoid[NonNegDouble]",
     SerializableTests.serializable(CommutativeMonoid[NonNegDouble])
   )
- checkAll(
+  checkAll(
     "CommutativeMonoid[NonNegBigDecimal]",
     SerializableTests.serializable(CommutativeMonoid[NonNegBigDecimal])
   )

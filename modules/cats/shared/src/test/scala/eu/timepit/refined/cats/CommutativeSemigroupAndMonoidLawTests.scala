@@ -49,6 +49,10 @@ class CommutativeSemigroupAndMonoidLawTests
     "CommutativeSemigroup[PosDouble]",
     SerializableTests.serializable(CommutativeSemigroup[PosDouble])
   )
+  checkAll(
+    "CommutativeSemigroup[PosBigDecimal]",
+    SerializableTests.serializable(CommutativeSemigroup[PosBigDecimal])
+  )
 
   // Negative commutativeSemigroups
   checkAll("CommutativeSemigroup[NegByte]", CommutativeSemigroupTests[NegByte].commutativeSemigroup)
@@ -84,6 +88,10 @@ class CommutativeSemigroupAndMonoidLawTests
     "CommutativeSemigroup[NegDouble]",
     SerializableTests.serializable(CommutativeSemigroup[NegDouble])
   )
+  checkAll(
+    "CommutativeSemigroup[NegBigDecimal]",
+    SerializableTests.serializable(CommutativeSemigroup[NegBigDecimal])
+  )
 
   // NonNegative monoids
   checkAll("CommutativeMonoid[NonNegByte]", CommutativeMonoidTests[NonNegByte].commutativeMonoid)
@@ -115,6 +123,10 @@ class CommutativeSemigroupAndMonoidLawTests
   checkAll(
     "CommutativeMonoid[NonNegDouble]",
     SerializableTests.serializable(CommutativeMonoid[NonNegDouble])
+  )
+ checkAll(
+    "CommutativeMonoid[NonNegBigDecimal]",
+    SerializableTests.serializable(CommutativeMonoid[NonNegBigDecimal])
   )
 
   // NonPositive monoids

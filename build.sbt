@@ -40,7 +40,7 @@ def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   }
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
-  "cats" -> List(JVMPlatform, JSPlatform),
+  "cats" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "core" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),

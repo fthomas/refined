@@ -1,5 +1,6 @@
 package eu.timepit.refined.scalacheck
 
+import eu.timepit.refined.auto._
 import eu.timepit.refined.W
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.collection.{MaxSize, Size}
@@ -15,12 +16,25 @@ import eu.timepit.refined.types.string.{
   TrimmedString
 }
 import org.scalacheck.Properties
+import org.scalacheck.Prop.forAll
 
 class StringArbitrarySpec extends Properties("StringArbitrary") {
 
-  property("EndsWith[S]") = checkArbitraryRefinedType[String Refined EndsWith[W.`"abc"`.T]]
+  {
+    type EndsWithS = String Refined EndsWith[W.`"abc"`.T]
+    property("EndsWith[S] type") = checkArbitraryRefinedType[EndsWithS]
+    property("EndsWith[S] gen") = forAll { (str: EndsWithS) =>
+      str.endsWith("abc")
+    }
+  }
 
-  property("StartsWith[S]") = checkArbitraryRefinedType[String Refined StartsWith[W.`"abc"`.T]]
+  {
+    type StartsWithS = String Refined StartsWith[W.`"abc"`.T]
+    property("StartsWith[S] type") = checkArbitraryRefinedType[StartsWithS]
+    property("startsWith[S] gen") = forAll { (str: StartsWithS) =>
+      str.startsWith("abc")
+    }
+  }
 
   property("NonEmptyString") = checkArbitraryRefinedType[NonEmptyString]
 

@@ -45,7 +45,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "eval" -> List(JVMPlatform),
   "jsonpath" -> List(JVMPlatform),
   "pureconfig" -> List(JVMPlatform),
-  "scalacheck" -> List(JVMPlatform, JSPlatform),
+  "scalacheck" -> List(JVMPlatform, JSPlatform, NativePlatform),
   "scalaz" -> List(JVMPlatform),
   "scodec" -> List(JVMPlatform, JSPlatform),
   "scopt" -> List(JVMPlatform),

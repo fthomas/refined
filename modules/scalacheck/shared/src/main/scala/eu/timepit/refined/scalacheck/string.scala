@@ -5,7 +5,6 @@ import eu.timepit.refined.collection.{NonEmpty, Size}
 import eu.timepit.refined.string._
 import eu.timepit.refined.types.string.TrimmedString
 import org.scalacheck.Arbitrary
-import shapeless.Witness
 
 /**
  * Module that provides `Arbitrary` instances for `String` related
@@ -17,13 +16,13 @@ trait StringInstances {
 
   implicit def endsWithArbitrary[F[_, _], S <: String](implicit
       rt: RefType[F],
-      ws: Witness.Aux[S]
+      ws: ValueOf[S]
   ): Arbitrary[F[String, EndsWith[S]]] =
     arbitraryRefType(Arbitrary.arbString.arbitrary.map(_ + ws.value))
 
   implicit def startsWithArbitrary[F[_, _], S <: String](implicit
       rt: RefType[F],
-      ws: Witness.Aux[S]
+      ws: ValueOf[S]
   ): Arbitrary[F[String, StartsWith[S]]] =
     arbitraryRefType(Arbitrary.arbString.arbitrary.map(ws.value + _))
 

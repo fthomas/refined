@@ -11,7 +11,7 @@ object DescribeType:
     '{ new DescribeType[T](${ Expr(TypeRepr.of[T].show) }) }
   }
 
-  inline given describeType[T]: DescribeType[T] = ${ macroImpl[T]}
+  inline given describeType[T]: DescribeType[T] = ${ macroImpl[T] }
 
 private[pureconfig] trait TypeDescribeVersionSpecific {
 

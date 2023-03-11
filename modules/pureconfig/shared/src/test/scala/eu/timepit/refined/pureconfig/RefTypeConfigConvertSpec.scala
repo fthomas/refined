@@ -68,11 +68,15 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
     val expected3 = expectedFailure(
       "eu.timepit.refined.api.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]]"
     )
+    val expected4 = expectedFailure(
+      "eu.timepit.refined.api.Refined$package.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]"
+    )
 
     val actual = loadConfigWithValue("0")
     (actual ?= expected1) ||
     (actual ?= expected2) ||
-    (actual ?= expected3)
+    (actual ?= expected3) ||
+    (actual ?= expected4)
   }
 
   property("load failure (wrong type)") = secure {

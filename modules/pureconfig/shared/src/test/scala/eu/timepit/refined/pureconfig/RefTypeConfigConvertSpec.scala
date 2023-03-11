@@ -69,7 +69,7 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
       "eu.timepit.refined.api.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]]"
     )
     val expected4 = expectedFailure(
-      "eu.timepit.refined.api.Refined$package.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]"
+      "eu.timepit.refined.api.Refined$package.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]]"
     )
 
     val actual = loadConfigWithValue("0")

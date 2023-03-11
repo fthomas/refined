@@ -8,7 +8,7 @@ import org.scalacheck.Properties
 import pureconfig._
 import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure, WrongType}
 
-import scala.jdk.CollectionConverters._
+import java.util.{HashMap => JMap}
 
 class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
@@ -31,7 +31,13 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
   implicit val writer: ConfigWriter[Config] =
     posIntWriter
       .contramap[Config](_.value)
-      .mapConfig(cfg => ConfigValueFactory.fromMap(Map("value" -> cfg).asJava))
+      .mapConfig(cfg =>
+        ConfigValueFactory.fromMap {
+          val m = new JMap[String, Any]()
+          m.put("value", cfg)
+          m
+        }
+      )
 
   property("load success") = secure {
     loadConfigWithValue("1") ?=

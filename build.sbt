@@ -220,13 +220,7 @@ lazy val pureconfig = myCrossProject("pureconfig")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
       "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion
-    ) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 12 | 13)) =>
-        Seq(
-          "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
-        )
-      case _ => Seq.empty
-    })
+    )
   )
 
 lazy val pureconfigJVM = pureconfig.jvm

@@ -1,5 +1,6 @@
 package eu.timepit.refined.pureconfig
 
+import com.typesafe.config.ConfigValueFactory
 import com.typesafe.config.{ConfigOriginFactory, ConfigValueType}
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalacheck.Prop._
@@ -7,9 +8,30 @@ import org.scalacheck.Properties
 import pureconfig._
 import pureconfig.error.{CannotConvert, ConfigReaderFailures, ConvertFailure, WrongType}
 
-class RefTypeConfigConvertSpec
-    extends Properties("RefTypeConfigConvert")
-    with SpecDerivedInstances {
+import scala.jdk.CollectionConverters._
+
+class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
+
+  // our main concern is that refined instances are provided and three lines below compile
+  val posIntReader: ConfigReader[PosInt] = implicitly
+  val posIntWriter: ConfigWriter[PosInt] = implicitly
+  val posIntConvert: ConfigConvert[PosInt] = implicitly
+
+  case class Config(value: PosInt)
+
+  // manually composing instances not to depend on pureconfig.generic or scala3 derivations
+  implicit val reader: ConfigReader[Config] = new ConfigReader[Config] {
+    override def from(cur: ConfigCursor): ConfigReader.Result[Config] = for {
+      obj <- cur.asObjectCursor
+      value <- obj.atKey("value")
+      posInt <- posIntReader.from(value)
+    } yield Config(posInt)
+  }
+
+  implicit val writer: ConfigWriter[Config] =
+    posIntWriter
+      .contramap[Config](_.value)
+      .mapConfig(cfg => ConfigValueFactory.fromMap(Map("value" -> cfg).asJava))
 
   property("load success") = secure {
     loadConfigWithValue("1") ?=

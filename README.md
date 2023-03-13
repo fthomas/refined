@@ -441,6 +441,7 @@ The following people have helped making **refined** great:
 * [Frederick Roth](https://github.com/froth)
 * [Howard Perrin](https://github.com/howyp)
 * [Iurii Susuk](https://github.com/ysusuk)
+* [Ivan Klass](https://github.com/ivan-klass)
 * [Jean-Rémi Desjardins](https://github.com/jedesah)
 * [Jente Hidskes](https://github.com/Hjdskes)
 * [Joe Greene](https://github.com/ClydeMachine)

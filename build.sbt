@@ -53,7 +53,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val moduleCrossScalaVersionsMatrix: (String, Platform) => List[String] = {
-  case ("benchmark" | "eval" | "pureconfig" | "scalaz" | "scodec" | "shapeless", _) =>
+  case ("benchmark" | "eval" | "scalaz" | "scodec" | "shapeless", _) =>
     List(Scala_2_12, Scala_2_13)
   case _ =>
     List(Scala_2_12, Scala_2_13, Scala_3)
@@ -219,8 +219,7 @@ lazy val pureconfig = myCrossProject("pureconfig")
   .dependsOn(core % "compile->compile;test->test")
   .settings(
     libraryDependencies ++= macroParadise(Test).value ++ Seq(
-      "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion,
-      "com.github.pureconfig" %% "pureconfig-generic" % pureconfigVersion % Test
+      "com.github.pureconfig" %% "pureconfig-core" % pureconfigVersion
     )
   )
 
@@ -450,10 +449,8 @@ lazy val compileSettings = Def.settings(
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((2, 12)) => Seq(file(dir.getPath + "-3.0-"))
-            case Some((2, 13)) => Seq(file(dir.getPath + "-3.0-"))
-            case Some((0, _))  => Seq(file(dir.getPath + "-3.0+"))
-            case Some((3, _))  => Seq(file(dir.getPath + "-3.0+"))
+            case Some((2, 12 | 13)) => Seq(file(dir.getPath + "-3.0-"))
+            case Some((0 | 3, _))   => Seq(file(dir.getPath + "-3.0+"))
             case other => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }

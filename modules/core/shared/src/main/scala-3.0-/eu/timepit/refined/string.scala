@@ -176,7 +176,7 @@ object string extends StringInference {
 
   object Url {
     implicit def urlValidate: Validate.Plain[String, Url] =
-      Validate.fromPartial(new java.net.URL(_), "Url", Url())
+      Validate.fromPartial(new java.net.URI(_).toURL, "Url", Url())
   }
 
   object Uuid {

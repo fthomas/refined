@@ -21,7 +21,7 @@ object string {
 
   /** Creates a `java.net.URL` from a validated string. */
   def url(s: String Refined Url): java.net.URL =
-    new java.net.URL(s.value)
+    new java.net.URI(s.value).toURL
 
   /** Creates a `java.net.UUID` from a validated string. */
   def uuid(s: String Refined Uuid): java.util.UUID =

@@ -81,7 +81,7 @@ trait WitnessAs1 {
 
   inline given doubleWitnessAsFloat[A <: Double]: WitnessAs[A, Float] =
     inline constValue[A] match {
-      case a if a >= -3.4028235E38 && a <= 3.4028235E38 => WitnessAs(a, a.toFloat)
+      case a if a >= -3.4028235e38 && a <= 3.4028235e38 => WitnessAs(a, a.toFloat)
       case a => error(s"WitnessAs: $a is not in [Float.MinValue, Float.MaxValue]")
     }
 

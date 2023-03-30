@@ -297,8 +297,8 @@ private[refined] trait BooleanInference3 {
     p1.adapt("substitutionInConjunction(%s)")
 
   implicit def disjunctionTautologyElimination[A, B, C](implicit
-                                                        p1: A ==> C,
-                                                        p2: B ==> C
-                                                       ): (A Or B) ==> C =
+      p1: A ==> C,
+      p2: B ==> C
+  ): (A Or B) ==> C =
     Inference.combine(p1, p2, "disjunctionElimination")
 }

@@ -18,6 +18,6 @@ addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.12")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.7")
 
-addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.4.19")
+addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.4.20")
 
 addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.4.4")

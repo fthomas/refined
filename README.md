@@ -296,6 +296,7 @@ a pull request to list it here:
 Are you using **refined** in your organization or company? Please consider
 opening a pull request to list it here:
 
+* [PITS Global Data Recovery Services](https://www.pitsdatarecovery.net/)
 * [AutoScout24](http://techblog.scout24.com/)
 * [Besedo](https://besedo.com/)
 * [Chatroulette](https://chatroulette.com/)

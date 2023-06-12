@@ -72,10 +72,10 @@ class RefTypeConfigConvertSpec extends Properties("RefTypeConfigConvert") {
 
     // scala 3 macro provide type representation in this way
     val expected3 = expectedFailure(
-      "eu.timepit.refined.api.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]]"
+      "eu.timepit.refined.api.Refined[scala.Int, eu.timepit.refined.numeric.Greater[0]]"
     )
     val expected4 = expectedFailure(
-      s"eu.timepit.refined.api.Refined$$package.Refined[scala.Int, eu.timepit.refined.numeric.Greater[shapeless.nat._0]]"
+      s"eu.timepit.refined.api.Refined$$package.Refined[scala.Int, eu.timepit.refined.numeric.Greater[0]]"
     )
 
     val actual = loadConfigWithValue("0")

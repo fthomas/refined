@@ -4,7 +4,6 @@ import eu.timepit.refined.api._
 import eu.timepit.refined.api.Inference.==>
 import eu.timepit.refined.boolean._
 import eu.timepit.refined.internal.Resources
-import shapeless.{::, HList, HNil}
 
 /** Module for logical predicates. */
 object boolean extends BooleanInference0 {
@@ -178,20 +177,20 @@ object boolean extends BooleanInference0 {
   }
 
   object AllOf {
-    implicit def allOfHNilValidate[T]: Validate.Plain[T, AllOf[HNil]] =
-      Validate.alwaysPassed(AllOf(HList()))
+    implicit def allOfEmptyTupleValidate[T]: Validate.Plain[T, AllOf[EmptyTuple]] =
+      Validate.alwaysPassed(AllOf(EmptyTuple))
 
-    implicit def allOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
+    implicit def allOfTupleConsValidate[T, PH, RH, PT <: Tuple, RT <: Tuple](implicit
         vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, AllOf[PT], AllOf[RT]]
-    ): Validate.Aux[T, AllOf[PH :: PT], AllOf[vh.Res :: RT]] =
-      new Validate[T, AllOf[PH :: PT]] {
-        override type R = AllOf[vh.Res :: RT]
+    ): Validate.Aux[T, AllOf[PH *: PT], AllOf[vh.Res *: RT]] =
+      new Validate[T, AllOf[PH *: PT]] {
+        override type R = AllOf[vh.Res *: RT]
 
         override def validate(t: T): Res = {
           val rh = vh.validate(t)
           val rt = vt.validate(t)
-          Result.fromBoolean(rh.isPassed && rt.isPassed, AllOf(rh :: rt.detail.ps))
+          Result.fromBoolean(rh.isPassed && rt.isPassed, AllOf(rh *: rt.detail.ps))
         }
 
         override def showExpr(t: T): String =
@@ -203,20 +202,20 @@ object boolean extends BooleanInference0 {
   }
 
   object AnyOf {
-    implicit def anyOfHNilValidate[T]: Validate.Plain[T, AnyOf[HNil]] =
-      Validate.alwaysFailed(AnyOf(HList()))
+    implicit def anyOfEmptyTupleValidate[T]: Validate.Plain[T, AnyOf[EmptyTuple]] =
+      Validate.alwaysFailed(AnyOf(EmptyTuple))
 
-    implicit def anyOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
+    implicit def anyOfHConsValidate[T, PH, RH, PT <: Tuple, RT <: Tuple](implicit
         vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, AnyOf[PT], AnyOf[RT]]
-    ): Validate.Aux[T, AnyOf[PH :: PT], AnyOf[vh.Res :: RT]] =
-      new Validate[T, AnyOf[PH :: PT]] {
-        override type R = AnyOf[vh.Res :: RT]
+    ): Validate.Aux[T, AnyOf[PH *: PT], AnyOf[vh.Res *: RT]] =
+      new Validate[T, AnyOf[PH *: PT]] {
+        override type R = AnyOf[vh.Res *: RT]
 
         override def validate(t: T): Res = {
           val rh = vh.validate(t)
           val rt = vt.validate(t)
-          Result.fromBoolean(rh.isPassed || rt.isPassed, AnyOf(rh :: rt.detail.ps))
+          Result.fromBoolean(rh.isPassed || rt.isPassed, AnyOf(rh *: rt.detail.ps))
         }
 
         override def showExpr(t: T): String =

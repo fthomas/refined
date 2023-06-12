@@ -173,8 +173,12 @@ lazy val core = myCrossProject("core")
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
             scalaOrganization.value % "scala-compiler" % scalaVersion.value
           )
+      ) ++ (
+        if (isScala3Setting.value)
+          Seq()
+        else
+          Seq("com.chuusai" %%% "shapeless" % shapelessVersion)
       ) ++ Seq(
-        ("com.chuusai" %%% "shapeless" % shapelessVersion).cross(CrossVersion.for3Use2_13),
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },

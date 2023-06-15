@@ -6,8 +6,6 @@ import eu.timepit.refined.boolean.{And, Not}
 import eu.timepit.refined.internal.ToInt
 import eu.timepit.refined.internal.WitnessAs
 import eu.timepit.refined.numeric._
-import shapeless.Nat
-import shapeless.nat.{_0, _2}
 
 /**
  * Module for numeric predicates.
@@ -50,25 +48,25 @@ object numeric extends NumericInference {
   type GreaterEqual[N] = Not[Less[N]]
 
   /** Predicate that checks if a numeric value is positive (> 0). */
-  type Positive = Greater[_0]
+  type Positive = Greater[0]
 
   /** Predicate that checks if a numeric value is zero or negative (<= 0). */
   type NonPositive = Not[Positive]
 
   /** Predicate that checks if a numeric value is negative (< 0). */
-  type Negative = Less[_0]
+  type Negative = Less[0]
 
   /** Predicate that checks if a numeric value is zero or positive (>= 0). */
   type NonNegative = Not[Negative]
 
   /** Predicate that checks if an integral value is evenly divisible by `N`. */
-  type Divisible[N] = Modulo[N, _0]
+  type Divisible[N] = Modulo[N, 0]
 
   /** Predicate that checks if an integral value is not evenly divisible by `N`. */
   type NonDivisible[N] = Not[Divisible[N]]
 
   /** Predicate that checks if an integral value is evenly divisible by 2. */
-  type Even = Divisible[_2]
+  type Even = Divisible[2]
 
   /** Predicate that checks if an integral value is not evenly divisible by 2. */
   type Odd = Not[Even]
@@ -135,11 +133,11 @@ private[refined] trait NumericInference {
   ): Less[A] ==> Less[B] =
     Inference(nc.lt(wa.snd, wb.snd), s"lessInference(${wa.snd}, ${wb.snd})")
 
-  implicit def lessInferenceNat[A <: Nat, B <: Nat](implicit
+  implicit def lessInferenceInt[A <: Int, B <: Int](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Less[A] ==> Less[B] =
-    Inference(ta() < tb(), s"lessInferenceNat(${ta()}, ${tb()})")
+    Inference(ta() < tb(), s"lessInferenceInt(${ta()}, ${tb()})")
 
   implicit def greaterInference[C, A, B](implicit
       wa: WitnessAs[A, C],
@@ -148,11 +146,11 @@ private[refined] trait NumericInference {
   ): Greater[A] ==> Greater[B] =
     Inference(nc.gt(wa.snd, wb.snd), s"greaterInference(${wa.snd}, ${wb.snd})")
 
-  implicit def greaterInferenceNat[A <: Nat, B <: Nat](implicit
+  implicit def greaterInferenceNat[A <: Int, B <: Int](implicit
       ta: ToInt[A],
       tb: ToInt[B]
   ): Greater[A] ==> Greater[B] =
-    Inference(ta() > tb(), s"greaterInferenceNat(${ta()}, ${tb()})")
+    Inference(ta() > tb(), s"greaterInferenceInt(${ta()}, ${tb()})")
 
   implicit def greaterEqualInference[A]: Greater[A] ==> GreaterEqual[A] =
     Inference.alwaysValid("greaterEqualInference")

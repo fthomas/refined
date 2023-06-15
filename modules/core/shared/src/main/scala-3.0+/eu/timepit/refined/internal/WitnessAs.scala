@@ -1,7 +1,6 @@
 package eu.timepit.refined.internal
 
 import scala.compiletime.{constValue, error}
-import shapeless.{Nat, Witness}
 
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`
@@ -28,8 +27,8 @@ final case class WitnessAs[A, B](fst: A, snd: B)
 object WitnessAs extends WitnessAs1 {
   def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
 
-  implicit def natWitnessAs[B, A <: Nat](implicit
-      wa: Witness.Aux[A],
+  implicit def intWitnessAs[B, A <: Int](implicit
+      wa: ValueOf[A],
       ta: ToInt[A],
       nb: Numeric[B]
   ): WitnessAs[A, B] =

@@ -1,7 +1,6 @@
 package eu.timepit.refined.api
 
 import eu.timepit.refined.internal._
-import shapeless.tag.@@
 
 /**
  * Type class that allows `F` to be used as carrier type of a refinement.
@@ -90,18 +89,6 @@ object RefType {
 
       override def unsafeRewrap[T, A, B](ta: Refined[T, A]): Refined[T, B] =
         Refined.unsafeApply(ta.value)
-    }
-
-  implicit val tagRefType: RefType[@@] =
-    new RefType[@@] {
-      override def unsafeWrap[T, P](t: T): T @@ P =
-        t.asInstanceOf[T @@ P]
-
-      override def unwrap[T, P](tp: T @@ P): T =
-        tp
-
-      override def unsafeRewrap[T, A, B](ta: T @@ A): T @@ B =
-        ta.asInstanceOf[T @@ B]
     }
 
   final class RefTypeOps[F[_, _], T, P](tp: F[T, P])(implicit F: RefType[F]) {

@@ -29,5 +29,5 @@ git add "$LATEST_VERSION_SBT"
 
 git commit -a -m "Set $VERSION as latestVersion"
 
-#git push
-#git push --tags
+git push
+git push --tags

@@ -361,8 +361,6 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
       import com.typesafe.tools.mima.core._
       import com.typesafe.tools.mima.core.ProblemFilters.exclude
       Seq(
-        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Max.findValid"),
-        exclude[DirectMissingMethodProblem]("eu.timepit.refined.api.Min.findValid")
       )
     }
   )

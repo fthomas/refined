@@ -10,9 +10,9 @@ pull_request_rules:
   conditions:
   - author=scala-steward
   - body~=labels:.*early-semver-patch
-  - status-success=Build and Test (ubuntu-latest, 2.12, temurin@8)
-  - status-success=Build and Test (ubuntu-latest, 2.13, temurin@8)
-  - status-success=Build and Test (ubuntu-latest, 3, temurin@8)
+  - status-success=Build and Test (ubuntu-latest, 2.12.18, temurin@8)
+  - status-success=Build and Test (ubuntu-latest, 2.13.11, temurin@8)
+  - status-success=Build and Test (ubuntu-latest, 3.3.0, temurin@8)
   actions:
     merge: {}
 - name: Label benchmark PRs

@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.18, 2.13.11, 3.3.0]
+        scala: [2.12.18, 2.13.11, 3.3.1]
         java: [temurin@8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -68,7 +68,7 @@ jobs:
         run: sbt '++ ${{ matrix.scala }}' validateJVM validateJS validateNative
 
       - name: Build project (Scala 3)
-        if: matrix.scala == '3.3.0'
+        if: matrix.scala == '3.3.1'
         run: sbt '++ ${{ matrix.scala }}' validateJVM30 validateJS30 validateNative30
 
       - name: Codecov
@@ -152,12 +152,12 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (3.3.0)
+      - name: Download target directories (3.3.1)
         uses: actions/download-artifact@v3
         with:
-          name: target-${{ matrix.os }}-${{ matrix.java }}-3.3.0
+          name: target-${{ matrix.os }}-${{ matrix.java }}-3.3.1
 
-      - name: Inflate target directories (3.3.0)
+      - name: Inflate target directories (3.3.1)
         run: |
           tar xf targets.tar
           rm targets.tar

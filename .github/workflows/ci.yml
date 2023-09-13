@@ -59,7 +59,7 @@ jobs:
         run: sbt '++ ${{ matrix.scala }}' validateJVM validateJS validateNative
 
       - name: Build project (Scala 3)
-        if: matrix.scala == '3.3.1'
+        if: matrix.scala == '3.3.0'
         run: sbt '++ ${{ matrix.scala }}' validateJVM30 validateJS30 validateNative30
 
       - name: Codecov

@@ -364,7 +364,7 @@ lazy val moduleCrossSettings = Def.settings(
   commonSettings
 )
 
-def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
+def moduleJvmSettings(name: String): Seq[Def.Setting[?]] =
   Def.settings(
     scalaVersion := Scala_2_13,
     javaOptions ++= Seq("-Duser.language=en"),
@@ -385,7 +385,7 @@ def moduleJvmSettings(name: String): Seq[Def.Setting[_]] =
     }
   )
 
-def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
+def moduleJsSettings(name: String): Seq[Def.Setting[?]] =
   Def.settings(
     scalaVersion := Scala_2_13,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
@@ -403,7 +403,7 @@ def moduleJsSettings(name: String): Seq[Def.Setting[_]] =
     }
   )
 
-def moduleNativeSettings(name: String): Seq[Def.Setting[_]] =
+def moduleNativeSettings(name: String): Seq[Def.Setting[?]] =
   Def.settings(
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
     doctestGenTests := Seq.empty,

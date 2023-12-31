@@ -15,16 +15,16 @@ object Resources {
   val Left = "Left"
   val Right = "Right"
 
-  def predicateResult(r: Result[_]): String =
+  def predicateResult(r: Result[?]): String =
     s"$Predicate ${toLowerCase(r)}"
 
-  def predicateResultDetail(r: Result[_], detail: String): String =
+  def predicateResultDetail(r: Result[?], detail: String): String =
     s"${predicateResult(r)}: $detail"
 
-  def predicateResultDetailDot(r: Result[_], detail: String): String =
+  def predicateResultDetailDot(r: Result[?], detail: String): String =
     s"${predicateResultDetail(r, detail)}."
 
-  def predicateTakingResultDetail(taking: String, r: Result[_], detail: String): String =
+  def predicateTakingResultDetail(taking: String, r: Result[?], detail: String): String =
     s"$Predicate taking $taking ${toLowerCase(r)}: $detail"
 
   def showExprEmptyCollection: String =
@@ -33,10 +33,10 @@ object Resources {
   def showResultEmptyCollection: String =
     s"$Predicate $failed: empty collection."
 
-  def namePredicateResult(name: String, r: Result[_]): String =
+  def namePredicateResult(name: String, r: Result[?]): String =
     s"$name $predicate ${toLowerCase(r)}"
 
-  def namePredicateResultMessage(name: String, r: Result[_], maybeThrowable: Try[_]): String = {
+  def namePredicateResultMessage(name: String, r: Result[?], maybeThrowable: Try[?]): String = {
     val suffix = maybeThrowable match {
       case Success(_) => "."
       case Failure(e) => s": ${e.getMessage}"
@@ -47,7 +47,7 @@ object Resources {
   def isValidName[T](name: String, t: T): String =
     s"""isValid$name("$t")"""
 
-  def toLowerCase(r: Result[_]): String =
+  def toLowerCase(r: Result[?]): String =
     r.morph(passed, failed)
 
   // Not

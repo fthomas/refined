@@ -235,7 +235,7 @@ object boolean extends BooleanInference0 {
     implicit def oneOfHConsValidate[T, PH, RH, PT <: HList, RT <: HList](implicit
         vh: Validate.Aux[T, PH, RH],
         vt: Validate.Aux[T, OneOf[PT], OneOf[RT]],
-        toList: ToList[RT, Result[_]]
+        toList: ToList[RT, Result[?]]
     ): Validate.Aux[T, OneOf[PH :: PT], OneOf[vh.Res :: RT]] =
       new Validate[T, OneOf[PH :: PT]] {
         override type R = OneOf[vh.Res :: RT]

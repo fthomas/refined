@@ -84,6 +84,18 @@ class RefineMacro(val c: blackbox.Context) extends MacroUtils with LiteralMatche
         instance[Char, LowerCase],
         instance[Char, UpperCase],
         instance[Char, Whitespace]
+      ),
+      weakTypeOf[BigInt] -> List(
+        instance[BigInt, Positive],
+        instance[BigInt, NonPositive],
+        instance[BigInt, Negative],
+        instance[BigInt, NonNegative]
+      ),
+      weakTypeOf[BigDecimal] -> List(
+        instance[BigDecimal, Positive],
+        instance[BigDecimal, NonPositive],
+        instance[BigDecimal, Negative],
+        instance[BigDecimal, NonNegative]
       )
     )
   }

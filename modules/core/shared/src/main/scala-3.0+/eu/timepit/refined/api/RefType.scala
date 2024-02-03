@@ -10,9 +10,7 @@ import eu.timepit.refined.internal._
  * that only contains a value of type `T`.
  *
  * The library provides instances of `[[RefType]]` for
- *  - the `[[Refined]]` value class
- *  - and `shapeless.tag.@@` which is a subtype of its first parameter
- *    (i.e. `(T @@ P) <: T`)
+ *  - the `[[Refined]]` opaque type
  */
 trait RefType[F[_, _]] extends Serializable {
 

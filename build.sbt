@@ -202,9 +202,6 @@ lazy val core = myCrossProject("core")
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       )
     },
-    initialCommands += s"""
-      import shapeless.tag.@@
-    """,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
@@ -324,8 +321,6 @@ lazy val commonSettings = Def.settings(
     import $rootPkg.auto._
     import $rootPkg.predicates.all._
     import $rootPkg.types.all._
-    import shapeless.{ ::, HList, HNil }
-    import shapeless.nat._
   """
 )
 

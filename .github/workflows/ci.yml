@@ -55,7 +55,7 @@ jobs:
         run: sbt githubWorkflowCheck
 
       - name: Build project (Scala 2)
-        if: matrix.scala == '2.12.18' || matrix.scala == '2.13.12'
+        if: matrix.scala == '2.12.19' || matrix.scala == '2.13.12'
         run: sbt '++ ${{ matrix.scala }}' validateJVM validateJS validateNative
 
       - name: Build project (Scala 3)

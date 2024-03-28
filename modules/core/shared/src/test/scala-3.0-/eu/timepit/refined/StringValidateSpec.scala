@@ -7,6 +7,8 @@ import org.scalacheck.{Arbitrary, Properties}
 import org.scalacheck.Prop._
 import shapeless.Witness
 
+
+
 class StringValidateSpec extends Properties("StringValidate") {
 
   property("EndsWith.isValid") = secure {
@@ -143,4 +145,39 @@ class StringValidateSpec extends Properties("StringValidate") {
   validNumber[Double, ValidDouble]("ValidDouble", "a")
   validNumber[BigInt, ValidBigInt]("ValidBigInt", "1.0")
   validNumber[BigDecimal, ValidBigDecimal]("ValidBigDecimal", "a")
+
+  property("SplitAt.isValid") = secure {
+    val ipv4 = "10.0.0.1"
+    val uuid = "9ecce884-47fe-4ba4-a1bb-1a3d71ed6530"
+    val length = Witness(8)
+    val s = s"$ipv4$uuid"
+    isValid[SplitAt[length.T, IPv4, Uuid]](s) ?= s.startsWith(ipv4) && s.endsWith(uuid)
+  }
+
+  property("SplitAt.showResult.example.Failed") = secure {
+    val ipv4 = "whops"
+    val uuid = "9ecce884-47fe-4ba4-a1bb-1a3d71ed6530"
+    val length = Witness(5)
+    val s = s"$ipv4$uuid"
+    showResult[SplitAt[length.T, IPv4, Uuid]](s) ?=
+      s"""Left predicate of splitAt(${length.value.toInt}, $s is a valid IPv4 && isValidUuid(\"$s\")) failed: Predicate failed: $s is a valid IPv4."""
+  }
+
+  property("SplitAt.showResult.length.negative.Failed") = secure {
+    val ipv4 = "whops"
+    val uuid = "9ecce884-47fe-4ba4-a1bb-1a3d71ed6530"
+    val length = Witness(-1)
+    val s = s"$ipv4$uuid"
+    showResult[SplitAt[length.T, IPv4, Uuid]](s) ?=
+      s"""splitAt(${length.value.toInt}, $s is a valid IPv4 && isValidUuid(\"$s\")) failed: input ${length.value.toInt} should be between zero and this string length"""
+  }
+
+  property("SplitAt.showResult.length.big.Failed") = secure {
+    val ipv4 = "whops"
+    val uuid = "9ecce884-47fe-4ba4-a1bb-1a3d71ed6530"
+    val length = Witness(1000)
+    val s = s"$ipv4$uuid"
+    showResult[SplitAt[length.T, IPv4, Uuid]](s) ?=
+      s"""splitAt(${length.value.toInt}, $s is a valid IPv4 && isValidUuid(\"$s\")) failed: input ${length.value.toInt} should be between zero and this string length"""
+  }
 }

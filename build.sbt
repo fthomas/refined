@@ -13,14 +13,14 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.19"
 val Scala_2_13 = "2.13.14"
-val Scala_3 = "3.4.2"
+val Scala_3 = "3.3.3"
 
-val catsVersion = "2.10.0"
+val catsVersion = "2.12.0"
 val jsonpathVersion = "2.9.0"
 val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.17.6"
-val shapelessVersion = "2.3.11"
-val scalaCheckVersion = "1.17.1"
+val shapelessVersion = "2.3.12"
+val scalaCheckVersion = "1.18.0"
 val scalazVersion = "7.3.8"
 val scodecVersion = "1.11.10"
 val scoptVersion = "4.1.0"
@@ -164,7 +164,7 @@ lazy val cats = myCrossProject("cats")
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "cats-laws" % catsVersion % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "2.2.0" % Test
+      "org.typelevel" %%% "discipline-scalatest" % "2.3.0" % Test
     ),
     initialCommands += s"""
       import $rootPkg.cats._

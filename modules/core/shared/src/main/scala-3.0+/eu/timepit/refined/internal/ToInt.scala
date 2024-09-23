@@ -11,7 +11,7 @@ object ToInt {
   def apply[N <: Int](implicit toInt: ToInt[N]): ToInt[N] = toInt
 
   inline implicit def materialize[N <: Int]: ToInt[N] =
-    new ToInt[N] { override def apply(): Int = toInt[N] }
+    () => toInt[N]
 
   private inline def toInt[N <: Int]: Int =
     inline erasedValue[N] match {

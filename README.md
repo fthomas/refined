@@ -306,6 +306,7 @@ opening a pull request to list it here:
 * [Zalando](https://tech.zalando.de/)
 * [ContentSquare](https://contentsquare.com/)
 * [Dassault Systèmes](https://www.3ds.com/)
+* [Hypefactors](https://www.hypefactors.com/)
 
 ## Documentation
 

@@ -110,7 +110,11 @@ ThisBuild / githubWorkflowBuild :=
       name = Some("Build project (Scala 3)"),
       cond = Some(s"matrix.scala == '3'")
     ),
-    WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
+    WorkflowStep.Use(
+      ref = UseRef.Public("codecov", "codecov-action", "v4"),
+      name = Some("Codecov"),
+      env = Map("CODECOV_TOKEN" -> "${{ secrets.CODECOV_TOKEN }}")
+    )
   )
 ThisBuild / mergifyPrRules := {
   val authorCondition = MergifyCondition.Or(

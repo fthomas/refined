@@ -67,7 +67,9 @@ jobs:
         run: sbt '++ ${{ matrix.scala }}' validateJVM30 validateJS30 validateNative30
 
       - name: Codecov
-        uses: codecov/codecov-action@v1
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v4
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))

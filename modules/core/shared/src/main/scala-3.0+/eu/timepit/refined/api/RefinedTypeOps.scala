@@ -25,8 +25,11 @@ class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Seri
   def from(t: T): Either[String, FTP] =
     rt.refine(t)
 
-  def unapply(t: T): Option[FTP] =
-    from(t).toOption
+  def unapply(t: T): Option[FTP] = {
+    val res = rt.validate.validate(t)
+    if (res.isPassed) Some(rt.refType.unsafeWrap(t).asInstanceOf[FTP])
+    else None
+  }
 
   def unsafeFrom(t: T): FTP =
     rt.unsafeRefine(t)

@@ -25,7 +25,14 @@ import scala.compiletime.{constValue, error}
 final case class WitnessAs[A, B](fst: A, snd: B)
 
 object WitnessAs extends WitnessAs1 {
-  def apply[A, B](using ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
+  def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
+
+  implicit def intWitnessAs[B, A <: Int](implicit
+      wa: ValueOf[A],
+      ta: ToInt[A],
+      nb: Numeric[B]
+  ): WitnessAs[A, B] =
+    WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
   inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
     inline val a = constValue[A]
@@ -33,7 +40,7 @@ object WitnessAs extends WitnessAs1 {
   }
 }
 
-trait WitnessAs1 extends WitnessAs2 {
+trait WitnessAs1 {
   inline given intWitnessAsByte[A <: Int]: WitnessAs[A, Byte] =
     inline constValue[A] match {
       case a if a >= -128 && a <= 127 => WitnessAs(a, a.toByte)
@@ -81,13 +88,4 @@ trait WitnessAs1 extends WitnessAs2 {
     inline val a = constValue[A]
     WitnessAs(a, BigDecimal(a))
   }
-}
-
-trait WitnessAs2 {
-  given intWitnessAs[B, A <: Int](using
-      wa: ValueOf[A],
-      ta: ToInt[A],
-      nb: Numeric[B]
-  ): WitnessAs[A, B] =
-    WitnessAs(wa.value, nb.fromInt(ta.apply()))
 }

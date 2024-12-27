@@ -27,7 +27,8 @@ final case class WitnessAs[A, B](fst: A, snd: B)
 object WitnessAs extends WitnessAs1 {
   def apply[A, B](implicit ev: WitnessAs[A, B]): WitnessAs[A, B] = ev
 
-  implicit def intWitnessAs[B, A <: Int](implicit
+  @deprecated("Use one of the specialized instances of intWitnessAs*", "0.11.3")
+  def intWitnessAs[B, A <: Int](implicit
       wa: ValueOf[A],
       ta: ToInt[A],
       nb: Numeric[B]

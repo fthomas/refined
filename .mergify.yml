@@ -21,9 +21,9 @@ pull_request_rules:
   - or:
     - author=scala-steward
     - author=scala-steward[bot]
-  - status-success=Build and Test (ubuntu-latest, 2.12, temurin@8)
-  - status-success=Build and Test (ubuntu-latest, 2.13, temurin@8)
-  - status-success=Build and Test (ubuntu-latest, 3, temurin@8)
+  - status-success=Test (ubuntu-22.04, 2.12, temurin@8)
+  - status-success=Test (ubuntu-22.04, 2.13, temurin@8)
+  - status-success=Test (ubuntu-22.04, 3, temurin@8)
   actions:
     merge:
       method: merge

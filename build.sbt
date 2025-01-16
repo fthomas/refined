@@ -188,7 +188,7 @@ lazy val core = myCrossProject("core")
   .enablePlugins(BuildInfoPlugin)
   .settings(moduleName := projectName)
   .settings(
-    libraryDependencies ++= {
+    libraryDependencies ++=
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
           Seq()
@@ -204,8 +204,7 @@ lazy val core = myCrossProject("core")
           Seq("com.chuusai" %%% "shapeless" % shapelessVersion)
       ) ++ Seq(
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
-      )
-    },
+      ),
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )
@@ -465,7 +464,7 @@ lazy val compileSettings = Def.settings(
   Compile / console / scalacOptions -= "-Ywarn-unused:imports",
   Test / console / scalacOptions := (Compile / console / scalacOptions).value,
   Seq(Compile, Test).map { config =>
-    (config / unmanagedSourceDirectories) ++= {
+    (config / unmanagedSourceDirectories) ++=
       (config / unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
@@ -475,7 +474,6 @@ lazy val compileSettings = Def.settings(
             case other => sys.error(s"unmanagedSourceDirectories for scalaVersion $other not set")
           }
       }
-    }
   }
 )
 

@@ -4,7 +4,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.13.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.9.2")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.3")
 
 addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.11.1")
 

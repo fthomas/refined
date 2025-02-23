@@ -86,6 +86,9 @@ object Resources {
   def showResultOrBothFailed(expr: String, left: String, right: String): String =
     s"$Both $predicates of $expr $failed. $Left: $left $Right: $right"
 
+  def showResultInputFailed(expr: String, input: String): String =
+    s"$expr $failed: input $input"
+
   //
 
   val refineNonCompileTimeConstant =

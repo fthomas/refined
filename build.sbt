@@ -387,7 +387,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[?]] =
   Def.settings(
     scalaVersion := Scala_2_13,
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, JSPlatform),
-    doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
     coverageEnabled := false,
     scalacOptions += {
@@ -404,7 +403,6 @@ def moduleJsSettings(name: String): Seq[Def.Setting[?]] =
 def moduleNativeSettings(name: String): Seq[Def.Setting[?]] =
   Def.settings(
     crossScalaVersions := moduleCrossScalaVersionsMatrix(name, NativePlatform),
-    doctestGenTests := Seq.empty,
     mimaFailOnNoPrevious := false,
     coverageEnabled := false
   )

@@ -80,7 +80,7 @@ jobs:
 
       - name: Upload target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.scala }}
           path: targets.tar
@@ -117,7 +117,7 @@ jobs:
         run: sbt +update
 
       - name: Download target directories (2.12)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: target-${{ matrix.os }}-${{ matrix.java }}-2.12
 
@@ -127,7 +127,7 @@ jobs:
           rm targets.tar
 
       - name: Download target directories (2.13)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: target-${{ matrix.os }}-${{ matrix.java }}-2.13
 
@@ -137,7 +137,7 @@ jobs:
           rm targets.tar
 
       - name: Download target directories (3)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: target-${{ matrix.os }}-${{ matrix.java }}-3
 

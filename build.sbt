@@ -21,7 +21,7 @@ val macroParadiseVersion = "2.1.1"
 val pureconfigVersion = "0.17.8"
 val shapelessVersion = "2.3.13"
 val scalaCheckVersion = "1.19.0"
-val scalazVersion = "7.3.8"
+val scalazVersion = "7.3.9"
 val scodecVersion = "1.11.11"
 val scoptVersion = "4.1.0"
 

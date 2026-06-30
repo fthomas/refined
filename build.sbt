@@ -97,7 +97,7 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "8"))
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "17"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(
@@ -432,7 +432,9 @@ lazy val compileSettings = Def.settings(
     "UTF-8",
     "-feature",
     "-language:existentials,experimental.macros,higherKinds,implicitConversions",
-    "-unchecked"
+    "-unchecked",
+    "-release",
+    "8"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {

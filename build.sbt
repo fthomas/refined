@@ -24,6 +24,7 @@ val scalaCheckVersion = "1.19.0"
 val scalazVersion = "7.3.9"
 val scodecVersion = "1.11.11"
 val scoptVersion = "4.1.0"
+val hearthVersion = "0.4.1-6-g46093f1-SNAPSHOT"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   Def.setting {
@@ -191,7 +192,10 @@ lazy val core = myCrossProject("core")
     libraryDependencies ++=
       macroParadise(Compile).value ++ (
         if (isScala3Setting.value)
-          Seq()
+          Seq(
+            "com.kubuszok" %%% "hearth" % hearthVersion,
+            "com.kubuszok" % "hearth-cross-quotes_3" % hearthVersion % Provided
+          )
         else
           Seq(
             scalaOrganization.value % "scala-reflect" % scalaVersion.value,
@@ -205,6 +209,22 @@ lazy val core = myCrossProject("core")
       ) ++ Seq(
         "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
       ),
+    // On Scala 3 the macros use Hearth's cross-quotes DSL (`Expr.quote`/`Expr.splice`/`Expr.upcast`),
+    // which is desugared by the `hearth-cross-quotes` *compiler plugin*. The plugin is published for
+    // JVM only and reused across all platforms, so it is pulled in as a `Provided` dependency (see
+    // above) and wired into the compiler here via `-Xplugin`, resolved from the compile classpath.
+    scalacOptions ++= {
+      if (isScala3Setting.value)
+        Seq(
+          "-Xplugin:" + (Compile / dependencyClasspath).value
+            .map(_.data.getAbsolutePath)
+            .find(_.contains("hearth-cross-quotes"))
+            .getOrElse(sys.error("hearth-cross-quotes jar not found on classpath"))
+        )
+      else
+        Seq.empty
+    },
+    resolvers += Resolver.sonatypeCentralSnapshots,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )

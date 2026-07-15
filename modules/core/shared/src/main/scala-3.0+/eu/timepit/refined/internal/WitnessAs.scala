@@ -35,10 +35,18 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
-    inline val a = constValue[A]
-    WitnessAs(a, a)
-  }
+  // Uses `ValueOf` rather than `constValue` so the identity case witnesses not only literal constant
+  // types (`3`, `"abc"`, ...) but also object singleton types (`Foo.type`) — the compiler synthesizes
+  // `ValueOf` for both, whereas `constValue` rejects the latter ("not a constant type"). This matches
+  // the Scala 2 `Equal[Foo.type]` behavior backed by shapeless `Witness`.
+  //
+  // It is `inline` so `v.value` is inlined to a direct selection on the summoned `ValueOf` at the use
+  // site, which Hearth's `semiEval` can reduce at compile time (hearth >= 0.4.1). A non-inline given
+  // would be invoked reflectively by `semiEval`, and because `scala.ValueOf` is a value class its
+  // parameter erases to the underlying value — the boxed `ValueOf` would then leak in as the witnessed
+  // value and blow up compile-time refinement with a `ClassCastException`.
+  inline given singletonWitnessAs[B, A <: B](using inline v: ValueOf[A]): WitnessAs[A, B] =
+    WitnessAs(v.value, v.value)
 }
 
 trait WitnessAs1 {

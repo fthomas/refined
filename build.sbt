@@ -24,7 +24,7 @@ val scalaCheckVersion = "1.19.0"
 val scalazVersion = "7.3.9"
 val scodecVersion = "1.11.11"
 val scoptVersion = "4.1.0"
-val hearthVersion = "0.4.1-6-g46093f1-SNAPSHOT"
+val hearthVersion = "0.4.1"
 
 def macroParadise(configuration: Configuration): Def.Initialize[Seq[ModuleID]] =
   Def.setting {
@@ -224,7 +224,6 @@ lazy val core = myCrossProject("core")
       else
         Seq.empty
     },
-    resolvers += Resolver.sonatypeCentralSnapshots,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := s"$rootPkg.internal"
   )

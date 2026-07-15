@@ -1,6 +1,6 @@
 package eu.timepit.refined.internal
 
-import scala.compiletime.{constValue, error}
+import scala.compiletime.{constValue, error, summonFrom, summonInline}
 
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`
@@ -35,18 +35,19 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  // Uses `ValueOf` rather than `constValue` so the identity case witnesses not only literal constant
-  // types (`3`, `"abc"`, ...) but also object singleton types (`Foo.type`) — the compiler synthesizes
-  // `ValueOf` for both, whereas `constValue` rejects the latter ("not a constant type"). This matches
-  // the Scala 2 `Equal[Foo.type]` behavior backed by shapeless `Witness`.
-  //
-  // It is `inline` so `v.value` is inlined to a direct selection on the summoned `ValueOf` at the use
-  // site, which Hearth's `semiEval` can reduce at compile time (hearth >= 0.4.1). A non-inline given
-  // would be invoked reflectively by `semiEval`, and because `scala.ValueOf` is a value class its
-  // parameter erases to the underlying value — the boxed `ValueOf` would then leak in as the witnessed
-  // value and blow up compile-time refinement with a `ClassCastException`.
-  inline given singletonWitnessAs[B, A <: B](using inline v: ValueOf[A]): WitnessAs[A, B] =
-    WitnessAs(v.value, v.value)
+  // Route by whether the base type `B` is a singleton (i.e. has a `ValueOf`):
+  //  - object singletons (`B = Foo.type`) can't be witnessed by `constValue` ("not a constant type"),
+  //    so use `ValueOf` — exercised only at runtime (`isValid`), matching Scala 2's `Equal[Foo.type]`;
+  //  - everything else (`Int`, `Char`, `String`, ... literal witnesses) uses `constValue`, which the
+  //    compile-time macros' `semiEval` reduces natively as a plain literal.
+  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = summonFrom {
+    case _: ValueOf[B] =>
+      val v = summonInline[ValueOf[A]]
+      WitnessAs[A, B](v.value, v.value)
+    case _ =>
+      inline val a = constValue[A]
+      WitnessAs(a, a)
+  }
 }
 
 trait WitnessAs1 {

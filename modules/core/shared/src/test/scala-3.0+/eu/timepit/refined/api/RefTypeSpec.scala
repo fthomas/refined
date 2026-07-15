@@ -93,7 +93,7 @@ class RefTypeSpecRefined extends RefTypeSpec[Refined]("Refined") {
   property("refineM alias") = secure {
     type PositiveInt = Int Refined Positive
 
-    val x: PositiveInt = RefType[Refined].refineM[Positive](5)
+    val x: PositiveInt = RefType[Refined].refineM(5)
     val y: PositiveInt = 5
     val z = 5: PositiveInt
     // Self-contained snippet (no block-local `PositiveInt`); the failed `autoRefineV` conversion

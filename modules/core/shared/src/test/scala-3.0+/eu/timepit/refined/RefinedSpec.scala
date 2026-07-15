@@ -34,13 +34,13 @@ class RefinedSpec extends Properties("Refined") {
   property("hashCode") = forAll((i: Int) => Refined.unsafeApply(i).hashCode() ?= i.hashCode)
 
   property("unapply") = secure {
-    val x: NonEmptyString = refineMV[NonEmpty]("Hi")
+    val x: NonEmptyString = refineMV("Hi")
     val Refined(s) = x
     s ?= x.value
   }
 
   property("unapply in pattern matching") = secure {
-    val x: NonEmptyString = refineMV[NonEmpty]("abc")
+    val x: NonEmptyString = refineMV("abc")
     x match {
       case Refined("abc") => true
       case _              => false

@@ -41,17 +41,17 @@ class RefineMSpec extends Properties("refineM") {
   }
 
   property("refineM with MatchesRegex") = wellTyped {
-    def ignore1: String Refined MatchesRegex["[0-9]+"] = refineMV[MatchesRegex["[0-9]+"]]("123")
+    def ignore1: String Refined MatchesRegex["[0-9]+"] = refineMV("123")
     illTyped("""refineMV[MatchesRegex["[0-9]+"]]("abc")""", "Predicate.*fail.*")
   }
 
   property("refineM with Contains") = wellTyped {
-    def ignore1: String Refined Contains['c'] = refineMV[Contains['c']]("abcd")
+    def ignore1: String Refined Contains['c'] = refineMV("abcd")
     illTyped("""refineMV[Contains['c']]("abde")""", "Predicate.*fail.*")
   }
 
   property("refineM with Double Witness") = wellTyped {
-    def ignore1: Double Refined Greater[2.3] = refineMV[Greater[2.3]](2.4)
+    def ignore1: Double Refined Greater[2.3] = refineMV(2.4)
     illTyped("refineMV[Greater[2.3]](2.2)", "Predicate.*fail.*")
   }
 

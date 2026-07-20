@@ -8,7 +8,7 @@ addSbtPlugin("com.github.sbt" % "sbt-git" % "2.1.0")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.6")
 
-addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.1")
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.2")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.3.2")
 

@@ -1,6 +1,11 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.RefType
+import eu.timepit.refined.api.{RefType, Refined, Validate}
+import eu.timepit.refined.internal.WitnessAs
+
+import scala.quoted.{Expr, Quotes, ToExpr, Type, FromExpr}
+import scala.compiletime.error
+import scala.compiletime.{constValue, erasedValue}
 
 /**
  * Module that provides automatic refinements and automatic conversions
@@ -30,4 +35,35 @@ object auto {
    */
   implicit def autoUnwrap[F[_, _], T, P](tp: F[T, P])(implicit rt: RefType[F]): T =
     rt.unwrap(tp)
+
+  inline def autoRefineV[P](inline t: Int)(implicit validate: Validate[Int, P]): Refined[Int, P] =
+    ${ autoRefineVCode[P]('t, 'validate) }
+
+  private def autoRefineVCode[P : Type](t: Expr[Int], validate: Expr[Validate[Int, P]])(using q: Quotes): Expr[Refined[Int, P]] =
+    val tValue = t.valueOrError
+    Type.of[P] match
+      case '[ eu.timepit.refined.numeric.Greater[x] ] =>
+        val tpe = q.reflect.TypeTree.of[P]
+
+        val validateInstance = tpe.tpe match
+          case appliedType: q.reflect.AppliedType =>
+            appliedType.args.headOption match
+              case Some(ct: q.reflect.ConstantType) =>
+                ct.constant.value match
+                  case limit: Int =>
+                    numeric.Greater.greaterValidate(WitnessAs.apply(limit, limit), summon[Numeric[Int]])
+                  case e =>
+                    q.reflect.report.throwError(s"cannot match: $e")
+              case e =>
+                q.reflect.report.throwError(s"cannot match: $e")
+          case a => q.reflect.report.throwError(s"not here:: $a")
+
+        val res = validateInstance.validate(tValue)
+        if (res.isFailed) {
+          val msg = validateInstance.showResult(tValue, res)
+          q.reflect.report.throwError(msg)
+        }
+        '{ RefType[Refined].unsafeWrap[Int, P]($t) }
+      case _ =>
+        q.reflect.report.throwError("wrong: " + Type.show[P])
 }

@@ -71,4 +71,12 @@ class StringInferenceSpec extends Properties("StringInference") {
     Inference[ValidBigDecimal, NonEmpty].isValid
   }
 
+  property("SplitAt =!> NonEmpty") = secure {
+    Inference[SplitAt[W.`1`.T, IPv4, Uuid], NonEmpty].isValid
+  }
+
+  property("SplitAt =!> NonEmpty") = secure {
+    Inference[SplitAt[W.`-1`.T, IPv4, Uuid], NonEmpty].notValid
+  }
+
 }

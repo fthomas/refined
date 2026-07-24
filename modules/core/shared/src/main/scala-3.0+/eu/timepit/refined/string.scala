@@ -72,6 +72,9 @@ object string extends StringInference {
   /** Predicate that checks if a `String` represents a hexadecimal number. */
   type HexStringSpec = MatchesRegex["""^(([0-9a-f]+)|([0-9A-F]+))$"""]
 
+  /** Predicate that split a `String` and check the conjunction of the predicates `A` and `B` */
+  final case class SplitAt[N, A, B](n: N, a: A, b: B)
+
   object EndsWith {
     implicit def endsWithValidate[S <: String](implicit
         ws: ValueOf[S]
@@ -239,6 +242,54 @@ object string extends StringInference {
   object Trimmed {
     implicit def trimmedValidate: Validate.Plain[String, Trimmed] =
       Validate.fromPredicate(s => s.trim == s, t => s"$t is trimmed", Trimmed())
+  }
+
+  object SplitAt {
+    implicit def splitAtValidate[N <: Int, A, RA, B, RB](
+                                                          implicit
+                                                          wn: Witness.Aux[N],
+                                                          va: Validate.Aux[String, A, RA],
+                                                          vb: Validate.Aux[String, B, RB]
+                                                        )
+
+    : Validate.Aux[String, SplitAt[N, A, B], SplitAt[N, Option[va.Res], Option[vb.Res]]] = new Validate[String, SplitAt[N, A, B]] {
+
+      override type R = SplitAt[N, Option[va.Res], Option[vb.Res]]
+
+      override def validate(s: String): Res = {
+        try {
+          val (ra, rb) = (va.validate(s.substring(0, wn.value.toInt)), vb.validate(s.substring(wn.value.toInt)))
+          Result.fromBoolean(ra.isPassed && rb.isPassed, SplitAt(wn.value, Some(ra), Some(rb)))
+        } catch {
+          case _: StringIndexOutOfBoundsException => Failed(SplitAt(wn.value, None, None))
+          case NonFatal(_) => Failed(SplitAt(wn.value, None, None))
+        }
+      }
+
+      override def showExpr(s: String): String =
+        s"splitAt(${wn.value.toInt}, ${va.showExpr(s)} && ${vb.showExpr(s)})"
+
+      override def showResult(s: String, r: Res): String = {
+        val expr = showExpr(s)
+        val (ra, rb) = (r.detail.a, r.detail.b)
+        (ra, rb) match {
+          case (None, None) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (Some(_), None) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (None, Some(_)) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (Some(Passed(_)), Some(Passed(_))) =>
+            Resources.showResultAndBothPassed(expr)
+          case (Some(Passed(_)), Some(Failed(_))) =>
+            Resources.showResultAndRightFailed(expr, vb.showResult(s, rb.get))
+          case (Some(Failed(_)), Some(Passed(_))) =>
+            Resources.showResultAndLeftFailed(expr, va.showResult(s, ra.get))
+          case (Some(Failed(_)), Some(Failed(_))) =>
+            Resources.showResultAndBothFailed(expr, va.showResult(s, ra.get), vb.showResult(s, rb.get))
+        }
+      }
+    }
   }
 }
 

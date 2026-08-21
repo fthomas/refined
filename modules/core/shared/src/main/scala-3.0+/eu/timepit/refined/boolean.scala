@@ -286,7 +286,16 @@ private[refined] trait BooleanInference2 extends BooleanInference3 {
   implicit def conjunctionEliminationL[A, B, C](implicit p1: A ==> C): (A And B) ==> C =
     p1.adapt("conjunctionEliminationL(%s)")
 
-  implicit def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
+  // NOTE: `hypotheticalSyllogism` (transitivity: `A ==> B`, `B ==> C` ⟹ `A ==> C`) from the Scala 2
+  // sources is intentionally omitted here. Its intermediate `B` appears only in the premises, never
+  // the conclusion, so resolving a goal through it spawns a free-RHS subgoal `A ==> ?B` that unifies
+  // with several always-valid rules at once (`minimalTautology`, `disjunctionIntroduction{L,R}`, ...),
+  // which Scala 3's implicit search reports as an ambiguity that aborts the whole search — including
+  // otherwise-derivable goals such as `Size[Interval.Closed[1, n]] ==> NonEmpty`. Dropping it keeps the
+  // common single-step and conjunction-elimination inferences working reliably; the price is that
+  // purely transitive two-hop chains (e.g. `Last[P] ==> NonEmpty`, via `Exists[P]`) are not derived.
+  // kept non implicit version for bin-compat
+  def hypotheticalSyllogism[A, B, C](implicit p1: A ==> B, p2: B ==> C): A ==> C =
     Inference.combine(p1, p2, "hypotheticalSyllogism(%s, %s)")
 }
 

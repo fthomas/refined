@@ -120,7 +120,7 @@ object collection extends CollectionInference {
   }
 
   object Empty {
-    implicit def emptyValidate[T](implicit ev: T => Iterable[_]): Validate.Plain[T, Empty] =
+    implicit def emptyValidate[T](implicit ev: T => Iterable[?]): Validate.Plain[T, Empty] =
       Validate.fromPredicate(t => ev(t).isEmpty, t => s"isEmpty($t)", Empty())
   }
 
@@ -252,7 +252,7 @@ object collection extends CollectionInference {
   object Size {
     implicit def sizeValidate[T, P, RP](implicit
         v: Validate.Aux[Int, P, RP],
-        ev: T => Iterable[_]
+        ev: T => Iterable[?]
     ): Validate.Aux[T, Size[P], Size[v.Res]] =
       new Validate[T, Size[P]] {
         override type R = Size[v.Res]

@@ -1,5 +1,7 @@
 package eu.timepit.refined.api
 
+import eu.timepit.refined.macros.RefinedTypeOpsM
+
 /**
  * Provides functions to create values of the refined type `FTP` from
  * values of the base type `T`. It is intended to simplify the definition
@@ -20,7 +22,9 @@ package eu.timepit.refined.api
  * res1: PosInt = 2
  * }}}
  */
-class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T]) extends Serializable {
+class RefinedTypeOps[FTP, T](implicit rt: RefinedType.AuxT[FTP, T])
+    extends RefinedTypeOpsM[FTP, T]
+    with Serializable {
 
   def from(t: T): Either[String, FTP] =
     rt.refine(t)

@@ -35,8 +35,8 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
-    inline val a = constValue[A]
+  inline given singletonWitnessAs[B, A <: B: ValueOf]: WitnessAs[A, B] = {
+    val a = valueOf[A]
     WitnessAs(a, a)
   }
 }

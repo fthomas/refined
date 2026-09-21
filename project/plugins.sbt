@@ -8,7 +8,7 @@ addSbtPlugin("com.github.sbt" % "sbt-git" % "2.2.0")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.2.0")
 
-addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.1")
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.2")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.4.0")
 
@@ -18,7 +18,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.22.0")
 
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.12")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.1")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.4")
 

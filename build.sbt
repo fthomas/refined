@@ -13,7 +13,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.21"
 val Scala_2_13 = "2.13.18"
-val Scala_3 = "3.3.8"
+val Scala_3 = "3.9.0"
 
 val catsVersion = "2.13.0"
 val jsonpathVersion = "3.0.0"

@@ -1,10 +1,12 @@
 package eu.timepit.refined
 
-import eu.timepit.refined.api.{Inference, Validate}
+import eu.timepit.refined.api.{Failed, Inference, Passed, Result, Validate}
 import eu.timepit.refined.api.Inference.==>
-import eu.timepit.refined.collection.NonEmpty
+import eu.timepit.refined.collection.{NonEmpty}
+import eu.timepit.refined.internal.Resources
 import eu.timepit.refined.string._
 import shapeless.Witness
+import scala.util.control.NonFatal
 
 /**
  * Module for `String` related predicates. Note that most of the predicates
@@ -72,6 +74,9 @@ object string extends StringInference {
 
   /** Predicate that checks if a `String` represents a hexadecimal number. */
   type HexStringSpec = MatchesRegex[W.`"""^(([0-9a-f]+)|([0-9A-F]+))$"""`.T]
+
+  /** Predicate that split a `String` and check the conjunction of the predicates `A` and `B` */
+  final case class SplitAt[N, A, B](n: N, a: A, b: B)
 
   object EndsWith {
     implicit def endsWithValidate[S <: String](implicit
@@ -241,6 +246,55 @@ object string extends StringInference {
     implicit def trimmedValidate: Validate.Plain[String, Trimmed] =
       Validate.fromPredicate(s => s.trim == s, t => s"$t is trimmed", Trimmed())
   }
+  
+  object SplitAt {
+    implicit def splitAtValidate[N <: Int, A, RA, B, RB](
+                                                          implicit
+                                                          wn: Witness.Aux[N],
+                                                          va: Validate.Aux[String, A, RA],
+                                                          vb: Validate.Aux[String, B, RB]
+                                                        )
+
+    : Validate.Aux[String, SplitAt[N, A, B], SplitAt[N, Option[va.Res], Option[vb.Res]]] = new Validate[String, SplitAt[N, A, B]] {
+
+      override type R = SplitAt[N, Option[va.Res], Option[vb.Res]]
+
+      override def validate(s: String): Res = {
+        try {
+          val (ra, rb) = (va.validate(s.substring(0, wn.value.toInt)), vb.validate(s.substring(wn.value.toInt)))
+          Result.fromBoolean(ra.isPassed && rb.isPassed, SplitAt(wn.value, Some(ra), Some(rb)))
+        } catch {
+          case NonFatal(_) => Failed(SplitAt(wn.value, None, None))
+          case _: Throwable =>
+            Failed(SplitAt(wn.value, None, None))
+        }
+      }
+
+      override def showExpr(s: String): String =
+        s"splitAt(${wn.value.toInt}, ${va.showExpr(s)} && ${vb.showExpr(s)})"
+
+      override def showResult(s: String, r: Res): String = {
+        val expr = showExpr(s)
+        val (ra, rb) = (r.detail.a, r.detail.b)
+        (ra, rb) match {
+          case (None, None) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (Some(_), None) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (None, Some(_)) =>
+            Resources.showResultInputFailed(expr, s"${wn.value.toInt} should be between zero and this string length")
+          case (Some(Passed(_)), Some(Passed(_))) =>
+            Resources.showResultAndBothPassed(expr)
+          case (Some(Passed(_)), Some(Failed(_))) =>
+            Resources.showResultAndRightFailed(expr, vb.showResult(s, rb.get))
+          case (Some(Failed(_)), Some(Passed(_))) =>
+            Resources.showResultAndLeftFailed(expr, va.showResult(s, ra.get))
+          case (Some(Failed(_)), Some(Failed(_))) =>
+            Resources.showResultAndBothFailed(expr, va.showResult(s, ra.get), vb.showResult(s, rb.get))
+        }
+      }
+    }
+  }
 }
 
 private[refined] trait StringInference {
@@ -294,4 +348,10 @@ private[refined] trait StringInference {
 
   implicit def xPathNonEmptyInference: XPath ==> NonEmpty =
     Inference.alwaysValid("xPathNonEmptyInference")
+
+  implicit def splitAtNonEmptyInference[N <: Int, A, B](implicit
+                                                          wn: Witness.Aux[N]
+                                                         ): SplitAt[N, A, B] ==> NonEmpty =
+    Inference(wn.value.toInt > 0, s"splitAtNonEmptyInference(${wn.value})")
+
 }

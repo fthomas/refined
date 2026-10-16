@@ -478,10 +478,10 @@ The following people have helped making **refined** great:
 * [Zainab Ali](https://github.com/zainab-ali)
 * Your name here :-)
 
-**refined** is a [Typelevel][typelevel] project. This means we embrace pure,
-typeful, functional programming, and provide a safe and friendly environment
-for teaching, learning, and contributing as described in the
-[Scala Code of Conduct](http://scala-lang.org/conduct.html).
+**refined** is a [Typelevel Affiliate Project](https://typelevel.org/projects/).
+This means we embrace pure, typeful, functional programming, and provide a safe
+and friendly environment for teaching, learning, and contributing as described
+in the [Typelevel Code of Conduct](https://typelevel.org/code-of-conduct/).
 
 ## Related projects
 
@@ -507,4 +507,3 @@ and also in the [LICENSE](https://github.com/fthomas/refined/blob/master/LICENSE
 [search.maven]: http://search.maven.org/#search|ga|1|eu.timepit.refined
 [singleton-types]: https://github.com/milessabin/shapeless/wiki/Feature-overview:-shapeless-2.0.0#singleton-typed-literals
 [sip-23]: http://docs.scala-lang.org/sips/42.type.html
-[typelevel]: http://typelevel.org

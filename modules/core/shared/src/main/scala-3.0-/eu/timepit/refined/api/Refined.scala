@@ -22,4 +22,7 @@ object Refined {
 
   def unapply[T, P](r: Refined[T, P]): Some[T] =
     Some(r.value)
+
+  implicit def ordering[P, T: Ordering]: Ordering[Refined[T, P]] =
+    Ordering.by(_.value)
 }

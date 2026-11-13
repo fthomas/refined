@@ -1,6 +1,6 @@
 package eu.timepit.refined.internal
 
-import scala.compiletime.{constValue, error}
+import scala.compiletime.{constValue, error, summonFrom, summonInline}
 
 /**
  * `WitnessAs[A, B]` provides the singleton value of type `A` in `fst`
@@ -35,9 +35,18 @@ object WitnessAs extends WitnessAs1 {
   ): WitnessAs[A, B] =
     WitnessAs(wa.value, nb.fromInt(ta.apply()))
 
-  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = {
-    inline val a = constValue[A]
-    WitnessAs(a, a)
+  // Route by whether the base type `B` is a singleton (i.e. has a `ValueOf`):
+  //  - object singletons (`B = Foo.type`) can't be witnessed by `constValue` ("not a constant type"),
+  //    so use `ValueOf` — exercised only at runtime (`isValid`), matching Scala 2's `Equal[Foo.type]`;
+  //  - everything else (`Int`, `Char`, `String`, ... literal witnesses) uses `constValue`, which the
+  //    compile-time macros' `semiEval` reduces natively as a plain literal.
+  inline given singletonWitnessAs[B, A <: B]: WitnessAs[A, B] = summonFrom {
+    case _: ValueOf[B] =>
+      val v = summonInline[ValueOf[A]]
+      WitnessAs[A, B](v.value, v.value)
+    case _ =>
+      inline val a = constValue[A]
+      WitnessAs(a, a)
   }
 }
 

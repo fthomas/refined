@@ -40,6 +40,23 @@ trait RefType[F[_, _]] extends Serializable {
   def refine[P]: RefinePartiallyApplied[F, P] =
     new RefinePartiallyApplied(this)
 
+  /**
+   * Macro that returns a value of type `T` refined as `F[T, P]` if it
+   * satisfies the predicate `P`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
+   *
+   * scala> RefType[Refined].refineM[Positive](10)
+   * res0: Refined[Int, Positive] = 10
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro.
+   */
+  def refineM[P]: RefineMPartiallyApplied[F, P] =
+    new RefineMPartiallyApplied
+
   def mapRefine[T, P, U](
       tp: F[T, P]
   )(f: T => U)(implicit v: Validate[U, P]): Either[String, F[U, P]] =
@@ -76,6 +93,24 @@ object RefType {
    */
   def applyRef[FTP]: ApplyRefPartiallyApplied[FTP] =
     new ApplyRefPartiallyApplied
+
+  /**
+   * Macro that returns a value of type `T` refined as `FTP` if it
+   * satisfies the predicate in `FTP`, or fails to compile otherwise.
+   *
+   * Example: {{{
+   * scala> import eu.timepit.refined.api.{ Refined, RefType }
+   *      | import eu.timepit.refined.numeric.Positive
+   *
+   * scala> type PosInt = Int Refined Positive
+   * scala> RefType.applyRefM[PosInt](10)
+   * res0: PosInt = 10
+   * }}}
+   *
+   * Note: `M` stands for '''m'''acro.
+   */
+  def applyRefM[FTP]: ApplyRefMPartiallyApplied[FTP] =
+    new ApplyRefMPartiallyApplied
 
   implicit val refinedRefType: RefType[Refined] =
     new RefType[Refined] {

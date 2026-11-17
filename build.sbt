@@ -13,7 +13,7 @@ val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 val Scala_2_12 = "2.12.21"
 val Scala_2_13 = "2.13.18"
-val Scala_3 = "3.3.9"
+val Scala_3 = "3.9.0"
 
 val catsVersion = "2.13.0"
 val jsonpathVersion = "3.0.0"
@@ -434,7 +434,7 @@ lazy val compileSettings = Def.settings(
     "-language:existentials,experimental.macros,higherKinds,implicitConversions",
     "-unchecked",
     "-release",
-    "8"
+    "17"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {

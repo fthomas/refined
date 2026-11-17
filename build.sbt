@@ -434,7 +434,7 @@ lazy val compileSettings = Def.settings(
     "-language:existentials,experimental.macros,higherKinds,implicitConversions",
     "-unchecked",
     "-release",
-    "8"
+    "17"
   ),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {

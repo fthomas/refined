@@ -24,4 +24,4 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.4")
 
 addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.8.7")
 
-addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.4.8")
+addSbtPlugin("com.github.sbt" % "sbt-jmh" % "0.4.9")

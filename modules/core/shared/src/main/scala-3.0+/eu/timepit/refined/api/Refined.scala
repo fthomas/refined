@@ -11,4 +11,7 @@ object Refined {
   extension [T, P](r: Refined[T, P]) {
     def value: T = r
   }
+
+  given ordering[P, T: Ordering]: Ordering[Refined[T, P]] =
+    Ordering.by(_.value)
 }
